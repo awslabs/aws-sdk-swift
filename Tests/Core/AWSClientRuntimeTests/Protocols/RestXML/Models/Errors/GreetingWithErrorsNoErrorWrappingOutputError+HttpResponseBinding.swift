@@ -10,18 +10,12 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) throws {
-        let errorDetails = try RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GreetingWithErrorsNoErrorWrappingOutputError {
-    public init(errorType: String?, httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
-        switch errorType {
-        case "ComplexXMLErrorNoErrorWrapping" : self = .complexXMLErrorNoErrorWrapping(try ComplexXMLErrorNoErrorWrapping(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message))
+public enum GreetingWithErrorsNoErrorWrappingOutputError: HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
+        let errorDetails = try await RestXMLError(httpResponse: httpResponse)
+        switch errorDetails.errorCode {
+        case "ComplexXMLErrorNoErrorWrapping": return try await ComplexXMLErrorNoErrorWrapping(httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+        default: return UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: errorDetails.message, requestID: errorDetails.requestId, typeName: errorDetails.errorCode)
         }
     }
 }

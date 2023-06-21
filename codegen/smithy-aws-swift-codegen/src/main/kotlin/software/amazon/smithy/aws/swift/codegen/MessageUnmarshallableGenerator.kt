@@ -82,8 +82,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                             writer.indent {
                                 writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                                 writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\")",
-                                    AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
+                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                    AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                                 )
                             }
                             writer.write("}")
@@ -97,16 +97,16 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                         // this is a service exception still, just un-modeled
                         writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                         writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\")",
-                            AWSClientRuntimeTypes.Core.UnknownAWSHttpServiceError
+                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
+                            AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                         )
                     }
                     writer.write("case .unknown(messageType: let messageType):")
                     writer.indent {
                         // this is a client exception because we failed to parse it
                         writer.write(
-                            "throw \$L.unknownError(\"unrecognized event stream message ':message-type': \\(messageType)\")",
-                            ClientRuntimeTypes.Core.ClientError
+                            "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
+                            ClientRuntimeTypes.Core.UnknownClientError
                         )
                     }
                     writer.write("}")

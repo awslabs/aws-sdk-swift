@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -39,13 +40,13 @@ class AWSEc2QueryHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFacto
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
-        errorShapeName: String,
+        errorShape: Shape,
         writer: SwiftWriter
     ): HttpResponseBindingRenderable {
         return HttpResponseTraitPayload(
             ctx,
             responseBindings,
-            errorShapeName,
+            errorShape,
             writer,
             AWSEc2QueryHttpResponseTraitWithoutHttpPayloadFactory()
         )
@@ -56,9 +57,9 @@ class AWSEc2QueryHttpResponseTraitWithoutHttpPayloadFactory : HttpResponseTraitW
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
-        outputShapeName: String,
+        outputShape: Shape,
         writer: SwiftWriter
     ): HttpResponseBindingRenderable {
-        return AWSEc2QueryHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShapeName, writer)
+        return AWSEc2QueryHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShape, writer)
     }
 }

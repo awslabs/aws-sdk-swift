@@ -18,7 +18,7 @@ extension SagemakerEdgeClientTypes.Checksum: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(SagemakerEdgeClientTypes.ChecksumType.self, forKey: .type)
         type = typeDecoded
@@ -35,7 +35,7 @@ extension SagemakerEdgeClientTypes {
         /// The type of the checksum.
         public var type: SagemakerEdgeClientTypes.ChecksumType?
 
-        public init (
+        public init(
             sum: Swift.String? = nil,
             type: SagemakerEdgeClientTypes.ChecksumType? = nil
         )
@@ -100,7 +100,7 @@ extension SagemakerEdgeClientTypes.Definition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modelHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelHandle)
         modelHandle = modelHandleDecoded
@@ -125,7 +125,7 @@ extension SagemakerEdgeClientTypes {
         /// The desired state of the model.
         public var state: SagemakerEdgeClientTypes.ModelState?
 
-        public init (
+        public init(
             checksum: SagemakerEdgeClientTypes.Checksum? = nil,
             modelHandle: Swift.String? = nil,
             s3Url: Swift.String? = nil,
@@ -181,7 +181,7 @@ extension SagemakerEdgeClientTypes.DeploymentModel: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modelHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelHandle)
         modelHandle = modelHandleDecoded
@@ -222,7 +222,7 @@ extension SagemakerEdgeClientTypes {
         /// Returns the error message for the deployment status result.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             desiredState: SagemakerEdgeClientTypes.ModelState? = nil,
             modelHandle: Swift.String? = nil,
             modelName: Swift.String? = nil,
@@ -281,7 +281,7 @@ extension SagemakerEdgeClientTypes.DeploymentResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentName)
         deploymentName = deploymentNameDecoded
@@ -323,7 +323,7 @@ extension SagemakerEdgeClientTypes {
         /// Returns the detailed error message.
         public var deploymentStatusMessage: Swift.String?
 
-        public init (
+        public init(
             deploymentEndTime: ClientRuntime.Date? = nil,
             deploymentModels: [SagemakerEdgeClientTypes.DeploymentModel]? = nil,
             deploymentName: Swift.String? = nil,
@@ -431,7 +431,7 @@ extension SagemakerEdgeClientTypes.EdgeDeployment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentName)
         deploymentName = deploymentNameDecoded
@@ -465,7 +465,7 @@ extension SagemakerEdgeClientTypes {
         /// The type of the deployment.
         public var type: SagemakerEdgeClientTypes.DeploymentType?
 
-        public init (
+        public init(
             definitions: [SagemakerEdgeClientTypes.Definition]? = nil,
             deploymentName: Swift.String? = nil,
             failureHandlingPolicy: SagemakerEdgeClientTypes.FailureHandlingPolicy? = nil,
@@ -505,7 +505,7 @@ extension SagemakerEdgeClientTypes.EdgeMetric: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dimension)
         dimension = dimensionDecoded
@@ -530,7 +530,7 @@ extension SagemakerEdgeClientTypes {
         /// Returns the value of the metric.
         public var value: Swift.Double
 
-        public init (
+        public init(
             dimension: Swift.String? = nil,
             metricName: Swift.String? = nil,
             timestamp: ClientRuntime.Date? = nil,
@@ -609,7 +609,7 @@ public struct GetDeploymentsInput: Swift.Equatable {
     /// This member is required.
     public var deviceName: Swift.String?
 
-    public init (
+    public init(
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil
     )
@@ -630,7 +630,7 @@ extension GetDeploymentsInputBody: Swift.Decodable {
         case deviceName = "DeviceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
         deviceName = deviceNameDecoded
@@ -639,31 +639,20 @@ extension GetDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-extension GetDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
@@ -677,7 +666,7 @@ public struct GetDeploymentsOutputResponse: Swift.Equatable {
     /// Returns a list of the configurations of the active deployments on the device.
     public var deployments: [SagemakerEdgeClientTypes.EdgeDeployment]?
 
-    public init (
+    public init(
         deployments: [SagemakerEdgeClientTypes.EdgeDeployment]? = nil
     )
     {
@@ -694,7 +683,7 @@ extension GetDeploymentsOutputResponseBody: Swift.Decodable {
         case deployments = "Deployments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentsContainer = try containerValues.decodeIfPresent([SagemakerEdgeClientTypes.EdgeDeployment?].self, forKey: .deployments)
         var deploymentsDecoded0:[SagemakerEdgeClientTypes.EdgeDeployment]? = nil
@@ -741,7 +730,7 @@ public struct GetDeviceRegistrationInput: Swift.Equatable {
     /// This member is required.
     public var deviceName: Swift.String?
 
-    public init (
+    public init(
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil
     )
@@ -762,7 +751,7 @@ extension GetDeviceRegistrationInputBody: Swift.Decodable {
         case deviceName = "DeviceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
         deviceName = deviceNameDecoded
@@ -771,31 +760,20 @@ extension GetDeviceRegistrationInputBody: Swift.Decodable {
     }
 }
 
-extension GetDeviceRegistrationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeviceRegistrationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeviceRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeviceRegistrationOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeviceRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeviceRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheTTL = output.cacheTTL
@@ -813,7 +791,7 @@ public struct GetDeviceRegistrationOutputResponse: Swift.Equatable {
     /// Describes if the device is currently registered with SageMaker Edge Manager.
     public var deviceRegistration: Swift.String?
 
-    public init (
+    public init(
         cacheTTL: Swift.String? = nil,
         deviceRegistration: Swift.String? = nil
     )
@@ -834,7 +812,7 @@ extension GetDeviceRegistrationOutputResponseBody: Swift.Decodable {
         case deviceRegistration = "DeviceRegistration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deviceRegistrationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceRegistration)
         deviceRegistration = deviceRegistrationDecoded
@@ -844,37 +822,41 @@ extension GetDeviceRegistrationOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -887,7 +869,7 @@ extension InternalServiceExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -925,7 +907,7 @@ extension SagemakerEdgeClientTypes.Model: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelName)
         modelName = modelNameDecoded
@@ -963,7 +945,7 @@ extension SagemakerEdgeClientTypes {
         /// The version of the model.
         public var modelVersion: Swift.String?
 
-        public init (
+        public init(
             latestInference: ClientRuntime.Date? = nil,
             latestSampleTime: ClientRuntime.Date? = nil,
             modelMetrics: [SagemakerEdgeClientTypes.EdgeMetric]? = nil,
@@ -1075,7 +1057,7 @@ public struct SendHeartbeatInput: Swift.Equatable {
     /// Returns a list of models deployed on the the device.
     public var models: [SagemakerEdgeClientTypes.Model]?
 
-    public init (
+    public init(
         agentMetrics: [SagemakerEdgeClientTypes.EdgeMetric]? = nil,
         agentVersion: Swift.String? = nil,
         deploymentResult: SagemakerEdgeClientTypes.DeploymentResult? = nil,
@@ -1112,7 +1094,7 @@ extension SendHeartbeatInputBody: Swift.Decodable {
         case models = "Models"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentMetricsContainer = try containerValues.decodeIfPresent([SagemakerEdgeClientTypes.EdgeMetric?].self, forKey: .agentMetrics)
         var agentMetricsDecoded0:[SagemakerEdgeClientTypes.EdgeMetric]? = nil
@@ -1147,34 +1129,23 @@ extension SendHeartbeatInputBody: Swift.Decodable {
     }
 }
 
-extension SendHeartbeatOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SendHeartbeatOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SendHeartbeatOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceException(InternalServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SendHeartbeatOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }

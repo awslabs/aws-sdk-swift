@@ -46,6 +46,27 @@ extension ListIdentityProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkSpacesWebClient {
+    /// Paginate over `[ListIpAccessSettingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIpAccessSettingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIpAccessSettingsOutputResponse`
+    public func listIpAccessSettingsPaginated(input: ListIpAccessSettingsInput) -> ClientRuntime.PaginatorSequence<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListIpAccessSettingsInput, ListIpAccessSettingsOutputResponse>(input: input, inputKey: \ListIpAccessSettingsInput.nextToken, outputKey: \ListIpAccessSettingsOutputResponse.nextToken, paginationFunction: self.listIpAccessSettings(input:))
+    }
+}
+
+extension ListIpAccessSettingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIpAccessSettingsInput {
+        return ListIpAccessSettingsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension WorkSpacesWebClient {
     /// Paginate over `[ListNetworkSettingsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

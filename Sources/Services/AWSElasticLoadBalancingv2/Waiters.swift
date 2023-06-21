@@ -34,7 +34,7 @@ extension ElasticLoadBalancingv2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeLoadBalancersInput, result: Result<DescribeLoadBalancersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "LoadBalancerNotFound"
+                return (error as? ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -66,7 +66,7 @@ extension ElasticLoadBalancingv2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeLoadBalancersInput, result: Result<DescribeLoadBalancersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "LoadBalancerNotFound"
+                return (error as? ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -105,7 +105,7 @@ extension ElasticLoadBalancingv2ClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeLoadBalancersInput, result: Result<DescribeLoadBalancersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "LoadBalancerNotFound"
+                return (error as? ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -131,7 +131,7 @@ extension ElasticLoadBalancingv2ClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeTargetHealthInput, DescribeTargetHealthOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeTargetHealthInput, result: Result<DescribeTargetHealthOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidTarget"
+                return (error as? ServiceError)?.typeName == "InvalidTarget"
             }),
             .init(state: .success, matcher: { (input: DescribeTargetHealthInput, result: Result<DescribeTargetHealthOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "TargetHealthDescriptions[].TargetHealth.State"
@@ -183,7 +183,7 @@ extension ElasticLoadBalancingv2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeTargetHealthInput, result: Result<DescribeTargetHealthOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidInstance"
+                return (error as? ServiceError)?.typeName == "InvalidInstance"
             }),
         ]
         return try WaiterConfiguration<DescribeTargetHealthInput, DescribeTargetHealthOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)

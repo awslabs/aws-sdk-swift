@@ -63,7 +63,7 @@ extension LambdaClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetFunctionInput, result: Result<GetFunctionOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ResourceNotFoundException"
+                return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
         return try WaiterConfiguration<GetFunctionInput, GetFunctionOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)

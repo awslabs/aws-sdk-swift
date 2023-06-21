@@ -40,7 +40,7 @@ public struct AddTagsToOnPremisesInstancesInput: Swift.Equatable {
     /// This member is required.
     public var tags: [CodeDeployClientTypes.Tag]?
 
-    public init (
+    public init(
         instanceNames: [Swift.String]? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil
     )
@@ -61,7 +61,7 @@ extension AddTagsToOnPremisesInstancesInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeDeployClientTypes.Tag]? = nil
@@ -88,48 +88,31 @@ extension AddTagsToOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddTagsToOnPremisesInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceLimitExceededException" : self = .instanceLimitExceededException(try InstanceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNotRegisteredException" : self = .instanceNotRegisteredException(try InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagLimitExceededException" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceLimitExceededException": return try await InstanceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotRegisteredException": return try await InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagLimitExceededException": return try await TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagRequiredException": return try await TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddTagsToOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
-    case instanceLimitExceededException(InstanceLimitExceededException)
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case instanceNotRegisteredException(InstanceNotRegisteredException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case invalidTagException(InvalidTagException)
-    case tagLimitExceededException(TagLimitExceededException)
-    case tagRequiredException(TagRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddTagsToOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AddTagsToOnPremisesInstancesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CodeDeployClientTypes.Alarm: Swift.Codable {
@@ -144,7 +127,7 @@ extension CodeDeployClientTypes.Alarm: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -157,7 +140,7 @@ extension CodeDeployClientTypes {
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -190,7 +173,7 @@ extension CodeDeployClientTypes.AlarmConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
@@ -224,7 +207,7 @@ extension CodeDeployClientTypes {
         /// * false: The deployment stops if alarm status information can't be retrieved from Amazon CloudWatch.
         public var ignorePollAlarmFailure: Swift.Bool
 
-        public init (
+        public init(
             alarms: [CodeDeployClientTypes.Alarm]? = nil,
             enabled: Swift.Bool = false,
             ignorePollAlarmFailure: Swift.Bool = false
@@ -239,38 +222,42 @@ extension CodeDeployClientTypes {
 }
 
 extension AlarmsLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AlarmsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum number of alarms for a deployment group (10) was exceeded.
-public struct AlarmsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct AlarmsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AlarmsLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -283,7 +270,7 @@ extension AlarmsLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -306,7 +293,7 @@ extension CodeDeployClientTypes.AppSpecContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
         content = contentDecoded
@@ -323,7 +310,7 @@ extension CodeDeployClientTypes {
         /// The SHA256 hash value of the revision content.
         public var sha256: Swift.String?
 
-        public init (
+        public init(
             content: Swift.String? = nil,
             sha256: Swift.String? = nil
         )
@@ -336,38 +323,42 @@ extension CodeDeployClientTypes {
 }
 
 extension ApplicationAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplicationAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An application with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct ApplicationAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ApplicationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ApplicationAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -380,7 +371,7 @@ extension ApplicationAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -388,38 +379,42 @@ extension ApplicationAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension ApplicationDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplicationDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The application does not exist with the IAM user or Amazon Web Services account.
-public struct ApplicationDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ApplicationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ApplicationDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -432,7 +427,7 @@ extension ApplicationDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -471,7 +466,7 @@ extension CodeDeployClientTypes.ApplicationInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
         applicationId = applicationIdDecoded
@@ -504,7 +499,7 @@ extension CodeDeployClientTypes {
         /// True if the user has authenticated with GitHub for the specified application. Otherwise, false.
         public var linkedToGitHub: Swift.Bool
 
-        public init (
+        public init(
             applicationId: Swift.String? = nil,
             applicationName: Swift.String? = nil,
             computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
@@ -525,38 +520,42 @@ extension CodeDeployClientTypes {
 }
 
 extension ApplicationLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplicationLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// More applications were attempted to be created than are allowed.
-public struct ApplicationLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ApplicationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ApplicationLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -569,7 +568,7 @@ extension ApplicationLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -577,38 +576,42 @@ extension ApplicationLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension ApplicationNameRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplicationNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The minimum number of required application names was not specified.
-public struct ApplicationNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ApplicationNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ApplicationNameRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -621,7 +624,7 @@ extension ApplicationNameRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -664,38 +667,42 @@ extension CodeDeployClientTypes {
 }
 
 extension ArnNotSupportedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ArnNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
-public struct ArnNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ArnNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ArnNotSupportedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -708,7 +715,7 @@ extension ArnNotSupportedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -734,7 +741,7 @@ extension CodeDeployClientTypes.AutoRollbackConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
@@ -760,7 +767,7 @@ extension CodeDeployClientTypes {
         /// The event type or types that trigger a rollback.
         public var events: [CodeDeployClientTypes.AutoRollbackEvent]?
 
-        public init (
+        public init(
             enabled: Swift.Bool = false,
             events: [CodeDeployClientTypes.AutoRollbackEvent]? = nil
         )
@@ -823,7 +830,7 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -840,7 +847,7 @@ extension CodeDeployClientTypes {
         /// The Auto Scaling group name.
         public var name: Swift.String?
 
-        public init (
+        public init(
             hook: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -887,7 +894,7 @@ public struct BatchGetApplicationRevisionsInput: Swift.Equatable {
     /// This member is required.
     public var revisions: [CodeDeployClientTypes.RevisionLocation]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         revisions: [CodeDeployClientTypes.RevisionLocation]? = nil
     )
@@ -908,7 +915,7 @@ extension BatchGetApplicationRevisionsInputBody: Swift.Decodable {
         case revisions
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -926,41 +933,25 @@ extension BatchGetApplicationRevisionsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetApplicationRevisionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetApplicationRevisionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetApplicationRevisionsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case batchLimitExceededException(BatchLimitExceededException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidRevisionException(InvalidRevisionException)
-    case revisionRequiredException(RevisionRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -983,7 +974,7 @@ public struct BatchGetApplicationRevisionsOutputResponse: Swift.Equatable {
     /// Additional information about the revisions, including the type and location.
     public var revisions: [CodeDeployClientTypes.RevisionInfo]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
         revisions: [CodeDeployClientTypes.RevisionInfo]? = nil
@@ -1008,7 +999,7 @@ extension BatchGetApplicationRevisionsOutputResponseBody: Swift.Decodable {
         case revisions
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -1056,7 +1047,7 @@ public struct BatchGetApplicationsInput: Swift.Equatable {
     /// This member is required.
     public var applicationNames: [Swift.String]?
 
-    public init (
+    public init(
         applicationNames: [Swift.String]? = nil
     )
     {
@@ -1073,7 +1064,7 @@ extension BatchGetApplicationsInputBody: Swift.Decodable {
         case applicationNames
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .applicationNames)
         var applicationNamesDecoded0:[Swift.String]? = nil
@@ -1089,37 +1080,23 @@ extension BatchGetApplicationsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetApplicationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetApplicationsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case batchLimitExceededException(BatchLimitExceededException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationsInfo = output.applicationsInfo
@@ -1134,7 +1111,7 @@ public struct BatchGetApplicationsOutputResponse: Swift.Equatable {
     /// Information about the applications.
     public var applicationsInfo: [CodeDeployClientTypes.ApplicationInfo]?
 
-    public init (
+    public init(
         applicationsInfo: [CodeDeployClientTypes.ApplicationInfo]? = nil
     )
     {
@@ -1151,7 +1128,7 @@ extension BatchGetApplicationsOutputResponseBody: Swift.Decodable {
         case applicationsInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationsInfoContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.ApplicationInfo?].self, forKey: .applicationsInfo)
         var applicationsInfoDecoded0:[CodeDeployClientTypes.ApplicationInfo]? = nil
@@ -1202,7 +1179,7 @@ public struct BatchGetDeploymentGroupsInput: Swift.Equatable {
     /// This member is required.
     public var deploymentGroupNames: [Swift.String]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deploymentGroupNames: [Swift.String]? = nil
     )
@@ -1223,7 +1200,7 @@ extension BatchGetDeploymentGroupsInputBody: Swift.Decodable {
         case deploymentGroupNames
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -1241,43 +1218,26 @@ extension BatchGetDeploymentGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetDeploymentGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetDeploymentGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case batchLimitExceededException(BatchLimitExceededException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentGroupsInfo = output.deploymentGroupsInfo
@@ -1296,7 +1256,7 @@ public struct BatchGetDeploymentGroupsOutputResponse: Swift.Equatable {
     /// Information about errors that might have occurred during the API call.
     public var errorMessage: Swift.String?
 
-    public init (
+    public init(
         deploymentGroupsInfo: [CodeDeployClientTypes.DeploymentGroupInfo]? = nil,
         errorMessage: Swift.String? = nil
     )
@@ -1317,7 +1277,7 @@ extension BatchGetDeploymentGroupsOutputResponseBody: Swift.Decodable {
         case errorMessage
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentGroupsInfoContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.DeploymentGroupInfo?].self, forKey: .deploymentGroupsInfo)
         var deploymentGroupsInfoDecoded0:[CodeDeployClientTypes.DeploymentGroupInfo]? = nil
@@ -1370,7 +1330,7 @@ public struct BatchGetDeploymentInstancesInput: Swift.Equatable {
     /// This member is required.
     public var instanceIds: [Swift.String]?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
     )
@@ -1391,7 +1351,7 @@ extension BatchGetDeploymentInstancesInputBody: Swift.Decodable {
         case instanceIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -1409,43 +1369,26 @@ extension BatchGetDeploymentInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetDeploymentInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetDeploymentInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceIdRequiredException" : self = .instanceIdRequiredException(try InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceIdRequiredException": return try await InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetDeploymentInstancesOutputError: Swift.Error, Swift.Equatable {
-    case batchLimitExceededException(BatchLimitExceededException)
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case instanceIdRequiredException(InstanceIdRequiredException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
@@ -1464,7 +1407,7 @@ public struct BatchGetDeploymentInstancesOutputResponse: Swift.Equatable {
     /// Information about the instance.
     public var instancesSummary: [CodeDeployClientTypes.InstanceSummary]?
 
-    public init (
+    public init(
         errorMessage: Swift.String? = nil,
         instancesSummary: [CodeDeployClientTypes.InstanceSummary]? = nil
     )
@@ -1485,7 +1428,7 @@ extension BatchGetDeploymentInstancesOutputResponseBody: Swift.Decodable {
         case instancesSummary
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instancesSummaryContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.InstanceSummary?].self, forKey: .instancesSummary)
         var instancesSummaryDecoded0:[CodeDeployClientTypes.InstanceSummary]? = nil
@@ -1543,7 +1486,7 @@ public struct BatchGetDeploymentTargetsInput: Swift.Equatable {
     /// * For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
     public var targetIds: [Swift.String]?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         targetIds: [Swift.String]? = nil
     )
@@ -1564,7 +1507,7 @@ extension BatchGetDeploymentTargetsInputBody: Swift.Decodable {
         case targetIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -1582,47 +1525,28 @@ extension BatchGetDeploymentTargetsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetDeploymentTargetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetDeploymentTargetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentTargetDoesNotExistException" : self = .deploymentTargetDoesNotExistException(try DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentTargetIdRequiredException" : self = .deploymentTargetIdRequiredException(try DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentTargetListSizeExceededException" : self = .deploymentTargetListSizeExceededException(try DeploymentTargetListSizeExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceDoesNotExistException" : self = .instanceDoesNotExistException(try InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentTargetIdException" : self = .invalidDeploymentTargetIdException(try InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetDoesNotExistException": return try await DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetIdRequiredException": return try await DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetListSizeExceededException": return try await DeploymentTargetListSizeExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceDoesNotExistException": return try await InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentTargetIdException": return try await InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentNotStartedException(DeploymentNotStartedException)
-    case deploymentTargetDoesNotExistException(DeploymentTargetDoesNotExistException)
-    case deploymentTargetIdRequiredException(DeploymentTargetIdRequiredException)
-    case deploymentTargetListSizeExceededException(DeploymentTargetListSizeExceededException)
-    case instanceDoesNotExistException(InstanceDoesNotExistException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidDeploymentTargetIdException(InvalidDeploymentTargetIdException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentTargets = output.deploymentTargets
@@ -1644,7 +1568,7 @@ public struct BatchGetDeploymentTargetsOutputResponse: Swift.Equatable {
     /// * CloudFormation: The target object is an CloudFormation blue/green deployment.
     public var deploymentTargets: [CodeDeployClientTypes.DeploymentTarget]?
 
-    public init (
+    public init(
         deploymentTargets: [CodeDeployClientTypes.DeploymentTarget]? = nil
     )
     {
@@ -1661,7 +1585,7 @@ extension BatchGetDeploymentTargetsOutputResponseBody: Swift.Decodable {
         case deploymentTargets
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentTargetsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.DeploymentTarget?].self, forKey: .deploymentTargets)
         var deploymentTargetsDecoded0:[CodeDeployClientTypes.DeploymentTarget]? = nil
@@ -1705,7 +1629,7 @@ public struct BatchGetDeploymentsInput: Swift.Equatable {
     /// This member is required.
     public var deploymentIds: [Swift.String]?
 
-    public init (
+    public init(
         deploymentIds: [Swift.String]? = nil
     )
     {
@@ -1722,7 +1646,7 @@ extension BatchGetDeploymentsInputBody: Swift.Decodable {
         case deploymentIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deploymentIds)
         var deploymentIdsDecoded0:[Swift.String]? = nil
@@ -1738,35 +1662,22 @@ extension BatchGetDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetDeploymentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetDeploymentsOutputError: Swift.Error, Swift.Equatable {
-    case batchLimitExceededException(BatchLimitExceededException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentsInfo = output.deploymentsInfo
@@ -1781,7 +1692,7 @@ public struct BatchGetDeploymentsOutputResponse: Swift.Equatable {
     /// Information about the deployments.
     public var deploymentsInfo: [CodeDeployClientTypes.DeploymentInfo]?
 
-    public init (
+    public init(
         deploymentsInfo: [CodeDeployClientTypes.DeploymentInfo]? = nil
     )
     {
@@ -1798,7 +1709,7 @@ extension BatchGetDeploymentsOutputResponseBody: Swift.Decodable {
         case deploymentsInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentsInfoContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.DeploymentInfo?].self, forKey: .deploymentsInfo)
         var deploymentsInfoDecoded0:[CodeDeployClientTypes.DeploymentInfo]? = nil
@@ -1842,7 +1753,7 @@ public struct BatchGetOnPremisesInstancesInput: Swift.Equatable {
     /// This member is required.
     public var instanceNames: [Swift.String]?
 
-    public init (
+    public init(
         instanceNames: [Swift.String]? = nil
     )
     {
@@ -1859,7 +1770,7 @@ extension BatchGetOnPremisesInstancesInputBody: Swift.Decodable {
         case instanceNames
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceNames)
         var instanceNamesDecoded0:[Swift.String]? = nil
@@ -1875,35 +1786,22 @@ extension BatchGetOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetOnPremisesInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BatchLimitExceededException": return try await BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
-    case batchLimitExceededException(BatchLimitExceededException)
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceInfos = output.instanceInfos
@@ -1918,7 +1816,7 @@ public struct BatchGetOnPremisesInstancesOutputResponse: Swift.Equatable {
     /// Information about the on-premises instances.
     public var instanceInfos: [CodeDeployClientTypes.InstanceInfo]?
 
-    public init (
+    public init(
         instanceInfos: [CodeDeployClientTypes.InstanceInfo]? = nil
     )
     {
@@ -1935,7 +1833,7 @@ extension BatchGetOnPremisesInstancesOutputResponseBody: Swift.Decodable {
         case instanceInfos
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceInfosContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.InstanceInfo?].self, forKey: .instanceInfos)
         var instanceInfosDecoded0:[CodeDeployClientTypes.InstanceInfo]? = nil
@@ -1952,38 +1850,42 @@ extension BatchGetOnPremisesInstancesOutputResponseBody: Swift.Decodable {
 }
 
 extension BatchLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum number of names or IDs allowed for this request (100) was exceeded.
-public struct BatchLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct BatchLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BatchLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1996,7 +1898,7 @@ extension BatchLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2023,7 +1925,7 @@ extension CodeDeployClientTypes.BlueGreenDeploymentConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminateBlueInstancesOnDeploymentSuccessDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.BlueInstanceTerminationOption.self, forKey: .terminateBlueInstancesOnDeploymentSuccess)
         terminateBlueInstancesOnDeploymentSuccess = terminateBlueInstancesOnDeploymentSuccessDecoded
@@ -2044,7 +1946,7 @@ extension CodeDeployClientTypes {
         /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
         public var terminateBlueInstancesOnDeploymentSuccess: CodeDeployClientTypes.BlueInstanceTerminationOption?
 
-        public init (
+        public init(
             deploymentReadyOption: CodeDeployClientTypes.DeploymentReadyOption? = nil,
             greenFleetProvisioningOption: CodeDeployClientTypes.GreenFleetProvisioningOption? = nil,
             terminateBlueInstancesOnDeploymentSuccess: CodeDeployClientTypes.BlueInstanceTerminationOption? = nil
@@ -2074,7 +1976,7 @@ extension CodeDeployClientTypes.BlueInstanceTerminationOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceAction.self, forKey: .action)
         action = actionDecoded
@@ -2095,7 +1997,7 @@ extension CodeDeployClientTypes {
         /// For an Amazon EC2 deployment, the number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. For an Amazon ECS deployment, the number of minutes before deleting the original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts traffic from the original (blue) task set to a replacement (green) task set. The maximum setting is 2880 minutes (2 days).
         public var terminationWaitTimeInMinutes: Swift.Int
 
-        public init (
+        public init(
             action: CodeDeployClientTypes.InstanceAction? = nil,
             terminationWaitTimeInMinutes: Swift.Int = 0
         )
@@ -2108,38 +2010,42 @@ extension CodeDeployClientTypes {
 }
 
 extension BucketNameFilterRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BucketNameFilterRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A bucket name is required, but was not provided.
-public struct BucketNameFilterRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct BucketNameFilterRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BucketNameFilterRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2152,7 +2058,7 @@ extension BucketNameFilterRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2239,7 +2145,7 @@ extension CodeDeployClientTypes.CloudFormationTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -2285,7 +2191,7 @@ extension CodeDeployClientTypes {
         /// The percentage of production traffic that the target version of an CloudFormation blue/green deployment receives.
         public var targetVersionWeight: Swift.Double
 
-        public init (
+        public init(
             deploymentId: Swift.String? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             lifecycleEvents: [CodeDeployClientTypes.LifecycleEvent]? = nil,
@@ -2371,7 +2277,7 @@ public struct ContinueDeploymentInput: Swift.Equatable {
     /// The status of the deployment's waiting period. READY_WAIT indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates that the traffic is shifted, but the original target is not terminated.
     public var deploymentWaitType: CodeDeployClientTypes.DeploymentWaitType?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         deploymentWaitType: CodeDeployClientTypes.DeploymentWaitType? = nil
     )
@@ -2392,7 +2298,7 @@ extension ContinueDeploymentInputBody: Swift.Decodable {
         case deploymentWaitType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -2401,50 +2307,32 @@ extension ContinueDeploymentInputBody: Swift.Decodable {
     }
 }
 
-extension ContinueDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ContinueDeploymentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentAlreadyCompletedException" : self = .deploymentAlreadyCompletedException(try DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIsNotInReadyStateException" : self = .deploymentIsNotInReadyStateException(try DeploymentIsNotInReadyStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentStatusException" : self = .invalidDeploymentStatusException(try InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentWaitTypeException" : self = .invalidDeploymentWaitTypeException(try InvalidDeploymentWaitTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ContinueDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentAlreadyCompletedException": return try await DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIsNotInReadyStateException": return try await DeploymentIsNotInReadyStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentStatusException": return try await InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentWaitTypeException": return try await InvalidDeploymentWaitTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ContinueDeploymentOutputError: Swift.Error, Swift.Equatable {
-    case deploymentAlreadyCompletedException(DeploymentAlreadyCompletedException)
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentIsNotInReadyStateException(DeploymentIsNotInReadyStateException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidDeploymentStatusException(InvalidDeploymentStatusException)
-    case invalidDeploymentWaitTypeException(InvalidDeploymentWaitTypeException)
-    case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ContinueDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ContinueDeploymentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateApplicationInput: Swift.Encodable {
@@ -2487,7 +2375,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The metadata that you apply to CodeDeploy applications to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [CodeDeployClientTypes.Tag]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil
@@ -2512,7 +2400,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -2532,41 +2420,25 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationAlreadyExistsException" : self = .applicationAlreadyExistsException(try ApplicationAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationLimitExceededException" : self = .applicationLimitExceededException(try ApplicationLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationAlreadyExistsException": return try await ApplicationAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationLimitExceededException": return try await ApplicationLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagsToAddException": return try await InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case applicationAlreadyExistsException(ApplicationAlreadyExistsException)
-    case applicationLimitExceededException(ApplicationLimitExceededException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidTagsToAddException(InvalidTagsToAddException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
@@ -2581,7 +2453,7 @@ public struct CreateApplicationOutputResponse: Swift.Equatable {
     /// A unique application ID.
     public var applicationId: Swift.String?
 
-    public init (
+    public init(
         applicationId: Swift.String? = nil
     )
     {
@@ -2598,7 +2470,7 @@ extension CreateApplicationOutputResponseBody: Swift.Decodable {
         case applicationId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
         applicationId = applicationIdDecoded
@@ -2655,7 +2527,7 @@ public struct CreateDeploymentConfigInput: Swift.Equatable {
     /// The configuration that specifies how the deployment traffic is routed.
     public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
 
-    public init (
+    public init(
         computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
         deploymentConfigName: Swift.String? = nil,
         minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts? = nil,
@@ -2684,7 +2556,7 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
         case trafficRoutingConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigName)
         deploymentConfigName = deploymentConfigNameDecoded
@@ -2697,43 +2569,26 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDeploymentConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentConfigAlreadyExistsException" : self = .deploymentConfigAlreadyExistsException(try DeploymentConfigAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigLimitExceededException" : self = .deploymentConfigLimitExceededException(try DeploymentConfigLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigNameRequiredException" : self = .deploymentConfigNameRequiredException(try DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidMinimumHealthyHostValueException" : self = .invalidMinimumHealthyHostValueException(try InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrafficRoutingConfigurationException" : self = .invalidTrafficRoutingConfigurationException(try InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentConfigAlreadyExistsException": return try await DeploymentConfigAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigLimitExceededException": return try await DeploymentConfigLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMinimumHealthyHostValueException": return try await InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
-    case deploymentConfigAlreadyExistsException(DeploymentConfigAlreadyExistsException)
-    case deploymentConfigLimitExceededException(DeploymentConfigLimitExceededException)
-    case deploymentConfigNameRequiredException(DeploymentConfigNameRequiredException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case invalidMinimumHealthyHostValueException(InvalidMinimumHealthyHostValueException)
-    case invalidTrafficRoutingConfigurationException(InvalidTrafficRoutingConfigurationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigId = output.deploymentConfigId
@@ -2748,7 +2603,7 @@ public struct CreateDeploymentConfigOutputResponse: Swift.Equatable {
     /// A unique deployment configuration ID.
     public var deploymentConfigId: Swift.String?
 
-    public init (
+    public init(
         deploymentConfigId: Swift.String? = nil
     )
     {
@@ -2765,7 +2620,7 @@ extension CreateDeploymentConfigOutputResponseBody: Swift.Decodable {
         case deploymentConfigId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigId)
         deploymentConfigId = deploymentConfigIdDecoded
@@ -2919,7 +2774,7 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
     /// Information about triggers to create when the deployment group is created. For examples, see [Create a Trigger for an CodeDeploy Event](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
-    public init (
+    public init(
         alarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
         applicationName: Swift.String? = nil,
         autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
@@ -3004,7 +2859,7 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
         case triggerConfigurations
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3099,95 +2954,52 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDeploymentGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlarmsLimitExceededException" : self = .alarmsLimitExceededException(try AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupAlreadyExistsException" : self = .deploymentGroupAlreadyExistsException(try DeploymentGroupAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupLimitExceededException" : self = .deploymentGroupLimitExceededException(try DeploymentGroupLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ECSServiceMappingLimitExceededException" : self = .eCSServiceMappingLimitExceededException(try ECSServiceMappingLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAlarmConfigException" : self = .invalidAlarmConfigException(try InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoRollbackConfigException" : self = .invalidAutoRollbackConfigException(try InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoScalingGroupException" : self = .invalidAutoScalingGroupException(try InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidBlueGreenDeploymentConfigurationException" : self = .invalidBlueGreenDeploymentConfigurationException(try InvalidBlueGreenDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentStyleException" : self = .invalidDeploymentStyleException(try InvalidDeploymentStyleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEC2TagCombinationException" : self = .invalidEC2TagCombinationException(try InvalidEC2TagCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEC2TagException" : self = .invalidEC2TagException(try InvalidEC2TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidECSServiceException" : self = .invalidECSServiceException(try InvalidECSServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLoadBalancerInfoException" : self = .invalidLoadBalancerInfoException(try InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidOnPremisesTagCombinationException" : self = .invalidOnPremisesTagCombinationException(try InvalidOnPremisesTagCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTargetGroupPairException" : self = .invalidTargetGroupPairException(try InvalidTargetGroupPairException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrafficRoutingConfigurationException" : self = .invalidTrafficRoutingConfigurationException(try InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTriggerConfigException" : self = .invalidTriggerConfigException(try InvalidTriggerConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LifecycleHookLimitExceededException" : self = .lifecycleHookLimitExceededException(try LifecycleHookLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RoleRequiredException" : self = .roleRequiredException(try RoleRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagSetListLimitExceededException" : self = .tagSetListLimitExceededException(try TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TriggerTargetsLimitExceededException" : self = .triggerTargetsLimitExceededException(try TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlarmsLimitExceededException": return try await AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupAlreadyExistsException": return try await DeploymentGroupAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupLimitExceededException": return try await DeploymentGroupLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ECSServiceMappingLimitExceededException": return try await ECSServiceMappingLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAlarmConfigException": return try await InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoRollbackConfigException": return try await InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoScalingGroupException": return try await InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidBlueGreenDeploymentConfigurationException": return try await InvalidBlueGreenDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentStyleException": return try await InvalidDeploymentStyleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEC2TagCombinationException": return try await InvalidEC2TagCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEC2TagException": return try await InvalidEC2TagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidECSServiceException": return try await InvalidECSServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLoadBalancerInfoException": return try await InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidOnPremisesTagCombinationException": return try await InvalidOnPremisesTagCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagsToAddException": return try await InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetGroupPairException": return try await InvalidTargetGroupPairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTriggerConfigException": return try await InvalidTriggerConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LifecycleHookLimitExceededException": return try await LifecycleHookLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RoleRequiredException": return try await RoleRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagSetListLimitExceededException": return try await TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TriggerTargetsLimitExceededException": return try await TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
-    case alarmsLimitExceededException(AlarmsLimitExceededException)
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupAlreadyExistsException(DeploymentGroupAlreadyExistsException)
-    case deploymentGroupLimitExceededException(DeploymentGroupLimitExceededException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case eCSServiceMappingLimitExceededException(ECSServiceMappingLimitExceededException)
-    case invalidAlarmConfigException(InvalidAlarmConfigException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidAutoRollbackConfigException(InvalidAutoRollbackConfigException)
-    case invalidAutoScalingGroupException(InvalidAutoScalingGroupException)
-    case invalidBlueGreenDeploymentConfigurationException(InvalidBlueGreenDeploymentConfigurationException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case invalidDeploymentStyleException(InvalidDeploymentStyleException)
-    case invalidEC2TagCombinationException(InvalidEC2TagCombinationException)
-    case invalidEC2TagException(InvalidEC2TagException)
-    case invalidECSServiceException(InvalidECSServiceException)
-    case invalidInputException(InvalidInputException)
-    case invalidLoadBalancerInfoException(InvalidLoadBalancerInfoException)
-    case invalidOnPremisesTagCombinationException(InvalidOnPremisesTagCombinationException)
-    case invalidRoleException(InvalidRoleException)
-    case invalidTagException(InvalidTagException)
-    case invalidTagsToAddException(InvalidTagsToAddException)
-    case invalidTargetGroupPairException(InvalidTargetGroupPairException)
-    case invalidTrafficRoutingConfigurationException(InvalidTrafficRoutingConfigurationException)
-    case invalidTriggerConfigException(InvalidTriggerConfigException)
-    case lifecycleHookLimitExceededException(LifecycleHookLimitExceededException)
-    case roleRequiredException(RoleRequiredException)
-    case tagSetListLimitExceededException(TagSetListLimitExceededException)
-    case throttlingException(ThrottlingException)
-    case triggerTargetsLimitExceededException(TriggerTargetsLimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentGroupId = output.deploymentGroupId
@@ -3202,7 +3014,7 @@ public struct CreateDeploymentGroupOutputResponse: Swift.Equatable {
     /// A unique deployment group ID.
     public var deploymentGroupId: Swift.String?
 
-    public init (
+    public init(
         deploymentGroupId: Swift.String? = nil
     )
     {
@@ -3219,7 +3031,7 @@ extension CreateDeploymentGroupOutputResponseBody: Swift.Decodable {
         case deploymentGroupId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentGroupId)
         deploymentGroupId = deploymentGroupIdDecoded
@@ -3317,7 +3129,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     /// Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
     public var updateOutdatedInstancesOnly: Swift.Bool
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
         deploymentConfigName: Swift.String? = nil,
@@ -3374,7 +3186,7 @@ extension CreateDeploymentInputBody: Swift.Decodable {
         case updateOutdatedInstancesOnly
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3401,81 +3213,45 @@ extension CreateDeploymentInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDeploymentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlarmsLimitExceededException" : self = .alarmsLimitExceededException(try AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentLimitExceededException" : self = .deploymentLimitExceededException(try DeploymentLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DescriptionTooLongException" : self = .descriptionTooLongException(try DescriptionTooLongException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAlarmConfigException" : self = .invalidAlarmConfigException(try InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoRollbackConfigException" : self = .invalidAutoRollbackConfigException(try InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoScalingGroupException" : self = .invalidAutoScalingGroupException(try InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidFileExistsBehaviorException" : self = .invalidFileExistsBehaviorException(try InvalidFileExistsBehaviorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGitHubAccountTokenException" : self = .invalidGitHubAccountTokenException(try InvalidGitHubAccountTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidIgnoreApplicationStopFailuresValueException" : self = .invalidIgnoreApplicationStopFailuresValueException(try InvalidIgnoreApplicationStopFailuresValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLoadBalancerInfoException" : self = .invalidLoadBalancerInfoException(try InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTargetInstancesException" : self = .invalidTargetInstancesException(try InvalidTargetInstancesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrafficRoutingConfigurationException" : self = .invalidTrafficRoutingConfigurationException(try InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidUpdateOutdatedInstancesOnlyValueException" : self = .invalidUpdateOutdatedInstancesOnlyValueException(try InvalidUpdateOutdatedInstancesOnlyValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionDoesNotExistException" : self = .revisionDoesNotExistException(try RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlarmsLimitExceededException": return try await AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentLimitExceededException": return try await DeploymentLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DescriptionTooLongException": return try await DescriptionTooLongException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAlarmConfigException": return try await InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoRollbackConfigException": return try await InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoScalingGroupException": return try await InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFileExistsBehaviorException": return try await InvalidFileExistsBehaviorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGitHubAccountTokenException": return try await InvalidGitHubAccountTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidIgnoreApplicationStopFailuresValueException": return try await InvalidIgnoreApplicationStopFailuresValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLoadBalancerInfoException": return try await InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetInstancesException": return try await InvalidTargetInstancesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidUpdateOutdatedInstancesOnlyValueException": return try await InvalidUpdateOutdatedInstancesOnlyValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionDoesNotExistException": return try await RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDeploymentOutputError: Swift.Error, Swift.Equatable {
-    case alarmsLimitExceededException(AlarmsLimitExceededException)
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case deploymentLimitExceededException(DeploymentLimitExceededException)
-    case descriptionTooLongException(DescriptionTooLongException)
-    case invalidAlarmConfigException(InvalidAlarmConfigException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidAutoRollbackConfigException(InvalidAutoRollbackConfigException)
-    case invalidAutoScalingGroupException(InvalidAutoScalingGroupException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case invalidFileExistsBehaviorException(InvalidFileExistsBehaviorException)
-    case invalidGitHubAccountTokenException(InvalidGitHubAccountTokenException)
-    case invalidIgnoreApplicationStopFailuresValueException(InvalidIgnoreApplicationStopFailuresValueException)
-    case invalidLoadBalancerInfoException(InvalidLoadBalancerInfoException)
-    case invalidRevisionException(InvalidRevisionException)
-    case invalidRoleException(InvalidRoleException)
-    case invalidTargetInstancesException(InvalidTargetInstancesException)
-    case invalidTrafficRoutingConfigurationException(InvalidTrafficRoutingConfigurationException)
-    case invalidUpdateOutdatedInstancesOnlyValueException(InvalidUpdateOutdatedInstancesOnlyValueException)
-    case revisionDoesNotExistException(RevisionDoesNotExistException)
-    case revisionRequiredException(RevisionRequiredException)
-    case throttlingException(ThrottlingException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentId = output.deploymentId
@@ -3490,7 +3266,7 @@ public struct CreateDeploymentOutputResponse: Swift.Equatable {
     /// The unique ID of a deployment.
     public var deploymentId: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil
     )
     {
@@ -3507,7 +3283,7 @@ extension CreateDeploymentOutputResponseBody: Swift.Decodable {
         case deploymentId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -3539,7 +3315,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     /// This member is required.
     public var applicationName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil
     )
     {
@@ -3556,47 +3332,34 @@ extension DeleteApplicationInputBody: Swift.Decodable {
         case applicationName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
     }
 }
 
-extension DeleteApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationOutputError: Swift.Error, Swift.Equatable {
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidRoleException(InvalidRoleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDeploymentConfigInput: Swift.Encodable {
@@ -3624,7 +3387,7 @@ public struct DeleteDeploymentConfigInput: Swift.Equatable {
     /// This member is required.
     public var deploymentConfigName: Swift.String?
 
-    public init (
+    public init(
         deploymentConfigName: Swift.String? = nil
     )
     {
@@ -3641,49 +3404,35 @@ extension DeleteDeploymentConfigInputBody: Swift.Decodable {
         case deploymentConfigName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigName)
         deploymentConfigName = deploymentConfigNameDecoded
     }
 }
 
-extension DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDeploymentConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentConfigInUseException" : self = .deploymentConfigInUseException(try DeploymentConfigInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigNameRequiredException" : self = .deploymentConfigNameRequiredException(try DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentConfigInUseException": return try await DeploymentConfigInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
-    case deploymentConfigInUseException(DeploymentConfigInUseException)
-    case deploymentConfigNameRequiredException(DeploymentConfigNameRequiredException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case invalidOperationException(InvalidOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDeploymentConfigOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDeploymentGroupInput: Swift.Encodable {
@@ -3718,7 +3467,7 @@ public struct DeleteDeploymentGroupInput: Swift.Equatable {
     /// This member is required.
     public var deploymentGroupName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deploymentGroupName: Swift.String? = nil
     )
@@ -3739,7 +3488,7 @@ extension DeleteDeploymentGroupInputBody: Swift.Decodable {
         case deploymentGroupName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3748,39 +3497,24 @@ extension DeleteDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDeploymentGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case invalidRoleException(InvalidRoleException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hooksNotCleanedUp = output.hooksNotCleanedUp
@@ -3795,7 +3529,7 @@ public struct DeleteDeploymentGroupOutputResponse: Swift.Equatable {
     /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
     public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
 
-    public init (
+    public init(
         hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]? = nil
     )
     {
@@ -3812,7 +3546,7 @@ extension DeleteDeploymentGroupOutputResponseBody: Swift.Decodable {
         case hooksNotCleanedUp
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hooksNotCleanedUpContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.AutoScalingGroup?].self, forKey: .hooksNotCleanedUp)
         var hooksNotCleanedUpDecoded0:[CodeDeployClientTypes.AutoScalingGroup]? = nil
@@ -3852,7 +3586,7 @@ public struct DeleteGitHubAccountTokenInput: Swift.Equatable {
     /// The name of the GitHub account connection to delete.
     public var tokenName: Swift.String?
 
-    public init (
+    public init(
         tokenName: Swift.String? = nil
     )
     {
@@ -3869,46 +3603,31 @@ extension DeleteGitHubAccountTokenInputBody: Swift.Decodable {
         case tokenName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenName)
         tokenName = tokenNameDecoded
     }
 }
 
-extension DeleteGitHubAccountTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteGitHubAccountTokenOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GitHubAccountTokenDoesNotExistException" : self = .gitHubAccountTokenDoesNotExistException(try GitHubAccountTokenDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "GitHubAccountTokenNameRequiredException" : self = .gitHubAccountTokenNameRequiredException(try GitHubAccountTokenNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidGitHubAccountTokenNameException" : self = .invalidGitHubAccountTokenNameException(try InvalidGitHubAccountTokenNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceValidationException" : self = .resourceValidationException(try ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteGitHubAccountTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GitHubAccountTokenDoesNotExistException": return try await GitHubAccountTokenDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GitHubAccountTokenNameRequiredException": return try await GitHubAccountTokenNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGitHubAccountTokenNameException": return try await InvalidGitHubAccountTokenNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteGitHubAccountTokenOutputError: Swift.Error, Swift.Equatable {
-    case gitHubAccountTokenDoesNotExistException(GitHubAccountTokenDoesNotExistException)
-    case gitHubAccountTokenNameRequiredException(GitHubAccountTokenNameRequiredException)
-    case invalidGitHubAccountTokenNameException(InvalidGitHubAccountTokenNameException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceValidationException(ResourceValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteGitHubAccountTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteGitHubAccountTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tokenName = output.tokenName
@@ -3923,7 +3642,7 @@ public struct DeleteGitHubAccountTokenOutputResponse: Swift.Equatable {
     /// The name of the GitHub account connection that was deleted.
     public var tokenName: Swift.String?
 
-    public init (
+    public init(
         tokenName: Swift.String? = nil
     )
     {
@@ -3940,7 +3659,7 @@ extension DeleteGitHubAccountTokenOutputResponseBody: Swift.Decodable {
         case tokenName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenName)
         tokenName = tokenNameDecoded
@@ -3970,7 +3689,7 @@ public struct DeleteResourcesByExternalIdInput: Swift.Equatable {
     /// The unique ID of an external resource (for example, a CloudFormation stack ID) that is linked to one or more CodeDeploy resources.
     public var externalId: Swift.String?
 
-    public init (
+    public init(
         externalId: Swift.String? = nil
     )
     {
@@ -3987,76 +3706,70 @@ extension DeleteResourcesByExternalIdInputBody: Swift.Decodable {
         case externalId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
         externalId = externalIdDecoded
     }
 }
 
-extension DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteResourcesByExternalIdOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteResourcesByExternalIdOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteResourcesByExternalIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteResourcesByExternalIdOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeploymentAlreadyCompletedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentAlreadyCompletedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment is already complete.
-public struct DeploymentAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentAlreadyCompletedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4069,7 +3782,7 @@ extension DeploymentAlreadyCompletedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4077,38 +3790,42 @@ extension DeploymentAlreadyCompletedExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentConfigAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentConfigAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct DeploymentConfigAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentConfigAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentConfigAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4121,7 +3838,7 @@ extension DeploymentConfigAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4129,38 +3846,42 @@ extension DeploymentConfigAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentConfigDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentConfigDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-public struct DeploymentConfigDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentConfigDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentConfigDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4173,7 +3894,7 @@ extension DeploymentConfigDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4181,38 +3902,42 @@ extension DeploymentConfigDoesNotExistExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentConfigInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentConfigInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment configuration is still in use.
-public struct DeploymentConfigInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentConfigInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentConfigInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4225,7 +3950,7 @@ extension DeploymentConfigInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4264,7 +3989,7 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigId)
         deploymentConfigId = deploymentConfigIdDecoded
@@ -4297,7 +4022,7 @@ extension CodeDeployClientTypes {
         /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or Amazon ECS compute platform only.
         public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
 
-        public init (
+        public init(
             computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
             createTime: ClientRuntime.Date? = nil,
             deploymentConfigId: Swift.String? = nil,
@@ -4318,38 +4043,42 @@ extension CodeDeployClientTypes {
 }
 
 extension DeploymentConfigLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentConfigLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment configurations limit was exceeded.
-public struct DeploymentConfigLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentConfigLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentConfigLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4362,7 +4091,7 @@ extension DeploymentConfigLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4370,38 +4099,42 @@ extension DeploymentConfigLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentConfigNameRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentConfigNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment configuration name was not specified.
-public struct DeploymentConfigNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentConfigNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentConfigNameRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4414,7 +4147,7 @@ extension DeploymentConfigNameRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4469,38 +4202,42 @@ extension CodeDeployClientTypes {
 }
 
 extension DeploymentDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment with the IAM user or Amazon Web Services account does not exist.
-public struct DeploymentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4513,7 +4250,7 @@ extension DeploymentDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4521,38 +4258,42 @@ extension DeploymentDoesNotExistExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentGroupAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentGroupAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct DeploymentGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentGroupAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentGroupAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4565,7 +4306,7 @@ extension DeploymentGroupAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4573,38 +4314,42 @@ extension DeploymentGroupAlreadyExistsExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentGroupDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentGroupDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The named deployment group with the IAM user or Amazon Web Services account does not exist.
-public struct DeploymentGroupDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentGroupDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4617,7 +4362,7 @@ extension DeploymentGroupDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4735,7 +4480,7 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4877,7 +4622,7 @@ extension CodeDeployClientTypes {
         /// Information about triggers associated with the deployment group.
         public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
-        public init (
+        public init(
             alarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
             applicationName: Swift.String? = nil,
             autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
@@ -4930,38 +4675,42 @@ extension CodeDeployClientTypes {
 }
 
 extension DeploymentGroupLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentGroupLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment groups limit was exceeded.
-public struct DeploymentGroupLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentGroupLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentGroupLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4974,7 +4723,7 @@ extension DeploymentGroupLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4982,38 +4731,42 @@ extension DeploymentGroupLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentGroupNameRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentGroupNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment group name was not specified.
-public struct DeploymentGroupNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentGroupNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentGroupNameRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5026,7 +4779,7 @@ extension DeploymentGroupNameRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5034,38 +4787,42 @@ extension DeploymentGroupNameRequiredExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentIdRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// At least one deployment ID must be specified.
-public struct DeploymentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentIdRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5078,7 +4835,7 @@ extension DeploymentIdRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5216,7 +4973,7 @@ extension CodeDeployClientTypes.DeploymentInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -5369,7 +5126,7 @@ extension CodeDeployClientTypes {
         /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
         public var updateOutdatedInstancesOnly: Swift.Bool
 
-        public init (
+        public init(
             additionalDeploymentStatusInfo: Swift.String? = nil,
             applicationName: Swift.String? = nil,
             autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
@@ -5438,38 +5195,42 @@ extension CodeDeployClientTypes {
 }
 
 extension DeploymentIsNotInReadyStateException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentIsNotInReadyStateExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment does not have a status of Ready and can't continue yet.
-public struct DeploymentIsNotInReadyStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentIsNotInReadyStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentIsNotInReadyStateException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5482,7 +5243,7 @@ extension DeploymentIsNotInReadyStateExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5490,38 +5251,42 @@ extension DeploymentIsNotInReadyStateExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of allowed deployments was exceeded.
-public struct DeploymentLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5534,7 +5299,7 @@ extension DeploymentLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5542,38 +5307,42 @@ extension DeploymentLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentNotStartedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentNotStartedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified deployment has not started.
-public struct DeploymentNotStartedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentNotStartedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentNotStartedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5586,7 +5355,7 @@ extension DeploymentNotStartedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5657,7 +5426,7 @@ extension CodeDeployClientTypes.DeploymentOverview: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pendingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pending) ?? 0
         pending = pendingDecoded
@@ -5690,7 +5459,7 @@ extension CodeDeployClientTypes {
         /// The number of instances in the deployment to which revisions have been successfully deployed.
         public var succeeded: Swift.Int
 
-        public init (
+        public init(
             failed: Swift.Int = 0,
             inProgress: Swift.Int = 0,
             pending: Swift.Int = 0,
@@ -5758,7 +5527,7 @@ extension CodeDeployClientTypes.DeploymentReadyOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionOnTimeoutDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentReadyAction.self, forKey: .actionOnTimeout)
         actionOnTimeout = actionOnTimeoutDecoded
@@ -5779,7 +5548,7 @@ extension CodeDeployClientTypes {
         /// The number of minutes to wait before the status of a blue/green deployment is changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout.
         public var waitTimeInMinutes: Swift.Int
 
-        public init (
+        public init(
             actionOnTimeout: CodeDeployClientTypes.DeploymentReadyAction? = nil,
             waitTimeInMinutes: Swift.Int = 0
         )
@@ -5857,7 +5626,7 @@ extension CodeDeployClientTypes.DeploymentStyle: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentTypeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentType.self, forKey: .deploymentType)
         deploymentType = deploymentTypeDecoded
@@ -5874,7 +5643,7 @@ extension CodeDeployClientTypes {
         /// Indicates whether to run an in-place deployment or a blue/green deployment.
         public var deploymentType: CodeDeployClientTypes.DeploymentType?
 
-        public init (
+        public init(
             deploymentOption: CodeDeployClientTypes.DeploymentOption? = nil,
             deploymentType: CodeDeployClientTypes.DeploymentType? = nil
         )
@@ -5914,7 +5683,7 @@ extension CodeDeployClientTypes.DeploymentTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentTargetTypeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentTargetType.self, forKey: .deploymentTargetType)
         deploymentTargetType = deploymentTargetTypeDecoded
@@ -5943,7 +5712,7 @@ extension CodeDeployClientTypes {
         /// Information about the target for a deployment that uses the Lambda compute platform.
         public var lambdaTarget: CodeDeployClientTypes.LambdaTarget?
 
-        public init (
+        public init(
             cloudFormationTarget: CodeDeployClientTypes.CloudFormationTarget? = nil,
             deploymentTargetType: CodeDeployClientTypes.DeploymentTargetType? = nil,
             ecsTarget: CodeDeployClientTypes.ECSTarget? = nil,
@@ -5962,38 +5731,42 @@ extension CodeDeployClientTypes {
 }
 
 extension DeploymentTargetDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentTargetDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The provided target ID does not belong to the attempted deployment.
-public struct DeploymentTargetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentTargetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentTargetDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6006,7 +5779,7 @@ extension DeploymentTargetDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6014,38 +5787,42 @@ extension DeploymentTargetDoesNotExistExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentTargetIdRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentTargetIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A deployment target ID was not provided.
-public struct DeploymentTargetIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentTargetIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentTargetIdRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6058,7 +5835,7 @@ extension DeploymentTargetIdRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6066,38 +5843,42 @@ extension DeploymentTargetIdRequiredExceptionBody: Swift.Decodable {
 }
 
 extension DeploymentTargetListSizeExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeploymentTargetListSizeExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum number of targets that can be associated with an Amazon ECS or Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
-public struct DeploymentTargetListSizeExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DeploymentTargetListSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DeploymentTargetListSizeExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6110,7 +5891,7 @@ extension DeploymentTargetListSizeExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6244,7 +6025,7 @@ public struct DeregisterOnPremisesInstanceInput: Swift.Equatable {
     /// This member is required.
     public var instanceName: Swift.String?
 
-    public init (
+    public init(
         instanceName: Swift.String? = nil
     )
     {
@@ -6261,80 +6042,72 @@ extension DeregisterOnPremisesInstanceInputBody: Swift.Decodable {
         case instanceName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
         instanceName = instanceNameDecoded
     }
 }
 
-extension DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterOnPremisesInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable {
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeregisterOnPremisesInstanceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescriptionTooLongException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescriptionTooLongExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The description is too long.
-public struct DescriptionTooLongException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct DescriptionTooLongException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DescriptionTooLongException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6347,7 +6120,7 @@ extension DescriptionTooLongExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6378,7 +6151,7 @@ extension CodeDeployClientTypes.Diagnostics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorCodeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.LifecycleErrorCode.self, forKey: .errorCode)
         errorCode = errorCodeDecoded
@@ -6415,7 +6188,7 @@ extension CodeDeployClientTypes {
         /// The name of the script.
         public var scriptName: Swift.String?
 
-        public init (
+        public init(
             errorCode: CodeDeployClientTypes.LifecycleErrorCode? = nil,
             logTail: Swift.String? = nil,
             message: Swift.String? = nil,
@@ -6451,7 +6224,7 @@ extension CodeDeployClientTypes.EC2TagFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -6478,7 +6251,7 @@ extension CodeDeployClientTypes {
         /// The tag filter value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             type: CodeDeployClientTypes.EC2TagFilterType? = nil,
             value: Swift.String? = nil
@@ -6545,7 +6318,7 @@ extension CodeDeployClientTypes.EC2TagSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2TagSetListContainer = try containerValues.decodeIfPresent([[CodeDeployClientTypes.EC2TagFilter?]?].self, forKey: .ec2TagSetList)
         var ec2TagSetListDecoded0:[[CodeDeployClientTypes.EC2TagFilter]]? = nil
@@ -6576,7 +6349,7 @@ extension CodeDeployClientTypes {
         /// A list that contains other lists of Amazon EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public var ec2TagSetList: [[CodeDeployClientTypes.EC2TagFilter]]?
 
-        public init (
+        public init(
             ec2TagSetList: [[CodeDeployClientTypes.EC2TagFilter]]? = nil
         )
         {
@@ -6602,7 +6375,7 @@ extension CodeDeployClientTypes.ECSService: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
         serviceName = serviceNameDecoded
@@ -6619,7 +6392,7 @@ extension CodeDeployClientTypes {
         /// The name of the target Amazon ECS service.
         public var serviceName: Swift.String?
 
-        public init (
+        public init(
             clusterName: Swift.String? = nil,
             serviceName: Swift.String? = nil
         )
@@ -6632,38 +6405,42 @@ extension CodeDeployClientTypes {
 }
 
 extension ECSServiceMappingLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ECSServiceMappingLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
-public struct ECSServiceMappingLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ECSServiceMappingLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ECSServiceMappingLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6676,7 +6453,7 @@ extension ECSServiceMappingLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6725,7 +6502,7 @@ extension CodeDeployClientTypes.ECSTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -6780,7 +6557,7 @@ extension CodeDeployClientTypes {
         /// The ECSTaskSet objects associated with the ECS target.
         public var taskSetsInfo: [CodeDeployClientTypes.ECSTaskSet]?
 
-        public init (
+        public init(
             deploymentId: Swift.String? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             lifecycleEvents: [CodeDeployClientTypes.LifecycleEvent]? = nil,
@@ -6842,7 +6619,7 @@ extension CodeDeployClientTypes.ECSTaskSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identiferDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifer)
         identifer = identiferDecoded
@@ -6889,7 +6666,7 @@ extension CodeDeployClientTypes {
         /// The percentage of traffic served by this task set.
         public var trafficWeight: Swift.Double
 
-        public init (
+        public init(
             desiredCount: Swift.Int = 0,
             identifer: Swift.String? = nil,
             pendingCount: Swift.Int = 0,
@@ -6925,7 +6702,7 @@ extension CodeDeployClientTypes.ELBInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6938,7 +6715,7 @@ extension CodeDeployClientTypes {
         /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -7092,7 +6869,7 @@ extension CodeDeployClientTypes.ErrorInformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ErrorCode.self, forKey: .code)
         code = codeDecoded
@@ -7135,7 +6912,7 @@ extension CodeDeployClientTypes {
         /// An accompanying error message.
         public var message: Swift.String?
 
-        public init (
+        public init(
             code: CodeDeployClientTypes.ErrorCode? = nil,
             message: Swift.String? = nil
         )
@@ -7213,7 +6990,7 @@ extension CodeDeployClientTypes.GenericRevisionInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -7251,7 +7028,7 @@ extension CodeDeployClientTypes {
         /// When the revision was registered with CodeDeploy.
         public var registerTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             deploymentGroups: [Swift.String]? = nil,
             description: Swift.String? = nil,
             firstUsedTime: ClientRuntime.Date? = nil,
@@ -7294,7 +7071,7 @@ public struct GetApplicationInput: Swift.Equatable {
     /// This member is required.
     public var applicationName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil
     )
     {
@@ -7311,42 +7088,29 @@ extension GetApplicationInputBody: Swift.Decodable {
         case applicationName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
     }
 }
 
-extension GetApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetApplicationOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
@@ -7361,7 +7125,7 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
     /// Information about the application.
     public var application: CodeDeployClientTypes.ApplicationInfo?
 
-    public init (
+    public init(
         application: CodeDeployClientTypes.ApplicationInfo? = nil
     )
     {
@@ -7378,7 +7142,7 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         case application
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ApplicationInfo.self, forKey: .application)
         application = applicationDecoded
@@ -7417,7 +7181,7 @@ public struct GetApplicationRevisionInput: Swift.Equatable {
     /// This member is required.
     public var revision: CodeDeployClientTypes.RevisionLocation?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         revision: CodeDeployClientTypes.RevisionLocation? = nil
     )
@@ -7438,7 +7202,7 @@ extension GetApplicationRevisionInputBody: Swift.Decodable {
         case revision
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -7447,41 +7211,25 @@ extension GetApplicationRevisionInputBody: Swift.Decodable {
     }
 }
 
-extension GetApplicationRevisionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetApplicationRevisionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionDoesNotExistException" : self = .revisionDoesNotExistException(try RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionDoesNotExistException": return try await RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetApplicationRevisionOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidRevisionException(InvalidRevisionException)
-    case revisionDoesNotExistException(RevisionDoesNotExistException)
-    case revisionRequiredException(RevisionRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetApplicationRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -7504,7 +7252,7 @@ public struct GetApplicationRevisionOutputResponse: Swift.Equatable {
     /// General information about the revision.
     public var revisionInfo: CodeDeployClientTypes.GenericRevisionInfo?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         revision: CodeDeployClientTypes.RevisionLocation? = nil,
         revisionInfo: CodeDeployClientTypes.GenericRevisionInfo? = nil
@@ -7529,7 +7277,7 @@ extension GetApplicationRevisionOutputResponseBody: Swift.Decodable {
         case revisionInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -7565,7 +7313,7 @@ public struct GetDeploymentConfigInput: Swift.Equatable {
     /// This member is required.
     public var deploymentConfigName: Swift.String?
 
-    public init (
+    public init(
         deploymentConfigName: Swift.String? = nil
     )
     {
@@ -7582,44 +7330,30 @@ extension GetDeploymentConfigInputBody: Swift.Decodable {
         case deploymentConfigName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigName)
         deploymentConfigName = deploymentConfigNameDecoded
     }
 }
 
-extension GetDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigNameRequiredException" : self = .deploymentConfigNameRequiredException(try DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigNameRequiredException": return try await DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentConfigNameRequiredException(DeploymentConfigNameRequiredException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigInfo = output.deploymentConfigInfo
@@ -7634,7 +7368,7 @@ public struct GetDeploymentConfigOutputResponse: Swift.Equatable {
     /// Information about the deployment configuration.
     public var deploymentConfigInfo: CodeDeployClientTypes.DeploymentConfigInfo?
 
-    public init (
+    public init(
         deploymentConfigInfo: CodeDeployClientTypes.DeploymentConfigInfo? = nil
     )
     {
@@ -7651,7 +7385,7 @@ extension GetDeploymentConfigOutputResponseBody: Swift.Decodable {
         case deploymentConfigInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentConfigInfo.self, forKey: .deploymentConfigInfo)
         deploymentConfigInfo = deploymentConfigInfoDecoded
@@ -7690,7 +7424,7 @@ public struct GetDeploymentGroupInput: Swift.Equatable {
     /// This member is required.
     public var deploymentGroupName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deploymentGroupName: Swift.String? = nil
     )
@@ -7711,7 +7445,7 @@ extension GetDeploymentGroupInputBody: Swift.Decodable {
         case deploymentGroupName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -7720,43 +7454,26 @@ extension GetDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-extension GetDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentGroupInfo = output.deploymentGroupInfo
@@ -7771,7 +7488,7 @@ public struct GetDeploymentGroupOutputResponse: Swift.Equatable {
     /// Information about the deployment group.
     public var deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo?
 
-    public init (
+    public init(
         deploymentGroupInfo: CodeDeployClientTypes.DeploymentGroupInfo? = nil
     )
     {
@@ -7788,7 +7505,7 @@ extension GetDeploymentGroupOutputResponseBody: Swift.Decodable {
         case deploymentGroupInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentGroupInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentGroupInfo.self, forKey: .deploymentGroupInfo)
         deploymentGroupInfo = deploymentGroupInfoDecoded
@@ -7820,7 +7537,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     /// This member is required.
     public var deploymentId: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil
     )
     {
@@ -7837,7 +7554,7 @@ extension GetDeploymentInputBody: Swift.Decodable {
         case deploymentId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -7876,7 +7593,7 @@ public struct GetDeploymentInstanceInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         instanceId: Swift.String? = nil
     )
@@ -7897,7 +7614,7 @@ extension GetDeploymentInstanceInputBody: Swift.Decodable {
         case instanceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -7906,43 +7623,26 @@ extension GetDeploymentInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceDoesNotExistException" : self = .instanceDoesNotExistException(try InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceIdRequiredException" : self = .instanceIdRequiredException(try InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceDoesNotExistException": return try await InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceIdRequiredException": return try await InstanceIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentInstanceOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case instanceDoesNotExistException(InstanceDoesNotExistException)
-    case instanceIdRequiredException(InstanceIdRequiredException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceSummary = output.instanceSummary
@@ -7958,7 +7658,7 @@ public struct GetDeploymentInstanceOutputResponse: Swift.Equatable {
     @available(*, deprecated, message: "InstanceSummary is deprecated, use DeploymentTarget instead.")
     public var instanceSummary: CodeDeployClientTypes.InstanceSummary?
 
-    public init (
+    public init(
         instanceSummary: CodeDeployClientTypes.InstanceSummary? = nil
     )
     {
@@ -7975,42 +7675,29 @@ extension GetDeploymentInstanceOutputResponseBody: Swift.Decodable {
         case instanceSummary
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceSummaryDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceSummary.self, forKey: .instanceSummary)
         instanceSummary = instanceSummaryDecoded
     }
 }
 
-extension GetDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentInfo = output.deploymentInfo
@@ -8025,7 +7712,7 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
     /// Information about the deployment.
     public var deploymentInfo: CodeDeployClientTypes.DeploymentInfo?
 
-    public init (
+    public init(
         deploymentInfo: CodeDeployClientTypes.DeploymentInfo? = nil
     )
     {
@@ -8042,7 +7729,7 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         case deploymentInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentInfo.self, forKey: .deploymentInfo)
         deploymentInfo = deploymentInfoDecoded
@@ -8078,7 +7765,7 @@ public struct GetDeploymentTargetInput: Swift.Equatable {
     /// The unique ID of a deployment target.
     public var targetId: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         targetId: Swift.String? = nil
     )
@@ -8099,7 +7786,7 @@ extension GetDeploymentTargetInputBody: Swift.Decodable {
         case targetId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -8108,45 +7795,27 @@ extension GetDeploymentTargetInputBody: Swift.Decodable {
     }
 }
 
-extension GetDeploymentTargetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDeploymentTargetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentTargetDoesNotExistException" : self = .deploymentTargetDoesNotExistException(try DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentTargetIdRequiredException" : self = .deploymentTargetIdRequiredException(try DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentTargetIdException" : self = .invalidDeploymentTargetIdException(try InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDeploymentTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetDoesNotExistException": return try await DeploymentTargetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentTargetIdRequiredException": return try await DeploymentTargetIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentTargetIdException": return try await InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDeploymentTargetOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentNotStartedException(DeploymentNotStartedException)
-    case deploymentTargetDoesNotExistException(DeploymentTargetDoesNotExistException)
-    case deploymentTargetIdRequiredException(DeploymentTargetIdRequiredException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidDeploymentTargetIdException(InvalidDeploymentTargetIdException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDeploymentTargetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDeploymentTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentTarget = output.deploymentTarget
@@ -8160,7 +7829,7 @@ public struct GetDeploymentTargetOutputResponse: Swift.Equatable {
     /// A deployment target that contains information about a deployment such as its status, lifecycle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget).
     public var deploymentTarget: CodeDeployClientTypes.DeploymentTarget?
 
-    public init (
+    public init(
         deploymentTarget: CodeDeployClientTypes.DeploymentTarget? = nil
     )
     {
@@ -8177,7 +7846,7 @@ extension GetDeploymentTargetOutputResponseBody: Swift.Decodable {
         case deploymentTarget
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentTargetDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.DeploymentTarget.self, forKey: .deploymentTarget)
         deploymentTarget = deploymentTargetDecoded
@@ -8209,7 +7878,7 @@ public struct GetOnPremisesInstanceInput: Swift.Equatable {
     /// This member is required.
     public var instanceName: Swift.String?
 
-    public init (
+    public init(
         instanceName: Swift.String? = nil
     )
     {
@@ -8226,42 +7895,29 @@ extension GetOnPremisesInstanceInputBody: Swift.Decodable {
         case instanceName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
         instanceName = instanceNameDecoded
     }
 }
 
-extension GetOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOnPremisesInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNotRegisteredException" : self = .instanceNotRegisteredException(try InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotRegisteredException": return try await InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable {
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case instanceNotRegisteredException(InstanceNotRegisteredException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOnPremisesInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceInfo = output.instanceInfo
@@ -8276,7 +7932,7 @@ public struct GetOnPremisesInstanceOutputResponse: Swift.Equatable {
     /// Information about the on-premises instance.
     public var instanceInfo: CodeDeployClientTypes.InstanceInfo?
 
-    public init (
+    public init(
         instanceInfo: CodeDeployClientTypes.InstanceInfo? = nil
     )
     {
@@ -8293,7 +7949,7 @@ extension GetOnPremisesInstanceOutputResponseBody: Swift.Decodable {
         case instanceInfo
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceInfoDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.InstanceInfo.self, forKey: .instanceInfo)
         instanceInfo = instanceInfoDecoded
@@ -8301,38 +7957,42 @@ extension GetOnPremisesInstanceOutputResponseBody: Swift.Decodable {
 }
 
 extension GitHubAccountTokenDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GitHubAccountTokenDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No GitHub account connection exists with the named specified in the call.
-public struct GitHubAccountTokenDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct GitHubAccountTokenDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GitHubAccountTokenDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8345,7 +8005,7 @@ extension GitHubAccountTokenDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8353,38 +8013,42 @@ extension GitHubAccountTokenDoesNotExistExceptionBody: Swift.Decodable {
 }
 
 extension GitHubAccountTokenNameRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GitHubAccountTokenNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The call is missing a required GitHub account connection name.
-public struct GitHubAccountTokenNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct GitHubAccountTokenNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GitHubAccountTokenNameRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8397,7 +8061,7 @@ extension GitHubAccountTokenNameRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8420,7 +8084,7 @@ extension CodeDeployClientTypes.GitHubLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repository)
         repository = repositoryDecoded
@@ -8437,7 +8101,7 @@ extension CodeDeployClientTypes {
         /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision. Specified as account/repository.
         public var repository: Swift.String?
 
-        public init (
+        public init(
             commitId: Swift.String? = nil,
             repository: Swift.String? = nil
         )
@@ -8493,7 +8157,7 @@ extension CodeDeployClientTypes.GreenFleetProvisioningOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.GreenFleetProvisioningAction.self, forKey: .action)
         action = actionDecoded
@@ -8510,7 +8174,7 @@ extension CodeDeployClientTypes {
         /// * COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.
         public var action: CodeDeployClientTypes.GreenFleetProvisioningAction?
 
-        public init (
+        public init(
             action: CodeDeployClientTypes.GreenFleetProvisioningAction? = nil
         )
         {
@@ -8521,38 +8185,42 @@ extension CodeDeployClientTypes {
 }
 
 extension IamArnRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IamArnRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
-public struct IamArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct IamArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IamArnRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8565,7 +8233,7 @@ extension IamArnRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8573,38 +8241,42 @@ extension IamArnRequiredExceptionBody: Swift.Decodable {
 }
 
 extension IamSessionArnAlreadyRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IamSessionArnAlreadyRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request included an IAM session ARN that has already been used to register a different instance.
-public struct IamSessionArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct IamSessionArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IamSessionArnAlreadyRegisteredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8617,7 +8289,7 @@ extension IamSessionArnAlreadyRegisteredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8625,38 +8297,42 @@ extension IamSessionArnAlreadyRegisteredExceptionBody: Swift.Decodable {
 }
 
 extension IamUserArnAlreadyRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IamUserArnAlreadyRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified IAM user ARN is already registered with an on-premises instance.
-public struct IamUserArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct IamUserArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IamUserArnAlreadyRegisteredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8669,7 +8345,7 @@ extension IamUserArnAlreadyRegisteredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8677,38 +8353,42 @@ extension IamUserArnAlreadyRegisteredExceptionBody: Swift.Decodable {
 }
 
 extension IamUserArnRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IamUserArnRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An IAM user ARN was not specified.
-public struct IamUserArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct IamUserArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IamUserArnRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8721,7 +8401,7 @@ extension IamUserArnRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8761,39 +8441,43 @@ extension CodeDeployClientTypes {
 }
 
 extension InstanceDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified instance does not exist in the deployment group.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetDoesNotExistException instead.")
-public struct InstanceDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8806,7 +8490,7 @@ extension InstanceDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8814,39 +8498,43 @@ extension InstanceDoesNotExistExceptionBody: Swift.Decodable {
 }
 
 extension InstanceIdRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceIdRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The instance ID was not specified.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetIdRequiredException instead.")
-public struct InstanceIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceIdRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8859,7 +8547,7 @@ extension InstanceIdRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8905,7 +8593,7 @@ extension CodeDeployClientTypes.InstanceInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
         instanceName = instanceNameDecoded
@@ -8951,7 +8639,7 @@ extension CodeDeployClientTypes {
         /// The tags currently associated with the on-premises instance.
         public var tags: [CodeDeployClientTypes.Tag]?
 
-        public init (
+        public init(
             deregisterTime: ClientRuntime.Date? = nil,
             iamSessionArn: Swift.String? = nil,
             iamUserArn: Swift.String? = nil,
@@ -8974,38 +8662,42 @@ extension CodeDeployClientTypes {
 }
 
 extension InstanceLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum number of allowed on-premises instances in a single call was exceeded.
-public struct InstanceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9018,7 +8710,7 @@ extension InstanceLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9026,38 +8718,42 @@ extension InstanceLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension InstanceNameAlreadyRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceNameAlreadyRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified on-premises instance name is already registered.
-public struct InstanceNameAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceNameAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceNameAlreadyRegisteredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9070,7 +8766,7 @@ extension InstanceNameAlreadyRegisteredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9078,38 +8774,42 @@ extension InstanceNameAlreadyRegisteredExceptionBody: Swift.Decodable {
 }
 
 extension InstanceNameRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceNameRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An on-premises instance name was not specified.
-public struct InstanceNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceNameRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9122,7 +8822,7 @@ extension InstanceNameRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9130,38 +8830,42 @@ extension InstanceNameRequiredExceptionBody: Swift.Decodable {
 }
 
 extension InstanceNotRegisteredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceNotRegisteredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified on-premises instance is not registered.
-public struct InstanceNotRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InstanceNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceNotRegisteredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9174,7 +8878,7 @@ extension InstanceNotRegisteredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9264,7 +8968,7 @@ extension CodeDeployClientTypes.InstanceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -9324,7 +9028,7 @@ extension CodeDeployClientTypes {
         @available(*, deprecated, message: "InstanceStatus is deprecated, use TargetStatus instead.")
         public var status: CodeDeployClientTypes.InstanceStatus?
 
-        public init (
+        public init(
             deploymentId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceType: CodeDeployClientTypes.InstanceType? = nil,
@@ -9383,7 +9087,7 @@ extension CodeDeployClientTypes.InstanceTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -9429,7 +9133,7 @@ extension CodeDeployClientTypes {
         /// The unique ID of a deployment target that has a type of instanceTarget.
         public var targetId: Swift.String?
 
-        public init (
+        public init(
             deploymentId: Swift.String? = nil,
             instanceLabel: CodeDeployClientTypes.TargetLabel? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
@@ -9484,18 +9188,17 @@ extension CodeDeployClientTypes {
 }
 
 extension InvalidAlarmConfigException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidAlarmConfigExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -9510,22 +9213,27 @@ extension InvalidAlarmConfigException {
 /// * Two alarms with the same name have been specified.
 ///
 /// * The alarm configuration is enabled, but the alarm list is empty.
-public struct InvalidAlarmConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidAlarmConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAlarmConfigException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9538,7 +9246,7 @@ extension InvalidAlarmConfigExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9546,38 +9254,42 @@ extension InvalidAlarmConfigExceptionBody: Swift.Decodable {
 }
 
 extension InvalidApplicationNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidApplicationNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The application name was specified in an invalid format.
-public struct InvalidApplicationNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidApplicationNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidApplicationNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9590,7 +9302,7 @@ extension InvalidApplicationNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9598,38 +9310,42 @@ extension InvalidApplicationNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ARN is not in a valid format.
-public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidArnException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9642,7 +9358,7 @@ extension InvalidArnExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9650,38 +9366,42 @@ extension InvalidArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidAutoRollbackConfigException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidAutoRollbackConfigExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
-public struct InvalidAutoRollbackConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidAutoRollbackConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAutoRollbackConfigException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9694,7 +9414,7 @@ extension InvalidAutoRollbackConfigExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9702,38 +9422,42 @@ extension InvalidAutoRollbackConfigExceptionBody: Swift.Decodable {
 }
 
 extension InvalidAutoScalingGroupException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidAutoScalingGroupExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Auto Scaling group was specified in an invalid format or does not exist.
-public struct InvalidAutoScalingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidAutoScalingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAutoScalingGroupException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9746,7 +9470,7 @@ extension InvalidAutoScalingGroupExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9754,38 +9478,42 @@ extension InvalidAutoScalingGroupExceptionBody: Swift.Decodable {
 }
 
 extension InvalidBlueGreenDeploymentConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidBlueGreenDeploymentConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
-public struct InvalidBlueGreenDeploymentConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidBlueGreenDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidBlueGreenDeploymentConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9798,7 +9526,7 @@ extension InvalidBlueGreenDeploymentConfigurationExceptionBody: Swift.Decodable 
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9806,38 +9534,42 @@ extension InvalidBlueGreenDeploymentConfigurationExceptionBody: Swift.Decodable 
 }
 
 extension InvalidBucketNameFilterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidBucketNameFilterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The bucket name either doesn't exist or was specified in an invalid format.
-public struct InvalidBucketNameFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidBucketNameFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidBucketNameFilterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9850,7 +9582,7 @@ extension InvalidBucketNameFilterExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9858,38 +9590,42 @@ extension InvalidBucketNameFilterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidComputePlatformException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidComputePlatformExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
-public struct InvalidComputePlatformException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidComputePlatformException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidComputePlatformException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9902,7 +9638,7 @@ extension InvalidComputePlatformExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9910,38 +9646,42 @@ extension InvalidComputePlatformExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeployedStateFilterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeployedStateFilterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployed state filter was specified in an invalid format.
-public struct InvalidDeployedStateFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeployedStateFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeployedStateFilterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9954,7 +9694,7 @@ extension InvalidDeployedStateFilterExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9962,38 +9702,42 @@ extension InvalidDeployedStateFilterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentConfigNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentConfigNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment configuration name was specified in an invalid format.
-public struct InvalidDeploymentConfigNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentConfigNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10006,7 +9750,7 @@ extension InvalidDeploymentConfigNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10014,38 +9758,42 @@ extension InvalidDeploymentConfigNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentGroupNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentGroupNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The deployment group name was specified in an invalid format.
-public struct InvalidDeploymentGroupNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentGroupNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentGroupNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10058,7 +9806,7 @@ extension InvalidDeploymentGroupNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10066,38 +9814,42 @@ extension InvalidDeploymentGroupNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// At least one of the deployment IDs was specified in an invalid format.
-public struct InvalidDeploymentIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentIdException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10110,7 +9862,7 @@ extension InvalidDeploymentIdExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10118,38 +9870,42 @@ extension InvalidDeploymentIdExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentInstanceTypeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentInstanceTypeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
-public struct InvalidDeploymentInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentInstanceTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10162,7 +9918,7 @@ extension InvalidDeploymentInstanceTypeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10170,38 +9926,42 @@ extension InvalidDeploymentInstanceTypeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified deployment status doesn't exist or cannot be determined.
-public struct InvalidDeploymentStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentStatusException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10214,7 +9974,7 @@ extension InvalidDeploymentStatusExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10222,38 +9982,42 @@ extension InvalidDeploymentStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentStyleException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentStyleExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
-public struct InvalidDeploymentStyleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentStyleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentStyleException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10266,7 +10030,7 @@ extension InvalidDeploymentStyleExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10274,38 +10038,42 @@ extension InvalidDeploymentStyleExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentTargetIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentTargetIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The target ID provided was not valid.
-public struct InvalidDeploymentTargetIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentTargetIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentTargetIdException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10318,7 +10086,7 @@ extension InvalidDeploymentTargetIdExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10326,38 +10094,42 @@ extension InvalidDeploymentTargetIdExceptionBody: Swift.Decodable {
 }
 
 extension InvalidDeploymentWaitTypeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidDeploymentWaitTypeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The wait type is invalid.
-public struct InvalidDeploymentWaitTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidDeploymentWaitTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDeploymentWaitTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10370,7 +10142,7 @@ extension InvalidDeploymentWaitTypeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10378,38 +10150,42 @@ extension InvalidDeploymentWaitTypeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEC2TagCombinationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEC2TagCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one of these data types can be used in a single call.
-public struct InvalidEC2TagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidEC2TagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEC2TagCombinationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10422,7 +10198,7 @@ extension InvalidEC2TagCombinationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10430,38 +10206,42 @@ extension InvalidEC2TagCombinationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidEC2TagException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEC2TagExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidEC2TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidEC2TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEC2TagException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10474,7 +10254,7 @@ extension InvalidEC2TagExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10482,38 +10262,42 @@ extension InvalidEC2TagExceptionBody: Swift.Decodable {
 }
 
 extension InvalidECSServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidECSServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Amazon ECS service identifier is not valid.
-public struct InvalidECSServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidECSServiceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10526,7 +10310,7 @@ extension InvalidECSServiceExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10534,38 +10318,42 @@ extension InvalidECSServiceExceptionBody: Swift.Decodable {
 }
 
 extension InvalidExternalIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidExternalIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The external ID was specified in an invalid format.
-public struct InvalidExternalIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidExternalIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidExternalIdException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10578,7 +10366,7 @@ extension InvalidExternalIdExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10586,38 +10374,42 @@ extension InvalidExternalIdExceptionBody: Swift.Decodable {
 }
 
 extension InvalidFileExistsBehaviorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidFileExistsBehaviorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
-public struct InvalidFileExistsBehaviorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidFileExistsBehaviorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidFileExistsBehaviorException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10630,7 +10422,7 @@ extension InvalidFileExistsBehaviorExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10638,38 +10430,42 @@ extension InvalidFileExistsBehaviorExceptionBody: Swift.Decodable {
 }
 
 extension InvalidGitHubAccountTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidGitHubAccountTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The GitHub token is not valid.
-public struct InvalidGitHubAccountTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidGitHubAccountTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidGitHubAccountTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10682,7 +10478,7 @@ extension InvalidGitHubAccountTokenExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10690,38 +10486,42 @@ extension InvalidGitHubAccountTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidGitHubAccountTokenNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidGitHubAccountTokenNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The format of the specified GitHub account connection name is invalid.
-public struct InvalidGitHubAccountTokenNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidGitHubAccountTokenNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidGitHubAccountTokenNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10734,7 +10534,7 @@ extension InvalidGitHubAccountTokenNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10742,38 +10542,42 @@ extension InvalidGitHubAccountTokenNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidIamSessionArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidIamSessionArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The IAM session ARN was specified in an invalid format.
-public struct InvalidIamSessionArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidIamSessionArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIamSessionArnException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10786,7 +10590,7 @@ extension InvalidIamSessionArnExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10794,38 +10598,42 @@ extension InvalidIamSessionArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidIamUserArnException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidIamUserArnExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The IAM user ARN was specified in an invalid format.
-public struct InvalidIamUserArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidIamUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIamUserArnException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10838,7 +10646,7 @@ extension InvalidIamUserArnExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10846,38 +10654,42 @@ extension InvalidIamUserArnExceptionBody: Swift.Decodable {
 }
 
 extension InvalidIgnoreApplicationStopFailuresValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidIgnoreApplicationStopFailuresValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidIgnoreApplicationStopFailuresValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidIgnoreApplicationStopFailuresValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIgnoreApplicationStopFailuresValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10890,7 +10702,7 @@ extension InvalidIgnoreApplicationStopFailuresValueExceptionBody: Swift.Decodabl
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10898,38 +10710,42 @@ extension InvalidIgnoreApplicationStopFailuresValueExceptionBody: Swift.Decodabl
 }
 
 extension InvalidInputException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input was specified in an invalid format.
-public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10942,7 +10758,7 @@ extension InvalidInputExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10950,38 +10766,42 @@ extension InvalidInputExceptionBody: Swift.Decodable {
 }
 
 extension InvalidInstanceNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInstanceNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The on-premises instance name was specified in an invalid format.
-public struct InvalidInstanceNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidInstanceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInstanceNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10994,7 +10814,7 @@ extension InvalidInstanceNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11002,38 +10822,42 @@ extension InvalidInstanceNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidInstanceStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInstanceStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified instance status does not exist.
-public struct InvalidInstanceStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidInstanceStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInstanceStatusException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11046,7 +10870,7 @@ extension InvalidInstanceStatusExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11054,38 +10878,42 @@ extension InvalidInstanceStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidInstanceTypeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInstanceTypeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
-public struct InvalidInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInstanceTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11098,7 +10926,7 @@ extension InvalidInstanceTypeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11106,38 +10934,42 @@ extension InvalidInstanceTypeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidKeyPrefixFilterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidKeyPrefixFilterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified key prefix filter was specified in an invalid format.
-public struct InvalidKeyPrefixFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidKeyPrefixFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidKeyPrefixFilterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11150,7 +10982,7 @@ extension InvalidKeyPrefixFilterExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11158,38 +10990,42 @@ extension InvalidKeyPrefixFilterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidLifecycleEventHookExecutionIdException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidLifecycleEventHookExecutionIdExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A lifecycle event hook is invalid. Review the hooks section in your AppSpec file to ensure the lifecycle events and hooks functions are valid.
-public struct InvalidLifecycleEventHookExecutionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidLifecycleEventHookExecutionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLifecycleEventHookExecutionIdException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11202,7 +11038,7 @@ extension InvalidLifecycleEventHookExecutionIdExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11210,38 +11046,42 @@ extension InvalidLifecycleEventHookExecutionIdExceptionBody: Swift.Decodable {
 }
 
 extension InvalidLifecycleEventHookExecutionStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidLifecycleEventHookExecutionStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
-public struct InvalidLifecycleEventHookExecutionStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidLifecycleEventHookExecutionStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLifecycleEventHookExecutionStatusException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11254,7 +11094,7 @@ extension InvalidLifecycleEventHookExecutionStatusExceptionBody: Swift.Decodable
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11262,38 +11102,42 @@ extension InvalidLifecycleEventHookExecutionStatusExceptionBody: Swift.Decodable
 }
 
 extension InvalidLoadBalancerInfoException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidLoadBalancerInfoExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid load balancer name, or no load balancer name, was specified.
-public struct InvalidLoadBalancerInfoException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidLoadBalancerInfoException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLoadBalancerInfoException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11306,7 +11150,7 @@ extension InvalidLoadBalancerInfoExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11314,38 +11158,42 @@ extension InvalidLoadBalancerInfoExceptionBody: Swift.Decodable {
 }
 
 extension InvalidMinimumHealthyHostValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidMinimumHealthyHostValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The minimum healthy instance value was specified in an invalid format.
-public struct InvalidMinimumHealthyHostValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidMinimumHealthyHostValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidMinimumHealthyHostValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11358,7 +11206,7 @@ extension InvalidMinimumHealthyHostValueExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11366,38 +11214,42 @@ extension InvalidMinimumHealthyHostValueExceptionBody: Swift.Decodable {
 }
 
 extension InvalidNextTokenException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The next token was specified in an invalid format.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11410,7 +11262,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11418,38 +11270,42 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 }
 
 extension InvalidOnPremisesTagCombinationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidOnPremisesTagCombinationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A call was submitted that specified both OnPremisesTagFilters and OnPremisesTagSet, but only one of these data types can be used in a single call.
-public struct InvalidOnPremisesTagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidOnPremisesTagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidOnPremisesTagCombinationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11462,7 +11318,7 @@ extension InvalidOnPremisesTagCombinationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11470,38 +11326,42 @@ extension InvalidOnPremisesTagCombinationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid operation was detected.
-public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11514,7 +11374,7 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11522,38 +11382,42 @@ extension InvalidOperationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRegistrationStatusException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRegistrationStatusExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The registration status was specified in an invalid format.
-public struct InvalidRegistrationStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidRegistrationStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRegistrationStatusException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11566,7 +11430,7 @@ extension InvalidRegistrationStatusExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11574,38 +11438,42 @@ extension InvalidRegistrationStatusExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRevisionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRevisionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The revision was specified in an invalid format.
-public struct InvalidRevisionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidRevisionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRevisionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11618,7 +11486,7 @@ extension InvalidRevisionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11626,38 +11494,42 @@ extension InvalidRevisionExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRoleException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRoleExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRoleException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11670,7 +11542,7 @@ extension InvalidRoleExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11678,38 +11550,42 @@ extension InvalidRoleExceptionBody: Swift.Decodable {
 }
 
 extension InvalidSortByException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSortByExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The column name to sort by is either not present or was specified in an invalid format.
-public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSortByException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11722,7 +11598,7 @@ extension InvalidSortByExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11730,38 +11606,42 @@ extension InvalidSortByExceptionBody: Swift.Decodable {
 }
 
 extension InvalidSortOrderException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidSortOrderExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The sort order was specified in an invalid format.
-public struct InvalidSortOrderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidSortOrderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSortOrderException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11774,7 +11654,7 @@ extension InvalidSortOrderExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11782,38 +11662,42 @@ extension InvalidSortOrderExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTagException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTagExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTagException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11826,7 +11710,7 @@ extension InvalidTagExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11834,38 +11718,42 @@ extension InvalidTagExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTagFilterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTagFilterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The tag filter was specified in an invalid format.
-public struct InvalidTagFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTagFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTagFilterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11878,7 +11766,7 @@ extension InvalidTagFilterExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11886,38 +11774,42 @@ extension InvalidTagFilterExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTagsToAddException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTagsToAddExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified tags are not valid.
-public struct InvalidTagsToAddException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTagsToAddException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTagsToAddException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11930,7 +11822,7 @@ extension InvalidTagsToAddExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11938,38 +11830,42 @@ extension InvalidTagsToAddExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTargetFilterNameException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTargetFilterNameExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The target filter name is invalid.
-public struct InvalidTargetFilterNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTargetFilterNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTargetFilterNameException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11982,7 +11878,7 @@ extension InvalidTargetFilterNameExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11990,38 +11886,42 @@ extension InvalidTargetFilterNameExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTargetGroupPairException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTargetGroupPairExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A target group pair associated with this deployment is not valid.
-public struct InvalidTargetGroupPairException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTargetGroupPairException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTargetGroupPairException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12034,7 +11934,7 @@ extension InvalidTargetGroupPairExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12042,18 +11942,17 @@ extension InvalidTargetGroupPairExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTargetInstancesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTargetInstancesExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -12066,22 +11965,27 @@ extension InvalidTargetInstancesException {
 /// * The combined length of the tag names exceeded the limit.
 ///
 /// * A specified tag is not currently applied to any instances.
-public struct InvalidTargetInstancesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTargetInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTargetInstancesException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12094,7 +11998,7 @@ extension InvalidTargetInstancesExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12102,38 +12006,42 @@ extension InvalidTargetInstancesExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTimeRangeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTimeRangeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified time range was specified in an invalid format.
-public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTimeRangeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12146,7 +12054,7 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12154,38 +12062,42 @@ extension InvalidTimeRangeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTrafficRoutingConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTrafficRoutingConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The configuration that specifies how traffic is routed during a deployment is invalid.
-public struct InvalidTrafficRoutingConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTrafficRoutingConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTrafficRoutingConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12198,7 +12110,7 @@ extension InvalidTrafficRoutingConfigurationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12206,38 +12118,42 @@ extension InvalidTrafficRoutingConfigurationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidTriggerConfigException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidTriggerConfigExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The trigger was specified in an invalid format.
-public struct InvalidTriggerConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidTriggerConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTriggerConfigException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12250,7 +12166,7 @@ extension InvalidTriggerConfigExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12258,38 +12174,42 @@ extension InvalidTriggerConfigExceptionBody: Swift.Decodable {
 }
 
 extension InvalidUpdateOutdatedInstancesOnlyValueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidUpdateOutdatedInstancesOnlyValueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidUpdateOutdatedInstancesOnlyValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct InvalidUpdateOutdatedInstancesOnlyValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidUpdateOutdatedInstancesOnlyValueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12302,7 +12222,7 @@ extension InvalidUpdateOutdatedInstancesOnlyValueExceptionBody: Swift.Decodable 
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12337,7 +12257,7 @@ extension CodeDeployClientTypes.LambdaFunctionInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
         functionName = functionNameDecoded
@@ -12366,7 +12286,7 @@ extension CodeDeployClientTypes {
         /// The percentage of production traffic that the target version of a Lambda function receives.
         public var targetVersionWeight: Swift.Double
 
-        public init (
+        public init(
             currentVersion: Swift.String? = nil,
             functionAlias: Swift.String? = nil,
             functionName: Swift.String? = nil,
@@ -12423,7 +12343,7 @@ extension CodeDeployClientTypes.LambdaTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -12469,7 +12389,7 @@ extension CodeDeployClientTypes {
         /// The unique ID of a deployment target that has a type of lambdaTarget.
         public var targetId: Swift.String?
 
-        public init (
+        public init(
             deploymentId: Swift.String? = nil,
             lambdaFunctionInfo: CodeDeployClientTypes.LambdaFunctionInfo? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
@@ -12515,7 +12435,7 @@ extension CodeDeployClientTypes.LastDeploymentInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -12540,7 +12460,7 @@ extension CodeDeployClientTypes {
         /// The status of the most recent deployment.
         public var status: CodeDeployClientTypes.DeploymentStatus?
 
-        public init (
+        public init(
             createTime: ClientRuntime.Date? = nil,
             deploymentId: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -12628,7 +12548,7 @@ extension CodeDeployClientTypes.LifecycleEvent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleEventNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleEventName)
         lifecycleEventName = lifecycleEventNameDecoded
@@ -12669,7 +12589,7 @@ extension CodeDeployClientTypes {
         /// * Unknown: The deployment lifecycle event is unknown.
         public var status: CodeDeployClientTypes.LifecycleEventStatus?
 
-        public init (
+        public init(
             diagnostics: CodeDeployClientTypes.Diagnostics? = nil,
             endTime: ClientRuntime.Date? = nil,
             lifecycleEventName: Swift.String? = nil,
@@ -12688,38 +12608,42 @@ extension CodeDeployClientTypes {
 }
 
 extension LifecycleEventAlreadyCompletedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LifecycleEventAlreadyCompletedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An attempt to return the status of an already completed lifecycle event occurred.
-public struct LifecycleEventAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct LifecycleEventAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LifecycleEventAlreadyCompletedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12732,7 +12656,7 @@ extension LifecycleEventAlreadyCompletedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12784,38 +12708,42 @@ extension CodeDeployClientTypes {
 }
 
 extension LifecycleHookLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LifecycleHookLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The limit for lifecycle hooks was exceeded.
-public struct LifecycleHookLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct LifecycleHookLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LifecycleHookLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12828,7 +12756,7 @@ extension LifecycleHookLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12918,7 +12846,7 @@ public struct ListApplicationRevisionsInput: Swift.Equatable {
     /// If not specified, the results are sorted in ascending order. If set to null, the results are sorted in an arbitrary order.
     public var sortOrder: CodeDeployClientTypes.SortOrder?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deployed: CodeDeployClientTypes.ListStateFilterAction? = nil,
         nextToken: Swift.String? = nil,
@@ -12959,7 +12887,7 @@ extension ListApplicationRevisionsInputBody: Swift.Decodable {
         case sortOrder
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -12978,49 +12906,29 @@ extension ListApplicationRevisionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListApplicationRevisionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListApplicationRevisionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BucketNameFilterRequiredException" : self = .bucketNameFilterRequiredException(try BucketNameFilterRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidBucketNameFilterException" : self = .invalidBucketNameFilterException(try InvalidBucketNameFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeployedStateFilterException" : self = .invalidDeployedStateFilterException(try InvalidDeployedStateFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidKeyPrefixFilterException" : self = .invalidKeyPrefixFilterException(try InvalidKeyPrefixFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSortByException" : self = .invalidSortByException(try InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidSortOrderException" : self = .invalidSortOrderException(try InvalidSortOrderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListApplicationRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BucketNameFilterRequiredException": return try await BucketNameFilterRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidBucketNameFilterException": return try await InvalidBucketNameFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeployedStateFilterException": return try await InvalidDeployedStateFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKeyPrefixFilterException": return try await InvalidKeyPrefixFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSortByException": return try await InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSortOrderException": return try await InvalidSortOrderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListApplicationRevisionsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case bucketNameFilterRequiredException(BucketNameFilterRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidBucketNameFilterException(InvalidBucketNameFilterException)
-    case invalidDeployedStateFilterException(InvalidDeployedStateFilterException)
-    case invalidKeyPrefixFilterException(InvalidKeyPrefixFilterException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidSortByException(InvalidSortByException)
-    case invalidSortOrderException(InvalidSortOrderException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -13039,7 +12947,7 @@ public struct ListApplicationRevisionsOutputResponse: Swift.Equatable {
     /// A list of locations that contain the matching revisions.
     public var revisions: [CodeDeployClientTypes.RevisionLocation]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         revisions: [CodeDeployClientTypes.RevisionLocation]? = nil
     )
@@ -13060,7 +12968,7 @@ extension ListApplicationRevisionsOutputResponseBody: Swift.Decodable {
         case revisions
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let revisionsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.RevisionLocation?].self, forKey: .revisions)
         var revisionsDecoded0:[CodeDeployClientTypes.RevisionLocation]? = nil
@@ -13102,7 +13010,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -13119,38 +13027,27 @@ extension ListApplicationsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListApplicationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListApplicationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
@@ -13169,7 +13066,7 @@ public struct ListApplicationsOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applications: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -13190,7 +13087,7 @@ extension ListApplicationsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .applications)
         var applicationsDecoded0:[Swift.String]? = nil
@@ -13232,7 +13129,7 @@ public struct ListDeploymentConfigsInput: Swift.Equatable {
     /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -13249,38 +13146,27 @@ extension ListDeploymentConfigsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListDeploymentConfigsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeploymentConfigsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeploymentConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeploymentConfigsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeploymentConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeploymentConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentConfigsList = output.deploymentConfigsList
@@ -13299,7 +13185,7 @@ public struct ListDeploymentConfigsOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         deploymentConfigsList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -13320,7 +13206,7 @@ extension ListDeploymentConfigsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentConfigsListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deploymentConfigsList)
         var deploymentConfigsListDecoded0:[Swift.String]? = nil
@@ -13369,7 +13255,7 @@ public struct ListDeploymentGroupsInput: Swift.Equatable {
     /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
@@ -13390,7 +13276,7 @@ extension ListDeploymentGroupsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13399,37 +13285,23 @@ extension ListDeploymentGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeploymentGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeploymentGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeploymentGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -13452,7 +13324,7 @@ public struct ListDeploymentGroupsOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deploymentGroups: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
@@ -13477,7 +13349,7 @@ extension ListDeploymentGroupsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13558,7 +13430,7 @@ public struct ListDeploymentInstancesInput: Swift.Equatable {
     /// An identifier returned from the previous list deployment instances call. It can be used to return the next set of deployment instances in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         instanceStatusFilter: [CodeDeployClientTypes.InstanceStatus]? = nil,
         instanceTypeFilter: [CodeDeployClientTypes.InstanceType]? = nil,
@@ -13587,7 +13459,7 @@ extension ListDeploymentInstancesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -13618,49 +13490,29 @@ extension ListDeploymentInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeploymentInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeploymentInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentInstanceTypeException" : self = .invalidDeploymentInstanceTypeException(try InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceStatusException" : self = .invalidInstanceStatusException(try InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceTypeException" : self = .invalidInstanceTypeException(try InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTargetFilterNameException" : self = .invalidTargetFilterNameException(try InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeploymentInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidComputePlatformException": return try await InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeploymentInstancesOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentNotStartedException(DeploymentNotStartedException)
-    case invalidComputePlatformException(InvalidComputePlatformException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidDeploymentInstanceTypeException(InvalidDeploymentInstanceTypeException)
-    case invalidInstanceStatusException(InvalidInstanceStatusException)
-    case invalidInstanceTypeException(InvalidInstanceTypeException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidTargetFilterNameException(InvalidTargetFilterNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instancesList = output.instancesList
@@ -13679,7 +13531,7 @@ public struct ListDeploymentInstancesOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         instancesList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -13700,7 +13552,7 @@ extension ListDeploymentInstancesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instancesListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instancesList)
         var instancesListDecoded0:[Swift.String]? = nil
@@ -13763,7 +13615,7 @@ public struct ListDeploymentTargetsInput: Swift.Equatable {
     /// * ServerInstanceLabel - A ServerInstanceLabel filter string can be Blue or Green.
     public var targetFilters: [Swift.String:[Swift.String]]?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         targetFilters: [Swift.String:[Swift.String]]? = nil
@@ -13788,7 +13640,7 @@ extension ListDeploymentTargetsInputBody: Swift.Decodable {
         case targetFilters
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -13815,45 +13667,27 @@ extension ListDeploymentTargetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeploymentTargetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentInstanceTypeException" : self = .invalidDeploymentInstanceTypeException(try InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceStatusException" : self = .invalidInstanceStatusException(try InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceTypeException" : self = .invalidInstanceTypeException(try InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentInstanceTypeException": return try await InvalidDeploymentInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentNotStartedException(DeploymentNotStartedException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidDeploymentInstanceTypeException(InvalidDeploymentInstanceTypeException)
-    case invalidInstanceStatusException(InvalidInstanceStatusException)
-    case invalidInstanceTypeException(InvalidInstanceTypeException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -13871,7 +13705,7 @@ public struct ListDeploymentTargetsOutputResponse: Swift.Equatable {
     /// The unique IDs of deployment targets.
     public var targetIds: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         targetIds: [Swift.String]? = nil
     )
@@ -13892,7 +13726,7 @@ extension ListDeploymentTargetsOutputResponseBody: Swift.Decodable {
         case targetIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targetIds)
         var targetIdsDecoded0:[Swift.String]? = nil
@@ -13979,7 +13813,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         createTimeRange: CodeDeployClientTypes.TimeRange? = nil,
         deploymentGroupName: Swift.String? = nil,
@@ -14016,7 +13850,7 @@ extension ListDeploymentsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -14042,51 +13876,30 @@ extension ListDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDeploymentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentStatusException" : self = .invalidDeploymentStatusException(try InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidExternalIdException" : self = .invalidExternalIdException(try InvalidExternalIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTimeRangeException" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentStatusException": return try await InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidExternalIdException": return try await InvalidExternalIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRangeException": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDeploymentsOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case invalidDeploymentStatusException(InvalidDeploymentStatusException)
-    case invalidExternalIdException(InvalidExternalIdException)
-    case invalidInputException(InvalidInputException)
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidTimeRangeException(InvalidTimeRangeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
@@ -14105,7 +13918,7 @@ public struct ListDeploymentsOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         deployments: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -14126,7 +13939,7 @@ extension ListDeploymentsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deployments)
         var deploymentsDecoded0:[Swift.String]? = nil
@@ -14168,7 +13981,7 @@ public struct ListGitHubAccountTokenNamesInput: Swift.Equatable {
     /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil
     )
     {
@@ -14185,42 +13998,29 @@ extension ListGitHubAccountTokenNamesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
 }
 
-extension ListGitHubAccountTokenNamesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGitHubAccountTokenNamesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceValidationException" : self = .resourceValidationException(try ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGitHubAccountTokenNamesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotSupportedException": return try await OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceValidationException": return try await ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGitHubAccountTokenNamesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case operationNotSupportedException(OperationNotSupportedException)
-    case resourceValidationException(ResourceValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGitHubAccountTokenNamesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGitHubAccountTokenNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -14239,7 +14039,7 @@ public struct ListGitHubAccountTokenNamesOutputResponse: Swift.Equatable {
     /// A list of names of connections to GitHub accounts.
     public var tokenNameList: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tokenNameList: [Swift.String]? = nil
     )
@@ -14260,7 +14060,7 @@ extension ListGitHubAccountTokenNamesOutputResponseBody: Swift.Decodable {
         case tokenNameList
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenNameListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenNameList)
         var tokenNameListDecoded0:[Swift.String]? = nil
@@ -14321,7 +14121,7 @@ public struct ListOnPremisesInstancesInput: Swift.Equatable {
     /// The on-premises instance tags that are used to restrict the on-premises instance names returned.
     public var tagFilters: [CodeDeployClientTypes.TagFilter]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         registrationStatus: CodeDeployClientTypes.RegistrationStatus? = nil,
         tagFilters: [CodeDeployClientTypes.TagFilter]? = nil
@@ -14346,7 +14146,7 @@ extension ListOnPremisesInstancesInputBody: Swift.Decodable {
         case tagFilters
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let registrationStatusDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.RegistrationStatus.self, forKey: .registrationStatus)
         registrationStatus = registrationStatusDecoded
@@ -14366,35 +14166,22 @@ extension ListOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension ListOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListOnPremisesInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRegistrationStatusException" : self = .invalidRegistrationStatusException(try InvalidRegistrationStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagFilterException" : self = .invalidTagFilterException(try InvalidTagFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRegistrationStatusException": return try await InvalidRegistrationStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagFilterException": return try await InvalidTagFilterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextTokenException(InvalidNextTokenException)
-    case invalidRegistrationStatusException(InvalidRegistrationStatusException)
-    case invalidTagFilterException(InvalidTagFilterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceNames = output.instanceNames
@@ -14413,7 +14200,7 @@ public struct ListOnPremisesInstancesOutputResponse: Swift.Equatable {
     /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         instanceNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -14434,7 +14221,7 @@ extension ListOnPremisesInstancesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceNames)
         var instanceNamesDecoded0:[Swift.String]? = nil
@@ -14517,7 +14304,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -14538,7 +14325,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -14547,35 +14334,22 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ArnNotSupportedException" : self = .arnNotSupportedException(try ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ArnNotSupportedException": return try await ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case arnNotSupportedException(ArnNotSupportedException)
-    case invalidArnException(InvalidArnException)
-    case resourceArnRequiredException(ResourceArnRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -14593,7 +14367,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of tags returned by ListTagsForResource. The tags are associated with the resource identified by the input ResourceArn parameter.
     public var tags: [CodeDeployClientTypes.Tag]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil
     )
@@ -14614,7 +14388,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeDeployClientTypes.Tag]? = nil
@@ -14661,7 +14435,7 @@ extension CodeDeployClientTypes.LoadBalancerInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let elbInfoListContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.ELBInfo?].self, forKey: .elbInfoList)
         var elbInfoListDecoded0:[CodeDeployClientTypes.ELBInfo]? = nil
@@ -14709,7 +14483,7 @@ extension CodeDeployClientTypes {
         /// The target group pair information. This is an array of TargeGroupPairInfo objects with a maximum size of one.
         public var targetGroupPairInfoList: [CodeDeployClientTypes.TargetGroupPairInfo]?
 
-        public init (
+        public init(
             elbInfoList: [CodeDeployClientTypes.ELBInfo]? = nil,
             targetGroupInfoList: [CodeDeployClientTypes.TargetGroupInfo]? = nil,
             targetGroupPairInfoList: [CodeDeployClientTypes.TargetGroupPairInfo]? = nil
@@ -14739,7 +14513,7 @@ extension CodeDeployClientTypes.MinimumHealthyHosts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.MinimumHealthyHostsType.self, forKey: .type)
         type = typeDecoded
@@ -14763,7 +14537,7 @@ extension CodeDeployClientTypes {
         /// The minimum healthy instance value.
         public var value: Swift.Int
 
-        public init (
+        public init(
             type: CodeDeployClientTypes.MinimumHealthyHostsType? = nil,
             value: Swift.Int = 0
         )
@@ -14808,38 +14582,42 @@ extension CodeDeployClientTypes {
 }
 
 extension MultipleIamArnsProvidedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MultipleIamArnsProvidedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
-public struct MultipleIamArnsProvidedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct MultipleIamArnsProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MultipleIamArnsProvidedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14852,7 +14630,7 @@ extension MultipleIamArnsProvidedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14877,7 +14655,7 @@ extension CodeDeployClientTypes.OnPremisesTagSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onPremisesTagSetListContainer = try containerValues.decodeIfPresent([[CodeDeployClientTypes.TagFilter?]?].self, forKey: .onPremisesTagSetList)
         var onPremisesTagSetListDecoded0:[[CodeDeployClientTypes.TagFilter]]? = nil
@@ -14908,7 +14686,7 @@ extension CodeDeployClientTypes {
         /// A list that contains other lists of on-premises instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public var onPremisesTagSetList: [[CodeDeployClientTypes.TagFilter]]?
 
-        public init (
+        public init(
             onPremisesTagSetList: [[CodeDeployClientTypes.TagFilter]]? = nil
         )
         {
@@ -14919,38 +14697,42 @@ extension CodeDeployClientTypes {
 }
 
 extension OperationNotSupportedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The API used does not support the deployment.
-public struct OperationNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotSupportedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14963,7 +14745,7 @@ extension OperationNotSupportedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15037,7 +14819,7 @@ public struct PutLifecycleEventHookExecutionStatusInput: Swift.Equatable {
     /// The result of a Lambda function that validates a deployment lifecycle event. The values listed in Valid Values are valid for lifecycle statuses in general; however, only Succeeded and Failed can be passed successfully in your API call.
     public var status: CodeDeployClientTypes.LifecycleEventStatus?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil,
         lifecycleEventHookExecutionId: Swift.String? = nil,
         status: CodeDeployClientTypes.LifecycleEventStatus? = nil
@@ -15062,7 +14844,7 @@ extension PutLifecycleEventHookExecutionStatusInputBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -15073,43 +14855,26 @@ extension PutLifecycleEventHookExecutionStatusInputBody: Swift.Decodable {
     }
 }
 
-extension PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutLifecycleEventHookExecutionStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLifecycleEventHookExecutionIdException" : self = .invalidLifecycleEventHookExecutionIdException(try InvalidLifecycleEventHookExecutionIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLifecycleEventHookExecutionStatusException" : self = .invalidLifecycleEventHookExecutionStatusException(try InvalidLifecycleEventHookExecutionStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LifecycleEventAlreadyCompletedException" : self = .lifecycleEventAlreadyCompletedException(try LifecycleEventAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLifecycleEventHookExecutionIdException": return try await InvalidLifecycleEventHookExecutionIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLifecycleEventHookExecutionStatusException": return try await InvalidLifecycleEventHookExecutionStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LifecycleEventAlreadyCompletedException": return try await LifecycleEventAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutLifecycleEventHookExecutionStatusOutputError: Swift.Error, Swift.Equatable {
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case invalidLifecycleEventHookExecutionIdException(InvalidLifecycleEventHookExecutionIdException)
-    case invalidLifecycleEventHookExecutionStatusException(InvalidLifecycleEventHookExecutionStatusException)
-    case lifecycleEventAlreadyCompletedException(LifecycleEventAlreadyCompletedException)
-    case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutLifecycleEventHookExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutLifecycleEventHookExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycleEventHookExecutionId = output.lifecycleEventHookExecutionId
@@ -15123,7 +14888,7 @@ public struct PutLifecycleEventHookExecutionStatusOutputResponse: Swift.Equatabl
     /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
     public var lifecycleEventHookExecutionId: Swift.String?
 
-    public init (
+    public init(
         lifecycleEventHookExecutionId: Swift.String? = nil
     )
     {
@@ -15140,7 +14905,7 @@ extension PutLifecycleEventHookExecutionStatusOutputResponseBody: Swift.Decodabl
         case lifecycleEventHookExecutionId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleEventHookExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleEventHookExecutionId)
         lifecycleEventHookExecutionId = lifecycleEventHookExecutionIdDecoded
@@ -15163,7 +14928,7 @@ extension CodeDeployClientTypes.RawString: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
         content = contentDecoded
@@ -15181,7 +14946,7 @@ extension CodeDeployClientTypes {
         /// The SHA256 hash value of the revision content.
         public var sha256: Swift.String?
 
-        public init (
+        public init(
             content: Swift.String? = nil,
             sha256: Swift.String? = nil
         )
@@ -15231,7 +14996,7 @@ public struct RegisterApplicationRevisionInput: Swift.Equatable {
     /// This member is required.
     public var revision: CodeDeployClientTypes.RevisionLocation?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         revision: CodeDeployClientTypes.RevisionLocation? = nil
@@ -15256,7 +15021,7 @@ extension RegisterApplicationRevisionInputBody: Swift.Decodable {
         case revision
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -15267,46 +15032,30 @@ extension RegisterApplicationRevisionInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterApplicationRevisionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DescriptionTooLongException" : self = .descriptionTooLongException(try DescriptionTooLongException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DescriptionTooLongException": return try await DescriptionTooLongException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionException": return try await InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionRequiredException": return try await RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterApplicationRevisionOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case descriptionTooLongException(DescriptionTooLongException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidRevisionException(InvalidRevisionException)
-    case revisionRequiredException(RevisionRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterApplicationRevisionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RegisterOnPremisesInstanceInput: Swift.Encodable {
@@ -15346,7 +15095,7 @@ public struct RegisterOnPremisesInstanceInput: Swift.Equatable {
     /// This member is required.
     public var instanceName: Swift.String?
 
-    public init (
+    public init(
         iamSessionArn: Swift.String? = nil,
         iamUserArn: Swift.String? = nil,
         instanceName: Swift.String? = nil
@@ -15371,7 +15120,7 @@ extension RegisterOnPremisesInstanceInputBody: Swift.Decodable {
         case instanceName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
         instanceName = instanceNameDecoded
@@ -15382,54 +15131,34 @@ extension RegisterOnPremisesInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterOnPremisesInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "IamArnRequiredException" : self = .iamArnRequiredException(try IamArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "IamSessionArnAlreadyRegisteredException" : self = .iamSessionArnAlreadyRegisteredException(try IamSessionArnAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "IamUserArnAlreadyRegisteredException" : self = .iamUserArnAlreadyRegisteredException(try IamUserArnAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "IamUserArnRequiredException" : self = .iamUserArnRequiredException(try IamUserArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNameAlreadyRegisteredException" : self = .instanceNameAlreadyRegisteredException(try InstanceNameAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidIamSessionArnException" : self = .invalidIamSessionArnException(try InvalidIamSessionArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidIamUserArnException" : self = .invalidIamUserArnException(try InvalidIamUserArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "MultipleIamArnsProvidedException" : self = .multipleIamArnsProvidedException(try MultipleIamArnsProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IamArnRequiredException": return try await IamArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IamSessionArnAlreadyRegisteredException": return try await IamSessionArnAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IamUserArnAlreadyRegisteredException": return try await IamUserArnAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IamUserArnRequiredException": return try await IamUserArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameAlreadyRegisteredException": return try await InstanceNameAlreadyRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidIamSessionArnException": return try await InvalidIamSessionArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidIamUserArnException": return try await InvalidIamUserArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MultipleIamArnsProvidedException": return try await MultipleIamArnsProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable {
-    case iamArnRequiredException(IamArnRequiredException)
-    case iamSessionArnAlreadyRegisteredException(IamSessionArnAlreadyRegisteredException)
-    case iamUserArnAlreadyRegisteredException(IamUserArnAlreadyRegisteredException)
-    case iamUserArnRequiredException(IamUserArnRequiredException)
-    case instanceNameAlreadyRegisteredException(InstanceNameAlreadyRegisteredException)
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case invalidIamSessionArnException(InvalidIamSessionArnException)
-    case invalidIamUserArnException(InvalidIamUserArnException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case multipleIamArnsProvidedException(MultipleIamArnsProvidedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RegisterOnPremisesInstanceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CodeDeployClientTypes {
@@ -15483,7 +15212,7 @@ extension CodeDeployClientTypes.RelatedDeployments: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoUpdateOutdatedInstancesRootDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoUpdateOutdatedInstancesRootDeploymentId)
         autoUpdateOutdatedInstancesRootDeploymentId = autoUpdateOutdatedInstancesRootDeploymentIdDecoded
@@ -15509,7 +15238,7 @@ extension CodeDeployClientTypes {
         /// The deployment ID of the root deployment that triggered this deployment.
         public var autoUpdateOutdatedInstancesRootDeploymentId: Swift.String?
 
-        public init (
+        public init(
             autoUpdateOutdatedInstancesDeploymentIds: [Swift.String]? = nil,
             autoUpdateOutdatedInstancesRootDeploymentId: Swift.String? = nil
         )
@@ -15559,7 +15288,7 @@ public struct RemoveTagsFromOnPremisesInstancesInput: Swift.Equatable {
     /// This member is required.
     public var tags: [CodeDeployClientTypes.Tag]?
 
-    public init (
+    public init(
         instanceNames: [Swift.String]? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil
     )
@@ -15580,7 +15309,7 @@ extension RemoveTagsFromOnPremisesInstancesInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeDeployClientTypes.Tag]? = nil
@@ -15607,83 +15336,70 @@ extension RemoveTagsFromOnPremisesInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RemoveTagsFromOnPremisesInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceLimitExceededException" : self = .instanceLimitExceededException(try InstanceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNotRegisteredException" : self = .instanceNotRegisteredException(try InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagLimitExceededException" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceLimitExceededException": return try await InstanceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNameRequiredException": return try await InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotRegisteredException": return try await InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceNameException": return try await InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagLimitExceededException": return try await TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagRequiredException": return try await TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RemoveTagsFromOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
-    case instanceLimitExceededException(InstanceLimitExceededException)
-    case instanceNameRequiredException(InstanceNameRequiredException)
-    case instanceNotRegisteredException(InstanceNotRegisteredException)
-    case invalidInstanceNameException(InvalidInstanceNameException)
-    case invalidTagException(InvalidTagException)
-    case tagLimitExceededException(TagLimitExceededException)
-    case tagRequiredException(TagRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemoveTagsFromOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RemoveTagsFromOnPremisesInstancesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResourceArnRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceArnRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The ARN of a resource is required, but was not found.
-public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceArnRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15696,7 +15412,7 @@ extension ResourceArnRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15704,38 +15420,42 @@ extension ResourceArnRequiredExceptionBody: Swift.Decodable {
 }
 
 extension ResourceValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource could not be validated.
-public struct ResourceValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ResourceValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15748,7 +15468,7 @@ extension ResourceValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15756,38 +15476,42 @@ extension ResourceValidationExceptionBody: Swift.Decodable {
 }
 
 extension RevisionDoesNotExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RevisionDoesNotExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The named revision does not exist with the IAM user or Amazon Web Services account.
-public struct RevisionDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RevisionDoesNotExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15800,7 +15524,7 @@ extension RevisionDoesNotExistExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15823,7 +15547,7 @@ extension CodeDeployClientTypes.RevisionInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let revisionLocationDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.RevisionLocation.self, forKey: .revisionLocation)
         revisionLocation = revisionLocationDecoded
@@ -15840,7 +15564,7 @@ extension CodeDeployClientTypes {
         /// Information about the location and type of an application revision.
         public var revisionLocation: CodeDeployClientTypes.RevisionLocation?
 
-        public init (
+        public init(
             genericRevisionInfo: CodeDeployClientTypes.GenericRevisionInfo? = nil,
             revisionLocation: CodeDeployClientTypes.RevisionLocation? = nil
         )
@@ -15880,7 +15604,7 @@ extension CodeDeployClientTypes.RevisionLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let revisionTypeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.RevisionLocationType.self, forKey: .revisionType)
         revisionType = revisionTypeDecoded
@@ -15918,7 +15642,7 @@ extension CodeDeployClientTypes {
         @available(*, deprecated, message: "RawString and String revision type are deprecated, use AppSpecContent type instead.")
         public var string: CodeDeployClientTypes.RawString?
 
-        public init (
+        public init(
             appSpecContent: CodeDeployClientTypes.AppSpecContent? = nil,
             gitHubLocation: CodeDeployClientTypes.GitHubLocation? = nil,
             revisionType: CodeDeployClientTypes.RevisionLocationType? = nil,
@@ -15975,38 +15699,42 @@ extension CodeDeployClientTypes {
 }
 
 extension RevisionRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RevisionRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The revision ID was not specified.
-public struct RevisionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct RevisionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RevisionRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16019,7 +15747,7 @@ extension RevisionRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16027,38 +15755,42 @@ extension RevisionRequiredExceptionBody: Swift.Decodable {
 }
 
 extension RoleRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RoleRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The role ID was not specified.
-public struct RoleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct RoleRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RoleRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16071,7 +15803,7 @@ extension RoleRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16098,7 +15830,7 @@ extension CodeDeployClientTypes.RollbackInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rollbackDeploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rollbackDeploymentId)
         rollbackDeploymentId = rollbackDeploymentIdDecoded
@@ -16119,7 +15851,7 @@ extension CodeDeployClientTypes {
         /// The deployment ID of the deployment that was underway and triggered a rollback deployment because it failed or was stopped.
         public var rollbackTriggeringDeploymentId: Swift.String?
 
-        public init (
+        public init(
             rollbackDeploymentId: Swift.String? = nil,
             rollbackMessage: Swift.String? = nil,
             rollbackTriggeringDeploymentId: Swift.String? = nil
@@ -16161,7 +15893,7 @@ extension CodeDeployClientTypes.S3Location: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
@@ -16196,7 +15928,7 @@ extension CodeDeployClientTypes {
         /// A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system uses the most recent version by default.
         public var version: Swift.String?
 
-        public init (
+        public init(
             bucket: Swift.String? = nil,
             bundleType: CodeDeployClientTypes.BundleType? = nil,
             eTag: Swift.String? = nil,
@@ -16237,7 +15969,7 @@ public struct SkipWaitTimeForInstanceTerminationInput: Swift.Equatable {
     /// The unique ID of a blue/green deployment for which you want to skip the instance termination wait time.
     public var deploymentId: Swift.String?
 
-    public init (
+    public init(
         deploymentId: Swift.String? = nil
     )
     {
@@ -16254,53 +15986,37 @@ extension SkipWaitTimeForInstanceTerminationInputBody: Swift.Decodable {
         case deploymentId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
     }
 }
 
-extension SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SkipWaitTimeForInstanceTerminationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentAlreadyCompletedException" : self = .deploymentAlreadyCompletedException(try DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentAlreadyCompletedException": return try await DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentNotStartedException": return try await DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SkipWaitTimeForInstanceTerminationOutputError: Swift.Error, Swift.Equatable {
-    case deploymentAlreadyCompletedException(DeploymentAlreadyCompletedException)
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case deploymentNotStartedException(DeploymentNotStartedException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SkipWaitTimeForInstanceTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SkipWaitTimeForInstanceTerminationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CodeDeployClientTypes {
@@ -16366,7 +16082,7 @@ public struct StopDeploymentInput: Swift.Equatable {
     /// This member is required.
     public var deploymentId: Swift.String?
 
-    public init (
+    public init(
         autoRollbackEnabled: Swift.Bool? = nil,
         deploymentId: Swift.String? = nil
     )
@@ -16387,7 +16103,7 @@ extension StopDeploymentInputBody: Swift.Decodable {
         case deploymentId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
         deploymentId = deploymentIdDecoded
@@ -16396,41 +16112,25 @@ extension StopDeploymentInputBody: Swift.Decodable {
     }
 }
 
-extension StopDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopDeploymentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DeploymentAlreadyCompletedException" : self = .deploymentAlreadyCompletedException(try DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeploymentAlreadyCompletedException": return try await DeploymentAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentDoesNotExistException": return try await DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentIdRequiredException": return try await DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentIdException": return try await InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedActionForDeploymentTypeException": return try await UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopDeploymentOutputError: Swift.Error, Swift.Equatable {
-    case deploymentAlreadyCompletedException(DeploymentAlreadyCompletedException)
-    case deploymentDoesNotExistException(DeploymentDoesNotExistException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case deploymentIdRequiredException(DeploymentIdRequiredException)
-    case invalidDeploymentIdException(InvalidDeploymentIdException)
-    case unsupportedActionForDeploymentTypeException(UnsupportedActionForDeploymentTypeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
@@ -16453,7 +16153,7 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
     /// An accompanying status message.
     public var statusMessage: Swift.String?
 
-    public init (
+    public init(
         status: CodeDeployClientTypes.StopStatus? = nil,
         statusMessage: Swift.String? = nil
     )
@@ -16474,7 +16174,7 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
         case statusMessage
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.StopStatus.self, forKey: .status)
         status = statusDecoded
@@ -16531,7 +16231,7 @@ extension CodeDeployClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -16548,7 +16248,7 @@ extension CodeDeployClientTypes {
         /// The tag's value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -16580,7 +16280,7 @@ extension CodeDeployClientTypes.TagFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -16607,7 +16307,7 @@ extension CodeDeployClientTypes {
         /// The on-premises instance tag filter value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             type: CodeDeployClientTypes.TagFilterType? = nil,
             value: Swift.String? = nil
@@ -16657,38 +16357,42 @@ extension CodeDeployClientTypes {
 }
 
 extension TagLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum allowed number of tags was exceeded.
-public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16701,7 +16405,7 @@ extension TagLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16709,38 +16413,42 @@ extension TagLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension TagRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagRequiredExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A tag was not specified.
-public struct TagRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct TagRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16753,7 +16461,7 @@ extension TagRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16794,7 +16502,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [CodeDeployClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil
     )
@@ -16815,7 +16523,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -16833,85 +16541,71 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ArnNotSupportedException" : self = .arnNotSupportedException(try ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ArnNotSupportedException": return try await ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagsToAddException": return try await InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagRequiredException": return try await TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case arnNotSupportedException(ArnNotSupportedException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case invalidArnException(InvalidArnException)
-    case invalidTagsToAddException(InvalidTagsToAddException)
-    case resourceArnRequiredException(ResourceArnRequiredException)
-    case tagRequiredException(TagRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TagSetListLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TagSetListLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
-public struct TagSetListLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct TagSetListLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TagSetListLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16924,7 +16618,7 @@ extension TagSetListLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16975,7 +16669,7 @@ extension CodeDeployClientTypes.TargetGroupInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -16988,7 +16682,7 @@ extension CodeDeployClientTypes {
         /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment are registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -17021,7 +16715,7 @@ extension CodeDeployClientTypes.TargetGroupPairInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetGroupsContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.TargetGroupInfo?].self, forKey: .targetGroups)
         var targetGroupsDecoded0:[CodeDeployClientTypes.TargetGroupInfo]? = nil
@@ -17051,7 +16745,7 @@ extension CodeDeployClientTypes {
         /// An optional path used by a load balancer to route test traffic after an Amazon ECS deployment. Validation can occur while test traffic is served during a deployment.
         public var testTrafficRoute: CodeDeployClientTypes.TrafficRoute?
 
-        public init (
+        public init(
             prodTrafficRoute: CodeDeployClientTypes.TrafficRoute? = nil,
             targetGroups: [CodeDeployClientTypes.TargetGroupInfo]? = nil,
             testTrafficRoute: CodeDeployClientTypes.TrafficRoute? = nil
@@ -17091,7 +16785,7 @@ extension CodeDeployClientTypes.TargetInstances: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagFiltersContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.EC2TagFilter?].self, forKey: .tagFilters)
         var tagFiltersDecoded0:[CodeDeployClientTypes.EC2TagFilter]? = nil
@@ -17130,7 +16824,7 @@ extension CodeDeployClientTypes {
         /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment. Cannot be used in the same call as ec2TagSet.
         public var tagFilters: [CodeDeployClientTypes.EC2TagFilter]?
 
-        public init (
+        public init(
             autoScalingGroups: [Swift.String]? = nil,
             ec2TagSet: CodeDeployClientTypes.EC2TagSet? = nil,
             tagFilters: [CodeDeployClientTypes.EC2TagFilter]? = nil
@@ -17224,38 +16918,42 @@ extension CodeDeployClientTypes {
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An API function was called too frequently.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17268,7 +16966,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17291,7 +16989,7 @@ extension CodeDeployClientTypes.TimeBasedCanary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let canaryPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .canaryPercentage) ?? 0
         canaryPercentage = canaryPercentageDecoded
@@ -17308,7 +17006,7 @@ extension CodeDeployClientTypes {
         /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
         public var canaryPercentage: Swift.Int
 
-        public init (
+        public init(
             canaryInterval: Swift.Int = 0,
             canaryPercentage: Swift.Int = 0
         )
@@ -17336,7 +17034,7 @@ extension CodeDeployClientTypes.TimeBasedLinear: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let linearPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .linearPercentage) ?? 0
         linearPercentage = linearPercentageDecoded
@@ -17353,7 +17051,7 @@ extension CodeDeployClientTypes {
         /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
         public var linearPercentage: Swift.Int
 
-        public init (
+        public init(
             linearInterval: Swift.Int = 0,
             linearPercentage: Swift.Int = 0
         )
@@ -17381,7 +17079,7 @@ extension CodeDeployClientTypes.TimeRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .start)
         start = startDecoded
@@ -17398,7 +17096,7 @@ extension CodeDeployClientTypes {
         /// The start time of the time range. Specify null to leave the start time open-ended.
         public var start: ClientRuntime.Date?
 
-        public init (
+        public init(
             end: ClientRuntime.Date? = nil,
             start: ClientRuntime.Date? = nil
         )
@@ -17425,7 +17123,7 @@ extension CodeDeployClientTypes.TrafficRoute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let listenerArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .listenerArns)
         var listenerArnsDecoded0:[Swift.String]? = nil
@@ -17447,7 +17145,7 @@ extension CodeDeployClientTypes {
         /// The Amazon Resource Name (ARN) of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one.
         public var listenerArns: [Swift.String]?
 
-        public init (
+        public init(
             listenerArns: [Swift.String]? = nil
         )
         {
@@ -17477,7 +17175,7 @@ extension CodeDeployClientTypes.TrafficRoutingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.TrafficRoutingType.self, forKey: .type)
         type = typeDecoded
@@ -17498,7 +17196,7 @@ extension CodeDeployClientTypes {
         /// The type of traffic shifting (TimeBasedCanary or TimeBasedLinear) used by a deployment configuration.
         public var type: CodeDeployClientTypes.TrafficRoutingType?
 
-        public init (
+        public init(
             timeBasedCanary: CodeDeployClientTypes.TimeBasedCanary? = nil,
             timeBasedLinear: CodeDeployClientTypes.TimeBasedLinear? = nil,
             type: CodeDeployClientTypes.TrafficRoutingType? = nil
@@ -17570,7 +17268,7 @@ extension CodeDeployClientTypes.TriggerConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let triggerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .triggerName)
         triggerName = triggerNameDecoded
@@ -17600,7 +17298,7 @@ extension CodeDeployClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic through which notifications about deployment or instance events are sent.
         public var triggerTargetArn: Swift.String?
 
-        public init (
+        public init(
             triggerEvents: [CodeDeployClientTypes.TriggerEventType]? = nil,
             triggerName: Swift.String? = nil,
             triggerTargetArn: Swift.String? = nil
@@ -17671,38 +17369,42 @@ extension CodeDeployClientTypes {
 }
 
 extension TriggerTargetsLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TriggerTargetsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The maximum allowed number of triggers was exceeded.
-public struct TriggerTargetsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct TriggerTargetsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TriggerTargetsLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17715,7 +17417,7 @@ extension TriggerTargetsLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17723,38 +17425,42 @@ extension TriggerTargetsLimitExceededExceptionBody: Swift.Decodable {
 }
 
 extension UnsupportedActionForDeploymentTypeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedActionForDeploymentTypeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A call was submitted that is not supported for the specified deployment type.
-public struct UnsupportedActionForDeploymentTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The message that corresponds to the exception thrown by CodeDeploy.
-    public var message: Swift.String?
+public struct UnsupportedActionForDeploymentTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedActionForDeploymentTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17767,7 +17473,7 @@ extension UnsupportedActionForDeploymentTypeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17808,7 +17514,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -17829,7 +17535,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -17847,50 +17553,32 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ArnNotSupportedException" : self = .arnNotSupportedException(try ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ArnNotSupportedException": return try await ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArnException": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagsToAddException": return try await InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagRequiredException": return try await TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case arnNotSupportedException(ArnNotSupportedException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case invalidArnException(InvalidArnException)
-    case invalidTagsToAddException(InvalidTagsToAddException)
-    case resourceArnRequiredException(ResourceArnRequiredException)
-    case tagRequiredException(TagRequiredException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateApplicationInput: Swift.Encodable {
@@ -17923,7 +17611,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     /// The new name to give the application.
     public var newApplicationName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         newApplicationName: Swift.String? = nil
     )
@@ -17944,7 +17632,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case newApplicationName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -17953,42 +17641,28 @@ extension UpdateApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ApplicationAlreadyExistsException" : self = .applicationAlreadyExistsException(try ApplicationAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApplicationAlreadyExistsException": return try await ApplicationAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case applicationAlreadyExistsException(ApplicationAlreadyExistsException)
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateDeploymentGroupInput: Swift.Encodable {
@@ -18138,7 +17812,7 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
     /// Information about triggers to change when the deployment group is updated. For examples, see [Edit a Trigger in a CodeDeploy Deployment Group](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
-    public init (
+    public init(
         alarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
         applicationName: Swift.String? = nil,
         autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
@@ -18223,7 +17897,7 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
         case triggerConfigurations
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -18309,91 +17983,50 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDeploymentGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlarmsLimitExceededException" : self = .alarmsLimitExceededException(try AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentConfigDoesNotExistException" : self = .deploymentConfigDoesNotExistException(try DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupAlreadyExistsException" : self = .deploymentGroupAlreadyExistsException(try DeploymentGroupAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupDoesNotExistException" : self = .deploymentGroupDoesNotExistException(try DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ECSServiceMappingLimitExceededException" : self = .eCSServiceMappingLimitExceededException(try ECSServiceMappingLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAlarmConfigException" : self = .invalidAlarmConfigException(try InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoRollbackConfigException" : self = .invalidAutoRollbackConfigException(try InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidAutoScalingGroupException" : self = .invalidAutoScalingGroupException(try InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidBlueGreenDeploymentConfigurationException" : self = .invalidBlueGreenDeploymentConfigurationException(try InvalidBlueGreenDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidDeploymentStyleException" : self = .invalidDeploymentStyleException(try InvalidDeploymentStyleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEC2TagCombinationException" : self = .invalidEC2TagCombinationException(try InvalidEC2TagCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEC2TagException" : self = .invalidEC2TagException(try InvalidEC2TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidECSServiceException" : self = .invalidECSServiceException(try InvalidECSServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidLoadBalancerInfoException" : self = .invalidLoadBalancerInfoException(try InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidOnPremisesTagCombinationException" : self = .invalidOnPremisesTagCombinationException(try InvalidOnPremisesTagCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTargetGroupPairException" : self = .invalidTargetGroupPairException(try InvalidTargetGroupPairException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTrafficRoutingConfigurationException" : self = .invalidTrafficRoutingConfigurationException(try InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidTriggerConfigException" : self = .invalidTriggerConfigException(try InvalidTriggerConfigException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LifecycleHookLimitExceededException" : self = .lifecycleHookLimitExceededException(try LifecycleHookLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TagSetListLimitExceededException" : self = .tagSetListLimitExceededException(try TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TriggerTargetsLimitExceededException" : self = .triggerTargetsLimitExceededException(try TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AlarmsLimitExceededException": return try await AlarmsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationDoesNotExistException": return try await ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApplicationNameRequiredException": return try await ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentConfigDoesNotExistException": return try await DeploymentConfigDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupAlreadyExistsException": return try await DeploymentGroupAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupDoesNotExistException": return try await DeploymentGroupDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DeploymentGroupNameRequiredException": return try await DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ECSServiceMappingLimitExceededException": return try await ECSServiceMappingLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAlarmConfigException": return try await InvalidAlarmConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationNameException": return try await InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoRollbackConfigException": return try await InvalidAutoRollbackConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAutoScalingGroupException": return try await InvalidAutoScalingGroupException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidBlueGreenDeploymentConfigurationException": return try await InvalidBlueGreenDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentGroupNameException": return try await InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeploymentStyleException": return try await InvalidDeploymentStyleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEC2TagCombinationException": return try await InvalidEC2TagCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEC2TagException": return try await InvalidEC2TagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidECSServiceException": return try await InvalidECSServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLoadBalancerInfoException": return try await InvalidLoadBalancerInfoException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidOnPremisesTagCombinationException": return try await InvalidOnPremisesTagCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTargetGroupPairException": return try await InvalidTargetGroupPairException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTriggerConfigException": return try await InvalidTriggerConfigException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LifecycleHookLimitExceededException": return try await LifecycleHookLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagSetListLimitExceededException": return try await TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TriggerTargetsLimitExceededException": return try await TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
-    case alarmsLimitExceededException(AlarmsLimitExceededException)
-    case applicationDoesNotExistException(ApplicationDoesNotExistException)
-    case applicationNameRequiredException(ApplicationNameRequiredException)
-    case deploymentConfigDoesNotExistException(DeploymentConfigDoesNotExistException)
-    case deploymentGroupAlreadyExistsException(DeploymentGroupAlreadyExistsException)
-    case deploymentGroupDoesNotExistException(DeploymentGroupDoesNotExistException)
-    case deploymentGroupNameRequiredException(DeploymentGroupNameRequiredException)
-    case eCSServiceMappingLimitExceededException(ECSServiceMappingLimitExceededException)
-    case invalidAlarmConfigException(InvalidAlarmConfigException)
-    case invalidApplicationNameException(InvalidApplicationNameException)
-    case invalidAutoRollbackConfigException(InvalidAutoRollbackConfigException)
-    case invalidAutoScalingGroupException(InvalidAutoScalingGroupException)
-    case invalidBlueGreenDeploymentConfigurationException(InvalidBlueGreenDeploymentConfigurationException)
-    case invalidDeploymentConfigNameException(InvalidDeploymentConfigNameException)
-    case invalidDeploymentGroupNameException(InvalidDeploymentGroupNameException)
-    case invalidDeploymentStyleException(InvalidDeploymentStyleException)
-    case invalidEC2TagCombinationException(InvalidEC2TagCombinationException)
-    case invalidEC2TagException(InvalidEC2TagException)
-    case invalidECSServiceException(InvalidECSServiceException)
-    case invalidInputException(InvalidInputException)
-    case invalidLoadBalancerInfoException(InvalidLoadBalancerInfoException)
-    case invalidOnPremisesTagCombinationException(InvalidOnPremisesTagCombinationException)
-    case invalidRoleException(InvalidRoleException)
-    case invalidTagException(InvalidTagException)
-    case invalidTargetGroupPairException(InvalidTargetGroupPairException)
-    case invalidTrafficRoutingConfigurationException(InvalidTrafficRoutingConfigurationException)
-    case invalidTriggerConfigException(InvalidTriggerConfigException)
-    case lifecycleHookLimitExceededException(LifecycleHookLimitExceededException)
-    case tagSetListLimitExceededException(TagSetListLimitExceededException)
-    case throttlingException(ThrottlingException)
-    case triggerTargetsLimitExceededException(TriggerTargetsLimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hooksNotCleanedUp = output.hooksNotCleanedUp
@@ -18408,7 +18041,7 @@ public struct UpdateDeploymentGroupOutputResponse: Swift.Equatable {
     /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon Web Services account. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon Web Services account.
     public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
 
-    public init (
+    public init(
         hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]? = nil
     )
     {
@@ -18425,7 +18058,7 @@ extension UpdateDeploymentGroupOutputResponseBody: Swift.Decodable {
         case hooksNotCleanedUp
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hooksNotCleanedUpContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.AutoScalingGroup?].self, forKey: .hooksNotCleanedUp)
         var hooksNotCleanedUpDecoded0:[CodeDeployClientTypes.AutoScalingGroup]? = nil

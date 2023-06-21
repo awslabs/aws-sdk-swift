@@ -363,7 +363,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeImagesInput, result: Result<DescribeImagesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidAMIID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidAMIID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeImagesInput, DescribeImagesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -448,7 +448,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidInstanceID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidInstanceID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -546,7 +546,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidInstanceID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidInstanceID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -737,7 +737,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInstanceStatusInput, result: Result<DescribeInstanceStatusOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidInstanceID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidInstanceID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeInstanceStatusInput, DescribeInstanceStatusOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -813,7 +813,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeInternetGatewaysInput, result: Result<DescribeInternetGatewaysOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidInternetGateway.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidInternetGateway.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -854,7 +854,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeKeyPairsInput, result: Result<DescribeKeyPairsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidKeyPair.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidKeyPair.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeKeyPairsInput, DescribeKeyPairsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -928,7 +928,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeNatGatewaysInput, result: Result<DescribeNatGatewaysOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NatGatewayNotFound"
+                return (error as? ServiceError)?.typeName == "NatGatewayNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeNatGatewaysInput, DescribeNatGatewaysOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -966,7 +966,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeNatGatewaysInput, result: Result<DescribeNatGatewaysOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NatGatewayNotFound"
+                return (error as? ServiceError)?.typeName == "NatGatewayNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeNatGatewaysInput, DescribeNatGatewaysOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1004,7 +1004,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeNetworkInterfacesInput, result: Result<DescribeNetworkInterfacesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidNetworkInterfaceID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidNetworkInterfaceID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
@@ -1045,7 +1045,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeSecurityGroupsInput, result: Result<DescribeSecurityGroupsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidGroup.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidGroup.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -1195,7 +1195,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeSpotInstanceRequestsInput, result: Result<DescribeSpotInstanceRequestsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidSpotInstanceRequestID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidSpotInstanceRequestID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1313,7 +1313,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeVolumesInput, result: Result<DescribeVolumesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidVolume.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidVolume.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeVolumesInput, DescribeVolumesOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1398,7 +1398,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeVpcPeeringConnectionsInput, result: Result<DescribeVpcPeeringConnectionsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidVpcPeeringConnectionID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidVpcPeeringConnectionID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1430,7 +1430,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeVpcPeeringConnectionsInput, result: Result<DescribeVpcPeeringConnectionsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidVpcPeeringConnectionID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidVpcPeeringConnectionID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1496,7 +1496,7 @@ extension EC2ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeVpcsInput, result: Result<DescribeVpcsOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvalidVpcID.NotFound"
+                return (error as? ServiceError)?.typeName == "InvalidVpcID.NotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeVpcsInput, DescribeVpcsOutputResponse>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)

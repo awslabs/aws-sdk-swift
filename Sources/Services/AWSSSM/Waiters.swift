@@ -72,7 +72,7 @@ extension SSMClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: GetCommandInvocationInput, result: Result<GetCommandInvocationOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InvocationDoesNotExist"
+                return (error as? ServiceError)?.typeName == "InvocationDoesNotExist"
             }),
         ]
         return try WaiterConfiguration<GetCommandInvocationInput, GetCommandInvocationOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)

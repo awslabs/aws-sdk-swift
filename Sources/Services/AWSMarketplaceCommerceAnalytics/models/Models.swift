@@ -221,7 +221,7 @@ public struct GenerateDataSetInput: Swift.Equatable {
     /// This member is required.
     public var snsTopicArn: Swift.String?
 
-    public init (
+    public init(
         customerDefinedValues: [Swift.String:Swift.String]? = nil,
         dataSetPublicationDate: ClientRuntime.Date? = nil,
         dataSetType: MarketplaceCommerceAnalyticsClientTypes.DataSetType? = nil,
@@ -262,7 +262,7 @@ extension GenerateDataSetInputBody: Swift.Decodable {
         case snsTopicArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetTypeDecoded = try containerValues.decodeIfPresent(MarketplaceCommerceAnalyticsClientTypes.DataSetType.self, forKey: .dataSetType)
         dataSetType = dataSetTypeDecoded
@@ -290,31 +290,20 @@ extension GenerateDataSetInputBody: Swift.Decodable {
     }
 }
 
-extension GenerateDataSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GenerateDataSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "MarketplaceCommerceAnalyticsException" : self = .marketplaceCommerceAnalyticsException(try MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GenerateDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GenerateDataSetOutputError: Swift.Error, Swift.Equatable {
-    case marketplaceCommerceAnalyticsException(MarketplaceCommerceAnalyticsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GenerateDataSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GenerateDataSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataSetRequestId = output.dataSetRequestId
@@ -329,7 +318,7 @@ public struct GenerateDataSetOutputResponse: Swift.Equatable {
     /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
-    public init (
+    public init(
         dataSetRequestId: Swift.String? = nil
     )
     {
@@ -346,7 +335,7 @@ extension GenerateDataSetOutputResponseBody: Swift.Decodable {
         case dataSetRequestId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetRequestId)
         dataSetRequestId = dataSetRequestIdDecoded
@@ -354,38 +343,42 @@ extension GenerateDataSetOutputResponseBody: Swift.Decodable {
 }
 
 extension MarketplaceCommerceAnalyticsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: MarketplaceCommerceAnalyticsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when an internal service error occurs.
-public struct MarketplaceCommerceAnalyticsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This message describes details of the error.
-    public var message: Swift.String?
+public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This message describes details of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MarketplaceCommerceAnalyticsException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -398,7 +391,7 @@ extension MarketplaceCommerceAnalyticsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -477,7 +470,7 @@ public struct StartSupportDataExportInput: Swift.Equatable {
     /// This member is required.
     public var snsTopicArn: Swift.String?
 
-    public init (
+    public init(
         customerDefinedValues: [Swift.String:Swift.String]? = nil,
         dataSetType: MarketplaceCommerceAnalyticsClientTypes.SupportDataSetType? = nil,
         destinationS3BucketName: Swift.String? = nil,
@@ -518,7 +511,7 @@ extension StartSupportDataExportInputBody: Swift.Decodable {
         case snsTopicArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetTypeDecoded = try containerValues.decodeIfPresent(MarketplaceCommerceAnalyticsClientTypes.SupportDataSetType.self, forKey: .dataSetType)
         dataSetType = dataSetTypeDecoded
@@ -546,31 +539,20 @@ extension StartSupportDataExportInputBody: Swift.Decodable {
     }
 }
 
-extension StartSupportDataExportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartSupportDataExportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "MarketplaceCommerceAnalyticsException" : self = .marketplaceCommerceAnalyticsException(try MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartSupportDataExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartSupportDataExportOutputError: Swift.Error, Swift.Equatable {
-    case marketplaceCommerceAnalyticsException(MarketplaceCommerceAnalyticsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartSupportDataExportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartSupportDataExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataSetRequestId = output.dataSetRequestId
@@ -585,7 +567,7 @@ public struct StartSupportDataExportOutputResponse: Swift.Equatable {
     /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
-    public init (
+    public init(
         dataSetRequestId: Swift.String? = nil
     )
     {
@@ -602,7 +584,7 @@ extension StartSupportDataExportOutputResponseBody: Swift.Decodable {
         case dataSetRequestId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetRequestId)
         dataSetRequestId = dataSetRequestIdDecoded

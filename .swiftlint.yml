@@ -16,6 +16,7 @@ disabled_rules:
   - syntactic_sugar
   - unused_capture_list
   - nesting
+  - operator_whitespace
   - large_tuple
 
 opt_in_rules:
@@ -32,6 +33,8 @@ empty_enum_arguments: error
 function_body_length:
   warning: 100
   error: 150
+generic_type_name:
+  max_length: 48
 identifier_name:
   excluded:
     - id

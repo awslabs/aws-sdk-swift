@@ -33,7 +33,7 @@ public protocol GroundStationClientProtocol {
     func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
     /// Returns the dataflow endpoint group.
     func getDataflowEndpointGroup(input: GetDataflowEndpointGroupInput) async throws -> GetDataflowEndpointGroupOutputResponse
-    /// Returns the number of minutes used by account.
+    /// Returns the number of reserved minutes used by account.
     func getMinuteUsage(input: GetMinuteUsageInput) async throws -> GetMinuteUsageOutputResponse
     /// Returns a mission profile.
     func getMissionProfile(input: GetMissionProfileInput) async throws -> GetMissionProfileOutputResponse

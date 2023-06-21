@@ -266,7 +266,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Creates a new custom action that can be used in all pipelines associated with the AWS account. Only used for custom actions.
+    /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
     public func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -414,7 +414,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Deletes a previously created webhook by name. Deleting the webhook stops AWS CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
+    /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
     public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -599,7 +599,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Returns information about a job. Used for custom actions only. When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
+    /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     public func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -747,7 +747,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
+    /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     public func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -821,7 +821,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Gets a summary of all AWS CodePipeline action types associated with your account.
+    /// Gets a summary of all CodePipeline action types associated with your account.
     public func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -969,7 +969,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
+    /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
     public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1006,7 +1006,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Returns information about any jobs for AWS CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains "AWS" or "ThirdParty" in the owner field, the PollForJobs action returns an error. When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
+    /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     public func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1043,7 +1043,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
+    /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
     public func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1080,7 +1080,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Provides information to AWS CodePipeline about new revisions to a source.
+    /// Provides information to CodePipeline about new revisions to a source.
     public func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1117,7 +1117,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Provides the response to a manual approval request to AWS CodePipeline. Valid responses include Approved and Rejected.
+    /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
     public func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1532,7 +1532,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         return result
     }
 
-    /// Removes tags from an AWS resource.
+    /// Removes tags from an Amazon Web Services resource.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

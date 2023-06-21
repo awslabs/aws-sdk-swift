@@ -29,7 +29,7 @@ extension WAFV2ClientTypes.APIKeySummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenDomains)
         var tokenDomainsDecoded0:[Swift.String]? = nil
@@ -63,7 +63,7 @@ extension WAFV2ClientTypes {
         /// Internal value used by WAF to manage the key.
         public var version: Swift.Int
 
-        public init (
+        public init(
             apiKey: Swift.String? = nil,
             creationTimestamp: ClientRuntime.Date? = nil,
             tokenDomains: [Swift.String]? = nil,
@@ -99,7 +99,7 @@ extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loginPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loginPath)
         loginPath = loginPathDecoded
@@ -121,7 +121,7 @@ extension WAFV2ClientTypes {
         /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates. The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses that submit too many failed login attempts in a short amount of time. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
         public var responseInspection: WAFV2ClientTypes.ResponseInspection?
 
-        public init (
+        public init(
             loginPath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspection? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
@@ -147,7 +147,7 @@ extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inspectionLevelDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.InspectionLevel.self, forKey: .inspectionLevel)
         inspectionLevel = inspectionLevelDecoded
@@ -161,7 +161,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var inspectionLevel: WAFV2ClientTypes.InspectionLevel?
 
-        public init (
+        public init(
             inspectionLevel: WAFV2ClientTypes.InspectionLevel? = nil
         )
         {
@@ -183,7 +183,7 @@ extension WAFV2ClientTypes.ActionCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ActionValue.self, forKey: .action)
         action = actionDecoded
@@ -197,7 +197,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var action: WAFV2ClientTypes.ActionValue?
 
-        public init (
+        public init(
             action: WAFV2ClientTypes.ActionValue? = nil
         )
         {
@@ -258,15 +258,15 @@ extension WAFV2ClientTypes.All: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect all of the elements that WAF has parsed and extracted from the web request component that you've identified in your [FieldToMatch] specifications. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "All": {}
+    /// Inspect all of the elements that WAF has parsed and extracted from the web request component that you've identified in your [FieldToMatch] specifications. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "All": {}
     public struct All: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -278,15 +278,15 @@ extension WAFV2ClientTypes.AllQueryArguments: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect all query arguments of the web request. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "AllQueryArguments": {}
+    /// Inspect all query arguments of the web request. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "AllQueryArguments": {}
     public struct AllQueryArguments: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -303,7 +303,7 @@ extension WAFV2ClientTypes.AllowAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRequestHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CustomRequestHandling.self, forKey: .customRequestHandling)
         customRequestHandling = customRequestHandlingDecoded
@@ -316,7 +316,7 @@ extension WAFV2ClientTypes {
         /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
-        public init (
+        public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
         )
         {
@@ -341,7 +341,7 @@ extension WAFV2ClientTypes.AndStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.Statement?].self, forKey: .statements)
         var statementsDecoded0:[WAFV2ClientTypes.Statement]? = nil
@@ -364,7 +364,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var statements: [WAFV2ClientTypes.Statement]?
 
-        public init (
+        public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
         )
         {
@@ -417,7 +417,7 @@ public struct AssociateWebACLInput: Swift.Equatable {
     /// This member is required.
     public var webACLArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         webACLArn: Swift.String? = nil
     )
@@ -438,7 +438,7 @@ extension AssociateWebACLInputBody: Swift.Decodable {
         case webACLArn = "WebACLArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webACLArn)
         webACLArn = webACLArnDecoded
@@ -447,44 +447,29 @@ extension AssociateWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AssociateWebACLOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WAFV2ClientTypes {
@@ -531,7 +516,7 @@ extension WAFV2ClientTypes.AssociationConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestBodyContainer = try containerValues.decodeIfPresent([Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig?].self, forKey: .requestBody)
         var requestBodyDecoded0: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
@@ -553,7 +538,7 @@ extension WAFV2ClientTypes {
         /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
         public var requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
 
-        public init (
+        public init(
             requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
         )
         {
@@ -575,7 +560,7 @@ extension WAFV2ClientTypes.BlockAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customResponseDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CustomResponse.self, forKey: .customResponse)
         customResponse = customResponseDecoded
@@ -588,7 +573,7 @@ extension WAFV2ClientTypes {
         /// Defines a custom response for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customResponse: WAFV2ClientTypes.CustomResponse?
 
-        public init (
+        public init(
             customResponse: WAFV2ClientTypes.CustomResponse? = nil
         )
         {
@@ -610,7 +595,7 @@ extension WAFV2ClientTypes.Body: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oversizeHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.OversizeHandling.self, forKey: .oversizeHandling)
         oversizeHandling = oversizeHandlingDecoded
@@ -622,7 +607,7 @@ extension WAFV2ClientTypes {
     public struct Body: Swift.Equatable {
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -632,7 +617,7 @@ extension WAFV2ClientTypes {
         /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit. Default: CONTINUE
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
-        public init (
+        public init(
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
         )
         {
@@ -704,7 +689,7 @@ extension WAFV2ClientTypes.ByteMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let searchStringDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .searchString)
         searchString = searchStringDecoded
@@ -748,6 +733,8 @@ extension WAFV2ClientTypes {
         ///
         /// * UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.
         ///
+        /// * HeaderOrder: The comma-separated list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
+        ///
         ///
         /// If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive. If you're using the WAF API Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString. If you're using the CLI or one of the Amazon Web Services SDKs The value that you want WAF to search for. The SDK automatically base64 encodes the value.
         /// This member is required.
@@ -756,7 +743,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             positionalConstraint: WAFV2ClientTypes.PositionalConstraint? = nil,
             searchString: ClientRuntime.Data? = nil,
@@ -784,7 +771,7 @@ extension WAFV2ClientTypes.CaptchaAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRequestHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CustomRequestHandling.self, forKey: .customRequestHandling)
         customRequestHandling = customRequestHandlingDecoded
@@ -813,7 +800,7 @@ extension WAFV2ClientTypes {
         /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
-        public init (
+        public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
         )
         {
@@ -835,7 +822,7 @@ extension WAFV2ClientTypes.CaptchaConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let immunityTimePropertyDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ImmunityTimeProperty.self, forKey: .immunityTimeProperty)
         immunityTimeProperty = immunityTimePropertyDecoded
@@ -848,7 +835,7 @@ extension WAFV2ClientTypes {
         /// Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
         public var immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty?
 
-        public init (
+        public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
         )
         {
@@ -878,7 +865,7 @@ extension WAFV2ClientTypes.CaptchaResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode)
         responseCode = responseCodeDecoded
@@ -899,7 +886,7 @@ extension WAFV2ClientTypes {
         /// The time that the CAPTCHA was last solved for the supplied token.
         public var solveTimestamp: Swift.Int?
 
-        public init (
+        public init(
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
@@ -925,7 +912,7 @@ extension WAFV2ClientTypes.ChallengeAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRequestHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CustomRequestHandling.self, forKey: .customRequestHandling)
         customRequestHandling = customRequestHandlingDecoded
@@ -954,7 +941,7 @@ extension WAFV2ClientTypes {
         /// Defines custom handling for the web request, used when the challenge inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
-        public init (
+        public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
         )
         {
@@ -976,7 +963,7 @@ extension WAFV2ClientTypes.ChallengeConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let immunityTimePropertyDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ImmunityTimeProperty.self, forKey: .immunityTimeProperty)
         immunityTimeProperty = immunityTimePropertyDecoded
@@ -989,7 +976,7 @@ extension WAFV2ClientTypes {
         /// Determines how long a challenge timestamp in the token remains valid after the client successfully responds to a challenge.
         public var immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty?
 
-        public init (
+        public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
         )
         {
@@ -1019,7 +1006,7 @@ extension WAFV2ClientTypes.ChallengeResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode)
         responseCode = responseCodeDecoded
@@ -1040,7 +1027,7 @@ extension WAFV2ClientTypes {
         /// The time that the challenge was last solved for the supplied token.
         public var solveTimestamp: Swift.Int?
 
-        public init (
+        public init(
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
@@ -1092,7 +1079,7 @@ public struct CheckCapacityInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
     )
@@ -1113,7 +1100,7 @@ extension CheckCapacityInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -1131,47 +1118,28 @@ extension CheckCapacityInputBody: Swift.Decodable {
     }
 }
 
-extension CheckCapacityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckCapacityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFExpiredManagedRuleGroupVersionException" : self = .wAFExpiredManagedRuleGroupVersionException(try WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFExpiredManagedRuleGroupVersionException": return try await WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckCapacityOutputError: Swift.Error, Swift.Equatable {
-    case wAFExpiredManagedRuleGroupVersionException(WAFExpiredManagedRuleGroupVersionException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacity = output.capacity
@@ -1185,7 +1153,7 @@ public struct CheckCapacityOutputResponse: Swift.Equatable {
     /// The capacity required by the rules and scope.
     public var capacity: Swift.Int
 
-    public init (
+    public init(
         capacity: Swift.Int = 0
     )
     {
@@ -1202,7 +1170,7 @@ extension CheckCapacityOutputResponseBody: Swift.Decodable {
         case capacity = "Capacity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
         capacity = capacityDecoded
@@ -1269,7 +1237,7 @@ extension WAFV2ClientTypes.Condition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionConditionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ActionCondition.self, forKey: .actionCondition)
         actionCondition = actionConditionDecoded
@@ -1286,7 +1254,7 @@ extension WAFV2ClientTypes {
         /// A single label name condition. This is the fully qualified label name that a log record must contain in order to meet the condition. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
         public var labelNameCondition: WAFV2ClientTypes.LabelNameCondition?
 
-        public init (
+        public init(
             actionCondition: WAFV2ClientTypes.ActionCondition? = nil,
             labelNameCondition: WAFV2ClientTypes.LabelNameCondition? = nil
         )
@@ -1324,7 +1292,7 @@ extension WAFV2ClientTypes.CookieMatchPattern: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.All.self, forKey: .all)
         all = allDecoded
@@ -1363,7 +1331,7 @@ extension WAFV2ClientTypes {
         /// Inspect only the cookies that have a key that matches one of the strings specified here.
         public var includedCookies: [Swift.String]?
 
-        public init (
+        public init(
             all: WAFV2ClientTypes.All? = nil,
             excludedCookies: [Swift.String]? = nil,
             includedCookies: [Swift.String]? = nil
@@ -1397,7 +1365,7 @@ extension WAFV2ClientTypes.Cookies: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let matchPatternDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CookieMatchPattern.self, forKey: .matchPattern)
         matchPattern = matchPatternDecoded
@@ -1417,9 +1385,9 @@ extension WAFV2ClientTypes {
         /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the cookies of the request are larger than WAF can inspect. WAF does not support inspecting the entire contents of request cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the cookies of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the cookies normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available cookies normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -1427,7 +1395,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
-        public init (
+        public init(
             matchPattern: WAFV2ClientTypes.CookieMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
@@ -1453,7 +1421,7 @@ extension WAFV2ClientTypes.CountAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customRequestHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CustomRequestHandling.self, forKey: .customRequestHandling)
         customRequestHandling = customRequestHandlingDecoded
@@ -1466,7 +1434,7 @@ extension WAFV2ClientTypes {
         /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
-        public init (
+        public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
         )
         {
@@ -2290,7 +2258,7 @@ public struct CreateAPIKeyInput: Swift.Equatable {
     /// This member is required.
     public var tokenDomains: [Swift.String]?
 
-    public init (
+    public init(
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil
     )
@@ -2311,7 +2279,7 @@ extension CreateAPIKeyInputBody: Swift.Decodable {
         case tokenDomains = "TokenDomains"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -2329,37 +2297,23 @@ extension CreateAPIKeyInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAPIKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAPIKeyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAPIKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAPIKeyOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAPIKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAPIKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKey = output.apiKey
@@ -2373,7 +2327,7 @@ public struct CreateAPIKeyOutputResponse: Swift.Equatable {
     /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
     public var apiKey: Swift.String?
 
-    public init (
+    public init(
         apiKey: Swift.String? = nil
     )
     {
@@ -2390,7 +2344,7 @@ extension CreateAPIKeyOutputResponseBody: Swift.Decodable {
         case apiKey = "APIKey"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
@@ -2483,7 +2437,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     /// An array of key:value pairs to associate with the resource.
     public var tags: [WAFV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         addresses: [Swift.String]? = nil,
         description: Swift.String? = nil,
         ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil,
@@ -2520,7 +2474,7 @@ extension CreateIPSetInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2555,45 +2509,27 @@ extension CreateIPSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateIPSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateIPSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateIPSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
@@ -2607,7 +2543,7 @@ public struct CreateIPSetOutputResponse: Swift.Equatable {
     /// High-level information about an [IPSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the [IPSetReferenceStatement] to use the address set in a [Rule].
     public var summary: WAFV2ClientTypes.IPSetSummary?
 
-    public init (
+    public init(
         summary: WAFV2ClientTypes.IPSetSummary? = nil
     )
     {
@@ -2624,7 +2560,7 @@ extension CreateIPSetOutputResponseBody: Swift.Decodable {
         case summary = "Summary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.IPSetSummary.self, forKey: .summary)
         summary = summaryDecoded
@@ -2691,7 +2627,7 @@ public struct CreateRegexPatternSetInput: Swift.Equatable {
     /// An array of key:value pairs to associate with the resource.
     public var tags: [WAFV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         regularExpressionList: [WAFV2ClientTypes.Regex]? = nil,
@@ -2724,7 +2660,7 @@ extension CreateRegexPatternSetInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2757,45 +2693,27 @@ extension CreateRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateRegexPatternSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateRegexPatternSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
@@ -2809,7 +2727,7 @@ public struct CreateRegexPatternSetOutputResponse: Swift.Equatable {
     /// High-level information about a [RegexPatternSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the [RegexPatternSetReferenceStatement] to use the pattern set in a [Rule].
     public var summary: WAFV2ClientTypes.RegexPatternSetSummary?
 
-    public init (
+    public init(
         summary: WAFV2ClientTypes.RegexPatternSetSummary? = nil
     )
     {
@@ -2826,7 +2744,7 @@ extension CreateRegexPatternSetOutputResponseBody: Swift.Decodable {
         case summary = "Summary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RegexPatternSetSummary.self, forKey: .summary)
         summary = summaryDecoded
@@ -2915,7 +2833,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     /// This member is required.
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-    public init (
+    public init(
         capacity: Swift.Int? = nil,
         customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]? = nil,
         description: Swift.String? = nil,
@@ -2960,7 +2878,7 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
         case visibilityConfig = "VisibilityConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3008,51 +2926,30 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateRuleGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateRuleGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateRuleGroupOutputError: Swift.Error, Swift.Equatable {
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
@@ -3066,7 +2963,7 @@ public struct CreateRuleGroupOutputResponse: Swift.Equatable {
     /// High-level information about a [RuleGroup], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the [RuleGroupReferenceStatement] to use the rule group in a [Rule].
     public var summary: WAFV2ClientTypes.RuleGroupSummary?
 
-    public init (
+    public init(
         summary: WAFV2ClientTypes.RuleGroupSummary? = nil
     )
     {
@@ -3083,7 +2980,7 @@ extension CreateRuleGroupOutputResponseBody: Swift.Decodable {
         case summary = "Summary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RuleGroupSummary.self, forKey: .summary)
         summary = summaryDecoded
@@ -3199,7 +3096,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     /// This member is required.
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-    public init (
+    public init(
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -3260,7 +3157,7 @@ extension CreateWebACLInputBody: Swift.Decodable {
         case visibilityConfig = "VisibilityConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3325,57 +3222,33 @@ extension CreateWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension CreateWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFConfigurationWarningException" : self = .wAFConfigurationWarningException(try WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFExpiredManagedRuleGroupVersionException" : self = .wAFExpiredManagedRuleGroupVersionException(try WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFConfigurationWarningException": return try await WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFExpiredManagedRuleGroupVersionException": return try await WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFConfigurationWarningException(WAFConfigurationWarningException)
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFExpiredManagedRuleGroupVersionException(WAFExpiredManagedRuleGroupVersionException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
@@ -3389,7 +3262,7 @@ public struct CreateWebACLOutputResponse: Swift.Equatable {
     /// High-level information about a [WebACL], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like [AssociateWebACL].
     public var summary: WAFV2ClientTypes.WebACLSummary?
 
-    public init (
+    public init(
         summary: WAFV2ClientTypes.WebACLSummary? = nil
     )
     {
@@ -3406,7 +3279,7 @@ extension CreateWebACLOutputResponseBody: Swift.Decodable {
         case summary = "Summary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.WebACLSummary.self, forKey: .summary)
         summary = summaryDecoded
@@ -3429,7 +3302,7 @@ extension WAFV2ClientTypes.CustomHTTPHeader: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3448,7 +3321,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -3475,7 +3348,7 @@ extension WAFV2ClientTypes.CustomRequestHandling: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let insertHeadersContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.CustomHTTPHeader?].self, forKey: .insertHeaders)
         var insertHeadersDecoded0:[WAFV2ClientTypes.CustomHTTPHeader]? = nil
@@ -3498,7 +3371,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]?
 
-        public init (
+        public init(
             insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
         )
         {
@@ -3531,7 +3404,7 @@ extension WAFV2ClientTypes.CustomResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode)
         responseCode = responseCodeDecoded
@@ -3562,7 +3435,7 @@ extension WAFV2ClientTypes {
         /// The HTTP headers to use in the response. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var responseHeaders: [WAFV2ClientTypes.CustomHTTPHeader]?
 
-        public init (
+        public init(
             customResponseBodyKey: Swift.String? = nil,
             responseCode: Swift.Int? = nil,
             responseHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
@@ -3592,7 +3465,7 @@ extension WAFV2ClientTypes.CustomResponseBody: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ResponseContentType.self, forKey: .contentType)
         contentType = contentTypeDecoded
@@ -3611,7 +3484,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var contentType: WAFV2ClientTypes.ResponseContentType?
 
-        public init (
+        public init(
             content: Swift.String? = nil,
             contentType: WAFV2ClientTypes.ResponseContentType? = nil
         )
@@ -3639,7 +3512,7 @@ extension WAFV2ClientTypes.DefaultAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blockDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.BlockAction.self, forKey: .block)
         block = blockDecoded
@@ -3656,7 +3529,7 @@ extension WAFV2ClientTypes {
         /// Specifies that WAF should block requests by default.
         public var block: WAFV2ClientTypes.BlockAction?
 
-        public init (
+        public init(
             allow: WAFV2ClientTypes.AllowAction? = nil,
             block: WAFV2ClientTypes.BlockAction? = nil
         )
@@ -3699,7 +3572,7 @@ public struct DeleteFirewallManagerRuleGroupsInput: Swift.Equatable {
     /// This member is required.
     public var webACLLockToken: Swift.String?
 
-    public init (
+    public init(
         webACLArn: Swift.String? = nil,
         webACLLockToken: Swift.String? = nil
     )
@@ -3720,7 +3593,7 @@ extension DeleteFirewallManagerRuleGroupsInputBody: Swift.Decodable {
         case webACLLockToken = "WebACLLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webACLArn)
         webACLArn = webACLArnDecoded
@@ -3729,39 +3602,24 @@ extension DeleteFirewallManagerRuleGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteFirewallManagerRuleGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFirewallManagerRuleGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFirewallManagerRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFirewallManagerRuleGroupsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFirewallManagerRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteFirewallManagerRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextWebACLLockToken = output.nextWebACLLockToken
@@ -3775,7 +3633,7 @@ public struct DeleteFirewallManagerRuleGroupsOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var nextWebACLLockToken: Swift.String?
 
-    public init (
+    public init(
         nextWebACLLockToken: Swift.String? = nil
     )
     {
@@ -3792,7 +3650,7 @@ extension DeleteFirewallManagerRuleGroupsOutputResponseBody: Swift.Decodable {
         case nextWebACLLockToken = "NextWebACLLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextWebACLLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextWebACLLockToken)
         nextWebACLLockToken = nextWebACLLockTokenDecoded
@@ -3848,7 +3706,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3877,7 +3735,7 @@ extension DeleteIPSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -3890,50 +3748,32 @@ extension DeleteIPSetInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteIPSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteIPSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFAssociatedItemException" : self = .wAFAssociatedItemException(try WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFAssociatedItemException": return try await WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteIPSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFAssociatedItemException(WAFAssociatedItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteIPSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteLoggingConfigurationInput: Swift.Encodable {
@@ -3960,7 +3800,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -3977,51 +3817,36 @@ extension DeleteLoggingConfigurationInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLoggingConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLoggingConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePermissionPolicyInput: Swift.Encodable {
@@ -4048,7 +3873,7 @@ public struct DeletePermissionPolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -4065,47 +3890,34 @@ extension DeletePermissionPolicyInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension DeletePermissionPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeletePermissionPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeletePermissionPolicyOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeletePermissionPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteRegexPatternSetInput: Swift.Encodable {
@@ -4157,7 +3969,7 @@ public struct DeleteRegexPatternSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4186,7 +3998,7 @@ extension DeleteRegexPatternSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4199,50 +4011,32 @@ extension DeleteRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteRegexPatternSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRegexPatternSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFAssociatedItemException" : self = .wAFAssociatedItemException(try WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFAssociatedItemException": return try await WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFAssociatedItemException(WAFAssociatedItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteRegexPatternSetOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteRuleGroupInput: Swift.Encodable {
@@ -4294,7 +4088,7 @@ public struct DeleteRuleGroupInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4323,7 +4117,7 @@ extension DeleteRuleGroupInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4336,50 +4130,32 @@ extension DeleteRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteRuleGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRuleGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFAssociatedItemException" : self = .wAFAssociatedItemException(try WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFAssociatedItemException": return try await WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRuleGroupOutputError: Swift.Error, Swift.Equatable {
-    case wAFAssociatedItemException(WAFAssociatedItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteRuleGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteWebACLInput: Swift.Encodable {
@@ -4431,7 +4207,7 @@ public struct DeleteWebACLInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4460,7 +4236,7 @@ extension DeleteWebACLInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4473,50 +4249,272 @@ extension DeleteWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFAssociatedItemException" : self = .wAFAssociatedItemException(try WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFAssociatedItemException": return try await WAFAssociatedItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFAssociatedItemException(WAFAssociatedItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteWebACLOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension DescribeAllManagedProductsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension DescribeAllManagedProductsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAllManagedProductsInput: Swift.Equatable {
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init(
+        scope: WAFV2ClientTypes.Scope? = nil
+    )
+    {
+        self.scope = scope
+    }
+}
+
+struct DescribeAllManagedProductsInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+}
+
+extension DescribeAllManagedProductsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+public enum DescribeAllManagedProductsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAllManagedProductsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAllManagedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.managedProducts = output.managedProducts
+        } else {
+            self.managedProducts = nil
+        }
+    }
+}
+
+public struct DescribeAllManagedProductsOutputResponse: Swift.Equatable {
+    /// High-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
+    public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+
+    public init(
+        managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+    )
+    {
+        self.managedProducts = managedProducts
+    }
+}
+
+struct DescribeAllManagedProductsOutputResponseBody: Swift.Equatable {
+    let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+}
+
+extension DescribeAllManagedProductsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedProducts = "ManagedProducts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let managedProductsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ManagedProductDescriptor?].self, forKey: .managedProducts)
+        var managedProductsDecoded0:[WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+        if let managedProductsContainer = managedProductsContainer {
+            managedProductsDecoded0 = [WAFV2ClientTypes.ManagedProductDescriptor]()
+            for structure0 in managedProductsContainer {
+                if let structure0 = structure0 {
+                    managedProductsDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedProducts = managedProductsDecoded0
+    }
+}
+
+extension DescribeManagedProductsByVendorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case vendorName = "VendorName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+        if let vendorName = self.vendorName {
+            try encodeContainer.encode(vendorName, forKey: .vendorName)
+        }
+    }
+}
+
+extension DescribeManagedProductsByVendorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeManagedProductsByVendorInput: Swift.Equatable {
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
+    /// This member is required.
+    public var vendorName: Swift.String?
+
+    public init(
+        scope: WAFV2ClientTypes.Scope? = nil,
+        vendorName: Swift.String? = nil
+    )
+    {
+        self.scope = scope
+        self.vendorName = vendorName
+    }
+}
+
+struct DescribeManagedProductsByVendorInputBody: Swift.Equatable {
+    let vendorName: Swift.String?
+    let scope: WAFV2ClientTypes.Scope?
+}
+
+extension DescribeManagedProductsByVendorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scope = "Scope"
+        case vendorName = "VendorName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
+        vendorName = vendorNameDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+public enum DescribeManagedProductsByVendorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeManagedProductsByVendorOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeManagedProductsByVendorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.managedProducts = output.managedProducts
+        } else {
+            self.managedProducts = nil
+        }
+    }
+}
+
+public struct DescribeManagedProductsByVendorOutputResponse: Swift.Equatable {
+    /// High-level information for the managed rule groups owned by the specified vendor.
+    public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+
+    public init(
+        managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+    )
+    {
+        self.managedProducts = managedProducts
+    }
+}
+
+struct DescribeManagedProductsByVendorOutputResponseBody: Swift.Equatable {
+    let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
+}
+
+extension DescribeManagedProductsByVendorOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedProducts = "ManagedProducts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let managedProductsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ManagedProductDescriptor?].self, forKey: .managedProducts)
+        var managedProductsDecoded0:[WAFV2ClientTypes.ManagedProductDescriptor]? = nil
+        if let managedProductsContainer = managedProductsContainer {
+            managedProductsDecoded0 = [WAFV2ClientTypes.ManagedProductDescriptor]()
+            for structure0 in managedProductsContainer {
+                if let structure0 = structure0 {
+                    managedProductsDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedProducts = managedProductsDecoded0
+    }
 }
 
 extension DescribeManagedRuleGroupInput: Swift.Encodable {
@@ -4561,13 +4559,13 @@ public struct DescribeManagedRuleGroupInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
     /// This member is required.
     public var vendorName: Swift.String?
     /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
     public var versionName: Swift.String?
 
-    public init (
+    public init(
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil,
@@ -4596,7 +4594,7 @@ extension DescribeManagedRuleGroupInputBody: Swift.Decodable {
         case versionName = "VersionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
         vendorName = vendorNameDecoded
@@ -4609,41 +4607,25 @@ extension DescribeManagedRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeManagedRuleGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeManagedRuleGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFExpiredManagedRuleGroupVersionException" : self = .wAFExpiredManagedRuleGroupVersionException(try WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeManagedRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFExpiredManagedRuleGroupVersionException": return try await WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeManagedRuleGroupOutputError: Swift.Error, Swift.Equatable {
-    case wAFExpiredManagedRuleGroupVersionException(WAFExpiredManagedRuleGroupVersionException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeManagedRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeManagedRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availableLabels = output.availableLabels
@@ -4680,12 +4662,12 @@ public struct DescribeManagedRuleGroupOutputResponse: Swift.Equatable {
     public var labelNamespace: Swift.String?
     ///
     public var rules: [WAFV2ClientTypes.RuleSummary]?
-    /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
+    /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to provide notification of changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
     public var snsTopicArn: Swift.String?
     /// The managed rule group's version.
     public var versionName: Swift.String?
 
-    public init (
+    public init(
         availableLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
         capacity: Swift.Int = 0,
         consumedLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
@@ -4726,7 +4708,7 @@ extension DescribeManagedRuleGroupOutputResponseBody: Swift.Decodable {
         case versionName = "VersionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
         versionName = versionNameDecoded
@@ -4808,7 +4790,7 @@ public struct DisassociateWebACLInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -4825,49 +4807,35 @@ extension DisassociateWebACLInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension DisassociateWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisassociateWebACLOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WAFV2ClientTypes.ExcludedRule: Swift.Codable {
@@ -4882,7 +4850,7 @@ extension WAFV2ClientTypes.ExcludedRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4896,7 +4864,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -4981,6 +4949,7 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         case allQueryArguments = "AllQueryArguments"
         case body = "Body"
         case cookies = "Cookies"
+        case headerOrder = "HeaderOrder"
         case headers = "Headers"
         case jsonBody = "JsonBody"
         case method = "Method"
@@ -5000,6 +4969,9 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         }
         if let cookies = self.cookies {
             try encodeContainer.encode(cookies, forKey: .cookies)
+        }
+        if let headerOrder = self.headerOrder {
+            try encodeContainer.encode(headerOrder, forKey: .headerOrder)
         }
         if let headers = self.headers {
             try encodeContainer.encode(headers, forKey: .headers)
@@ -5024,7 +4996,7 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let singleHeaderDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.SingleHeader.self, forKey: .singleHeader)
         singleHeader = singleHeaderDecoded
@@ -5046,6 +5018,8 @@ extension WAFV2ClientTypes.FieldToMatch: Swift.Codable {
         headers = headersDecoded
         let cookiesDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Cookies.self, forKey: .cookies)
         cookies = cookiesDecoded
+        let headerOrderDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.HeaderOrder.self, forKey: .headerOrder)
+        headerOrder = headerOrderDecoded
     }
 }
 
@@ -5058,6 +5032,8 @@ extension WAFV2ClientTypes {
         public var body: WAFV2ClientTypes.Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects. Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public var cookies: WAFV2ClientTypes.Cookies?
+        /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+        public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the JsonBody object configuration.
@@ -5073,10 +5049,11 @@ extension WAFV2ClientTypes {
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public var uriPath: WAFV2ClientTypes.UriPath?
 
-        public init (
+        public init(
             allQueryArguments: WAFV2ClientTypes.AllQueryArguments? = nil,
             body: WAFV2ClientTypes.Body? = nil,
             cookies: WAFV2ClientTypes.Cookies? = nil,
+            headerOrder: WAFV2ClientTypes.HeaderOrder? = nil,
             headers: WAFV2ClientTypes.Headers? = nil,
             jsonBody: WAFV2ClientTypes.JsonBody? = nil,
             method: WAFV2ClientTypes.Method? = nil,
@@ -5089,6 +5066,7 @@ extension WAFV2ClientTypes {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
+            self.headerOrder = headerOrder
             self.headers = headers
             self.jsonBody = jsonBody
             self.method = method
@@ -5124,7 +5102,7 @@ extension WAFV2ClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let behaviorDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.FilterBehavior.self, forKey: .behavior)
         behavior = behaviorDecoded
@@ -5157,7 +5135,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var requirement: WAFV2ClientTypes.FilterRequirement?
 
-        public init (
+        public init(
             behavior: WAFV2ClientTypes.FilterBehavior? = nil,
             conditions: [WAFV2ClientTypes.Condition]? = nil,
             requirement: WAFV2ClientTypes.FilterRequirement? = nil
@@ -5263,7 +5241,7 @@ extension WAFV2ClientTypes.FirewallManagerRuleGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5297,7 +5275,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-        public init (
+        public init(
             firewallManagerStatement: WAFV2ClientTypes.FirewallManagerStatement? = nil,
             name: Swift.String? = nil,
             overrideAction: WAFV2ClientTypes.OverrideAction? = nil,
@@ -5331,7 +5309,7 @@ extension WAFV2ClientTypes.FirewallManagerStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managedRuleGroupStatementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ManagedRuleGroupStatement.self, forKey: .managedRuleGroupStatement)
         managedRuleGroupStatement = managedRuleGroupStatementDecoded
@@ -5348,7 +5326,7 @@ extension WAFV2ClientTypes {
         /// A statement used by Firewall Manager to run the rules that are defined in a rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
         public var ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement?
 
-        public init (
+        public init(
             managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement? = nil,
             ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement? = nil
         )
@@ -5376,7 +5354,7 @@ extension WAFV2ClientTypes.ForwardedIPConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let headerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .headerName)
         headerName = headerNameDecoded
@@ -5399,7 +5377,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var headerName: Swift.String?
 
-        public init (
+        public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil
         )
@@ -5477,7 +5455,7 @@ public struct GenerateMobileSdkReleaseUrlInput: Swift.Equatable {
     /// This member is required.
     public var releaseVersion: Swift.String?
 
-    public init (
+    public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
     )
@@ -5498,7 +5476,7 @@ extension GenerateMobileSdkReleaseUrlInputBody: Swift.Decodable {
         case releaseVersion = "ReleaseVersion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Platform.self, forKey: .platform)
         platform = platformDecoded
@@ -5507,37 +5485,23 @@ extension GenerateMobileSdkReleaseUrlInputBody: Swift.Decodable {
     }
 }
 
-extension GenerateMobileSdkReleaseUrlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GenerateMobileSdkReleaseUrlOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GenerateMobileSdkReleaseUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GenerateMobileSdkReleaseUrlOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GenerateMobileSdkReleaseUrlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GenerateMobileSdkReleaseUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
@@ -5551,7 +5515,7 @@ public struct GenerateMobileSdkReleaseUrlOutputResponse: Swift.Equatable {
     /// The presigned download URL for the specified SDK release.
     public var url: Swift.String?
 
-    public init (
+    public init(
         url: Swift.String? = nil
     )
     {
@@ -5568,7 +5532,7 @@ extension GenerateMobileSdkReleaseUrlOutputResponseBody: Swift.Decodable {
         case url = "Url"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
@@ -5594,7 +5558,7 @@ extension WAFV2ClientTypes.GeoMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countryCodesContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.CountryCode?].self, forKey: .countryCodes)
         var countryCodesDecoded0:[WAFV2ClientTypes.CountryCode]? = nil
@@ -5627,7 +5591,7 @@ extension WAFV2ClientTypes {
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
         public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
 
-        public init (
+        public init(
             countryCodes: [WAFV2ClientTypes.CountryCode]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil
         )
@@ -5674,7 +5638,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         apiKey: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
     )
@@ -5695,7 +5659,7 @@ extension GetDecryptedAPIKeyInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -5704,37 +5668,23 @@ extension GetDecryptedAPIKeyInputBody: Swift.Decodable {
     }
 }
 
-extension GetDecryptedAPIKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDecryptedAPIKeyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDecryptedAPIKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDecryptedAPIKeyOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDecryptedAPIKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDecryptedAPIKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTimestamp = output.creationTimestamp
@@ -5752,7 +5702,7 @@ public struct GetDecryptedAPIKeyOutputResponse: Swift.Equatable {
     /// The token domains that are defined in this API key.
     public var tokenDomains: [Swift.String]?
 
-    public init (
+    public init(
         creationTimestamp: ClientRuntime.Date? = nil,
         tokenDomains: [Swift.String]? = nil
     )
@@ -5773,7 +5723,7 @@ extension GetDecryptedAPIKeyOutputResponseBody: Swift.Decodable {
         case tokenDomains = "TokenDomains"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenDomainsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tokenDomains)
         var tokenDomainsDecoded0:[Swift.String]? = nil
@@ -5833,7 +5783,7 @@ public struct GetIPSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -5858,7 +5808,7 @@ extension GetIPSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5869,37 +5819,23 @@ extension GetIPSetInputBody: Swift.Decodable {
     }
 }
 
-extension GetIPSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetIPSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetIPSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
@@ -5917,7 +5853,7 @@ public struct GetIPSetOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var lockToken: Swift.String?
 
-    public init (
+    public init(
         ipSet: WAFV2ClientTypes.IPSet? = nil,
         lockToken: Swift.String? = nil
     )
@@ -5938,7 +5874,7 @@ extension GetIPSetOutputResponseBody: Swift.Decodable {
         case lockToken = "LockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipSetDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.IPSet.self, forKey: .ipSet)
         ipSet = ipSetDecoded
@@ -5971,7 +5907,7 @@ public struct GetLoggingConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -5988,44 +5924,30 @@ extension GetLoggingConfigurationInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetLoggingConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
@@ -6039,7 +5961,7 @@ public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
     /// The [LoggingConfiguration] for the specified web ACL.
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 
-    public init (
+    public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
     )
     {
@@ -6056,7 +5978,7 @@ extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
         case loggingConfiguration = "LoggingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
         loggingConfiguration = loggingConfigurationDecoded
@@ -6105,7 +6027,7 @@ public struct GetManagedRuleSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -6130,7 +6052,7 @@ extension GetManagedRuleSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6141,37 +6063,23 @@ extension GetManagedRuleSetInputBody: Swift.Decodable {
     }
 }
 
-extension GetManagedRuleSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetManagedRuleSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetManagedRuleSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetManagedRuleSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetManagedRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetManagedRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
@@ -6189,7 +6097,7 @@ public struct GetManagedRuleSetOutputResponse: Swift.Equatable {
     /// The managed rule set that you requested.
     public var managedRuleSet: WAFV2ClientTypes.ManagedRuleSet?
 
-    public init (
+    public init(
         lockToken: Swift.String? = nil,
         managedRuleSet: WAFV2ClientTypes.ManagedRuleSet? = nil
     )
@@ -6210,7 +6118,7 @@ extension GetManagedRuleSetOutputResponseBody: Swift.Decodable {
         case managedRuleSet = "ManagedRuleSet"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managedRuleSetDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ManagedRuleSet.self, forKey: .managedRuleSet)
         managedRuleSet = managedRuleSetDecoded
@@ -6250,7 +6158,7 @@ public struct GetMobileSdkReleaseInput: Swift.Equatable {
     /// This member is required.
     public var releaseVersion: Swift.String?
 
-    public init (
+    public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
     )
@@ -6271,7 +6179,7 @@ extension GetMobileSdkReleaseInputBody: Swift.Decodable {
         case releaseVersion = "ReleaseVersion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Platform.self, forKey: .platform)
         platform = platformDecoded
@@ -6280,37 +6188,23 @@ extension GetMobileSdkReleaseInputBody: Swift.Decodable {
     }
 }
 
-extension GetMobileSdkReleaseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetMobileSdkReleaseOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetMobileSdkReleaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetMobileSdkReleaseOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetMobileSdkReleaseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetMobileSdkReleaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mobileSdkRelease = output.mobileSdkRelease
@@ -6324,7 +6218,7 @@ public struct GetMobileSdkReleaseOutputResponse: Swift.Equatable {
     /// Information for a specified SDK release, including release notes and tags.
     public var mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease?
 
-    public init (
+    public init(
         mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease? = nil
     )
     {
@@ -6341,7 +6235,7 @@ extension GetMobileSdkReleaseOutputResponseBody: Swift.Decodable {
         case mobileSdkRelease = "MobileSdkRelease"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mobileSdkReleaseDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.MobileSdkRelease.self, forKey: .mobileSdkRelease)
         mobileSdkRelease = mobileSdkReleaseDecoded
@@ -6372,7 +6266,7 @@ public struct GetPermissionPolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -6389,42 +6283,29 @@ extension GetPermissionPolicyInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension GetPermissionPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetPermissionPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
@@ -6438,7 +6319,7 @@ public struct GetPermissionPolicyOutputResponse: Swift.Equatable {
     /// The IAM policy that is attached to the specified rule group.
     public var policy: Swift.String?
 
-    public init (
+    public init(
         policy: Swift.String? = nil
     )
     {
@@ -6455,7 +6336,7 @@ extension GetPermissionPolicyOutputResponseBody: Swift.Decodable {
         case policy = "Policy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
@@ -6517,7 +6398,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Equatable {
     /// This member is required.
     public var webACLName: Swift.String?
 
-    public init (
+    public init(
         ruleGroupRuleName: Swift.String? = nil,
         ruleName: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
@@ -6550,7 +6431,7 @@ extension GetRateBasedStatementManagedKeysInputBody: Swift.Decodable {
         case webACLName = "WebACLName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -6565,39 +6446,24 @@ extension GetRateBasedStatementManagedKeysInputBody: Swift.Decodable {
     }
 }
 
-extension GetRateBasedStatementManagedKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRateBasedStatementManagedKeysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnsupportedAggregateKeyTypeException" : self = .wAFUnsupportedAggregateKeyTypeException(try WAFUnsupportedAggregateKeyTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRateBasedStatementManagedKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnsupportedAggregateKeyTypeException": return try await WAFUnsupportedAggregateKeyTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRateBasedStatementManagedKeysOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFUnsupportedAggregateKeyTypeException(WAFUnsupportedAggregateKeyTypeException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRateBasedStatementManagedKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRateBasedStatementManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedKeysIPV4 = output.managedKeysIPV4
@@ -6615,7 +6481,7 @@ public struct GetRateBasedStatementManagedKeysOutputResponse: Swift.Equatable {
     /// The keys that are of Internet Protocol version 6 (IPv6).
     public var managedKeysIPV6: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet?
 
-    public init (
+    public init(
         managedKeysIPV4: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil,
         managedKeysIPV6: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil
     )
@@ -6636,7 +6502,7 @@ extension GetRateBasedStatementManagedKeysOutputResponseBody: Swift.Decodable {
         case managedKeysIPV6 = "ManagedKeysIPV6"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let managedKeysIPV4Decoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet.self, forKey: .managedKeysIPV4)
         managedKeysIPV4 = managedKeysIPV4Decoded
@@ -6687,7 +6553,7 @@ public struct GetRegexPatternSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -6712,7 +6578,7 @@ extension GetRegexPatternSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6723,37 +6589,23 @@ extension GetRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-extension GetRegexPatternSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRegexPatternSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
@@ -6771,7 +6623,7 @@ public struct GetRegexPatternSetOutputResponse: Swift.Equatable {
     ///
     public var regexPatternSet: WAFV2ClientTypes.RegexPatternSet?
 
-    public init (
+    public init(
         lockToken: Swift.String? = nil,
         regexPatternSet: WAFV2ClientTypes.RegexPatternSet? = nil
     )
@@ -6792,7 +6644,7 @@ extension GetRegexPatternSetOutputResponseBody: Swift.Decodable {
         case regexPatternSet = "RegexPatternSet"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regexPatternSetDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RegexPatternSet.self, forKey: .regexPatternSet)
         regexPatternSet = regexPatternSetDecoded
@@ -6846,7 +6698,7 @@ public struct GetRuleGroupInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -6875,7 +6727,7 @@ extension GetRuleGroupInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6888,37 +6740,23 @@ extension GetRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-extension GetRuleGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRuleGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRuleGroupOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
@@ -6936,7 +6774,7 @@ public struct GetRuleGroupOutputResponse: Swift.Equatable {
     ///
     public var ruleGroup: WAFV2ClientTypes.RuleGroup?
 
-    public init (
+    public init(
         lockToken: Swift.String? = nil,
         ruleGroup: WAFV2ClientTypes.RuleGroup? = nil
     )
@@ -6957,7 +6795,7 @@ extension GetRuleGroupOutputResponseBody: Swift.Decodable {
         case ruleGroup = "RuleGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleGroupDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RuleGroup.self, forKey: .ruleGroup)
         ruleGroup = ruleGroupDecoded
@@ -7022,7 +6860,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     /// This member is required.
     public var webAclArn: Swift.String?
 
-    public init (
+    public init(
         maxItems: Swift.Int? = nil,
         ruleMetricName: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
@@ -7055,7 +6893,7 @@ extension GetSampledRequestsInputBody: Swift.Decodable {
         case webAclArn = "WebAclArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webAclArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webAclArn)
         webAclArn = webAclArnDecoded
@@ -7070,35 +6908,22 @@ extension GetSampledRequestsInputBody: Swift.Decodable {
     }
 }
 
-extension GetSampledRequestsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSampledRequestsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSampledRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSampledRequestsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
@@ -7120,7 +6945,7 @@ public struct GetSampledRequestsOutputResponse: Swift.Equatable {
     /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your Amazon Web Services resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests. Times are in Coordinated Universal Time (UTC) format.
     public var timeWindow: WAFV2ClientTypes.TimeWindow?
 
-    public init (
+    public init(
         populationSize: Swift.Int = 0,
         sampledRequests: [WAFV2ClientTypes.SampledHTTPRequest]? = nil,
         timeWindow: WAFV2ClientTypes.TimeWindow? = nil
@@ -7145,7 +6970,7 @@ extension GetSampledRequestsOutputResponseBody: Swift.Decodable {
         case timeWindow = "TimeWindow"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sampledRequestsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.SampledHTTPRequest?].self, forKey: .sampledRequests)
         var sampledRequestsDecoded0:[WAFV2ClientTypes.SampledHTTPRequest]? = nil
@@ -7201,7 +7026,7 @@ public struct GetWebACLForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -7218,46 +7043,31 @@ extension GetWebACLForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension GetWebACLForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetWebACLForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetWebACLForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetWebACLForResourceOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetWebACLForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetWebACLForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
@@ -7271,7 +7081,7 @@ public struct GetWebACLForResourceOutputResponse: Swift.Equatable {
     /// The web ACL that is associated with the resource. If there is no associated resource, WAF returns a null web ACL.
     public var webACL: WAFV2ClientTypes.WebACL?
 
-    public init (
+    public init(
         webACL: WAFV2ClientTypes.WebACL? = nil
     )
     {
@@ -7288,7 +7098,7 @@ extension GetWebACLForResourceOutputResponseBody: Swift.Decodable {
         case webACL = "WebACL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.WebACL.self, forKey: .webACL)
         webACL = webACLDecoded
@@ -7337,7 +7147,7 @@ public struct GetWebACLInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -7362,7 +7172,7 @@ extension GetWebACLInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7373,37 +7183,23 @@ extension GetWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension GetWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationIntegrationURL = output.applicationIntegrationURL
@@ -7425,7 +7221,7 @@ public struct GetWebACLOutputResponse: Swift.Equatable {
     /// The web ACL specification. You can modify the settings in this web ACL and use it to update this web ACL or create a new one.
     public var webACL: WAFV2ClientTypes.WebACL?
 
-    public init (
+    public init(
         applicationIntegrationURL: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         webACL: WAFV2ClientTypes.WebACL? = nil
@@ -7450,7 +7246,7 @@ extension GetWebACLOutputResponseBody: Swift.Decodable {
         case webACL = "WebACL"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.WebACL.self, forKey: .webACL)
         webACL = webACLDecoded
@@ -7477,7 +7273,7 @@ extension WAFV2ClientTypes.HTTPHeader: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7494,7 +7290,7 @@ extension WAFV2ClientTypes {
         /// The value of the HTTP header.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -7541,7 +7337,7 @@ extension WAFV2ClientTypes.HTTPRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIPDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientIP)
         clientIP = clientIPDecoded
@@ -7587,7 +7383,7 @@ extension WAFV2ClientTypes {
         /// The URI path of the request, which identifies the resource, for example, /images/daily-ad.jpg.
         public var uri: Swift.String?
 
-        public init (
+        public init(
             clientIP: Swift.String? = nil,
             country: Swift.String? = nil,
             headers: [WAFV2ClientTypes.HTTPHeader]? = nil,
@@ -7633,7 +7429,7 @@ extension WAFV2ClientTypes.HeaderMatchPattern: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.All.self, forKey: .all)
         all = allDecoded
@@ -7672,7 +7468,7 @@ extension WAFV2ClientTypes {
         /// Inspect only the headers that have a key that matches one of the strings specified here.
         public var includedHeaders: [Swift.String]?
 
-        public init (
+        public init(
             all: WAFV2ClientTypes.All? = nil,
             excludedHeaders: [Swift.String]? = nil,
             includedHeaders: [Swift.String]? = nil
@@ -7681,6 +7477,48 @@ extension WAFV2ClientTypes {
             self.all = all
             self.excludedHeaders = excludedHeaders
             self.includedHeaders = includedHeaders
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.HeaderOrder: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oversizeHandling = "OversizeHandling"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let oversizeHandling = self.oversizeHandling {
+            try encodeContainer.encode(oversizeHandling.rawValue, forKey: .oversizeHandling)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let oversizeHandlingDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.OversizeHandling.self, forKey: .oversizeHandling)
+        oversizeHandling = oversizeHandlingDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+    public struct HeaderOrder: Swift.Equatable {
+        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        ///
+        /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
+
+        public init(
+            oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
+        )
+        {
+            self.oversizeHandling = oversizeHandling
         }
     }
 
@@ -7706,7 +7544,7 @@ extension WAFV2ClientTypes.Headers: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let matchPatternDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.HeaderMatchPattern.self, forKey: .matchPattern)
         matchPattern = matchPatternDecoded
@@ -7726,9 +7564,9 @@ extension WAFV2ClientTypes {
         /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the headers of the request are larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the headers normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -7736,7 +7574,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
-        public init (
+        public init(
             matchPattern: WAFV2ClientTypes.HeaderMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
@@ -7817,7 +7655,7 @@ extension WAFV2ClientTypes.IPSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7883,7 +7721,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             addresses: [Swift.String]? = nil,
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -7923,7 +7761,7 @@ extension WAFV2ClientTypes.IPSetForwardedIPConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let headerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .headerName)
         headerName = headerNameDecoded
@@ -7957,7 +7795,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var position: WAFV2ClientTypes.ForwardedIPPosition?
 
-        public init (
+        public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil,
             position: WAFV2ClientTypes.ForwardedIPPosition? = nil
@@ -7987,7 +7825,7 @@ extension WAFV2ClientTypes.IPSetReferenceStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -8005,7 +7843,7 @@ extension WAFV2ClientTypes {
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
         public var ipSetForwardedIPConfig: WAFV2ClientTypes.IPSetForwardedIPConfig?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             ipSetForwardedIPConfig: WAFV2ClientTypes.IPSetForwardedIPConfig? = nil
         )
@@ -8045,7 +7883,7 @@ extension WAFV2ClientTypes.IPSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8074,7 +7912,7 @@ extension WAFV2ClientTypes {
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -8104,7 +7942,7 @@ extension WAFV2ClientTypes.ImmunityTimeProperty: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let immunityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .immunityTime)
         immunityTime = immunityTimeDecoded
@@ -8118,7 +7956,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var immunityTime: Swift.Int?
 
-        public init (
+        public init(
             immunityTime: Swift.Int? = nil
         )
         {
@@ -8184,7 +8022,7 @@ extension WAFV2ClientTypes.JsonBody: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let matchPatternDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.JsonMatchPattern.self, forKey: .matchPattern)
         matchPattern = matchPatternDecoded
@@ -8225,7 +8063,7 @@ extension WAFV2ClientTypes {
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
-        /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
+        /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -8235,7 +8073,7 @@ extension WAFV2ClientTypes {
         /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit. Default: CONTINUE
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
-        public init (
+        public init(
             invalidFallbackBehavior: WAFV2ClientTypes.BodyParsingFallbackBehavior? = nil,
             matchPattern: WAFV2ClientTypes.JsonMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.JsonMatchScope? = nil,
@@ -8270,7 +8108,7 @@ extension WAFV2ClientTypes.JsonMatchPattern: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.All.self, forKey: .all)
         all = allDecoded
@@ -8296,7 +8134,7 @@ extension WAFV2ClientTypes {
         /// Match only the specified include paths. See also MatchScope in [JsonBody]. Provide the include paths using JSON Pointer syntax. For example, "IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). You must specify either this setting or the All setting, but not both. Don't use this option to include all paths. Instead, use the All setting.
         public var includedPaths: [Swift.String]?
 
-        public init (
+        public init(
             all: WAFV2ClientTypes.All? = nil,
             includedPaths: [Swift.String]? = nil
         )
@@ -8355,7 +8193,7 @@ extension WAFV2ClientTypes.Label: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8369,7 +8207,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -8427,7 +8265,7 @@ extension WAFV2ClientTypes.LabelMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.LabelMatchScope.self, forKey: .scope)
         scope = scopeDecoded
@@ -8453,7 +8291,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var scope: WAFV2ClientTypes.LabelMatchScope?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             scope: WAFV2ClientTypes.LabelMatchScope? = nil
         )
@@ -8477,7 +8315,7 @@ extension WAFV2ClientTypes.LabelNameCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let labelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .labelName)
         labelName = labelNameDecoded
@@ -8491,7 +8329,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var labelName: Swift.String?
 
-        public init (
+        public init(
             labelName: Swift.String? = nil
         )
         {
@@ -8513,7 +8351,7 @@ extension WAFV2ClientTypes.LabelSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8530,7 +8368,7 @@ extension WAFV2ClientTypes {
         /// An individual label specification.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -8580,7 +8418,7 @@ public struct ListAPIKeysInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -8605,7 +8443,7 @@ extension ListAPIKeysInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -8616,37 +8454,23 @@ extension ListAPIKeysInputBody: Swift.Decodable {
     }
 }
 
-extension ListAPIKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAPIKeysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAPIKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAPIKeysOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAPIKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAPIKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySummaries = output.apiKeySummaries
@@ -8668,7 +8492,7 @@ public struct ListAPIKeysOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]? = nil,
         applicationIntegrationURL: Swift.String? = nil,
         nextMarker: Swift.String? = nil
@@ -8693,7 +8517,7 @@ extension ListAPIKeysOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -8763,11 +8587,11 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
     /// This member is required.
     public var vendorName: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
@@ -8800,7 +8624,7 @@ extension ListAvailableManagedRuleGroupVersionsInputBody: Swift.Decodable {
         case vendorName = "VendorName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
         vendorName = vendorNameDecoded
@@ -8815,37 +8639,23 @@ extension ListAvailableManagedRuleGroupVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAvailableManagedRuleGroupVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableManagedRuleGroupVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableManagedRuleGroupVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableManagedRuleGroupVersionsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableManagedRuleGroupVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableManagedRuleGroupVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentDefaultVersion = output.currentDefaultVersion
@@ -8867,7 +8677,7 @@ public struct ListAvailableManagedRuleGroupVersionsOutputResponse: Swift.Equatab
     /// The versions that are currently available for the specified managed rule group. If you specified a Limit in your request, this might not be the full list.
     public var versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]?
 
-    public init (
+    public init(
         currentDefaultVersion: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
         versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]? = nil
@@ -8892,7 +8702,7 @@ extension ListAvailableManagedRuleGroupVersionsOutputResponseBody: Swift.Decodab
         case versions = "Versions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -8952,7 +8762,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -8977,7 +8787,7 @@ extension ListAvailableManagedRuleGroupsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -8988,35 +8798,22 @@ extension ListAvailableManagedRuleGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAvailableManagedRuleGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableManagedRuleGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableManagedRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableManagedRuleGroupsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableManagedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableManagedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleGroups = output.managedRuleGroups
@@ -9034,7 +8831,7 @@ public struct ListAvailableManagedRuleGroupsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]? = nil,
         nextMarker: Swift.String? = nil
     )
@@ -9055,7 +8852,7 @@ extension ListAvailableManagedRuleGroupsOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -9113,7 +8910,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -9138,7 +8935,7 @@ extension ListIPSetsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -9149,35 +8946,22 @@ extension ListIPSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListIPSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListIPSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListIPSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListIPSetsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
@@ -9195,7 +8979,7 @@ public struct ListIPSetsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         ipSets: [WAFV2ClientTypes.IPSetSummary]? = nil,
         nextMarker: Swift.String? = nil
     )
@@ -9216,7 +9000,7 @@ extension ListIPSetsOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -9274,7 +9058,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -9299,7 +9083,7 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -9310,35 +9094,22 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLoggingConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLoggingConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
@@ -9356,7 +9127,7 @@ public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]? = nil,
         nextMarker: Swift.String? = nil
     )
@@ -9377,7 +9148,7 @@ extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.LoggingConfiguration?].self, forKey: .loggingConfigurations)
         var loggingConfigurationsDecoded0:[WAFV2ClientTypes.LoggingConfiguration]? = nil
@@ -9435,7 +9206,7 @@ public struct ListManagedRuleSetsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -9460,7 +9231,7 @@ extension ListManagedRuleSetsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -9471,35 +9242,22 @@ extension ListManagedRuleSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListManagedRuleSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListManagedRuleSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListManagedRuleSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListManagedRuleSetsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListManagedRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListManagedRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleSets = output.managedRuleSets
@@ -9517,7 +9275,7 @@ public struct ListManagedRuleSetsOutputResponse: Swift.Equatable {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
 
-    public init (
+    public init(
         managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]? = nil,
         nextMarker: Swift.String? = nil
     )
@@ -9538,7 +9296,7 @@ extension ListManagedRuleSetsOutputResponseBody: Swift.Decodable {
         case nextMarker = "NextMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -9592,7 +9350,7 @@ public struct ListMobileSdkReleasesInput: Swift.Equatable {
     /// This member is required.
     public var platform: WAFV2ClientTypes.Platform?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         platform: WAFV2ClientTypes.Platform? = nil
@@ -9617,7 +9375,7 @@ extension ListMobileSdkReleasesInputBody: Swift.Decodable {
         case platform = "Platform"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Platform.self, forKey: .platform)
         platform = platformDecoded
@@ -9628,35 +9386,22 @@ extension ListMobileSdkReleasesInputBody: Swift.Decodable {
     }
 }
 
-extension ListMobileSdkReleasesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMobileSdkReleasesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMobileSdkReleasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMobileSdkReleasesOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMobileSdkReleasesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMobileSdkReleasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
@@ -9674,7 +9419,7 @@ public struct ListMobileSdkReleasesOutputResponse: Swift.Equatable {
     /// The high level information for the available SDK releases. If you specified a Limit in your request, this might not be the full list.
     public var releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]?
 
-    public init (
+    public init(
         nextMarker: Swift.String? = nil,
         releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]? = nil
     )
@@ -9695,7 +9440,7 @@ extension ListMobileSdkReleasesOutputResponseBody: Swift.Decodable {
         case releaseSummaries = "ReleaseSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let releaseSummariesContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ReleaseSummary?].self, forKey: .releaseSummaries)
         var releaseSummariesDecoded0:[WAFV2ClientTypes.ReleaseSummary]? = nil
@@ -9753,7 +9498,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -9778,7 +9523,7 @@ extension ListRegexPatternSetsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -9789,35 +9534,22 @@ extension ListRegexPatternSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListRegexPatternSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListRegexPatternSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListRegexPatternSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListRegexPatternSetsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
@@ -9835,7 +9567,7 @@ public struct ListRegexPatternSetsOutputResponse: Swift.Equatable {
     /// Array of regex pattern sets. If you specified a Limit in your request, this might not be the full list.
     public var regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]?
 
-    public init (
+    public init(
         nextMarker: Swift.String? = nil,
         regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]? = nil
     )
@@ -9856,7 +9588,7 @@ extension ListRegexPatternSetsOutputResponseBody: Swift.Decodable {
         case regexPatternSets = "RegexPatternSets"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -9904,7 +9636,7 @@ public struct ListResourcesForWebACLInput: Swift.Equatable {
     /// This member is required.
     public var webACLArn: Swift.String?
 
-    public init (
+    public init(
         resourceType: WAFV2ClientTypes.ResourceType? = nil,
         webACLArn: Swift.String? = nil
     )
@@ -9925,7 +9657,7 @@ extension ListResourcesForWebACLInputBody: Swift.Decodable {
         case webACLArn = "WebACLArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webACLArn)
         webACLArn = webACLArnDecoded
@@ -9934,37 +9666,23 @@ extension ListResourcesForWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension ListResourcesForWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListResourcesForWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListResourcesForWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListResourcesForWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListResourcesForWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArns = output.resourceArns
@@ -9978,7 +9696,7 @@ public struct ListResourcesForWebACLOutputResponse: Swift.Equatable {
     /// The array of Amazon Resource Names (ARNs) of the associated resources.
     public var resourceArns: [Swift.String]?
 
-    public init (
+    public init(
         resourceArns: [Swift.String]? = nil
     )
     {
@@ -9995,7 +9713,7 @@ extension ListResourcesForWebACLOutputResponseBody: Swift.Decodable {
         case resourceArns = "ResourceArns"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
         var resourceArnsDecoded0:[Swift.String]? = nil
@@ -10051,7 +9769,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -10076,7 +9794,7 @@ extension ListRuleGroupsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -10087,35 +9805,22 @@ extension ListRuleGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListRuleGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListRuleGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListRuleGroupsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
@@ -10133,7 +9838,7 @@ public struct ListRuleGroupsOutputResponse: Swift.Equatable {
     /// Array of rule groups. If you specified a Limit in your request, this might not be the full list.
     public var ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]?
 
-    public init (
+    public init(
         nextMarker: Swift.String? = nil,
         ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]? = nil
     )
@@ -10154,7 +9859,7 @@ extension ListRuleGroupsOutputResponseBody: Swift.Decodable {
         case ruleGroups = "RuleGroups"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -10208,7 +9913,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
@@ -10233,7 +9938,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -10244,41 +9949,25 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
@@ -10296,7 +9985,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The collection of tagging definitions for the resource. If you specified a Limit in your request, this might not be the full list.
     public var tagInfoForResource: WAFV2ClientTypes.TagInfoForResource?
 
-    public init (
+    public init(
         nextMarker: Swift.String? = nil,
         tagInfoForResource: WAFV2ClientTypes.TagInfoForResource? = nil
     )
@@ -10317,7 +10006,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tagInfoForResource = "TagInfoForResource"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -10366,7 +10055,7 @@ public struct ListWebACLsInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
@@ -10391,7 +10080,7 @@ extension ListWebACLsInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
@@ -10402,35 +10091,22 @@ extension ListWebACLsInputBody: Swift.Decodable {
     }
 }
 
-extension ListWebACLsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListWebACLsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListWebACLsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListWebACLsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
@@ -10448,7 +10124,7 @@ public struct ListWebACLsOutputResponse: Swift.Equatable {
     /// Array of web ACLs. If you specified a Limit in your request, this might not be the full list.
     public var webACLs: [WAFV2ClientTypes.WebACLSummary]?
 
-    public init (
+    public init(
         nextMarker: Swift.String? = nil,
         webACLs: [WAFV2ClientTypes.WebACLSummary]? = nil
     )
@@ -10469,7 +10145,7 @@ extension ListWebACLsOutputResponseBody: Swift.Decodable {
         case webACLs = "WebACLs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -10521,7 +10197,7 @@ extension WAFV2ClientTypes.LoggingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -10577,7 +10253,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var resourceArn: Swift.String?
 
-        public init (
+        public init(
             logDestinationConfigs: [Swift.String]? = nil,
             loggingFilter: WAFV2ClientTypes.LoggingFilter? = nil,
             managedByFirewallManager: Swift.Bool = false,
@@ -10614,7 +10290,7 @@ extension WAFV2ClientTypes.LoggingFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.Filter?].self, forKey: .filters)
         var filtersDecoded0:[WAFV2ClientTypes.Filter]? = nil
@@ -10642,13 +10318,128 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var filters: [WAFV2ClientTypes.Filter]?
 
-        public init (
+        public init(
             defaultBehavior: WAFV2ClientTypes.FilterBehavior? = nil,
             filters: [WAFV2ClientTypes.Filter]? = nil
         )
         {
             self.defaultBehavior = defaultBehavior
             self.filters = filters
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.ManagedProductDescriptor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isAdvancedManagedRuleSet = "IsAdvancedManagedRuleSet"
+        case isVersioningSupported = "IsVersioningSupported"
+        case managedRuleSetName = "ManagedRuleSetName"
+        case productDescription = "ProductDescription"
+        case productId = "ProductId"
+        case productLink = "ProductLink"
+        case productTitle = "ProductTitle"
+        case snsTopicArn = "SnsTopicArn"
+        case vendorName = "VendorName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if isAdvancedManagedRuleSet != false {
+            try encodeContainer.encode(isAdvancedManagedRuleSet, forKey: .isAdvancedManagedRuleSet)
+        }
+        if isVersioningSupported != false {
+            try encodeContainer.encode(isVersioningSupported, forKey: .isVersioningSupported)
+        }
+        if let managedRuleSetName = self.managedRuleSetName {
+            try encodeContainer.encode(managedRuleSetName, forKey: .managedRuleSetName)
+        }
+        if let productDescription = self.productDescription {
+            try encodeContainer.encode(productDescription, forKey: .productDescription)
+        }
+        if let productId = self.productId {
+            try encodeContainer.encode(productId, forKey: .productId)
+        }
+        if let productLink = self.productLink {
+            try encodeContainer.encode(productLink, forKey: .productLink)
+        }
+        if let productTitle = self.productTitle {
+            try encodeContainer.encode(productTitle, forKey: .productTitle)
+        }
+        if let snsTopicArn = self.snsTopicArn {
+            try encodeContainer.encode(snsTopicArn, forKey: .snsTopicArn)
+        }
+        if let vendorName = self.vendorName {
+            try encodeContainer.encode(vendorName, forKey: .vendorName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
+        vendorName = vendorNameDecoded
+        let managedRuleSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .managedRuleSetName)
+        managedRuleSetName = managedRuleSetNameDecoded
+        let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
+        productId = productIdDecoded
+        let productLinkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productLink)
+        productLink = productLinkDecoded
+        let productTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productTitle)
+        productTitle = productTitleDecoded
+        let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
+        productDescription = productDescriptionDecoded
+        let snsTopicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopicArn)
+        snsTopicArn = snsTopicArnDecoded
+        let isVersioningSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isVersioningSupported) ?? false
+        isVersioningSupported = isVersioningSupportedDecoded
+        let isAdvancedManagedRuleSetDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAdvancedManagedRuleSet) ?? false
+        isAdvancedManagedRuleSet = isAdvancedManagedRuleSetDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The properties of a managed product, such as an Amazon Web Services Managed Rules rule group or an Amazon Web Services Marketplace managed rule group.
+    public struct ManagedProductDescriptor: Swift.Equatable {
+        /// Indicates whether the rule group provides an advanced set of protections, such as the the Amazon Web Services Managed Rules rule groups that are used for WAF intelligent threat mitigation.
+        public var isAdvancedManagedRuleSet: Swift.Bool
+        /// Indicates whether the rule group is versioned.
+        public var isVersioningSupported: Swift.Bool
+        /// The name of the managed rule group. For example, AWSManagedRulesAnonymousIpList or AWSManagedRulesATPRuleSet.
+        public var managedRuleSetName: Swift.String?
+        /// A short description of the managed rule group.
+        public var productDescription: Swift.String?
+        /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
+        public var productId: Swift.String?
+        /// For Amazon Web Services Marketplace managed rule groups only, the link to the rule group product page.
+        public var productLink: Swift.String?
+        /// The display name for the managed rule group. For example, Anonymous IP list or Account takeover prevention.
+        public var productTitle: Swift.String?
+        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to provide notification of changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
+        public var snsTopicArn: Swift.String?
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
+        public var vendorName: Swift.String?
+
+        public init(
+            isAdvancedManagedRuleSet: Swift.Bool = false,
+            isVersioningSupported: Swift.Bool = false,
+            managedRuleSetName: Swift.String? = nil,
+            productDescription: Swift.String? = nil,
+            productId: Swift.String? = nil,
+            productLink: Swift.String? = nil,
+            productTitle: Swift.String? = nil,
+            snsTopicArn: Swift.String? = nil,
+            vendorName: Swift.String? = nil
+        )
+        {
+            self.isAdvancedManagedRuleSet = isAdvancedManagedRuleSet
+            self.isVersioningSupported = isVersioningSupported
+            self.managedRuleSetName = managedRuleSetName
+            self.productDescription = productDescription
+            self.productId = productId
+            self.productLink = productLink
+            self.productTitle = productTitle
+            self.snsTopicArn = snsTopicArn
+            self.vendorName = vendorName
         }
     }
 
@@ -10686,7 +10477,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loginPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loginPath)
         loginPath = loginPathDecoded
@@ -10723,7 +10514,7 @@ extension WAFV2ClientTypes {
         @available(*, deprecated, message: "Deprecated. Use AWSManagedRulesATPRuleSet RequestInspection UsernameField")
         public var usernameField: WAFV2ClientTypes.UsernameField?
 
-        public init (
+        public init(
             awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet? = nil,
             awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet? = nil,
             loginPath: Swift.String? = nil,
@@ -10788,7 +10579,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
         vendorName = vendorNameDecoded
@@ -10848,13 +10639,13 @@ extension WAFV2ClientTypes {
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
-        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         /// This member is required.
         public var vendorName: Swift.String?
         /// The version of the managed rule group to use. If you specify this, the version setting is fixed until you change it. If you don't specify this, WAF uses the vendor's default version, and then keeps the version at the vendor's default when the vendor updates the managed rule group settings.
         public var version: Swift.String?
 
-        public init (
+        public init(
             excludedRules: [WAFV2ClientTypes.ExcludedRule]? = nil,
             managedRuleGroupConfigs: [WAFV2ClientTypes.ManagedRuleGroupConfig]? = nil,
             name: Swift.String? = nil,
@@ -10900,7 +10691,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vendorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorName)
         vendorName = vendorNameDecoded
@@ -10914,18 +10705,18 @@ extension WAFV2ClientTypes.ManagedRuleGroupSummary: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// High-level information about a managed rule group, returned by [ListAvailableManagedRuleGroups]. This provides information like the name and vendor name, that you provide when you add a [ManagedRuleGroupStatement] to a web ACL. Managed rule groups include Amazon Web Services Managed Rules rule groups, which are free of charge to WAF customers, and Amazon Web Services Marketplace managed rule groups, which you can subscribe to through Amazon Web Services Marketplace.
+    /// High-level information about a managed rule group, returned by [ListAvailableManagedRuleGroups]. This provides information like the name and vendor name, that you provide when you add a [ManagedRuleGroupStatement] to a web ACL. Managed rule groups include Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups. To use any Amazon Web Services Marketplace managed rule group, first subscribe to the rule group through Amazon Web Services Marketplace.
     public struct ManagedRuleGroupSummary: Swift.Equatable {
         /// The description of the managed rule group, provided by Amazon Web Services Managed Rules or the Amazon Web Services Marketplace seller who manages it.
         public var description: Swift.String?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public var name: Swift.String?
-        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
+        /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         public var vendorName: Swift.String?
         /// Indicates whether the managed rule group is versioned. If it is, you can retrieve the versions list by calling [ListAvailableManagedRuleGroupVersions].
         public var versioningSupported: Swift.Bool
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             vendorName: Swift.String? = nil,
@@ -10957,7 +10748,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10974,7 +10765,7 @@ extension WAFV2ClientTypes {
         /// The version name.
         public var name: Swift.String?
 
-        public init (
+        public init(
             lastUpdateTimestamp: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
@@ -11025,7 +10816,7 @@ extension WAFV2ClientTypes.ManagedRuleSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11078,7 +10869,7 @@ extension WAFV2ClientTypes {
         /// The version that you would like your customers to use.
         public var recommendedVersion: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -11132,7 +10923,7 @@ extension WAFV2ClientTypes.ManagedRuleSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11169,7 +10960,7 @@ extension WAFV2ClientTypes {
         /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -11221,7 +11012,7 @@ extension WAFV2ClientTypes.ManagedRuleSetVersion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associatedRuleGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedRuleGroupArn)
         associatedRuleGroupArn = associatedRuleGroupArnDecoded
@@ -11254,7 +11045,7 @@ extension WAFV2ClientTypes {
         /// The time that you first published this version. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
         public var publishTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             associatedRuleGroupArn: Swift.String? = nil,
             capacity: Swift.Int = 0,
             expiryTimestamp: ClientRuntime.Date? = nil,
@@ -11316,15 +11107,15 @@ extension WAFV2ClientTypes.Method: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the HTTP method of the web request. The method indicates the type of operation that the request is asking the origin to perform. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "Method": {}
+    /// Inspect the HTTP method of the web request. The method indicates the type of operation that the request is asking the origin to perform. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "Method": {}
     public struct Method: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -11356,7 +11147,7 @@ extension WAFV2ClientTypes.MobileSdkRelease: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let releaseVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseVersion)
         releaseVersion = releaseVersionDecoded
@@ -11390,7 +11181,7 @@ extension WAFV2ClientTypes {
         /// The timestamp of the release.
         public var timestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             releaseNotes: Swift.String? = nil,
             releaseVersion: Swift.String? = nil,
             tags: [WAFV2ClientTypes.Tag]? = nil,
@@ -11413,7 +11204,7 @@ extension WAFV2ClientTypes.NoneAction: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -11421,7 +11212,7 @@ extension WAFV2ClientTypes {
     /// Specifies that WAF should do nothing. This is used for the OverrideAction setting on a [Rule] when the rule uses a rule group reference statement. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction]. JSON specification: "None": {}
     public struct NoneAction: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -11438,7 +11229,7 @@ extension WAFV2ClientTypes.NotStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementDecoded = try containerValues.decodeIfPresent(Box<WAFV2ClientTypes.Statement>.self, forKey: .statement)
         statement = statementDecoded
@@ -11452,7 +11243,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var statement: Box<WAFV2ClientTypes.Statement>?
 
-        public init (
+        public init(
             statement: Box<WAFV2ClientTypes.Statement>? = nil
         )
         {
@@ -11477,7 +11268,7 @@ extension WAFV2ClientTypes.OrStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.Statement?].self, forKey: .statements)
         var statementsDecoded0:[WAFV2ClientTypes.Statement]? = nil
@@ -11500,7 +11291,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var statements: [WAFV2ClientTypes.Statement]?
 
-        public init (
+        public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
         )
         {
@@ -11526,7 +11317,7 @@ extension WAFV2ClientTypes.OverrideAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.CountAction.self, forKey: .count)
         count = countDecoded
@@ -11543,7 +11334,7 @@ extension WAFV2ClientTypes {
         /// Don't override the rule group evaluation result. This is the most common setting.
         public var `none`: WAFV2ClientTypes.NoneAction?
 
-        public init (
+        public init(
             count: WAFV2ClientTypes.CountAction? = nil,
             `none`: WAFV2ClientTypes.NoneAction? = nil
         )
@@ -11835,7 +11626,7 @@ extension WAFV2ClientTypes.PasswordField: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -11849,7 +11640,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var identifier: Swift.String?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil
         )
         {
@@ -11988,7 +11779,7 @@ public struct PutLoggingConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 
-    public init (
+    public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
     )
     {
@@ -12005,52 +11796,34 @@ extension PutLoggingConfigurationInputBody: Swift.Decodable {
         case loggingConfiguration = "LoggingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
         loggingConfiguration = loggingConfigurationDecoded
     }
 }
 
-extension PutLoggingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutLoggingConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLogDestinationPermissionIssueException" : self = .wAFLogDestinationPermissionIssueException(try WAFLogDestinationPermissionIssueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFServiceLinkedRoleErrorException" : self = .wAFServiceLinkedRoleErrorException(try WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLogDestinationPermissionIssueException": return try await WAFLogDestinationPermissionIssueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFServiceLinkedRoleErrorException": return try await WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutLoggingConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFLogDestinationPermissionIssueException(WAFLogDestinationPermissionIssueException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFServiceLinkedRoleErrorException(WAFServiceLinkedRoleErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
@@ -12064,7 +11837,7 @@ public struct PutLoggingConfigurationOutputResponse: Swift.Equatable {
     ///
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 
-    public init (
+    public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
     )
     {
@@ -12081,7 +11854,7 @@ extension PutLoggingConfigurationOutputResponseBody: Swift.Decodable {
         case loggingConfiguration = "LoggingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
         loggingConfiguration = loggingConfigurationDecoded
@@ -12152,7 +11925,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Equatable {
     /// The versions of the named managed rule group that you want to offer to your customers.
     public var versionsToPublish: [Swift.String:WAFV2ClientTypes.VersionToPublish]?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -12189,7 +11962,7 @@ extension PutManagedRuleSetVersionsInputBody: Swift.Decodable {
         case versionsToPublish = "VersionsToPublish"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -12215,39 +11988,24 @@ extension PutManagedRuleSetVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension PutManagedRuleSetVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutManagedRuleSetVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutManagedRuleSetVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutManagedRuleSetVersionsOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutManagedRuleSetVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutManagedRuleSetVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
@@ -12261,7 +12019,7 @@ public struct PutManagedRuleSetVersionsOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         nextLockToken: Swift.String? = nil
     )
     {
@@ -12278,7 +12036,7 @@ extension PutManagedRuleSetVersionsOutputResponseBody: Swift.Decodable {
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextLockToken)
         nextLockToken = nextLockTokenDecoded
@@ -12329,7 +12087,7 @@ public struct PutPermissionPolicyInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -12350,7 +12108,7 @@ extension PutPermissionPolicyInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -12359,42 +12117,28 @@ extension PutPermissionPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension PutPermissionPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutPermissionPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidPermissionPolicyException" : self = .wAFInvalidPermissionPolicyException(try WAFInvalidPermissionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidPermissionPolicyException": return try await WAFInvalidPermissionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutPermissionPolicyOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidPermissionPolicyException(WAFInvalidPermissionPolicyException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutPermissionPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WAFV2ClientTypes.QueryString: Swift.Codable {
@@ -12404,15 +12148,15 @@ extension WAFV2ClientTypes.QueryString: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the query string of the web request. This is the part of a URL that appears after a ? character, if any. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "QueryString": {}
+    /// Inspect the query string of the web request. This is the part of a URL that appears after a ? character, if any. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "QueryString": {}
     public struct QueryString: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12448,7 +12192,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
         limit = limitDecoded
@@ -12543,7 +12287,7 @@ extension WAFV2ClientTypes {
         /// An optional nested statement that narrows the scope of the web requests that are evaluated and managed by the rate-based statement. When you use a scope-down statement, the rate-based rule only tracks and rate limits requests that match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
 
-        public init (
+        public init(
             aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType? = nil,
             customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
@@ -12639,7 +12383,7 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let headerDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateLimitHeader.self, forKey: .header)
         header = headerDecoded
@@ -12680,7 +12424,7 @@ extension WAFV2ClientTypes {
         /// Use the request's query string as an aggregate key. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
         public var queryString: WAFV2ClientTypes.RateLimitQueryString?
 
-        public init (
+        public init(
             cookie: WAFV2ClientTypes.RateLimitCookie? = nil,
             forwardedIP: WAFV2ClientTypes.RateLimitForwardedIP? = nil,
             header: WAFV2ClientTypes.RateLimitHeader? = nil,
@@ -12723,7 +12467,7 @@ extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipAddressVersionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.IPAddressVersion.self, forKey: .ipAddressVersion)
         ipAddressVersion = ipAddressVersionDecoded
@@ -12749,7 +12493,7 @@ extension WAFV2ClientTypes {
         /// The version of the IP addresses, either IPV4 or IPV6.
         public var ipAddressVersion: WAFV2ClientTypes.IPAddressVersion?
 
-        public init (
+        public init(
             addresses: [Swift.String]? = nil,
             ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil
         )
@@ -12780,7 +12524,7 @@ extension WAFV2ClientTypes.RateLimitCookie: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -12808,7 +12552,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         )
@@ -12827,7 +12571,7 @@ extension WAFV2ClientTypes.RateLimitForwardedIP: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12835,7 +12579,7 @@ extension WAFV2ClientTypes {
     /// Specifies the first IP address in an HTTP header as an aggregate key for a rate-based rule. Each distinct forwarded IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. This data type supports using the forwarded IP address in the web request aggregation for a rate-based rule, in RateBasedStatementCustomKey. The JSON specification for using the forwarded IP address doesn't explicitly use this data type. JSON specification: "ForwardedIP": {} When you use this specification, you must also configure the forwarded IP address in the rate-based statement's ForwardedIPConfig.
     public struct RateLimitForwardedIP: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12847,7 +12591,7 @@ extension WAFV2ClientTypes.RateLimitHTTPMethod: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12855,7 +12599,7 @@ extension WAFV2ClientTypes {
     /// Specifies the request's HTTP method as an aggregate key for a rate-based rule. Each distinct HTTP method contributes to the aggregation instance. If you use just the HTTP method as your custom key, then each method fully defines an aggregation instance. JSON specification: "RateLimitHTTPMethod": {}
     public struct RateLimitHTTPMethod: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12879,7 +12623,7 @@ extension WAFV2ClientTypes.RateLimitHeader: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -12907,7 +12651,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         )
@@ -12926,7 +12670,7 @@ extension WAFV2ClientTypes.RateLimitIP: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12934,7 +12678,7 @@ extension WAFV2ClientTypes {
     /// Specifies the IP address in the web request as an aggregate key for a rate-based rule. Each distinct IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. To use this in the custom key settings, you must specify at least one other key to use, along with the IP address. To aggregate on only the IP address, in your rate-based statement's AggregateKeyType, specify IP. JSON specification: "RateLimitIP": {}
     public struct RateLimitIP: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12951,7 +12695,7 @@ extension WAFV2ClientTypes.RateLimitLabelNamespace: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
@@ -12965,7 +12709,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var namespace: Swift.String?
 
-        public init (
+        public init(
             namespace: Swift.String? = nil
         )
         {
@@ -12994,7 +12738,7 @@ extension WAFV2ClientTypes.RateLimitQueryArgument: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13022,7 +12766,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         )
@@ -13049,7 +12793,7 @@ extension WAFV2ClientTypes.RateLimitQueryString: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textTransformationsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.TextTransformation?].self, forKey: .textTransformations)
         var textTransformationsDecoded0:[WAFV2ClientTypes.TextTransformation]? = nil
@@ -13072,7 +12816,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         )
         {
@@ -13094,7 +12838,7 @@ extension WAFV2ClientTypes.Regex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regexStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regexString)
         regexString = regexStringDecoded
@@ -13107,7 +12851,7 @@ extension WAFV2ClientTypes {
         /// The string representing the regular expression.
         public var regexString: Swift.String?
 
-        public init (
+        public init(
             regexString: Swift.String? = nil
         )
         {
@@ -13140,7 +12884,7 @@ extension WAFV2ClientTypes.RegexMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regexStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regexString)
         regexString = regexStringDecoded
@@ -13173,7 +12917,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             regexString: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
@@ -13218,7 +12962,7 @@ extension WAFV2ClientTypes.RegexPatternSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13256,7 +13000,7 @@ extension WAFV2ClientTypes {
         /// The regular expression patterns in the set.
         public var regularExpressionList: [WAFV2ClientTypes.Regex]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -13297,7 +13041,7 @@ extension WAFV2ClientTypes.RegexPatternSetReferenceStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -13330,7 +13074,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
@@ -13372,7 +13116,7 @@ extension WAFV2ClientTypes.RegexPatternSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13401,7 +13145,7 @@ extension WAFV2ClientTypes {
         /// The name of the data type instance. You cannot change the name after you create the instance.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -13435,7 +13179,7 @@ extension WAFV2ClientTypes.ReleaseSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let releaseVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseVersion)
         releaseVersion = releaseVersionDecoded
@@ -13452,7 +13196,7 @@ extension WAFV2ClientTypes {
         /// The timestamp of the release.
         public var timestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             releaseVersion: Swift.String? = nil,
             timestamp: ClientRuntime.Date? = nil
         )
@@ -13476,7 +13220,7 @@ extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let defaultSizeInspectionLimitDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.SizeInspectionLimit.self, forKey: .defaultSizeInspectionLimit)
         defaultSizeInspectionLimit = defaultSizeInspectionLimitDecoded
@@ -13490,7 +13234,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
 
-        public init (
+        public init(
             defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit? = nil
         )
         {
@@ -13520,7 +13264,7 @@ extension WAFV2ClientTypes.RequestInspection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let payloadTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.PayloadType.self, forKey: .payloadType)
         payloadType = payloadTypeDecoded
@@ -13552,7 +13296,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var usernameField: WAFV2ClientTypes.UsernameField?
 
-        public init (
+        public init(
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
@@ -13669,7 +13413,7 @@ extension WAFV2ClientTypes.ResponseInspection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusCodeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ResponseInspectionStatusCode.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
@@ -13694,7 +13438,7 @@ extension WAFV2ClientTypes {
         /// Configures inspection of the response status code.
         public var statusCode: WAFV2ClientTypes.ResponseInspectionStatusCode?
 
-        public init (
+        public init(
             bodyContains: WAFV2ClientTypes.ResponseInspectionBodyContains? = nil,
             header: WAFV2ClientTypes.ResponseInspectionHeader? = nil,
             json: WAFV2ClientTypes.ResponseInspectionJson? = nil,
@@ -13732,7 +13476,7 @@ extension WAFV2ClientTypes.ResponseInspectionBodyContains: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let successStringsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .successStrings)
         var successStringsDecoded0:[Swift.String]? = nil
@@ -13769,7 +13513,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var successStrings: [Swift.String]?
 
-        public init (
+        public init(
             failureStrings: [Swift.String]? = nil,
             successStrings: [Swift.String]? = nil
         )
@@ -13807,7 +13551,7 @@ extension WAFV2ClientTypes.ResponseInspectionHeader: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13849,7 +13593,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var successValues: [Swift.String]?
 
-        public init (
+        public init(
             failureValues: [Swift.String]? = nil,
             name: Swift.String? = nil,
             successValues: [Swift.String]? = nil
@@ -13889,7 +13633,7 @@ extension WAFV2ClientTypes.ResponseInspectionJson: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -13931,7 +13675,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var successValues: [Swift.String]?
 
-        public init (
+        public init(
             failureValues: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
             successValues: [Swift.String]? = nil
@@ -13967,7 +13711,7 @@ extension WAFV2ClientTypes.ResponseInspectionStatusCode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let successCodesContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .successCodes)
         var successCodesDecoded0:[Swift.Int]? = nil
@@ -14004,7 +13748,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var successCodes: [Swift.Int]?
 
-        public init (
+        public init(
             failureCodes: [Swift.Int]? = nil,
             successCodes: [Swift.Int]? = nil
         )
@@ -14063,7 +13807,7 @@ extension WAFV2ClientTypes.Rule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14136,7 +13880,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-        public init (
+        public init(
             action: WAFV2ClientTypes.RuleAction? = nil,
             captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
             challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -14190,7 +13934,7 @@ extension WAFV2ClientTypes.RuleAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blockDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.BlockAction.self, forKey: .block)
         block = blockDecoded
@@ -14219,7 +13963,7 @@ extension WAFV2ClientTypes {
         /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public var count: WAFV2ClientTypes.CountAction?
 
-        public init (
+        public init(
             allow: WAFV2ClientTypes.AllowAction? = nil,
             block: WAFV2ClientTypes.BlockAction? = nil,
             captcha: WAFV2ClientTypes.CaptchaAction? = nil,
@@ -14253,7 +13997,7 @@ extension WAFV2ClientTypes.RuleActionOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14272,7 +14016,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             actionToUse: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
         )
@@ -14348,7 +14092,7 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14446,7 +14190,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             availableLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
             capacity: Swift.Int = 0,
@@ -14502,7 +14246,7 @@ extension WAFV2ClientTypes.RuleGroupReferenceStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -14542,7 +14286,7 @@ extension WAFV2ClientTypes {
         /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             excludedRules: [WAFV2ClientTypes.ExcludedRule]? = nil,
             ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]? = nil
@@ -14584,7 +14328,7 @@ extension WAFV2ClientTypes.RuleGroupSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14613,7 +14357,7 @@ extension WAFV2ClientTypes {
         /// The name of the data type instance. You cannot change the name after you create the instance.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -14647,7 +14391,7 @@ extension WAFV2ClientTypes.RuleSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14664,7 +14408,7 @@ extension WAFV2ClientTypes {
         /// The name of the rule.
         public var name: Swift.String?
 
-        public init (
+        public init(
             action: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
         )
@@ -14734,7 +14478,7 @@ extension WAFV2ClientTypes.SampledHTTPRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.HTTPRequest.self, forKey: .request)
         request = requestDecoded
@@ -14807,7 +14551,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var weight: Swift.Int
 
-        public init (
+        public init(
             action: Swift.String? = nil,
             captchaResponse: WAFV2ClientTypes.CaptchaResponse? = nil,
             challengeResponse: WAFV2ClientTypes.ChallengeResponse? = nil,
@@ -14913,7 +14657,7 @@ extension WAFV2ClientTypes.SingleHeader: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14927,7 +14671,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -14949,7 +14693,7 @@ extension WAFV2ClientTypes.SingleQueryArgument: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14963,7 +14707,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -15000,7 +14744,7 @@ extension WAFV2ClientTypes.SizeConstraintStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldToMatchDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.FieldToMatch.self, forKey: .fieldToMatch)
         fieldToMatch = fieldToMatchDecoded
@@ -15038,7 +14782,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             comparisonOperator: WAFV2ClientTypes.ComparisonOperator? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             size: Swift.Int = 0,
@@ -15115,7 +14859,7 @@ extension WAFV2ClientTypes.SqliMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldToMatchDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.FieldToMatch.self, forKey: .fieldToMatch)
         fieldToMatch = fieldToMatchDecoded
@@ -15147,7 +14891,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             sensitivityLevel: WAFV2ClientTypes.SensitivityLevel? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
@@ -15229,7 +14973,7 @@ extension WAFV2ClientTypes.Statement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let byteMatchStatementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ByteMatchStatement.self, forKey: .byteMatchStatement)
         byteMatchStatement = byteMatchStatementDecoded
@@ -15348,7 +15092,7 @@ extension WAFV2ClientTypes {
         /// A rule statement that inspects for cross-site scripting (XSS) attacks. In XSS attacks, the attacker uses vulnerabilities in a benign website as a vehicle to inject malicious client-site scripts into other legitimate web browsers.
         public var xssMatchStatement: WAFV2ClientTypes.XssMatchStatement?
 
-        public init (
+        public init(
             andStatement: WAFV2ClientTypes.AndStatement? = nil,
             byteMatchStatement: WAFV2ClientTypes.ByteMatchStatement? = nil,
             geoMatchStatement: WAFV2ClientTypes.GeoMatchStatement? = nil,
@@ -15402,7 +15146,7 @@ extension WAFV2ClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -15421,7 +15165,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -15452,7 +15196,7 @@ extension WAFV2ClientTypes.TagInfoForResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -15478,7 +15222,7 @@ extension WAFV2ClientTypes {
         /// The array of [Tag] objects defined for the resource.
         public var tagList: [WAFV2ClientTypes.Tag]?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             tagList: [WAFV2ClientTypes.Tag]? = nil
         )
@@ -15524,7 +15268,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [WAFV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
     )
@@ -15545,7 +15289,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -15563,48 +15307,31 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension WAFV2ClientTypes.TextTransformation: Swift.Codable {
@@ -15623,7 +15350,7 @@ extension WAFV2ClientTypes.TextTransformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
         priority = priorityDecoded
@@ -15688,7 +15415,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var type: WAFV2ClientTypes.TextTransformationType?
 
-        public init (
+        public init(
             priority: Swift.Int = 0,
             type: WAFV2ClientTypes.TextTransformationType? = nil
         )
@@ -15805,7 +15532,7 @@ extension WAFV2ClientTypes.TimeWindow: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -15824,7 +15551,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -15870,7 +15597,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -15891,7 +15618,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -15909,46 +15636,30 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFTagOperationException(WAFTagOperationException)
-    case wAFTagOperationInternalErrorException(WAFTagOperationInternalErrorException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateIPSetInput: Swift.Encodable {
@@ -16035,7 +15746,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         addresses: [Swift.String]? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -16072,7 +15783,7 @@ extension UpdateIPSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -16098,43 +15809,26 @@ extension UpdateIPSetInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateIPSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateIPSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateIPSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
@@ -16148,7 +15842,7 @@ public struct UpdateIPSetOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         nextLockToken: Swift.String? = nil
     )
     {
@@ -16165,7 +15859,7 @@ extension UpdateIPSetOutputResponseBody: Swift.Decodable {
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextLockToken)
         nextLockToken = nextLockTokenDecoded
@@ -16235,7 +15929,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Equatable {
     /// This member is required.
     public var versionToExpire: Swift.String?
 
-    public init (
+    public init(
         expiryTimestamp: ClientRuntime.Date? = nil,
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
@@ -16272,7 +15966,7 @@ extension UpdateManagedRuleSetVersionExpiryDateInputBody: Swift.Decodable {
         case versionToExpire = "VersionToExpire"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -16289,39 +15983,24 @@ extension UpdateManagedRuleSetVersionExpiryDateInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateManagedRuleSetVersionExpiryDateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateManagedRuleSetVersionExpiryDateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateManagedRuleSetVersionExpiryDateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateManagedRuleSetVersionExpiryDateOutputError: Swift.Error, Swift.Equatable {
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateManagedRuleSetVersionExpiryDateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateManagedRuleSetVersionExpiryDateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiringVersion = output.expiringVersion
@@ -16343,7 +16022,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateOutputResponse: Swift.Equatab
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         expiringVersion: Swift.String? = nil,
         expiryTimestamp: ClientRuntime.Date? = nil,
         nextLockToken: Swift.String? = nil
@@ -16368,7 +16047,7 @@ extension UpdateManagedRuleSetVersionExpiryDateOutputResponseBody: Swift.Decodab
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expiringVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expiringVersion)
         expiringVersion = expiringVersionDecoded
@@ -16444,7 +16123,7 @@ public struct UpdateRegexPatternSetInput: Swift.Equatable {
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
@@ -16481,7 +16160,7 @@ extension UpdateRegexPatternSetInputBody: Swift.Decodable {
         case scope = "Scope"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -16507,43 +16186,26 @@ extension UpdateRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateRegexPatternSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateRegexPatternSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateRegexPatternSetOutputError: Swift.Error, Swift.Equatable {
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
@@ -16557,7 +16219,7 @@ public struct UpdateRegexPatternSetOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         nextLockToken: Swift.String? = nil
     )
     {
@@ -16574,7 +16236,7 @@ extension UpdateRegexPatternSetOutputResponseBody: Swift.Decodable {
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextLockToken)
         nextLockToken = nextLockTokenDecoded
@@ -16661,7 +16323,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     /// This member is required.
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-    public init (
+    public init(
         customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -16706,7 +16368,7 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
         case visibilityConfig = "VisibilityConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -16745,49 +16407,29 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateRuleGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateRuleGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFConfigurationWarningException" : self = .wAFConfigurationWarningException(try WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFConfigurationWarningException": return try await WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateRuleGroupOutputError: Swift.Error, Swift.Equatable {
-    case wAFConfigurationWarningException(WAFConfigurationWarningException)
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
@@ -16801,7 +16443,7 @@ public struct UpdateRuleGroupOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         nextLockToken: Swift.String? = nil
     )
     {
@@ -16818,7 +16460,7 @@ extension UpdateRuleGroupOutputResponseBody: Swift.Decodable {
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextLockToken)
         nextLockToken = nextLockTokenDecoded
@@ -16939,7 +16581,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     /// This member is required.
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-    public init (
+    public init(
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -17004,7 +16646,7 @@ extension UpdateWebACLInputBody: Swift.Decodable {
         case visibilityConfig = "VisibilityConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -17062,53 +16704,31 @@ extension UpdateWebACLInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateWebACLOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateWebACLOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "WAFConfigurationWarningException" : self = .wAFConfigurationWarningException(try WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFDuplicateItemException" : self = .wAFDuplicateItemException(try WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFExpiredManagedRuleGroupVersionException" : self = .wAFExpiredManagedRuleGroupVersionException(try WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFConfigurationWarningException": return try await WAFConfigurationWarningException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDuplicateItemException": return try await WAFDuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFExpiredManagedRuleGroupVersionException": return try await WAFExpiredManagedRuleGroupVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidResourceException": return try await WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateWebACLOutputError: Swift.Error, Swift.Equatable {
-    case wAFConfigurationWarningException(WAFConfigurationWarningException)
-    case wAFDuplicateItemException(WAFDuplicateItemException)
-    case wAFExpiredManagedRuleGroupVersionException(WAFExpiredManagedRuleGroupVersionException)
-    case wAFInternalErrorException(WAFInternalErrorException)
-    case wAFInvalidOperationException(WAFInvalidOperationException)
-    case wAFInvalidParameterException(WAFInvalidParameterException)
-    case wAFInvalidResourceException(WAFInvalidResourceException)
-    case wAFLimitsExceededException(WAFLimitsExceededException)
-    case wAFNonexistentItemException(WAFNonexistentItemException)
-    case wAFOptimisticLockException(WAFOptimisticLockException)
-    case wAFSubscriptionNotFoundException(WAFSubscriptionNotFoundException)
-    case wAFUnavailableEntityException(WAFUnavailableEntityException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
@@ -17122,7 +16742,7 @@ public struct UpdateWebACLOutputResponse: Swift.Equatable {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
-    public init (
+    public init(
         nextLockToken: Swift.String? = nil
     )
     {
@@ -17139,7 +16759,7 @@ extension UpdateWebACLOutputResponseBody: Swift.Decodable {
         case nextLockToken = "NextLockToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextLockTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextLockToken)
         nextLockToken = nextLockTokenDecoded
@@ -17153,15 +16773,15 @@ extension WAFV2ClientTypes.UriPath: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used only in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
+    /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
     public struct UriPath: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -17178,7 +16798,7 @@ extension WAFV2ClientTypes.UsernameField: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -17192,7 +16812,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var identifier: Swift.String?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil
         )
         {
@@ -17218,7 +16838,7 @@ extension WAFV2ClientTypes.VersionToPublish: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associatedRuleGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedRuleGroupArn)
         associatedRuleGroupArn = associatedRuleGroupArnDecoded
@@ -17235,7 +16855,7 @@ extension WAFV2ClientTypes {
         /// The amount of time the vendor expects this version of the managed rule group to last, in days.
         public var forecastedLifetime: Swift.Int?
 
-        public init (
+        public init(
             associatedRuleGroupArn: Swift.String? = nil,
             forecastedLifetime: Swift.Int? = nil
         )
@@ -17267,7 +16887,7 @@ extension WAFV2ClientTypes.VisibilityConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sampledRequestsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sampledRequestsEnabled) ?? false
         sampledRequestsEnabled = sampledRequestsEnabledDecoded
@@ -17281,17 +16901,17 @@ extension WAFV2ClientTypes.VisibilityConfig: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     public struct VisibilityConfig: Swift.Equatable {
-        /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
+        /// Indicates whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide. For web ACLs, the metrics are for web requests that have the web ACL default action applied. WAF applies the default action to web requests that pass the inspection of all rules in the web ACL without being either allowed or blocked. For more information, see [The web ACL default action](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-default-action.html) in the WAF Developer Guide.
         /// This member is required.
         public var cloudWatchMetricsEnabled: Swift.Bool
         /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
         /// This member is required.
         public var metricName: Swift.String?
-        /// A boolean indicating whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
+        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
         /// This member is required.
         public var sampledRequestsEnabled: Swift.Bool
 
-        public init (
+        public init(
             cloudWatchMetricsEnabled: Swift.Bool = false,
             metricName: Swift.String? = nil,
             sampledRequestsEnabled: Swift.Bool = false
@@ -17306,37 +16926,41 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFAssociatedItemException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFAssociatedItemExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
-public struct WAFAssociatedItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFAssociatedItemException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17349,7 +16973,7 @@ extension WAFAssociatedItemExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17357,37 +16981,41 @@ extension WAFAssociatedItemExceptionBody: Swift.Decodable {
 }
 
 extension WAFConfigurationWarningException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFConfigurationWarningExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
-public struct WAFConfigurationWarningException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFConfigurationWarningException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17400,7 +17028,7 @@ extension WAFConfigurationWarningExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17408,37 +17036,41 @@ extension WAFConfigurationWarningExceptionBody: Swift.Decodable {
 }
 
 extension WAFDuplicateItemException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFDuplicateItemExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
-public struct WAFDuplicateItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFDuplicateItemException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17451,7 +17083,7 @@ extension WAFDuplicateItemExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17459,37 +17091,41 @@ extension WAFDuplicateItemExceptionBody: Swift.Decodable {
 }
 
 extension WAFExpiredManagedRuleGroupVersionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFExpiredManagedRuleGroupVersionExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
-public struct WAFExpiredManagedRuleGroupVersionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFExpiredManagedRuleGroupVersionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17502,7 +17138,7 @@ extension WAFExpiredManagedRuleGroupVersionExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17510,37 +17146,41 @@ extension WAFExpiredManagedRuleGroupVersionExceptionBody: Swift.Decodable {
 }
 
 extension WAFInternalErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
-public struct WAFInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFInternalErrorException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17553,7 +17193,7 @@ extension WAFInternalErrorExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17561,37 +17201,41 @@ extension WAFInternalErrorExceptionBody: Swift.Decodable {
 }
 
 extension WAFInvalidOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFInvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation isn't valid.
-public struct WAFInvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFInvalidOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17604,7 +17248,7 @@ extension WAFInvalidOperationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17612,24 +17256,23 @@ extension WAFInvalidOperationExceptionBody: Swift.Decodable {
 }
 
 extension WAFInvalidParameterException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.field = output.field
-            self.message = output.message
-            self.parameter = output.parameter
-            self.reason = output.reason
+            self.properties.field = output.field
+            self.properties.message = output.message
+            self.properties.parameter = output.parameter
+            self.properties.reason = output.reason
         } else {
-            self.field = nil
-            self.parameter = nil
-            self.reason = nil
-            self.message = nil
+            self.properties.field = nil
+            self.properties.parameter = nil
+            self.properties.reason = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -17642,33 +17285,38 @@ extension WAFInvalidParameterException {
 /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-public struct WAFInvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The settings where the invalid parameter was found.
-    public var field: WAFV2ClientTypes.ParameterExceptionField?
-    public var message: Swift.String?
-    /// The invalid parameter that resulted in the exception.
-    public var parameter: Swift.String?
-    /// Additional information about the exception.
-    public var reason: Swift.String?
+public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The settings where the invalid parameter was found.
+        public internal(set) var field: WAFV2ClientTypes.ParameterExceptionField? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The invalid parameter that resulted in the exception.
+        public internal(set) var parameter: Swift.String? = nil
+        /// Additional information about the exception.
+        public internal(set) var reason: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFInvalidParameterException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         field: WAFV2ClientTypes.ParameterExceptionField? = nil,
         message: Swift.String? = nil,
         parameter: Swift.String? = nil,
         reason: Swift.String? = nil
     )
     {
-        self.field = field
-        self.message = message
-        self.parameter = parameter
-        self.reason = reason
+        self.properties.field = field
+        self.properties.message = message
+        self.properties.parameter = parameter
+        self.properties.reason = reason
     }
 }
 
@@ -17687,7 +17335,7 @@ extension WAFInvalidParameterExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17701,18 +17349,17 @@ extension WAFInvalidParameterExceptionBody: Swift.Decodable {
 }
 
 extension WAFInvalidPermissionPolicyException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFInvalidPermissionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -17730,21 +17377,26 @@ extension WAFInvalidPermissionPolicyException {
 ///
 ///
 /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
-public struct WAFInvalidPermissionPolicyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFInvalidPermissionPolicyException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17757,7 +17409,7 @@ extension WAFInvalidPermissionPolicyExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17765,37 +17417,41 @@ extension WAFInvalidPermissionPolicyExceptionBody: Swift.Decodable {
 }
 
 extension WAFInvalidResourceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFInvalidResourceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-public struct WAFInvalidResourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFInvalidResourceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17808,7 +17464,7 @@ extension WAFInvalidResourceExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17816,37 +17472,41 @@ extension WAFInvalidResourceExceptionBody: Swift.Decodable {
 }
 
 extension WAFLimitsExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFLimitsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-public struct WAFLimitsExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFLimitsExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17859,7 +17519,7 @@ extension WAFLimitsExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17867,37 +17527,41 @@ extension WAFLimitsExceededExceptionBody: Swift.Decodable {
 }
 
 extension WAFLogDestinationPermissionIssueException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFLogDestinationPermissionIssueExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
-public struct WAFLogDestinationPermissionIssueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFLogDestinationPermissionIssueException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17910,7 +17574,7 @@ extension WAFLogDestinationPermissionIssueExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17918,37 +17582,41 @@ extension WAFLogDestinationPermissionIssueExceptionBody: Swift.Decodable {
 }
 
 extension WAFNonexistentItemException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFNonexistentItemExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-public struct WAFNonexistentItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFNonexistentItemException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17961,7 +17629,7 @@ extension WAFNonexistentItemExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17969,37 +17637,41 @@ extension WAFNonexistentItemExceptionBody: Swift.Decodable {
 }
 
 extension WAFOptimisticLockException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFOptimisticLockExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-public struct WAFOptimisticLockException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFOptimisticLockException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18012,7 +17684,7 @@ extension WAFOptimisticLockExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18020,37 +17692,41 @@ extension WAFOptimisticLockExceptionBody: Swift.Decodable {
 }
 
 extension WAFServiceLinkedRoleErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFServiceLinkedRoleErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFServiceLinkedRoleErrorException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18063,7 +17739,7 @@ extension WAFServiceLinkedRoleErrorExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18071,37 +17747,41 @@ extension WAFServiceLinkedRoleErrorExceptionBody: Swift.Decodable {
 }
 
 extension WAFSubscriptionNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFSubscriptionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-public struct WAFSubscriptionNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFSubscriptionNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18114,7 +17794,7 @@ extension WAFSubscriptionNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18122,37 +17802,41 @@ extension WAFSubscriptionNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension WAFTagOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFTagOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred during the tagging operation. Retry your request.
-public struct WAFTagOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFTagOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18165,7 +17849,7 @@ extension WAFTagOperationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18173,37 +17857,41 @@ extension WAFTagOperationExceptionBody: Swift.Decodable {
 }
 
 extension WAFTagOperationInternalErrorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFTagOperationInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-public struct WAFTagOperationInternalErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFTagOperationInternalErrorException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18216,7 +17904,7 @@ extension WAFTagOperationInternalErrorExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18224,37 +17912,41 @@ extension WAFTagOperationInternalErrorExceptionBody: Swift.Decodable {
 }
 
 extension WAFUnavailableEntityException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFUnavailableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-public struct WAFUnavailableEntityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFUnavailableEntityException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18267,7 +17959,7 @@ extension WAFUnavailableEntityExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18275,37 +17967,41 @@ extension WAFUnavailableEntityExceptionBody: Swift.Decodable {
 }
 
 extension WAFUnsupportedAggregateKeyTypeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: WAFUnsupportedAggregateKeyTypeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
-public struct WAFUnsupportedAggregateKeyTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFUnsupportedAggregateKeyTypeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18318,7 +18014,7 @@ extension WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18416,7 +18112,7 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -18547,7 +18243,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
             capacity: Swift.Int = 0,
@@ -18617,7 +18313,7 @@ extension WAFV2ClientTypes.WebACLSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -18646,7 +18342,7 @@ extension WAFV2ClientTypes {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public var name: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -18683,7 +18379,7 @@ extension WAFV2ClientTypes.XssMatchStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldToMatchDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.FieldToMatch.self, forKey: .fieldToMatch)
         fieldToMatch = fieldToMatchDecoded
@@ -18711,7 +18407,7 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
-        public init (
+        public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         )
