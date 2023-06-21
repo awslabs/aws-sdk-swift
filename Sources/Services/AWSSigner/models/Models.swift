@@ -807,9 +807,9 @@ extension SignerClientTypes.EncryptionAlgorithmOptions: Swift.Codable {
         var allowedValuesDecoded0:[SignerClientTypes.EncryptionAlgorithm]? = nil
         if let allowedValuesContainer = allowedValuesContainer {
             allowedValuesDecoded0 = [SignerClientTypes.EncryptionAlgorithm]()
-            for string0 in allowedValuesContainer {
-                if let string0 = string0 {
-                    allowedValuesDecoded0?.append(string0)
+            for enum0 in allowedValuesContainer {
+                if let enum0 = enum0 {
+                    allowedValuesDecoded0?.append(enum0)
                 }
             }
         }
@@ -839,6 +839,158 @@ extension SignerClientTypes {
         }
     }
 
+}
+
+extension GetRevocationStatusInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let certificateHashes = certificateHashes else {
+                let message = "Creating a URL Query Item failed. certificateHashes is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            certificateHashes.forEach { queryItemValue in
+                let queryItem = ClientRuntime.URLQueryItem(name: "certificateHashes".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+            guard let profileVersionArn = profileVersionArn else {
+                let message = "Creating a URL Query Item failed. profileVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let profileVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "profileVersionArn".urlPercentEncoding(), value: Swift.String(profileVersionArn).urlPercentEncoding())
+            items.append(profileVersionArnQueryItem)
+            guard let platformId = platformId else {
+                let message = "Creating a URL Query Item failed. platformId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let platformIdQueryItem = ClientRuntime.URLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
+            items.append(platformIdQueryItem)
+            guard let jobArn = jobArn else {
+                let message = "Creating a URL Query Item failed. jobArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let jobArnQueryItem = ClientRuntime.URLQueryItem(name: "jobArn".urlPercentEncoding(), value: Swift.String(jobArn).urlPercentEncoding())
+            items.append(jobArnQueryItem)
+            guard let signatureTimestamp = signatureTimestamp else {
+                let message = "Creating a URL Query Item failed. signatureTimestamp is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let signatureTimestampQueryItem = ClientRuntime.URLQueryItem(name: "signatureTimestamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureTimestamp)).urlPercentEncoding())
+            items.append(signatureTimestampQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetRevocationStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/revocations"
+    }
+}
+
+public struct GetRevocationStatusInput: Swift.Equatable {
+    /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are defined as their own CA.
+    /// This member is required.
+    public var certificateHashes: [Swift.String]?
+    /// The ARN of a signing job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The ID of a signing platform.
+    /// This member is required.
+    public var platformId: Swift.String?
+    /// The version of a signing profile.
+    /// This member is required.
+    public var profileVersionArn: Swift.String?
+    /// The timestamp of the signature that validates the profile or job.
+    /// This member is required.
+    public var signatureTimestamp: ClientRuntime.Date?
+
+    public init(
+        certificateHashes: [Swift.String]? = nil,
+        jobArn: Swift.String? = nil,
+        platformId: Swift.String? = nil,
+        profileVersionArn: Swift.String? = nil,
+        signatureTimestamp: ClientRuntime.Date? = nil
+    )
+    {
+        self.certificateHashes = certificateHashes
+        self.jobArn = jobArn
+        self.platformId = platformId
+        self.profileVersionArn = profileVersionArn
+        self.signatureTimestamp = signatureTimestamp
+    }
+}
+
+struct GetRevocationStatusInputBody: Swift.Equatable {
+}
+
+extension GetRevocationStatusInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetRevocationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetRevocationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRevocationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.revokedEntities = output.revokedEntities
+        } else {
+            self.revokedEntities = nil
+        }
+    }
+}
+
+public struct GetRevocationStatusOutputResponse: Swift.Equatable {
+    /// A list of revoked entities (including one or more of the signing profile ARN, signing job ID, and certificate hash) supplied as input to the API.
+    public var revokedEntities: [Swift.String]?
+
+    public init(
+        revokedEntities: [Swift.String]? = nil
+    )
+    {
+        self.revokedEntities = revokedEntities
+    }
+}
+
+struct GetRevocationStatusOutputResponseBody: Swift.Equatable {
+    let revokedEntities: [Swift.String]?
+}
+
+extension GetRevocationStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revokedEntities
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revokedEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .revokedEntities)
+        var revokedEntitiesDecoded0:[Swift.String]? = nil
+        if let revokedEntitiesContainer = revokedEntitiesContainer {
+            revokedEntitiesDecoded0 = [Swift.String]()
+            for string0 in revokedEntitiesContainer {
+                if let string0 = string0 {
+                    revokedEntitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        revokedEntities = revokedEntitiesDecoded0
+    }
 }
 
 extension GetSigningPlatformInput: ClientRuntime.URLPathProvider {
@@ -1313,9 +1465,9 @@ extension SignerClientTypes.HashAlgorithmOptions: Swift.Codable {
         var allowedValuesDecoded0:[SignerClientTypes.HashAlgorithm]? = nil
         if let allowedValuesContainer = allowedValuesContainer {
             allowedValuesDecoded0 = [SignerClientTypes.HashAlgorithm]()
-            for string0 in allowedValuesContainer {
-                if let string0 = string0 {
-                    allowedValuesDecoded0?.append(string0)
+            for enum0 in allowedValuesContainer {
+                if let enum0 = enum0 {
+                    allowedValuesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1592,7 +1744,7 @@ extension ListSigningJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if isRevoked != false {
+            if let isRevoked = isRevoked {
                 let isRevokedQueryItem = ClientRuntime.URLQueryItem(name: "isRevoked".urlPercentEncoding(), value: Swift.String(isRevoked).urlPercentEncoding())
                 items.append(isRevokedQueryItem)
             }
@@ -1641,7 +1793,7 @@ extension ListSigningJobsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSigningJobsInput: Swift.Equatable {
     /// Filters results to return only signing jobs with revoked signatures.
-    public var isRevoked: Swift.Bool
+    public var isRevoked: Swift.Bool?
     /// Filters results to return only signing jobs initiated by a specified IAM entity.
     public var jobInvoker: Swift.String?
     /// Specifies the maximum number of items to return in the response. Use this parameter when paginating results. If additional items exist beyond the number you specify, the nextToken element is set in the response. Use the nextToken value in a subsequent request to retrieve additional items.
@@ -1660,7 +1812,7 @@ public struct ListSigningJobsInput: Swift.Equatable {
     public var status: SignerClientTypes.SigningStatus?
 
     public init(
-        isRevoked: Swift.Bool = false,
+        isRevoked: Swift.Bool? = nil,
         jobInvoker: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -1914,7 +2066,7 @@ extension ListSigningProfilesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if includeCanceled != false {
+            if let includeCanceled = includeCanceled {
                 let includeCanceledQueryItem = ClientRuntime.URLQueryItem(name: "includeCanceled".urlPercentEncoding(), value: Swift.String(includeCanceled).urlPercentEncoding())
                 items.append(includeCanceledQueryItem)
             }
@@ -1949,7 +2101,7 @@ extension ListSigningProfilesInput: ClientRuntime.URLPathProvider {
 
 public struct ListSigningProfilesInput: Swift.Equatable {
     /// Designates whether to include profiles with the status of CANCELED.
-    public var includeCanceled: Swift.Bool
+    public var includeCanceled: Swift.Bool?
     /// The maximum number of profiles to be returned.
     public var maxResults: Swift.Int?
     /// Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
@@ -1960,7 +2112,7 @@ public struct ListSigningProfilesInput: Swift.Equatable {
     public var statuses: [SignerClientTypes.SigningProfileStatus]?
 
     public init(
-        includeCanceled: Swift.Bool = false,
+        includeCanceled: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         platformId: Swift.String? = nil,
@@ -3085,6 +3237,186 @@ extension ServiceLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension SignPayloadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case payloadFormat
+        case profileName
+        case profileOwner
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let payload = self.payload {
+            try encodeContainer.encode(payload.base64EncodedString(), forKey: .payload)
+        }
+        if let payloadFormat = self.payloadFormat {
+            try encodeContainer.encode(payloadFormat, forKey: .payloadFormat)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
+        }
+        if let profileOwner = self.profileOwner {
+            try encodeContainer.encode(profileOwner, forKey: .profileOwner)
+        }
+    }
+}
+
+extension SignPayloadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/signing-jobs/with-payload"
+    }
+}
+
+public struct SignPayloadInput: Swift.Equatable {
+    /// Specifies the object digest (hash) to sign.
+    /// This member is required.
+    public var payload: ClientRuntime.Data?
+    /// Payload content type
+    /// This member is required.
+    public var payloadFormat: Swift.String?
+    /// The name of the signing profile.
+    /// This member is required.
+    public var profileName: Swift.String?
+    /// The AWS account ID of the profile owner.
+    public var profileOwner: Swift.String?
+
+    public init(
+        payload: ClientRuntime.Data? = nil,
+        payloadFormat: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        profileOwner: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.payloadFormat = payloadFormat
+        self.profileName = profileName
+        self.profileOwner = profileOwner
+    }
+}
+
+struct SignPayloadInputBody: Swift.Equatable {
+    let profileName: Swift.String?
+    let profileOwner: Swift.String?
+    let payload: ClientRuntime.Data?
+    let payloadFormat: Swift.String?
+}
+
+extension SignPayloadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case payloadFormat
+        case profileName
+        case profileOwner
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let profileOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileOwner)
+        profileOwner = profileOwnerDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .payload)
+        payload = payloadDecoded
+        let payloadFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payloadFormat)
+        payloadFormat = payloadFormatDecoded
+    }
+}
+
+public enum SignPayloadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SignPayloadOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SignPayloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+            self.jobOwner = output.jobOwner
+            self.metadata = output.metadata
+            self.signature = output.signature
+        } else {
+            self.jobId = nil
+            self.jobOwner = nil
+            self.metadata = nil
+            self.signature = nil
+        }
+    }
+}
+
+public struct SignPayloadOutputResponse: Swift.Equatable {
+    /// Unique identifier of the signing job.
+    public var jobId: Swift.String?
+    /// The AWS account ID of the job owner.
+    public var jobOwner: Swift.String?
+    /// Information including the signing profile ARN and the signing job ID. Clients use metadata to signature records, for example, as annotations added to the signature manifest inside an OCI registry.
+    public var metadata: [Swift.String:Swift.String]?
+    /// A cryptographic signature.
+    public var signature: ClientRuntime.Data?
+
+    public init(
+        jobId: Swift.String? = nil,
+        jobOwner: Swift.String? = nil,
+        metadata: [Swift.String:Swift.String]? = nil,
+        signature: ClientRuntime.Data? = nil
+    )
+    {
+        self.jobId = jobId
+        self.jobOwner = jobOwner
+        self.metadata = metadata
+        self.signature = signature
+    }
+}
+
+struct SignPayloadOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let jobOwner: Swift.String?
+    let metadata: [Swift.String:Swift.String]?
+    let signature: ClientRuntime.Data?
+}
+
+extension SignPayloadOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId
+        case jobOwner
+        case metadata
+        case signature
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let jobOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobOwner)
+        jobOwner = jobOwnerDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in metadataContainer {
+                if let string0 = string0 {
+                    metadataDecoded0?[key0] = string0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+        let signatureDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .signature)
+        signature = signatureDecoded
+    }
+}
+
 extension SignerClientTypes.SignatureValidityPeriod: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case type
@@ -3282,9 +3614,9 @@ extension SignerClientTypes.SigningImageFormat: Swift.Codable {
         var supportedFormatsDecoded0:[SignerClientTypes.ImageFormat]? = nil
         if let supportedFormatsContainer = supportedFormatsContainer {
             supportedFormatsDecoded0 = [SignerClientTypes.ImageFormat]()
-            for string0 in supportedFormatsContainer {
-                if let string0 = string0 {
-                    supportedFormatsDecoded0?.append(string0)
+            for enum0 in supportedFormatsContainer {
+                if let enum0 = enum0 {
+                    supportedFormatsDecoded0?.append(enum0)
                 }
             }
         }
@@ -3650,7 +3982,7 @@ extension SignerClientTypes {
         public var maxSizeInMB: Swift.Int
         /// Any partner entities linked to a code signing platform.
         public var partner: Swift.String?
-        /// The ID of a code signing; platform.
+        /// The ID of a code signing platform.
         public var platformId: Swift.String?
         /// Indicates whether revocation is supported for the platform.
         public var revocationSupported: Swift.Bool

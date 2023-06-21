@@ -6144,8 +6144,10 @@ extension ConflictException {
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
             self.properties.message = nil
+            self.properties.resourceId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -6158,6 +6160,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
+        /// A resource with the same name already exists.
+        public internal(set) var resourceId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -6170,26 +6174,32 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil
     )
     {
         self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
 struct ConflictExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let resourceId: Swift.String?
 }
 
 extension ConflictExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
+        case resourceId
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
     }
 }
 
@@ -7935,6 +7945,7 @@ extension CreateJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortConfig
         case description
+        case destinationPackageVersions
         case document
         case documentParameters
         case documentSource
@@ -7957,6 +7968,12 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let destinationPackageVersions = destinationPackageVersions {
+            var destinationPackageVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPackageVersions)
+            for packageversionarn0 in destinationPackageVersions {
+                try destinationPackageVersionsContainer.encode(packageversionarn0)
+            }
         }
         if let document = self.document {
             try encodeContainer.encode(document, forKey: .document)
@@ -8023,11 +8040,13 @@ public struct CreateJobInput: Swift.Equatable {
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
     public var description: Swift.String?
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
     /// Parameters of an Amazon Web Services managed template that you can specify to create the job document. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
     public var documentParameters: [Swift.String:Swift.String]?
-    /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0. For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
+    /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0 For more information, see [Methods for accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
     public var documentSource: Swift.String?
     /// Allows you to create the criteria to retry a job.
     public var jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
@@ -8057,6 +8076,7 @@ public struct CreateJobInput: Swift.Equatable {
     public init(
         abortConfig: IoTClientTypes.AbortConfig? = nil,
         description: Swift.String? = nil,
+        destinationPackageVersions: [Swift.String]? = nil,
         document: Swift.String? = nil,
         documentParameters: [Swift.String:Swift.String]? = nil,
         documentSource: Swift.String? = nil,
@@ -8075,6 +8095,7 @@ public struct CreateJobInput: Swift.Equatable {
     {
         self.abortConfig = abortConfig
         self.description = description
+        self.destinationPackageVersions = destinationPackageVersions
         self.document = document
         self.documentParameters = documentParameters
         self.documentSource = documentSource
@@ -8108,12 +8129,14 @@ struct CreateJobInputBody: Swift.Equatable {
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     let documentParameters: [Swift.String:Swift.String]?
     let schedulingConfig: IoTClientTypes.SchedulingConfig?
+    let destinationPackageVersions: [Swift.String]?
 }
 
 extension CreateJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortConfig
         case description
+        case destinationPackageVersions
         case document
         case documentParameters
         case documentSource
@@ -8188,6 +8211,17 @@ extension CreateJobInputBody: Swift.Decodable {
         documentParameters = documentParametersDecoded0
         let schedulingConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.SchedulingConfig.self, forKey: .schedulingConfig)
         schedulingConfig = schedulingConfigDecoded
+        let destinationPackageVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinationPackageVersions)
+        var destinationPackageVersionsDecoded0:[Swift.String]? = nil
+        if let destinationPackageVersionsContainer = destinationPackageVersionsContainer {
+            destinationPackageVersionsDecoded0 = [Swift.String]()
+            for string0 in destinationPackageVersionsContainer {
+                if let string0 = string0 {
+                    destinationPackageVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        destinationPackageVersions = destinationPackageVersionsDecoded0
     }
 }
 
@@ -8271,6 +8305,7 @@ extension CreateJobTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortConfig
         case description
+        case destinationPackageVersions
         case document
         case documentSource
         case jobArn
@@ -8289,6 +8324,12 @@ extension CreateJobTemplateInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let destinationPackageVersions = destinationPackageVersions {
+            var destinationPackageVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPackageVersions)
+            for packageversionarn0 in destinationPackageVersions {
+                try destinationPackageVersionsContainer.encode(packageversionarn0)
+            }
         }
         if let document = self.document {
             try encodeContainer.encode(document, forKey: .document)
@@ -8341,6 +8382,8 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// A description of the job document.
     /// This member is required.
     public var description: Swift.String?
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
     /// An S3 link to the job document to use in the template. Required if you don't specify a value for document. If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form: ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key} where bucket is your bucket name and key is the object in the bucket to which you are linking.
@@ -8366,6 +8409,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     public init(
         abortConfig: IoTClientTypes.AbortConfig? = nil,
         description: Swift.String? = nil,
+        destinationPackageVersions: [Swift.String]? = nil,
         document: Swift.String? = nil,
         documentSource: Swift.String? = nil,
         jobArn: Swift.String? = nil,
@@ -8380,6 +8424,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     {
         self.abortConfig = abortConfig
         self.description = description
+        self.destinationPackageVersions = destinationPackageVersions
         self.document = document
         self.documentSource = documentSource
         self.jobArn = jobArn
@@ -8405,12 +8450,14 @@ struct CreateJobTemplateInputBody: Swift.Equatable {
     let tags: [IoTClientTypes.Tag]?
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     let maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
+    let destinationPackageVersions: [Swift.String]?
 }
 
 extension CreateJobTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortConfig
         case description
+        case destinationPackageVersions
         case document
         case documentSource
         case jobArn
@@ -8464,6 +8511,17 @@ extension CreateJobTemplateInputBody: Swift.Decodable {
             }
         }
         maintenanceWindows = maintenanceWindowsDecoded0
+        let destinationPackageVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinationPackageVersions)
+        var destinationPackageVersionsDecoded0:[Swift.String]? = nil
+        if let destinationPackageVersionsContainer = destinationPackageVersionsContainer {
+            destinationPackageVersionsDecoded0 = [Swift.String]()
+            for string0 in destinationPackageVersionsContainer {
+                if let string0 = string0 {
+                    destinationPackageVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        destinationPackageVersions = destinationPackageVersionsDecoded0
     }
 }
 
@@ -9163,6 +9221,449 @@ extension CreateOTAUpdateOutputResponseBody: Swift.Decodable {
         awsIotJobArn = awsIotJobArnDecoded
         let otaUpdateStatusDecoded = try containerValues.decodeIfPresent(IoTClientTypes.OTAUpdateStatus.self, forKey: .otaUpdateStatus)
         otaUpdateStatus = otaUpdateStatusDecoded
+    }
+}
+
+extension CreatePackageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePackageInput(clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreatePackageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreatePackageInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension CreatePackageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())"
+    }
+}
+
+public struct CreatePackageInput: Swift.Equatable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// A summary of the package being created. This can be used to outline the package's contents or purpose.
+    public var description: Swift.String?
+    /// The name of the new package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// Metadata that can be used to manage the package.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.packageName = packageName
+        self.tags = tags
+    }
+}
+
+struct CreatePackageInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePackageInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreatePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePackageOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePackageOutputResponse(packageArn: \(Swift.String(describing: packageArn)), packageName: \(Swift.String(describing: packageName)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.packageArn = output.packageArn
+            self.packageName = output.packageName
+        } else {
+            self.description = nil
+            self.packageArn = nil
+            self.packageName = nil
+        }
+    }
+}
+
+public struct CreatePackageOutputResponse: Swift.Equatable {
+    /// The package description.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) for the package.
+    public var packageArn: Swift.String?
+    /// The name of the package.
+    public var packageName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        packageArn: Swift.String? = nil,
+        packageName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.packageArn = packageArn
+        self.packageName = packageName
+    }
+}
+
+struct CreatePackageOutputResponseBody: Swift.Equatable {
+    let packageName: Swift.String?
+    let packageArn: Swift.String?
+    let description: Swift.String?
+}
+
+extension CreatePackageOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case packageArn
+        case packageName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let packageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageArn)
+        packageArn = packageArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CreatePackageVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePackageVersionInput(clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), tags: \(Swift.String(describing: tags)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreatePackageVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case description
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, resourceAttributes0) in attributes {
+                try attributesContainer.encode(resourceAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreatePackageVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension CreatePackageVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct CreatePackageVersionInput: Swift.Equatable {
+    /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
+    public var attributes: [Swift.String:Swift.String]?
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// A summary of the package version being created. This can be used to outline the package's contents or purpose.
+    public var description: Swift.String?
+    /// The name of the associated package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// Metadata that can be used to manage the package version.
+    public var tags: [Swift.String:Swift.String]?
+    /// The name of the new package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        attributes: [Swift.String:Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.description = description
+        self.packageName = packageName
+        self.tags = tags
+        self.versionName = versionName
+    }
+}
+
+struct CreatePackageVersionInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let attributes: [Swift.String:Swift.String]?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePackageVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case description
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, resourceattributevalue0) in attributesContainer {
+                if let resourceattributevalue0 = resourceattributevalue0 {
+                    attributesDecoded0?[key0] = resourceattributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreatePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePackageVersionOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePackageVersionOutputResponse(errorReason: \(Swift.String(describing: errorReason)), packageName: \(Swift.String(describing: packageName)), packageVersionArn: \(Swift.String(describing: packageVersionArn)), status: \(Swift.String(describing: status)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreatePackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributes = output.attributes
+            self.description = output.description
+            self.errorReason = output.errorReason
+            self.packageName = output.packageName
+            self.packageVersionArn = output.packageVersionArn
+            self.status = output.status
+            self.versionName = output.versionName
+        } else {
+            self.attributes = nil
+            self.description = nil
+            self.errorReason = nil
+            self.packageName = nil
+            self.packageVersionArn = nil
+            self.status = nil
+            self.versionName = nil
+        }
+    }
+}
+
+public struct CreatePackageVersionOutputResponse: Swift.Equatable {
+    /// Metadata that were added to the package version that can be used to define a package version’s configuration.
+    public var attributes: [Swift.String:Swift.String]?
+    /// The package version description.
+    public var description: Swift.String?
+    /// Error reason for a package version failure during creation or update.
+    public var errorReason: Swift.String?
+    /// The name of the associated package.
+    public var packageName: Swift.String?
+    /// The Amazon Resource Name (ARN) for the package.
+    public var packageVersionArn: Swift.String?
+    /// The status of the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+    public var status: IoTClientTypes.PackageVersionStatus?
+    /// The name of the new package version.
+    public var versionName: Swift.String?
+
+    public init(
+        attributes: [Swift.String:Swift.String]? = nil,
+        description: Swift.String? = nil,
+        errorReason: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        packageVersionArn: Swift.String? = nil,
+        status: IoTClientTypes.PackageVersionStatus? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.description = description
+        self.errorReason = errorReason
+        self.packageName = packageName
+        self.packageVersionArn = packageVersionArn
+        self.status = status
+        self.versionName = versionName
+    }
+}
+
+struct CreatePackageVersionOutputResponseBody: Swift.Equatable {
+    let packageVersionArn: Swift.String?
+    let packageName: Swift.String?
+    let versionName: Swift.String?
+    let description: Swift.String?
+    let attributes: [Swift.String:Swift.String]?
+    let status: IoTClientTypes.PackageVersionStatus?
+    let errorReason: Swift.String?
+}
+
+extension CreatePackageVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case description
+        case errorReason
+        case packageName
+        case packageVersionArn
+        case status
+        case versionName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageVersionArn)
+        packageVersionArn = packageVersionArnDecoded
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, resourceattributevalue0) in attributesContainer {
+                if let resourceattributevalue0 = resourceattributevalue0 {
+                    attributesDecoded0?[key0] = resourceattributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(IoTClientTypes.PackageVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
     }
 }
 
@@ -12806,6 +13307,156 @@ public struct DeleteOTAUpdateOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeletePackageInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeletePackageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePackageInput: Swift.Equatable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The name of the target package.
+    /// This member is required.
+    public var packageName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        packageName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.packageName = packageName
+    }
+}
+
+struct DeletePackageInputBody: Swift.Equatable {
+}
+
+extension DeletePackageInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeletePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePackageOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeletePackageVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeletePackageVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePackageVersionInput: Swift.Equatable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The name of the associated package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The name of the target package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.packageName = packageName
+        self.versionName = versionName
+    }
+}
+
+struct DeletePackageVersionInputBody: Swift.Equatable {
+}
+
+extension DeletePackageVersionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeletePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeletePackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePackageVersionOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeletePolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let policyName = policyName else {
@@ -16380,6 +17031,7 @@ extension DescribeJobTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.abortConfig = output.abortConfig
             self.createdAt = output.createdAt
             self.description = output.description
+            self.destinationPackageVersions = output.destinationPackageVersions
             self.document = output.document
             self.documentSource = output.documentSource
             self.jobExecutionsRetryConfig = output.jobExecutionsRetryConfig
@@ -16393,6 +17045,7 @@ extension DescribeJobTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
             self.abortConfig = nil
             self.createdAt = nil
             self.description = nil
+            self.destinationPackageVersions = nil
             self.document = nil
             self.documentSource = nil
             self.jobExecutionsRetryConfig = nil
@@ -16413,6 +17066,8 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// A description of the job template.
     public var description: Swift.String?
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    public var destinationPackageVersions: [Swift.String]?
     /// The job document.
     public var document: Swift.String?
     /// An S3 link to the job document.
@@ -16436,6 +17091,7 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
         abortConfig: IoTClientTypes.AbortConfig? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        destinationPackageVersions: [Swift.String]? = nil,
         document: Swift.String? = nil,
         documentSource: Swift.String? = nil,
         jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig? = nil,
@@ -16450,6 +17106,7 @@ public struct DescribeJobTemplateOutputResponse: Swift.Equatable {
         self.abortConfig = abortConfig
         self.createdAt = createdAt
         self.description = description
+        self.destinationPackageVersions = destinationPackageVersions
         self.document = document
         self.documentSource = documentSource
         self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
@@ -16475,6 +17132,7 @@ struct DescribeJobTemplateOutputResponseBody: Swift.Equatable {
     let timeoutConfig: IoTClientTypes.TimeoutConfig?
     let jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     let maintenanceWindows: [IoTClientTypes.MaintenanceWindow]?
+    let destinationPackageVersions: [Swift.String]?
 }
 
 extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
@@ -16482,6 +17140,7 @@ extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
         case abortConfig
         case createdAt
         case description
+        case destinationPackageVersions
         case document
         case documentSource
         case jobExecutionsRetryConfig
@@ -16528,6 +17187,17 @@ extension DescribeJobTemplateOutputResponseBody: Swift.Decodable {
             }
         }
         maintenanceWindows = maintenanceWindowsDecoded0
+        let destinationPackageVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinationPackageVersions)
+        var destinationPackageVersionsDecoded0:[Swift.String]? = nil
+        if let destinationPackageVersionsContainer = destinationPackageVersionsContainer {
+            destinationPackageVersionsDecoded0 = [Swift.String]()
+            for string0 in destinationPackageVersionsContainer {
+                if let string0 = string0 {
+                    destinationPackageVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        destinationPackageVersions = destinationPackageVersionsDecoded0
     }
 }
 
@@ -21512,6 +22182,405 @@ extension GetOTAUpdateOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetPackageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/package-configuration"
+    }
+}
+
+public struct GetPackageConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetPackageConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetPackageConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetPackageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetPackageConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPackageConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.versionUpdateByJobsConfig = output.versionUpdateByJobsConfig
+        } else {
+            self.versionUpdateByJobsConfig = nil
+        }
+    }
+}
+
+public struct GetPackageConfigurationOutputResponse: Swift.Equatable {
+    /// The version that is associated to a specific job.
+    public var versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
+
+    public init(
+        versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig? = nil
+    )
+    {
+        self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
+    }
+}
+
+struct GetPackageConfigurationOutputResponseBody: Swift.Equatable {
+    let versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
+}
+
+extension GetPackageConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionUpdateByJobsConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionUpdateByJobsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.VersionUpdateByJobsConfig.self, forKey: .versionUpdateByJobsConfig)
+        versionUpdateByJobsConfig = versionUpdateByJobsConfigDecoded
+    }
+}
+
+extension GetPackageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())"
+    }
+}
+
+public struct GetPackageInput: Swift.Equatable {
+    /// The name of the target package.
+    /// This member is required.
+    public var packageName: Swift.String?
+
+    public init(
+        packageName: Swift.String? = nil
+    )
+    {
+        self.packageName = packageName
+    }
+}
+
+struct GetPackageInputBody: Swift.Equatable {
+}
+
+extension GetPackageInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetPackageOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPackageOutputResponse(creationDate: \(Swift.String(describing: creationDate)), defaultVersionName: \(Swift.String(describing: defaultVersionName)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), packageArn: \(Swift.String(describing: packageArn)), packageName: \(Swift.String(describing: packageName)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension GetPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDate = output.creationDate
+            self.defaultVersionName = output.defaultVersionName
+            self.description = output.description
+            self.lastModifiedDate = output.lastModifiedDate
+            self.packageArn = output.packageArn
+            self.packageName = output.packageName
+        } else {
+            self.creationDate = nil
+            self.defaultVersionName = nil
+            self.description = nil
+            self.lastModifiedDate = nil
+            self.packageArn = nil
+            self.packageName = nil
+        }
+    }
+}
+
+public struct GetPackageOutputResponse: Swift.Equatable {
+    /// The date the package was created.
+    public var creationDate: ClientRuntime.Date?
+    /// The name of the default package version.
+    public var defaultVersionName: Swift.String?
+    /// The package description.
+    public var description: Swift.String?
+    /// The date when the package was last updated.
+    public var lastModifiedDate: ClientRuntime.Date?
+    /// The ARN for the package.
+    public var packageArn: Swift.String?
+    /// The name of the package.
+    public var packageName: Swift.String?
+
+    public init(
+        creationDate: ClientRuntime.Date? = nil,
+        defaultVersionName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil,
+        packageArn: Swift.String? = nil,
+        packageName: Swift.String? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.defaultVersionName = defaultVersionName
+        self.description = description
+        self.lastModifiedDate = lastModifiedDate
+        self.packageArn = packageArn
+        self.packageName = packageName
+    }
+}
+
+struct GetPackageOutputResponseBody: Swift.Equatable {
+    let packageName: Swift.String?
+    let packageArn: Swift.String?
+    let description: Swift.String?
+    let defaultVersionName: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension GetPackageOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case defaultVersionName
+        case description
+        case lastModifiedDate
+        case packageArn
+        case packageName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let packageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageArn)
+        packageArn = packageArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let defaultVersionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultVersionName)
+        defaultVersionName = defaultVersionNameDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension GetPackageVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct GetPackageVersionInput: Swift.Equatable {
+    /// The name of the associated package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The name of the target package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        packageName: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.packageName = packageName
+        self.versionName = versionName
+    }
+}
+
+struct GetPackageVersionInputBody: Swift.Equatable {
+}
+
+extension GetPackageVersionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetPackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetPackageVersionOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPackageVersionOutputResponse(creationDate: \(Swift.String(describing: creationDate)), errorReason: \(Swift.String(describing: errorReason)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), packageName: \(Swift.String(describing: packageName)), packageVersionArn: \(Swift.String(describing: packageVersionArn)), status: \(Swift.String(describing: status)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+}
+
+extension GetPackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributes = output.attributes
+            self.creationDate = output.creationDate
+            self.description = output.description
+            self.errorReason = output.errorReason
+            self.lastModifiedDate = output.lastModifiedDate
+            self.packageName = output.packageName
+            self.packageVersionArn = output.packageVersionArn
+            self.status = output.status
+            self.versionName = output.versionName
+        } else {
+            self.attributes = nil
+            self.creationDate = nil
+            self.description = nil
+            self.errorReason = nil
+            self.lastModifiedDate = nil
+            self.packageName = nil
+            self.packageVersionArn = nil
+            self.status = nil
+            self.versionName = nil
+        }
+    }
+}
+
+public struct GetPackageVersionOutputResponse: Swift.Equatable {
+    /// Metadata that were added to the package version that can be used to define a package version’s configuration.
+    public var attributes: [Swift.String:Swift.String]?
+    /// The date when the package version was created.
+    public var creationDate: ClientRuntime.Date?
+    /// The package version description.
+    public var description: Swift.String?
+    /// Error reason for a package version failure during creation or update.
+    public var errorReason: Swift.String?
+    /// The date when the package version was last updated.
+    public var lastModifiedDate: ClientRuntime.Date?
+    /// The name of the package.
+    public var packageName: Swift.String?
+    /// The ARN for the package version.
+    public var packageVersionArn: Swift.String?
+    /// The status associated to the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+    public var status: IoTClientTypes.PackageVersionStatus?
+    /// The name of the package version.
+    public var versionName: Swift.String?
+
+    public init(
+        attributes: [Swift.String:Swift.String]? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        errorReason: Swift.String? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil,
+        packageName: Swift.String? = nil,
+        packageVersionArn: Swift.String? = nil,
+        status: IoTClientTypes.PackageVersionStatus? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.creationDate = creationDate
+        self.description = description
+        self.errorReason = errorReason
+        self.lastModifiedDate = lastModifiedDate
+        self.packageName = packageName
+        self.packageVersionArn = packageVersionArn
+        self.status = status
+        self.versionName = versionName
+    }
+}
+
+struct GetPackageVersionOutputResponseBody: Swift.Equatable {
+    let packageVersionArn: Swift.String?
+    let packageName: Swift.String?
+    let versionName: Swift.String?
+    let description: Swift.String?
+    let attributes: [Swift.String:Swift.String]?
+    let status: IoTClientTypes.PackageVersionStatus?
+    let errorReason: Swift.String?
+    let creationDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension GetPackageVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case creationDate
+        case description
+        case errorReason
+        case lastModifiedDate
+        case packageName
+        case packageVersionArn
+        case status
+        case versionName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageVersionArn)
+        packageVersionArn = packageVersionArnDecoded
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, resourceattributevalue0) in attributesContainer {
+                if let resourceattributevalue0 = resourceattributevalue0 {
+                    attributesDecoded0?[key0] = resourceattributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(IoTClientTypes.PackageVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
 extension GetPercentilesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationField
@@ -23751,6 +24820,7 @@ extension IoTClientTypes.Job: Swift.Codable {
         case completedAt
         case createdAt
         case description
+        case destinationPackageVersions
         case documentParameters
         case forceCanceled
         case isConcurrent
@@ -23788,6 +24858,12 @@ extension IoTClientTypes.Job: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let destinationPackageVersions = destinationPackageVersions {
+            var destinationPackageVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPackageVersions)
+            for packageversionarn0 in destinationPackageVersions {
+                try destinationPackageVersionsContainer.encode(packageversionarn0)
+            }
         }
         if let documentParameters = documentParameters {
             var documentParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .documentParameters)
@@ -23934,6 +25010,17 @@ extension IoTClientTypes.Job: Swift.Codable {
             }
         }
         scheduledJobRollouts = scheduledJobRolloutsDecoded0
+        let destinationPackageVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destinationPackageVersions)
+        var destinationPackageVersionsDecoded0:[Swift.String]? = nil
+        if let destinationPackageVersionsContainer = destinationPackageVersionsContainer {
+            destinationPackageVersionsDecoded0 = [Swift.String]()
+            for string0 in destinationPackageVersionsContainer {
+                if let string0 = string0 {
+                    destinationPackageVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        destinationPackageVersions = destinationPackageVersionsDecoded0
     }
 }
 
@@ -23950,6 +25037,8 @@ extension IoTClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// A short text description of the job.
         public var description: Swift.String?
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+        public var destinationPackageVersions: [Swift.String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public var documentParameters: [Swift.String:Swift.String]?
         /// Will be true if the job was canceled with the optional force parameter set to true.
@@ -23995,6 +25084,7 @@ extension IoTClientTypes {
             completedAt: ClientRuntime.Date? = nil,
             createdAt: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            destinationPackageVersions: [Swift.String]? = nil,
             documentParameters: [Swift.String:Swift.String]? = nil,
             forceCanceled: Swift.Bool? = nil,
             isConcurrent: Swift.Bool? = nil,
@@ -24021,6 +25111,7 @@ extension IoTClientTypes {
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.description = description
+            self.destinationPackageVersions = destinationPackageVersions
             self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
             self.isConcurrent = isConcurrent
@@ -29263,6 +30354,262 @@ extension ListOutgoingCertificatesOutputResponseBody: Swift.Decodable {
         outgoingCertificates = outgoingCertificatesDecoded0
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+extension ListPackageVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPackageVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions"
+    }
+}
+
+public struct ListPackageVersionsInput: Swift.Equatable {
+    /// The maximum number of results to return at one time.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// The name of the target package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The status of the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+    public var status: IoTClientTypes.PackageVersionStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        status: IoTClientTypes.PackageVersionStatus? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageName = packageName
+        self.status = status
+    }
+}
+
+struct ListPackageVersionsInputBody: Swift.Equatable {
+}
+
+extension ListPackageVersionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPackageVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPackageVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.packageVersionSummaries = output.packageVersionSummaries
+        } else {
+            self.nextToken = nil
+            self.packageVersionSummaries = nil
+        }
+    }
+}
+
+public struct ListPackageVersionsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Lists the package versions associated to the package.
+    public var packageVersionSummaries: [IoTClientTypes.PackageVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        packageVersionSummaries: [IoTClientTypes.PackageVersionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.packageVersionSummaries = packageVersionSummaries
+    }
+}
+
+struct ListPackageVersionsOutputResponseBody: Swift.Equatable {
+    let packageVersionSummaries: [IoTClientTypes.PackageVersionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPackageVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case packageVersionSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageVersionSummariesContainer = try containerValues.decodeIfPresent([IoTClientTypes.PackageVersionSummary?].self, forKey: .packageVersionSummaries)
+        var packageVersionSummariesDecoded0:[IoTClientTypes.PackageVersionSummary]? = nil
+        if let packageVersionSummariesContainer = packageVersionSummariesContainer {
+            packageVersionSummariesDecoded0 = [IoTClientTypes.PackageVersionSummary]()
+            for structure0 in packageVersionSummariesContainer {
+                if let structure0 = structure0 {
+                    packageVersionSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        packageVersionSummaries = packageVersionSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListPackagesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPackagesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/packages"
+    }
+}
+
+public struct ListPackagesInput: Swift.Equatable {
+    /// The maximum number of results returned at one time.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPackagesInputBody: Swift.Equatable {
+}
+
+extension ListPackagesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.packageSummaries = output.packageSummaries
+        } else {
+            self.nextToken = nil
+            self.packageSummaries = nil
+        }
+    }
+}
+
+public struct ListPackagesOutputResponse: Swift.Equatable {
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// The software package summary.
+    public var packageSummaries: [IoTClientTypes.PackageSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        packageSummaries: [IoTClientTypes.PackageSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.packageSummaries = packageSummaries
+    }
+}
+
+struct ListPackagesOutputResponseBody: Swift.Equatable {
+    let packageSummaries: [IoTClientTypes.PackageSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPackagesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case packageSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageSummariesContainer = try containerValues.decodeIfPresent([IoTClientTypes.PackageSummary?].self, forKey: .packageSummaries)
+        var packageSummariesDecoded0:[IoTClientTypes.PackageSummary]? = nil
+        if let packageSummariesContainer = packageSummariesContainer {
+            packageSummariesDecoded0 = [IoTClientTypes.PackageSummary]()
+            for structure0 in packageSummariesContainer {
+                if let structure0 = structure0 {
+                    packageSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        packageSummaries = packageSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -35235,6 +36582,213 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.PackageSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case defaultVersionName
+        case lastModifiedDate
+        case packageName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let defaultVersionName = self.defaultVersionName {
+            try encodeContainer.encode(defaultVersionName, forKey: .defaultVersionName)
+        }
+        if let lastModifiedDate = self.lastModifiedDate {
+            try encodeContainer.encodeTimestamp(lastModifiedDate, format: .epochSeconds, forKey: .lastModifiedDate)
+        }
+        if let packageName = self.packageName {
+            try encodeContainer.encode(packageName, forKey: .packageName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let defaultVersionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultVersionName)
+        defaultVersionName = defaultVersionNameDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// A summary of information about a software package.
+    public struct PackageSummary: Swift.Equatable {
+        /// The date that the package was created.
+        public var creationDate: ClientRuntime.Date?
+        /// The name of the default package version.
+        public var defaultVersionName: Swift.String?
+        /// The date that the package was last updated.
+        public var lastModifiedDate: ClientRuntime.Date?
+        /// The name for the target package.
+        public var packageName: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            defaultVersionName: Swift.String? = nil,
+            lastModifiedDate: ClientRuntime.Date? = nil,
+            packageName: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.defaultVersionName = defaultVersionName
+            self.lastModifiedDate = lastModifiedDate
+            self.packageName = packageName
+        }
+    }
+
+}
+
+extension IoTClientTypes {
+    public enum PackageVersionAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deprecate
+        case publish
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageVersionAction] {
+            return [
+                .deprecate,
+                .publish,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deprecate: return "DEPRECATE"
+            case .publish: return "PUBLISH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageVersionAction(rawValue: rawValue) ?? PackageVersionAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTClientTypes {
+    public enum PackageVersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deprecated
+        case draft
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageVersionStatus] {
+            return [
+                .deprecated,
+                .draft,
+                .published,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deprecated: return "DEPRECATED"
+            case .draft: return "DRAFT"
+            case .published: return "PUBLISHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageVersionStatus(rawValue: rawValue) ?? PackageVersionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTClientTypes.PackageVersionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate
+        case lastModifiedDate
+        case packageName
+        case status
+        case versionName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let lastModifiedDate = self.lastModifiedDate {
+            try encodeContainer.encodeTimestamp(lastModifiedDate, format: .epochSeconds, forKey: .lastModifiedDate)
+        }
+        if let packageName = self.packageName {
+            try encodeContainer.encode(packageName, forKey: .packageName)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
+        packageName = packageNameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTClientTypes.PackageVersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// A summary of information about a package version.
+    public struct PackageVersionSummary: Swift.Equatable {
+        /// The date that the package version was created.
+        public var creationDate: ClientRuntime.Date?
+        /// The date that the package version was last updated.
+        public var lastModifiedDate: ClientRuntime.Date?
+        /// The name of the associated software package.
+        public var packageName: Swift.String?
+        /// The status of the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+        public var status: IoTClientTypes.PackageVersionStatus?
+        /// The name of the target package version.
+        public var versionName: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            lastModifiedDate: ClientRuntime.Date? = nil,
+            packageName: Swift.String? = nil,
+            status: IoTClientTypes.PackageVersionStatus? = nil,
+            versionName: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.packageName = packageName
+            self.status = status
+            self.versionName = versionName
+        }
+    }
+
+}
+
 extension IoTClientTypes.PercentPair: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case percent
@@ -38746,6 +40300,61 @@ extension IoTClientTypes {
         }
     }
 
+}
+
+extension ServiceQuotaExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A limit has been exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension IoTClientTypes {
@@ -46183,6 +47792,363 @@ extension UpdateMitigationActionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdatePackageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionUpdateByJobsConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let versionUpdateByJobsConfig = self.versionUpdateByJobsConfig {
+            try encodeContainer.encode(versionUpdateByJobsConfig, forKey: .versionUpdateByJobsConfig)
+        }
+    }
+}
+
+extension UpdatePackageConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UpdatePackageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/package-configuration"
+    }
+}
+
+public struct UpdatePackageConfigurationInput: Swift.Equatable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets.
+    public var versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
+    }
+}
+
+struct UpdatePackageConfigurationInputBody: Swift.Equatable {
+    let versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
+}
+
+extension UpdatePackageConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionUpdateByJobsConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionUpdateByJobsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.VersionUpdateByJobsConfig.self, forKey: .versionUpdateByJobsConfig)
+        versionUpdateByJobsConfig = versionUpdateByJobsConfigDecoded
+    }
+}
+
+public enum UpdatePackageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePackageConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePackageConfigurationOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension UpdatePackageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePackageInput(clientToken: \(Swift.String(describing: clientToken)), defaultVersionName: \(Swift.String(describing: defaultVersionName)), packageName: \(Swift.String(describing: packageName)), unsetDefaultVersion: \(Swift.String(describing: unsetDefaultVersion)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdatePackageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultVersionName
+        case description
+        case unsetDefaultVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultVersionName = self.defaultVersionName {
+            try encodeContainer.encode(defaultVersionName, forKey: .defaultVersionName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let unsetDefaultVersion = self.unsetDefaultVersion {
+            try encodeContainer.encode(unsetDefaultVersion, forKey: .unsetDefaultVersion)
+        }
+    }
+}
+
+extension UpdatePackageInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UpdatePackageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdatePackageInput: Swift.Equatable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The name of the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
+    public var defaultVersionName: Swift.String?
+    /// The package description.
+    public var description: Swift.String?
+    /// The name of the target package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// Indicates whether you want to remove the named default package version from the software package. Set as true to remove the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
+    public var unsetDefaultVersion: Swift.Bool?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        defaultVersionName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        unsetDefaultVersion: Swift.Bool? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.defaultVersionName = defaultVersionName
+        self.description = description
+        self.packageName = packageName
+        self.unsetDefaultVersion = unsetDefaultVersion
+    }
+}
+
+struct UpdatePackageInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let defaultVersionName: Swift.String?
+    let unsetDefaultVersion: Swift.Bool?
+}
+
+extension UpdatePackageInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultVersionName
+        case description
+        case unsetDefaultVersion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let defaultVersionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultVersionName)
+        defaultVersionName = defaultVersionNameDecoded
+        let unsetDefaultVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unsetDefaultVersion)
+        unsetDefaultVersion = unsetDefaultVersionDecoded
+    }
+}
+
+public enum UpdatePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePackageOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension UpdatePackageVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePackageVersionInput(action: \(Swift.String(describing: action)), clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdatePackageVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case attributes
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, resourceAttributes0) in attributes {
+                try attributesContainer.encode(resourceAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdatePackageVersionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UpdatePackageVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let packageName = packageName else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdatePackageVersionInput: Swift.Equatable {
+    /// The status that the package version should be assigned. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+    public var action: IoTClientTypes.PackageVersionAction?
+    /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
+    public var attributes: [Swift.String:Swift.String]?
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The package version description.
+    public var description: Swift.String?
+    /// The name of the associated software package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The name of the target package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        action: IoTClientTypes.PackageVersionAction? = nil,
+        attributes: [Swift.String:Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.description = description
+        self.packageName = packageName
+        self.versionName = versionName
+    }
+}
+
+struct UpdatePackageVersionInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let attributes: [Swift.String:Swift.String]?
+    let action: IoTClientTypes.PackageVersionAction?
+}
+
+extension UpdatePackageVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case attributes
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, resourceattributevalue0) in attributesContainer {
+                if let resourceattributevalue0 = resourceattributevalue0 {
+                    attributesDecoded0?[key0] = resourceattributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let actionDecoded = try containerValues.decodeIfPresent(IoTClientTypes.PackageVersionAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+public enum UpdatePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePackageVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePackageVersionOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension UpdateProvisioningTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultVersionId
@@ -47851,6 +49817,61 @@ extension IoTClientTypes {
 
 }
 
+extension ValidationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request is not valid.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension IoTClientTypes {
     public enum VerificationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case benignPositive
@@ -47943,6 +49964,51 @@ extension VersionConflictExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension IoTClientTypes.VersionUpdateByJobsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// Configuration to manage IoT Job's package version reporting. If configured, Jobs updates the thing's reserved named shadow with the package version information up on successful job completion. Note: For each job, the destinationPackageVersions attribute has to be set with the correct data for Jobs to report to the thing shadow.
+    public struct VersionUpdateByJobsConfig: Swift.Equatable {
+        /// Indicates whether the Job is enabled or not.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the role that grants permission to the IoT jobs service to update the reserved named shadow when the job successfully completes.
+        public var roleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+    }
+
 }
 
 extension VersionsLimitExceededException {

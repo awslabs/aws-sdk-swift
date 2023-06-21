@@ -2475,7 +2475,7 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codabl
 }
 
 extension AthenaClientTypes {
-    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
     public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
         /// The KMS key that is used to encrypt the user's data stores in Athena.
         /// This member is required.
@@ -3304,6 +3304,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         case coordinatorDpuSize = "CoordinatorDpuSize"
         case defaultExecutorDpuSize = "DefaultExecutorDpuSize"
         case maxConcurrentDpus = "MaxConcurrentDpus"
+        case sparkProperties = "SparkProperties"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3322,6 +3323,12 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         }
         if maxConcurrentDpus != 0 {
             try encodeContainer.encode(maxConcurrentDpus, forKey: .maxConcurrentDpus)
+        }
+        if let sparkProperties = sparkProperties {
+            var sparkPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sparkProperties)
+            for (dictKey0, parametersMap0) in sparkProperties {
+                try sparkPropertiesContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 
@@ -3344,6 +3351,17 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
             }
         }
         additionalConfigs = additionalConfigsDecoded0
+        let sparkPropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .sparkProperties)
+        var sparkPropertiesDecoded0: [Swift.String:Swift.String]? = nil
+        if let sparkPropertiesContainer = sparkPropertiesContainer {
+            sparkPropertiesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, parametersmapvalue0) in sparkPropertiesContainer {
+                if let parametersmapvalue0 = parametersmapvalue0 {
+                    sparkPropertiesDecoded0?[key0] = parametersmapvalue0
+                }
+            }
+        }
+        sparkProperties = sparkPropertiesDecoded0
     }
 }
 
@@ -3359,18 +3377,22 @@ extension AthenaClientTypes {
         /// The maximum number of DPUs that can run concurrently.
         /// This member is required.
         public var maxConcurrentDpus: Swift.Int
+        /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
+        public var sparkProperties: [Swift.String:Swift.String]?
 
         public init(
             additionalConfigs: [Swift.String:Swift.String]? = nil,
             coordinatorDpuSize: Swift.Int? = nil,
             defaultExecutorDpuSize: Swift.Int? = nil,
-            maxConcurrentDpus: Swift.Int = 0
+            maxConcurrentDpus: Swift.Int = 0,
+            sparkProperties: [Swift.String:Swift.String]? = nil
         )
         {
             self.additionalConfigs = additionalConfigs
             self.coordinatorDpuSize = coordinatorDpuSize
             self.defaultExecutorDpuSize = defaultExecutorDpuSize
             self.maxConcurrentDpus = maxConcurrentDpus
+            self.sparkProperties = sparkProperties
         }
     }
 
@@ -12903,7 +12925,7 @@ extension AthenaClientTypes {
         public var additionalConfiguration: Swift.String?
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
@@ -13040,7 +13062,7 @@ extension AthenaClientTypes {
         public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
@@ -13054,7 +13076,7 @@ extension AthenaClientTypes {
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Indicates that the data usage control limit per query is removed. [WorkGroupConfiguration$BytesScannedCutoffPerQuery]
         public var removeBytesScannedCutoffPerQuery: Swift.Bool?
-        /// Removes content encryption configuration for a workgroup.
+        /// Removes content encryption configuration from an Apache Spark-enabled Athena workgroup.
         public var removeCustomerContentEncryptionConfiguration: Swift.Bool?
         /// If set to true, allows members assigned to a workgroup to specify Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
         public var requesterPaysEnabled: Swift.Bool?

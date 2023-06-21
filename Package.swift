@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.21.0",
+    clientRuntimeVersion: "0.22.0",
     crtVersion: "0.12.0"
 )
 
@@ -237,6 +237,7 @@ let serviceTargets: [String] = [
     "AWSCodeDeploy",
     "AWSCodeGuruProfiler",
     "AWSCodeGuruReviewer",
+    "AWSCodeGuruSecurity",
     "AWSCodePipeline",
     "AWSCodeStar",
     "AWSCodeStarconnections",
@@ -415,6 +416,8 @@ let serviceTargets: [String] = [
     "AWSOutposts",
     "AWSPI",
     "AWSPanorama",
+    "AWSPaymentCryptography",
+    "AWSPaymentCryptographyData",
     "AWSPersonalize",
     "AWSPersonalizeEvents",
     "AWSPersonalizeRuntime",

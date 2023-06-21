@@ -3179,9 +3179,9 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials: Swift
 extension QuickSightClientTypes {
     /// The login credentials to use to import a data source resource.
     public struct AssetBundleImportJobDataSourceCredentials: Swift.Equatable {
-        /// A username and password credential pair to be used to create the imported data source. Leave this field blank if you are using an Secrets Manager Secret to provide credentials.
+        /// A username and password credential pair to be used to create the imported data source. Keep this field blank if you are using a Secrets Manager secret to provide credentials.
         public var credentialPair: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair?
-        /// The ARN of the Secrets Manager Secret to be used to create the imported data source leave this field blank if you aren't using a Secret in place of a credential pair.
+        /// The ARN of the Secrets Manager secret that's used to create the imported data source. Keep this field blank, unless you are using a secret in place of a credential pair.
         public var secretArn: Swift.String?
 
         public init(
@@ -3566,7 +3566,7 @@ extension QuickSightClientTypes {
         /// A partial identifier for the specific RefreshSchedule resource being overridden. This structure is used together with the DataSetId structure.
         /// This member is required.
         public var scheduleId: Swift.String?
-        /// An override for the StartAfterDateTime of a RefreshSchedule to ensure that the StartAfterDateTime is set to a time that takes place in the future.
+        /// An override for the StartAfterDateTime of a RefreshSchedule. Make sure that the StartAfterDateTime is set to a time that takes place in the future.
         public var startAfterDateTime: ClientRuntime.Date?
 
         public init(
@@ -3603,7 +3603,7 @@ extension QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfigurat
 }
 
 extension QuickSightClientTypes {
-    /// An optional structure that configures resource ID overrides for the import job
+    /// An optional structure that configures resource ID overrides for the import job.
     public struct AssetBundleImportJobResourceIdOverrideConfiguration: Swift.Equatable {
         /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
         public var prefixForAllResources: Swift.String?
@@ -3874,15 +3874,15 @@ extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParamet
 extension QuickSightClientTypes {
     /// The override parameters for a single VPC connection that is imported.
     public struct AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Equatable {
-        /// An optional override of dns resolvers to be used by the VPC connection.
+        /// An optional override of DNS resolvers to be used by the VPC connection.
         public var dnsResolvers: [Swift.String]?
         /// A new name for the VPC connection.
         public var name: Swift.String?
         /// An optional override of the role ARN to be used by the VPC connection.
         public var roleArn: Swift.String?
-        /// A new security group ID for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        /// A new security group ID for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or Region.
         public var securityGroupIds: [Swift.String]?
-        /// A list of new subnet IDs for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        /// A list of new subnet IDs for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or Region.
         public var subnetIds: [Swift.String]?
         /// The ID of the VPC Connection to apply overrides to.
         /// This member is required.
@@ -3941,9 +3941,9 @@ extension QuickSightClientTypes.AssetBundleImportSource: Swift.CustomDebugString
 extension QuickSightClientTypes {
     /// The source of the asset bundle zip file that contains the data that you want to import.
     public struct AssetBundleImportSource: Swift.Equatable {
-        /// The bytes of the Base64 encoded asset bundle import zip file. This file can't exceed 20MB. If you are calling the APIs from the Amazon Web Services Java, JavaScript, Python, or PHP SDKs, the SDK encodes Base64 automatically to allow the direct setting of the zip file's bytes. If you are using a SDK of a different language or are receiving related errors, try to Base64 encode your data.
+        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public var body: ClientRuntime.Data?
-        /// The Amazon S3 uri for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20MB.
+        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
         public var s3Uri: Swift.String?
 
         public init(
@@ -3984,11 +3984,11 @@ extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.Codabl
 }
 
 extension QuickSightClientTypes {
-    /// A description of the import source that you provide at the start of an import job. This value is set to either Body or S3Uri depending on how the StartAssetBundleImportJobRequest is configured.
+    /// A description of the import source that you provide at the start of an import job. This value is set to either Body or S3Uri, depending on how the StartAssetBundleImportJobRequest is configured.
     public struct AssetBundleImportSourceDescription: Swift.Equatable {
-        /// A HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for 5 minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
+        /// An HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for five minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
         public var body: Swift.String?
-        /// The Amazon S3 uri that you provided at the start of the import job.
+        /// The Amazon S3 URI that you provided at the start of the import job.
         public var s3Uri: Swift.String?
 
         public init(
@@ -25465,7 +25465,7 @@ public struct DescribeAssetBundleExportJobOutputResponse: Swift.Equatable {
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// The include dependencies flag.
     public var includeAllDependencies: Swift.Bool
-    /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
+    /// Indicates the status of a job through its queuing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
     public var jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -25688,7 +25688,7 @@ public struct DescribeAssetBundleImportJobOutputResponse: Swift.Equatable {
     public var errors: [QuickSightClientTypes.AssetBundleImportJobError]?
     /// The failure action for the import job.
     public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
-    /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleImport API until JobStatus returns one of the following values.
+    /// Indicates the status of a job through its queuing and execution. Poll the DescribeAssetBundleImport API until JobStatus returns one of the following values:
     ///
     /// * SUCCESSFUL
     ///
@@ -53011,6 +53011,7 @@ extension QuickSightClientTypes.PivotTableCellConditionalFormatting: Swift.Codab
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldId = "FieldId"
         case scope = "Scope"
+        case scopes = "Scopes"
         case textFormat = "TextFormat"
     }
 
@@ -53021,6 +53022,12 @@ extension QuickSightClientTypes.PivotTableCellConditionalFormatting: Swift.Codab
         }
         if let scope = self.scope {
             try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let scopes = scopes {
+            var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
+            for pivottableconditionalformattingscope0 in scopes {
+                try scopesContainer.encode(pivottableconditionalformattingscope0)
+            }
         }
         if let textFormat = self.textFormat {
             try encodeContainer.encode(textFormat, forKey: .textFormat)
@@ -53035,6 +53042,17 @@ extension QuickSightClientTypes.PivotTableCellConditionalFormatting: Swift.Codab
         textFormat = textFormatDecoded
         let scopeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableConditionalFormattingScope.self, forKey: .scope)
         scope = scopeDecoded
+        let scopesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.PivotTableConditionalFormattingScope?].self, forKey: .scopes)
+        var scopesDecoded0:[QuickSightClientTypes.PivotTableConditionalFormattingScope]? = nil
+        if let scopesContainer = scopesContainer {
+            scopesDecoded0 = [QuickSightClientTypes.PivotTableConditionalFormattingScope]()
+            for structure0 in scopesContainer {
+                if let structure0 = structure0 {
+                    scopesDecoded0?.append(structure0)
+                }
+            }
+        }
+        scopes = scopesDecoded0
     }
 }
 
@@ -53046,17 +53064,21 @@ extension QuickSightClientTypes {
         public var fieldId: Swift.String?
         /// The scope of the cell for conditional formatting.
         public var scope: QuickSightClientTypes.PivotTableConditionalFormattingScope?
+        /// A list of cell scopes for conditional formatting.
+        public var scopes: [QuickSightClientTypes.PivotTableConditionalFormattingScope]?
         /// The text format of the cell for conditional formatting.
         public var textFormat: QuickSightClientTypes.TextConditionalFormat?
 
         public init(
             fieldId: Swift.String? = nil,
             scope: QuickSightClientTypes.PivotTableConditionalFormattingScope? = nil,
+            scopes: [QuickSightClientTypes.PivotTableConditionalFormattingScope]? = nil,
             textFormat: QuickSightClientTypes.TextConditionalFormat? = nil
         )
         {
             self.fieldId = fieldId
             self.scope = scope
+            self.scopes = scopes
             self.textFormat = textFormat
         }
     }
@@ -53358,6 +53380,145 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum PivotTableFieldCollapseState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case collapsed
+        case expanded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PivotTableFieldCollapseState] {
+            return [
+                .collapsed,
+                .expanded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .collapsed: return "COLLAPSED"
+            case .expanded: return "EXPANDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PivotTableFieldCollapseState(rawValue: rawValue) ?? PivotTableFieldCollapseState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.PivotTableFieldCollapseStateOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableFieldCollapseStateTarget.self, forKey: .target)
+        target = targetDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableFieldCollapseState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The collapse state options for the pivot table field options.
+    public struct PivotTableFieldCollapseStateOption: Swift.Equatable {
+        /// The state of the field target of a pivot table. Choose one of the following options:
+        ///
+        /// * COLLAPSED
+        ///
+        /// * EXPANDED
+        public var state: QuickSightClientTypes.PivotTableFieldCollapseState?
+        /// A tagged-union object that sets the collapse state.
+        /// This member is required.
+        public var target: QuickSightClientTypes.PivotTableFieldCollapseStateTarget?
+
+        public init(
+            state: QuickSightClientTypes.PivotTableFieldCollapseState? = nil,
+            target: QuickSightClientTypes.PivotTableFieldCollapseStateTarget? = nil
+        )
+        {
+            self.state = state
+            self.target = target
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.PivotTableFieldCollapseStateTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldDataPathValues = "FieldDataPathValues"
+        case fieldId = "FieldId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldDataPathValues = fieldDataPathValues {
+            var fieldDataPathValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldDataPathValues)
+            for datapathvalue0 in fieldDataPathValues {
+                try fieldDataPathValuesContainer.encode(datapathvalue0)
+            }
+        }
+        if let fieldId = self.fieldId {
+            try encodeContainer.encode(fieldId, forKey: .fieldId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldId)
+        fieldId = fieldIdDecoded
+        let fieldDataPathValuesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DataPathValue?].self, forKey: .fieldDataPathValues)
+        var fieldDataPathValuesDecoded0:[QuickSightClientTypes.DataPathValue]? = nil
+        if let fieldDataPathValuesContainer = fieldDataPathValuesContainer {
+            fieldDataPathValuesDecoded0 = [QuickSightClientTypes.DataPathValue]()
+            for structure0 in fieldDataPathValuesContainer {
+                if let structure0 = structure0 {
+                    fieldDataPathValuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        fieldDataPathValues = fieldDataPathValuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The target of a pivot table field collapse state.
+    public struct PivotTableFieldCollapseStateTarget: Swift.Equatable {
+        /// The data path of the pivot table's header. Used to set the collapse state.
+        public var fieldDataPathValues: [QuickSightClientTypes.DataPathValue]?
+        /// The field ID of the pivot table that the collapse state needs to be set to.
+        public var fieldId: Swift.String?
+
+        public init(
+            fieldDataPathValues: [QuickSightClientTypes.DataPathValue]? = nil,
+            fieldId: Swift.String? = nil
+        )
+        {
+            self.fieldDataPathValues = fieldDataPathValues
+            self.fieldId = fieldId
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.PivotTableFieldOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customLabel = "CustomLabel"
@@ -53416,12 +53577,19 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.PivotTableFieldOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collapseStateOptions = "CollapseStateOptions"
         case dataPathOptions = "DataPathOptions"
         case selectedFieldOptions = "SelectedFieldOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collapseStateOptions = collapseStateOptions {
+            var collapseStateOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .collapseStateOptions)
+            for pivottablefieldcollapsestateoption0 in collapseStateOptions {
+                try collapseStateOptionsContainer.encode(pivottablefieldcollapsestateoption0)
+            }
+        }
         if let dataPathOptions = dataPathOptions {
             var dataPathOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataPathOptions)
             for pivottabledatapathoption0 in dataPathOptions {
@@ -53460,22 +53628,37 @@ extension QuickSightClientTypes.PivotTableFieldOptions: Swift.Codable {
             }
         }
         dataPathOptions = dataPathOptionsDecoded0
+        let collapseStateOptionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.PivotTableFieldCollapseStateOption?].self, forKey: .collapseStateOptions)
+        var collapseStateOptionsDecoded0:[QuickSightClientTypes.PivotTableFieldCollapseStateOption]? = nil
+        if let collapseStateOptionsContainer = collapseStateOptionsContainer {
+            collapseStateOptionsDecoded0 = [QuickSightClientTypes.PivotTableFieldCollapseStateOption]()
+            for structure0 in collapseStateOptionsContainer {
+                if let structure0 = structure0 {
+                    collapseStateOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        collapseStateOptions = collapseStateOptionsDecoded0
     }
 }
 
 extension QuickSightClientTypes {
     /// The field options for a pivot table visual.
     public struct PivotTableFieldOptions: Swift.Equatable {
+        /// The collapse state options for the pivot table field options.
+        public var collapseStateOptions: [QuickSightClientTypes.PivotTableFieldCollapseStateOption]?
         /// The data path options for the pivot table field options.
         public var dataPathOptions: [QuickSightClientTypes.PivotTableDataPathOption]?
         /// The selected field options for the pivot table field options.
         public var selectedFieldOptions: [QuickSightClientTypes.PivotTableFieldOption]?
 
         public init(
+            collapseStateOptions: [QuickSightClientTypes.PivotTableFieldCollapseStateOption]? = nil,
             dataPathOptions: [QuickSightClientTypes.PivotTableDataPathOption]? = nil,
             selectedFieldOptions: [QuickSightClientTypes.PivotTableFieldOption]? = nil
         )
         {
+            self.collapseStateOptions = collapseStateOptions
             self.dataPathOptions = dataPathOptions
             self.selectedFieldOptions = selectedFieldOptions
         }
@@ -54966,11 +55149,47 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum RadarChartAxesRangeScale: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case independent
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RadarChartAxesRangeScale] {
+            return [
+                .auto,
+                .independent,
+                .shared,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .independent: return "INDEPENDENT"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RadarChartAxesRangeScale(rawValue: rawValue) ?? RadarChartAxesRangeScale.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alternateBandColorsVisibility = "AlternateBandColorsVisibility"
         case alternateBandEvenColor = "AlternateBandEvenColor"
         case alternateBandOddColor = "AlternateBandOddColor"
+        case axesRangeScale = "AxesRangeScale"
         case baseSeriesSettings = "BaseSeriesSettings"
         case categoryAxis = "CategoryAxis"
         case categoryLabelOptions = "CategoryLabelOptions"
@@ -54994,6 +55213,9 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
         }
         if let alternateBandOddColor = self.alternateBandOddColor {
             try encodeContainer.encode(alternateBandOddColor, forKey: .alternateBandOddColor)
+        }
+        if let axesRangeScale = self.axesRangeScale {
+            try encodeContainer.encode(axesRangeScale.rawValue, forKey: .axesRangeScale)
         }
         if let baseSeriesSettings = self.baseSeriesSettings {
             try encodeContainer.encode(baseSeriesSettings, forKey: .baseSeriesSettings)
@@ -55060,6 +55282,8 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
         colorLabelOptions = colorLabelOptionsDecoded
         let legendDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LegendOptions.self, forKey: .legend)
         legend = legendDecoded
+        let axesRangeScaleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartAxesRangeScale.self, forKey: .axesRangeScale)
+        axesRangeScale = axesRangeScaleDecoded
     }
 }
 
@@ -55072,6 +55296,8 @@ extension QuickSightClientTypes {
         public var alternateBandEvenColor: Swift.String?
         /// The color of the odd-numbered alternate bands of a radar chart.
         public var alternateBandOddColor: Swift.String?
+        /// The axis behavior options of a radar chart.
+        public var axesRangeScale: QuickSightClientTypes.RadarChartAxesRangeScale?
         /// The base sreies settings of a radar chart.
         public var baseSeriesSettings: QuickSightClientTypes.RadarChartSeriesSettings?
         /// The category axis of a radar chart.
@@ -55099,6 +55325,7 @@ extension QuickSightClientTypes {
             alternateBandColorsVisibility: QuickSightClientTypes.Visibility? = nil,
             alternateBandEvenColor: Swift.String? = nil,
             alternateBandOddColor: Swift.String? = nil,
+            axesRangeScale: QuickSightClientTypes.RadarChartAxesRangeScale? = nil,
             baseSeriesSettings: QuickSightClientTypes.RadarChartSeriesSettings? = nil,
             categoryAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
@@ -55115,6 +55342,7 @@ extension QuickSightClientTypes {
             self.alternateBandColorsVisibility = alternateBandColorsVisibility
             self.alternateBandEvenColor = alternateBandEvenColor
             self.alternateBandOddColor = alternateBandOddColor
+            self.axesRangeScale = axesRangeScale
             self.baseSeriesSettings = baseSeriesSettings
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
@@ -63179,7 +63407,7 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
     /// The export data format.
     /// This member is required.
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
-    /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and dataource resource that is a dependency of the dashboard is also exported.
+    /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
     public var includeAllDependencies: Swift.Bool?
     /// An array of resource ARNs to export. The following resources are supported.
     ///
@@ -63391,7 +63619,7 @@ public struct StartAssetBundleImportJobInput: Swift.Equatable {
     /// The ID of the Amazon Web Services account to import assets into.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly leaving the Amazon QuickSight account in an inconsistent state.
+    /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
     public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
     /// Optional overrides to be applied to the resource configuration before import.
     public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?

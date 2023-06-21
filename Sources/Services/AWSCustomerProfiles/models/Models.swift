@@ -1765,6 +1765,169 @@ extension CreateDomainOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateEventStreamInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case uri = "Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+}
+
+extension CreateEventStreamInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let eventStreamName = eventStreamName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateEventStreamInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the event stream.
+    /// This member is required.
+    public var eventStreamName: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name
+    /// This member is required.
+    public var uri: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventStreamName: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        uri: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.eventStreamName = eventStreamName
+        self.tags = tags
+        self.uri = uri
+    }
+}
+
+struct CreateEventStreamInputBody: Swift.Equatable {
+    let uri: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventStreamInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case uri = "Uri"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEventStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.eventStreamArn = output.eventStreamArn
+            self.tags = output.tags
+        } else {
+            self.eventStreamArn = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct CreateEventStreamOutputResponse: Swift.Equatable {
+    /// A unique identifier for the event stream.
+    /// This member is required.
+    public var eventStreamArn: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        eventStreamArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.eventStreamArn = eventStreamArn
+        self.tags = tags
+    }
+}
+
+struct CreateEventStreamOutputResponseBody: Swift.Equatable {
+    let eventStreamArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventStreamOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventStreamArn = "EventStreamArn"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventStreamArn)
+        eventStreamArn = eventStreamArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension CreateIntegrationWorkflowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case integrationConfig = "IntegrationConfig"
@@ -2523,6 +2686,70 @@ extension DeleteDomainOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteEventStreamInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let eventStreamName = eventStreamName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteEventStreamInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the event stream
+    /// This member is required.
+    public var eventStreamName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventStreamName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.eventStreamName = eventStreamName
+    }
+}
+
+struct DeleteEventStreamInputBody: Swift.Equatable {
+}
+
+extension DeleteEventStreamInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEventStreamOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteIntegrationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case uri = "Uri"
@@ -3191,6 +3418,63 @@ public struct DeleteWorkflowOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension CustomerProfilesClientTypes.DestinationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+        case unhealthySince = "UnhealthySince"
+        case uri = "Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let unhealthySince = self.unhealthySince {
+            try encodeContainer.encodeTimestamp(unhealthySince, format: .epochSeconds, forKey: .unhealthySince)
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.EventStreamDestinationStatus.self, forKey: .status)
+        status = statusDecoded
+        let unhealthySinceDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .unhealthySince)
+        unhealthySince = unhealthySinceDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// Summary information about the Kinesis data stream
+    public struct DestinationSummary: Swift.Equatable {
+        /// The status of enabling the Kinesis stream as a destination for export.
+        /// This member is required.
+        public var status: CustomerProfilesClientTypes.EventStreamDestinationStatus?
+        /// The timestamp when the status last changed to UNHEALHY.
+        public var unhealthySince: ClientRuntime.Date?
+        /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
+            unhealthySince: ClientRuntime.Date? = nil,
+            uri: Swift.String? = nil
+        )
+        {
+            self.status = status
+            self.unhealthySince = unhealthySince
+            self.uri = uri
+        }
+    }
+
+}
+
 extension CustomerProfilesClientTypes.DomainStats: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case meteringProfileCount = "MeteringProfileCount"
@@ -3251,6 +3535,248 @@ extension CustomerProfilesClientTypes {
             self.objectCount = objectCount
             self.profileCount = profileCount
             self.totalSize = totalSize
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes.EventStreamDestinationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case status = "Status"
+        case unhealthySince = "UnhealthySince"
+        case uri = "Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let unhealthySince = self.unhealthySince {
+            try encodeContainer.encodeTimestamp(unhealthySince, format: .epochSeconds, forKey: .unhealthySince)
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.EventStreamDestinationStatus.self, forKey: .status)
+        status = statusDecoded
+        let unhealthySinceDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .unhealthySince)
+        unhealthySince = unhealthySinceDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// Details of the destination being used for the EventStream.
+    public struct EventStreamDestinationDetails: Swift.Equatable {
+        /// The human-readable string that corresponds to the error or success while enabling the streaming destination.
+        public var message: Swift.String?
+        /// The status of enabling the Kinesis stream as a destination for export.
+        /// This member is required.
+        public var status: CustomerProfilesClientTypes.EventStreamDestinationStatus?
+        /// The timestamp when the status last changed to UNHEALHY.
+        public var unhealthySince: ClientRuntime.Date?
+        /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
+            unhealthySince: ClientRuntime.Date? = nil,
+            uri: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.status = status
+            self.unhealthySince = unhealthySince
+            self.uri = uri
+        }
+    }
+
+}
+
+extension CustomerProfilesClientTypes {
+    public enum EventStreamDestinationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventStreamDestinationStatus] {
+            return [
+                .healthy,
+                .unhealthy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EventStreamDestinationStatus(rawValue: rawValue) ?? EventStreamDestinationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    public enum EventStreamState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventStreamState] {
+            return [
+                .running,
+                .stopped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EventStreamState(rawValue: rawValue) ?? EventStreamState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.EventStreamSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationSummary = "DestinationSummary"
+        case domainName = "DomainName"
+        case eventStreamArn = "EventStreamArn"
+        case eventStreamName = "EventStreamName"
+        case state = "State"
+        case stoppedSince = "StoppedSince"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationSummary = self.destinationSummary {
+            try encodeContainer.encode(destinationSummary, forKey: .destinationSummary)
+        }
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let eventStreamArn = self.eventStreamArn {
+            try encodeContainer.encode(eventStreamArn, forKey: .eventStreamArn)
+        }
+        if let eventStreamName = self.eventStreamName {
+            try encodeContainer.encode(eventStreamName, forKey: .eventStreamName)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let stoppedSince = self.stoppedSince {
+            try encodeContainer.encodeTimestamp(stoppedSince, format: .epochSeconds, forKey: .stoppedSince)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let eventStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventStreamName)
+        eventStreamName = eventStreamNameDecoded
+        let eventStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventStreamArn)
+        eventStreamArn = eventStreamArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.EventStreamState.self, forKey: .state)
+        state = stateDecoded
+        let stoppedSinceDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stoppedSince)
+        stoppedSince = stoppedSinceDecoded
+        let destinationSummaryDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.DestinationSummary.self, forKey: .destinationSummary)
+        destinationSummary = destinationSummaryDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CustomerProfilesClientTypes {
+    /// An instance of EventStream in a list of EventStreams.
+    public struct EventStreamSummary: Swift.Equatable {
+        /// Summary information about the Kinesis data stream.
+        public var destinationSummary: CustomerProfilesClientTypes.DestinationSummary?
+        /// The unique name of the domain.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// A unique identifier for the event stream.
+        /// This member is required.
+        public var eventStreamArn: Swift.String?
+        /// The name of the event stream.
+        /// This member is required.
+        public var eventStreamName: Swift.String?
+        /// The operational state of destination stream for export.
+        /// This member is required.
+        public var state: CustomerProfilesClientTypes.EventStreamState?
+        /// The timestamp when the State changed to STOPPED.
+        public var stoppedSince: ClientRuntime.Date?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            destinationSummary: CustomerProfilesClientTypes.DestinationSummary? = nil,
+            domainName: Swift.String? = nil,
+            eventStreamArn: Swift.String? = nil,
+            eventStreamName: Swift.String? = nil,
+            state: CustomerProfilesClientTypes.EventStreamState? = nil,
+            stoppedSince: ClientRuntime.Date? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.destinationSummary = destinationSummary
+            self.domainName = domainName
+            self.eventStreamArn = eventStreamArn
+            self.eventStreamName = eventStreamName
+            self.state = state
+            self.stoppedSince = stoppedSince
+            self.tags = tags
         }
     }
 
@@ -4455,6 +4981,174 @@ extension GetDomainOutputResponseBody: Swift.Decodable {
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension GetEventStreamInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let eventStreamName = eventStreamName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+public struct GetEventStreamInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the event stream provided during create operations.
+    /// This member is required.
+    public var eventStreamName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventStreamName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.eventStreamName = eventStreamName
+    }
+}
+
+struct GetEventStreamInputBody: Swift.Equatable {
+}
+
+extension GetEventStreamInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEventStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.destinationDetails = output.destinationDetails
+            self.domainName = output.domainName
+            self.eventStreamArn = output.eventStreamArn
+            self.state = output.state
+            self.stoppedSince = output.stoppedSince
+            self.tags = output.tags
+        } else {
+            self.createdAt = nil
+            self.destinationDetails = nil
+            self.domainName = nil
+            self.eventStreamArn = nil
+            self.state = nil
+            self.stoppedSince = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct GetEventStreamOutputResponse: Swift.Equatable {
+    /// The timestamp of when the export was created.
+    /// This member is required.
+    public var createdAt: ClientRuntime.Date?
+    /// Details regarding the Kinesis stream.
+    /// This member is required.
+    public var destinationDetails: CustomerProfilesClientTypes.EventStreamDestinationDetails?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A unique identifier for the event stream.
+    /// This member is required.
+    public var eventStreamArn: Swift.String?
+    /// The operational state of destination stream for export.
+    /// This member is required.
+    public var state: CustomerProfilesClientTypes.EventStreamState?
+    /// The timestamp when the State changed to STOPPED.
+    public var stoppedSince: ClientRuntime.Date?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        destinationDetails: CustomerProfilesClientTypes.EventStreamDestinationDetails? = nil,
+        domainName: Swift.String? = nil,
+        eventStreamArn: Swift.String? = nil,
+        state: CustomerProfilesClientTypes.EventStreamState? = nil,
+        stoppedSince: ClientRuntime.Date? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.destinationDetails = destinationDetails
+        self.domainName = domainName
+        self.eventStreamArn = eventStreamArn
+        self.state = state
+        self.stoppedSince = stoppedSince
+        self.tags = tags
+    }
+}
+
+struct GetEventStreamOutputResponseBody: Swift.Equatable {
+    let domainName: Swift.String?
+    let eventStreamArn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let state: CustomerProfilesClientTypes.EventStreamState?
+    let stoppedSince: ClientRuntime.Date?
+    let destinationDetails: CustomerProfilesClientTypes.EventStreamDestinationDetails?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetEventStreamOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case destinationDetails = "DestinationDetails"
+        case domainName = "DomainName"
+        case eventStreamArn = "EventStreamArn"
+        case state = "State"
+        case stoppedSince = "StoppedSince"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let eventStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventStreamArn)
+        eventStreamArn = eventStreamArnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.EventStreamState.self, forKey: .state)
+        state = stateDecoded
+        let stoppedSinceDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .stoppedSince)
+        stoppedSince = stoppedSinceDecoded
+        let destinationDetailsDecoded = try containerValues.decodeIfPresent(CustomerProfilesClientTypes.EventStreamDestinationDetails.self, forKey: .destinationDetails)
+        destinationDetails = destinationDetailsDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -6988,6 +7682,136 @@ extension ListDomainsOutputResponseBody: Swift.Decodable {
         var itemsDecoded0:[CustomerProfilesClientTypes.ListDomainItem]? = nil
         if let itemsContainer = itemsContainer {
             itemsDecoded0 = [CustomerProfilesClientTypes.ListDomainItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListEventStreamsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListEventStreamsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-streams"
+    }
+}
+
+public struct ListEventStreamsInput: Swift.Equatable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEventStreamsInputBody: Swift.Equatable {
+}
+
+extension ListEventStreamsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListEventStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEventStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEventStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEventStreamsOutputResponse: Swift.Equatable {
+    /// Contains summary information about an EventStream.
+    public var items: [CustomerProfilesClientTypes.EventStreamSummary]?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.EventStreamSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEventStreamsOutputResponseBody: Swift.Equatable {
+    let items: [CustomerProfilesClientTypes.EventStreamSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEventStreamsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([CustomerProfilesClientTypes.EventStreamSummary?].self, forKey: .items)
+        var itemsDecoded0:[CustomerProfilesClientTypes.EventStreamSummary]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [CustomerProfilesClientTypes.EventStreamSummary]()
             for structure0 in itemsContainer {
                 if let structure0 = structure0 {
                     itemsDecoded0?.append(structure0)

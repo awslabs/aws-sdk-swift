@@ -14625,11 +14625,17 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     public enum SpotProvisioningAllocationStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case capacityOptimized
+        case diversified
+        case lowestPrice
+        case priceCapacityOptimized
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SpotProvisioningAllocationStrategy] {
             return [
                 .capacityOptimized,
+                .diversified,
+                .lowestPrice,
+                .priceCapacityOptimized,
                 .sdkUnknown("")
             ]
         }
@@ -14640,6 +14646,9 @@ extension EMRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityOptimized: return "capacity-optimized"
+            case .diversified: return "diversified"
+            case .lowestPrice: return "lowest-price"
+            case .priceCapacityOptimized: return "price-capacity-optimized"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14691,7 +14700,7 @@ extension EMRClientTypes.SpotProvisioningSpecification: Swift.Codable {
 extension EMRClientTypes {
     /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and later. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
     public struct SpotProvisioningSpecification: Swift.Equatable {
-        /// Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
+        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or diversified. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
         public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public var blockDurationMinutes: Swift.Int?

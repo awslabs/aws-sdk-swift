@@ -575,11 +575,15 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::CloudTrail::Channel
         ///
+        /// * AWS::CodeWhisperer::Profile
+        ///
         /// * AWS::Cognito::IdentityPool
         ///
         /// * AWS::DynamoDB::Stream
         ///
         /// * AWS::EC2::Snapshot
+        ///
+        /// * AWS::EMRWAL::Workspace
         ///
         /// * AWS::FinSpace::Environment
         ///
@@ -626,6 +630,11 @@ extension CloudTrailClientTypes {
         /// * arn::cloudtrail:::channel/
         ///
         ///
+        /// When resources.type equals AWS::CodeWhisperer::Profile, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::codewhisperer:::profile/
+        ///
+        ///
         /// When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::cognito-identity:::identitypool/
@@ -639,6 +648,11 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::ec2:::snapshot/
+        ///
+        ///
+        /// When resources.type equals AWS::EMRWAL::Workspace, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::emrwal:::workspace/
         ///
         ///
         /// When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -2601,15 +2615,19 @@ extension CloudTrailClientTypes {
         /// * AWS::S3::Object
         ///
         ///
-        /// The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see [AdvancedFieldSelector$Field].
+        /// The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
         ///
         /// * AWS::CloudTrail::Channel
+        ///
+        /// * AWS::CodeWhisperer::Profile
         ///
         /// * AWS::Cognito::IdentityPool
         ///
         /// * AWS::DynamoDB::Stream
         ///
         /// * AWS::EC2::Snapshot
+        ///
+        /// * AWS::EMRWAL::Workspace
         ///
         /// * AWS::FinSpace::Environment
         ///
@@ -3157,6 +3175,7 @@ public struct DeregisterOrganizationDelegatedAdminOutputResponse: Swift.Equatabl
 extension DescribeQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventDataStore = "EventDataStore"
+        case queryAlias = "QueryAlias"
         case queryId = "QueryId"
     }
 
@@ -3164,6 +3183,9 @@ extension DescribeQueryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventDataStore = self.eventDataStore {
             try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
+        if let queryAlias = self.queryAlias {
+            try encodeContainer.encode(queryAlias, forKey: .queryAlias)
         }
         if let queryId = self.queryId {
             try encodeContainer.encode(queryId, forKey: .queryId)
@@ -3181,16 +3203,19 @@ public struct DescribeQueryInput: Swift.Equatable {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by DescribeQueryRequest")
     public var eventDataStore: Swift.String?
+    /// The alias that identifies a query template.
+    public var queryAlias: Swift.String?
     /// The query ID.
-    /// This member is required.
     public var queryId: Swift.String?
 
     public init(
         eventDataStore: Swift.String? = nil,
+        queryAlias: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
     {
         self.eventDataStore = eventDataStore
+        self.queryAlias = queryAlias
         self.queryId = queryId
     }
 }
@@ -3198,11 +3223,13 @@ public struct DescribeQueryInput: Swift.Equatable {
 struct DescribeQueryInputBody: Swift.Equatable {
     let eventDataStore: Swift.String?
     let queryId: Swift.String?
+    let queryAlias: Swift.String?
 }
 
 extension DescribeQueryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventDataStore = "EventDataStore"
+        case queryAlias = "QueryAlias"
         case queryId = "QueryId"
     }
 
@@ -3212,6 +3239,8 @@ extension DescribeQueryInputBody: Swift.Decodable {
         eventDataStore = eventDataStoreDecoded
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
+        let queryAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAlias)
+        queryAlias = queryAliasDecoded
     }
 }
 
@@ -12634,6 +12663,8 @@ public struct StartLoggingOutputResponse: Swift.Equatable {
 extension StartQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deliveryS3Uri = "DeliveryS3Uri"
+        case queryAlias = "QueryAlias"
+        case queryParameters = "QueryParameters"
         case queryStatement = "QueryStatement"
     }
 
@@ -12641,6 +12672,15 @@ extension StartQueryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deliveryS3Uri = self.deliveryS3Uri {
             try encodeContainer.encode(deliveryS3Uri, forKey: .deliveryS3Uri)
+        }
+        if let queryAlias = self.queryAlias {
+            try encodeContainer.encode(queryAlias, forKey: .queryAlias)
+        }
+        if let queryParameters = queryParameters {
+            var queryParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryParameters)
+            for queryparameter0 in queryParameters {
+                try queryParametersContainer.encode(queryparameter0)
+            }
         }
         if let queryStatement = self.queryStatement {
             try encodeContainer.encode(queryStatement, forKey: .queryStatement)
@@ -12657,16 +12697,23 @@ extension StartQueryInput: ClientRuntime.URLPathProvider {
 public struct StartQueryInput: Swift.Equatable {
     /// The URI for the S3 bucket where CloudTrail delivers the query results.
     public var deliveryS3Uri: Swift.String?
+    /// The alias that identifies a query template.
+    public var queryAlias: Swift.String?
+    /// The query parameters for the specified QueryAlias.
+    public var queryParameters: [Swift.String]?
     /// The SQL code of your query.
-    /// This member is required.
     public var queryStatement: Swift.String?
 
     public init(
         deliveryS3Uri: Swift.String? = nil,
+        queryAlias: Swift.String? = nil,
+        queryParameters: [Swift.String]? = nil,
         queryStatement: Swift.String? = nil
     )
     {
         self.deliveryS3Uri = deliveryS3Uri
+        self.queryAlias = queryAlias
+        self.queryParameters = queryParameters
         self.queryStatement = queryStatement
     }
 }
@@ -12674,11 +12721,15 @@ public struct StartQueryInput: Swift.Equatable {
 struct StartQueryInputBody: Swift.Equatable {
     let queryStatement: Swift.String?
     let deliveryS3Uri: Swift.String?
+    let queryAlias: Swift.String?
+    let queryParameters: [Swift.String]?
 }
 
 extension StartQueryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deliveryS3Uri = "DeliveryS3Uri"
+        case queryAlias = "QueryAlias"
+        case queryParameters = "QueryParameters"
         case queryStatement = "QueryStatement"
     }
 
@@ -12688,6 +12739,19 @@ extension StartQueryInputBody: Swift.Decodable {
         queryStatement = queryStatementDecoded
         let deliveryS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryS3Uri)
         deliveryS3Uri = deliveryS3UriDecoded
+        let queryAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAlias)
+        queryAlias = queryAliasDecoded
+        let queryParametersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queryParameters)
+        var queryParametersDecoded0:[Swift.String]? = nil
+        if let queryParametersContainer = queryParametersContainer {
+            queryParametersDecoded0 = [Swift.String]()
+            for string0 in queryParametersContainer {
+                if let string0 = string0 {
+                    queryParametersDecoded0?.append(string0)
+                }
+            }
+        }
+        queryParameters = queryParametersDecoded0
     }
 }
 
@@ -14012,6 +14076,7 @@ public enum UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBind
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -14475,7 +14540,7 @@ public struct UpdateTrailOutputResponse: Swift.Equatable {
     public var s3KeyPrefix: Swift.String?
     /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The following is the format of a topic ARN. arn:aws:sns:us-east-2:123456789012:MyTopic
     public var snsTopicARN: Swift.String?
-    /// This field is no longer in use. Use [UpdateTrailResponse$SnsTopicARN].
+    /// This field is no longer in use. Use SnsTopicARN.
     @available(*, deprecated)
     public var snsTopicName: Swift.String?
     /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail

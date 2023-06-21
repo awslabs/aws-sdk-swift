@@ -1877,7 +1877,7 @@ extension IotDeviceAdvisorClientTypes {
         public var isLongDurationTest: Swift.Bool
         /// Sets the MQTT protocol that is configured in the suite definition.
         public var `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol?
-        /// Gets the test suite root group. This is a required parameter.
+        /// Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite, if intendedForQualification is set to true, rootGroup can be an empty string. If intendedForQualification is false, rootGroup cannot be an empty string. If rootGroup is empty, and intendedForQualification is set to true, all the qualification tests are included, and the configuration is default. For a qualification suite, the minimum length is 0, and the maximum is 2048. For a non-qualification suite, the minimum length is 1, and the maximum is 2048.
         /// This member is required.
         public var rootGroup: Swift.String?
         /// Gets the suite definition name. This is a required parameter.
@@ -2569,7 +2569,7 @@ extension IotDeviceAdvisorClientTypes {
         ///
         /// * ERORR: Test faced an error when running due to an internal issue.
         public var status: IotDeviceAdvisorClientTypes.TestCaseScenarioStatus?
-        ///
+        /// Provides test case scenario system messages if any.
         public var systemMessage: Swift.String?
         /// Provides test case scenario ID.
         public var testCaseScenarioId: Swift.String?
