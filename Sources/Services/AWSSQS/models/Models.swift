@@ -265,6 +265,104 @@ extension SQSClientTypes {
 
 }
 
+extension CancelMessageMoveTaskInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let taskHandle = taskHandle {
+            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        }
+        try container.encode("CancelMessageMoveTask", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CancelMessageMoveTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CancelMessageMoveTaskInput: Swift.Equatable {
+    /// An identifier associated with a message movement task.
+    /// This member is required.
+    public var taskHandle: Swift.String?
+
+    public init(
+        taskHandle: Swift.String? = nil
+    )
+    {
+        self.taskHandle = taskHandle
+    }
+}
+
+struct CancelMessageMoveTaskInputBody: Swift.Equatable {
+    let taskHandle: Swift.String?
+}
+
+extension CancelMessageMoveTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskHandle = "TaskHandle"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+    }
+}
+
+public enum CancelMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CancelMessageMoveTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelMessageMoveTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateNumberOfMessagesMoved = output.approximateNumberOfMessagesMoved
+        } else {
+            self.approximateNumberOfMessagesMoved = 0
+        }
+    }
+}
+
+public struct CancelMessageMoveTaskOutputResponse: Swift.Equatable {
+    /// The approximate number of messages already moved to the destination queue.
+    public var approximateNumberOfMessagesMoved: Swift.Int
+
+    public init(
+        approximateNumberOfMessagesMoved: Swift.Int = 0
+    )
+    {
+        self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
+    }
+}
+
+struct CancelMessageMoveTaskOutputResponseBody: Swift.Equatable {
+    let approximateNumberOfMessagesMoved: Swift.Int
+}
+
+extension CancelMessageMoveTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateNumberOfMessagesMoved = "ApproximateNumberOfMessagesMoved"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CancelMessageMoveTaskResult"))
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
+    }
+}
+
 extension ChangeMessageVisibilityBatchInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -296,7 +394,7 @@ extension ChangeMessageVisibilityBatchInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ChangeMessageVisibilityBatchInput: Swift.Equatable {
-    /// A list of receipt handles of the messages for which the visibility timeout must be changed.
+    /// Lists the receipt handles of the messages for which the visibility timeout must be changed.
     /// This member is required.
     public var entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]?
     /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.
@@ -480,11 +578,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
 }
 
 extension SQSClientTypes {
-    /// Encloses a receipt handle and an entry id for each message in [ChangeMessageVisibilityBatch]. All of the following list parameters must be prefixed with ChangeMessageVisibilityBatchRequestEntry.n, where n is an integer value starting with 1. For example, a parameter list for this action might look like this: &ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2
-    ///     &ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle
-    ///
-    ///
-    ///     &ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45
+    /// Encloses a receipt handle and an entry ID for each message in [ChangeMessageVisibilityBatch].
     public struct ChangeMessageVisibilityBatchRequestEntry: Swift.Equatable {
         /// An identifier for this particular receipt handle used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
@@ -572,7 +666,7 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
     /// The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
-    /// The receipt handle associated with the message whose visibility timeout is changed. This parameter is returned by the [ReceiveMessage] action.
+    /// The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the [ReceiveMessage] action.
     /// This member is required.
     public var receiptHandle: Swift.String?
     /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
@@ -687,31 +781,52 @@ public struct CreateQueueInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
     ///
-    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days).
+    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
-    /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the Amazon IAM User Guide.
+    /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the IAM User Guide.
     ///
     /// * ReceiveMessageWaitTimeSeconds – The length of time, in seconds, for which a [ReceiveMessage] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
-    ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.
     ///
     /// * VisibilityTimeout – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+    ///
+    ///
+    ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms). While the alias of the Amazon Web Services managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
-    /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
+    /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work)
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attributes apply only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -780,7 +895,7 @@ public struct CreateQueueInput: Swift.Equatable {
     /// * A new tag with a key identical to that of an existing tag overwrites the existing tag.
     ///
     ///
-    /// For a full list of tag restrictions, see [Quotas related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html#limits-queues) in the Amazon SQS Developer Guide. To be able to tag a queue on creation, you must have the sqs:CreateQueue and sqs:TagQueue permissions. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
+    /// For a full list of tag restrictions, see [Quotas related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html#limits-queues) in the Amazon SQS Developer Guide. To be able to tag a queue on creation, you must have the sqs:CreateQueue and sqs:TagQueue permissions. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -937,7 +1052,7 @@ extension DeleteMessageBatchInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DeleteMessageBatchInput: Swift.Equatable {
-    /// A list of receipt handles for the messages to be deleted.
+    /// Lists the receipt handles for the messages to be deleted.
     /// This member is required.
     public var entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]?
     /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
@@ -1117,7 +1232,7 @@ extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
 extension SQSClientTypes {
     /// Encloses a receipt handle and an identifier for it.
     public struct DeleteMessageBatchRequestEntry: Swift.Equatable {
-        /// An identifier for this particular receipt handle. This is used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
+        /// The identifier for this particular receipt handle. This is used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
         public var id: Swift.String?
         /// A receipt handle.
@@ -1370,7 +1485,7 @@ extension GetQueueAttributesInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct GetQueueAttributesInput: Swift.Equatable {
-    /// A list of attributes for which to retrieve information. The AttributeName.N parameter is optional, but if you don't specify values for this parameter, the request returns empty results. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully. The following attributes are supported: The ApproximateNumberOfMessagesDelayed, ApproximateNumberOfMessagesNotVisible, and ApproximateNumberOfMessagesVisible metrics may not achieve consistency until at least 1 minute after the producers stop sending messages. This period is required for the queue metadata to reach eventual consistency.
+    /// A list of attributes for which to retrieve information. The AttributeNames parameter is optional, but if you don't specify values for this parameter, the request returns empty results. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully. The following attributes are supported: The ApproximateNumberOfMessagesDelayed, ApproximateNumberOfMessagesNotVisible, and ApproximateNumberOfMessages metrics may not achieve consistency until at least 1 minute after the producers stop sending messages. This period is required for the queue metadata to reach eventual consistency.
     ///
     /// * All – Returns all values.
     ///
@@ -1388,7 +1503,7 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.
     ///
-    /// * MessageRetentionPeriod – Returns the length of time, in seconds, for which Amazon SQS retains a message.
+    /// * MessageRetentionPeriod – Returns the length of time, in seconds, for which Amazon SQS retains a message. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
     /// * Policy – Returns the policy of the queue.
     ///
@@ -1396,25 +1511,46 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     ///
     /// * ReceiveMessageWaitTimeSeconds – Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.
     ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    ///
-    ///
     /// * VisibilityTimeout – Returns the visibility timeout for the queue. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+    ///
+    ///
+    ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – Returns the ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms).
     ///
     /// * KmsDataKeyReusePeriodSeconds – Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling KMS again. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
     ///
-    /// * SqsManagedSseEnabled – Returns information about whether the queue is using SSE-SQS encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Returns information about whether the queue is using SSE-SQS encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attributes apply only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -1899,6 +2035,246 @@ extension ListDeadLetterSourceQueuesOutputResponseBody: Swift.Decodable {
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
+}
+
+extension ListMessageMoveTasksInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        try container.encode("ListMessageMoveTasks", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListMessageMoveTasksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListMessageMoveTasksInput: Swift.Equatable {
+    /// The maximum number of results to include in the response. The default is 1, which provides the most recent message movement task. The upper limit is 10.
+    public var maxResults: Swift.Int?
+    /// The ARN of the queue whose message movement tasks are to be listed.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        sourceArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.sourceArn = sourceArn
+    }
+}
+
+struct ListMessageMoveTasksInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListMessageMoveTasksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case sourceArn = "SourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListMessageMoveTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ListMessageMoveTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMessageMoveTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+        } else {
+            self.results = nil
+        }
+    }
+}
+
+public struct ListMessageMoveTasksOutputResponse: Swift.Equatable {
+    /// A list of message movement tasks and their attributes.
+    public var results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
+
+    public init(
+        results: [SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct ListMessageMoveTasksOutputResponseBody: Swift.Equatable {
+    let results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
+}
+
+extension ListMessageMoveTasksOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results = "ListMessageMoveTasksResultEntry"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListMessageMoveTasksResult"))
+        if containerValues.contains(.results) {
+            let resultsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .results)
+            if resultsWrappedContainer != nil {
+                let resultsContainer = try containerValues.decodeIfPresent([SQSClientTypes.ListMessageMoveTasksResultEntry].self, forKey: .results)
+                var resultsBuffer:[SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
+                if let resultsContainer = resultsContainer {
+                    resultsBuffer = [SQSClientTypes.ListMessageMoveTasksResultEntry]()
+                    for structureContainer0 in resultsContainer {
+                        resultsBuffer?.append(structureContainer0)
+                    }
+                }
+                results = resultsBuffer
+            } else {
+                results = []
+            }
+        } else {
+            results = nil
+        }
+    }
+}
+
+extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateNumberOfMessagesMoved = "ApproximateNumberOfMessagesMoved"
+        case approximateNumberOfMessagesToMove = "ApproximateNumberOfMessagesToMove"
+        case destinationArn = "DestinationArn"
+        case failureReason = "FailureReason"
+        case maxNumberOfMessagesPerSecond = "MaxNumberOfMessagesPerSecond"
+        case sourceArn = "SourceArn"
+        case startedTimestamp = "StartedTimestamp"
+        case status = "Status"
+        case taskHandle = "TaskHandle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if approximateNumberOfMessagesMoved != 0 {
+            try container.encode(approximateNumberOfMessagesMoved, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesMoved"))
+        }
+        if approximateNumberOfMessagesToMove != 0 {
+            try container.encode(approximateNumberOfMessagesToMove, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesToMove"))
+        }
+        if let destinationArn = destinationArn {
+            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        }
+        if let failureReason = failureReason {
+            try container.encode(failureReason, forKey: ClientRuntime.Key("FailureReason"))
+        }
+        if maxNumberOfMessagesPerSecond != 0 {
+            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if startedTimestamp != 0 {
+            try container.encode(startedTimestamp, forKey: ClientRuntime.Key("StartedTimestamp"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let taskHandle = taskHandle {
+            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
+        destinationArn = destinationArnDecoded
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
+        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove)
+        approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMoveDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let startedTimestampDecoded = try containerValues.decode(Swift.Int.self, forKey: .startedTimestamp)
+        startedTimestamp = startedTimestampDecoded
+    }
+}
+
+extension SQSClientTypes {
+    /// Contains the details of a message movement task.
+    public struct ListMessageMoveTasksResultEntry: Swift.Equatable {
+        /// The approximate number of messages already moved to the destination queue.
+        public var approximateNumberOfMessagesMoved: Swift.Int
+        /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task.
+        public var approximateNumberOfMessagesToMove: Swift.Int
+        /// The ARN of the destination queue if it has been specified in the StartMessageMoveTask request. If a DestinationArn has not been specified in the StartMessageMoveTask request, this field value will be NULL.
+        public var destinationArn: Swift.String?
+        /// The task failure reason (only included if the task status is FAILED).
+        public var failureReason: Swift.String?
+        /// The number of messages to be moved per second (the message movement rate), if it has been specified in the StartMessageMoveTask request. If a MaxNumberOfMessagesPerSecond has not been specified in the StartMessageMoveTask request, this field value will be NULL.
+        public var maxNumberOfMessagesPerSecond: Swift.Int
+        /// The ARN of the queue that contains the messages to be moved to another queue.
+        public var sourceArn: Swift.String?
+        /// The timestamp of starting the message movement task.
+        public var startedTimestamp: Swift.Int
+        /// The status of the message movement task. Possible values are: RUNNING, COMPLETED, CANCELLING, CANCELLED, and FAILED.
+        public var status: Swift.String?
+        /// An identifier associated with a message movement task. When this field is returned in the response of the ListMessageMoveTasks action, it is only populated for tasks that are in RUNNING status.
+        public var taskHandle: Swift.String?
+
+        public init(
+            approximateNumberOfMessagesMoved: Swift.Int = 0,
+            approximateNumberOfMessagesToMove: Swift.Int = 0,
+            destinationArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            maxNumberOfMessagesPerSecond: Swift.Int = 0,
+            sourceArn: Swift.String? = nil,
+            startedTimestamp: Swift.Int = 0,
+            status: Swift.String? = nil,
+            taskHandle: Swift.String? = nil
+        )
+        {
+            self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
+            self.approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMove
+            self.destinationArn = destinationArn
+            self.failureReason = failureReason
+            self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
+            self.sourceArn = sourceArn
+            self.startedTimestamp = startedTimestamp
+            self.status = status
+            self.taskHandle = taskHandle
+        }
+    }
+
 }
 
 extension ListQueueTagsInput: Swift.Encodable {
@@ -2426,7 +2802,7 @@ extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
 }
 
 extension SQSClientTypes {
-    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KB or 262,144 bytes).
+    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KiB or 262,144 bytes).
     public struct MessageAttributeValue: Swift.Equatable {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [ClientRuntime.Data]?
@@ -2484,6 +2860,7 @@ extension SQSClientTypes {
         case awstraceheader
         case approximatefirstreceivetimestamp
         case approximatereceivecount
+        case deadletterqueuesourcearn
         case messagededuplicationid
         case messagegroupid
         case senderid
@@ -2496,6 +2873,7 @@ extension SQSClientTypes {
                 .awstraceheader,
                 .approximatefirstreceivetimestamp,
                 .approximatereceivecount,
+                .deadletterqueuesourcearn,
                 .messagededuplicationid,
                 .messagegroupid,
                 .senderid,
@@ -2513,6 +2891,7 @@ extension SQSClientTypes {
             case .awstraceheader: return "AWSTraceHeader"
             case .approximatefirstreceivetimestamp: return "ApproximateFirstReceiveTimestamp"
             case .approximatereceivecount: return "ApproximateReceiveCount"
+            case .deadletterqueuesourcearn: return "DeadLetterQueueSourceArn"
             case .messagededuplicationid: return "MessageDeduplicationId"
             case .messagegroupid: return "MessageGroupId"
             case .senderid: return "SenderId"
@@ -2699,7 +3078,7 @@ extension OverLimit {
     }
 }
 
-/// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of inflight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+/// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
 public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
     public static var typeName: Swift.String { "OverLimit" }
     public static var fault: ErrorFault { .client }
@@ -3044,7 +3423,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     ///
     /// * SenderId
     ///
-    /// * For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.
+    /// * For a user, returns the user ID, for example ABCDEFGHI1JKLMNOPQ23R.
     ///
     /// * For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.
     ///
@@ -3053,7 +3432,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     ///
     /// * SentTimestamp – Returns the time the message was sent to the queue ([epoch time](http://en.wikipedia.org/wiki/Unix_time) in milliseconds).
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
@@ -3339,6 +3718,27 @@ extension RemovePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RemovePermissionOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension ResourceNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// One or more specified resources don't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
     public init() { }
 }
@@ -3859,7 +4259,7 @@ public struct SendMessageInput: Swift.Equatable {
     public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
     public var messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]?
-    /// The message to send. The minimum size is one character. The maximum size is 256 KB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
+    /// The message to send. The minimum size is one character. The maximum size is 256 KiB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
     /// This member is required.
     public var messageBody: Swift.String?
     /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see [ Exactly-once processing](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html) in the Amazon SQS Developer Guide.
@@ -4128,31 +4528,52 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
     ///
-    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days).
+    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
     /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the Identity and Access Management User Guide.
     ///
     /// * ReceiveMessageWaitTimeSeconds – The length of time, in seconds, for which a [ReceiveMessage] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
     ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.
-    ///
     /// * VisibilityTimeout – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+    ///
+    ///
+    ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms). While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
     /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attribute applies only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -4266,6 +4687,126 @@ extension SetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct SetQueueAttributesOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension StartMessageMoveTaskInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let destinationArn = destinationArn {
+            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        }
+        if let maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond {
+            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        try container.encode("StartMessageMoveTask", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension StartMessageMoveTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMessageMoveTaskInput: Swift.Equatable {
+    /// The ARN of the queue that receives the moved messages. You can use this field to specify the destination queue where you would like to redrive messages. If this field is left blank, the messages will be redriven back to their respective original source queues.
+    public var destinationArn: Swift.String?
+    /// The number of messages to be moved per second (the message movement rate). You can use this field to define a fixed message movement rate. The maximum value for messages per second is 500. If this field is left blank, the system will optimize the rate based on the queue message backlog size, which may vary throughout the duration of the message movement task.
+    public var maxNumberOfMessagesPerSecond: Swift.Int?
+    /// The ARN of the queue that contains the messages to be moved to another queue. Currently, only dead-letter queue (DLQ) ARNs are accepted.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+
+    public init(
+        destinationArn: Swift.String? = nil,
+        maxNumberOfMessagesPerSecond: Swift.Int? = nil,
+        sourceArn: Swift.String? = nil
+    )
+    {
+        self.destinationArn = destinationArn
+        self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
+        self.sourceArn = sourceArn
+    }
+}
+
+struct StartMessageMoveTaskInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let destinationArn: Swift.String?
+    let maxNumberOfMessagesPerSecond: Swift.Int?
+}
+
+extension StartMessageMoveTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationArn = "DestinationArn"
+        case maxNumberOfMessagesPerSecond = "MaxNumberOfMessagesPerSecond"
+        case sourceArn = "SourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
+        destinationArn = destinationArnDecoded
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
+    }
+}
+
+public enum StartMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension StartMessageMoveTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMessageMoveTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.taskHandle = output.taskHandle
+        } else {
+            self.taskHandle = nil
+        }
+    }
+}
+
+public struct StartMessageMoveTaskOutputResponse: Swift.Equatable {
+    /// An identifier associated with a message movement task. You can use this identifier to cancel a specified message movement task using the CancelMessageMoveTask action.
+    public var taskHandle: Swift.String?
+
+    public init(
+        taskHandle: Swift.String? = nil
+    )
+    {
+        self.taskHandle = taskHandle
+    }
+}
+
+struct StartMessageMoveTaskOutputResponseBody: Swift.Equatable {
+    let taskHandle: Swift.String?
+}
+
+extension StartMessageMoveTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskHandle = "TaskHandle"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartMessageMoveTaskResult"))
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+    }
 }
 
 extension TagQueueInput: Swift.Encodable {

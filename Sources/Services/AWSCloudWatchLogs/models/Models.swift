@@ -2,6 +2,91 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension CloudWatchLogsClientTypes.AccountPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case lastUpdatedTime
+        case policyDocument
+        case policyName
+        case policyType
+        case scope
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encode(lastUpdatedTime, forKey: .lastUpdatedTime)
+        }
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let policyTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.PolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// A structure that contains information about one CloudWatch Logs account policy.
+    public struct AccountPolicy: Swift.Equatable {
+        /// The Amazon Web Services account ID that the policy applies to.
+        public var accountId: Swift.String?
+        /// The date and time that this policy was most recently updated.
+        public var lastUpdatedTime: Swift.Int?
+        /// The policy document for this account policy. The JSON specified in policyDocument can be up to 30,720 characters.
+        public var policyDocument: Swift.String?
+        /// The name of the account policy.
+        public var policyName: Swift.String?
+        /// The type of policy for this account policy.
+        public var policyType: CloudWatchLogsClientTypes.PolicyType?
+        /// The scope of the account policy.
+        public var scope: CloudWatchLogsClientTypes.Scope?
+
+        public init(
+            accountId: Swift.String? = nil,
+            lastUpdatedTime: Swift.Int? = nil,
+            policyDocument: Swift.String? = nil,
+            policyName: Swift.String? = nil,
+            policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
+            scope: CloudWatchLogsClientTypes.Scope? = nil
+        )
+        {
+            self.accountId = accountId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyType = policyType
+            self.scope = scope
+        }
+    }
+
+}
+
 extension AssociateKmsKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
@@ -632,6 +717,91 @@ extension CloudWatchLogsClientTypes {
             self = DataProtectionStatus(rawValue: rawValue) ?? DataProtectionStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DeleteAccountPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyName
+        case policyType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+    }
+}
+
+extension DeleteAccountPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteAccountPolicyInput: Swift.Equatable {
+    /// The name of the policy to delete.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// The type of policy to delete. Currently, the only valid value is DATA_PROTECTION_POLICY.
+    /// This member is required.
+    public var policyType: CloudWatchLogsClientTypes.PolicyType?
+
+    public init(
+        policyName: Swift.String? = nil,
+        policyType: CloudWatchLogsClientTypes.PolicyType? = nil
+    )
+    {
+        self.policyName = policyName
+        self.policyType = policyType
+    }
+}
+
+struct DeleteAccountPolicyInputBody: Swift.Equatable {
+    let policyName: Swift.String?
+    let policyType: CloudWatchLogsClientTypes.PolicyType?
+}
+
+extension DeleteAccountPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyName
+        case policyType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.PolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+    }
+}
+
+public enum DeleteAccountPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteAccountPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccountPolicyOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension DeleteDataProtectionPolicyInput: Swift.Encodable {
@@ -1348,6 +1518,153 @@ public struct DeleteSubscriptionFilterOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DescribeAccountPoliciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdentifiers
+        case policyName
+        case policyType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIdentifiers = accountIdentifiers {
+            var accountIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdentifiers)
+            for accountid0 in accountIdentifiers {
+                try accountIdentifiersContainer.encode(accountid0)
+            }
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+    }
+}
+
+extension DescribeAccountPoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAccountPoliciesInput: Swift.Equatable {
+    /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do, the operation returns the account policy for the specified account. Currently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned.
+    public var accountIdentifiers: [Swift.String]?
+    /// Use this parameter to limit the returned policies to only the policy with the name that you specify.
+    public var policyName: Swift.String?
+    /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify. Currently, the only valid value is DATA_PROTECTION_POLICY.
+    /// This member is required.
+    public var policyType: CloudWatchLogsClientTypes.PolicyType?
+
+    public init(
+        accountIdentifiers: [Swift.String]? = nil,
+        policyName: Swift.String? = nil,
+        policyType: CloudWatchLogsClientTypes.PolicyType? = nil
+    )
+    {
+        self.accountIdentifiers = accountIdentifiers
+        self.policyName = policyName
+        self.policyType = policyType
+    }
+}
+
+struct DescribeAccountPoliciesInputBody: Swift.Equatable {
+    let policyType: CloudWatchLogsClientTypes.PolicyType?
+    let policyName: Swift.String?
+    let accountIdentifiers: [Swift.String]?
+}
+
+extension DescribeAccountPoliciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdentifiers
+        case policyName
+        case policyType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.PolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let accountIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIdentifiers)
+        var accountIdentifiersDecoded0:[Swift.String]? = nil
+        if let accountIdentifiersContainer = accountIdentifiersContainer {
+            accountIdentifiersDecoded0 = [Swift.String]()
+            for string0 in accountIdentifiersContainer {
+                if let string0 = string0 {
+                    accountIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIdentifiers = accountIdentifiersDecoded0
+    }
+}
+
+public enum DescribeAccountPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAccountPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAccountPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountPolicies = output.accountPolicies
+        } else {
+            self.accountPolicies = nil
+        }
+    }
+}
+
+public struct DescribeAccountPoliciesOutputResponse: Swift.Equatable {
+    /// An array of structures that contain information about the CloudWatch Logs account policies that match the specified filters.
+    public var accountPolicies: [CloudWatchLogsClientTypes.AccountPolicy]?
+
+    public init(
+        accountPolicies: [CloudWatchLogsClientTypes.AccountPolicy]? = nil
+    )
+    {
+        self.accountPolicies = accountPolicies
+    }
+}
+
+struct DescribeAccountPoliciesOutputResponseBody: Swift.Equatable {
+    let accountPolicies: [CloudWatchLogsClientTypes.AccountPolicy]?
+}
+
+extension DescribeAccountPoliciesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountPolicies
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountPoliciesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.AccountPolicy?].self, forKey: .accountPolicies)
+        var accountPoliciesDecoded0:[CloudWatchLogsClientTypes.AccountPolicy]? = nil
+        if let accountPoliciesContainer = accountPoliciesContainer {
+            accountPoliciesDecoded0 = [CloudWatchLogsClientTypes.AccountPolicy]()
+            for structure0 in accountPoliciesContainer {
+                if let structure0 = structure0 {
+                    accountPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountPolicies = accountPoliciesDecoded0
+    }
+}
+
 extension DescribeDestinationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationNamePrefix = "DestinationNamePrefix"
@@ -1689,11 +2006,11 @@ extension DescribeLogGroupsInput: ClientRuntime.URLPathProvider {
 public struct DescribeLogGroupsInput: Swift.Equatable {
     /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
     public var accountIdentifiers: [Swift.String]?
-    /// If you are using a monitoring account, set this to True to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. If you specify includeLinkedAccounts in your request, then metricFilterCount, retentionInDays, and storedBytes are not included in the response.
+    /// If you are using a monitoring account, set this to True to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
+    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePattern: Swift.String?
     /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePrefix: Swift.String?
@@ -3276,7 +3593,7 @@ extension FilterLogEventsInput: Swift.Encodable {
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
         }
-        if unmask != false {
+        if let unmask = self.unmask {
             try encodeContainer.encode(unmask, forKey: .unmask)
         }
     }
@@ -3311,7 +3628,7 @@ public struct FilterLogEventsInput: Swift.Equatable {
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
-    public var unmask: Swift.Bool
+    public var unmask: Swift.Bool?
 
     public init(
         endTime: Swift.Int? = nil,
@@ -3324,7 +3641,7 @@ public struct FilterLogEventsInput: Swift.Equatable {
         logStreamNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         startTime: Swift.Int? = nil,
-        unmask: Swift.Bool = false
+        unmask: Swift.Bool? = nil
     )
     {
         self.endTime = endTime
@@ -3352,7 +3669,7 @@ struct FilterLogEventsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let interleaved: Swift.Bool?
-    let unmask: Swift.Bool
+    let unmask: Swift.Bool?
 }
 
 extension FilterLogEventsInputBody: Swift.Decodable {
@@ -3401,7 +3718,7 @@ extension FilterLogEventsInputBody: Swift.Decodable {
         limit = limitDecoded
         let interleavedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .interleaved)
         interleaved = interleavedDecoded
-        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask)
         unmask = unmaskDecoded
     }
 }
@@ -3733,7 +4050,7 @@ extension GetLogEventsInput: Swift.Encodable {
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
         }
-        if unmask != false {
+        if let unmask = self.unmask {
             try encodeContainer.encode(unmask, forKey: .unmask)
         }
     }
@@ -3764,7 +4081,7 @@ public struct GetLogEventsInput: Swift.Equatable {
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
-    public var unmask: Swift.Bool
+    public var unmask: Swift.Bool?
 
     public init(
         endTime: Swift.Int? = nil,
@@ -3775,7 +4092,7 @@ public struct GetLogEventsInput: Swift.Equatable {
         nextToken: Swift.String? = nil,
         startFromHead: Swift.Bool? = nil,
         startTime: Swift.Int? = nil,
-        unmask: Swift.Bool = false
+        unmask: Swift.Bool? = nil
     )
     {
         self.endTime = endTime
@@ -3799,7 +4116,7 @@ struct GetLogEventsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let startFromHead: Swift.Bool?
-    let unmask: Swift.Bool
+    let unmask: Swift.Bool?
 }
 
 extension GetLogEventsInputBody: Swift.Decodable {
@@ -3833,7 +4150,7 @@ extension GetLogEventsInputBody: Swift.Decodable {
         limit = limitDecoded
         let startFromHeadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startFromHead)
         startFromHead = startFromHeadDecoded
-        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask)
         unmask = unmaskDecoded
     }
 }
@@ -4065,7 +4382,7 @@ extension GetLogRecordInput: Swift.Encodable {
         if let logRecordPointer = self.logRecordPointer {
             try encodeContainer.encode(logRecordPointer, forKey: .logRecordPointer)
         }
-        if unmask != false {
+        if let unmask = self.unmask {
             try encodeContainer.encode(unmask, forKey: .unmask)
         }
     }
@@ -4082,11 +4399,11 @@ public struct GetLogRecordInput: Swift.Equatable {
     /// This member is required.
     public var logRecordPointer: Swift.String?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
-    public var unmask: Swift.Bool
+    public var unmask: Swift.Bool?
 
     public init(
         logRecordPointer: Swift.String? = nil,
-        unmask: Swift.Bool = false
+        unmask: Swift.Bool? = nil
     )
     {
         self.logRecordPointer = logRecordPointer
@@ -4096,7 +4413,7 @@ public struct GetLogRecordInput: Swift.Equatable {
 
 struct GetLogRecordInputBody: Swift.Equatable {
     let logRecordPointer: Swift.String?
-    let unmask: Swift.Bool
+    let unmask: Swift.Bool?
 }
 
 extension GetLogRecordInputBody: Swift.Decodable {
@@ -4109,7 +4426,7 @@ extension GetLogRecordInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logRecordPointerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logRecordPointer)
         logRecordPointer = logRecordPointerDecoded
-        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask) ?? false
+        let unmaskDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unmask)
         unmask = unmaskDecoded
     }
 }
@@ -4259,7 +4576,7 @@ public struct GetQueryResultsOutputResponse: Swift.Equatable {
     public var results: [[CloudWatchLogsClientTypes.ResultField]]?
     /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
     public var statistics: CloudWatchLogsClientTypes.QueryStatistics?
-    /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 15 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
+    /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 60 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
     public var status: CloudWatchLogsClientTypes.QueryStatus?
 
     public init(
@@ -4316,6 +4633,35 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+    public enum InheritedProperty: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountDataProtection
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InheritedProperty] {
+            return [
+                .accountDataProtection,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountDataProtection: return "ACCOUNT_DATA_PROTECTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InheritedProperty(rawValue: rawValue) ?? InheritedProperty.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudWatchLogsClientTypes.InputLogEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
@@ -4344,7 +4690,7 @@ extension CloudWatchLogsClientTypes.InputLogEvent: Swift.Codable {
 extension CloudWatchLogsClientTypes {
     /// Represents a log event, which is a record of activity that was recorded by the application or resource being monitored.
     public struct InputLogEvent: Swift.Equatable {
-        /// The raw event message.
+        /// The raw event message. Each log event can be no larger than 256 KB.
         /// This member is required.
         public var message: Swift.String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -4818,6 +5164,7 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         case arn
         case creationTime
         case dataProtectionStatus
+        case inheritedProperties
         case kmsKeyId
         case logGroupName
         case metricFilterCount
@@ -4835,6 +5182,12 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         }
         if let dataProtectionStatus = self.dataProtectionStatus {
             try encodeContainer.encode(dataProtectionStatus.rawValue, forKey: .dataProtectionStatus)
+        }
+        if let inheritedProperties = inheritedProperties {
+            var inheritedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inheritedProperties)
+            for inheritedproperty0 in inheritedProperties {
+                try inheritedPropertiesContainer.encode(inheritedproperty0.rawValue)
+            }
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
@@ -4871,6 +5224,17 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         kmsKeyId = kmsKeyIdDecoded
         let dataProtectionStatusDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DataProtectionStatus.self, forKey: .dataProtectionStatus)
         dataProtectionStatus = dataProtectionStatusDecoded
+        let inheritedPropertiesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.InheritedProperty?].self, forKey: .inheritedProperties)
+        var inheritedPropertiesDecoded0:[CloudWatchLogsClientTypes.InheritedProperty]? = nil
+        if let inheritedPropertiesContainer = inheritedPropertiesContainer {
+            inheritedPropertiesDecoded0 = [CloudWatchLogsClientTypes.InheritedProperty]()
+            for enum0 in inheritedPropertiesContainer {
+                if let enum0 = enum0 {
+                    inheritedPropertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        inheritedProperties = inheritedPropertiesDecoded0
     }
 }
 
@@ -4883,13 +5247,15 @@ extension CloudWatchLogsClientTypes {
         public var creationTime: Swift.Int?
         /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
         public var dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus?
+        /// Displays all the properties that this log group has inherited from account-level settings.
+        public var inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public var kmsKeyId: Swift.String?
         /// The name of the log group.
         public var logGroupName: Swift.String?
         /// The number of metric filters.
         public var metricFilterCount: Swift.Int?
-        /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
+        /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
         public var retentionInDays: Swift.Int?
         /// The number of bytes stored.
         public var storedBytes: Swift.Int?
@@ -4898,6 +5264,7 @@ extension CloudWatchLogsClientTypes {
             arn: Swift.String? = nil,
             creationTime: Swift.Int? = nil,
             dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
+            inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]? = nil,
             kmsKeyId: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
@@ -4908,6 +5275,7 @@ extension CloudWatchLogsClientTypes {
             self.arn = arn
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
+            self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
@@ -5530,6 +5898,182 @@ extension CloudWatchLogsClientTypes {
 
 }
 
+extension CloudWatchLogsClientTypes {
+    public enum PolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dataProtectionPolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyType] {
+            return [
+                .dataProtectionPolicy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataProtectionPolicy: return "DATA_PROTECTION_POLICY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PolicyType(rawValue: rawValue) ?? PolicyType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PutAccountPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyDocument
+        case policyName
+        case policyType
+        case scope
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policyDocument = self.policyDocument {
+            try encodeContainer.encode(policyDocument, forKey: .policyDocument)
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let policyType = self.policyType {
+            try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension PutAccountPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutAccountPolicyInput: Swift.Equatable {
+    /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:
+    ///
+    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose streams, and S3 buckets, they must already exist.
+    ///
+    /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
+    ///
+    ///
+    /// For an example data protection policy, see the Examples section on this page. The contents of the two DataIdentifer arrays must match exactly. In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// A name for the policy. This must be unique within the account.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// Currently the only valid value for this parameter is DATA_PROTECTION_POLICY.
+    /// This member is required.
+    public var policyType: CloudWatchLogsClientTypes.PolicyType?
+    /// Currently the only valid value for this parameter is GLOBAL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of GLOBAL is used.
+    public var scope: CloudWatchLogsClientTypes.Scope?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
+        scope: CloudWatchLogsClientTypes.Scope? = nil
+    )
+    {
+        self.policyDocument = policyDocument
+        self.policyName = policyName
+        self.policyType = policyType
+        self.scope = scope
+    }
+}
+
+struct PutAccountPolicyInputBody: Swift.Equatable {
+    let policyName: Swift.String?
+    let policyDocument: Swift.String?
+    let policyType: CloudWatchLogsClientTypes.PolicyType?
+    let scope: CloudWatchLogsClientTypes.Scope?
+}
+
+extension PutAccountPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyDocument
+        case policyName
+        case policyType
+        case scope
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
+        policyDocument = policyDocumentDecoded
+        let policyTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.PolicyType.self, forKey: .policyType)
+        policyType = policyTypeDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+public enum PutAccountPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutAccountPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutAccountPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountPolicy = output.accountPolicy
+        } else {
+            self.accountPolicy = nil
+        }
+    }
+}
+
+public struct PutAccountPolicyOutputResponse: Swift.Equatable {
+    /// The account policy that you created.
+    public var accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+
+    public init(
+        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
+    )
+    {
+        self.accountPolicy = accountPolicy
+    }
+}
+
+struct PutAccountPolicyOutputResponseBody: Swift.Equatable {
+    let accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+}
+
+extension PutAccountPolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountPolicyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.AccountPolicy.self, forKey: .accountPolicy)
+        accountPolicy = accountPolicyDecoded
+    }
+}
+
 extension PutDataProtectionPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logGroupIdentifier
@@ -5564,7 +6108,7 @@ public struct PutDataProtectionPolicyInput: Swift.Equatable {
     /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
     ///
     ///
-    /// For an example data protection policy, see the Examples section on this page. The contents of two DataIdentifer arrays must match exactly.
+    /// For an example data protection policy, see the Examples section on this page. The contents of the two DataIdentifer arrays must match exactly. In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
     /// This member is required.
     public var policyDocument: Swift.String?
 
@@ -5858,7 +6402,7 @@ public struct PutDestinationPolicyInput: Swift.Equatable {
     /// A name for an existing destination.
     /// This member is required.
     public var destinationName: Swift.String?
-    /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permission to individual AWS accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate, you are affirming that you have already updated the subscription filters. For more information, see [ Updating an existing cross-account subscription](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Cross-Account-Log_Subscription-Update.html) If you omit this parameter, the default of false is used.
+    /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permission to individual Amazon Web Services accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate, you are affirming that you have already updated the subscription filters. For more information, see [ Updating an existing cross-account subscription](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Cross-Account-Log_Subscription-Update.html) If you omit this parameter, the default of false is used.
     public var forceUpdate: Swift.Bool?
 
     public init(
@@ -6498,7 +7042,7 @@ public struct PutRetentionPolicyInput: Swift.Equatable {
     /// The name of the log group.
     /// This member is required.
     public var logGroupName: Swift.String?
-    /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
+    /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
     /// This member is required.
     public var retentionInDays: Swift.Int?
 
@@ -7317,6 +7861,35 @@ extension CloudWatchLogsClientTypes {
         }
     }
 
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum Scope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Scope] {
+            return [
+                .all,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Scope(rawValue: rawValue) ?? Scope.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CloudWatchLogsClientTypes.SearchedLogStream: Swift.Codable {

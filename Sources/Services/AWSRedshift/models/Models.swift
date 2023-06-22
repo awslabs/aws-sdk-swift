@@ -824,6 +824,87 @@ extension AssociateDataShareConsumerOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension RedshiftClientTypes.Association: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateAssociations = "CertificateAssociations"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainCertificateExpiryDate = "CustomDomainCertificateExpiryDate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let certificateAssociations = certificateAssociations {
+            if !certificateAssociations.isEmpty {
+                var certificateAssociationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("CertificateAssociations"))
+                for (index0, certificateassociation0) in certificateAssociations.enumerated() {
+                    try certificateAssociationsContainer.encode(certificateassociation0, forKey: ClientRuntime.Key("CertificateAssociation.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var certificateAssociationsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("CertificateAssociations"))
+                try certificateAssociationsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let customDomainCertificateArn = customDomainCertificateArn {
+            try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
+        }
+        if let customDomainCertificateExpiryDate = customDomainCertificateExpiryDate {
+            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("customDomainCertificateExpiryDate"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryDate)
+        customDomainCertificateExpiryDate = customDomainCertificateExpiryDateDecoded
+        if containerValues.contains(.certificateAssociations) {
+            struct KeyVal0{struct CertificateAssociation{}}
+            let certificateAssociationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.CertificateAssociation>.CodingKeys.self, forKey: .certificateAssociations)
+            if let certificateAssociationsWrappedContainer = certificateAssociationsWrappedContainer {
+                let certificateAssociationsContainer = try certificateAssociationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.CertificateAssociation].self, forKey: .member)
+                var certificateAssociationsBuffer:[RedshiftClientTypes.CertificateAssociation]? = nil
+                if let certificateAssociationsContainer = certificateAssociationsContainer {
+                    certificateAssociationsBuffer = [RedshiftClientTypes.CertificateAssociation]()
+                    for structureContainer0 in certificateAssociationsContainer {
+                        certificateAssociationsBuffer?.append(structureContainer0)
+                    }
+                }
+                certificateAssociations = certificateAssociationsBuffer
+            } else {
+                certificateAssociations = []
+            }
+        } else {
+            certificateAssociations = nil
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// Contains information about the custom domain name association.
+    public struct Association: Swift.Equatable {
+        /// A list of all associated clusters and domain names tied to a specific certificate.
+        public var certificateAssociations: [RedshiftClientTypes.CertificateAssociation]?
+        /// The Amazon Resource Name (ARN) for the certificate associated with the custom domain.
+        public var customDomainCertificateArn: Swift.String?
+        /// The expiration date for the certificate.
+        public var customDomainCertificateExpiryDate: ClientRuntime.Date?
+
+        public init(
+            certificateAssociations: [RedshiftClientTypes.CertificateAssociation]? = nil,
+            customDomainCertificateArn: Swift.String? = nil,
+            customDomainCertificateExpiryDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.certificateAssociations = certificateAssociations
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryDate = customDomainCertificateExpiryDate
+        }
+    }
+
+}
+
 extension RedshiftClientTypes.AttributeValueTarget: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeValue = "AttributeValue"
@@ -1841,7 +1922,7 @@ public struct AuthorizeSnapshotAccessInput: Swift.Equatable {
     public var accountWithRestoreAccess: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
     public var snapshotArn: Swift.String?
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The identifier of the snapshot the account is authorized to restore.
     public var snapshotIdentifier: Swift.String?
@@ -2837,6 +2918,51 @@ extension CancelResizeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension RedshiftClientTypes.CertificateAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case customDomainName = "CustomDomainName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+    }
+}
+
+extension RedshiftClientTypes {
+    /// A cluster ID and custom domain name tied to a specific certificate. These are typically returned in a list.
+    public struct CertificateAssociation: Swift.Equatable {
+        /// The cluster identifier for the certificate association.
+        public var clusterIdentifier: Swift.String?
+        /// The custom domain name for the certificate association.
+        public var customDomainName: Swift.String?
+
+        public init(
+            clusterIdentifier: Swift.String? = nil,
+            customDomainName: Swift.String? = nil
+        )
+        {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainName = customDomainName
+        }
+    }
+
+}
+
 extension RedshiftClientTypes.Cluster: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowVersionUpgrade = "AllowVersionUpgrade"
@@ -2857,6 +2983,9 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         case clusterStatus = "ClusterStatus"
         case clusterSubnetGroupName = "ClusterSubnetGroupName"
         case clusterVersion = "ClusterVersion"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainCertificateExpiryDate = "CustomDomainCertificateExpiryDate"
+        case customDomainName = "CustomDomainName"
         case dbName = "DBName"
         case dataTransferProgress = "DataTransferProgress"
         case defaultIamRoleArn = "DefaultIamRoleArn"
@@ -2975,6 +3104,15 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         }
         if let clusterVersion = clusterVersion {
             try container.encode(clusterVersion, forKey: ClientRuntime.Key("ClusterVersion"))
+        }
+        if let customDomainCertificateArn = customDomainCertificateArn {
+            try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
+        }
+        if let customDomainCertificateExpiryDate = customDomainCertificateExpiryDate {
+            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("customDomainCertificateExpiryDate"))
+        }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
         }
         if let dbName = dbName {
             try container.encode(dbName, forKey: ClientRuntime.Key("DBName"))
@@ -3367,6 +3505,12 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         defaultIamRoleArn = defaultIamRoleArnDecoded
         let reservedNodeExchangeStatusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ReservedNodeExchangeStatus.self, forKey: .reservedNodeExchangeStatus)
         reservedNodeExchangeStatus = reservedNodeExchangeStatusDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let customDomainCertificateExpiryDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryDate)
+        customDomainCertificateExpiryDate = customDomainCertificateExpiryDateDecoded
     }
 }
 
@@ -3459,6 +3603,12 @@ extension RedshiftClientTypes {
         public var clusterSubnetGroupName: Swift.String?
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
         public var clusterVersion: Swift.String?
+        /// The certificate Amazon Resource Name (ARN) for the custom domain name.
+        public var customDomainCertificateArn: Swift.String?
+        /// The expiration date for the certificate associated with the custom domain name.
+        public var customDomainCertificateExpiryDate: ClientRuntime.Date?
+        /// The custom domain name associated with the cluster.
+        public var customDomainName: Swift.String?
         ///
         public var dataTransferProgress: RedshiftClientTypes.DataTransferProgress?
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default.
@@ -3555,6 +3705,9 @@ extension RedshiftClientTypes {
             clusterStatus: Swift.String? = nil,
             clusterSubnetGroupName: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
+            customDomainCertificateArn: Swift.String? = nil,
+            customDomainCertificateExpiryDate: ClientRuntime.Date? = nil,
+            customDomainName: Swift.String? = nil,
             dataTransferProgress: RedshiftClientTypes.DataTransferProgress? = nil,
             dbName: Swift.String? = nil,
             defaultIamRoleArn: Swift.String? = nil,
@@ -3609,6 +3762,9 @@ extension RedshiftClientTypes {
             self.clusterStatus = clusterStatus
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.clusterVersion = clusterVersion
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryDate = customDomainCertificateExpiryDate
+            self.customDomainName = customDomainName
             self.dataTransferProgress = dataTransferProgress
             self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
@@ -5534,7 +5690,7 @@ extension CopyClusterSnapshotInput: ClientRuntime.URLPathProvider {
 public struct CopyClusterSnapshotInput: Swift.Equatable {
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:
+    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:
     ///
     /// * Must be the identifier for a valid cluster.
     public var sourceSnapshotClusterIdentifier: Swift.String?
@@ -6064,7 +6220,7 @@ public struct CreateClusterInput: Swift.Equatable {
     public var maintenanceTrackName: Swift.String?
     /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The password associated with the admin user for the cluster that is being created. Constraints:
+    /// The password associated with the admin user account for the cluster that is being created. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -6077,7 +6233,7 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
     /// This member is required.
     public var masterUserPassword: Swift.String?
-    /// The user name associated with the admin user for the cluster that is being created. Constraints:
+    /// The user name associated with the admin user account for the cluster that is being created. Constraints:
     ///
     /// * Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.
     ///
@@ -7175,6 +7331,159 @@ extension CreateClusterSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateClusterSubnetGroupResult"))
         let clusterSubnetGroupDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ClusterSubnetGroup.self, forKey: .clusterSubnetGroup)
         clusterSubnetGroup = clusterSubnetGroupDecoded
+    }
+}
+
+extension CreateCustomDomainAssociationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        if let customDomainCertificateArn = customDomainCertificateArn {
+            try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
+        }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
+        try container.encode("CreateCustomDomainAssociation", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateCustomDomainAssociationInput: Swift.Equatable {
+    /// The cluster identifier that the custom domain is associated with.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The certificate Amazon Resource Name (ARN) for the custom domain name association.
+    /// This member is required.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name for a custom domain association.
+    /// This member is required.
+    public var customDomainName: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+    }
+}
+
+struct CreateCustomDomainAssociationInputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let clusterIdentifier: Swift.String?
+}
+
+extension CreateCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainName = "CustomDomainName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+    }
+}
+
+public enum CreateCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateCustomDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCustomDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clusterIdentifier = output.clusterIdentifier
+            self.customDomainCertExpiryTime = output.customDomainCertExpiryTime
+            self.customDomainCertificateArn = output.customDomainCertificateArn
+            self.customDomainName = output.customDomainName
+        } else {
+            self.clusterIdentifier = nil
+            self.customDomainCertExpiryTime = nil
+            self.customDomainCertificateArn = nil
+            self.customDomainName = nil
+        }
+    }
+}
+
+public struct CreateCustomDomainAssociationOutputResponse: Swift.Equatable {
+    /// The identifier of the cluster that the custom domain is associated with.
+    public var clusterIdentifier: Swift.String?
+    /// The expiration time for the certificate for the custom domain.
+    public var customDomainCertExpiryTime: Swift.String?
+    /// The Amazon Resource Name (ARN) for the certificate associated with the custom domain name.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name for the association result.
+    public var customDomainName: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        customDomainCertExpiryTime: Swift.String? = nil,
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+        self.customDomainCertExpiryTime = customDomainCertExpiryTime
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+    }
+}
+
+struct CreateCustomDomainAssociationOutputResponseBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let clusterIdentifier: Swift.String?
+    let customDomainCertExpiryTime: Swift.String?
+}
+
+extension CreateCustomDomainAssociationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case customDomainCertExpiryTime = "CustomDomainCertExpiryTime"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainName = "CustomDomainName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCustomDomainAssociationResult"))
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+        let customDomainCertExpiryTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertExpiryTime)
+        customDomainCertExpiryTime = customDomainCertExpiryTimeDecoded
     }
 }
 
@@ -9249,6 +9558,114 @@ extension CreateUsageLimitOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CustomCnameAssociationFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<CustomCnameAssociationFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An error occurred when an attempt was made to change the custom domain association.
+public struct CustomCnameAssociationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CustomCnameAssociationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct CustomCnameAssociationFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CustomCnameAssociationFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CustomDomainAssociationNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<CustomDomainAssociationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An error occurred. The custom domain name couldn't be found.
+public struct CustomDomainAssociationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CustomDomainAssociationNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct CustomDomainAssociationNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CustomDomainAssociationNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension RedshiftClientTypes.DataShare: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowPubliclyAccessibleConsumers = "AllowPubliclyAccessibleConsumers"
@@ -10337,7 +10754,7 @@ extension DeleteClusterSnapshotInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DeleteClusterSnapshotInput: Swift.Equatable {
-    /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
+    /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
     public var snapshotClusterIdentifier: Swift.String?
     /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
     /// This member is required.
@@ -10401,7 +10818,7 @@ extension RedshiftClientTypes.DeleteClusterSnapshotMessage: Swift.Codable {
 extension RedshiftClientTypes {
     ///
     public struct DeleteClusterSnapshotMessage: Swift.Equatable {
-        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
+        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public var snapshotClusterIdentifier: Swift.String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
         /// This member is required.
@@ -10536,6 +10953,74 @@ extension DeleteClusterSubnetGroupOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct DeleteClusterSubnetGroupOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteCustomDomainAssociationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        try container.encode("DeleteCustomDomainAssociation", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
+    /// The identifier of the cluster to delete a custom domain association for.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+    }
+}
+
+struct DeleteCustomDomainAssociationInputBody: Swift.Equatable {
+    let clusterIdentifier: Swift.String?
+}
+
+extension DeleteCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+    }
+}
+
+public enum DeleteCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteCustomDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomDomainAssociationOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -12680,7 +13165,7 @@ public struct DescribeClusterSnapshotsInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSnapshots] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
-    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 500.
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
     /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter.
     public var ownerAccount: Swift.String?
@@ -13677,6 +14162,163 @@ extension DescribeClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             clusters = nil
+        }
+    }
+}
+
+extension DescribeCustomDomainAssociationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let customDomainCertificateArn = customDomainCertificateArn {
+            try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
+        }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeCustomDomainAssociations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeCustomDomainAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeCustomDomainAssociationsInput: Swift.Equatable {
+    /// The certificate Amazon Resource Name (ARN) for the custom domain association.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name for the custom domain association.
+    public var customDomainName: Swift.String?
+    /// The marker for the custom domain association.
+    public var marker: Swift.String?
+    /// The maximum records setting for the associated custom domain.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeCustomDomainAssociationsInputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeCustomDomainAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainName = "CustomDomainName"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeCustomDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CustomDomainAssociationNotFoundFault": return try await CustomDomainAssociationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeCustomDomainAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCustomDomainAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.associations = output.associations
+            self.marker = output.marker
+        } else {
+            self.associations = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeCustomDomainAssociationsOutputResponse: Swift.Equatable {
+    /// The associations for the custom domain.
+    public var associations: [RedshiftClientTypes.Association]?
+    /// The marker for the custom domain association.
+    public var marker: Swift.String?
+
+    public init(
+        associations: [RedshiftClientTypes.Association]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.associations = associations
+        self.marker = marker
+    }
+}
+
+struct DescribeCustomDomainAssociationsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let associations: [RedshiftClientTypes.Association]?
+}
+
+extension DescribeCustomDomainAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associations = "Associations"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeCustomDomainAssociationsResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.associations) {
+            struct KeyVal0{struct Association{}}
+            let associationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Association>.CodingKeys.self, forKey: .associations)
+            if let associationsWrappedContainer = associationsWrappedContainer {
+                let associationsContainer = try associationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.Association].self, forKey: .member)
+                var associationsBuffer:[RedshiftClientTypes.Association]? = nil
+                if let associationsContainer = associationsContainer {
+                    associationsBuffer = [RedshiftClientTypes.Association]()
+                    for structureContainer0 in associationsContainer {
+                        associationsBuffer?.append(structureContainer0)
+                    }
+                }
+                associations = associationsBuffer
+            } else {
+                associations = []
+            }
+        } else {
+            associations = nil
         }
     }
 }
@@ -20842,6 +21484,9 @@ extension GetClusterCredentialsInput: Swift.Encodable {
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
         if let dbGroups = dbGroups {
             if !dbGroups.isEmpty {
                 var dbGroupsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("DbGroups"))
@@ -20879,8 +21524,9 @@ public struct GetClusterCredentialsInput: Swift.Equatable {
     /// Create a database user with the name specified for the user named in DbUser if one does not exist.
     public var autoCreate: Swift.Bool?
     /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensitive.
-    /// This member is required.
     public var clusterIdentifier: Swift.String?
+    /// The custom domain name for the cluster credentials.
+    public var customDomainName: Swift.String?
     /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints
     ///
     /// * Must be 1 to 64 alphanumeric characters or hyphens
@@ -20924,6 +21570,7 @@ public struct GetClusterCredentialsInput: Swift.Equatable {
     public init(
         autoCreate: Swift.Bool? = nil,
         clusterIdentifier: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
         dbGroups: [Swift.String]? = nil,
         dbName: Swift.String? = nil,
         dbUser: Swift.String? = nil,
@@ -20932,6 +21579,7 @@ public struct GetClusterCredentialsInput: Swift.Equatable {
     {
         self.autoCreate = autoCreate
         self.clusterIdentifier = clusterIdentifier
+        self.customDomainName = customDomainName
         self.dbGroups = dbGroups
         self.dbName = dbName
         self.dbUser = dbUser
@@ -20946,12 +21594,14 @@ struct GetClusterCredentialsInputBody: Swift.Equatable {
     let durationSeconds: Swift.Int?
     let autoCreate: Swift.Bool?
     let dbGroups: [Swift.String]?
+    let customDomainName: Swift.String?
 }
 
 extension GetClusterCredentialsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoCreate = "AutoCreate"
         case clusterIdentifier = "ClusterIdentifier"
+        case customDomainName = "CustomDomainName"
         case dbGroups = "DbGroups"
         case dbName = "DbName"
         case dbUser = "DbUser"
@@ -20989,6 +21639,8 @@ extension GetClusterCredentialsInputBody: Swift.Decodable {
         } else {
             dbGroups = nil
         }
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
     }
 }
 
@@ -21076,6 +21728,9 @@ extension GetClusterCredentialsWithIAMInput: Swift.Encodable {
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
         if let dbName = dbName {
             try container.encode(dbName, forKey: ClientRuntime.Key("DbName"))
         }
@@ -21095,8 +21750,9 @@ extension GetClusterCredentialsWithIAMInput: ClientRuntime.URLPathProvider {
 
 public struct GetClusterCredentialsWithIAMInput: Swift.Equatable {
     /// The unique identifier of the cluster that contains the database for which you are requesting credentials.
-    /// This member is required.
     public var clusterIdentifier: Swift.String?
+    /// The custom domain name for the IAM message cluster credentials.
+    public var customDomainName: Swift.String?
     /// The name of the database for which you are requesting credentials. If the database name is specified, the IAM policy must allow access to the resource dbname for the specified database name. If the database name is not specified, access to all databases is allowed.
     public var dbName: Swift.String?
     /// The number of seconds until the returned temporary password expires. Range: 900-3600. Default: 900.
@@ -21104,11 +21760,13 @@ public struct GetClusterCredentialsWithIAMInput: Swift.Equatable {
 
     public init(
         clusterIdentifier: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
         dbName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil
     )
     {
         self.clusterIdentifier = clusterIdentifier
+        self.customDomainName = customDomainName
         self.dbName = dbName
         self.durationSeconds = durationSeconds
     }
@@ -21118,11 +21776,13 @@ struct GetClusterCredentialsWithIAMInputBody: Swift.Equatable {
     let dbName: Swift.String?
     let clusterIdentifier: Swift.String?
     let durationSeconds: Swift.Int?
+    let customDomainName: Swift.String?
 }
 
 extension GetClusterCredentialsWithIAMInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterIdentifier = "ClusterIdentifier"
+        case customDomainName = "CustomDomainName"
         case dbName = "DbName"
         case durationSeconds = "DurationSeconds"
     }
@@ -21135,6 +21795,8 @@ extension GetClusterCredentialsWithIAMInputBody: Swift.Decodable {
         clusterIdentifier = clusterIdentifierDecoded
         let durationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationSeconds)
         durationSeconds = durationSecondsDecoded
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
     }
 }
 
@@ -24905,7 +25567,7 @@ public struct ModifyClusterInput: Swift.Equatable {
     public var maintenanceTrackName: Swift.String?
     /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Operations never return the password, so this operation provides a way to regain access to the admin user for a cluster if the password is lost. Default: Uses existing setting. Constraints:
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -25308,6 +25970,7 @@ public enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterSecurityGroupNotFound": return try await ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DependentServiceRequestThrottlingFault": return try await DependentServiceRequestThrottlingFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "HsmClientCertificateNotFoundFault": return try await HsmClientCertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "HsmConfigurationNotFoundFault": return try await HsmConfigurationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25322,6 +25985,7 @@ public enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NumberOfNodesQuotaExceeded": return try await NumberOfNodesQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TableLimitExceeded": return try await TableLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOptionFault": return try await UnsupportedOptionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -25877,6 +26541,157 @@ extension ModifyClusterSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyClusterSubnetGroupResult"))
         let clusterSubnetGroupDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ClusterSubnetGroup.self, forKey: .clusterSubnetGroup)
         clusterSubnetGroup = clusterSubnetGroupDecoded
+    }
+}
+
+extension ModifyCustomDomainAssociationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        if let customDomainCertificateArn = customDomainCertificateArn {
+            try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
+        }
+        if let customDomainName = customDomainName {
+            try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
+        }
+        try container.encode("ModifyCustomDomainAssociation", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyCustomDomainAssociationInput: Swift.Equatable {
+    /// The identifier of the cluster to change a custom domain association for.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The certificate Amazon Resource Name (ARN) for the changed custom domain association.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name for a changed custom domain association.
+    public var customDomainName: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+    }
+}
+
+struct ModifyCustomDomainAssociationInputBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let clusterIdentifier: Swift.String?
+}
+
+extension ModifyCustomDomainAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainName = "CustomDomainName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+    }
+}
+
+public enum ModifyCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ModifyCustomDomainAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyCustomDomainAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.clusterIdentifier = output.clusterIdentifier
+            self.customDomainCertExpiryTime = output.customDomainCertExpiryTime
+            self.customDomainCertificateArn = output.customDomainCertificateArn
+            self.customDomainName = output.customDomainName
+        } else {
+            self.clusterIdentifier = nil
+            self.customDomainCertExpiryTime = nil
+            self.customDomainCertificateArn = nil
+            self.customDomainName = nil
+        }
+    }
+}
+
+public struct ModifyCustomDomainAssociationOutputResponse: Swift.Equatable {
+    /// The identifier of the cluster associated with the result for the changed custom domain association.
+    public var clusterIdentifier: Swift.String?
+    /// The certificate expiration time associated with the result for the changed custom domain association.
+    public var customDomainCertExpiryTime: Swift.String?
+    /// The certificate Amazon Resource Name (ARN) associated with the result for the changed custom domain association.
+    public var customDomainCertificateArn: Swift.String?
+    /// The custom domain name associated with the result for the changed custom domain association.
+    public var customDomainName: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        customDomainCertExpiryTime: Swift.String? = nil,
+        customDomainCertificateArn: Swift.String? = nil,
+        customDomainName: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+        self.customDomainCertExpiryTime = customDomainCertExpiryTime
+        self.customDomainCertificateArn = customDomainCertificateArn
+        self.customDomainName = customDomainName
+    }
+}
+
+struct ModifyCustomDomainAssociationOutputResponseBody: Swift.Equatable {
+    let customDomainName: Swift.String?
+    let customDomainCertificateArn: Swift.String?
+    let clusterIdentifier: Swift.String?
+    let customDomainCertExpiryTime: Swift.String?
+}
+
+extension ModifyCustomDomainAssociationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case customDomainCertExpiryTime = "CustomDomainCertExpiryTime"
+        case customDomainCertificateArn = "CustomDomainCertificateArn"
+        case customDomainName = "CustomDomainName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCustomDomainAssociationResult"))
+        let customDomainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainName)
+        customDomainName = customDomainNameDecoded
+        let customDomainCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertificateArn)
+        customDomainCertificateArn = customDomainCertificateArnDecoded
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+        let customDomainCertExpiryTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDomainCertExpiryTime)
+        customDomainCertExpiryTime = customDomainCertExpiryTimeDecoded
     }
 }
 
@@ -30466,7 +31281,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var reservedNodeId: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
     public var snapshotArn: Swift.String?
-    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
     public var snapshotIdentifier: Swift.String?
@@ -31723,7 +32538,7 @@ public struct RevokeSnapshotAccessInput: Swift.Equatable {
     public var accountWithRestoreAccess: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access.
     public var snapshotArn: Swift.String?
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The identifier of the snapshot that the account can no longer access.
     public var snapshotIdentifier: Swift.String?

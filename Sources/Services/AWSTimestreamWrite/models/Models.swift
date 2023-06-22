@@ -855,6 +855,7 @@ extension CreateTableInput: Swift.Encodable {
         case databaseName = "DatabaseName"
         case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
         case retentionProperties = "RetentionProperties"
+        case schema = "Schema"
         case tableName = "TableName"
         case tags = "Tags"
     }
@@ -869,6 +870,9 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let retentionProperties = self.retentionProperties {
             try encodeContainer.encode(retentionProperties, forKey: .retentionProperties)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -896,6 +900,8 @@ public struct CreateTableInput: Swift.Equatable {
     public var magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
     /// The duration for which your time-series data must be stored in the memory store and the magnetic store.
     public var retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
+    /// The schema of the table.
+    public var schema: TimestreamWriteClientTypes.Schema?
     /// The name of the Timestream table.
     /// This member is required.
     public var tableName: Swift.String?
@@ -906,6 +912,7 @@ public struct CreateTableInput: Swift.Equatable {
         databaseName: Swift.String? = nil,
         magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties? = nil,
         retentionProperties: TimestreamWriteClientTypes.RetentionProperties? = nil,
+        schema: TimestreamWriteClientTypes.Schema? = nil,
         tableName: Swift.String? = nil,
         tags: [TimestreamWriteClientTypes.Tag]? = nil
     )
@@ -913,6 +920,7 @@ public struct CreateTableInput: Swift.Equatable {
         self.databaseName = databaseName
         self.magneticStoreWriteProperties = magneticStoreWriteProperties
         self.retentionProperties = retentionProperties
+        self.schema = schema
         self.tableName = tableName
         self.tags = tags
     }
@@ -924,6 +932,7 @@ struct CreateTableInputBody: Swift.Equatable {
     let retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
     let tags: [TimestreamWriteClientTypes.Tag]?
     let magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
+    let schema: TimestreamWriteClientTypes.Schema?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
@@ -931,6 +940,7 @@ extension CreateTableInputBody: Swift.Decodable {
         case databaseName = "DatabaseName"
         case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
         case retentionProperties = "RetentionProperties"
+        case schema = "Schema"
         case tableName = "TableName"
         case tags = "Tags"
     }
@@ -956,6 +966,8 @@ extension CreateTableInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let magneticStoreWritePropertiesDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.MagneticStoreWriteProperties.self, forKey: .magneticStoreWriteProperties)
         magneticStoreWriteProperties = magneticStoreWritePropertiesDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.Schema.self, forKey: .schema)
+        schema = schemaDecoded
     }
 }
 
@@ -3002,7 +3014,7 @@ extension TimestreamWriteClientTypes {
         /// Contains the data type of the MeasureValue for the time-series data point.
         /// This member is required.
         public var type: TimestreamWriteClientTypes.MeasureValueType?
-        /// The value for the MeasureValue.
+        /// The value for the MeasureValue. For information, see [Data types](https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types).
         /// This member is required.
         public var value: Swift.String?
 
@@ -3266,6 +3278,126 @@ extension TimestreamWriteClientTypes {
 
 }
 
+extension TimestreamWriteClientTypes.PartitionKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enforcementInRecord = "EnforcementInRecord"
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enforcementInRecord = self.enforcementInRecord {
+            try encodeContainer.encode(enforcementInRecord.rawValue, forKey: .enforcementInRecord)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.PartitionKeyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let enforcementInRecordDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.PartitionKeyEnforcementLevel.self, forKey: .enforcementInRecord)
+        enforcementInRecord = enforcementInRecordDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// An attribute used in partitioning data in a table. A dimension key partitions data using the values of the dimension specified by the dimension-name as partition key, while a measure key partitions data using measure names (values of the 'measure_name' column).
+    public struct PartitionKey: Swift.Equatable {
+        /// The level of enforcement for the specification of a dimension key in ingested records. Options are REQUIRED (dimension key must be specified) and OPTIONAL (dimension key does not have to be specified).
+        public var enforcementInRecord: TimestreamWriteClientTypes.PartitionKeyEnforcementLevel?
+        /// The name of the attribute used for a dimension key.
+        public var name: Swift.String?
+        /// The type of the partition key. Options are DIMENSION (dimension key) and MEASURE (measure key).
+        /// This member is required.
+        public var type: TimestreamWriteClientTypes.PartitionKeyType?
+
+        public init(
+            enforcementInRecord: TimestreamWriteClientTypes.PartitionKeyEnforcementLevel? = nil,
+            name: Swift.String? = nil,
+            type: TimestreamWriteClientTypes.PartitionKeyType? = nil
+        )
+        {
+            self.enforcementInRecord = enforcementInRecord
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes {
+    public enum PartitionKeyEnforcementLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartitionKeyEnforcementLevel] {
+            return [
+                .optional,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PartitionKeyEnforcementLevel(rawValue: rawValue) ?? PartitionKeyEnforcementLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    public enum PartitionKeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dimension
+        case measure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartitionKeyType] {
+            return [
+                .dimension,
+                .measure,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dimension: return "DIMENSION"
+            case .measure: return "MEASURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PartitionKeyType(rawValue: rawValue) ?? PartitionKeyType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension TimestreamWriteClientTypes.Record: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"
@@ -3360,7 +3492,7 @@ extension TimestreamWriteClientTypes {
         public var measureName: Swift.String?
         /// Contains the measure value for the time-series data point.
         public var measureValue: Swift.String?
-        /// Contains the data type of the measure value for the time-series data point. Default type is DOUBLE.
+        /// Contains the data type of the measure value for the time-series data point. Default type is DOUBLE. For more information, see [Data types](https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types).
         public var measureValueType: TimestreamWriteClientTypes.MeasureValueType?
         /// Contains the list of MeasureValue for time-series data points. This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the record directly.
         public var measureValues: [TimestreamWriteClientTypes.MeasureValue]?
@@ -4026,6 +4158,53 @@ extension TimestreamWriteClientTypes {
     }
 }
 
+extension TimestreamWriteClientTypes.Schema: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case compositePartitionKey = "CompositePartitionKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let compositePartitionKey = compositePartitionKey {
+            var compositePartitionKeyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compositePartitionKey)
+            for partitionkey0 in compositePartitionKey {
+                try compositePartitionKeyContainer.encode(partitionkey0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let compositePartitionKeyContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.PartitionKey?].self, forKey: .compositePartitionKey)
+        var compositePartitionKeyDecoded0:[TimestreamWriteClientTypes.PartitionKey]? = nil
+        if let compositePartitionKeyContainer = compositePartitionKeyContainer {
+            compositePartitionKeyDecoded0 = [TimestreamWriteClientTypes.PartitionKey]()
+            for structure0 in compositePartitionKeyContainer {
+                if let structure0 = structure0 {
+                    compositePartitionKeyDecoded0?.append(structure0)
+                }
+            }
+        }
+        compositePartitionKey = compositePartitionKeyDecoded0
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// A Schema specifies the expected data model of the table.
+    public struct Schema: Swift.Equatable {
+        /// A non-empty list of partition keys defining the attributes used to partition the table data. The order of the list determines the partition hierarchy. The name and type of each partition key as well as the partition key order cannot be changed after the table is created. However, the enforcement level of each partition key can be changed.
+        public var compositePartitionKey: [TimestreamWriteClientTypes.PartitionKey]?
+
+        public init(
+            compositePartitionKey: [TimestreamWriteClientTypes.PartitionKey]? = nil
+        )
+        {
+            self.compositePartitionKey = compositePartitionKey
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4089,6 +4268,7 @@ extension TimestreamWriteClientTypes.Table: Swift.Codable {
         case lastUpdatedTime = "LastUpdatedTime"
         case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
         case retentionProperties = "RetentionProperties"
+        case schema = "Schema"
         case tableName = "TableName"
         case tableStatus = "TableStatus"
     }
@@ -4112,6 +4292,9 @@ extension TimestreamWriteClientTypes.Table: Swift.Codable {
         }
         if let retentionProperties = self.retentionProperties {
             try encodeContainer.encode(retentionProperties, forKey: .retentionProperties)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -4139,6 +4322,8 @@ extension TimestreamWriteClientTypes.Table: Swift.Codable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let magneticStoreWritePropertiesDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.MagneticStoreWriteProperties.self, forKey: .magneticStoreWriteProperties)
         magneticStoreWriteProperties = magneticStoreWritePropertiesDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.Schema.self, forKey: .schema)
+        schema = schemaDecoded
     }
 }
 
@@ -4157,6 +4342,8 @@ extension TimestreamWriteClientTypes {
         public var magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
         /// The retention duration for the memory store and magnetic store.
         public var retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
+        /// The schema of the table.
+        public var schema: TimestreamWriteClientTypes.Schema?
         /// The name of the Timestream table.
         public var tableName: Swift.String?
         /// The current state of the table:
@@ -4173,6 +4360,7 @@ extension TimestreamWriteClientTypes {
             lastUpdatedTime: ClientRuntime.Date? = nil,
             magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties? = nil,
             retentionProperties: TimestreamWriteClientTypes.RetentionProperties? = nil,
+            schema: TimestreamWriteClientTypes.Schema? = nil,
             tableName: Swift.String? = nil,
             tableStatus: TimestreamWriteClientTypes.TableStatus? = nil
         )
@@ -4183,6 +4371,7 @@ extension TimestreamWriteClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
+            self.schema = schema
             self.tableName = tableName
             self.tableStatus = tableStatus
         }
@@ -4693,6 +4882,7 @@ extension UpdateTableInput: Swift.Encodable {
         case databaseName = "DatabaseName"
         case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
         case retentionProperties = "RetentionProperties"
+        case schema = "Schema"
         case tableName = "TableName"
     }
 
@@ -4706,6 +4896,9 @@ extension UpdateTableInput: Swift.Encodable {
         }
         if let retentionProperties = self.retentionProperties {
             try encodeContainer.encode(retentionProperties, forKey: .retentionProperties)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -4727,6 +4920,8 @@ public struct UpdateTableInput: Swift.Equatable {
     public var magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
     /// The retention duration of the memory store and the magnetic store.
     public var retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
+    /// The schema of the table.
+    public var schema: TimestreamWriteClientTypes.Schema?
     /// The name of the Timestream table.
     /// This member is required.
     public var tableName: Swift.String?
@@ -4735,12 +4930,14 @@ public struct UpdateTableInput: Swift.Equatable {
         databaseName: Swift.String? = nil,
         magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties? = nil,
         retentionProperties: TimestreamWriteClientTypes.RetentionProperties? = nil,
+        schema: TimestreamWriteClientTypes.Schema? = nil,
         tableName: Swift.String? = nil
     )
     {
         self.databaseName = databaseName
         self.magneticStoreWriteProperties = magneticStoreWriteProperties
         self.retentionProperties = retentionProperties
+        self.schema = schema
         self.tableName = tableName
     }
 }
@@ -4750,6 +4947,7 @@ struct UpdateTableInputBody: Swift.Equatable {
     let tableName: Swift.String?
     let retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
     let magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
+    let schema: TimestreamWriteClientTypes.Schema?
 }
 
 extension UpdateTableInputBody: Swift.Decodable {
@@ -4757,6 +4955,7 @@ extension UpdateTableInputBody: Swift.Decodable {
         case databaseName = "DatabaseName"
         case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
         case retentionProperties = "RetentionProperties"
+        case schema = "Schema"
         case tableName = "TableName"
     }
 
@@ -4770,6 +4969,8 @@ extension UpdateTableInputBody: Swift.Decodable {
         retentionProperties = retentionPropertiesDecoded
         let magneticStoreWritePropertiesDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.MagneticStoreWriteProperties.self, forKey: .magneticStoreWriteProperties)
         magneticStoreWriteProperties = magneticStoreWritePropertiesDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.Schema.self, forKey: .schema)
+        schema = schemaDecoded
     }
 }
 

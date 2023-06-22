@@ -984,6 +984,1288 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes.AutomationRulesAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingFieldsUpdate = "FindingFieldsUpdate"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let findingFieldsUpdate = self.findingFieldsUpdate {
+            try encodeContainer.encode(findingFieldsUpdate, forKey: .findingFieldsUpdate)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesActionType.self, forKey: .type)
+        type = typeDecoded
+        let findingFieldsUpdateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate.self, forKey: .findingFieldsUpdate)
+        findingFieldsUpdate = findingFieldsUpdateDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
+    public struct AutomationRulesAction: Swift.Equatable {
+        /// Specifies that the automation rule action is an update to a finding field.
+        public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
+        /// Specifies that the rule action should update the Types finding field. The Types finding field provides one or more finding types in the format of namespace/category/classifier that classify a finding. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
+        public var type: SecurityHubClientTypes.AutomationRulesActionType?
+
+        public init(
+            findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate? = nil,
+            type: SecurityHubClientTypes.AutomationRulesActionType? = nil
+        )
+        {
+            self.findingFieldsUpdate = findingFieldsUpdate
+            self.type = type
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum AutomationRulesActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case findingFieldsUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomationRulesActionType] {
+            return [
+                .findingFieldsUpdate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .findingFieldsUpdate: return "FINDING_FIELDS_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutomationRulesActionType(rawValue: rawValue) ?? AutomationRulesActionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case createdAt = "CreatedAt"
+        case createdBy = "CreatedBy"
+        case criteria = "Criteria"
+        case description = "Description"
+        case isTerminal = "IsTerminal"
+        case ruleArn = "RuleArn"
+        case ruleName = "RuleName"
+        case ruleOrder = "RuleOrder"
+        case ruleStatus = "RuleStatus"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for automationrulesaction0 in actions {
+                try actionsContainer.encode(automationrulesaction0)
+            }
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let criteria = self.criteria {
+            try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if isTerminal != false {
+            try encodeContainer.encode(isTerminal, forKey: .isTerminal)
+        }
+        if let ruleArn = self.ruleArn {
+            try encodeContainer.encode(ruleArn, forKey: .ruleArn)
+        }
+        if let ruleName = self.ruleName {
+            try encodeContainer.encode(ruleName, forKey: .ruleName)
+        }
+        if ruleOrder != 0 {
+            try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
+        }
+        if let ruleStatus = self.ruleStatus {
+            try encodeContainer.encode(ruleStatus.rawValue, forKey: .ruleStatus)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+        let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
+        ruleStatus = ruleStatusDecoded
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        ruleOrder = ruleOrderDecoded
+        let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
+        ruleName = ruleNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        isTerminal = isTerminalDecoded
+        let criteriaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFilters.self, forKey: .criteria)
+        criteria = criteriaDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AutomationRulesAction?].self, forKey: .actions)
+        var actionsDecoded0:[SecurityHubClientTypes.AutomationRulesAction]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [SecurityHubClientTypes.AutomationRulesAction]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Defines the configuration of an automation rule.
+    public struct AutomationRulesConfig: Swift.Equatable {
+        /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
+        public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
+        /// A timestamp that indicates when the rule was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var createdAt: ClientRuntime.Date?
+        /// The principal that created a rule.
+        public var createdBy: Swift.String?
+        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
+        /// A description of the rule.
+        public var description: Swift.String?
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public var isTerminal: Swift.Bool
+        /// The Amazon Resource Name (ARN) of a rule.
+        public var ruleArn: Swift.String?
+        /// The name of the rule.
+        public var ruleName: Swift.String?
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public var ruleOrder: Swift.Int
+        /// Whether the rule is active after it is created. If this parameter is equal to >ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created.
+        public var ruleStatus: SecurityHubClientTypes.RuleStatus?
+        /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            actions: [SecurityHubClientTypes.AutomationRulesAction]? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            createdBy: Swift.String? = nil,
+            criteria: SecurityHubClientTypes.AutomationRulesFindingFilters? = nil,
+            description: Swift.String? = nil,
+            isTerminal: Swift.Bool = false,
+            ruleArn: Swift.String? = nil,
+            ruleName: Swift.String? = nil,
+            ruleOrder: Swift.Int = 0,
+            ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.actions = actions
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.criteria = criteria
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case criticality = "Criticality"
+        case note = "Note"
+        case relatedFindings = "RelatedFindings"
+        case severity = "Severity"
+        case types = "Types"
+        case userDefinedFields = "UserDefinedFields"
+        case verificationState = "VerificationState"
+        case workflow = "Workflow"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if confidence != 0 {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if criticality != 0 {
+            try encodeContainer.encode(criticality, forKey: .criticality)
+        }
+        if let note = self.note {
+            try encodeContainer.encode(note, forKey: .note)
+        }
+        if let relatedFindings = relatedFindings {
+            var relatedFindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedFindings)
+            for relatedfinding0 in relatedFindings {
+                try relatedFindingsContainer.encode(relatedfinding0)
+            }
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity, forKey: .severity)
+        }
+        if let types = types {
+            var typesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .types)
+            for nonemptystring0 in types {
+                try typesContainer.encode(nonemptystring0)
+            }
+        }
+        if let userDefinedFields = userDefinedFields {
+            var userDefinedFieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userDefinedFields)
+            for (dictKey0, fieldMap0) in userDefinedFields {
+                try userDefinedFieldsContainer.encode(fieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let verificationState = self.verificationState {
+            try encodeContainer.encode(verificationState.rawValue, forKey: .verificationState)
+        }
+        if let workflow = self.workflow {
+            try encodeContainer.encode(workflow, forKey: .workflow)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let noteDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.NoteUpdate.self, forKey: .note)
+        note = noteDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SeverityUpdate.self, forKey: .severity)
+        severity = severityDecoded
+        let verificationStateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VerificationState.self, forKey: .verificationState)
+        verificationState = verificationStateDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence) ?? 0
+        confidence = confidenceDecoded
+        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality) ?? 0
+        criticality = criticalityDecoded
+        let typesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .types)
+        var typesDecoded0:[Swift.String]? = nil
+        if let typesContainer = typesContainer {
+            typesDecoded0 = [Swift.String]()
+            for string0 in typesContainer {
+                if let string0 = string0 {
+                    typesDecoded0?.append(string0)
+                }
+            }
+        }
+        types = typesDecoded0
+        let userDefinedFieldsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .userDefinedFields)
+        var userDefinedFieldsDecoded0: [Swift.String:Swift.String]? = nil
+        if let userDefinedFieldsContainer = userDefinedFieldsContainer {
+            userDefinedFieldsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, nonemptystring0) in userDefinedFieldsContainer {
+                if let nonemptystring0 = nonemptystring0 {
+                    userDefinedFieldsDecoded0?[key0] = nonemptystring0
+                }
+            }
+        }
+        userDefinedFields = userDefinedFieldsDecoded0
+        let workflowDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.WorkflowUpdate.self, forKey: .workflow)
+        workflow = workflowDecoded
+        let relatedFindingsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.RelatedFinding?].self, forKey: .relatedFindings)
+        var relatedFindingsDecoded0:[SecurityHubClientTypes.RelatedFinding]? = nil
+        if let relatedFindingsContainer = relatedFindingsContainer {
+            relatedFindingsDecoded0 = [SecurityHubClientTypes.RelatedFinding]()
+            for structure0 in relatedFindingsContainer {
+                if let structure0 = structure0 {
+                    relatedFindingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        relatedFindings = relatedFindingsDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Identifies the finding fields that the automation rule action will update when a finding matches the defined criteria.
+    public struct AutomationRulesFindingFieldsUpdate: Swift.Equatable {
+        /// The rule action will update the Confidence field of a finding.
+        public var confidence: Swift.Int
+        /// The rule action will update the Criticality field of a finding.
+        public var criticality: Swift.Int
+        /// The updated note.
+        public var note: SecurityHubClientTypes.NoteUpdate?
+        /// A list of findings that are related to a finding.
+        public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
+        /// Updates to the severity information for a finding.
+        public var severity: SecurityHubClientTypes.SeverityUpdate?
+        /// The rule action will update the Types field of a finding.
+        public var types: [Swift.String]?
+        /// The rule action will update the UserDefinedFields field of a finding.
+        public var userDefinedFields: [Swift.String:Swift.String]?
+        /// The rule action will update the VerificationState field of a finding.
+        public var verificationState: SecurityHubClientTypes.VerificationState?
+        /// Used to update information about the investigation into the finding.
+        public var workflow: SecurityHubClientTypes.WorkflowUpdate?
+
+        public init(
+            confidence: Swift.Int = 0,
+            criticality: Swift.Int = 0,
+            note: SecurityHubClientTypes.NoteUpdate? = nil,
+            relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
+            severity: SecurityHubClientTypes.SeverityUpdate? = nil,
+            types: [Swift.String]? = nil,
+            userDefinedFields: [Swift.String:Swift.String]? = nil,
+            verificationState: SecurityHubClientTypes.VerificationState? = nil,
+            workflow: SecurityHubClientTypes.WorkflowUpdate? = nil
+        )
+        {
+            self.confidence = confidence
+            self.criticality = criticality
+            self.note = note
+            self.relatedFindings = relatedFindings
+            self.severity = severity
+            self.types = types
+            self.userDefinedFields = userDefinedFields
+            self.verificationState = verificationState
+            self.workflow = workflow
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountId = "AwsAccountId"
+        case companyName = "CompanyName"
+        case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
+        case complianceSecurityControlId = "ComplianceSecurityControlId"
+        case complianceStatus = "ComplianceStatus"
+        case confidence = "Confidence"
+        case createdAt = "CreatedAt"
+        case criticality = "Criticality"
+        case description = "Description"
+        case firstObservedAt = "FirstObservedAt"
+        case generatorId = "GeneratorId"
+        case id = "Id"
+        case lastObservedAt = "LastObservedAt"
+        case noteText = "NoteText"
+        case noteUpdatedAt = "NoteUpdatedAt"
+        case noteUpdatedBy = "NoteUpdatedBy"
+        case productArn = "ProductArn"
+        case productName = "ProductName"
+        case recordState = "RecordState"
+        case relatedFindingsId = "RelatedFindingsId"
+        case relatedFindingsProductArn = "RelatedFindingsProductArn"
+        case resourceDetailsOther = "ResourceDetailsOther"
+        case resourceId = "ResourceId"
+        case resourcePartition = "ResourcePartition"
+        case resourceRegion = "ResourceRegion"
+        case resourceTags = "ResourceTags"
+        case resourceType = "ResourceType"
+        case severityLabel = "SeverityLabel"
+        case sourceUrl = "SourceUrl"
+        case title = "Title"
+        case type = "Type"
+        case updatedAt = "UpdatedAt"
+        case userDefinedFields = "UserDefinedFields"
+        case verificationState = "VerificationState"
+        case workflowStatus = "WorkflowStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAccountId = awsAccountId {
+            var awsAccountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountId)
+            for stringfilter0 in awsAccountId {
+                try awsAccountIdContainer.encode(stringfilter0)
+            }
+        }
+        if let companyName = companyName {
+            var companyNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .companyName)
+            for stringfilter0 in companyName {
+                try companyNameContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceAssociatedStandardsId = complianceAssociatedStandardsId {
+            var complianceAssociatedStandardsIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceAssociatedStandardsId)
+            for stringfilter0 in complianceAssociatedStandardsId {
+                try complianceAssociatedStandardsIdContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceSecurityControlId = complianceSecurityControlId {
+            var complianceSecurityControlIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceSecurityControlId)
+            for stringfilter0 in complianceSecurityControlId {
+                try complianceSecurityControlIdContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceStatus = complianceStatus {
+            var complianceStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceStatus)
+            for stringfilter0 in complianceStatus {
+                try complianceStatusContainer.encode(stringfilter0)
+            }
+        }
+        if let confidence = confidence {
+            var confidenceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .confidence)
+            for numberfilter0 in confidence {
+                try confidenceContainer.encode(numberfilter0)
+            }
+        }
+        if let createdAt = createdAt {
+            var createdAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createdAt)
+            for datefilter0 in createdAt {
+                try createdAtContainer.encode(datefilter0)
+            }
+        }
+        if let criticality = criticality {
+            var criticalityContainer = encodeContainer.nestedUnkeyedContainer(forKey: .criticality)
+            for numberfilter0 in criticality {
+                try criticalityContainer.encode(numberfilter0)
+            }
+        }
+        if let description = description {
+            var descriptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .description)
+            for stringfilter0 in description {
+                try descriptionContainer.encode(stringfilter0)
+            }
+        }
+        if let firstObservedAt = firstObservedAt {
+            var firstObservedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .firstObservedAt)
+            for datefilter0 in firstObservedAt {
+                try firstObservedAtContainer.encode(datefilter0)
+            }
+        }
+        if let generatorId = generatorId {
+            var generatorIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .generatorId)
+            for stringfilter0 in generatorId {
+                try generatorIdContainer.encode(stringfilter0)
+            }
+        }
+        if let id = id {
+            var idContainer = encodeContainer.nestedUnkeyedContainer(forKey: .id)
+            for stringfilter0 in id {
+                try idContainer.encode(stringfilter0)
+            }
+        }
+        if let lastObservedAt = lastObservedAt {
+            var lastObservedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastObservedAt)
+            for datefilter0 in lastObservedAt {
+                try lastObservedAtContainer.encode(datefilter0)
+            }
+        }
+        if let noteText = noteText {
+            var noteTextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .noteText)
+            for stringfilter0 in noteText {
+                try noteTextContainer.encode(stringfilter0)
+            }
+        }
+        if let noteUpdatedAt = noteUpdatedAt {
+            var noteUpdatedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .noteUpdatedAt)
+            for datefilter0 in noteUpdatedAt {
+                try noteUpdatedAtContainer.encode(datefilter0)
+            }
+        }
+        if let noteUpdatedBy = noteUpdatedBy {
+            var noteUpdatedByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .noteUpdatedBy)
+            for stringfilter0 in noteUpdatedBy {
+                try noteUpdatedByContainer.encode(stringfilter0)
+            }
+        }
+        if let productArn = productArn {
+            var productArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productArn)
+            for stringfilter0 in productArn {
+                try productArnContainer.encode(stringfilter0)
+            }
+        }
+        if let productName = productName {
+            var productNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productName)
+            for stringfilter0 in productName {
+                try productNameContainer.encode(stringfilter0)
+            }
+        }
+        if let recordState = recordState {
+            var recordStateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordState)
+            for stringfilter0 in recordState {
+                try recordStateContainer.encode(stringfilter0)
+            }
+        }
+        if let relatedFindingsId = relatedFindingsId {
+            var relatedFindingsIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedFindingsId)
+            for stringfilter0 in relatedFindingsId {
+                try relatedFindingsIdContainer.encode(stringfilter0)
+            }
+        }
+        if let relatedFindingsProductArn = relatedFindingsProductArn {
+            var relatedFindingsProductArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedFindingsProductArn)
+            for stringfilter0 in relatedFindingsProductArn {
+                try relatedFindingsProductArnContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceDetailsOther = resourceDetailsOther {
+            var resourceDetailsOtherContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceDetailsOther)
+            for mapfilter0 in resourceDetailsOther {
+                try resourceDetailsOtherContainer.encode(mapfilter0)
+            }
+        }
+        if let resourceId = resourceId {
+            var resourceIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceId)
+            for stringfilter0 in resourceId {
+                try resourceIdContainer.encode(stringfilter0)
+            }
+        }
+        if let resourcePartition = resourcePartition {
+            var resourcePartitionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourcePartition)
+            for stringfilter0 in resourcePartition {
+                try resourcePartitionContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceRegion = resourceRegion {
+            var resourceRegionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRegion)
+            for stringfilter0 in resourceRegion {
+                try resourceRegionContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceTags = resourceTags {
+            var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
+            for mapfilter0 in resourceTags {
+                try resourceTagsContainer.encode(mapfilter0)
+            }
+        }
+        if let resourceType = resourceType {
+            var resourceTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceType)
+            for stringfilter0 in resourceType {
+                try resourceTypeContainer.encode(stringfilter0)
+            }
+        }
+        if let severityLabel = severityLabel {
+            var severityLabelContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severityLabel)
+            for stringfilter0 in severityLabel {
+                try severityLabelContainer.encode(stringfilter0)
+            }
+        }
+        if let sourceUrl = sourceUrl {
+            var sourceUrlContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceUrl)
+            for stringfilter0 in sourceUrl {
+                try sourceUrlContainer.encode(stringfilter0)
+            }
+        }
+        if let title = title {
+            var titleContainer = encodeContainer.nestedUnkeyedContainer(forKey: .title)
+            for stringfilter0 in title {
+                try titleContainer.encode(stringfilter0)
+            }
+        }
+        if let type = type {
+            var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
+            for stringfilter0 in type {
+                try typeContainer.encode(stringfilter0)
+            }
+        }
+        if let updatedAt = updatedAt {
+            var updatedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updatedAt)
+            for datefilter0 in updatedAt {
+                try updatedAtContainer.encode(datefilter0)
+            }
+        }
+        if let userDefinedFields = userDefinedFields {
+            var userDefinedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userDefinedFields)
+            for mapfilter0 in userDefinedFields {
+                try userDefinedFieldsContainer.encode(mapfilter0)
+            }
+        }
+        if let verificationState = verificationState {
+            var verificationStateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .verificationState)
+            for stringfilter0 in verificationState {
+                try verificationStateContainer.encode(stringfilter0)
+            }
+        }
+        if let workflowStatus = workflowStatus {
+            var workflowStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflowStatus)
+            for stringfilter0 in workflowStatus {
+                try workflowStatusContainer.encode(stringfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let productArnContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .productArn)
+        var productArnDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let productArnContainer = productArnContainer {
+            productArnDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in productArnContainer {
+                if let structure0 = structure0 {
+                    productArnDecoded0?.append(structure0)
+                }
+            }
+        }
+        productArn = productArnDecoded0
+        let awsAccountIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .awsAccountId)
+        var awsAccountIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let awsAccountIdContainer = awsAccountIdContainer {
+            awsAccountIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in awsAccountIdContainer {
+                if let structure0 = structure0 {
+                    awsAccountIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        awsAccountId = awsAccountIdDecoded0
+        let idContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .id)
+        var idDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let idContainer = idContainer {
+            idDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in idContainer {
+                if let structure0 = structure0 {
+                    idDecoded0?.append(structure0)
+                }
+            }
+        }
+        id = idDecoded0
+        let generatorIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .generatorId)
+        var generatorIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let generatorIdContainer = generatorIdContainer {
+            generatorIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in generatorIdContainer {
+                if let structure0 = structure0 {
+                    generatorIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        generatorId = generatorIdDecoded0
+        let typeContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .type)
+        var typeDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let typeContainer = typeContainer {
+            typeDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in typeContainer {
+                if let structure0 = structure0 {
+                    typeDecoded0?.append(structure0)
+                }
+            }
+        }
+        type = typeDecoded0
+        let firstObservedAtContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.DateFilter?].self, forKey: .firstObservedAt)
+        var firstObservedAtDecoded0:[SecurityHubClientTypes.DateFilter]? = nil
+        if let firstObservedAtContainer = firstObservedAtContainer {
+            firstObservedAtDecoded0 = [SecurityHubClientTypes.DateFilter]()
+            for structure0 in firstObservedAtContainer {
+                if let structure0 = structure0 {
+                    firstObservedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        firstObservedAt = firstObservedAtDecoded0
+        let lastObservedAtContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.DateFilter?].self, forKey: .lastObservedAt)
+        var lastObservedAtDecoded0:[SecurityHubClientTypes.DateFilter]? = nil
+        if let lastObservedAtContainer = lastObservedAtContainer {
+            lastObservedAtDecoded0 = [SecurityHubClientTypes.DateFilter]()
+            for structure0 in lastObservedAtContainer {
+                if let structure0 = structure0 {
+                    lastObservedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        lastObservedAt = lastObservedAtDecoded0
+        let createdAtContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.DateFilter?].self, forKey: .createdAt)
+        var createdAtDecoded0:[SecurityHubClientTypes.DateFilter]? = nil
+        if let createdAtContainer = createdAtContainer {
+            createdAtDecoded0 = [SecurityHubClientTypes.DateFilter]()
+            for structure0 in createdAtContainer {
+                if let structure0 = structure0 {
+                    createdAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        createdAt = createdAtDecoded0
+        let updatedAtContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.DateFilter?].self, forKey: .updatedAt)
+        var updatedAtDecoded0:[SecurityHubClientTypes.DateFilter]? = nil
+        if let updatedAtContainer = updatedAtContainer {
+            updatedAtDecoded0 = [SecurityHubClientTypes.DateFilter]()
+            for structure0 in updatedAtContainer {
+                if let structure0 = structure0 {
+                    updatedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        updatedAt = updatedAtDecoded0
+        let confidenceContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.NumberFilter?].self, forKey: .confidence)
+        var confidenceDecoded0:[SecurityHubClientTypes.NumberFilter]? = nil
+        if let confidenceContainer = confidenceContainer {
+            confidenceDecoded0 = [SecurityHubClientTypes.NumberFilter]()
+            for structure0 in confidenceContainer {
+                if let structure0 = structure0 {
+                    confidenceDecoded0?.append(structure0)
+                }
+            }
+        }
+        confidence = confidenceDecoded0
+        let criticalityContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.NumberFilter?].self, forKey: .criticality)
+        var criticalityDecoded0:[SecurityHubClientTypes.NumberFilter]? = nil
+        if let criticalityContainer = criticalityContainer {
+            criticalityDecoded0 = [SecurityHubClientTypes.NumberFilter]()
+            for structure0 in criticalityContainer {
+                if let structure0 = structure0 {
+                    criticalityDecoded0?.append(structure0)
+                }
+            }
+        }
+        criticality = criticalityDecoded0
+        let titleContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .title)
+        var titleDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let titleContainer = titleContainer {
+            titleDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in titleContainer {
+                if let structure0 = structure0 {
+                    titleDecoded0?.append(structure0)
+                }
+            }
+        }
+        title = titleDecoded0
+        let descriptionContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .description)
+        var descriptionDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let descriptionContainer = descriptionContainer {
+            descriptionDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in descriptionContainer {
+                if let structure0 = structure0 {
+                    descriptionDecoded0?.append(structure0)
+                }
+            }
+        }
+        description = descriptionDecoded0
+        let sourceUrlContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .sourceUrl)
+        var sourceUrlDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let sourceUrlContainer = sourceUrlContainer {
+            sourceUrlDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in sourceUrlContainer {
+                if let structure0 = structure0 {
+                    sourceUrlDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceUrl = sourceUrlDecoded0
+        let productNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .productName)
+        var productNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let productNameContainer = productNameContainer {
+            productNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in productNameContainer {
+                if let structure0 = structure0 {
+                    productNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        productName = productNameDecoded0
+        let companyNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .companyName)
+        var companyNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let companyNameContainer = companyNameContainer {
+            companyNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in companyNameContainer {
+                if let structure0 = structure0 {
+                    companyNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        companyName = companyNameDecoded0
+        let severityLabelContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .severityLabel)
+        var severityLabelDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let severityLabelContainer = severityLabelContainer {
+            severityLabelDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in severityLabelContainer {
+                if let structure0 = structure0 {
+                    severityLabelDecoded0?.append(structure0)
+                }
+            }
+        }
+        severityLabel = severityLabelDecoded0
+        let resourceTypeContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceType)
+        var resourceTypeDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceTypeContainer = resourceTypeContainer {
+            resourceTypeDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceTypeContainer {
+                if let structure0 = structure0 {
+                    resourceTypeDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceType = resourceTypeDecoded0
+        let resourceIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceId)
+        var resourceIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceIdContainer = resourceIdContainer {
+            resourceIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceIdContainer {
+                if let structure0 = structure0 {
+                    resourceIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceId = resourceIdDecoded0
+        let resourcePartitionContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourcePartition)
+        var resourcePartitionDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourcePartitionContainer = resourcePartitionContainer {
+            resourcePartitionDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourcePartitionContainer {
+                if let structure0 = structure0 {
+                    resourcePartitionDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourcePartition = resourcePartitionDecoded0
+        let resourceRegionContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceRegion)
+        var resourceRegionDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceRegionContainer = resourceRegionContainer {
+            resourceRegionDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceRegionContainer {
+                if let structure0 = structure0 {
+                    resourceRegionDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceRegion = resourceRegionDecoded0
+        let resourceTagsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.MapFilter?].self, forKey: .resourceTags)
+        var resourceTagsDecoded0:[SecurityHubClientTypes.MapFilter]? = nil
+        if let resourceTagsContainer = resourceTagsContainer {
+            resourceTagsDecoded0 = [SecurityHubClientTypes.MapFilter]()
+            for structure0 in resourceTagsContainer {
+                if let structure0 = structure0 {
+                    resourceTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceTags = resourceTagsDecoded0
+        let resourceDetailsOtherContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.MapFilter?].self, forKey: .resourceDetailsOther)
+        var resourceDetailsOtherDecoded0:[SecurityHubClientTypes.MapFilter]? = nil
+        if let resourceDetailsOtherContainer = resourceDetailsOtherContainer {
+            resourceDetailsOtherDecoded0 = [SecurityHubClientTypes.MapFilter]()
+            for structure0 in resourceDetailsOtherContainer {
+                if let structure0 = structure0 {
+                    resourceDetailsOtherDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceDetailsOther = resourceDetailsOtherDecoded0
+        let complianceStatusContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceStatus)
+        var complianceStatusDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceStatusContainer = complianceStatusContainer {
+            complianceStatusDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceStatusContainer {
+                if let structure0 = structure0 {
+                    complianceStatusDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceStatus = complianceStatusDecoded0
+        let complianceSecurityControlIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceSecurityControlId)
+        var complianceSecurityControlIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceSecurityControlIdContainer = complianceSecurityControlIdContainer {
+            complianceSecurityControlIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceSecurityControlIdContainer {
+                if let structure0 = structure0 {
+                    complianceSecurityControlIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceSecurityControlId = complianceSecurityControlIdDecoded0
+        let complianceAssociatedStandardsIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceAssociatedStandardsId)
+        var complianceAssociatedStandardsIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceAssociatedStandardsIdContainer = complianceAssociatedStandardsIdContainer {
+            complianceAssociatedStandardsIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceAssociatedStandardsIdContainer {
+                if let structure0 = structure0 {
+                    complianceAssociatedStandardsIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceAssociatedStandardsId = complianceAssociatedStandardsIdDecoded0
+        let verificationStateContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .verificationState)
+        var verificationStateDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let verificationStateContainer = verificationStateContainer {
+            verificationStateDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in verificationStateContainer {
+                if let structure0 = structure0 {
+                    verificationStateDecoded0?.append(structure0)
+                }
+            }
+        }
+        verificationState = verificationStateDecoded0
+        let workflowStatusContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .workflowStatus)
+        var workflowStatusDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let workflowStatusContainer = workflowStatusContainer {
+            workflowStatusDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in workflowStatusContainer {
+                if let structure0 = structure0 {
+                    workflowStatusDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflowStatus = workflowStatusDecoded0
+        let recordStateContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .recordState)
+        var recordStateDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let recordStateContainer = recordStateContainer {
+            recordStateDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in recordStateContainer {
+                if let structure0 = structure0 {
+                    recordStateDecoded0?.append(structure0)
+                }
+            }
+        }
+        recordState = recordStateDecoded0
+        let relatedFindingsProductArnContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .relatedFindingsProductArn)
+        var relatedFindingsProductArnDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let relatedFindingsProductArnContainer = relatedFindingsProductArnContainer {
+            relatedFindingsProductArnDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in relatedFindingsProductArnContainer {
+                if let structure0 = structure0 {
+                    relatedFindingsProductArnDecoded0?.append(structure0)
+                }
+            }
+        }
+        relatedFindingsProductArn = relatedFindingsProductArnDecoded0
+        let relatedFindingsIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .relatedFindingsId)
+        var relatedFindingsIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let relatedFindingsIdContainer = relatedFindingsIdContainer {
+            relatedFindingsIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in relatedFindingsIdContainer {
+                if let structure0 = structure0 {
+                    relatedFindingsIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        relatedFindingsId = relatedFindingsIdDecoded0
+        let noteTextContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .noteText)
+        var noteTextDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let noteTextContainer = noteTextContainer {
+            noteTextDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in noteTextContainer {
+                if let structure0 = structure0 {
+                    noteTextDecoded0?.append(structure0)
+                }
+            }
+        }
+        noteText = noteTextDecoded0
+        let noteUpdatedAtContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.DateFilter?].self, forKey: .noteUpdatedAt)
+        var noteUpdatedAtDecoded0:[SecurityHubClientTypes.DateFilter]? = nil
+        if let noteUpdatedAtContainer = noteUpdatedAtContainer {
+            noteUpdatedAtDecoded0 = [SecurityHubClientTypes.DateFilter]()
+            for structure0 in noteUpdatedAtContainer {
+                if let structure0 = structure0 {
+                    noteUpdatedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        noteUpdatedAt = noteUpdatedAtDecoded0
+        let noteUpdatedByContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .noteUpdatedBy)
+        var noteUpdatedByDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let noteUpdatedByContainer = noteUpdatedByContainer {
+            noteUpdatedByDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in noteUpdatedByContainer {
+                if let structure0 = structure0 {
+                    noteUpdatedByDecoded0?.append(structure0)
+                }
+            }
+        }
+        noteUpdatedBy = noteUpdatedByDecoded0
+        let userDefinedFieldsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.MapFilter?].self, forKey: .userDefinedFields)
+        var userDefinedFieldsDecoded0:[SecurityHubClientTypes.MapFilter]? = nil
+        if let userDefinedFieldsContainer = userDefinedFieldsContainer {
+            userDefinedFieldsDecoded0 = [SecurityHubClientTypes.MapFilter]()
+            for structure0 in userDefinedFieldsContainer {
+                if let structure0 = structure0 {
+                    userDefinedFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        userDefinedFields = userDefinedFieldsDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The criteria that determine which findings a rule applies to.
+    public struct AutomationRulesFindingFilters: Swift.Equatable {
+        /// The Amazon Web Services account ID in which a finding was generated.
+        public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
+        /// The name of the company for the product that generated the finding. For control-based findings, the company is Amazon Web Services.
+        public var companyName: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
+        public var complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]?
+        /// The security control ID for which a finding was generated. Security control IDs are the same across standards.
+        public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
+        /// The result of a security check. This field is only used for findings generated from controls.
+        public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
+        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see [Confidence](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-confidence) in the Security Hub User Guide.
+        public var confidence: [SecurityHubClientTypes.NumberFilter]?
+        /// A timestamp that indicates when this finding record was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var createdAt: [SecurityHubClientTypes.DateFilter]?
+        /// The level of importance that is assigned to the resources that are associated with a finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports only full integers. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources. For more information, see [Criticality](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-criticality) in the Security Hub User Guide.
+        public var criticality: [SecurityHubClientTypes.NumberFilter]?
+        /// A finding's description.
+        public var description: [SecurityHubClientTypes.StringFilter]?
+        /// A timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings product. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
+        /// The identifier for the solution-specific component that generated a finding.
+        public var generatorId: [SecurityHubClientTypes.StringFilter]?
+        /// The product-specific identifier for a finding.
+        public var id: [SecurityHubClientTypes.StringFilter]?
+        /// A timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings product. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
+        /// The text of a user-defined note that's added to a finding.
+        public var noteText: [SecurityHubClientTypes.StringFilter]?
+        /// The timestamp of when the note was updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
+        /// The principal that created a note.
+        public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
+        /// The Amazon Resource Name (ARN) for a third-party product that generated a finding in Security Hub.
+        public var productArn: [SecurityHubClientTypes.StringFilter]?
+        /// Provides the name of the product that generated the finding. For control-based findings, the product name is Security Hub.
+        public var productName: [SecurityHubClientTypes.StringFilter]?
+        /// Provides the current state of a finding.
+        public var recordState: [SecurityHubClientTypes.StringFilter]?
+        /// The product-generated identifier for a related finding.
+        public var relatedFindingsId: [SecurityHubClientTypes.StringFilter]?
+        /// The ARN for the product that generated a related finding.
+        public var relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]?
+        /// Custom fields and values about the resource that a finding pertains to.
+        public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
+        /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource.
+        public var resourceId: [SecurityHubClientTypes.StringFilter]?
+        /// The partition in which the resource that the finding pertains to is located. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.
+        public var resourcePartition: [SecurityHubClientTypes.StringFilter]?
+        /// The Amazon Web Services Region where the resource that a finding pertains to is located.
+        public var resourceRegion: [SecurityHubClientTypes.StringFilter]?
+        /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
+        public var resourceTags: [SecurityHubClientTypes.MapFilter]?
+        /// The type of resource that the finding pertains to.
+        public var resourceType: [SecurityHubClientTypes.StringFilter]?
+        /// The severity value of the finding.
+        public var severityLabel: [SecurityHubClientTypes.StringFilter]?
+        /// Provides a URL that links to a page about the current finding in the finding product.
+        public var sourceUrl: [SecurityHubClientTypes.StringFilter]?
+        /// A finding's title.
+        public var title: [SecurityHubClientTypes.StringFilter]?
+        /// One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
+        public var type: [SecurityHubClientTypes.StringFilter]?
+        /// A timestamp that indicates when the finding record was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var updatedAt: [SecurityHubClientTypes.DateFilter]?
+        /// A list of user-defined name and value string pairs added to a finding.
+        public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
+        /// Provides the veracity of a finding.
+        public var verificationState: [SecurityHubClientTypes.StringFilter]?
+        /// Provides information about the status of the investigation into a finding.
+        public var workflowStatus: [SecurityHubClientTypes.StringFilter]?
+
+        public init(
+            awsAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
+            companyName: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceStatus: [SecurityHubClientTypes.StringFilter]? = nil,
+            confidence: [SecurityHubClientTypes.NumberFilter]? = nil,
+            createdAt: [SecurityHubClientTypes.DateFilter]? = nil,
+            criticality: [SecurityHubClientTypes.NumberFilter]? = nil,
+            description: [SecurityHubClientTypes.StringFilter]? = nil,
+            firstObservedAt: [SecurityHubClientTypes.DateFilter]? = nil,
+            generatorId: [SecurityHubClientTypes.StringFilter]? = nil,
+            id: [SecurityHubClientTypes.StringFilter]? = nil,
+            lastObservedAt: [SecurityHubClientTypes.DateFilter]? = nil,
+            noteText: [SecurityHubClientTypes.StringFilter]? = nil,
+            noteUpdatedAt: [SecurityHubClientTypes.DateFilter]? = nil,
+            noteUpdatedBy: [SecurityHubClientTypes.StringFilter]? = nil,
+            productArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            productName: [SecurityHubClientTypes.StringFilter]? = nil,
+            recordState: [SecurityHubClientTypes.StringFilter]? = nil,
+            relatedFindingsId: [SecurityHubClientTypes.StringFilter]? = nil,
+            relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceDetailsOther: [SecurityHubClientTypes.MapFilter]? = nil,
+            resourceId: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourcePartition: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceRegion: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceTags: [SecurityHubClientTypes.MapFilter]? = nil,
+            resourceType: [SecurityHubClientTypes.StringFilter]? = nil,
+            severityLabel: [SecurityHubClientTypes.StringFilter]? = nil,
+            sourceUrl: [SecurityHubClientTypes.StringFilter]? = nil,
+            title: [SecurityHubClientTypes.StringFilter]? = nil,
+            type: [SecurityHubClientTypes.StringFilter]? = nil,
+            updatedAt: [SecurityHubClientTypes.DateFilter]? = nil,
+            userDefinedFields: [SecurityHubClientTypes.MapFilter]? = nil,
+            verificationState: [SecurityHubClientTypes.StringFilter]? = nil,
+            workflowStatus: [SecurityHubClientTypes.StringFilter]? = nil
+        )
+        {
+            self.awsAccountId = awsAccountId
+            self.companyName = companyName
+            self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
+            self.complianceSecurityControlId = complianceSecurityControlId
+            self.complianceStatus = complianceStatus
+            self.confidence = confidence
+            self.createdAt = createdAt
+            self.criticality = criticality
+            self.description = description
+            self.firstObservedAt = firstObservedAt
+            self.generatorId = generatorId
+            self.id = id
+            self.lastObservedAt = lastObservedAt
+            self.noteText = noteText
+            self.noteUpdatedAt = noteUpdatedAt
+            self.noteUpdatedBy = noteUpdatedBy
+            self.productArn = productArn
+            self.productName = productName
+            self.recordState = recordState
+            self.relatedFindingsId = relatedFindingsId
+            self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.resourceDetailsOther = resourceDetailsOther
+            self.resourceId = resourceId
+            self.resourcePartition = resourcePartition
+            self.resourceRegion = resourceRegion
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.severityLabel = severityLabel
+            self.sourceUrl = sourceUrl
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+            self.userDefinedFields = userDefinedFields
+            self.verificationState = verificationState
+            self.workflowStatus = workflowStatus
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AutomationRulesMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case createdBy = "CreatedBy"
+        case description = "Description"
+        case isTerminal = "IsTerminal"
+        case ruleArn = "RuleArn"
+        case ruleName = "RuleName"
+        case ruleOrder = "RuleOrder"
+        case ruleStatus = "RuleStatus"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if isTerminal != false {
+            try encodeContainer.encode(isTerminal, forKey: .isTerminal)
+        }
+        if let ruleArn = self.ruleArn {
+            try encodeContainer.encode(ruleArn, forKey: .ruleArn)
+        }
+        if let ruleName = self.ruleName {
+            try encodeContainer.encode(ruleName, forKey: .ruleName)
+        }
+        if ruleOrder != 0 {
+            try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
+        }
+        if let ruleStatus = self.ruleStatus {
+            try encodeContainer.encode(ruleStatus.rawValue, forKey: .ruleStatus)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+        let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
+        ruleStatus = ruleStatusDecoded
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        ruleOrder = ruleOrderDecoded
+        let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
+        ruleName = ruleNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        isTerminal = isTerminalDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Metadata for automation rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
+    public struct AutomationRulesMetadata: Swift.Equatable {
+        /// A timestamp that indicates when the rule was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var createdAt: ClientRuntime.Date?
+        /// The principal that created a rule.
+        public var createdBy: Swift.String?
+        /// A description of the rule.
+        public var description: Swift.String?
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public var isTerminal: Swift.Bool
+        /// The Amazon Resource Name (ARN) for the rule.
+        public var ruleArn: Swift.String?
+        /// The name of the rule.
+        public var ruleName: Swift.String?
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public var ruleOrder: Swift.Int
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        public var ruleStatus: SecurityHubClientTypes.RuleStatus?
+        /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            isTerminal: Swift.Bool = false,
+            ruleArn: Swift.String? = nil,
+            ruleName: Swift.String? = nil,
+            ruleOrder: Swift.Int = 0,
+            ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AvailabilityZone: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case subnetId = "SubnetId"
@@ -40191,6 +41473,149 @@ extension SecurityHubClientTypes {
 
 }
 
+extension BatchDeleteAutomationRulesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automationRulesArns = "AutomationRulesArns"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automationRulesArns = automationRulesArns {
+            var automationRulesArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .automationRulesArns)
+            for nonemptystring0 in automationRulesArns {
+                try automationRulesArnsContainer.encode(nonemptystring0)
+            }
+        }
+    }
+}
+
+extension BatchDeleteAutomationRulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automationrules/delete"
+    }
+}
+
+public struct BatchDeleteAutomationRulesInput: Swift.Equatable {
+    /// A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.
+    /// This member is required.
+    public var automationRulesArns: [Swift.String]?
+
+    public init(
+        automationRulesArns: [Swift.String]? = nil
+    )
+    {
+        self.automationRulesArns = automationRulesArns
+    }
+}
+
+struct BatchDeleteAutomationRulesInputBody: Swift.Equatable {
+    let automationRulesArns: [Swift.String]?
+}
+
+extension BatchDeleteAutomationRulesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automationRulesArns = "AutomationRulesArns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let automationRulesArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .automationRulesArns)
+        var automationRulesArnsDecoded0:[Swift.String]? = nil
+        if let automationRulesArnsContainer = automationRulesArnsContainer {
+            automationRulesArnsDecoded0 = [Swift.String]()
+            for string0 in automationRulesArnsContainer {
+                if let string0 = string0 {
+                    automationRulesArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        automationRulesArns = automationRulesArnsDecoded0
+    }
+}
+
+public enum BatchDeleteAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchDeleteAutomationRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchDeleteAutomationRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.processedAutomationRules = output.processedAutomationRules
+            self.unprocessedAutomationRules = output.unprocessedAutomationRules
+        } else {
+            self.processedAutomationRules = nil
+            self.unprocessedAutomationRules = nil
+        }
+    }
+}
+
+public struct BatchDeleteAutomationRulesOutputResponse: Swift.Equatable {
+    /// A list of properly processed rule ARNs.
+    public var processedAutomationRules: [Swift.String]?
+    /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't delete and why.
+    public var unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+
+    public init(
+        processedAutomationRules: [Swift.String]? = nil,
+        unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+    )
+    {
+        self.processedAutomationRules = processedAutomationRules
+        self.unprocessedAutomationRules = unprocessedAutomationRules
+    }
+}
+
+struct BatchDeleteAutomationRulesOutputResponseBody: Swift.Equatable {
+    let processedAutomationRules: [Swift.String]?
+    let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+}
+
+extension BatchDeleteAutomationRulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case processedAutomationRules = "ProcessedAutomationRules"
+        case unprocessedAutomationRules = "UnprocessedAutomationRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let processedAutomationRulesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .processedAutomationRules)
+        var processedAutomationRulesDecoded0:[Swift.String]? = nil
+        if let processedAutomationRulesContainer = processedAutomationRulesContainer {
+            processedAutomationRulesDecoded0 = [Swift.String]()
+            for string0 in processedAutomationRulesContainer {
+                if let string0 = string0 {
+                    processedAutomationRulesDecoded0?.append(string0)
+                }
+            }
+        }
+        processedAutomationRules = processedAutomationRulesDecoded0
+        let unprocessedAutomationRulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedAutomationRule?].self, forKey: .unprocessedAutomationRules)
+        var unprocessedAutomationRulesDecoded0:[SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+        if let unprocessedAutomationRulesContainer = unprocessedAutomationRulesContainer {
+            unprocessedAutomationRulesDecoded0 = [SecurityHubClientTypes.UnprocessedAutomationRule]()
+            for structure0 in unprocessedAutomationRulesContainer {
+                if let structure0 = structure0 {
+                    unprocessedAutomationRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedAutomationRules = unprocessedAutomationRulesDecoded0
+    }
+}
+
 extension BatchDisableStandardsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case standardsSubscriptionArns = "StandardsSubscriptionArns"
@@ -40434,6 +41859,150 @@ extension BatchEnableStandardsOutputResponseBody: Swift.Decodable {
             }
         }
         standardsSubscriptions = standardsSubscriptionsDecoded0
+    }
+}
+
+extension BatchGetAutomationRulesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automationRulesArns = "AutomationRulesArns"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automationRulesArns = automationRulesArns {
+            var automationRulesArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .automationRulesArns)
+            for nonemptystring0 in automationRulesArns {
+                try automationRulesArnsContainer.encode(nonemptystring0)
+            }
+        }
+    }
+}
+
+extension BatchGetAutomationRulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automationrules/get"
+    }
+}
+
+public struct BatchGetAutomationRulesInput: Swift.Equatable {
+    /// A list of rule ARNs to get details for.
+    /// This member is required.
+    public var automationRulesArns: [Swift.String]?
+
+    public init(
+        automationRulesArns: [Swift.String]? = nil
+    )
+    {
+        self.automationRulesArns = automationRulesArns
+    }
+}
+
+struct BatchGetAutomationRulesInputBody: Swift.Equatable {
+    let automationRulesArns: [Swift.String]?
+}
+
+extension BatchGetAutomationRulesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automationRulesArns = "AutomationRulesArns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let automationRulesArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .automationRulesArns)
+        var automationRulesArnsDecoded0:[Swift.String]? = nil
+        if let automationRulesArnsContainer = automationRulesArnsContainer {
+            automationRulesArnsDecoded0 = [Swift.String]()
+            for string0 in automationRulesArnsContainer {
+                if let string0 = string0 {
+                    automationRulesArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        automationRulesArns = automationRulesArnsDecoded0
+    }
+}
+
+public enum BatchGetAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetAutomationRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetAutomationRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.rules = output.rules
+            self.unprocessedAutomationRules = output.unprocessedAutomationRules
+        } else {
+            self.rules = nil
+            self.unprocessedAutomationRules = nil
+        }
+    }
+}
+
+public struct BatchGetAutomationRulesOutputResponse: Swift.Equatable {
+    /// A list of rule details for the provided rule ARNs.
+    public var rules: [SecurityHubClientTypes.AutomationRulesConfig]?
+    /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't retrieve and why.
+    public var unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+
+    public init(
+        rules: [SecurityHubClientTypes.AutomationRulesConfig]? = nil,
+        unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+    )
+    {
+        self.rules = rules
+        self.unprocessedAutomationRules = unprocessedAutomationRules
+    }
+}
+
+struct BatchGetAutomationRulesOutputResponseBody: Swift.Equatable {
+    let rules: [SecurityHubClientTypes.AutomationRulesConfig]?
+    let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+}
+
+extension BatchGetAutomationRulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rules = "Rules"
+        case unprocessedAutomationRules = "UnprocessedAutomationRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AutomationRulesConfig?].self, forKey: .rules)
+        var rulesDecoded0:[SecurityHubClientTypes.AutomationRulesConfig]? = nil
+        if let rulesContainer = rulesContainer {
+            rulesDecoded0 = [SecurityHubClientTypes.AutomationRulesConfig]()
+            for structure0 in rulesContainer {
+                if let structure0 = structure0 {
+                    rulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        rules = rulesDecoded0
+        let unprocessedAutomationRulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedAutomationRule?].self, forKey: .unprocessedAutomationRules)
+        var unprocessedAutomationRulesDecoded0:[SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+        if let unprocessedAutomationRulesContainer = unprocessedAutomationRulesContainer {
+            unprocessedAutomationRulesDecoded0 = [SecurityHubClientTypes.UnprocessedAutomationRule]()
+            for structure0 in unprocessedAutomationRulesContainer {
+                if let structure0 = structure0 {
+                    unprocessedAutomationRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedAutomationRules = unprocessedAutomationRulesDecoded0
     }
 }
 
@@ -40865,6 +42434,149 @@ extension BatchImportFindingsOutputResponseBody: Swift.Decodable {
             }
         }
         failedFindings = failedFindingsDecoded0
+    }
+}
+
+extension BatchUpdateAutomationRulesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case updateAutomationRulesRequestItems = "UpdateAutomationRulesRequestItems"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let updateAutomationRulesRequestItems = updateAutomationRulesRequestItems {
+            var updateAutomationRulesRequestItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateAutomationRulesRequestItems)
+            for updateautomationrulesrequestitem0 in updateAutomationRulesRequestItems {
+                try updateAutomationRulesRequestItemsContainer.encode(updateautomationrulesrequestitem0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateAutomationRulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automationrules/update"
+    }
+}
+
+public struct BatchUpdateAutomationRulesInput: Swift.Equatable {
+    /// An array of ARNs for the rules that are to be updated. Optionally, you can also include RuleStatus and RuleOrder.
+    /// This member is required.
+    public var updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]?
+
+    public init(
+        updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]? = nil
+    )
+    {
+        self.updateAutomationRulesRequestItems = updateAutomationRulesRequestItems
+    }
+}
+
+struct BatchUpdateAutomationRulesInputBody: Swift.Equatable {
+    let updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]?
+}
+
+extension BatchUpdateAutomationRulesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case updateAutomationRulesRequestItems = "UpdateAutomationRulesRequestItems"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateAutomationRulesRequestItemsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UpdateAutomationRulesRequestItem?].self, forKey: .updateAutomationRulesRequestItems)
+        var updateAutomationRulesRequestItemsDecoded0:[SecurityHubClientTypes.UpdateAutomationRulesRequestItem]? = nil
+        if let updateAutomationRulesRequestItemsContainer = updateAutomationRulesRequestItemsContainer {
+            updateAutomationRulesRequestItemsDecoded0 = [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]()
+            for structure0 in updateAutomationRulesRequestItemsContainer {
+                if let structure0 = structure0 {
+                    updateAutomationRulesRequestItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        updateAutomationRulesRequestItems = updateAutomationRulesRequestItemsDecoded0
+    }
+}
+
+public enum BatchUpdateAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchUpdateAutomationRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchUpdateAutomationRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.processedAutomationRules = output.processedAutomationRules
+            self.unprocessedAutomationRules = output.unprocessedAutomationRules
+        } else {
+            self.processedAutomationRules = nil
+            self.unprocessedAutomationRules = nil
+        }
+    }
+}
+
+public struct BatchUpdateAutomationRulesOutputResponse: Swift.Equatable {
+    /// A list of properly processed rule ARNs.
+    public var processedAutomationRules: [Swift.String]?
+    /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't update and why.
+    public var unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+
+    public init(
+        processedAutomationRules: [Swift.String]? = nil,
+        unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+    )
+    {
+        self.processedAutomationRules = processedAutomationRules
+        self.unprocessedAutomationRules = unprocessedAutomationRules
+    }
+}
+
+struct BatchUpdateAutomationRulesOutputResponseBody: Swift.Equatable {
+    let processedAutomationRules: [Swift.String]?
+    let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
+}
+
+extension BatchUpdateAutomationRulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case processedAutomationRules = "ProcessedAutomationRules"
+        case unprocessedAutomationRules = "UnprocessedAutomationRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let processedAutomationRulesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .processedAutomationRules)
+        var processedAutomationRulesDecoded0:[Swift.String]? = nil
+        if let processedAutomationRulesContainer = processedAutomationRulesContainer {
+            processedAutomationRulesDecoded0 = [Swift.String]()
+            for string0 in processedAutomationRulesContainer {
+                if let string0 = string0 {
+                    processedAutomationRulesDecoded0?.append(string0)
+                }
+            }
+        }
+        processedAutomationRules = processedAutomationRulesDecoded0
+        let unprocessedAutomationRulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedAutomationRule?].self, forKey: .unprocessedAutomationRules)
+        var unprocessedAutomationRulesDecoded0:[SecurityHubClientTypes.UnprocessedAutomationRule]? = nil
+        if let unprocessedAutomationRulesContainer = unprocessedAutomationRulesContainer {
+            unprocessedAutomationRulesDecoded0 = [SecurityHubClientTypes.UnprocessedAutomationRule]()
+            for structure0 in unprocessedAutomationRulesContainer {
+                if let structure0 = structure0 {
+                    unprocessedAutomationRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedAutomationRules = unprocessedAutomationRulesDecoded0
     }
 }
 
@@ -42212,6 +43924,221 @@ extension CreateActionTargetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionTargetArn)
         actionTargetArn = actionTargetArnDecoded
+    }
+}
+
+extension CreateAutomationRuleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case criteria = "Criteria"
+        case description = "Description"
+        case isTerminal = "IsTerminal"
+        case ruleName = "RuleName"
+        case ruleOrder = "RuleOrder"
+        case ruleStatus = "RuleStatus"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for automationrulesaction0 in actions {
+                try actionsContainer.encode(automationrulesaction0)
+            }
+        }
+        if let criteria = self.criteria {
+            try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let isTerminal = self.isTerminal {
+            try encodeContainer.encode(isTerminal, forKey: .isTerminal)
+        }
+        if let ruleName = self.ruleName {
+            try encodeContainer.encode(ruleName, forKey: .ruleName)
+        }
+        if let ruleOrder = self.ruleOrder {
+            try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
+        }
+        if let ruleStatus = self.ruleStatus {
+            try encodeContainer.encode(ruleStatus.rawValue, forKey: .ruleStatus)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateAutomationRuleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automationrules/create"
+    }
+}
+
+public struct CreateAutomationRuleInput: Swift.Equatable {
+    /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
+    /// This member is required.
+    public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
+    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+    /// This member is required.
+    public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
+    /// A description of the rule.
+    /// This member is required.
+    public var description: Swift.String?
+    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding. The default value of this field is false.
+    public var isTerminal: Swift.Bool?
+    /// The name of the rule.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+    /// This member is required.
+    public var ruleOrder: Swift.Int?
+    /// Whether the rule is active after it is created. If this parameter is equal to Enabled, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatus?
+    /// User-defined tags that help you label the purpose of a rule.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesAction]? = nil,
+        criteria: SecurityHubClientTypes.AutomationRulesFindingFilters? = nil,
+        description: Swift.String? = nil,
+        isTerminal: Swift.Bool? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Int? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.actions = actions
+        self.criteria = criteria
+        self.description = description
+        self.isTerminal = isTerminal
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.tags = tags
+    }
+}
+
+struct CreateAutomationRuleInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+    let ruleStatus: SecurityHubClientTypes.RuleStatus?
+    let ruleOrder: Swift.Int?
+    let ruleName: Swift.String?
+    let description: Swift.String?
+    let isTerminal: Swift.Bool?
+    let criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
+    let actions: [SecurityHubClientTypes.AutomationRulesAction]?
+}
+
+extension CreateAutomationRuleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case criteria = "Criteria"
+        case description = "Description"
+        case isTerminal = "IsTerminal"
+        case ruleName = "RuleName"
+        case ruleOrder = "RuleOrder"
+        case ruleStatus = "RuleStatus"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
+        ruleStatus = ruleStatusDecoded
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder)
+        ruleOrder = ruleOrderDecoded
+        let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
+        ruleName = ruleNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal)
+        isTerminal = isTerminalDecoded
+        let criteriaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFilters.self, forKey: .criteria)
+        criteria = criteriaDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AutomationRulesAction?].self, forKey: .actions)
+        var actionsDecoded0:[SecurityHubClientTypes.AutomationRulesAction]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [SecurityHubClientTypes.AutomationRulesAction]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+public enum CreateAutomationRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAutomationRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAutomationRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ruleArn = output.ruleArn
+        } else {
+            self.ruleArn = nil
+        }
+    }
+}
+
+public struct CreateAutomationRuleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the automation rule that you created.
+    public var ruleArn: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil
+    )
+    {
+        self.ruleArn = ruleArn
+    }
+}
+
+struct CreateAutomationRuleOutputResponseBody: Swift.Equatable {
+    let ruleArn: Swift.String?
+}
+
+extension CreateAutomationRuleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ruleArn = "RuleArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
     }
 }
 
@@ -48046,6 +49973,128 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListAutomationRulesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListAutomationRulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/automationrules/list"
+    }
+}
+
+public struct ListAutomationRulesInput: Swift.Equatable {
+    /// The maximum number of rules to return in the response. This currently ranges from 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating the response. This is the NextToken from a previously truncated response. On your first call to the ListAutomationRules API, set the value of this parameter to NULL.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAutomationRulesInputBody: Swift.Equatable {
+}
+
+extension ListAutomationRulesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListAutomationRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAutomationRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.automationRulesMetadata = output.automationRulesMetadata
+            self.nextToken = output.nextToken
+        } else {
+            self.automationRulesMetadata = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAutomationRulesOutputResponse: Swift.Equatable {
+    /// Metadata for rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
+    public var automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]?
+    /// A pagination token for the response.
+    public var nextToken: Swift.String?
+
+    public init(
+        automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.automationRulesMetadata = automationRulesMetadata
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAutomationRulesOutputResponseBody: Swift.Equatable {
+    let automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]?
+    let nextToken: Swift.String?
+}
+
+extension ListAutomationRulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automationRulesMetadata = "AutomationRulesMetadata"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let automationRulesMetadataContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AutomationRulesMetadata?].self, forKey: .automationRulesMetadata)
+        var automationRulesMetadataDecoded0:[SecurityHubClientTypes.AutomationRulesMetadata]? = nil
+        if let automationRulesMetadataContainer = automationRulesMetadataContainer {
+            automationRulesMetadataDecoded0 = [SecurityHubClientTypes.AutomationRulesMetadata]()
+            for structure0 in automationRulesMetadataContainer {
+                if let structure0 = structure0 {
+                    automationRulesMetadataDecoded0?.append(structure0)
+                }
+            }
+        }
+        automationRulesMetadata = automationRulesMetadataDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListEnabledProductsForImportInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -53719,6 +55768,38 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes {
+    public enum RuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RuleStatus(rawValue: rawValue) ?? RuleStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -56046,6 +58127,61 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes.UnprocessedAutomationRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case ruleArn = "RuleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if errorCode != 0 {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let ruleArn = self.ruleArn {
+            try encodeContainer.encode(ruleArn, forKey: .ruleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorCode) ?? 0
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't process and why.
+    public struct UnprocessedAutomationRule: Swift.Equatable {
+        /// The error code associated with the unprocessed automation rule.
+        public var errorCode: Swift.Int
+        /// An error message describing why a request didn't process a specific rule.
+        public var errorMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) for the unprocessed automation rule.
+        public var ruleArn: Swift.String?
+
+        public init(
+            errorCode: Swift.Int = 0,
+            errorMessage: Swift.String? = nil,
+            ruleArn: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.ruleArn = ruleArn
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes {
     public enum UnprocessedErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
@@ -56420,6 +58556,124 @@ extension UpdateActionTargetOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateActionTargetOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case criteria = "Criteria"
+        case description = "Description"
+        case isTerminal = "IsTerminal"
+        case ruleArn = "RuleArn"
+        case ruleName = "RuleName"
+        case ruleOrder = "RuleOrder"
+        case ruleStatus = "RuleStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for automationrulesaction0 in actions {
+                try actionsContainer.encode(automationrulesaction0)
+            }
+        }
+        if let criteria = self.criteria {
+            try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if isTerminal != false {
+            try encodeContainer.encode(isTerminal, forKey: .isTerminal)
+        }
+        if let ruleArn = self.ruleArn {
+            try encodeContainer.encode(ruleArn, forKey: .ruleArn)
+        }
+        if let ruleName = self.ruleName {
+            try encodeContainer.encode(ruleName, forKey: .ruleName)
+        }
+        if ruleOrder != 0 {
+            try encodeContainer.encode(ruleOrder, forKey: .ruleOrder)
+        }
+        if let ruleStatus = self.ruleStatus {
+            try encodeContainer.encode(ruleStatus.rawValue, forKey: .ruleStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleArn)
+        ruleArn = ruleArnDecoded
+        let ruleStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RuleStatus.self, forKey: .ruleStatus)
+        ruleStatus = ruleStatusDecoded
+        let ruleOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleOrder) ?? 0
+        ruleOrder = ruleOrderDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let ruleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleName)
+        ruleName = ruleNameDecoded
+        let isTerminalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminal) ?? false
+        isTerminal = isTerminalDecoded
+        let criteriaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutomationRulesFindingFilters.self, forKey: .criteria)
+        criteria = criteriaDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AutomationRulesAction?].self, forKey: .actions)
+        var actionsDecoded0:[SecurityHubClientTypes.AutomationRulesAction]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [SecurityHubClientTypes.AutomationRulesAction]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the parameters to update in an existing automation rule.
+    public struct UpdateAutomationRulesRequestItem: Swift.Equatable {
+        /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
+        public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
+        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
+        /// A description of the rule.
+        public var description: Swift.String?
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public var isTerminal: Swift.Bool
+        /// The Amazon Resource Name (ARN) for the rule.
+        /// This member is required.
+        public var ruleArn: Swift.String?
+        /// The name of the rule.
+        public var ruleName: Swift.String?
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public var ruleOrder: Swift.Int
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        public var ruleStatus: SecurityHubClientTypes.RuleStatus?
+
+        public init(
+            actions: [SecurityHubClientTypes.AutomationRulesAction]? = nil,
+            criteria: SecurityHubClientTypes.AutomationRulesFindingFilters? = nil,
+            description: Swift.String? = nil,
+            isTerminal: Swift.Bool = false,
+            ruleArn: Swift.String? = nil,
+            ruleName: Swift.String? = nil,
+            ruleOrder: Swift.Int = 0,
+            ruleStatus: SecurityHubClientTypes.RuleStatus? = nil
+        )
+        {
+            self.actions = actions
+            self.criteria = criteria
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+        }
+    }
+
 }
 
 extension UpdateFindingAggregatorInput: Swift.Encodable {

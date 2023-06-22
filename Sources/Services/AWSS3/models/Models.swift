@@ -2220,7 +2220,7 @@ extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBindi
 public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
     /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
@@ -2242,7 +2242,7 @@ public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// Version ID of the newly created object, in case the bucket has versioning turned on.
     public var versionId: Swift.String?
@@ -2774,7 +2774,7 @@ public struct CopyObjectInput: Swift.Equatable {
     /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
@@ -2841,7 +2841,7 @@ public struct CopyObjectInput: Swift.Equatable {
     public var objectLockRetainUntilDate: ClientRuntime.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
     public var sseCustomerAlgorithm: Swift.String?
@@ -2851,7 +2851,7 @@ public struct CopyObjectInput: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
     public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the Amazon Web Services KMS key ID to use for object encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
+    /// Specifies the KMS key ID to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
     public var ssekmsKeyId: Swift.String?
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -3036,7 +3036,7 @@ extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CopyObjectOutputResponse: Swift.Equatable {
-    /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// Container for all response elements.
     public var copyObjectResult: S3ClientTypes.CopyObjectResult?
@@ -3046,7 +3046,7 @@ public struct CopyObjectOutputResponse: Swift.Equatable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
     public var sseCustomerAlgorithm: Swift.String?
@@ -3054,7 +3054,7 @@ public struct CopyObjectOutputResponse: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
     public var ssekmsEncryptionContext: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// Version ID of the newly created copy.
     public var versionId: Swift.String?
@@ -3687,7 +3687,7 @@ public struct CreateMultipartUploadInput: Swift.Equatable {
     /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
@@ -3736,7 +3736,7 @@ public struct CreateMultipartUploadInput: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
     public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the ID of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
+    /// Specifies the ID of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
     public var ssekmsKeyId: Swift.String?
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -3907,7 +3907,7 @@ public struct CreateMultipartUploadOutputResponse: Swift.Equatable {
     public var abortRuleId: Swift.String?
     /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// The algorithm that was used to create a checksum of the object.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
@@ -3923,7 +3923,7 @@ public struct CreateMultipartUploadOutputResponse: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
     public var ssekmsEncryptionContext: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// ID for the initiated multipart upload.
     public var uploadId: Swift.String?
@@ -4129,7 +4129,7 @@ extension S3ClientTypes.Delete: ClientRuntime.DynamicNodeEncoding {
 extension S3ClientTypes {
     /// Container for the objects to delete.
     public struct Delete: Swift.Equatable {
-        /// The objects to delete.
+        /// The object to delete.
         /// This member is required.
         public var objects: [S3ClientTypes.ObjectIdentifier]?
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
@@ -6122,7 +6122,7 @@ extension S3ClientTypes {
         public var encryptionType: S3ClientTypes.ServerSideEncryption?
         /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
         public var kmsContext: Swift.String?
-        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
+        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -7804,6 +7804,9 @@ extension GetBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
         return items
     }
 }
@@ -7830,14 +7833,18 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Equatable {
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
 
     public init(
         bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
+        expectedBucketOwner: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil
     )
     {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
+        self.requestPayer = requestPayer
     }
 }
 
@@ -7861,6 +7868,11 @@ public enum GetBucketAccelerateConfigurationOutputError: ClientRuntime.HttpRespo
 
 extension GetBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetBucketAccelerateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7872,13 +7884,17 @@ extension GetBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResp
 }
 
 public struct GetBucketAccelerateConfigurationOutputResponse: Swift.Equatable {
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
     /// The accelerate configuration of the bucket.
     public var status: S3ClientTypes.BucketAccelerateStatus?
 
     public init(
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
         status: S3ClientTypes.BucketAccelerateStatus? = nil
     )
     {
+        self.requestCharged = requestCharged
         self.status = status
     }
 }
@@ -10639,7 +10655,7 @@ extension GetObjectInput: ClientRuntime.HeaderProvider {
 }
 
 extension GetObjectInput {
-    public func presignURL(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
         let serviceName = "S3"
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
@@ -10667,10 +10683,10 @@ extension GetObjectInput {
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutputResponse, GetObjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
@@ -10684,7 +10700,7 @@ extension GetObjectInput {
 }
 
 extension GetObjectInput {
-    public func presign(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
@@ -10712,13 +10728,13 @@ extension GetObjectInput {
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutputResponse, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutputResponse, GetObjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
@@ -11413,7 +11429,7 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     public var acceptRanges: Swift.String?
     /// Object data.
     public var body: ClientRuntime.ByteStream?
-    /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
@@ -11465,13 +11481,13 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides information about object restoration action and expiration time of the restored object copy.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
     public var sseCustomerAlgorithm: Swift.String?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
     public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -12744,7 +12760,7 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     public var acceptRanges: Swift.String?
     /// The archive state of the head object.
     public var archiveStatus: S3ClientTypes.ArchiveStatus?
-    /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
@@ -12803,13 +12819,13 @@ public struct HeadObjectOutputResponse: Swift.Equatable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html) or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example: x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT" If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see [Transitioning Objects: General Considerations](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations).
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
     public var sseCustomerAlgorithm: Swift.String?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
     public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html).
     public var storageClass: S3ClientTypes.StorageClass?
@@ -15488,6 +15504,9 @@ extension ListMultipartUploadsInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
         return items
     }
 }
@@ -15548,6 +15567,8 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     public var maxUploads: Swift.Int?
     /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
     public var `prefix`: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
     /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
     public var uploadIdMarker: Swift.String?
 
@@ -15559,6 +15580,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
         keyMarker: Swift.String? = nil,
         maxUploads: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
         uploadIdMarker: Swift.String? = nil
     )
     {
@@ -15569,6 +15591,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
         self.keyMarker = keyMarker
         self.maxUploads = maxUploads
         self.`prefix` = `prefix`
+        self.requestPayer = requestPayer
         self.uploadIdMarker = uploadIdMarker
     }
 }
@@ -15593,6 +15616,11 @@ public enum ListMultipartUploadsOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -15646,6 +15674,8 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
     public var nextUploadIdMarker: Swift.String?
     /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
     public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
     /// Upload ID after which listing began.
     public var uploadIdMarker: Swift.String?
     /// Container for elements related to a particular multipart upload. A response can contain zero or more Upload elements.
@@ -15662,6 +15692,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
         nextKeyMarker: Swift.String? = nil,
         nextUploadIdMarker: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
         uploadIdMarker: Swift.String? = nil,
         uploads: [S3ClientTypes.MultipartUpload]? = nil
     )
@@ -15676,6 +15707,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
         self.nextKeyMarker = nextKeyMarker
         self.nextUploadIdMarker = nextUploadIdMarker
         self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
         self.uploadIdMarker = uploadIdMarker
         self.uploads = uploads
     }
@@ -15779,6 +15811,9 @@ extension ListObjectVersionsInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
         return items
     }
 }
@@ -15839,6 +15874,8 @@ public struct ListObjectVersionsInput: Swift.Equatable {
     public var maxKeys: Swift.Int?
     /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
     public var `prefix`: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the object version you want to start listing from.
     public var versionIdMarker: Swift.String?
 
@@ -15850,6 +15887,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
         keyMarker: Swift.String? = nil,
         maxKeys: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionIdMarker: Swift.String? = nil
     )
     {
@@ -15860,6 +15898,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
         self.keyMarker = keyMarker
         self.maxKeys = maxKeys
         self.`prefix` = `prefix`
+        self.requestPayer = requestPayer
         self.versionIdMarker = versionIdMarker
     }
 }
@@ -15884,6 +15923,11 @@ public enum ListObjectVersionsOutputError: ClientRuntime.HttpResponseErrorBindin
 
 extension ListObjectVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListObjectVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -15941,6 +15985,8 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
     public var nextVersionIdMarker: Swift.String?
     /// Selects objects that start with the value supplied by this parameter.
     public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
     /// Marks the last version of the key returned in a truncated response.
     public var versionIdMarker: Swift.String?
     /// Container for version information.
@@ -15958,6 +16004,7 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
         nextKeyMarker: Swift.String? = nil,
         nextVersionIdMarker: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
         versionIdMarker: Swift.String? = nil,
         versions: [S3ClientTypes.ObjectVersion]? = nil
     )
@@ -15973,6 +16020,7 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
         self.nextKeyMarker = nextKeyMarker
         self.nextVersionIdMarker = nextVersionIdMarker
         self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
         self.versionIdMarker = versionIdMarker
         self.versions = versions
     }
@@ -16200,6 +16248,11 @@ public enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16249,6 +16302,8 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
     public var nextMarker: Swift.String?
     /// Keys that begin with the indicated prefix.
     public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
         commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
@@ -16260,7 +16315,8 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
         maxKeys: Swift.Int = 0,
         name: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
-        `prefix`: Swift.String? = nil
+        `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
     )
     {
         self.commonPrefixes = commonPrefixes
@@ -16273,6 +16329,7 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
         self.name = name
         self.nextMarker = nextMarker
         self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
     }
 }
 
@@ -16487,6 +16544,11 @@ public enum ListObjectsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ListObjectsV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListObjectsV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16542,6 +16604,8 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
     public var nextContinuationToken: Swift.String?
     /// Keys that begin with the indicated prefix.
     public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
     /// If StartAfter was sent with the request, it is included in the response.
     public var startAfter: Swift.String?
 
@@ -16557,6 +16621,7 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
         name: Swift.String? = nil,
         nextContinuationToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
         startAfter: Swift.String? = nil
     )
     {
@@ -16571,6 +16636,7 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
         self.name = name
         self.nextContinuationToken = nextContinuationToken
         self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
         self.startAfter = startAfter
     }
 }
@@ -23433,7 +23499,7 @@ extension PutObjectInput: ClientRuntime.HeaderProvider {
 }
 
 extension PutObjectInput {
-    public func presignURL(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
         let serviceName = "S3"
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
@@ -23461,10 +23527,10 @@ extension PutObjectInput {
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutputResponse, PutObjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
@@ -23478,7 +23544,7 @@ extension PutObjectInput {
 }
 
 extension PutObjectInput {
-    public func presign(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
@@ -23506,8 +23572,8 @@ extension PutObjectInput {
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -23515,7 +23581,7 @@ extension PutObjectInput {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutputResponse>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutputResponse, PutObjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
@@ -23555,7 +23621,7 @@ public struct PutObjectInput: Swift.Equatable {
     /// The bucket name to which the PUT action was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
     public var bucketKeyEnabled: Swift.Bool?
     /// Can be used to specify caching behavior along the request/reply chain. For more information, see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9).
     public var cacheControl: Swift.String?
@@ -23606,7 +23672,7 @@ public struct PutObjectInput: Swift.Equatable {
     public var objectLockRetainUntilDate: ClientRuntime.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
     public var sseCustomerAlgorithm: Swift.String?
@@ -23616,7 +23682,7 @@ public struct PutObjectInput: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject or CopyObject operations on this object.
     public var ssekmsEncryptionContext: Swift.String?
-    /// If x-amz-server-side-encryption has a valid value of aws:kms, this header specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key to protect the data. If the KMS key does not exist in the same account issuing the command, you must use the full ARN and not just the ID.
+    /// If x-amz-server-side-encryption has a valid value of aws:kms or aws:kms:dsse, this header specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. If the KMS key does not exist in the same account that's issuing the command, you must use the full ARN and not just the ID.
     public var ssekmsKeyId: Swift.String?
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -24210,7 +24276,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectOutputResponse: Swift.Equatable {
-    /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
@@ -24226,7 +24292,7 @@ public struct PutObjectOutputResponse: Swift.Equatable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
     public var sseCustomerAlgorithm: Swift.String?
@@ -24234,7 +24300,7 @@ public struct PutObjectOutputResponse: Swift.Equatable {
     public var sseCustomerKeyMD5: Swift.String?
     /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject or CopyObject operations on this object.
     public var ssekmsEncryptionContext: Swift.String?
-    /// If x-amz-server-side-encryption is has a valid value of aws:kms, this header specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If x-amz-server-side-encryption has a valid value of aws:kms or aws:kms:dsse, this header specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
     /// Version of the object.
     public var versionId: Swift.String?
@@ -26734,7 +26800,7 @@ extension S3ClientTypes.SSEKMS: ClientRuntime.DynamicNodeEncoding {
 extension S3ClientTypes {
     /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
     public struct SSEKMS: Swift.Equatable {
-        /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
+        /// Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
         /// This member is required.
         public var keyId: Swift.String?
 
@@ -27175,12 +27241,14 @@ extension S3ClientTypes {
     public enum ServerSideEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aes256
         case awsKms
+        case awsKmsDsse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServerSideEncryption] {
             return [
                 .aes256,
                 .awsKms,
+                .awsKmsDsse,
                 .sdkUnknown("")
             ]
         }
@@ -27192,6 +27260,7 @@ extension S3ClientTypes {
             switch self {
             case .aes256: return "AES256"
             case .awsKms: return "aws:kms"
+            case .awsKmsDsse: return "aws:kms:dsse"
             case let .sdkUnknown(s): return s
             }
         }
@@ -28735,7 +28804,7 @@ extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UploadPartCopyOutputResponse: Swift.Equatable {
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// Container for all response elements.
     public var copyPartResult: S3ClientTypes.CopyPartResult?
@@ -28749,7 +28818,7 @@ public struct UploadPartCopyOutputResponse: Swift.Equatable {
     public var sseCustomerAlgorithm: Swift.String?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
     public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
     public var ssekmsKeyId: Swift.String?
 
     public init(
@@ -28894,7 +28963,7 @@ extension UploadPartInput: ClientRuntime.HeaderProvider {
 }
 
 extension UploadPartInput {
-    public func presign(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
@@ -28922,8 +28991,8 @@ extension UploadPartInput {
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>(id: "uploadPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutputResponse>())
-        let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutputResponse, UploadPartOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutputResponse, UploadPartOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutputResponse>())
@@ -28931,7 +29000,7 @@ extension UploadPartInput {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutputResponse>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: UploadPartInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UploadPartOutputResponse, UploadPartOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutputResponse, UploadPartOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutputResponse, UploadPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutputResponse, UploadPartOutputError>())
@@ -29154,7 +29223,7 @@ extension UploadPartOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UploadPartOutputResponse: Swift.Equatable {
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
@@ -29174,7 +29243,7 @@ public struct UploadPartOutputResponse: Swift.Equatable {
     public var sseCustomerAlgorithm: Swift.String?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
     public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key was used for the object.
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key was used for the object.
     public var ssekmsKeyId: Swift.String?
 
     public init(

@@ -8057,7 +8057,7 @@ extension ImagebuilderClientTypes {
         public var dateCreated: Swift.String?
         /// This is no longer supported, and does not return a value.
         public var dateLastRun: Swift.String?
-        /// This is no longer supported, and does not return a value.
+        /// The next date when the pipeline is scheduled to run.
         public var dateNextRun: Swift.String?
         /// The date on which this image pipeline was last updated.
         public var dateUpdated: Swift.String?

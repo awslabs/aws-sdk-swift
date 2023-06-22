@@ -2575,7 +2575,7 @@ extension ConnectClientTypes {
         public var initialContactId: Swift.String?
         /// Indicates how the contact was initiated.
         public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived.
+        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started dialing the external participant. For MONITOR, this is when the supervisor started listening to a contact.
         public var initiationTimestamp: ClientRuntime.Date?
         /// The timestamp when contact was last updated.
         public var lastUpdateTimestamp: ClientRuntime.Date?
@@ -17563,6 +17563,124 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.HoursOfOperationSearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andConditions = "AndConditions"
+        case orConditions = "OrConditions"
+        case stringCondition = "StringCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let andConditions = andConditions {
+            var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
+            for hoursofoperationsearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(hoursofoperationsearchcriteria0)
+            }
+        }
+        if let orConditions = orConditions {
+            var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
+            for hoursofoperationsearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(hoursofoperationsearchcriteria0)
+            }
+        }
+        if let stringCondition = self.stringCondition {
+            try encodeContainer.encode(stringCondition, forKey: .stringCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.HoursOfOperationSearchCriteria?].self, forKey: .orConditions)
+        var orConditionsDecoded0:[ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil
+        if let orConditionsContainer = orConditionsContainer {
+            orConditionsDecoded0 = [ConnectClientTypes.HoursOfOperationSearchCriteria]()
+            for structure0 in orConditionsContainer {
+                if let structure0 = structure0 {
+                    orConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        orConditions = orConditionsDecoded0
+        let andConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.HoursOfOperationSearchCriteria?].self, forKey: .andConditions)
+        var andConditionsDecoded0:[ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil
+        if let andConditionsContainer = andConditionsContainer {
+            andConditionsDecoded0 = [ConnectClientTypes.HoursOfOperationSearchCriteria]()
+            for structure0 in andConditionsContainer {
+                if let structure0 = structure0 {
+                    andConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        andConditions = andConditionsDecoded0
+        let stringConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringCondition.self, forKey: .stringCondition)
+        stringCondition = stringConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to return hours of operations.
+    public struct HoursOfOperationSearchCriteria: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, timezone, and resourceID.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+
+}
+
+extension ConnectClientTypes.HoursOfOperationSearchFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagFilter = "TagFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ControlPlaneTagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Filters to be applied to search results.
+    public struct HoursOfOperationSearchFilter: Swift.Equatable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        )
+        {
+            self.tagFilter = tagFilter
+        }
+    }
+
+}
+
 extension ConnectClientTypes.HoursOfOperationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -17727,6 +17845,7 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         case id = "Id"
         case identityManagementType = "IdentityManagementType"
         case inboundCallsEnabled = "InboundCallsEnabled"
+        case instanceAccessUrl = "InstanceAccessUrl"
         case instanceAlias = "InstanceAlias"
         case instanceStatus = "InstanceStatus"
         case outboundCallsEnabled = "OutboundCallsEnabled"
@@ -17750,6 +17869,9 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         }
         if let inboundCallsEnabled = self.inboundCallsEnabled {
             try encodeContainer.encode(inboundCallsEnabled, forKey: .inboundCallsEnabled)
+        }
+        if let instanceAccessUrl = self.instanceAccessUrl {
+            try encodeContainer.encode(instanceAccessUrl, forKey: .instanceAccessUrl)
         }
         if let instanceAlias = self.instanceAlias {
             try encodeContainer.encode(instanceAlias, forKey: .instanceAlias)
@@ -17790,12 +17912,14 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         inboundCallsEnabled = inboundCallsEnabledDecoded
         let outboundCallsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outboundCallsEnabled)
         outboundCallsEnabled = outboundCallsEnabledDecoded
+        let instanceAccessUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceAccessUrl)
+        instanceAccessUrl = instanceAccessUrlDecoded
     }
 }
 
 extension ConnectClientTypes.Instance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Instance(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), statusReason: \(Swift.String(describing: statusReason)), instanceAlias: \"CONTENT_REDACTED\")"}
+        "Instance(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceAccessUrl: \(Swift.String(describing: instanceAccessUrl)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), statusReason: \(Swift.String(describing: statusReason)), instanceAlias: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -17811,6 +17935,8 @@ extension ConnectClientTypes {
         public var identityManagementType: ConnectClientTypes.DirectoryType?
         /// Whether inbound calls are enabled.
         public var inboundCallsEnabled: Swift.Bool?
+        /// This URL allows contact center users to access Amazon Connect admin website.
+        public var instanceAccessUrl: Swift.String?
         /// The alias of instance.
         public var instanceAlias: Swift.String?
         /// The state of the instance.
@@ -17828,6 +17954,7 @@ extension ConnectClientTypes {
             id: Swift.String? = nil,
             identityManagementType: ConnectClientTypes.DirectoryType? = nil,
             inboundCallsEnabled: Swift.Bool? = nil,
+            instanceAccessUrl: Swift.String? = nil,
             instanceAlias: Swift.String? = nil,
             instanceStatus: ConnectClientTypes.InstanceStatus? = nil,
             outboundCallsEnabled: Swift.Bool? = nil,
@@ -17840,6 +17967,7 @@ extension ConnectClientTypes {
             self.id = id
             self.identityManagementType = identityManagementType
             self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAccessUrl = instanceAccessUrl
             self.instanceAlias = instanceAlias
             self.instanceStatus = instanceStatus
             self.outboundCallsEnabled = outboundCallsEnabled
@@ -18073,6 +18201,7 @@ extension ConnectClientTypes {
         case mediaStreams
         case realTimeContactAnalysisSegments
         case scheduledReports
+        case screenRecordings
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceStorageResourceType] {
@@ -18086,6 +18215,7 @@ extension ConnectClientTypes {
                 .mediaStreams,
                 .realTimeContactAnalysisSegments,
                 .scheduledReports,
+                .screenRecordings,
                 .sdkUnknown("")
             ]
         }
@@ -18104,6 +18234,7 @@ extension ConnectClientTypes {
             case .mediaStreams: return "MEDIA_STREAMS"
             case .realTimeContactAnalysisSegments: return "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
             case .scheduledReports: return "SCHEDULED_REPORTS"
+            case .screenRecordings: return "SCREEN_RECORDINGS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18122,6 +18253,7 @@ extension ConnectClientTypes.InstanceSummary: Swift.Codable {
         case id = "Id"
         case identityManagementType = "IdentityManagementType"
         case inboundCallsEnabled = "InboundCallsEnabled"
+        case instanceAccessUrl = "InstanceAccessUrl"
         case instanceAlias = "InstanceAlias"
         case instanceStatus = "InstanceStatus"
         case outboundCallsEnabled = "OutboundCallsEnabled"
@@ -18144,6 +18276,9 @@ extension ConnectClientTypes.InstanceSummary: Swift.Codable {
         }
         if let inboundCallsEnabled = self.inboundCallsEnabled {
             try encodeContainer.encode(inboundCallsEnabled, forKey: .inboundCallsEnabled)
+        }
+        if let instanceAccessUrl = self.instanceAccessUrl {
+            try encodeContainer.encode(instanceAccessUrl, forKey: .instanceAccessUrl)
         }
         if let instanceAlias = self.instanceAlias {
             try encodeContainer.encode(instanceAlias, forKey: .instanceAlias)
@@ -18179,12 +18314,14 @@ extension ConnectClientTypes.InstanceSummary: Swift.Codable {
         inboundCallsEnabled = inboundCallsEnabledDecoded
         let outboundCallsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outboundCallsEnabled)
         outboundCallsEnabled = outboundCallsEnabledDecoded
+        let instanceAccessUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceAccessUrl)
+        instanceAccessUrl = instanceAccessUrlDecoded
     }
 }
 
 extension ConnectClientTypes.InstanceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InstanceSummary(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), instanceAlias: \"CONTENT_REDACTED\")"}
+        "InstanceSummary(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceAccessUrl: \(Swift.String(describing: instanceAccessUrl)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), instanceAlias: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -18200,6 +18337,8 @@ extension ConnectClientTypes {
         public var identityManagementType: ConnectClientTypes.DirectoryType?
         /// Whether inbound calls are enabled.
         public var inboundCallsEnabled: Swift.Bool?
+        /// This URL allows contact center users to access Amazon Connect admin website.
+        public var instanceAccessUrl: Swift.String?
         /// The alias of the instance.
         public var instanceAlias: Swift.String?
         /// The state of the instance.
@@ -18215,6 +18354,7 @@ extension ConnectClientTypes {
             id: Swift.String? = nil,
             identityManagementType: ConnectClientTypes.DirectoryType? = nil,
             inboundCallsEnabled: Swift.Bool? = nil,
+            instanceAccessUrl: Swift.String? = nil,
             instanceAlias: Swift.String? = nil,
             instanceStatus: ConnectClientTypes.InstanceStatus? = nil,
             outboundCallsEnabled: Swift.Bool? = nil,
@@ -18226,6 +18366,7 @@ extension ConnectClientTypes {
             self.id = id
             self.identityManagementType = identityManagementType
             self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAccessUrl = instanceAccessUrl
             self.instanceAlias = instanceAlias
             self.instanceStatus = instanceStatus
             self.outboundCallsEnabled = outboundCallsEnabled
@@ -26299,7 +26440,7 @@ extension ConnectClientTypes.Prompt: Swift.Codable {
 extension ConnectClientTypes {
     /// Information about a prompt.
     public struct Prompt: Swift.Equatable {
-        /// A description for the prompt.
+        /// The description of the prompt.
         public var description: Swift.String?
         /// The name of the prompt.
         public var name: Swift.String?
@@ -26323,6 +26464,124 @@ extension ConnectClientTypes {
             self.promptARN = promptARN
             self.promptId = promptId
             self.tags = tags
+        }
+    }
+
+}
+
+extension ConnectClientTypes.PromptSearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andConditions = "AndConditions"
+        case orConditions = "OrConditions"
+        case stringCondition = "StringCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let andConditions = andConditions {
+            var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
+            for promptsearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(promptsearchcriteria0)
+            }
+        }
+        if let orConditions = orConditions {
+            var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
+            for promptsearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(promptsearchcriteria0)
+            }
+        }
+        if let stringCondition = self.stringCondition {
+            try encodeContainer.encode(stringCondition, forKey: .stringCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PromptSearchCriteria?].self, forKey: .orConditions)
+        var orConditionsDecoded0:[ConnectClientTypes.PromptSearchCriteria]? = nil
+        if let orConditionsContainer = orConditionsContainer {
+            orConditionsDecoded0 = [ConnectClientTypes.PromptSearchCriteria]()
+            for structure0 in orConditionsContainer {
+                if let structure0 = structure0 {
+                    orConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        orConditions = orConditionsDecoded0
+        let andConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PromptSearchCriteria?].self, forKey: .andConditions)
+        var andConditionsDecoded0:[ConnectClientTypes.PromptSearchCriteria]? = nil
+        if let andConditionsContainer = andConditionsContainer {
+            andConditionsDecoded0 = [ConnectClientTypes.PromptSearchCriteria]()
+            for structure0 in andConditionsContainer {
+                if let structure0 = structure0 {
+                    andConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        andConditions = andConditionsDecoded0
+        let stringConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringCondition.self, forKey: .stringCondition)
+        stringCondition = stringConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to return prompts.
+    public struct PromptSearchCriteria: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.PromptSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.PromptSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+
+}
+
+extension ConnectClientTypes.PromptSearchFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagFilter = "TagFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ControlPlaneTagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Filters to be applied to search results.
+    public struct PromptSearchFilter: Swift.Equatable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        )
+        {
+            self.tagFilter = tagFilter
         }
     }
 
@@ -26983,7 +27242,7 @@ extension ConnectClientTypes {
         public var orConditions: [ConnectClientTypes.QueueSearchCriteria]?
         /// The type of queue.
         public var queueTypeCondition: ConnectClientTypes.SearchableQueueType?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported value for FieldName: name
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -27328,6 +27587,124 @@ extension ConnectClientTypes {
             self.queueConfig = queueConfig
             self.quickConnectType = quickConnectType
             self.userConfig = userConfig
+        }
+    }
+
+}
+
+extension ConnectClientTypes.QuickConnectSearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andConditions = "AndConditions"
+        case orConditions = "OrConditions"
+        case stringCondition = "StringCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let andConditions = andConditions {
+            var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
+            for quickconnectsearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(quickconnectsearchcriteria0)
+            }
+        }
+        if let orConditions = orConditions {
+            var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
+            for quickconnectsearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(quickconnectsearchcriteria0)
+            }
+        }
+        if let stringCondition = self.stringCondition {
+            try encodeContainer.encode(stringCondition, forKey: .stringCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.QuickConnectSearchCriteria?].self, forKey: .orConditions)
+        var orConditionsDecoded0:[ConnectClientTypes.QuickConnectSearchCriteria]? = nil
+        if let orConditionsContainer = orConditionsContainer {
+            orConditionsDecoded0 = [ConnectClientTypes.QuickConnectSearchCriteria]()
+            for structure0 in orConditionsContainer {
+                if let structure0 = structure0 {
+                    orConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        orConditions = orConditionsDecoded0
+        let andConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.QuickConnectSearchCriteria?].self, forKey: .andConditions)
+        var andConditionsDecoded0:[ConnectClientTypes.QuickConnectSearchCriteria]? = nil
+        if let andConditionsContainer = andConditionsContainer {
+            andConditionsDecoded0 = [ConnectClientTypes.QuickConnectSearchCriteria]()
+            for structure0 in andConditionsContainer {
+                if let structure0 = structure0 {
+                    andConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        andConditions = andConditionsDecoded0
+        let stringConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringCondition.self, forKey: .stringCondition)
+        stringCondition = stringConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to return quick connects.
+    public struct QuickConnectSearchCriteria: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.QuickConnectSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.QuickConnectSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+
+}
+
+extension ConnectClientTypes.QuickConnectSearchFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagFilter = "TagFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ControlPlaneTagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Filters to be applied to search results.
+    public struct QuickConnectSearchFilter: Swift.Equatable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        )
+        {
+            self.tagFilter = tagFilter
         }
     }
 
@@ -28811,7 +29188,7 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported value for FieldName: name
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -29610,6 +29987,366 @@ extension SearchAvailablePhoneNumbersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension SearchHoursOfOperationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+        if let searchFilter = self.searchFilter {
+            try encodeContainer.encode(searchFilter, forKey: .searchFilter)
+        }
+    }
+}
+
+extension SearchHoursOfOperationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-hours-of-operations"
+    }
+}
+
+public struct SearchHoursOfOperationsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return hours of operations.
+    public var searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+struct SearchHoursOfOperationsInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter?
+    let searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria?
+}
+
+extension SearchHoursOfOperationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let searchFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.HoursOfOperationSearchFilter.self, forKey: .searchFilter)
+        searchFilter = searchFilterDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.HoursOfOperationSearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+    }
+}
+
+public enum SearchHoursOfOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchHoursOfOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchHoursOfOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
+            self.hoursOfOperations = output.hoursOfOperations
+            self.nextToken = output.nextToken
+        } else {
+            self.approximateTotalCount = nil
+            self.hoursOfOperations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct SearchHoursOfOperationsOutputResponse: Swift.Equatable {
+    /// The total number of hours of operations which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// Information about the hours of operations.
+    public var hoursOfOperations: [ConnectClientTypes.HoursOfOperation]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        hoursOfOperations: [ConnectClientTypes.HoursOfOperation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.hoursOfOperations = hoursOfOperations
+        self.nextToken = nextToken
+    }
+}
+
+struct SearchHoursOfOperationsOutputResponseBody: Swift.Equatable {
+    let hoursOfOperations: [ConnectClientTypes.HoursOfOperation]?
+    let nextToken: Swift.String?
+    let approximateTotalCount: Swift.Int?
+}
+
+extension SearchHoursOfOperationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
+        case hoursOfOperations = "HoursOfOperations"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hoursOfOperationsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.HoursOfOperation?].self, forKey: .hoursOfOperations)
+        var hoursOfOperationsDecoded0:[ConnectClientTypes.HoursOfOperation]? = nil
+        if let hoursOfOperationsContainer = hoursOfOperationsContainer {
+            hoursOfOperationsDecoded0 = [ConnectClientTypes.HoursOfOperation]()
+            for structure0 in hoursOfOperationsContainer {
+                if let structure0 = structure0 {
+                    hoursOfOperationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        hoursOfOperations = hoursOfOperationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
+    }
+}
+
+extension SearchPromptsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+        if let searchFilter = self.searchFilter {
+            try encodeContainer.encode(searchFilter, forKey: .searchFilter)
+        }
+    }
+}
+
+extension SearchPromptsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-prompts"
+    }
+}
+
+public struct SearchPromptsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return prompts.
+    public var searchCriteria: ConnectClientTypes.PromptSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.PromptSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.PromptSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.PromptSearchFilter? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+struct SearchPromptsInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let searchFilter: ConnectClientTypes.PromptSearchFilter?
+    let searchCriteria: ConnectClientTypes.PromptSearchCriteria?
+}
+
+extension SearchPromptsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let searchFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PromptSearchFilter.self, forKey: .searchFilter)
+        searchFilter = searchFilterDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PromptSearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+    }
+}
+
+public enum SearchPromptsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchPromptsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchPromptsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
+            self.nextToken = output.nextToken
+            self.prompts = output.prompts
+        } else {
+            self.approximateTotalCount = nil
+            self.nextToken = nil
+            self.prompts = nil
+        }
+    }
+}
+
+public struct SearchPromptsOutputResponse: Swift.Equatable {
+    /// The total number of quick connects which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the prompts.
+    public var prompts: [ConnectClientTypes.Prompt]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        prompts: [ConnectClientTypes.Prompt]? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.prompts = prompts
+    }
+}
+
+struct SearchPromptsOutputResponseBody: Swift.Equatable {
+    let prompts: [ConnectClientTypes.Prompt]?
+    let nextToken: Swift.String?
+    let approximateTotalCount: Swift.Int?
+}
+
+extension SearchPromptsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
+        case nextToken = "NextToken"
+        case prompts = "Prompts"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.Prompt?].self, forKey: .prompts)
+        var promptsDecoded0:[ConnectClientTypes.Prompt]? = nil
+        if let promptsContainer = promptsContainer {
+            promptsDecoded0 = [ConnectClientTypes.Prompt]()
+            for structure0 in promptsContainer {
+                if let structure0 = structure0 {
+                    promptsDecoded0?.append(structure0)
+                }
+            }
+        }
+        prompts = promptsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
+    }
+}
+
 extension SearchQueuesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceId = "InstanceId"
@@ -29783,6 +30520,186 @@ extension SearchQueuesOutputResponseBody: Swift.Decodable {
             }
         }
         queues = queuesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
+    }
+}
+
+extension SearchQuickConnectsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+        if let searchFilter = self.searchFilter {
+            try encodeContainer.encode(searchFilter, forKey: .searchFilter)
+        }
+    }
+}
+
+extension SearchQuickConnectsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-quick-connects"
+    }
+}
+
+public struct SearchQuickConnectsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return quick connects.
+    public var searchCriteria: ConnectClientTypes.QuickConnectSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.QuickConnectSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.QuickConnectSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.QuickConnectSearchFilter? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+struct SearchQuickConnectsInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let searchFilter: ConnectClientTypes.QuickConnectSearchFilter?
+    let searchCriteria: ConnectClientTypes.QuickConnectSearchCriteria?
+}
+
+extension SearchQuickConnectsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case searchFilter = "SearchFilter"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let searchFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.QuickConnectSearchFilter.self, forKey: .searchFilter)
+        searchFilter = searchFilterDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.QuickConnectSearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+    }
+}
+
+public enum SearchQuickConnectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchQuickConnectsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchQuickConnectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
+            self.nextToken = output.nextToken
+            self.quickConnects = output.quickConnects
+        } else {
+            self.approximateTotalCount = nil
+            self.nextToken = nil
+            self.quickConnects = nil
+        }
+    }
+}
+
+public struct SearchQuickConnectsOutputResponse: Swift.Equatable {
+    /// The total number of quick connects which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the quick connects.
+    public var quickConnects: [ConnectClientTypes.QuickConnect]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        quickConnects: [ConnectClientTypes.QuickConnect]? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.quickConnects = quickConnects
+    }
+}
+
+struct SearchQuickConnectsOutputResponseBody: Swift.Equatable {
+    let quickConnects: [ConnectClientTypes.QuickConnect]?
+    let nextToken: Swift.String?
+    let approximateTotalCount: Swift.Int?
+}
+
+extension SearchQuickConnectsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
+        case nextToken = "NextToken"
+        case quickConnects = "QuickConnects"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickConnectsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.QuickConnect?].self, forKey: .quickConnects)
+        var quickConnectsDecoded0:[ConnectClientTypes.QuickConnect]? = nil
+        if let quickConnectsContainer = quickConnectsContainer {
+            quickConnectsDecoded0 = [ConnectClientTypes.QuickConnect]()
+            for structure0 in quickConnectsContainer {
+                if let structure0 = structure0 {
+                    quickConnectsDecoded0?.append(structure0)
+                }
+            }
+        }
+        quickConnects = quickConnectsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
         let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
@@ -30792,7 +31709,7 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported value for FieldName: name
+        /// A leaf node condition which can be used to specify a string condition.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -32867,7 +33784,7 @@ extension ConnectClientTypes.StringCondition: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// A leaf node condition which can be used to specify a string condition. The currently supported value for FieldName: name
+    /// A leaf node condition which can be used to specify a string condition.
     public struct StringCondition: Swift.Equatable {
         /// The type of comparison to be made when evaluating the string condition.
         public var comparisonType: ConnectClientTypes.StringComparisonType?
@@ -40160,7 +41077,7 @@ extension ConnectClientTypes {
         public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.UserSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(

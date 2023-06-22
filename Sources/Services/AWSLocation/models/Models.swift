@@ -1344,6 +1344,7 @@ extension BatchPutGeofenceOutputResponseBody: Swift.Decodable {
 extension LocationClientTypes.BatchPutGeofenceRequestEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case geofenceId = "GeofenceId"
+        case geofenceProperties = "GeofenceProperties"
         case geometry = "Geometry"
     }
 
@@ -1351,6 +1352,12 @@ extension LocationClientTypes.BatchPutGeofenceRequestEntry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let geofenceId = self.geofenceId {
             try encodeContainer.encode(geofenceId, forKey: .geofenceId)
+        }
+        if let geofenceProperties = geofenceProperties {
+            var geofencePropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .geofenceProperties)
+            for (dictKey0, propertyMap0) in geofenceProperties {
+                try geofencePropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let geometry = self.geometry {
             try encodeContainer.encode(geometry, forKey: .geometry)
@@ -1363,7 +1370,23 @@ extension LocationClientTypes.BatchPutGeofenceRequestEntry: Swift.Codable {
         geofenceId = geofenceIdDecoded
         let geometryDecoded = try containerValues.decodeIfPresent(LocationClientTypes.GeofenceGeometry.self, forKey: .geometry)
         geometry = geometryDecoded
+        let geofencePropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .geofenceProperties)
+        var geofencePropertiesDecoded0: [Swift.String:Swift.String]? = nil
+        if let geofencePropertiesContainer = geofencePropertiesContainer {
+            geofencePropertiesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in geofencePropertiesContainer {
+                if let string0 = string0 {
+                    geofencePropertiesDecoded0?[key0] = string0
+                }
+            }
+        }
+        geofenceProperties = geofencePropertiesDecoded0
     }
+}
+
+extension LocationClientTypes.BatchPutGeofenceRequestEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchPutGeofenceRequestEntry(geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), geofenceProperties: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1372,16 +1395,20 @@ extension LocationClientTypes {
         /// The identifier for the geofence to be stored in a given geofence collection.
         /// This member is required.
         public var geofenceId: Swift.String?
+        /// Specifies additional user-defined properties to store with the Geofence. An array of key-value pairs.
+        public var geofenceProperties: [Swift.String:Swift.String]?
         /// Contains the details of the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
         /// This member is required.
         public var geometry: LocationClientTypes.GeofenceGeometry?
 
         public init(
             geofenceId: Swift.String? = nil,
+            geofenceProperties: [Swift.String:Swift.String]? = nil,
             geometry: LocationClientTypes.GeofenceGeometry? = nil
         )
         {
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
         }
     }
@@ -1533,7 +1560,7 @@ public struct BatchUpdateDevicePositionInput: Swift.Equatable {
     /// The name of the tracker resource to update.
     /// This member is required.
     public var trackerName: Swift.String?
-    /// Contains the position update details for each device.
+    /// Contains the position update details for each device, up to 10 devices.
     /// This member is required.
     public var updates: [LocationClientTypes.DevicePositionUpdate]?
 
@@ -6458,6 +6485,11 @@ public enum GetGeofenceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetGeofenceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetGeofenceOutputResponse(createTime: \(Swift.String(describing: createTime)), geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), updateTime: \(Swift.String(describing: updateTime)), geofenceProperties: \"CONTENT_REDACTED\")"}
+}
+
 extension GetGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6465,12 +6497,14 @@ extension GetGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.geofenceId = output.geofenceId
+            self.geofenceProperties = output.geofenceProperties
             self.geometry = output.geometry
             self.status = output.status
             self.updateTime = output.updateTime
         } else {
             self.createTime = nil
             self.geofenceId = nil
+            self.geofenceProperties = nil
             self.geometry = nil
             self.status = nil
             self.updateTime = nil
@@ -6485,6 +6519,8 @@ public struct GetGeofenceOutputResponse: Swift.Equatable {
     /// The geofence identifier.
     /// This member is required.
     public var geofenceId: Swift.String?
+    /// Contains additional user-defined properties stored with the geofence. An array of key-value pairs.
+    public var geofenceProperties: [Swift.String:Swift.String]?
     /// Contains the geofence geometry details describing a polygon or a circle.
     /// This member is required.
     public var geometry: LocationClientTypes.GeofenceGeometry?
@@ -6508,6 +6544,7 @@ public struct GetGeofenceOutputResponse: Swift.Equatable {
     public init(
         createTime: ClientRuntime.Date? = nil,
         geofenceId: Swift.String? = nil,
+        geofenceProperties: [Swift.String:Swift.String]? = nil,
         geometry: LocationClientTypes.GeofenceGeometry? = nil,
         status: Swift.String? = nil,
         updateTime: ClientRuntime.Date? = nil
@@ -6515,6 +6552,7 @@ public struct GetGeofenceOutputResponse: Swift.Equatable {
     {
         self.createTime = createTime
         self.geofenceId = geofenceId
+        self.geofenceProperties = geofenceProperties
         self.geometry = geometry
         self.status = status
         self.updateTime = updateTime
@@ -6527,12 +6565,14 @@ struct GetGeofenceOutputResponseBody: Swift.Equatable {
     let status: Swift.String?
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
+    let geofenceProperties: [Swift.String:Swift.String]?
 }
 
 extension GetGeofenceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
         case geofenceId = "GeofenceId"
+        case geofenceProperties = "GeofenceProperties"
         case geometry = "Geometry"
         case status = "Status"
         case updateTime = "UpdateTime"
@@ -6550,6 +6590,17 @@ extension GetGeofenceOutputResponseBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
+        let geofencePropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .geofenceProperties)
+        var geofencePropertiesDecoded0: [Swift.String:Swift.String]? = nil
+        if let geofencePropertiesContainer = geofencePropertiesContainer {
+            geofencePropertiesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in geofencePropertiesContainer {
+                if let string0 = string0 {
+                    geofencePropertiesDecoded0?[key0] = string0
+                }
+            }
+        }
+        geofenceProperties = geofencePropertiesDecoded0
     }
 }
 
@@ -8033,6 +8084,7 @@ extension LocationClientTypes.ListGeofenceResponseEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
         case geofenceId = "GeofenceId"
+        case geofenceProperties = "GeofenceProperties"
         case geometry = "Geometry"
         case status = "Status"
         case updateTime = "UpdateTime"
@@ -8045,6 +8097,12 @@ extension LocationClientTypes.ListGeofenceResponseEntry: Swift.Codable {
         }
         if let geofenceId = self.geofenceId {
             try encodeContainer.encode(geofenceId, forKey: .geofenceId)
+        }
+        if let geofenceProperties = geofenceProperties {
+            var geofencePropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .geofenceProperties)
+            for (dictKey0, propertyMap0) in geofenceProperties {
+                try geofencePropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let geometry = self.geometry {
             try encodeContainer.encode(geometry, forKey: .geometry)
@@ -8069,7 +8127,23 @@ extension LocationClientTypes.ListGeofenceResponseEntry: Swift.Codable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
+        let geofencePropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .geofenceProperties)
+        var geofencePropertiesDecoded0: [Swift.String:Swift.String]? = nil
+        if let geofencePropertiesContainer = geofencePropertiesContainer {
+            geofencePropertiesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in geofencePropertiesContainer {
+                if let string0 = string0 {
+                    geofencePropertiesDecoded0?[key0] = string0
+                }
+            }
+        }
+        geofenceProperties = geofencePropertiesDecoded0
     }
+}
+
+extension LocationClientTypes.ListGeofenceResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListGeofenceResponseEntry(createTime: \(Swift.String(describing: createTime)), geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), updateTime: \(Swift.String(describing: updateTime)), geofenceProperties: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -8081,6 +8155,8 @@ extension LocationClientTypes {
         /// The geofence identifier.
         /// This member is required.
         public var geofenceId: Swift.String?
+        /// Contains additional user-defined properties stored with the geofence. An array of key-value pairs.
+        public var geofenceProperties: [Swift.String:Swift.String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         /// This member is required.
         public var geometry: LocationClientTypes.GeofenceGeometry?
@@ -8104,6 +8180,7 @@ extension LocationClientTypes {
         public init(
             createTime: ClientRuntime.Date? = nil,
             geofenceId: Swift.String? = nil,
+            geofenceProperties: [Swift.String:Swift.String]? = nil,
             geometry: LocationClientTypes.GeofenceGeometry? = nil,
             status: Swift.String? = nil,
             updateTime: ClientRuntime.Date? = nil
@@ -8111,6 +8188,7 @@ extension LocationClientTypes {
         {
             self.createTime = createTime
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
             self.status = status
             self.updateTime = updateTime
@@ -9782,6 +9860,7 @@ extension LocationClientTypes {
 extension LocationClientTypes.Place: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressNumber = "AddressNumber"
+        case categories = "Categories"
         case country = "Country"
         case geometry = "Geometry"
         case interpolated = "Interpolated"
@@ -9792,6 +9871,7 @@ extension LocationClientTypes.Place: Swift.Codable {
         case region = "Region"
         case street = "Street"
         case subRegion = "SubRegion"
+        case supplementalCategories = "SupplementalCategories"
         case timeZone = "TimeZone"
         case unitNumber = "UnitNumber"
         case unitType = "UnitType"
@@ -9801,6 +9881,12 @@ extension LocationClientTypes.Place: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addressNumber = self.addressNumber {
             try encodeContainer.encode(addressNumber, forKey: .addressNumber)
+        }
+        if let categories = categories {
+            var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
+            for placecategory0 in categories {
+                try categoriesContainer.encode(placecategory0)
+            }
         }
         if let country = self.country {
             try encodeContainer.encode(country, forKey: .country)
@@ -9831,6 +9917,12 @@ extension LocationClientTypes.Place: Swift.Codable {
         }
         if let subRegion = self.subRegion {
             try encodeContainer.encode(subRegion, forKey: .subRegion)
+        }
+        if let supplementalCategories = supplementalCategories {
+            var supplementalCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supplementalCategories)
+            for placesupplementalcategory0 in supplementalCategories {
+                try supplementalCategoriesContainer.encode(placesupplementalcategory0)
+            }
         }
         if let timeZone = self.timeZone {
             try encodeContainer.encode(timeZone, forKey: .timeZone)
@@ -9873,6 +9965,28 @@ extension LocationClientTypes.Place: Swift.Codable {
         unitType = unitTypeDecoded
         let unitNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unitNumber)
         unitNumber = unitNumberDecoded
+        let categoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .categories)
+        var categoriesDecoded0:[Swift.String]? = nil
+        if let categoriesContainer = categoriesContainer {
+            categoriesDecoded0 = [Swift.String]()
+            for string0 in categoriesContainer {
+                if let string0 = string0 {
+                    categoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        categories = categoriesDecoded0
+        let supplementalCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .supplementalCategories)
+        var supplementalCategoriesDecoded0:[Swift.String]? = nil
+        if let supplementalCategoriesContainer = supplementalCategoriesContainer {
+            supplementalCategoriesDecoded0 = [Swift.String]()
+            for string0 in supplementalCategoriesContainer {
+                if let string0 = string0 {
+                    supplementalCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        supplementalCategories = supplementalCategoriesDecoded0
     }
 }
 
@@ -9881,6 +9995,8 @@ extension LocationClientTypes {
     public struct Place: Swift.Equatable {
         /// The numerical portion of an address, such as a building number.
         public var addressNumber: Swift.String?
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+        public var categories: [Swift.String]?
         /// A country/region specified using [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-digit country/region code. For example, CAN.
         public var country: Swift.String?
         /// Places uses a point geometry to specify a location or a Place.
@@ -9902,15 +10018,18 @@ extension LocationClientTypes {
         public var street: Swift.String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?
-        /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public var supplementalCategories: [Swift.String]?
+        /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public var timeZone: LocationClientTypes.TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. Returned only for a place index that uses Esri as a data provider. Is not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. Returned only for a place index that uses Esri or Grab as a data provider. Is not returned for SearchPlaceIndexForPosition.
         public var unitNumber: Swift.String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment. Returned only for a place index that uses Esri as a data provider.
         public var unitType: Swift.String?
 
         public init(
             addressNumber: Swift.String? = nil,
+            categories: [Swift.String]? = nil,
             country: Swift.String? = nil,
             geometry: LocationClientTypes.PlaceGeometry? = nil,
             interpolated: Swift.Bool? = nil,
@@ -9921,12 +10040,14 @@ extension LocationClientTypes {
             region: Swift.String? = nil,
             street: Swift.String? = nil,
             subRegion: Swift.String? = nil,
+            supplementalCategories: [Swift.String]? = nil,
             timeZone: LocationClientTypes.TimeZone? = nil,
             unitNumber: Swift.String? = nil,
             unitType: Swift.String? = nil
         )
         {
             self.addressNumber = addressNumber
+            self.categories = categories
             self.country = country
             self.geometry = geometry
             self.interpolated = interpolated
@@ -9937,6 +10058,7 @@ extension LocationClientTypes {
             self.region = region
             self.street = street
             self.subRegion = subRegion
+            self.supplementalCategories = supplementalCategories
             self.timeZone = timeZone
             self.unitNumber = unitNumber
             self.unitType = unitType
@@ -10113,13 +10235,25 @@ extension LocationClientTypes {
     }
 }
 
+extension PutGeofenceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutGeofenceInput(collectionName: \(Swift.String(describing: collectionName)), geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), geofenceProperties: \"CONTENT_REDACTED\")"}
+}
+
 extension PutGeofenceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geofenceProperties = "GeofenceProperties"
         case geometry = "Geometry"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geofenceProperties = geofenceProperties {
+            var geofencePropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .geofenceProperties)
+            for (dictKey0, propertyMap0) in geofenceProperties {
+                try geofencePropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let geometry = self.geometry {
             try encodeContainer.encode(geometry, forKey: .geometry)
         }
@@ -10145,6 +10279,8 @@ public struct PutGeofenceInput: Swift.Equatable {
     /// An identifier for the geofence. For example, ExampleGeofence-1.
     /// This member is required.
     public var geofenceId: Swift.String?
+    /// Specifies additional user-defined properties to store with the Geofence. An array of key-value pairs.
+    public var geofenceProperties: [Swift.String:Swift.String]?
     /// Contains the details to specify the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
     /// This member is required.
     public var geometry: LocationClientTypes.GeofenceGeometry?
@@ -10152,21 +10288,25 @@ public struct PutGeofenceInput: Swift.Equatable {
     public init(
         collectionName: Swift.String? = nil,
         geofenceId: Swift.String? = nil,
+        geofenceProperties: [Swift.String:Swift.String]? = nil,
         geometry: LocationClientTypes.GeofenceGeometry? = nil
     )
     {
         self.collectionName = collectionName
         self.geofenceId = geofenceId
+        self.geofenceProperties = geofenceProperties
         self.geometry = geometry
     }
 }
 
 struct PutGeofenceInputBody: Swift.Equatable {
     let geometry: LocationClientTypes.GeofenceGeometry?
+    let geofenceProperties: [Swift.String:Swift.String]?
 }
 
 extension PutGeofenceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geofenceProperties = "GeofenceProperties"
         case geometry = "Geometry"
     }
 
@@ -10174,6 +10314,17 @@ extension PutGeofenceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let geometryDecoded = try containerValues.decodeIfPresent(LocationClientTypes.GeofenceGeometry.self, forKey: .geometry)
         geometry = geometryDecoded
+        let geofencePropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .geofenceProperties)
+        var geofencePropertiesDecoded0: [Swift.String:Swift.String]? = nil
+        if let geofencePropertiesContainer = geofencePropertiesContainer {
+            geofencePropertiesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in geofencePropertiesContainer {
+                if let string0 = string0 {
+                    geofencePropertiesDecoded0?[key0] = string0
+                }
+            }
+        }
+        geofenceProperties = geofencePropertiesDecoded0
     }
 }
 
@@ -10543,14 +10694,28 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchForSuggestionsResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categories = "Categories"
         case placeId = "PlaceId"
+        case supplementalCategories = "SupplementalCategories"
         case text = "Text"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categories = categories {
+            var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
+            for placecategory0 in categories {
+                try categoriesContainer.encode(placecategory0)
+            }
+        }
         if let placeId = self.placeId {
             try encodeContainer.encode(placeId, forKey: .placeId)
+        }
+        if let supplementalCategories = supplementalCategories {
+            var supplementalCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supplementalCategories)
+            for placesupplementalcategory0 in supplementalCategories {
+                try supplementalCategoriesContainer.encode(placesupplementalcategory0)
+            }
         }
         if let text = self.text {
             try encodeContainer.encode(text, forKey: .text)
@@ -10563,24 +10728,54 @@ extension LocationClientTypes.SearchForSuggestionsResult: Swift.Codable {
         text = textDecoded
         let placeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .placeId)
         placeId = placeIdDecoded
+        let categoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .categories)
+        var categoriesDecoded0:[Swift.String]? = nil
+        if let categoriesContainer = categoriesContainer {
+            categoriesDecoded0 = [Swift.String]()
+            for string0 in categoriesContainer {
+                if let string0 = string0 {
+                    categoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        categories = categoriesDecoded0
+        let supplementalCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .supplementalCategories)
+        var supplementalCategoriesDecoded0:[Swift.String]? = nil
+        if let supplementalCategoriesContainer = supplementalCategoriesContainer {
+            supplementalCategoriesDecoded0 = [Swift.String]()
+            for string0 in supplementalCategoriesContainer {
+                if let string0 = string0 {
+                    supplementalCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        supplementalCategories = supplementalCategoriesDecoded0
     }
 }
 
 extension LocationClientTypes {
     /// Contains a place suggestion resulting from a place suggestion query that is run on a place index resource.
     public struct SearchForSuggestionsResult: Swift.Equatable {
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+        public var categories: [Swift.String]?
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public var placeId: Swift.String?
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public var supplementalCategories: [Swift.String]?
         /// The text of the place suggestion, typically formatted as an address string.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            categories: [Swift.String]? = nil,
             placeId: Swift.String? = nil,
+            supplementalCategories: [Swift.String]? = nil,
             text: Swift.String? = nil
         )
         {
+            self.categories = categories
             self.placeId = placeId
+            self.supplementalCategories = supplementalCategories
             self.text = text
         }
     }
@@ -10921,13 +11116,14 @@ extension LocationClientTypes {
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsInput(filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case biasPosition = "BiasPosition"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -10946,6 +11142,12 @@ extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
             for double0 in filterBBox {
                 try filterBBoxContainer.encode(double0)
+            }
+        }
+        if let filterCategories = filterCategories {
+            var filterCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCategories)
+            for placecategory0 in filterCategories {
+                try filterCategoriesContainer.encode(placecategory0)
             }
         }
         if let filterCountries = filterCountries {
@@ -10980,6 +11182,8 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
     public var biasPosition: [Swift.Double]?
     /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542. FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
     public var filterBBox: [Swift.Double]?
+    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+    public var filterCategories: [Swift.String]?
     /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.
     ///
     /// * Use the [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-digit country code. For example, Australia uses three upper-case characters: AUS.
@@ -10998,6 +11202,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
     public init(
         biasPosition: [Swift.Double]? = nil,
         filterBBox: [Swift.Double]? = nil,
+        filterCategories: [Swift.String]? = nil,
         filterCountries: [Swift.String]? = nil,
         indexName: Swift.String? = nil,
         language: Swift.String? = nil,
@@ -11007,6 +11212,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
     {
         self.biasPosition = biasPosition
         self.filterBBox = filterBBox
+        self.filterCategories = filterCategories
         self.filterCountries = filterCountries
         self.indexName = indexName
         self.language = language
@@ -11022,12 +11228,14 @@ struct SearchPlaceIndexForSuggestionsInputBody: Swift.Equatable {
     let filterCountries: [Swift.String]?
     let maxResults: Swift.Int?
     let language: Swift.String?
+    let filterCategories: [Swift.String]?
 }
 
 extension SearchPlaceIndexForSuggestionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case biasPosition = "BiasPosition"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -11075,6 +11283,17 @@ extension SearchPlaceIndexForSuggestionsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
+        let filterCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterCategories)
+        var filterCategoriesDecoded0:[Swift.String]? = nil
+        if let filterCategoriesContainer = filterCategoriesContainer {
+            filterCategoriesDecoded0 = [Swift.String]()
+            for string0 in filterCategoriesContainer {
+                if let string0 = string0 {
+                    filterCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        filterCategories = filterCategoriesDecoded0
     }
 }
 
@@ -11159,6 +11378,7 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Codab
         case biasPosition = "BiasPosition"
         case dataSource = "DataSource"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -11180,6 +11400,12 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Codab
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
             for double0 in filterBBox {
                 try filterBBoxContainer.encode(double0)
+            }
+        }
+        if let filterCategories = filterCategories {
+            var filterCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCategories)
+            for placecategory0 in filterCategories {
+                try filterCategoriesContainer.encode(placecategory0)
             }
         }
         if let filterCountries = filterCountries {
@@ -11242,12 +11468,23 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Codab
         dataSource = dataSourceDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
+        let filterCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterCategories)
+        var filterCategoriesDecoded0:[Swift.String]? = nil
+        if let filterCategoriesContainer = filterCategoriesContainer {
+            filterCategoriesDecoded0 = [Swift.String]()
+            for string0 in filterCategoriesContainer {
+                if let string0 = string0 {
+                    filterCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        filterCategories = filterCategoriesDecoded0
     }
 }
 
 extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -11269,6 +11506,8 @@ extension LocationClientTypes {
         public var dataSource: Swift.String?
         /// Contains the coordinates for the optional bounding box specified in the request.
         public var filterBBox: [Swift.Double]?
+        /// The optional category filter specified in the request.
+        public var filterCategories: [Swift.String]?
         /// Contains the optional country filter specified in the request.
         public var filterCountries: [Swift.String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English.
@@ -11283,6 +11522,7 @@ extension LocationClientTypes {
             biasPosition: [Swift.Double]? = nil,
             dataSource: Swift.String? = nil,
             filterBBox: [Swift.Double]? = nil,
+            filterCategories: [Swift.String]? = nil,
             filterCountries: [Swift.String]? = nil,
             language: Swift.String? = nil,
             maxResults: Swift.Int? = nil,
@@ -11292,6 +11532,7 @@ extension LocationClientTypes {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults
@@ -11303,13 +11544,14 @@ extension LocationClientTypes {
 
 extension SearchPlaceIndexForTextInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextInput(filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension SearchPlaceIndexForTextInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case biasPosition = "BiasPosition"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -11328,6 +11570,12 @@ extension SearchPlaceIndexForTextInput: Swift.Encodable {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
             for double0 in filterBBox {
                 try filterBBoxContainer.encode(double0)
+            }
+        }
+        if let filterCategories = filterCategories {
+            var filterCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCategories)
+            for placecategory0 in filterCategories {
+                try filterCategoriesContainer.encode(placecategory0)
             }
         }
         if let filterCountries = filterCountries {
@@ -11362,6 +11610,8 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
     public var biasPosition: [Swift.Double]?
     /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542. FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
     public var filterBBox: [Swift.Double]?
+    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+    public var filterCategories: [Swift.String]?
     /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.
     ///
     /// * Valid values include [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
@@ -11380,6 +11630,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
     public init(
         biasPosition: [Swift.Double]? = nil,
         filterBBox: [Swift.Double]? = nil,
+        filterCategories: [Swift.String]? = nil,
         filterCountries: [Swift.String]? = nil,
         indexName: Swift.String? = nil,
         language: Swift.String? = nil,
@@ -11389,6 +11640,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
     {
         self.biasPosition = biasPosition
         self.filterBBox = filterBBox
+        self.filterCategories = filterCategories
         self.filterCountries = filterCountries
         self.indexName = indexName
         self.language = language
@@ -11404,12 +11656,14 @@ struct SearchPlaceIndexForTextInputBody: Swift.Equatable {
     let filterCountries: [Swift.String]?
     let maxResults: Swift.Int
     let language: Swift.String?
+    let filterCategories: [Swift.String]?
 }
 
 extension SearchPlaceIndexForTextInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case biasPosition = "BiasPosition"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -11457,6 +11711,17 @@ extension SearchPlaceIndexForTextInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
+        let filterCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterCategories)
+        var filterCategoriesDecoded0:[Swift.String]? = nil
+        if let filterCategoriesContainer = filterCategoriesContainer {
+            filterCategoriesDecoded0 = [Swift.String]()
+            for string0 in filterCategoriesContainer {
+                if let string0 = string0 {
+                    filterCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        filterCategories = filterCategoriesDecoded0
     }
 }
 
@@ -11541,6 +11806,7 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         case biasPosition = "BiasPosition"
         case dataSource = "DataSource"
         case filterBBox = "FilterBBox"
+        case filterCategories = "FilterCategories"
         case filterCountries = "FilterCountries"
         case language = "Language"
         case maxResults = "MaxResults"
@@ -11563,6 +11829,12 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
             for double0 in filterBBox {
                 try filterBBoxContainer.encode(double0)
+            }
+        }
+        if let filterCategories = filterCategories {
+            var filterCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCategories)
+            for placecategory0 in filterCategories {
+                try filterCategoriesContainer.encode(placecategory0)
             }
         }
         if let filterCountries = filterCountries {
@@ -11642,12 +11914,23 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         dataSource = dataSourceDecoded
         let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
         language = languageDecoded
+        let filterCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .filterCategories)
+        var filterCategoriesDecoded0:[Swift.String]? = nil
+        if let filterCategoriesContainer = filterCategoriesContainer {
+            filterCategoriesDecoded0 = [Swift.String]()
+            for string0 in filterCategoriesContainer {
+                if let string0 = string0 {
+                    filterCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        filterCategories = filterCategoriesDecoded0
     }
 }
 
 extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -11669,6 +11952,8 @@ extension LocationClientTypes {
         public var dataSource: Swift.String?
         /// Contains the coordinates for the optional bounding box specified in the request.
         public var filterBBox: [Swift.Double]?
+        /// The optional category filter specified in the request.
+        public var filterCategories: [Swift.String]?
         /// Contains the optional country filter specified in the request.
         public var filterCountries: [Swift.String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English.
@@ -11685,6 +11970,7 @@ extension LocationClientTypes {
             biasPosition: [Swift.Double]? = nil,
             dataSource: Swift.String? = nil,
             filterBBox: [Swift.Double]? = nil,
+            filterCategories: [Swift.String]? = nil,
             filterCountries: [Swift.String]? = nil,
             language: Swift.String? = nil,
             maxResults: Swift.Int = 0,
@@ -11695,6 +11981,7 @@ extension LocationClientTypes {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults

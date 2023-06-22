@@ -101,6 +101,129 @@ extension DrsClientTypes {
 
 }
 
+extension AssociateSourceNetworkStackInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssociateSourceNetworkStackInput(sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), cfnStackName: \"CONTENT_REDACTED\")"}
+}
+
+extension AssociateSourceNetworkStackInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cfnStackName
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cfnStackName = self.cfnStackName {
+            try encodeContainer.encode(cfnStackName, forKey: .cfnStackName)
+        }
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+}
+
+extension AssociateSourceNetworkStackInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/AssociateSourceNetworkStack"
+    }
+}
+
+public struct AssociateSourceNetworkStackInput: Swift.Equatable {
+    /// CloudFormation template to associate with a Source Network.
+    /// This member is required.
+    public var cfnStackName: Swift.String?
+    /// The Source Network ID to associate with CloudFormation template.
+    /// This member is required.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        cfnStackName: Swift.String? = nil,
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.cfnStackName = cfnStackName
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct AssociateSourceNetworkStackInputBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+    let cfnStackName: Swift.String?
+}
+
+extension AssociateSourceNetworkStackInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cfnStackName
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+        let cfnStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cfnStackName)
+        cfnStackName = cfnStackNameDecoded
+    }
+}
+
+public enum AssociateSourceNetworkStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateSourceNetworkStackOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateSourceNetworkStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.job = output.job
+        } else {
+            self.job = nil
+        }
+    }
+}
+
+public struct AssociateSourceNetworkStackOutputResponse: Swift.Equatable {
+    /// The Source Network association Job.
+    public var job: DrsClientTypes.Job?
+
+    public init(
+        job: DrsClientTypes.Job? = nil
+    )
+    {
+        self.job = job
+    }
+}
+
+struct AssociateSourceNetworkStackOutputResponseBody: Swift.Equatable {
+    let job: DrsClientTypes.Job?
+}
+
+extension AssociateSourceNetworkStackOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case job
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Job.self, forKey: .job)
+        job = jobDecoded
+    }
+}
+
 extension DrsClientTypes.CPU: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cores
@@ -475,13 +598,14 @@ extension CreateExtendedSourceServerOutputResponseBody: Swift.Decodable {
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyPrivateIp
         case copyTags
+        case exportBucketArn
         case launchDisposition
         case licensing
         case tags
@@ -495,6 +619,9 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let copyTags = self.copyTags {
             try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let exportBucketArn = self.exportBucketArn {
+            try encodeContainer.encode(exportBucketArn, forKey: .exportBucketArn)
         }
         if let launchDisposition = self.launchDisposition {
             try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
@@ -525,6 +652,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var copyPrivateIp: Swift.Bool?
     /// Copy tags.
     public var copyTags: Swift.Bool?
+    /// S3 bucket ARN to export Source Network templates.
+    public var exportBucketArn: Swift.String?
     /// Launch disposition.
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
     /// Licensing.
@@ -537,6 +666,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     public init(
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
+        exportBucketArn: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -545,6 +675,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
+        self.exportBucketArn = exportBucketArn
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.tags = tags
@@ -559,12 +690,14 @@ struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let copyPrivateIp: Swift.Bool?
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
+    let exportBucketArn: Swift.String?
 }
 
 extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyPrivateIp
         case copyTags
+        case exportBucketArn
         case launchDisposition
         case licensing
         case tags
@@ -594,6 +727,8 @@ extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
+        exportBucketArn = exportBucketArnDecoded
     }
 }
 
@@ -1188,6 +1323,166 @@ extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
         pitPolicy = pitPolicyDecoded0
         let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
         autoReplicateNewDisks = autoReplicateNewDisksDecoded
+    }
+}
+
+extension CreateSourceNetworkInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSourceNetworkInput(originAccountID: \(Swift.String(describing: originAccountID)), originRegion: \(Swift.String(describing: originRegion)), vpcID: \(Swift.String(describing: vpcID)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateSourceNetworkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originAccountID
+        case originRegion
+        case tags
+        case vpcID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let originAccountID = self.originAccountID {
+            try encodeContainer.encode(originAccountID, forKey: .originAccountID)
+        }
+        if let originRegion = self.originRegion {
+            try encodeContainer.encode(originRegion, forKey: .originRegion)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let vpcID = self.vpcID {
+            try encodeContainer.encode(vpcID, forKey: .vpcID)
+        }
+    }
+}
+
+extension CreateSourceNetworkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateSourceNetwork"
+    }
+}
+
+public struct CreateSourceNetworkInput: Swift.Equatable {
+    /// Account containing the VPC to protect.
+    /// This member is required.
+    public var originAccountID: Swift.String?
+    /// Region containing the VPC to protect.
+    /// This member is required.
+    public var originRegion: Swift.String?
+    /// A set of tags to be associated with the Source Network resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// Which VPC ID to protect.
+    /// This member is required.
+    public var vpcID: Swift.String?
+
+    public init(
+        originAccountID: Swift.String? = nil,
+        originRegion: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        vpcID: Swift.String? = nil
+    )
+    {
+        self.originAccountID = originAccountID
+        self.originRegion = originRegion
+        self.tags = tags
+        self.vpcID = vpcID
+    }
+}
+
+struct CreateSourceNetworkInputBody: Swift.Equatable {
+    let vpcID: Swift.String?
+    let originAccountID: Swift.String?
+    let originRegion: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateSourceNetworkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originAccountID
+        case originRegion
+        case tags
+        case vpcID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcID)
+        vpcID = vpcIDDecoded
+        let originAccountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAccountID)
+        originAccountID = originAccountIDDecoded
+        let originRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originRegion)
+        originRegion = originRegionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateSourceNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateSourceNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSourceNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sourceNetworkID = output.sourceNetworkID
+        } else {
+            self.sourceNetworkID = nil
+        }
+    }
+}
+
+public struct CreateSourceNetworkOutputResponse: Swift.Equatable {
+    /// ID of the created Source Network.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct CreateSourceNetworkOutputResponseBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+}
+
+extension CreateSourceNetworkOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
     }
 }
 
@@ -2042,6 +2337,79 @@ extension DeleteReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
 }
 
 public struct DeleteReplicationConfigurationTemplateOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteSourceNetworkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+}
+
+extension DeleteSourceNetworkInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteSourceNetwork"
+    }
+}
+
+public struct DeleteSourceNetworkInput: Swift.Equatable {
+    /// ID of the Source Network to delete.
+    /// This member is required.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct DeleteSourceNetworkInputBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+}
+
+extension DeleteSourceNetworkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+    }
+}
+
+public enum DeleteSourceNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSourceNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSourceNetworkOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -3217,6 +3585,217 @@ extension DescribeReplicationConfigurationTemplatesOutputResponseBody: Swift.Dec
     }
 }
 
+extension DescribeSourceNetworksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeSourceNetworksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DescribeSourceNetworks"
+    }
+}
+
+public struct DescribeSourceNetworksInput: Swift.Equatable {
+    /// A set of filters by which to return Source Networks.
+    public var filters: DrsClientTypes.DescribeSourceNetworksRequestFilters?
+    /// Maximum number of Source Networks to retrieve.
+    public var maxResults: Swift.Int?
+    /// The token of the next Source Networks to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: DrsClientTypes.DescribeSourceNetworksRequestFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeSourceNetworksInputBody: Swift.Equatable {
+    let filters: DrsClientTypes.DescribeSourceNetworksRequestFilters?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeSourceNetworksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersDecoded = try containerValues.decodeIfPresent(DrsClientTypes.DescribeSourceNetworksRequestFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum DescribeSourceNetworksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeSourceNetworksOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeSourceNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeSourceNetworksOutputResponse: Swift.Equatable {
+    /// An array of Source Networks.
+    public var items: [DrsClientTypes.SourceNetwork]?
+    /// The token of the next Source Networks to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DrsClientTypes.SourceNetwork]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeSourceNetworksOutputResponseBody: Swift.Equatable {
+    let items: [DrsClientTypes.SourceNetwork]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeSourceNetworksOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([DrsClientTypes.SourceNetwork?].self, forKey: .items)
+        var itemsDecoded0:[DrsClientTypes.SourceNetwork]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [DrsClientTypes.SourceNetwork]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DrsClientTypes.DescribeSourceNetworksRequestFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originAccountID
+        case originRegion
+        case sourceNetworkIDs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let originAccountID = self.originAccountID {
+            try encodeContainer.encode(originAccountID, forKey: .originAccountID)
+        }
+        if let originRegion = self.originRegion {
+            try encodeContainer.encode(originRegion, forKey: .originRegion)
+        }
+        if let sourceNetworkIDs = sourceNetworkIDs {
+            var sourceNetworkIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceNetworkIDs)
+            for sourcenetworkid0 in sourceNetworkIDs {
+                try sourceNetworkIDsContainer.encode(sourcenetworkid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sourceNetworkIDs)
+        var sourceNetworkIDsDecoded0:[Swift.String]? = nil
+        if let sourceNetworkIDsContainer = sourceNetworkIDsContainer {
+            sourceNetworkIDsDecoded0 = [Swift.String]()
+            for string0 in sourceNetworkIDsContainer {
+                if let string0 = string0 {
+                    sourceNetworkIDsDecoded0?.append(string0)
+                }
+            }
+        }
+        sourceNetworkIDs = sourceNetworkIDsDecoded0
+        let originAccountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAccountID)
+        originAccountID = originAccountIDDecoded
+        let originRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originRegion)
+        originRegion = originRegionDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// A set of filters by which to return Source Networks.
+    public struct DescribeSourceNetworksRequestFilters: Swift.Equatable {
+        /// Filter Source Networks by account ID containing the protected VPCs.
+        public var originAccountID: Swift.String?
+        /// Filter Source Networks by the region containing the protected VPCs.
+        public var originRegion: Swift.String?
+        /// An array of Source Network IDs that should be returned. An empty array means all Source Networks.
+        public var sourceNetworkIDs: [Swift.String]?
+
+        public init(
+            originAccountID: Swift.String? = nil,
+            originRegion: Swift.String? = nil,
+            sourceNetworkIDs: [Swift.String]? = nil
+        )
+        {
+            self.originAccountID = originAccountID
+            self.originRegion = originRegion
+            self.sourceNetworkIDs = sourceNetworkIDs
+        }
+    }
+
+}
+
 extension DescribeSourceServersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters
@@ -3579,7 +4158,7 @@ public enum DisconnectSourceServerOutputError: ClientRuntime.HttpResponseErrorBi
 
 extension DisconnectSourceServerOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DisconnectSourceServerOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "DisconnectSourceServerOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3595,6 +4174,7 @@ extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBindin
             self.replicationDirection = output.replicationDirection
             self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
             self.sourceCloudProperties = output.sourceCloudProperties
+            self.sourceNetworkID = output.sourceNetworkID
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.stagingArea = output.stagingArea
@@ -3608,6 +4188,7 @@ extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBindin
             self.replicationDirection = nil
             self.reversedDirectionSourceServerArn = nil
             self.sourceCloudProperties = nil
+            self.sourceNetworkID = nil
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.stagingArea = nil
@@ -3633,6 +4214,8 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
     public var reversedDirectionSourceServerArn: Swift.String?
     /// Source cloud properties of the Source Server.
     public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
+    /// ID of the Source Network which is protecting this Source Server's network.
+    public var sourceNetworkID: Swift.String?
     /// The source properties of the Source Server.
     public var sourceProperties: DrsClientTypes.SourceProperties?
     /// The ID of the Source Server.
@@ -3651,6 +4234,7 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
         replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
         reversedDirectionSourceServerArn: Swift.String? = nil,
         sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
+        sourceNetworkID: Swift.String? = nil,
         sourceProperties: DrsClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -3665,6 +4249,7 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
         self.replicationDirection = replicationDirection
         self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
         self.sourceCloudProperties = sourceCloudProperties
+        self.sourceNetworkID = sourceNetworkID
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.stagingArea = stagingArea
@@ -3685,6 +4270,7 @@ struct DisconnectSourceServerOutputResponseBody: Swift.Equatable {
     let sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
     let replicationDirection: DrsClientTypes.ReplicationDirection?
     let reversedDirectionSourceServerArn: Swift.String?
+    let sourceNetworkID: Swift.String?
 }
 
 extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
@@ -3697,6 +4283,7 @@ extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
         case replicationDirection
         case reversedDirectionSourceServerArn
         case sourceCloudProperties
+        case sourceNetworkID
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -3738,6 +4325,8 @@ extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
         replicationDirection = replicationDirectionDecoded
         let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
     }
 }
 
@@ -3830,6 +4419,147 @@ extension DrsClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = EC2InstanceState(rawValue: rawValue) ?? EC2InstanceState.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension DrsClientTypes.EventResourceData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case sourcenetworkdata = "sourceNetworkData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .sourcenetworkdata(sourcenetworkdata):
+                try container.encode(sourcenetworkdata, forKey: .sourcenetworkdata)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let sourcenetworkdataDecoded = try values.decodeIfPresent(DrsClientTypes.SourceNetworkData.self, forKey: .sourcenetworkdata)
+        if let sourcenetworkdata = sourcenetworkdataDecoded {
+            self = .sourcenetworkdata(sourcenetworkdata)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension DrsClientTypes {
+    /// Properties of resource related to a job event.
+    public enum EventResourceData: Swift.Equatable {
+        /// Source Network properties.
+        case sourcenetworkdata(DrsClientTypes.SourceNetworkData)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ExportSourceNetworkCfnTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+}
+
+extension ExportSourceNetworkCfnTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ExportSourceNetworkCfnTemplate"
+    }
+}
+
+public struct ExportSourceNetworkCfnTemplateInput: Swift.Equatable {
+    /// The Source Network ID to export its CloudFormation template to an S3 bucket.
+    /// This member is required.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct ExportSourceNetworkCfnTemplateInputBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+}
+
+extension ExportSourceNetworkCfnTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+    }
+}
+
+public enum ExportSourceNetworkCfnTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ExportSourceNetworkCfnTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportSourceNetworkCfnTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.s3DestinationUrl = output.s3DestinationUrl
+        } else {
+            self.s3DestinationUrl = nil
+        }
+    }
+}
+
+public struct ExportSourceNetworkCfnTemplateOutputResponse: Swift.Equatable {
+    /// S3 bucket URL where the Source Network CloudFormation template was exported to.
+    public var s3DestinationUrl: Swift.String?
+
+    public init(
+        s3DestinationUrl: Swift.String? = nil
+    )
+    {
+        self.s3DestinationUrl = s3DestinationUrl
+    }
+}
+
+struct ExportSourceNetworkCfnTemplateOutputResponseBody: Swift.Equatable {
+    let s3DestinationUrl: Swift.String?
+}
+
+extension ExportSourceNetworkCfnTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3DestinationUrl
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3DestinationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3DestinationUrl)
+        s3DestinationUrl = s3DestinationUrlDecoded
     }
 }
 
@@ -4756,22 +5486,28 @@ public struct InitializeServiceOutputResponse: Swift.Equatable {
 
 extension DrsClientTypes {
     public enum InitiatedBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associateNetworkRecovery
+        case createNetworkRecovery
         case diagnostic
         case failback
         case startDrill
         case startRecovery
         case targetAccount
         case terminateRecoveryInstances
+        case updateNetworkRecovery
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InitiatedBy] {
             return [
+                .associateNetworkRecovery,
+                .createNetworkRecovery,
                 .diagnostic,
                 .failback,
                 .startDrill,
                 .startRecovery,
                 .targetAccount,
                 .terminateRecoveryInstances,
+                .updateNetworkRecovery,
                 .sdkUnknown("")
             ]
         }
@@ -4781,12 +5517,15 @@ extension DrsClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .associateNetworkRecovery: return "ASSOCIATE_NETWORK_RECOVERY"
+            case .createNetworkRecovery: return "CREATE_NETWORK_RECOVERY"
             case .diagnostic: return "DIAGNOSTIC"
             case .failback: return "FAILBACK"
             case .startDrill: return "START_DRILL"
             case .startRecovery: return "START_RECOVERY"
             case .targetAccount: return "TARGET_ACCOUNT"
             case .terminateRecoveryInstances: return "TERMINATE_RECOVERY_INSTANCES"
+            case .updateNetworkRecovery: return "UPDATE_NETWORK_RECOVERY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4870,6 +5609,7 @@ extension DrsClientTypes.Job: Swift.Codable {
         case endDateTime
         case initiatedBy
         case jobID
+        case participatingResources
         case participatingServers
         case status
         case tags
@@ -4892,6 +5632,12 @@ extension DrsClientTypes.Job: Swift.Codable {
         }
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
+        }
+        if let participatingResources = participatingResources {
+            var participatingResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participatingResources)
+            for participatingresource0 in participatingResources {
+                try participatingResourcesContainer.encode(participatingresource0)
+            }
         }
         if let participatingServers = participatingServers {
             var participatingServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participatingServers)
@@ -4951,12 +5697,23 @@ extension DrsClientTypes.Job: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let participatingResourcesContainer = try containerValues.decodeIfPresent([DrsClientTypes.ParticipatingResource?].self, forKey: .participatingResources)
+        var participatingResourcesDecoded0:[DrsClientTypes.ParticipatingResource]? = nil
+        if let participatingResourcesContainer = participatingResourcesContainer {
+            participatingResourcesDecoded0 = [DrsClientTypes.ParticipatingResource]()
+            for structure0 in participatingResourcesContainer {
+                if let structure0 = structure0 {
+                    participatingResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        participatingResources = participatingResourcesDecoded0
     }
 }
 
 extension DrsClientTypes.Job: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Job(arn: \(Swift.String(describing: arn)), creationDateTime: \(Swift.String(describing: creationDateTime)), endDateTime: \(Swift.String(describing: endDateTime)), initiatedBy: \(Swift.String(describing: initiatedBy)), jobID: \(Swift.String(describing: jobID)), participatingServers: \(Swift.String(describing: participatingServers)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), tags: \"CONTENT_REDACTED\")"}
+        "Job(arn: \(Swift.String(describing: arn)), creationDateTime: \(Swift.String(describing: creationDateTime)), endDateTime: \(Swift.String(describing: endDateTime)), initiatedBy: \(Swift.String(describing: initiatedBy)), jobID: \(Swift.String(describing: jobID)), participatingResources: \(Swift.String(describing: participatingResources)), participatingServers: \(Swift.String(describing: participatingServers)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -4973,6 +5730,8 @@ extension DrsClientTypes {
         /// The ID of the Job.
         /// This member is required.
         public var jobID: Swift.String?
+        /// A list of resources that the Job is acting upon.
+        public var participatingResources: [DrsClientTypes.ParticipatingResource]?
         /// A list of servers that the Job is acting upon.
         public var participatingServers: [DrsClientTypes.ParticipatingServer]?
         /// The status of the Job.
@@ -4988,6 +5747,7 @@ extension DrsClientTypes {
             endDateTime: Swift.String? = nil,
             initiatedBy: DrsClientTypes.InitiatedBy? = nil,
             jobID: Swift.String? = nil,
+            participatingResources: [DrsClientTypes.ParticipatingResource]? = nil,
             participatingServers: [DrsClientTypes.ParticipatingServer]? = nil,
             status: DrsClientTypes.JobStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -4999,6 +5759,7 @@ extension DrsClientTypes {
             self.endDateTime = endDateTime
             self.initiatedBy = initiatedBy
             self.jobID = jobID
+            self.participatingResources = participatingResources
             self.participatingServers = participatingServers
             self.status = status
             self.tags = tags
@@ -5071,15 +5832,25 @@ extension DrsClientTypes {
         case conversionEnd
         case conversionFail
         case conversionStart
+        case deployNetworkConfigurationEnd
+        case deployNetworkConfigurationFailed
+        case deployNetworkConfigurationStart
         case jobCancel
         case jobEnd
         case jobStart
         case launchFailed
         case launchStart
+        case networkRecoveryFail
         case serverSkipped
         case snapshotEnd
         case snapshotFail
         case snapshotStart
+        case updateLaunchTemplateEnd
+        case updateLaunchTemplateFailed
+        case updateLaunchTemplateStart
+        case updateNetworkConfigurationEnd
+        case updateNetworkConfigurationFailed
+        case updateNetworkConfigurationStart
         case usingPreviousSnapshot
         case usingPreviousSnapshotFailed
         case sdkUnknown(Swift.String)
@@ -5092,15 +5863,25 @@ extension DrsClientTypes {
                 .conversionEnd,
                 .conversionFail,
                 .conversionStart,
+                .deployNetworkConfigurationEnd,
+                .deployNetworkConfigurationFailed,
+                .deployNetworkConfigurationStart,
                 .jobCancel,
                 .jobEnd,
                 .jobStart,
                 .launchFailed,
                 .launchStart,
+                .networkRecoveryFail,
                 .serverSkipped,
                 .snapshotEnd,
                 .snapshotFail,
                 .snapshotStart,
+                .updateLaunchTemplateEnd,
+                .updateLaunchTemplateFailed,
+                .updateLaunchTemplateStart,
+                .updateNetworkConfigurationEnd,
+                .updateNetworkConfigurationFailed,
+                .updateNetworkConfigurationStart,
                 .usingPreviousSnapshot,
                 .usingPreviousSnapshotFailed,
                 .sdkUnknown("")
@@ -5118,15 +5899,25 @@ extension DrsClientTypes {
             case .conversionEnd: return "CONVERSION_END"
             case .conversionFail: return "CONVERSION_FAIL"
             case .conversionStart: return "CONVERSION_START"
+            case .deployNetworkConfigurationEnd: return "DEPLOY_NETWORK_CONFIGURATION_END"
+            case .deployNetworkConfigurationFailed: return "DEPLOY_NETWORK_CONFIGURATION_FAILED"
+            case .deployNetworkConfigurationStart: return "DEPLOY_NETWORK_CONFIGURATION_START"
             case .jobCancel: return "JOB_CANCEL"
             case .jobEnd: return "JOB_END"
             case .jobStart: return "JOB_START"
             case .launchFailed: return "LAUNCH_FAILED"
             case .launchStart: return "LAUNCH_START"
+            case .networkRecoveryFail: return "NETWORK_RECOVERY_FAIL"
             case .serverSkipped: return "SERVER_SKIPPED"
             case .snapshotEnd: return "SNAPSHOT_END"
             case .snapshotFail: return "SNAPSHOT_FAIL"
             case .snapshotStart: return "SNAPSHOT_START"
+            case .updateLaunchTemplateEnd: return "UPDATE_LAUNCH_TEMPLATE_END"
+            case .updateLaunchTemplateFailed: return "UPDATE_LAUNCH_TEMPLATE_FAILED"
+            case .updateLaunchTemplateStart: return "UPDATE_LAUNCH_TEMPLATE_START"
+            case .updateNetworkConfigurationEnd: return "UPDATE_NETWORK_CONFIGURATION_END"
+            case .updateNetworkConfigurationFailed: return "UPDATE_NETWORK_CONFIGURATION_FAILED"
+            case .updateNetworkConfigurationStart: return "UPDATE_NETWORK_CONFIGURATION_START"
             case .usingPreviousSnapshot: return "USING_PREVIOUS_SNAPSHOT"
             case .usingPreviousSnapshotFailed: return "USING_PREVIOUS_SNAPSHOT_FAILED"
             case let .sdkUnknown(s): return s
@@ -5144,6 +5935,7 @@ extension DrsClientTypes.JobLogEventData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conversionProperties
         case conversionServerID
+        case eventResourceData
         case rawError
         case sourceServerID
         case targetInstanceID
@@ -5156,6 +5948,9 @@ extension DrsClientTypes.JobLogEventData: Swift.Codable {
         }
         if let conversionServerID = self.conversionServerID {
             try encodeContainer.encode(conversionServerID, forKey: .conversionServerID)
+        }
+        if let eventResourceData = self.eventResourceData {
+            try encodeContainer.encode(eventResourceData, forKey: .eventResourceData)
         }
         if let rawError = self.rawError {
             try encodeContainer.encode(rawError, forKey: .rawError)
@@ -5180,6 +5975,8 @@ extension DrsClientTypes.JobLogEventData: Swift.Codable {
         rawError = rawErrorDecoded
         let conversionPropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ConversionProperties.self, forKey: .conversionProperties)
         conversionProperties = conversionPropertiesDecoded
+        let eventResourceDataDecoded = try containerValues.decodeIfPresent(DrsClientTypes.EventResourceData.self, forKey: .eventResourceData)
+        eventResourceData = eventResourceDataDecoded
     }
 }
 
@@ -5190,6 +5987,8 @@ extension DrsClientTypes {
         public var conversionProperties: DrsClientTypes.ConversionProperties?
         /// The ID of a conversion server.
         public var conversionServerID: Swift.String?
+        /// Properties of resource related to a job event.
+        public var eventResourceData: DrsClientTypes.EventResourceData?
         /// A string representing a job error.
         public var rawError: Swift.String?
         /// The ID of a Source Server.
@@ -5200,6 +5999,7 @@ extension DrsClientTypes {
         public init(
             conversionProperties: DrsClientTypes.ConversionProperties? = nil,
             conversionServerID: Swift.String? = nil,
+            eventResourceData: DrsClientTypes.EventResourceData? = nil,
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
@@ -5207,6 +6007,7 @@ extension DrsClientTypes {
         {
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
+            self.eventResourceData = eventResourceData
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
@@ -5360,6 +6161,7 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         case arn
         case copyPrivateIp
         case copyTags
+        case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
@@ -5377,6 +6179,9 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         }
         if let copyTags = self.copyTags {
             try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let exportBucketArn = self.exportBucketArn {
+            try encodeContainer.encode(exportBucketArn, forKey: .exportBucketArn)
         }
         if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
             try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
@@ -5425,12 +6230,14 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
+        exportBucketArn = exportBucketArnDecoded
     }
 }
 
 extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -5442,6 +6249,8 @@ extension DrsClientTypes {
         public var copyPrivateIp: Swift.Bool?
         /// Copy tags.
         public var copyTags: Swift.Bool?
+        /// S3 bucket ARN to export Source Network templates.
+        public var exportBucketArn: Swift.String?
         /// ID of the Launch Configuration Template.
         public var launchConfigurationTemplateID: Swift.String?
         /// Launch disposition.
@@ -5457,6 +6266,7 @@ extension DrsClientTypes {
             arn: Swift.String? = nil,
             copyPrivateIp: Swift.Bool? = nil,
             copyTags: Swift.Bool? = nil,
+            exportBucketArn: Swift.String? = nil,
             launchConfigurationTemplateID: Swift.String? = nil,
             launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
             licensing: DrsClientTypes.Licensing? = nil,
@@ -5467,6 +6277,7 @@ extension DrsClientTypes {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
+            self.exportBucketArn = exportBucketArn
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
@@ -6373,6 +7184,88 @@ extension DrsClientTypes {
             self = PITPolicyRuleUnits(rawValue: rawValue) ?? PITPolicyRuleUnits.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DrsClientTypes.ParticipatingResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchStatus
+        case participatingResourceID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let launchStatus = self.launchStatus {
+            try encodeContainer.encode(launchStatus.rawValue, forKey: .launchStatus)
+        }
+        if let participatingResourceID = self.participatingResourceID {
+            try encodeContainer.encode(participatingResourceID, forKey: .participatingResourceID)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participatingResourceIDDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ParticipatingResourceID.self, forKey: .participatingResourceID)
+        participatingResourceID = participatingResourceIDDecoded
+        let launchStatusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchStatus.self, forKey: .launchStatus)
+        launchStatus = launchStatusDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Represents a resource participating in an asynchronous Job.
+    public struct ParticipatingResource: Swift.Equatable {
+        /// The launch status of a participating resource.
+        public var launchStatus: DrsClientTypes.LaunchStatus?
+        /// The ID of a participating resource.
+        public var participatingResourceID: DrsClientTypes.ParticipatingResourceID?
+
+        public init(
+            launchStatus: DrsClientTypes.LaunchStatus? = nil,
+            participatingResourceID: DrsClientTypes.ParticipatingResourceID? = nil
+        )
+        {
+            self.launchStatus = launchStatus
+            self.participatingResourceID = participatingResourceID
+        }
+    }
+
+}
+
+extension DrsClientTypes.ParticipatingResourceID: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case sourcenetworkid = "sourceNetworkID"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .sourcenetworkid(sourcenetworkid):
+                try container.encode(sourcenetworkid, forKey: .sourcenetworkid)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let sourcenetworkidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .sourcenetworkid)
+        if let sourcenetworkid = sourcenetworkidDecoded {
+            self = .sourcenetworkid(sourcenetworkid)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension DrsClientTypes {
+    /// ID of a resource participating in an asynchronous Job.
+    public enum ParticipatingResourceID: Swift.Equatable {
+        /// Source Network ID.
+        case sourcenetworkid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension DrsClientTypes.ParticipatingServer: Swift.Codable {
@@ -7435,6 +8328,108 @@ extension DrsClientTypes {
 
 }
 
+extension DrsClientTypes.RecoveryLifeCycle: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiCallDateTime
+        case jobID
+        case lastRecoveryResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiCallDateTime = self.apiCallDateTime {
+            try encodeContainer.encodeTimestamp(apiCallDateTime, format: .dateTime, forKey: .apiCallDateTime)
+        }
+        if let jobID = self.jobID {
+            try encodeContainer.encode(jobID, forKey: .jobID)
+        }
+        if let lastRecoveryResult = self.lastRecoveryResult {
+            try encodeContainer.encode(lastRecoveryResult.rawValue, forKey: .lastRecoveryResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apiCallDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .apiCallDateTime)
+        apiCallDateTime = apiCallDateTimeDecoded
+        let jobIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobID)
+        jobID = jobIDDecoded
+        let lastRecoveryResultDecoded = try containerValues.decodeIfPresent(DrsClientTypes.RecoveryResult.self, forKey: .lastRecoveryResult)
+        lastRecoveryResult = lastRecoveryResultDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// An object representing the Source Network recovery Lifecycle.
+    public struct RecoveryLifeCycle: Swift.Equatable {
+        /// The date and time the last Source Network recovery was initiated.
+        public var apiCallDateTime: ClientRuntime.Date?
+        /// The ID of the Job that was used to last recover the Source Network.
+        public var jobID: Swift.String?
+        /// The status of the last recovery status of this Source Network.
+        public var lastRecoveryResult: DrsClientTypes.RecoveryResult?
+
+        public init(
+            apiCallDateTime: ClientRuntime.Date? = nil,
+            jobID: Swift.String? = nil,
+            lastRecoveryResult: DrsClientTypes.RecoveryResult? = nil
+        )
+        {
+            self.apiCallDateTime = apiCallDateTime
+            self.jobID = jobID
+            self.lastRecoveryResult = lastRecoveryResult
+        }
+    }
+
+}
+
+extension DrsClientTypes {
+    public enum RecoveryResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associateFail
+        case associateSuccess
+        case fail
+        case inProgress
+        case notStarted
+        case partialSuccess
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryResult] {
+            return [
+                .associateFail,
+                .associateSuccess,
+                .fail,
+                .inProgress,
+                .notStarted,
+                .partialSuccess,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .associateFail: return "ASSOCIATE_FAIL"
+            case .associateSuccess: return "ASSOCIATE_SUCCESS"
+            case .fail: return "FAIL"
+            case .inProgress: return "IN_PROGRESS"
+            case .notStarted: return "NOT_STARTED"
+            case .partialSuccess: return "PARTIAL_SUCCESS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecoveryResult(rawValue: rawValue) ?? RecoveryResult.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DrsClientTypes.RecoverySnapshot: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ebsSnapshots
@@ -7631,12 +8626,14 @@ extension DrsClientTypes {
     public enum ReplicationConfigurationEbsEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case custom
         case `default`
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReplicationConfigurationEbsEncryption] {
             return [
                 .custom,
                 .default,
+                .none,
                 .sdkUnknown("")
             ]
         }
@@ -7648,6 +8645,7 @@ extension DrsClientTypes {
             switch self {
             case .custom: return "CUSTOM"
             case .default: return "DEFAULT"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8072,6 +9070,44 @@ extension DrsClientTypes {
     }
 }
 
+extension DrsClientTypes {
+    public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case inProgress
+        case protected
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStatus] {
+            return [
+                .error,
+                .inProgress,
+                .protected,
+                .stopped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case .protected: return "PROTECTED"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationStatus(rawValue: rawValue) ?? ReplicationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8222,7 +9258,7 @@ public enum RetryDataReplicationOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension RetryDataReplicationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RetryDataReplicationOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "RetryDataReplicationOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8238,6 +9274,7 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.replicationDirection = output.replicationDirection
             self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
             self.sourceCloudProperties = output.sourceCloudProperties
+            self.sourceNetworkID = output.sourceNetworkID
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.stagingArea = output.stagingArea
@@ -8251,6 +9288,7 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.replicationDirection = nil
             self.reversedDirectionSourceServerArn = nil
             self.sourceCloudProperties = nil
+            self.sourceNetworkID = nil
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.stagingArea = nil
@@ -8276,6 +9314,8 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
     public var reversedDirectionSourceServerArn: Swift.String?
     /// Source cloud properties of the Source Server.
     public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
+    /// ID of the Source Network which is protecting this Source Server's network.
+    public var sourceNetworkID: Swift.String?
     /// The source properties of the Source Server.
     public var sourceProperties: DrsClientTypes.SourceProperties?
     /// The ID of the Source Server.
@@ -8294,6 +9334,7 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
         reversedDirectionSourceServerArn: Swift.String? = nil,
         sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
+        sourceNetworkID: Swift.String? = nil,
         sourceProperties: DrsClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -8308,6 +9349,7 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         self.replicationDirection = replicationDirection
         self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
         self.sourceCloudProperties = sourceCloudProperties
+        self.sourceNetworkID = sourceNetworkID
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.stagingArea = stagingArea
@@ -8328,6 +9370,7 @@ struct RetryDataReplicationOutputResponseBody: Swift.Equatable {
     let sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
     let replicationDirection: DrsClientTypes.ReplicationDirection?
     let reversedDirectionSourceServerArn: Swift.String?
+    let sourceNetworkID: Swift.String?
 }
 
 extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
@@ -8340,6 +9383,7 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         case replicationDirection
         case reversedDirectionSourceServerArn
         case sourceCloudProperties
+        case sourceNetworkID
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -8381,6 +9425,8 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         replicationDirection = replicationDirectionDecoded
         let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
     }
 }
 
@@ -8648,6 +9694,223 @@ extension DrsClientTypes {
 
 }
 
+extension DrsClientTypes.SourceNetwork: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case cfnStackName
+        case lastRecovery
+        case launchedVpcID
+        case replicationStatus
+        case replicationStatusDetails
+        case sourceAccountID
+        case sourceNetworkID
+        case sourceRegion
+        case sourceVpcID
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let cfnStackName = self.cfnStackName {
+            try encodeContainer.encode(cfnStackName, forKey: .cfnStackName)
+        }
+        if let lastRecovery = self.lastRecovery {
+            try encodeContainer.encode(lastRecovery, forKey: .lastRecovery)
+        }
+        if let launchedVpcID = self.launchedVpcID {
+            try encodeContainer.encode(launchedVpcID, forKey: .launchedVpcID)
+        }
+        if let replicationStatus = self.replicationStatus {
+            try encodeContainer.encode(replicationStatus.rawValue, forKey: .replicationStatus)
+        }
+        if let replicationStatusDetails = self.replicationStatusDetails {
+            try encodeContainer.encode(replicationStatusDetails, forKey: .replicationStatusDetails)
+        }
+        if let sourceAccountID = self.sourceAccountID {
+            try encodeContainer.encode(sourceAccountID, forKey: .sourceAccountID)
+        }
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+        if let sourceRegion = self.sourceRegion {
+            try encodeContainer.encode(sourceRegion, forKey: .sourceRegion)
+        }
+        if let sourceVpcID = self.sourceVpcID {
+            try encodeContainer.encode(sourceVpcID, forKey: .sourceVpcID)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+        let sourceVpcIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVpcID)
+        sourceVpcID = sourceVpcIDDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let replicationStatusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ReplicationStatus.self, forKey: .replicationStatus)
+        replicationStatus = replicationStatusDecoded
+        let replicationStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationStatusDetails)
+        replicationStatusDetails = replicationStatusDetailsDecoded
+        let cfnStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cfnStackName)
+        cfnStackName = cfnStackNameDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let sourceAccountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceAccountID)
+        sourceAccountID = sourceAccountIDDecoded
+        let lastRecoveryDecoded = try containerValues.decodeIfPresent(DrsClientTypes.RecoveryLifeCycle.self, forKey: .lastRecovery)
+        lastRecovery = lastRecoveryDecoded
+        let launchedVpcIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchedVpcID)
+        launchedVpcID = launchedVpcIDDecoded
+    }
+}
+
+extension DrsClientTypes.SourceNetwork: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SourceNetwork(arn: \(Swift.String(describing: arn)), lastRecovery: \(Swift.String(describing: lastRecovery)), launchedVpcID: \(Swift.String(describing: launchedVpcID)), replicationStatus: \(Swift.String(describing: replicationStatus)), sourceAccountID: \(Swift.String(describing: sourceAccountID)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceRegion: \(Swift.String(describing: sourceRegion)), sourceVpcID: \(Swift.String(describing: sourceVpcID)), cfnStackName: \"CONTENT_REDACTED\", replicationStatusDetails: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+extension DrsClientTypes {
+    /// The ARN of the Source Network.
+    public struct SourceNetwork: Swift.Equatable {
+        /// The ARN of the Source Network.
+        public var arn: Swift.String?
+        /// CloudFormation stack name that was deployed for recovering the Source Network.
+        public var cfnStackName: Swift.String?
+        /// An object containing information regarding the last recovery of the Source Network.
+        public var lastRecovery: DrsClientTypes.RecoveryLifeCycle?
+        /// ID of the recovered VPC following Source Network recovery.
+        public var launchedVpcID: Swift.String?
+        /// Status of Source Network Replication. Possible values: (a) STOPPED - Source Network is not replicating. (b) IN_PROGRESS - Source Network is being replicated. (c) PROTECTED - Source Network was replicated successfully and is being synchronized for changes. (d) ERROR - Source Network replication has failed
+        public var replicationStatus: DrsClientTypes.ReplicationStatus?
+        /// Error details in case Source Network replication status is ERROR.
+        public var replicationStatusDetails: Swift.String?
+        /// Account ID containing the VPC protected by the Source Network.
+        public var sourceAccountID: Swift.String?
+        /// Source Network ID.
+        public var sourceNetworkID: Swift.String?
+        /// Region containing the VPC protected by the Source Network.
+        public var sourceRegion: Swift.String?
+        /// VPC ID protected by the Source Network.
+        public var sourceVpcID: Swift.String?
+        /// A list of tags associated with the Source Network.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            cfnStackName: Swift.String? = nil,
+            lastRecovery: DrsClientTypes.RecoveryLifeCycle? = nil,
+            launchedVpcID: Swift.String? = nil,
+            replicationStatus: DrsClientTypes.ReplicationStatus? = nil,
+            replicationStatusDetails: Swift.String? = nil,
+            sourceAccountID: Swift.String? = nil,
+            sourceNetworkID: Swift.String? = nil,
+            sourceRegion: Swift.String? = nil,
+            sourceVpcID: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.cfnStackName = cfnStackName
+            self.lastRecovery = lastRecovery
+            self.launchedVpcID = launchedVpcID
+            self.replicationStatus = replicationStatus
+            self.replicationStatusDetails = replicationStatusDetails
+            self.sourceAccountID = sourceAccountID
+            self.sourceNetworkID = sourceNetworkID
+            self.sourceRegion = sourceRegion
+            self.sourceVpcID = sourceVpcID
+            self.tags = tags
+        }
+    }
+
+}
+
+extension DrsClientTypes.SourceNetworkData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+        case sourceVpc
+        case stackName
+        case targetVpc
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+        if let sourceVpc = self.sourceVpc {
+            try encodeContainer.encode(sourceVpc, forKey: .sourceVpc)
+        }
+        if let stackName = self.stackName {
+            try encodeContainer.encode(stackName, forKey: .stackName)
+        }
+        if let targetVpc = self.targetVpc {
+            try encodeContainer.encode(targetVpc, forKey: .targetVpc)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+        let sourceVpcDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVpc)
+        sourceVpc = sourceVpcDecoded
+        let targetVpcDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetVpc)
+        targetVpc = targetVpcDecoded
+        let stackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackName)
+        stackName = stackNameDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Properties of Source Network related to a job event.
+    public struct SourceNetworkData: Swift.Equatable {
+        /// Source Network ID.
+        public var sourceNetworkID: Swift.String?
+        /// VPC ID protected by the Source Network.
+        public var sourceVpc: Swift.String?
+        /// CloudFormation stack name that was deployed for recovering the Source Network.
+        public var stackName: Swift.String?
+        /// ID of the recovered VPC following Source Network recovery.
+        public var targetVpc: Swift.String?
+
+        public init(
+            sourceNetworkID: Swift.String? = nil,
+            sourceVpc: Swift.String? = nil,
+            stackName: Swift.String? = nil,
+            targetVpc: Swift.String? = nil
+        )
+        {
+            self.sourceNetworkID = sourceNetworkID
+            self.sourceVpc = sourceVpc
+            self.stackName = stackName
+            self.targetVpc = targetVpc
+        }
+    }
+
+}
+
 extension DrsClientTypes.SourceProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpus
@@ -8809,6 +10072,7 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         case replicationDirection
         case reversedDirectionSourceServerArn
         case sourceCloudProperties
+        case sourceNetworkID
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -8840,6 +10104,9 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         }
         if let sourceCloudProperties = self.sourceCloudProperties {
             try encodeContainer.encode(sourceCloudProperties, forKey: .sourceCloudProperties)
+        }
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
         }
         if let sourceProperties = self.sourceProperties {
             try encodeContainer.encode(sourceProperties, forKey: .sourceProperties)
@@ -8893,12 +10160,14 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         replicationDirection = replicationDirectionDecoded
         let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
     }
 }
 
 extension DrsClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SourceServer(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "SourceServer(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -8919,6 +10188,8 @@ extension DrsClientTypes {
         public var reversedDirectionSourceServerArn: Swift.String?
         /// Source cloud properties of the Source Server.
         public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
+        /// ID of the Source Network which is protecting this Source Server's network.
+        public var sourceNetworkID: Swift.String?
         /// The source properties of the Source Server.
         public var sourceProperties: DrsClientTypes.SourceProperties?
         /// The ID of the Source Server.
@@ -8937,6 +10208,7 @@ extension DrsClientTypes {
             replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
             reversedDirectionSourceServerArn: Swift.String? = nil,
             sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
+            sourceNetworkID: Swift.String? = nil,
             sourceProperties: DrsClientTypes.SourceProperties? = nil,
             sourceServerID: Swift.String? = nil,
             stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -8951,6 +10223,7 @@ extension DrsClientTypes {
             self.replicationDirection = replicationDirection
             self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
             self.sourceCloudProperties = sourceCloudProperties
+            self.sourceNetworkID = sourceNetworkID
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.stagingArea = stagingArea
@@ -9547,6 +10820,317 @@ extension StartReplicationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartSourceNetworkRecoveryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartSourceNetworkRecoveryInput(deployAsNew: \(Swift.String(describing: deployAsNew)), sourceNetworks: \(Swift.String(describing: sourceNetworks)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension StartSourceNetworkRecoveryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployAsNew
+        case sourceNetworks
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deployAsNew = self.deployAsNew {
+            try encodeContainer.encode(deployAsNew, forKey: .deployAsNew)
+        }
+        if let sourceNetworks = sourceNetworks {
+            var sourceNetworksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceNetworks)
+            for startsourcenetworkrecoveryrequestnetworkentry0 in sourceNetworks {
+                try sourceNetworksContainer.encode(startsourcenetworkrecoveryrequestnetworkentry0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension StartSourceNetworkRecoveryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartSourceNetworkRecovery"
+    }
+}
+
+public struct StartSourceNetworkRecoveryInput: Swift.Equatable {
+    /// Don't update existing CloudFormation Stack, recover the network using a new stack.
+    public var deployAsNew: Swift.Bool?
+    /// The Source Networks that we want to start a Recovery Job for.
+    /// This member is required.
+    public var sourceNetworks: [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]?
+    /// The tags to be associated with the Source Network recovery Job.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        deployAsNew: Swift.Bool? = nil,
+        sourceNetworks: [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.deployAsNew = deployAsNew
+        self.sourceNetworks = sourceNetworks
+        self.tags = tags
+    }
+}
+
+struct StartSourceNetworkRecoveryInputBody: Swift.Equatable {
+    let sourceNetworks: [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]?
+    let deployAsNew: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartSourceNetworkRecoveryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployAsNew
+        case sourceNetworks
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworksContainer = try containerValues.decodeIfPresent([DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry?].self, forKey: .sourceNetworks)
+        var sourceNetworksDecoded0:[DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]? = nil
+        if let sourceNetworksContainer = sourceNetworksContainer {
+            sourceNetworksDecoded0 = [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]()
+            for structure0 in sourceNetworksContainer {
+                if let structure0 = structure0 {
+                    sourceNetworksDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceNetworks = sourceNetworksDecoded0
+        let deployAsNewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deployAsNew)
+        deployAsNew = deployAsNewDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum StartSourceNetworkRecoveryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartSourceNetworkRecoveryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartSourceNetworkRecoveryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.job = output.job
+        } else {
+            self.job = nil
+        }
+    }
+}
+
+public struct StartSourceNetworkRecoveryOutputResponse: Swift.Equatable {
+    /// The Source Network recovery Job.
+    public var job: DrsClientTypes.Job?
+
+    public init(
+        job: DrsClientTypes.Job? = nil
+    )
+    {
+        self.job = job
+    }
+}
+
+struct StartSourceNetworkRecoveryOutputResponseBody: Swift.Equatable {
+    let job: DrsClientTypes.Job?
+}
+
+extension StartSourceNetworkRecoveryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case job
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Job.self, forKey: .job)
+        job = jobDecoded
+    }
+}
+
+extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cfnStackName
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cfnStackName = self.cfnStackName {
+            try encodeContainer.encode(cfnStackName, forKey: .cfnStackName)
+        }
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+        let cfnStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cfnStackName)
+        cfnStackName = cfnStackNameDecoded
+    }
+}
+
+extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartSourceNetworkRecoveryRequestNetworkEntry(sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), cfnStackName: \"CONTENT_REDACTED\")"}
+}
+
+extension DrsClientTypes {
+    /// An object representing the Source Network to recover.
+    public struct StartSourceNetworkRecoveryRequestNetworkEntry: Swift.Equatable {
+        /// CloudFormation stack name to be used for recovering the network.
+        public var cfnStackName: Swift.String?
+        /// The ID of the Source Network you want to recover.
+        /// This member is required.
+        public var sourceNetworkID: Swift.String?
+
+        public init(
+            cfnStackName: Swift.String? = nil,
+            sourceNetworkID: Swift.String? = nil
+        )
+        {
+            self.cfnStackName = cfnStackName
+            self.sourceNetworkID = sourceNetworkID
+        }
+    }
+
+}
+
+extension StartSourceNetworkReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+}
+
+extension StartSourceNetworkReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartSourceNetworkReplication"
+    }
+}
+
+public struct StartSourceNetworkReplicationInput: Swift.Equatable {
+    /// ID of the Source Network to replicate.
+    /// This member is required.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct StartSourceNetworkReplicationInputBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+}
+
+extension StartSourceNetworkReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+    }
+}
+
+public enum StartSourceNetworkReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartSourceNetworkReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartSourceNetworkReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sourceNetwork = output.sourceNetwork
+        } else {
+            self.sourceNetwork = nil
+        }
+    }
+}
+
+public struct StartSourceNetworkReplicationOutputResponse: Swift.Equatable {
+    /// Source Network which was requested for replication.
+    public var sourceNetwork: DrsClientTypes.SourceNetwork?
+
+    public init(
+        sourceNetwork: DrsClientTypes.SourceNetwork? = nil
+    )
+    {
+        self.sourceNetwork = sourceNetwork
+    }
+}
+
+struct StartSourceNetworkReplicationOutputResponseBody: Swift.Equatable {
+    let sourceNetwork: DrsClientTypes.SourceNetwork?
+}
+
+extension StartSourceNetworkReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetwork
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceNetwork.self, forKey: .sourceNetwork)
+        sourceNetwork = sourceNetworkDecoded
+    }
+}
+
 extension StopFailbackInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recoveryInstanceID
@@ -9719,6 +11303,110 @@ extension StopReplicationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceServerDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceServer.self, forKey: .sourceServer)
         sourceServer = sourceServerDecoded
+    }
+}
+
+extension StopSourceNetworkReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceNetworkID = self.sourceNetworkID {
+            try encodeContainer.encode(sourceNetworkID, forKey: .sourceNetworkID)
+        }
+    }
+}
+
+extension StopSourceNetworkReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StopSourceNetworkReplication"
+    }
+}
+
+public struct StopSourceNetworkReplicationInput: Swift.Equatable {
+    /// ID of the Source Network to stop replication.
+    /// This member is required.
+    public var sourceNetworkID: Swift.String?
+
+    public init(
+        sourceNetworkID: Swift.String? = nil
+    )
+    {
+        self.sourceNetworkID = sourceNetworkID
+    }
+}
+
+struct StopSourceNetworkReplicationInputBody: Swift.Equatable {
+    let sourceNetworkID: Swift.String?
+}
+
+extension StopSourceNetworkReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetworkID
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
+        sourceNetworkID = sourceNetworkIDDecoded
+    }
+}
+
+public enum StopSourceNetworkReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopSourceNetworkReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopSourceNetworkReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sourceNetwork = output.sourceNetwork
+        } else {
+            self.sourceNetwork = nil
+        }
+    }
+}
+
+public struct StopSourceNetworkReplicationOutputResponse: Swift.Equatable {
+    /// Source Network which was requested to stop replication.
+    public var sourceNetwork: DrsClientTypes.SourceNetwork?
+
+    public init(
+        sourceNetwork: DrsClientTypes.SourceNetwork? = nil
+    )
+    {
+        self.sourceNetwork = sourceNetwork
+    }
+}
+
+struct StopSourceNetworkReplicationOutputResponseBody: Swift.Equatable {
+    let sourceNetwork: DrsClientTypes.SourceNetwork?
+}
+
+extension StopSourceNetworkReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceNetwork
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceNetworkDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceNetwork.self, forKey: .sourceNetwork)
+        sourceNetwork = sourceNetworkDecoded
     }
 }
 
@@ -10558,6 +12246,7 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyPrivateIp
         case copyTags
+        case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
@@ -10571,6 +12260,9 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let copyTags = self.copyTags {
             try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let exportBucketArn = self.exportBucketArn {
+            try encodeContainer.encode(exportBucketArn, forKey: .exportBucketArn)
         }
         if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
             try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
@@ -10598,6 +12290,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var copyPrivateIp: Swift.Bool?
     /// Copy tags.
     public var copyTags: Swift.Bool?
+    /// S3 bucket ARN to export Source Network templates.
+    public var exportBucketArn: Swift.String?
     /// Launch Configuration Template ID.
     /// This member is required.
     public var launchConfigurationTemplateID: Swift.String?
@@ -10611,6 +12305,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     public init(
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
+        exportBucketArn: Swift.String? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
@@ -10619,6 +12314,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
+        self.exportBucketArn = exportBucketArn
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
@@ -10633,12 +12329,14 @@ struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let copyPrivateIp: Swift.Bool?
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
+    let exportBucketArn: Swift.String?
 }
 
 extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyPrivateIp
         case copyTags
+        case exportBucketArn
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
@@ -10659,6 +12357,8 @@ extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
+        exportBucketArn = exportBucketArnDecoded
     }
 }
 
