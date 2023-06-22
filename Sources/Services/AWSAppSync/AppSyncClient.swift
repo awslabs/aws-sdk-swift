@@ -8,12 +8,12 @@ import Logging
 public class AppSyncClient {
     public static let clientName = "AppSyncClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AppSyncClientConfigurationProtocol
+    let config: AppSyncClient.AppSyncClientConfiguration
     let serviceName = "AppSync"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: AppSyncClientConfigurationProtocol) {
+    public init(config: AppSyncClient.AppSyncClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class AppSyncClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try AppSyncClientConfiguration(region: region)
+        let config = try AppSyncClient.AppSyncClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await AppSyncClientConfiguration()
+        let config = try await AppSyncClient.AppSyncClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class AppSyncClientConfiguration: AppSyncClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension AppSyncClient {
+    public typealias AppSyncClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "AppSync" }
+        public var clientName: String { "AppSyncClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("AppSyncClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "AppSyncClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -213,13 +88,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateApiInput, AssociateApiOutputResponse, AssociateApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateApiInput, AssociateApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateApiOutputResponse, AssociateApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateApiOutputResponse, AssociateApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateApiInput, AssociateApiOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateApiInput, AssociateApiOutputResponse>(xmlName: "AssociateApiRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateApiOutputResponse, AssociateApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateApiOutputResponse, AssociateApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateApiOutputResponse, AssociateApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateApiOutputResponse, AssociateApiOutputError>())
@@ -249,13 +124,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutputResponse>(xmlName: "AssociateMergedGraphqlApiRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMergedGraphqlApiOutputResponse, AssociateMergedGraphqlApiOutputError>())
@@ -285,13 +160,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutputResponse>(xmlName: "AssociateSourceGraphqlApiRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSourceGraphqlApiOutputResponse, AssociateSourceGraphqlApiOutputError>())
@@ -321,13 +196,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApiCacheInput, CreateApiCacheOutputResponse, CreateApiCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApiCacheInput, CreateApiCacheOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApiCacheOutputResponse, CreateApiCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApiCacheOutputResponse, CreateApiCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateApiCacheInput, CreateApiCacheOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateApiCacheInput, CreateApiCacheOutputResponse>(xmlName: "CreateApiCacheRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateApiCacheOutputResponse, CreateApiCacheOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApiCacheOutputResponse, CreateApiCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApiCacheOutputResponse, CreateApiCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApiCacheOutputResponse, CreateApiCacheOutputError>())
@@ -357,13 +232,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApiKeyInput, CreateApiKeyOutputResponse, CreateApiKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApiKeyInput, CreateApiKeyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApiKeyOutputResponse, CreateApiKeyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApiKeyOutputResponse, CreateApiKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateApiKeyInput, CreateApiKeyOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateApiKeyInput, CreateApiKeyOutputResponse>(xmlName: "CreateApiKeyRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateApiKeyOutputResponse, CreateApiKeyOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApiKeyOutputResponse, CreateApiKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApiKeyOutputResponse, CreateApiKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApiKeyOutputResponse, CreateApiKeyOutputError>())
@@ -393,13 +268,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse, CreateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse>(xmlName: "CreateDataSourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDataSourceOutputResponse, CreateDataSourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>())
@@ -429,13 +304,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainNameInput, CreateDomainNameOutputResponse, CreateDomainNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainNameInput, CreateDomainNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainNameOutputResponse, CreateDomainNameOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainNameOutputResponse, CreateDomainNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDomainNameInput, CreateDomainNameOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDomainNameInput, CreateDomainNameOutputResponse>(xmlName: "CreateDomainNameRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDomainNameOutputResponse, CreateDomainNameOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDomainNameOutputResponse, CreateDomainNameOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainNameOutputResponse, CreateDomainNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainNameOutputResponse, CreateDomainNameOutputError>())
@@ -465,13 +340,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(xmlName: "CreateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionOutputResponse, CreateFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>())
@@ -501,13 +376,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutputResponse>(xmlName: "CreateGraphqlApiRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGraphqlApiOutputResponse, CreateGraphqlApiOutputError>())
@@ -537,13 +412,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResolverInput, CreateResolverOutputResponse, CreateResolverOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResolverInput, CreateResolverOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResolverOutputResponse, CreateResolverOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResolverOutputResponse, CreateResolverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResolverInput, CreateResolverOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateResolverInput, CreateResolverOutputResponse>(xmlName: "CreateResolverRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateResolverOutputResponse, CreateResolverOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResolverOutputResponse, CreateResolverOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResolverOutputResponse, CreateResolverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResolverOutputResponse, CreateResolverOutputError>())
@@ -573,13 +448,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTypeInput, CreateTypeOutputResponse, CreateTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTypeInput, CreateTypeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTypeOutputResponse, CreateTypeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTypeOutputResponse, CreateTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTypeInput, CreateTypeOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTypeInput, CreateTypeOutputResponse>(xmlName: "CreateTypeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTypeOutputResponse, CreateTypeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTypeOutputResponse, CreateTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTypeOutputResponse, CreateTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTypeOutputResponse, CreateTypeOutputError>())
@@ -609,10 +484,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApiCacheInput, DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApiCacheInput, DeleteApiCacheOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApiCacheOutputResponse, DeleteApiCacheOutputError>())
@@ -642,10 +517,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApiKeyInput, DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApiKeyInput, DeleteApiKeyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApiKeyOutputResponse, DeleteApiKeyOutputError>())
@@ -675,10 +550,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
@@ -708,10 +583,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainNameInput, DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainNameInput, DeleteDomainNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainNameOutputResponse, DeleteDomainNameOutputError>())
@@ -741,10 +616,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
@@ -774,10 +649,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGraphqlApiInput, DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGraphqlApiInput, DeleteGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGraphqlApiOutputResponse, DeleteGraphqlApiOutputError>())
@@ -807,10 +682,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResolverInput, DeleteResolverOutputResponse, DeleteResolverOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResolverInput, DeleteResolverOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResolverOutputResponse, DeleteResolverOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResolverOutputResponse, DeleteResolverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteResolverOutputResponse, DeleteResolverOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResolverOutputResponse, DeleteResolverOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResolverOutputResponse, DeleteResolverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResolverOutputResponse, DeleteResolverOutputError>())
@@ -840,10 +715,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTypeInput, DeleteTypeOutputResponse, DeleteTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTypeInput, DeleteTypeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTypeOutputResponse, DeleteTypeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTypeOutputResponse, DeleteTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteTypeOutputResponse, DeleteTypeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTypeOutputResponse, DeleteTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTypeOutputResponse, DeleteTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTypeOutputResponse, DeleteTypeOutputError>())
@@ -873,10 +748,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateApiInput, DisassociateApiOutputResponse, DisassociateApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateApiInput, DisassociateApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateApiOutputResponse, DisassociateApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateApiOutputResponse, DisassociateApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateApiOutputResponse, DisassociateApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateApiOutputResponse, DisassociateApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateApiOutputResponse, DisassociateApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateApiOutputResponse, DisassociateApiOutputError>())
@@ -906,10 +781,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMergedGraphqlApiOutputResponse, DisassociateMergedGraphqlApiOutputError>())
@@ -939,10 +814,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSourceGraphqlApiOutputResponse, DisassociateSourceGraphqlApiOutputError>())
@@ -972,13 +847,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluateCodeInput, EvaluateCodeOutputResponse, EvaluateCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluateCodeInput, EvaluateCodeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateCodeOutputResponse, EvaluateCodeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateCodeOutputResponse, EvaluateCodeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EvaluateCodeInput, EvaluateCodeOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EvaluateCodeInput, EvaluateCodeOutputResponse>(xmlName: "EvaluateCodeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<EvaluateCodeOutputResponse, EvaluateCodeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EvaluateCodeOutputResponse, EvaluateCodeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluateCodeOutputResponse, EvaluateCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluateCodeOutputResponse, EvaluateCodeOutputError>())
@@ -1008,13 +883,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutputResponse>(xmlName: "EvaluateMappingTemplateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluateMappingTemplateOutputResponse, EvaluateMappingTemplateOutputError>())
@@ -1044,10 +919,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FlushApiCacheInput, FlushApiCacheOutputResponse, FlushApiCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FlushApiCacheInput, FlushApiCacheOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FlushApiCacheOutputResponse, FlushApiCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FlushApiCacheOutputResponse, FlushApiCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<FlushApiCacheOutputResponse, FlushApiCacheOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, FlushApiCacheOutputResponse, FlushApiCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FlushApiCacheOutputResponse, FlushApiCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FlushApiCacheOutputResponse, FlushApiCacheOutputError>())
@@ -1077,10 +952,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApiAssociationInput, GetApiAssociationOutputResponse, GetApiAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApiAssociationInput, GetApiAssociationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApiAssociationOutputResponse, GetApiAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApiAssociationOutputResponse, GetApiAssociationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetApiAssociationOutputResponse, GetApiAssociationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApiAssociationOutputResponse, GetApiAssociationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApiAssociationOutputResponse, GetApiAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApiAssociationOutputResponse, GetApiAssociationOutputError>())
@@ -1110,10 +985,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApiCacheInput, GetApiCacheOutputResponse, GetApiCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApiCacheInput, GetApiCacheOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApiCacheOutputResponse, GetApiCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApiCacheOutputResponse, GetApiCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetApiCacheOutputResponse, GetApiCacheOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApiCacheOutputResponse, GetApiCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApiCacheOutputResponse, GetApiCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApiCacheOutputResponse, GetApiCacheOutputError>())
@@ -1143,10 +1018,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataSourceInput, GetDataSourceOutputResponse, GetDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataSourceOutputResponse, GetDataSourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>())
@@ -1176,10 +1051,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainNameInput, GetDomainNameOutputResponse, GetDomainNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainNameInput, GetDomainNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainNameOutputResponse, GetDomainNameOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainNameOutputResponse, GetDomainNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDomainNameOutputResponse, GetDomainNameOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDomainNameOutputResponse, GetDomainNameOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainNameOutputResponse, GetDomainNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainNameOutputResponse, GetDomainNameOutputError>())
@@ -1209,10 +1084,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionOutputResponse, GetFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutputResponse, GetFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>())
@@ -1242,10 +1117,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGraphqlApiInput, GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGraphqlApiInput, GetGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGraphqlApiOutputResponse, GetGraphqlApiOutputError>())
@@ -1275,11 +1150,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIntrospectionSchemaInput, GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIntrospectionSchemaInput, GetIntrospectionSchemaOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetIntrospectionSchemaInput, GetIntrospectionSchemaOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIntrospectionSchemaOutputResponse, GetIntrospectionSchemaOutputError>())
@@ -1309,10 +1184,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResolverInput, GetResolverOutputResponse, GetResolverOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResolverInput, GetResolverOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResolverOutputResponse, GetResolverOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResolverOutputResponse, GetResolverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetResolverOutputResponse, GetResolverOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResolverOutputResponse, GetResolverOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResolverOutputResponse, GetResolverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResolverOutputResponse, GetResolverOutputError>())
@@ -1342,10 +1217,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaCreationStatusInput, GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaCreationStatusInput, GetSchemaCreationStatusOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaCreationStatusOutputResponse, GetSchemaCreationStatusOutputError>())
@@ -1375,10 +1250,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSourceApiAssociationOutputResponse, GetSourceApiAssociationOutputError>())
@@ -1408,11 +1283,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTypeInput, GetTypeOutputResponse, GetTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTypeInput, GetTypeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTypeOutputResponse, GetTypeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTypeOutputResponse, GetTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetTypeInput, GetTypeOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetTypeOutputResponse, GetTypeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTypeOutputResponse, GetTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTypeOutputResponse, GetTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTypeOutputResponse, GetTypeOutputError>())
@@ -1442,11 +1317,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApiKeysInput, ListApiKeysOutputResponse, ListApiKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApiKeysInput, ListApiKeysOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApiKeysOutputResponse, ListApiKeysOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApiKeysOutputResponse, ListApiKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListApiKeysInput, ListApiKeysOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListApiKeysOutputResponse, ListApiKeysOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApiKeysOutputResponse, ListApiKeysOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApiKeysOutputResponse, ListApiKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApiKeysOutputResponse, ListApiKeysOutputError>())
@@ -1476,11 +1351,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDataSourcesOutputResponse, ListDataSourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
@@ -1510,11 +1385,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDomainNamesOutputResponse, ListDomainNamesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
@@ -1544,11 +1419,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionsOutputResponse, ListFunctionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>())
@@ -1578,11 +1453,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGraphqlApisInput, ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGraphqlApisInput, ListGraphqlApisOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGraphqlApisInput, ListGraphqlApisOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGraphqlApisOutputResponse, ListGraphqlApisOutputError>())
@@ -1612,11 +1487,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResolversInput, ListResolversOutputResponse, ListResolversOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResolversInput, ListResolversOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResolversOutputResponse, ListResolversOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResolversOutputResponse, ListResolversOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResolversInput, ListResolversOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListResolversOutputResponse, ListResolversOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResolversOutputResponse, ListResolversOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResolversOutputResponse, ListResolversOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResolversOutputResponse, ListResolversOutputError>())
@@ -1646,11 +1521,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResolversByFunctionInput, ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResolversByFunctionInput, ListResolversByFunctionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResolversByFunctionInput, ListResolversByFunctionOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResolversByFunctionOutputResponse, ListResolversByFunctionOutputError>())
@@ -1680,11 +1555,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSourceApiAssociationsOutputResponse, ListSourceApiAssociationsOutputError>())
@@ -1714,10 +1589,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
@@ -1747,11 +1622,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypesInput, ListTypesOutputResponse, ListTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypesInput, ListTypesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTypesOutputResponse, ListTypesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTypesOutputResponse, ListTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTypesInput, ListTypesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTypesOutputResponse, ListTypesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTypesOutputResponse, ListTypesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypesOutputResponse, ListTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypesOutputResponse, ListTypesOutputError>())
@@ -1781,11 +1656,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypesByAssociationOutputResponse, ListTypesByAssociationOutputError>())
@@ -1815,13 +1690,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaCreationInput, StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaCreationInput, StartSchemaCreationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSchemaCreationInput, StartSchemaCreationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSchemaCreationInput, StartSchemaCreationOutputResponse>(xmlName: "StartSchemaCreationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaCreationOutputResponse, StartSchemaCreationOutputError>())
@@ -1851,10 +1726,10 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaMergeInput, StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaMergeInput, StartSchemaMergeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaMergeOutputResponse, StartSchemaMergeOutputError>())
@@ -1884,13 +1759,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
@@ -1920,11 +1795,11 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
@@ -1954,13 +1829,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApiCacheInput, UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApiCacheInput, UpdateApiCacheOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApiCacheInput, UpdateApiCacheOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApiCacheInput, UpdateApiCacheOutputResponse>(xmlName: "UpdateApiCacheRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApiCacheOutputResponse, UpdateApiCacheOutputError>())
@@ -1990,13 +1865,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApiKeyInput, UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApiKeyInput, UpdateApiKeyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApiKeyInput, UpdateApiKeyOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApiKeyInput, UpdateApiKeyOutputResponse>(xmlName: "UpdateApiKeyRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApiKeyOutputResponse, UpdateApiKeyOutputError>())
@@ -2026,13 +1901,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>(xmlName: "UpdateDataSourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
@@ -2062,13 +1937,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainNameInput, UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainNameInput, UpdateDomainNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDomainNameInput, UpdateDomainNameOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDomainNameInput, UpdateDomainNameOutputResponse>(xmlName: "UpdateDomainNameRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainNameOutputResponse, UpdateDomainNameOutputError>())
@@ -2098,13 +1973,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse, UpdateFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(xmlName: "UpdateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionOutputResponse, UpdateFunctionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>())
@@ -2134,13 +2009,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutputResponse>(xmlName: "UpdateGraphqlApiRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGraphqlApiOutputResponse, UpdateGraphqlApiOutputError>())
@@ -2170,13 +2045,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResolverInput, UpdateResolverOutputResponse, UpdateResolverOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResolverInput, UpdateResolverOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResolverInput, UpdateResolverOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateResolverInput, UpdateResolverOutputResponse>(xmlName: "UpdateResolverRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResolverOutputResponse, UpdateResolverOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResolverOutputResponse, UpdateResolverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResolverOutputResponse, UpdateResolverOutputError>())
@@ -2206,13 +2081,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutputResponse>(xmlName: "UpdateSourceApiAssociationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSourceApiAssociationOutputResponse, UpdateSourceApiAssociationOutputError>())
@@ -2242,13 +2117,13 @@ extension AppSyncClient: AppSyncClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTypeInput, UpdateTypeOutputResponse, UpdateTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTypeInput, UpdateTypeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTypeOutputResponse, UpdateTypeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTypeOutputResponse, UpdateTypeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTypeInput, UpdateTypeOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTypeInput, UpdateTypeOutputResponse>(xmlName: "UpdateTypeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateTypeOutputResponse, UpdateTypeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTypeOutputResponse, UpdateTypeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTypeOutputResponse, UpdateTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTypeOutputResponse, UpdateTypeOutputError>())

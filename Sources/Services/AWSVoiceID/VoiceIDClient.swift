@@ -8,12 +8,12 @@ import Logging
 public class VoiceIDClient {
     public static let clientName = "VoiceIDClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: VoiceIDClientConfigurationProtocol
+    let config: VoiceIDClient.VoiceIDClientConfiguration
     let serviceName = "Voice ID"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: VoiceIDClientConfigurationProtocol) {
+    public init(config: VoiceIDClient.VoiceIDClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class VoiceIDClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try VoiceIDClientConfiguration(region: region)
+        let config = try VoiceIDClient.VoiceIDClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await VoiceIDClientConfiguration()
+        let config = try await VoiceIDClient.VoiceIDClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class VoiceIDClientConfiguration: VoiceIDClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension VoiceIDClient {
+    public typealias VoiceIDClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "Voice ID" }
+        public var clientName: String { "VoiceIDClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("VoiceIDClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "VoiceIDClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -213,14 +88,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateFraudsterInput, AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateFraudsterInput, AssociateFraudsterOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateFraudsterInput, AssociateFraudsterOutputResponse>(xAmzTarget: "VoiceID.AssociateFraudster"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateFraudsterInput, AssociateFraudsterOutputResponse>(xmlName: "AssociateFraudsterRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateFraudsterInput, AssociateFraudsterOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateFraudsterOutputResponse, AssociateFraudsterOutputError>())
@@ -258,14 +133,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDomainInput, CreateDomainOutputResponse>(xAmzTarget: "VoiceID.CreateDomain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDomainInput, CreateDomainOutputResponse>(xmlName: "CreateDomainRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDomainInput, CreateDomainOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDomainOutputResponse, CreateDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
@@ -303,14 +178,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWatchlistInput, CreateWatchlistOutputResponse, CreateWatchlistOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWatchlistInput, CreateWatchlistOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWatchlistOutputResponse, CreateWatchlistOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWatchlistOutputResponse, CreateWatchlistOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateWatchlistInput, CreateWatchlistOutputResponse>(xAmzTarget: "VoiceID.CreateWatchlist"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWatchlistInput, CreateWatchlistOutputResponse>(xmlName: "CreateWatchlistRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWatchlistInput, CreateWatchlistOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateWatchlistOutputResponse, CreateWatchlistOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWatchlistOutputResponse, CreateWatchlistOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWatchlistOutputResponse, CreateWatchlistOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWatchlistOutputResponse, CreateWatchlistOutputError>())
@@ -340,14 +215,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>(xAmzTarget: "VoiceID.DeleteDomain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>(xmlName: "DeleteDomainRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDomainOutputResponse, DeleteDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
@@ -377,14 +252,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse>(xAmzTarget: "VoiceID.DeleteFraudster"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse>(xmlName: "DeleteFraudsterRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>())
@@ -414,14 +289,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse>(xAmzTarget: "VoiceID.DeleteSpeaker"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse>(xmlName: "DeleteSpeakerRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>())
@@ -451,14 +326,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWatchlistInput, DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWatchlistInput, DeleteWatchlistOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWatchlistInput, DeleteWatchlistOutputResponse>(xAmzTarget: "VoiceID.DeleteWatchlist"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteWatchlistInput, DeleteWatchlistOutputResponse>(xmlName: "DeleteWatchlistRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWatchlistInput, DeleteWatchlistOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWatchlistOutputResponse, DeleteWatchlistOutputError>())
@@ -488,14 +363,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>(xAmzTarget: "VoiceID.DescribeDomain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>(xmlName: "DescribeDomainRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainOutputResponse, DescribeDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>())
@@ -525,14 +400,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse>(xAmzTarget: "VoiceID.DescribeFraudster"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse>(xmlName: "DescribeFraudsterRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>())
@@ -562,14 +437,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse>(xAmzTarget: "VoiceID.DescribeFraudsterRegistrationJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse>(xmlName: "DescribeFraudsterRegistrationJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>())
@@ -599,14 +474,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse>(xAmzTarget: "VoiceID.DescribeSpeaker"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse>(xmlName: "DescribeSpeakerRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>())
@@ -636,14 +511,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse>(xAmzTarget: "VoiceID.DescribeSpeakerEnrollmentJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse>(xmlName: "DescribeSpeakerEnrollmentJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>())
@@ -673,14 +548,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWatchlistInput, DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWatchlistInput, DescribeWatchlistOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeWatchlistInput, DescribeWatchlistOutputResponse>(xAmzTarget: "VoiceID.DescribeWatchlist"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeWatchlistInput, DescribeWatchlistOutputResponse>(xmlName: "DescribeWatchlistRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeWatchlistInput, DescribeWatchlistOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWatchlistOutputResponse, DescribeWatchlistOutputError>())
@@ -710,14 +585,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutputResponse>(xAmzTarget: "VoiceID.DisassociateFraudster"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutputResponse>(xmlName: "DisassociateFraudsterRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFraudsterOutputResponse, DisassociateFraudsterOutputError>())
@@ -747,14 +622,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse, EvaluateSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse>(xAmzTarget: "VoiceID.EvaluateSession"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse>(xmlName: "EvaluateSessionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EvaluateSessionOutputResponse, EvaluateSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>())
@@ -784,14 +659,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDomainsInput, ListDomainsOutputResponse>(xAmzTarget: "VoiceID.ListDomains"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDomainsInput, ListDomainsOutputResponse>(xmlName: "ListDomainsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDomainsInput, ListDomainsOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDomainsOutputResponse, ListDomainsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
@@ -821,14 +696,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>(xAmzTarget: "VoiceID.ListFraudsterRegistrationJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>(xmlName: "ListFraudsterRegistrationJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>())
@@ -858,14 +733,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFraudstersInput, ListFraudstersOutputResponse, ListFraudstersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFraudstersInput, ListFraudstersOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFraudstersOutputResponse, ListFraudstersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFraudstersOutputResponse, ListFraudstersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFraudstersInput, ListFraudstersOutputResponse>(xAmzTarget: "VoiceID.ListFraudsters"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFraudstersInput, ListFraudstersOutputResponse>(xmlName: "ListFraudstersRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFraudstersInput, ListFraudstersOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListFraudstersOutputResponse, ListFraudstersOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFraudstersOutputResponse, ListFraudstersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFraudstersOutputResponse, ListFraudstersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFraudstersOutputResponse, ListFraudstersOutputError>())
@@ -895,14 +770,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>(xAmzTarget: "VoiceID.ListSpeakerEnrollmentJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>(xmlName: "ListSpeakerEnrollmentJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>())
@@ -932,14 +807,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpeakersInput, ListSpeakersOutputResponse, ListSpeakersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpeakersInput, ListSpeakersOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSpeakersInput, ListSpeakersOutputResponse>(xAmzTarget: "VoiceID.ListSpeakers"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSpeakersInput, ListSpeakersOutputResponse>(xmlName: "ListSpeakersRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSpeakersInput, ListSpeakersOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSpeakersOutputResponse, ListSpeakersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>())
@@ -969,14 +844,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "VoiceID.ListTagsForResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
@@ -1006,14 +881,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWatchlistsInput, ListWatchlistsOutputResponse, ListWatchlistsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWatchlistsInput, ListWatchlistsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWatchlistsOutputResponse, ListWatchlistsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWatchlistsOutputResponse, ListWatchlistsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListWatchlistsInput, ListWatchlistsOutputResponse>(xAmzTarget: "VoiceID.ListWatchlists"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListWatchlistsInput, ListWatchlistsOutputResponse>(xmlName: "ListWatchlistsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWatchlistsInput, ListWatchlistsOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListWatchlistsOutputResponse, ListWatchlistsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWatchlistsOutputResponse, ListWatchlistsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWatchlistsOutputResponse, ListWatchlistsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWatchlistsOutputResponse, ListWatchlistsOutputError>())
@@ -1043,14 +918,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse>(xAmzTarget: "VoiceID.OptOutSpeaker"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse>(xmlName: "OptOutSpeakerRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>())
@@ -1088,14 +963,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse>(xAmzTarget: "VoiceID.StartFraudsterRegistrationJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse>(xmlName: "StartFraudsterRegistrationJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>())
@@ -1133,14 +1008,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse>(xAmzTarget: "VoiceID.StartSpeakerEnrollmentJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse>(xmlName: "StartSpeakerEnrollmentJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>())
@@ -1170,14 +1045,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "VoiceID.TagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
@@ -1207,14 +1082,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "VoiceID.UntagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
@@ -1244,14 +1119,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>(xAmzTarget: "VoiceID.UpdateDomain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>(xmlName: "UpdateDomainRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDomainOutputResponse, UpdateDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>())
@@ -1281,14 +1156,14 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWatchlistInput, UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWatchlistInput, UpdateWatchlistOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateWatchlistInput, UpdateWatchlistOutputResponse>(xAmzTarget: "VoiceID.UpdateWatchlist"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWatchlistInput, UpdateWatchlistOutputResponse>(xmlName: "UpdateWatchlistRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWatchlistInput, UpdateWatchlistOutputResponse>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWatchlistOutputResponse, UpdateWatchlistOutputError>())

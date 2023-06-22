@@ -8,12 +8,12 @@ import Logging
 public class IoTThingsGraphClient {
     public static let clientName = "IoTThingsGraphClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTThingsGraphClientConfigurationProtocol
+    let config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration
     let serviceName = "IoTThingsGraph"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: IoTThingsGraphClientConfigurationProtocol) {
+    public init(config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class IoTThingsGraphClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try IoTThingsGraphClientConfiguration(region: region)
+        let config = try IoTThingsGraphClient.IoTThingsGraphClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await IoTThingsGraphClientConfiguration()
+        let config = try await IoTThingsGraphClient.IoTThingsGraphClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class IoTThingsGraphClientConfiguration: IoTThingsGraphClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension IoTThingsGraphClient {
+    public typealias IoTThingsGraphClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "IoTThingsGraph" }
+        public var clientName: String { "IoTThingsGraphClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("IoTThingsGraphClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "IoTThingsGraphClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -214,14 +89,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.AssociateEntityToThing"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse>(xmlName: "AssociateEntityToThingRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>())
@@ -252,14 +127,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.CreateFlowTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse>(xmlName: "CreateFlowTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>())
@@ -290,14 +165,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.CreateSystemInstance"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse>(xmlName: "CreateSystemInstanceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>())
@@ -328,14 +203,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.CreateSystemTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse>(xmlName: "CreateSystemTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>())
@@ -366,14 +241,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeleteFlowTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse>(xmlName: "DeleteFlowTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>())
@@ -404,14 +279,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeleteNamespace"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>(xmlName: "DeleteNamespaceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
@@ -442,14 +317,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeleteSystemInstance"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse>(xmlName: "DeleteSystemInstanceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>())
@@ -480,14 +355,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeleteSystemTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse>(xmlName: "DeleteSystemTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>())
@@ -518,14 +393,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeploySystemInstance"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse>(xmlName: "DeploySystemInstanceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>())
@@ -556,14 +431,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeprecateFlowTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse>(xmlName: "DeprecateFlowTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>())
@@ -594,14 +469,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DeprecateSystemTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse>(xmlName: "DeprecateSystemTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>())
@@ -632,14 +507,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DescribeNamespace"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>(xmlName: "DescribeNamespaceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
@@ -670,14 +545,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.DissociateEntityFromThing"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse>(xmlName: "DissociateEntityFromThingRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>())
@@ -729,14 +604,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntitiesInput, GetEntitiesOutputResponse, GetEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEntitiesInput, GetEntitiesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEntitiesInput, GetEntitiesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetEntities"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEntitiesInput, GetEntitiesOutputResponse>(xmlName: "GetEntitiesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEntitiesInput, GetEntitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEntitiesOutputResponse, GetEntitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>())
@@ -767,14 +642,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetFlowTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse>(xmlName: "GetFlowTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>())
@@ -805,14 +680,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetFlowTemplateRevisions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>(xmlName: "GetFlowTemplateRevisionsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>())
@@ -843,14 +718,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetNamespaceDeletionStatus"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse>(xmlName: "GetNamespaceDeletionStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>())
@@ -881,14 +756,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetSystemInstance"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse>(xmlName: "GetSystemInstanceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>())
@@ -919,14 +794,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetSystemTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse>(xmlName: "GetSystemTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>())
@@ -957,14 +832,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetSystemTemplateRevisions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>(xmlName: "GetSystemTemplateRevisionsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>())
@@ -995,14 +870,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse, GetUploadStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.GetUploadStatus"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse>(xmlName: "GetUploadStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUploadStatusOutputResponse, GetUploadStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>())
@@ -1033,14 +908,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.ListFlowExecutionMessages"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>(xmlName: "ListFlowExecutionMessagesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>())
@@ -1071,14 +946,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.ListTagsForResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
@@ -1109,14 +984,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse, SearchEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchEntities"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse>(xmlName: "SearchEntitiesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchEntitiesOutputResponse, SearchEntitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>())
@@ -1147,14 +1022,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchFlowExecutions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>(xmlName: "SearchFlowExecutionsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>())
@@ -1185,14 +1060,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchFlowTemplates"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>(xmlName: "SearchFlowTemplatesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>())
@@ -1223,14 +1098,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchSystemInstances"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>(xmlName: "SearchSystemInstancesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>())
@@ -1261,14 +1136,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchSystemTemplates"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>(xmlName: "SearchSystemTemplatesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>())
@@ -1299,14 +1174,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchThingsInput, SearchThingsOutputResponse, SearchThingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchThingsInput, SearchThingsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchThingsInput, SearchThingsOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.SearchThings"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchThingsInput, SearchThingsOutputResponse>(xmlName: "SearchThingsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchThingsInput, SearchThingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchThingsOutputResponse, SearchThingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchThingsOutputResponse, SearchThingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>())
@@ -1337,14 +1212,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.TagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
@@ -1375,14 +1250,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.UndeploySystemInstance"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse>(xmlName: "UndeploySystemInstanceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>())
@@ -1413,14 +1288,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.UntagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
@@ -1451,14 +1326,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.UpdateFlowTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse>(xmlName: "UpdateFlowTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>())
@@ -1489,14 +1364,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.UpdateSystemTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse>(xmlName: "UpdateSystemTemplateRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>())
@@ -1527,14 +1402,14 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse>(xAmzTarget: "IotThingsGraphFrontEndService.UploadEntityDefinitions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse>(xmlName: "UploadEntityDefinitionsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>())

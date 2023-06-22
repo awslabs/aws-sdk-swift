@@ -8,12 +8,12 @@ import Logging
 public class PinpointEmailClient {
     public static let clientName = "PinpointEmailClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PinpointEmailClientConfigurationProtocol
+    let config: PinpointEmailClient.PinpointEmailClientConfiguration
     let serviceName = "Pinpoint Email"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: PinpointEmailClientConfigurationProtocol) {
+    public init(config: PinpointEmailClient.PinpointEmailClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class PinpointEmailClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try PinpointEmailClientConfiguration(region: region)
+        let config = try PinpointEmailClient.PinpointEmailClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await PinpointEmailClientConfiguration()
+        let config = try await PinpointEmailClient.PinpointEmailClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class PinpointEmailClientConfiguration: PinpointEmailClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension PinpointEmailClient {
+    public typealias PinpointEmailClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "Pinpoint Email" }
+        public var clientName: String { "PinpointEmailClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("PinpointEmailClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "PinpointEmailClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -213,13 +88,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>(xmlName: "CreateConfigurationSetRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
@@ -249,13 +124,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse>(xmlName: "CreateConfigurationSetEventDestinationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
@@ -285,13 +160,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse>(xmlName: "CreateDedicatedIpPoolRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>())
@@ -321,13 +196,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse>(xmlName: "CreateDeliverabilityTestReportRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>())
@@ -357,13 +232,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse>(xmlName: "CreateEmailIdentityRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>())
@@ -393,10 +268,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
@@ -426,10 +301,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
@@ -459,10 +334,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>())
@@ -492,10 +367,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEmailIdentityInput, DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEmailIdentityInput, DeleteEmailIdentityOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>())
@@ -525,10 +400,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountInput, GetAccountOutputResponse, GetAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountOutputResponse, GetAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountOutputResponse, GetAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetAccountOutputResponse, GetAccountOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountOutputResponse, GetAccountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountOutputResponse, GetAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountOutputResponse, GetAccountOutputError>())
@@ -558,11 +433,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>())
@@ -592,10 +467,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationSetInput, GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationSetInput, GetConfigurationSetOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>())
@@ -625,10 +500,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>())
@@ -658,10 +533,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDedicatedIpInput, GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDedicatedIpInput, GetDedicatedIpOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>())
@@ -691,11 +566,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>())
@@ -725,10 +600,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>())
@@ -758,10 +633,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>())
@@ -791,10 +666,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>())
@@ -824,11 +699,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>())
@@ -858,10 +733,10 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEmailIdentityInput, GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEmailIdentityInput, GetEmailIdentityOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>())
@@ -891,11 +766,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
@@ -925,11 +800,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>())
@@ -959,11 +834,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>())
@@ -993,11 +868,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>())
@@ -1027,11 +902,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>())
@@ -1061,11 +936,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
@@ -1095,13 +970,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse>(xmlName: "PutAccountDedicatedIpWarmupAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>())
@@ -1131,13 +1006,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse>(xmlName: "PutAccountSendingAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>())
@@ -1167,13 +1042,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse>(xmlName: "PutConfigurationSetDeliveryOptionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
@@ -1203,13 +1078,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse>(xmlName: "PutConfigurationSetReputationOptionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>())
@@ -1239,13 +1114,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse>(xmlName: "PutConfigurationSetSendingOptionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>())
@@ -1275,13 +1150,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse>(xmlName: "PutConfigurationSetTrackingOptionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>())
@@ -1311,13 +1186,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse>(xmlName: "PutDedicatedIpInPoolRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>())
@@ -1347,13 +1222,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse>(xmlName: "PutDedicatedIpWarmupAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>())
@@ -1383,13 +1258,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse>(xmlName: "PutDeliverabilityDashboardOptionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>())
@@ -1419,13 +1294,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse>(xmlName: "PutEmailIdentityDkimAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>())
@@ -1455,13 +1330,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse>(xmlName: "PutEmailIdentityFeedbackAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>())
@@ -1491,13 +1366,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse>(xmlName: "PutEmailIdentityMailFromAttributesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>())
@@ -1531,13 +1406,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendEmailInput, SendEmailOutputResponse, SendEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendEmailInput, SendEmailOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendEmailOutputResponse, SendEmailOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendEmailOutputResponse, SendEmailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendEmailInput, SendEmailOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendEmailInput, SendEmailOutputResponse>(xmlName: "SendEmailRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SendEmailOutputResponse, SendEmailOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendEmailOutputResponse, SendEmailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendEmailOutputResponse, SendEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendEmailOutputResponse, SendEmailOutputError>())
@@ -1567,13 +1442,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
@@ -1603,11 +1478,11 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
@@ -1637,13 +1512,13 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse>(xmlName: "UpdateConfigurationSetEventDestinationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())

@@ -18,6 +18,7 @@ disabled_rules:
   - nesting
   - operator_whitespace
   - large_tuple
+  - trailing_comma
 
 opt_in_rules:
   - empty_count

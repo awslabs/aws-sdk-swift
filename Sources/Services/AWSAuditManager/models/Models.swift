@@ -1851,7 +1851,7 @@ extension AuditManagerClientTypes.AssessmentReportsDestination: Swift.Codable {
 extension AuditManagerClientTypes {
     /// The location where Audit Manager saves assessment reports for the given assessment.
     public struct AssessmentReportsDestination: Swift.Equatable {
-        /// The destination of the assessment report.
+        /// The destination bucket where Audit Manager stores assessment reports.
         public var destination: Swift.String?
         /// The destination type, such as Amazon S3.
         public var destinationType: AuditManagerClientTypes.AssessmentReportDestinationType?
@@ -2844,6 +2844,7 @@ public enum BatchImportEvidenceToAssessmentControlOutputError: ClientRuntime.Htt
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3132,7 +3133,7 @@ extension AuditManagerClientTypes {
         public var tags: [Swift.String:Swift.String]?
         /// The steps that you should follow to determine if the control has been satisfied.
         public var testingInformation: Swift.String?
-        /// The type of control, such as a custom control or a standard control.
+        /// Specifies whether the control is a standard control or a custom control.
         public var type: AuditManagerClientTypes.ControlType?
 
         public init(
@@ -3519,15 +3520,15 @@ extension AuditManagerClientTypes {
     public struct ControlMappingSource: Swift.Equatable {
         /// The description of the source.
         public var sourceDescription: Swift.String?
-        /// The frequency of evidence collection for the control mapping source.
+        /// Specifies how often evidence is collected from the control mapping source.
         public var sourceFrequency: AuditManagerClientTypes.SourceFrequency?
         /// The unique identifier for the source.
         public var sourceId: Swift.String?
-        /// The keyword to search for in CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
         ///
-        /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+        /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
         ///
-        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
+        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
         ///
         /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
         ///
@@ -4670,13 +4671,13 @@ extension AuditManagerClientTypes {
     public struct CreateControlMappingSource: Swift.Equatable {
         /// The description of the data source that determines where Audit Manager collects evidence from for the control.
         public var sourceDescription: Swift.String?
-        /// The frequency of evidence collection for the control mapping source.
+        /// Specifies how often evidence is collected from the control mapping source.
         public var sourceFrequency: AuditManagerClientTypes.SourceFrequency?
-        /// The keyword to search for in CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+        /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
         ///
-        /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+        /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
         ///
-        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
+        /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
         ///
         /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
         ///
@@ -4828,6 +4829,51 @@ extension AuditManagerClientTypes {
             self.controlSetId = controlSetId
             self.roleArn = roleArn
             self.roleType = roleType
+        }
+    }
+
+}
+
+extension AuditManagerClientTypes.DefaultExportDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination
+        case destinationType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let destinationType = self.destinationType {
+            try encodeContainer.encode(destinationType.rawValue, forKey: .destinationType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationTypeDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.ExportDestinationType.self, forKey: .destinationType)
+        destinationType = destinationTypeDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
+        destination = destinationDecoded
+    }
+}
+
+extension AuditManagerClientTypes {
+    /// The default s3 bucket where Audit Manager saves the files that you export from evidence finder.
+    public struct DefaultExportDestination: Swift.Equatable {
+        /// The destination bucket where Audit Manager stores exported files.
+        public var destination: Swift.String?
+        /// The destination type, such as Amazon S3.
+        public var destinationType: AuditManagerClientTypes.ExportDestinationType?
+
+        public init(
+            destination: Swift.String? = nil,
+            destinationType: AuditManagerClientTypes.ExportDestinationType? = nil
+        )
+        {
+            self.destination = destination
+            self.destinationType = destinationType
         }
     }
 
@@ -6109,6 +6155,35 @@ extension AuditManagerClientTypes {
 
 }
 
+extension AuditManagerClientTypes {
+    public enum ExportDestinationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportDestinationType] {
+            return [
+                .s3,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportDestinationType(rawValue: rawValue) ?? ExportDestinationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AuditManagerClientTypes.Framework: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -6235,11 +6310,11 @@ extension AuditManagerClientTypes {
     public struct Framework: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the framework.
         public var arn: Swift.String?
-        /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
+        /// The compliance type that the framework supports, such as CIS or HIPAA.
         public var complianceType: Swift.String?
         /// The control sets that are associated with the framework.
         public var controlSets: [AuditManagerClientTypes.ControlSet]?
-        /// The sources that Audit Manager collects evidence from for the control.
+        /// The control data sources where Audit Manager collects evidence from.
         public var controlSources: Swift.String?
         /// The time when the framework was created.
         public var createdAt: ClientRuntime.Date?
@@ -6259,7 +6334,7 @@ extension AuditManagerClientTypes {
         public var name: Swift.String?
         /// The tags that are associated with the framework.
         public var tags: [Swift.String:Swift.String]?
-        /// The framework type, such as a custom framework or a standard framework.
+        /// Specifies whether the framework is a standard framework or a custom framework.
         public var type: AuditManagerClientTypes.FrameworkType?
 
         public init(
@@ -6942,7 +7017,7 @@ extension GetControlOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetControlOutputResponse: Swift.Equatable {
-    /// The name of the control that the GetControl API returned.
+    /// The details of the control that the GetControl API returned.
     public var control: AuditManagerClientTypes.Control?
 
     public init(
@@ -7231,6 +7306,113 @@ extension GetEvidenceByEvidenceFolderOutputResponseBody: Swift.Decodable {
         evidence = evidenceDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension GetEvidenceFileUploadUrlInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let fileName = fileName else {
+                let message = "Creating a URL Query Item failed. fileName is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let fileNameQueryItem = ClientRuntime.URLQueryItem(name: "fileName".urlPercentEncoding(), value: Swift.String(fileName).urlPercentEncoding())
+            items.append(fileNameQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetEvidenceFileUploadUrlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/evidenceFileUploadUrl"
+    }
+}
+
+public struct GetEvidenceFileUploadUrlInput: Swift.Equatable {
+    /// The file that you want to upload. For a list of supported file formats, see [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files) in the Audit Manager User Guide.
+    /// This member is required.
+    public var fileName: Swift.String?
+
+    public init(
+        fileName: Swift.String? = nil
+    )
+    {
+        self.fileName = fileName
+    }
+}
+
+struct GetEvidenceFileUploadUrlInputBody: Swift.Equatable {
+}
+
+extension GetEvidenceFileUploadUrlInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetEvidenceFileUploadUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEvidenceFileUploadUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEvidenceFileUploadUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.evidenceFileName = output.evidenceFileName
+            self.uploadUrl = output.uploadUrl
+        } else {
+            self.evidenceFileName = nil
+            self.uploadUrl = nil
+        }
+    }
+}
+
+public struct GetEvidenceFileUploadUrlOutputResponse: Swift.Equatable {
+    /// The name of the uploaded manual evidence file that the presigned URL was generated for.
+    public var evidenceFileName: Swift.String?
+    /// The presigned URL that was generated.
+    public var uploadUrl: Swift.String?
+
+    public init(
+        evidenceFileName: Swift.String? = nil,
+        uploadUrl: Swift.String? = nil
+    )
+    {
+        self.evidenceFileName = evidenceFileName
+        self.uploadUrl = uploadUrl
+    }
+}
+
+struct GetEvidenceFileUploadUrlOutputResponseBody: Swift.Equatable {
+    let evidenceFileName: Swift.String?
+    let uploadUrl: Swift.String?
+}
+
+extension GetEvidenceFileUploadUrlOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evidenceFileName
+        case uploadUrl
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evidenceFileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evidenceFileName)
+        evidenceFileName = evidenceFileNameDecoded
+        let uploadUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadUrl)
+        uploadUrl = uploadUrlDecoded
     }
 }
 
@@ -8370,12 +8552,16 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension AuditManagerClientTypes {
     public enum KeywordInputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case inputText
         case selectFromList
+        case uploadFile
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeywordInputType] {
             return [
+                .inputText,
                 .selectFromList,
+                .uploadFile,
                 .sdkUnknown("")
             ]
         }
@@ -8385,7 +8571,9 @@ extension AuditManagerClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .inputText: return "INPUT_TEXT"
             case .selectFromList: return "SELECT_FROM_LIST"
+            case .uploadFile: return "UPLOAD_FILE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8758,7 +8946,7 @@ extension ListAssessmentFrameworksOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct ListAssessmentFrameworksOutputResponse: Swift.Equatable {
-    /// The list of metadata objects for the framework.
+    /// A list of metadata that the ListAssessmentFrameworks API returns for each framework.
     public var frameworkMetadataList: [AuditManagerClientTypes.AssessmentFrameworkMetadata]?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
@@ -9006,7 +9194,7 @@ extension ListAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAssessmentsOutputResponse: Swift.Equatable {
-    /// The metadata that's associated with the assessment.
+    /// The metadata that the ListAssessments API returns for each assessment.
     public var assessmentMetadata: [AuditManagerClientTypes.AssessmentMetadataItem]?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
@@ -9522,7 +9710,7 @@ extension ListControlsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListControlsOutputResponse: Swift.Equatable {
-    /// The list of control metadata objects that the ListControls API returned.
+    /// A list of metadata that the ListControls API returns for each control.
     public var controlMetadataList: [AuditManagerClientTypes.ControlMetadata]?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
@@ -9912,13 +10100,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension AuditManagerClientTypes.ManualEvidence: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evidenceFileName
         case s3ResourcePath
+        case textResponse
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evidenceFileName = self.evidenceFileName {
+            try encodeContainer.encode(evidenceFileName, forKey: .evidenceFileName)
+        }
         if let s3ResourcePath = self.s3ResourcePath {
             try encodeContainer.encode(s3ResourcePath, forKey: .s3ResourcePath)
+        }
+        if let textResponse = self.textResponse {
+            try encodeContainer.encode(textResponse, forKey: .textResponse)
         }
     }
 
@@ -9926,20 +10122,32 @@ extension AuditManagerClientTypes.ManualEvidence: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ResourcePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ResourcePath)
         s3ResourcePath = s3ResourcePathDecoded
+        let textResponseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textResponse)
+        textResponse = textResponseDecoded
+        let evidenceFileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evidenceFileName)
+        evidenceFileName = evidenceFileNameDecoded
     }
 }
 
 extension AuditManagerClientTypes {
-    /// Evidence that's uploaded to Audit Manager manually.
+    /// Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName, s3ResourcePath, or textResponse.
     public struct ManualEvidence: Swift.Equatable {
-        /// The Amazon S3 URL that points to a manual evidence object.
+        /// The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the [GetEvidenceFileUploadUrl](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html) API response.
+        public var evidenceFileName: Swift.String?
+        /// The S3 URL of the object that's imported as manual evidence.
         public var s3ResourcePath: Swift.String?
+        /// The plain text response that's entered and saved as manual evidence.
+        public var textResponse: Swift.String?
 
         public init(
-            s3ResourcePath: Swift.String? = nil
+            evidenceFileName: Swift.String? = nil,
+            s3ResourcePath: Swift.String? = nil,
+            textResponse: Swift.String? = nil
         )
         {
+            self.evidenceFileName = evidenceFileName
             self.s3ResourcePath = s3ResourcePath
+            self.textResponse = textResponse
         }
     }
 
@@ -10729,6 +10937,7 @@ extension AuditManagerClientTypes {
     public enum SettingAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
         case defaultAssessmentReportsDestination
+        case defaultExportDestination
         case defaultProcessOwners
         case deregistrationPolicy
         case evidenceFinderEnablement
@@ -10740,6 +10949,7 @@ extension AuditManagerClientTypes {
             return [
                 .all,
                 .defaultAssessmentReportsDestination,
+                .defaultExportDestination,
                 .defaultProcessOwners,
                 .deregistrationPolicy,
                 .evidenceFinderEnablement,
@@ -10756,6 +10966,7 @@ extension AuditManagerClientTypes {
             switch self {
             case .all: return "ALL"
             case .defaultAssessmentReportsDestination: return "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
+            case .defaultExportDestination: return "DEFAULT_EXPORT_DESTINATION"
             case .defaultProcessOwners: return "DEFAULT_PROCESS_OWNERS"
             case .deregistrationPolicy: return "DEREGISTRATION_POLICY"
             case .evidenceFinderEnablement: return "EVIDENCE_FINDER_ENABLEMENT"
@@ -10775,6 +10986,7 @@ extension AuditManagerClientTypes {
 extension AuditManagerClientTypes.Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
+        case defaultExportDestination
         case defaultProcessOwners
         case deregistrationPolicy
         case evidenceFinderEnablement
@@ -10787,6 +10999,9 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultAssessmentReportsDestination = self.defaultAssessmentReportsDestination {
             try encodeContainer.encode(defaultAssessmentReportsDestination, forKey: .defaultAssessmentReportsDestination)
+        }
+        if let defaultExportDestination = self.defaultExportDestination {
+            try encodeContainer.encode(defaultExportDestination, forKey: .defaultExportDestination)
         }
         if let defaultProcessOwners = defaultProcessOwners {
             var defaultProcessOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultProcessOwners)
@@ -10836,14 +11051,18 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         evidenceFinderEnablement = evidenceFinderEnablementDecoded
         let deregistrationPolicyDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DeregistrationPolicy.self, forKey: .deregistrationPolicy)
         deregistrationPolicy = deregistrationPolicyDecoded
+        let defaultExportDestinationDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DefaultExportDestination.self, forKey: .defaultExportDestination)
+        defaultExportDestination = defaultExportDestinationDecoded
     }
 }
 
 extension AuditManagerClientTypes {
     /// The settings object that holds all supported Audit Manager settings.
     public struct Settings: Swift.Equatable {
-        /// The default storage destination for assessment reports.
+        /// The default S3 destination bucket for storing assessment reports.
         public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
+        /// The default S3 destination bucket for storing evidence finder exports.
+        public var defaultExportDestination: AuditManagerClientTypes.DefaultExportDestination?
         /// The designated default audit owners.
         public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
         /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
@@ -10859,6 +11078,7 @@ extension AuditManagerClientTypes {
 
         public init(
             defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
+            defaultExportDestination: AuditManagerClientTypes.DefaultExportDestination? = nil,
             defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
             deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy? = nil,
             evidenceFinderEnablement: AuditManagerClientTypes.EvidenceFinderEnablement? = nil,
@@ -10868,6 +11088,7 @@ extension AuditManagerClientTypes {
         )
         {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
+            self.defaultExportDestination = defaultExportDestination
             self.defaultProcessOwners = defaultProcessOwners
             self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnablement = evidenceFinderEnablement
@@ -11057,39 +11278,73 @@ extension AuditManagerClientTypes.SourceKeyword: Swift.Codable {
 }
 
 extension AuditManagerClientTypes {
-    /// The keyword to search for in CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
+    /// A keyword that relates to the control data source. For manual evidence, this keyword indicates if the manual evidence is a file or text. For automated evidence, this keyword identifies a specific CloudTrail event, Config rule, Security Hub control, or Amazon Web Services API name. To learn more about the supported keywords that you can use when mapping a control data source, see the following pages in the Audit Manager User Guide:
     ///
-    /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
+    /// * [Config rules supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
     ///
-    /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html)
+    /// * [Security Hub controls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html)
     ///
     /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
     ///
     /// * [CloudTrail event names supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html)
     public struct SourceKeyword: Swift.Equatable {
         /// The input method for the keyword.
+        ///
+        /// * SELECT_FROM_LIST is used when mapping a data source for automated evidence.
+        ///
+        /// * When keywordInputType is SELECT_FROM_LIST, a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.
+        ///
+        ///
+        ///
+        ///
+        /// * UPLOAD_FILE and INPUT_TEXT are only used when mapping a data source for manual evidence.
+        ///
+        /// * When keywordInputType is UPLOAD_FILE, a file must be uploaded as manual evidence.
+        ///
+        /// * When keywordInputType is INPUT_TEXT, text must be entered as manual evidence.
         public var keywordInputType: AuditManagerClientTypes.KeywordInputType?
         /// The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call. If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:
         ///
-        /// * For [managed rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html), you can use the rule identifier as the keywordValue. You can find the rule identifier from the [list of Config managed rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html).
+        /// * For [managed rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html), you can use the rule identifier as the keywordValue. You can find the rule identifier from the [list of Config managed rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name. Keyword example for managed rules:
         ///
         /// * Managed rule name: [s3-bucket-acl-prohibited](https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-acl-prohibited.html)keywordValue: S3_BUCKET_ACL_PROHIBITED
         ///
         ///
         ///
         ///
-        /// * For [custom rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html), you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the rule from a managed rule.
+        /// * For [custom rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html), you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the custom rule from a managed rule. Keyword example for custom rules:
         ///
         /// * Custom rule name: my-custom-config-rule keywordValue: Custom_my-custom-config-rule
         ///
         ///
         ///
         ///
-        /// * For [service-linked rules](https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html), you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.
+        /// * For [service-linked rules](https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html), you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name. Keyword examples for service-linked rules:
         ///
         /// * Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w keywordValue: Custom_CustomRuleForAccount-conformance-pack
         ///
         /// * Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended. Keep in mind the following requirements, depending on the data source type that you're using.
+        ///
+        /// * For Config:
+        ///
+        /// * For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDERSCORES. For example, CLOUDWATCH_LOG_GROUP_ENCRYPTED. For accuracy, we recommend that you reference the list of [supported Config managed rules](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html).
+        ///
+        /// * For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the [Config console](https://console.aws.amazon.com/config/) to verify your custom rule name.
+        ///
+        ///
+        ///
+        ///
+        /// * For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of [supported Security Hub controls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html).
+        ///
+        /// * For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of [supported API calls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html).
+        ///
+        /// * For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Service prefix and action names in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html).
         public var keywordValue: Swift.String?
 
         public init(
@@ -12667,6 +12922,7 @@ extension UpdateControlOutputResponseBody: Swift.Decodable {
 extension UpdateSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
+        case defaultExportDestination
         case defaultProcessOwners
         case deregistrationPolicy
         case evidenceFinderEnabled
@@ -12678,6 +12934,9 @@ extension UpdateSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultAssessmentReportsDestination = self.defaultAssessmentReportsDestination {
             try encodeContainer.encode(defaultAssessmentReportsDestination, forKey: .defaultAssessmentReportsDestination)
+        }
+        if let defaultExportDestination = self.defaultExportDestination {
+            try encodeContainer.encode(defaultExportDestination, forKey: .defaultExportDestination)
         }
         if let defaultProcessOwners = defaultProcessOwners {
             var defaultProcessOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultProcessOwners)
@@ -12707,8 +12966,10 @@ extension UpdateSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSettingsInput: Swift.Equatable {
-    /// The default storage destination for assessment reports.
+    /// The default S3 destination bucket for storing assessment reports.
     public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
+    /// The default S3 destination bucket for storing evidence finder exports.
+    public var defaultExportDestination: AuditManagerClientTypes.DefaultExportDestination?
     /// A list of the default audit owners.
     public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
     /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
@@ -12722,6 +12983,7 @@ public struct UpdateSettingsInput: Swift.Equatable {
 
     public init(
         defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
+        defaultExportDestination: AuditManagerClientTypes.DefaultExportDestination? = nil,
         defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
         deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy? = nil,
         evidenceFinderEnabled: Swift.Bool? = nil,
@@ -12730,6 +12992,7 @@ public struct UpdateSettingsInput: Swift.Equatable {
     )
     {
         self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
+        self.defaultExportDestination = defaultExportDestination
         self.defaultProcessOwners = defaultProcessOwners
         self.deregistrationPolicy = deregistrationPolicy
         self.evidenceFinderEnabled = evidenceFinderEnabled
@@ -12745,11 +13008,13 @@ struct UpdateSettingsInputBody: Swift.Equatable {
     let kmsKey: Swift.String?
     let evidenceFinderEnabled: Swift.Bool?
     let deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy?
+    let defaultExportDestination: AuditManagerClientTypes.DefaultExportDestination?
 }
 
 extension UpdateSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
+        case defaultExportDestination
         case defaultProcessOwners
         case deregistrationPolicy
         case evidenceFinderEnabled
@@ -12780,6 +13045,8 @@ extension UpdateSettingsInputBody: Swift.Decodable {
         evidenceFinderEnabled = evidenceFinderEnabledDecoded
         let deregistrationPolicyDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DeregistrationPolicy.self, forKey: .deregistrationPolicy)
         deregistrationPolicy = deregistrationPolicyDecoded
+        let defaultExportDestinationDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DefaultExportDestination.self, forKey: .defaultExportDestination)
+        defaultExportDestination = defaultExportDestinationDecoded
     }
 }
 

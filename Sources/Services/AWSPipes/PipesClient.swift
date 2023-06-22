@@ -8,12 +8,12 @@ import Logging
 public class PipesClient {
     public static let clientName = "PipesClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PipesClientConfigurationProtocol
+    let config: PipesClient.PipesClientConfiguration
     let serviceName = "Pipes"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: PipesClientConfigurationProtocol) {
+    public init(config: PipesClient.PipesClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class PipesClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try PipesClientConfiguration(region: region)
+        let config = try PipesClient.PipesClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await PipesClientConfiguration()
+        let config = try await PipesClient.PipesClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class PipesClientConfiguration: PipesClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension PipesClient {
+    public typealias PipesClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "Pipes" }
+        public var clientName: String { "PipesClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("PipesClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "PipesClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -213,13 +88,13 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipeInput, CreatePipeOutputResponse, CreatePipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipeInput, CreatePipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePipeOutputResponse, CreatePipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePipeOutputResponse, CreatePipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePipeInput, CreatePipeOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePipeInput, CreatePipeOutputResponse>(xmlName: "CreatePipeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreatePipeOutputResponse, CreatePipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePipeOutputResponse, CreatePipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipeOutputResponse, CreatePipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipeOutputResponse, CreatePipeOutputError>())
@@ -249,10 +124,10 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipeInput, DeletePipeOutputResponse, DeletePipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipeInput, DeletePipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePipeOutputResponse, DeletePipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePipeOutputResponse, DeletePipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeletePipeOutputResponse, DeletePipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePipeOutputResponse, DeletePipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipeOutputResponse, DeletePipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipeOutputResponse, DeletePipeOutputError>())
@@ -282,10 +157,10 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePipeInput, DescribePipeOutputResponse, DescribePipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePipeInput, DescribePipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePipeOutputResponse, DescribePipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePipeOutputResponse, DescribePipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribePipeOutputResponse, DescribePipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePipeOutputResponse, DescribePipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePipeOutputResponse, DescribePipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePipeOutputResponse, DescribePipeOutputError>())
@@ -315,11 +190,11 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipesInput, ListPipesOutputResponse, ListPipesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipesInput, ListPipesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipesOutputResponse, ListPipesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipesOutputResponse, ListPipesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPipesInput, ListPipesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListPipesOutputResponse, ListPipesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPipesOutputResponse, ListPipesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipesOutputResponse, ListPipesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipesOutputResponse, ListPipesOutputError>())
@@ -349,10 +224,10 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
@@ -382,10 +257,10 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPipeInput, StartPipeOutputResponse, StartPipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPipeInput, StartPipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartPipeOutputResponse, StartPipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartPipeOutputResponse, StartPipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartPipeOutputResponse, StartPipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartPipeOutputResponse, StartPipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPipeOutputResponse, StartPipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPipeOutputResponse, StartPipeOutputError>())
@@ -415,10 +290,10 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPipeInput, StopPipeOutputResponse, StopPipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPipeInput, StopPipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopPipeOutputResponse, StopPipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopPipeOutputResponse, StopPipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopPipeOutputResponse, StopPipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopPipeOutputResponse, StopPipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPipeOutputResponse, StopPipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPipeOutputResponse, StopPipeOutputError>())
@@ -448,13 +323,13 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
@@ -484,11 +359,11 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
@@ -518,13 +393,13 @@ extension PipesClient: PipesClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipeInput, UpdatePipeOutputResponse, UpdatePipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipeInput, UpdatePipeOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipeOutputResponse, UpdatePipeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipeOutputResponse, UpdatePipeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipeInput, UpdatePipeOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePipeInput, UpdatePipeOutputResponse>(xmlName: "UpdatePipeRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdatePipeOutputResponse, UpdatePipeOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipeOutputResponse, UpdatePipeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipeOutputResponse, UpdatePipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipeOutputResponse, UpdatePipeOutputError>())

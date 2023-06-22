@@ -34,13 +34,13 @@ extension ApplicationDiscoveryClientTypes.AgentConfigurationStatus: Swift.Codabl
 }
 
 extension ApplicationDiscoveryClientTypes {
-    /// Information about agents or connectors that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation, and whether the agent/connector configuration was updated.
+    /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation, and whether the agent configuration was updated.
     public struct AgentConfigurationStatus: Swift.Equatable {
-        /// The agent/connector ID.
+        /// The agent ID.
         public var agentId: Swift.String?
         /// A description of the operation performed.
         public var description: Swift.String?
-        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command.
+        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent receives this command the next time it polls for a new command.
         public var operationSucceeded: Swift.Bool
 
         public init(
@@ -143,27 +143,27 @@ extension ApplicationDiscoveryClientTypes.AgentInfo: Swift.Codable {
 }
 
 extension ApplicationDiscoveryClientTypes {
-    /// Information about agents or connectors associated with the user’s Amazon Web Services account. Information includes agent or connector IDs, IP addresses, media access control (MAC) addresses, agent or connector health, hostname where the agent or connector resides, and agent version for each agent.
+    /// Information about agents associated with the user’s Amazon Web Services account. Information includes agent IDs, IP addresses, media access control (MAC) addresses, agent or collector status, hostname where the agent resides, and agent version for each agent.
     public struct AgentInfo: Swift.Equatable {
-        /// The agent or connector ID.
+        /// The agent or collector ID.
         public var agentId: Swift.String?
-        /// Network details about the host where the agent or connector resides.
+        /// Network details about the host where the agent or collector resides.
         public var agentNetworkInfoList: [ApplicationDiscoveryClientTypes.AgentNetworkInfo]?
         /// Type of agent.
         public var agentType: Swift.String?
-        /// Status of the collection process for an agent or connector.
+        /// Status of the collection process for an agent.
         public var collectionStatus: Swift.String?
         /// The ID of the connector.
         public var connectorId: Swift.String?
-        /// The health of the agent or connector.
+        /// The health of the agent.
         public var health: ApplicationDiscoveryClientTypes.AgentStatus?
-        /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
+        /// The name of the host where the agent or collector resides. The host can be a server or virtual machine.
         public var hostName: Swift.String?
-        /// Time since agent or connector health was reported.
+        /// Time since agent health was reported.
         public var lastHealthPingTime: Swift.String?
         /// Agent's first registration timestamp in UTC.
         public var registeredTime: Swift.String?
-        /// The agent or connector version.
+        /// The agent or collector version.
         public var version: Swift.String?
 
         public init(
@@ -220,11 +220,11 @@ extension ApplicationDiscoveryClientTypes.AgentNetworkInfo: Swift.Codable {
 }
 
 extension ApplicationDiscoveryClientTypes {
-    /// Network details about the host where the agent/connector resides.
+    /// Network details about the host where the agent/collector resides.
     public struct AgentNetworkInfo: Swift.Equatable {
-        /// The IP address for the host where the agent/connector resides.
+        /// The IP address for the host where the agent/collector resides.
         public var ipAddress: Swift.String?
-        /// The MAC address for the host where the agent/connector resides.
+        /// The MAC address for the host where the agent/collector resides.
         public var macAddress: Swift.String?
 
         public init(
@@ -396,7 +396,7 @@ extension AuthorizationErrorException {
     }
 }
 
-/// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+/// The user does not have permission to perform the action. Check the IAM policy associated with this user.
 public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -928,9 +928,9 @@ extension ApplicationDiscoveryClientTypes {
         ///
         /// * DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see [Kinesis Data Streams Limits](http://docs.aws.amazon.com/streams/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide.
         ///
-        /// * FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see [Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies](http://docs.aws.amazon.com/application-discovery/latest/userguide/setting-up.html#setting-up-user-policy) in the Application Discovery Service User Guide.
+        /// * FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your user is missing the Amazon Web ServicesApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see [Creating the Amazon Web ServicesApplicationDiscoveryServiceFirehose Role](https://docs.aws.amazon.com/application-discovery/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-create-firehose-role) in the Application Discovery Service User Guide.
         ///
-        /// * FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.
+        /// * FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your user is missing one or more of the Kinesis data delivery streams.
         ///
         /// * INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact Amazon Web Services Support.
         ///
@@ -1412,19 +1412,27 @@ extension ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo: Swift.
 }
 
 extension ApplicationDiscoveryClientTypes {
+    /// The inventory data for installed Agentless Collector collectors.
     public struct CustomerAgentlessCollectorInfo: Swift.Equatable {
+        /// The number of active Agentless Collector collectors.
         /// This member is required.
         public var activeAgentlessCollectors: Swift.Int
+        /// The number of deny-listed Agentless Collector collectors.
         /// This member is required.
         public var denyListedAgentlessCollectors: Swift.Int
+        /// The number of healthy Agentless Collector collectors.
         /// This member is required.
         public var healthyAgentlessCollectors: Swift.Int
+        /// The number of Agentless Collector collectors with SHUTDOWN status.
         /// This member is required.
         public var shutdownAgentlessCollectors: Swift.Int
+        /// The total number of Agentless Collector collectors.
         /// This member is required.
         public var totalAgentlessCollectors: Swift.Int
+        /// The number of unhealthy Agentless Collector collectors.
         /// This member is required.
         public var unhealthyAgentlessCollectors: Swift.Int
+        /// The number of unknown Agentless Collector collectors.
         /// This member is required.
         public var unknownAgentlessCollectors: Swift.Int
 
@@ -1916,11 +1924,11 @@ extension DescribeAgentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAgentsInput: Swift.Equatable {
-    /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your Amazon Web Services user account.
+    /// The agent or the collector IDs for which you want information. If you specify no IDs, the system returns information about all agents/collectors associated with your user.
     public var agentIds: [Swift.String]?
     /// You can filter the request using various logical operators and a key-value format. For example: {"key": "collectionStatus", "value": "STARTED"}
     public var filters: [ApplicationDiscoveryClientTypes.Filter]?
-    /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
+    /// The total number of agents/collectors to return in a single page of output. The maximum value is 100.
     public var maxResults: Swift.Int?
     /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
     public var nextToken: Swift.String?
@@ -2015,7 +2023,7 @@ extension DescribeAgentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeAgentsOutputResponse: Swift.Equatable {
-    /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
+    /// Lists agents or the collector by ID or lists all agents/collectors associated with your user, if you did not specify an agent/collector ID. The output includes agent/collector IDs, IP addresses, media access control (MAC) addresses, agent/collector health, host name where the agent/collector resides, and the version number of each agent/collector.
     public var agentsInfo: [ApplicationDiscoveryClientTypes.AgentInfo]?
     /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
     public var nextToken: Swift.String?
@@ -3105,6 +3113,113 @@ public struct DisassociateConfigurationItemsFromApplicationOutputResponse: Swift
     public init() { }
 }
 
+extension ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cpuPerformanceMetricBasis
+        case enabled
+        case excludedInstanceTypes
+        case preferredRegion
+        case ramPerformanceMetricBasis
+        case reservedInstanceOptions
+        case tenancy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cpuPerformanceMetricBasis = self.cpuPerformanceMetricBasis {
+            try encodeContainer.encode(cpuPerformanceMetricBasis, forKey: .cpuPerformanceMetricBasis)
+        }
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let excludedInstanceTypes = excludedInstanceTypes {
+            var excludedInstanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedInstanceTypes)
+            for ec2instancetype0 in excludedInstanceTypes {
+                try excludedInstanceTypesContainer.encode(ec2instancetype0)
+            }
+        }
+        if let preferredRegion = self.preferredRegion {
+            try encodeContainer.encode(preferredRegion, forKey: .preferredRegion)
+        }
+        if let ramPerformanceMetricBasis = self.ramPerformanceMetricBasis {
+            try encodeContainer.encode(ramPerformanceMetricBasis, forKey: .ramPerformanceMetricBasis)
+        }
+        if let reservedInstanceOptions = self.reservedInstanceOptions {
+            try encodeContainer.encode(reservedInstanceOptions, forKey: .reservedInstanceOptions)
+        }
+        if let tenancy = self.tenancy {
+            try encodeContainer.encode(tenancy.rawValue, forKey: .tenancy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+        let cpuPerformanceMetricBasisDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.UsageMetricBasis.self, forKey: .cpuPerformanceMetricBasis)
+        cpuPerformanceMetricBasis = cpuPerformanceMetricBasisDecoded
+        let ramPerformanceMetricBasisDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.UsageMetricBasis.self, forKey: .ramPerformanceMetricBasis)
+        ramPerformanceMetricBasis = ramPerformanceMetricBasisDecoded
+        let tenancyDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.Tenancy.self, forKey: .tenancy)
+        tenancy = tenancyDecoded
+        let excludedInstanceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludedInstanceTypes)
+        var excludedInstanceTypesDecoded0:[Swift.String]? = nil
+        if let excludedInstanceTypesContainer = excludedInstanceTypesContainer {
+            excludedInstanceTypesDecoded0 = [Swift.String]()
+            for string0 in excludedInstanceTypesContainer {
+                if let string0 = string0 {
+                    excludedInstanceTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        excludedInstanceTypes = excludedInstanceTypesDecoded0
+        let preferredRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredRegion)
+        preferredRegion = preferredRegionDecoded
+        let reservedInstanceOptionsDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.ReservedInstanceOptions.self, forKey: .reservedInstanceOptions)
+        reservedInstanceOptions = reservedInstanceOptionsDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// Indicates that the exported data must include EC2 instance type matches for on-premises servers that are discovered through Amazon Web Services Application Discovery Service.
+    public struct Ec2RecommendationsExportPreferences: Swift.Equatable {
+        /// The recommended EC2 instance type that matches the CPU usage metric of server performance data.
+        public var cpuPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis?
+        /// If set to true, the export [preferences](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html#API_StartExportTask_RequestSyntax) is set to Ec2RecommendationsExportPreferences.
+        public var enabled: Swift.Bool
+        /// An array of instance types to exclude from recommendations.
+        public var excludedInstanceTypes: [Swift.String]?
+        /// The target Amazon Web Services Region for the recommendations. You can use any of the Region codes available for the chosen service, as listed in [Amazon Web Services service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html) in the Amazon Web Services General Reference.
+        public var preferredRegion: Swift.String?
+        /// The recommended EC2 instance type that matches the Memory usage metric of server performance data.
+        public var ramPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis?
+        /// The contract type for a reserved instance. If blank, we assume an On-Demand instance is preferred.
+        public var reservedInstanceOptions: ApplicationDiscoveryClientTypes.ReservedInstanceOptions?
+        /// The target tenancy to use for your recommended EC2 instances.
+        public var tenancy: ApplicationDiscoveryClientTypes.Tenancy?
+
+        public init(
+            cpuPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis? = nil,
+            enabled: Swift.Bool = false,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            preferredRegion: Swift.String? = nil,
+            ramPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis? = nil,
+            reservedInstanceOptions: ApplicationDiscoveryClientTypes.ReservedInstanceOptions? = nil,
+            tenancy: ApplicationDiscoveryClientTypes.Tenancy? = nil
+        )
+        {
+            self.cpuPerformanceMetricBasis = cpuPerformanceMetricBasis
+            self.enabled = enabled
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.preferredRegion = preferredRegion
+            self.ramPerformanceMetricBasis = ramPerformanceMetricBasis
+            self.reservedInstanceOptions = reservedInstanceOptions
+            self.tenancy = tenancy
+        }
+    }
+
+}
+
 extension ExportConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3192,13 +3307,11 @@ extension ExportConfigurationsOutputResponseBody: Swift.Decodable {
 extension ApplicationDiscoveryClientTypes {
     public enum ExportDataFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
-        case graphml
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExportDataFormat] {
             return [
                 .csv,
-                .graphml,
                 .sdkUnknown("")
             ]
         }
@@ -3209,7 +3322,6 @@ extension ApplicationDiscoveryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
-            case .graphml: return "GRAPHML"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3400,6 +3512,43 @@ extension ApplicationDiscoveryClientTypes {
 
 }
 
+extension ApplicationDiscoveryClientTypes.ExportPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2recommendationspreferences = "ec2RecommendationsPreferences"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .ec2recommendationspreferences(ec2recommendationspreferences):
+                try container.encode(ec2recommendationspreferences, forKey: .ec2recommendationspreferences)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let ec2recommendationspreferencesDecoded = try values.decodeIfPresent(ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences.self, forKey: .ec2recommendationspreferences)
+        if let ec2recommendationspreferences = ec2recommendationspreferencesDecoded {
+            self = .ec2recommendationspreferences(ec2recommendationspreferences)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// Indicates the type of data that is being exported. Only one ExportPreferences can be enabled for a [StartExportTask](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html) action.
+    public enum ExportPreferences: Swift.Equatable {
+        /// If enabled, exported data includes EC2 instance type matches for on-premises servers discovered through Amazon Web Services Application Discovery Service.
+        case ec2recommendationspreferences(ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension ApplicationDiscoveryClientTypes {
     public enum ExportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
@@ -3577,6 +3726,7 @@ extension GetDiscoverySummaryOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetDiscoverySummaryOutputResponse: Swift.Equatable {
     /// Details about discovered agents, including agent status and health.
     public var agentSummary: ApplicationDiscoveryClientTypes.CustomerAgentInfo?
+    /// Details about Agentless Collector collectors, including status.
     public var agentlessCollectorSummary: ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo?
     /// The number of applications discovered.
     public var applications: Swift.Int
@@ -3672,7 +3822,7 @@ extension HomeRegionNotSetException {
     }
 }
 
-/// The home region is not set. Set the home region to continue.
+/// The home Region is not set. Set the home Region to continue.
 public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4603,6 +4753,38 @@ extension ApplicationDiscoveryClientTypes {
 
 }
 
+extension ApplicationDiscoveryClientTypes {
+    public enum OfferingClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case convertible
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferingClass] {
+            return [
+                .convertible,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .convertible: return "CONVERTIBLE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OfferingClass(rawValue: rawValue) ?? OfferingClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OperationNotPermittedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4734,6 +4916,99 @@ extension ApplicationDiscoveryClientTypes {
             self = OrderString(rawValue: rawValue) ?? OrderString.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    public enum PurchasingOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allUpfront
+        case noUpfront
+        case partialUpfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PurchasingOption] {
+            return [
+                .allUpfront,
+                .noUpfront,
+                .partialUpfront,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allUpfront: return "ALL_UPFRONT"
+            case .noUpfront: return "NO_UPFRONT"
+            case .partialUpfront: return "PARTIAL_UPFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PurchasingOption(rawValue: rawValue) ?? PurchasingOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ApplicationDiscoveryClientTypes.ReservedInstanceOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case offeringClass
+        case purchasingOption
+        case termLength
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let offeringClass = self.offeringClass {
+            try encodeContainer.encode(offeringClass.rawValue, forKey: .offeringClass)
+        }
+        if let purchasingOption = self.purchasingOption {
+            try encodeContainer.encode(purchasingOption.rawValue, forKey: .purchasingOption)
+        }
+        if let termLength = self.termLength {
+            try encodeContainer.encode(termLength.rawValue, forKey: .termLength)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let purchasingOptionDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.PurchasingOption.self, forKey: .purchasingOption)
+        purchasingOption = purchasingOptionDecoded
+        let offeringClassDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.OfferingClass.self, forKey: .offeringClass)
+        offeringClass = offeringClassDecoded
+        let termLengthDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.TermLength.self, forKey: .termLength)
+        termLength = termLengthDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// Used to provide Reserved Instance preferences for the recommendation.
+    public struct ReservedInstanceOptions: Swift.Equatable {
+        /// The flexibility to change the instance types needed for your Reserved Instance.
+        /// This member is required.
+        public var offeringClass: ApplicationDiscoveryClientTypes.OfferingClass?
+        /// The payment plan to use for your Reserved Instance.
+        /// This member is required.
+        public var purchasingOption: ApplicationDiscoveryClientTypes.PurchasingOption?
+        /// The preferred duration of the Reserved Instance term.
+        /// This member is required.
+        public var termLength: ApplicationDiscoveryClientTypes.TermLength?
+
+        public init(
+            offeringClass: ApplicationDiscoveryClientTypes.OfferingClass? = nil,
+            purchasingOption: ApplicationDiscoveryClientTypes.PurchasingOption? = nil,
+            termLength: ApplicationDiscoveryClientTypes.TermLength? = nil
+        )
+        {
+            self.offeringClass = offeringClass
+            self.purchasingOption = purchasingOption
+            self.termLength = termLength
+        }
+    }
+
 }
 
 extension ResourceInUseException {
@@ -5061,7 +5336,7 @@ extension StartDataCollectionByAgentIdsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartDataCollectionByAgentIdsInput: Swift.Equatable {
-    /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+    /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field.
     /// This member is required.
     public var agentIds: [Swift.String]?
 
@@ -5126,7 +5401,7 @@ extension StartDataCollectionByAgentIdsOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct StartDataCollectionByAgentIdsOutputResponse: Swift.Equatable {
-    /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+    /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
     public var agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 
     public init(
@@ -5167,6 +5442,7 @@ extension StartExportTaskInput: Swift.Encodable {
         case endTime
         case exportDataFormat
         case filters
+        case preferences
         case startTime
     }
 
@@ -5187,6 +5463,9 @@ extension StartExportTaskInput: Swift.Encodable {
                 try filtersContainer.encode(exportfilter0)
             }
         }
+        if let preferences = self.preferences {
+            try encodeContainer.encode(preferences, forKey: .preferences)
+        }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
@@ -5204,8 +5483,10 @@ public struct StartExportTaskInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated.
     public var exportDataFormat: [ApplicationDiscoveryClientTypes.ExportDataFormat]?
-    /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents.
+    /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Amazon Web Services Application Discovery Service Agentless Collector collectors data and summary data from Application Discovery Agent agents.
     public var filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
+    /// Indicates the type of data that needs to be exported. Only one [ExportPreferences](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_ExportPreferences.html) can be enabled at any time.
+    public var preferences: ApplicationDiscoveryClientTypes.ExportPreferences?
     /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
     public var startTime: ClientRuntime.Date?
 
@@ -5213,12 +5494,14 @@ public struct StartExportTaskInput: Swift.Equatable {
         endTime: ClientRuntime.Date? = nil,
         exportDataFormat: [ApplicationDiscoveryClientTypes.ExportDataFormat]? = nil,
         filters: [ApplicationDiscoveryClientTypes.ExportFilter]? = nil,
+        preferences: ApplicationDiscoveryClientTypes.ExportPreferences? = nil,
         startTime: ClientRuntime.Date? = nil
     )
     {
         self.endTime = endTime
         self.exportDataFormat = exportDataFormat
         self.filters = filters
+        self.preferences = preferences
         self.startTime = startTime
     }
 }
@@ -5228,6 +5511,7 @@ struct StartExportTaskInputBody: Swift.Equatable {
     let filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
+    let preferences: ApplicationDiscoveryClientTypes.ExportPreferences?
 }
 
 extension StartExportTaskInputBody: Swift.Decodable {
@@ -5235,6 +5519,7 @@ extension StartExportTaskInputBody: Swift.Decodable {
         case endTime
         case exportDataFormat
         case filters
+        case preferences
         case startTime
     }
 
@@ -5266,6 +5551,8 @@ extension StartExportTaskInputBody: Swift.Decodable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
+        let preferencesDecoded = try containerValues.decodeIfPresent(ApplicationDiscoveryClientTypes.ExportPreferences.self, forKey: .preferences)
+        preferences = preferencesDecoded
     }
 }
 
@@ -5593,7 +5880,7 @@ extension StopDataCollectionByAgentIdsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StopDataCollectionByAgentIdsInput: Swift.Equatable {
-    /// The IDs of the agents or connectors from which to stop collecting data.
+    /// The IDs of the agents from which to stop collecting data.
     /// This member is required.
     public var agentIds: [Swift.String]?
 
@@ -5658,7 +5945,7 @@ extension StopDataCollectionByAgentIdsOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct StopDataCollectionByAgentIdsOutputResponse: Swift.Equatable {
-    /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+    /// Information about the agents that were instructed to stop collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
     public var agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 
     public init(
@@ -5800,6 +6087,70 @@ extension ApplicationDiscoveryClientTypes {
 
 }
 
+extension ApplicationDiscoveryClientTypes {
+    public enum Tenancy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dedicated
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Tenancy] {
+            return [
+                .dedicated,
+                .shared,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Tenancy(rawValue: rawValue) ?? Tenancy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    public enum TermLength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oneYear
+        case threeYear
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TermLength] {
+            return [
+                .oneYear,
+                .threeYear,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneYear: return "ONE_YEAR"
+            case .threeYear: return "THREE_YEAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TermLength(rawValue: rawValue) ?? TermLength.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UpdateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationId
@@ -5895,4 +6246,49 @@ extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateApplicationOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension ApplicationDiscoveryClientTypes.UsageMetricBasis: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case percentageAdjust
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let percentageAdjust = self.percentageAdjust {
+            try encodeContainer.encode(percentageAdjust, forKey: .percentageAdjust)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let percentageAdjustDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .percentageAdjust)
+        percentageAdjust = percentageAdjustDecoded
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+    /// Specifies the performance metrics to use for the server that is used for recommendations.
+    public struct UsageMetricBasis: Swift.Equatable {
+        /// A utilization metric that is used by the recommendations.
+        public var name: Swift.String?
+        /// Specifies the percentage of the specified utilization metric that is used by the recommendations.
+        public var percentageAdjust: Swift.Double?
+
+        public init(
+            name: Swift.String? = nil,
+            percentageAdjust: Swift.Double? = nil
+        )
+        {
+            self.name = name
+            self.percentageAdjust = percentageAdjust
+        }
+    }
+
 }

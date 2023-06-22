@@ -3317,19 +3317,6 @@ extension Route53DomainsClientTypes {
         ///
         ///
         ///
-        /// .fr
-        ///
-        /// * BIRTH_CITY
-        ///
-        /// * BIRTH_COUNTRY
-        ///
-        /// * BIRTH_DATE_IN_YYYY_MM_DD
-        ///
-        /// * BIRTH_DEPARTMENT: Specify the INSEE code that corresponds with the department where the contact was born. If the contact was born somewhere other than France or its overseas departments, specify 99. For more information, including a list of departments and the corresponding INSEE numbers, see the Wikipedia entry [Departments of France](https://en.wikipedia.org/wiki/Departments_of_France).
-        ///
-        /// * BRAND_NUMBER
-        ///
-        ///
         /// .it
         ///
         /// * IT_NATIONALITY
@@ -4098,7 +4085,7 @@ extension GetDomainSuggestionsInput: Swift.Encodable {
         if let onlyAvailable = self.onlyAvailable {
             try encodeContainer.encode(onlyAvailable, forKey: .onlyAvailable)
         }
-        if suggestionCount != 0 {
+        if let suggestionCount = self.suggestionCount {
             try encodeContainer.encode(suggestionCount, forKey: .suggestionCount)
         }
     }
@@ -4130,12 +4117,12 @@ public struct GetDomainSuggestionsInput: Swift.Equatable {
     public var onlyAvailable: Swift.Bool?
     /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50.
     /// This member is required.
-    public var suggestionCount: Swift.Int
+    public var suggestionCount: Swift.Int?
 
     public init(
         domainName: Swift.String? = nil,
         onlyAvailable: Swift.Bool? = nil,
-        suggestionCount: Swift.Int = 0
+        suggestionCount: Swift.Int? = nil
     )
     {
         self.domainName = domainName
@@ -4146,7 +4133,7 @@ public struct GetDomainSuggestionsInput: Swift.Equatable {
 
 struct GetDomainSuggestionsInputBody: Swift.Equatable {
     let domainName: Swift.String?
-    let suggestionCount: Swift.Int
+    let suggestionCount: Swift.Int?
     let onlyAvailable: Swift.Bool?
 }
 
@@ -4161,7 +4148,7 @@ extension GetDomainSuggestionsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
-        let suggestionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestionCount) ?? 0
+        let suggestionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestionCount)
         suggestionCount = suggestionCountDecoded
         let onlyAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAvailable)
         onlyAvailable = onlyAvailableDecoded
@@ -6060,7 +6047,7 @@ extension RenewDomainInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if currentExpiryYear != 0 {
+        if let currentExpiryYear = self.currentExpiryYear {
             try encodeContainer.encode(currentExpiryYear, forKey: .currentExpiryYear)
         }
         if let domainName = self.domainName {
@@ -6082,7 +6069,7 @@ extension RenewDomainInput: ClientRuntime.URLPathProvider {
 public struct RenewDomainInput: Swift.Equatable {
     /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
     /// This member is required.
-    public var currentExpiryYear: Swift.Int
+    public var currentExpiryYear: Swift.Int?
     /// The name of the domain that you want to renew.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6090,7 +6077,7 @@ public struct RenewDomainInput: Swift.Equatable {
     public var durationInYears: Swift.Int?
 
     public init(
-        currentExpiryYear: Swift.Int = 0,
+        currentExpiryYear: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil
     )
@@ -6104,7 +6091,7 @@ public struct RenewDomainInput: Swift.Equatable {
 struct RenewDomainInputBody: Swift.Equatable {
     let domainName: Swift.String?
     let durationInYears: Swift.Int?
-    let currentExpiryYear: Swift.Int
+    let currentExpiryYear: Swift.Int?
 }
 
 extension RenewDomainInputBody: Swift.Decodable {
@@ -6120,7 +6107,7 @@ extension RenewDomainInputBody: Swift.Decodable {
         domainName = domainNameDecoded
         let durationInYearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInYears)
         durationInYears = durationInYearsDecoded
-        let currentExpiryYearDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentExpiryYear) ?? 0
+        let currentExpiryYearDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentExpiryYear)
         currentExpiryYear = currentExpiryYearDecoded
     }
 }
@@ -6795,7 +6782,7 @@ public struct TransferDomainInput: Swift.Equatable {
     public var idnLangCode: Swift.String?
     /// Contains details for the host and glue IP addresses.
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of owner.". While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. Default: true
     public var privacyProtectAdminContact: Swift.Bool?
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
     public var privacyProtectRegistrantContact: Swift.Bool?
@@ -7236,7 +7223,7 @@ extension UpdateDomainContactInput: ClientRuntime.URLPathProvider {
 public struct UpdateDomainContactInput: Swift.Equatable {
     /// Provides detailed contact information.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
-    /// Customer's consent for the owner change request.
+    /// Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
     public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to update contact information for.
     /// This member is required.

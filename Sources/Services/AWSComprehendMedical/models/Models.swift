@@ -2221,12 +2221,14 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum ICD10CMRelationshipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case overlap
+        case quality
         case systemOrganSite
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ICD10CMRelationshipType] {
             return [
                 .overlap,
+                .quality,
                 .systemOrganSite,
                 .sdkUnknown("")
             ]
@@ -2238,6 +2240,7 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .overlap: return "OVERLAP"
+            case .quality: return "QUALITY"
             case .systemOrganSite: return "SYSTEM_ORGAN_SITE"
             case let .sdkUnknown(s): return s
             }
@@ -3831,6 +3834,7 @@ extension ComprehendMedicalClientTypes {
         case frequency
         case negative
         case overlap
+        case quality
         case rate
         case routeOrMode
         case strength
@@ -3838,6 +3842,7 @@ extension ComprehendMedicalClientTypes {
         case testUnit
         case testUnits
         case testValue
+        case usage
         case withDosage
         case sdkUnknown(Swift.String)
 
@@ -3855,6 +3860,7 @@ extension ComprehendMedicalClientTypes {
                 .frequency,
                 .negative,
                 .overlap,
+                .quality,
                 .rate,
                 .routeOrMode,
                 .strength,
@@ -3862,6 +3868,7 @@ extension ComprehendMedicalClientTypes {
                 .testUnit,
                 .testUnits,
                 .testValue,
+                .usage,
                 .withDosage,
                 .sdkUnknown("")
             ]
@@ -3884,6 +3891,7 @@ extension ComprehendMedicalClientTypes {
             case .frequency: return "FREQUENCY"
             case .negative: return "NEGATIVE"
             case .overlap: return "OVERLAP"
+            case .quality: return "QUALITY"
             case .rate: return "RATE"
             case .routeOrMode: return "ROUTE_OR_MODE"
             case .strength: return "STRENGTH"
@@ -3891,6 +3899,7 @@ extension ComprehendMedicalClientTypes {
             case .testUnit: return "TEST_UNIT"
             case .testUnits: return "TEST_UNITS"
             case .testValue: return "TEST_VALUE"
+            case .usage: return "USAGE"
             case .withDosage: return "WITH_DOSAGE"
             case let .sdkUnknown(s): return s
             }
@@ -4447,11 +4456,13 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum RxNormTraitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case negation
+        case pastHistory
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RxNormTraitName] {
             return [
                 .negation,
+                .pastHistory,
                 .sdkUnknown("")
             ]
         }
@@ -4462,6 +4473,7 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .negation: return "NEGATION"
+            case .pastHistory: return "PAST_HISTORY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5026,6 +5038,7 @@ extension ComprehendMedicalClientTypes {
         case direction
         case quality
         case systemOrganSite
+        case testUnit
         case testUnits
         case testValue
         case sdkUnknown(Swift.String)
@@ -5036,6 +5049,7 @@ extension ComprehendMedicalClientTypes {
                 .direction,
                 .quality,
                 .systemOrganSite,
+                .testUnit,
                 .testUnits,
                 .testValue,
                 .sdkUnknown("")
@@ -5051,6 +5065,7 @@ extension ComprehendMedicalClientTypes {
             case .direction: return "DIRECTION"
             case .quality: return "QUALITY"
             case .systemOrganSite: return "SYSTEM_ORGAN_SITE"
+            case .testUnit: return "TEST_UNIT"
             case .testUnits: return "TEST_UNITS"
             case .testValue: return "TEST_VALUE"
             case let .sdkUnknown(s): return s

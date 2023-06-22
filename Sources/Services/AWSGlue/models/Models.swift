@@ -16054,6 +16054,7 @@ extension GlueClientTypes.DatabaseIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
+        case region = "Region"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16064,6 +16065,9 @@ extension GlueClientTypes.DatabaseIdentifier: Swift.Codable {
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
         }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -16072,6 +16076,8 @@ extension GlueClientTypes.DatabaseIdentifier: Swift.Codable {
         catalogId = catalogIdDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
         databaseName = databaseNameDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
     }
 }
 
@@ -16082,14 +16088,18 @@ extension GlueClientTypes {
         public var catalogId: Swift.String?
         /// The name of the catalog database.
         public var databaseName: Swift.String?
+        /// Region of the target database.
+        public var region: Swift.String?
 
         public init(
             catalogId: Swift.String? = nil,
-            databaseName: Swift.String? = nil
+            databaseName: Swift.String? = nil,
+            region: Swift.String? = nil
         )
         {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.region = region
         }
     }
 
@@ -53241,6 +53251,7 @@ extension GlueClientTypes.TableIdentifier: Swift.Codable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case name = "Name"
+        case region = "Region"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -53254,6 +53265,9 @@ extension GlueClientTypes.TableIdentifier: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -53264,6 +53278,8 @@ extension GlueClientTypes.TableIdentifier: Swift.Codable {
         databaseName = databaseNameDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
     }
 }
 
@@ -53276,16 +53292,20 @@ extension GlueClientTypes {
         public var databaseName: Swift.String?
         /// The name of the target table.
         public var name: Swift.String?
+        /// Region of the target table.
+        public var region: Swift.String?
 
         public init(
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            region: Swift.String? = nil
         )
         {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.region = region
         }
     }
 

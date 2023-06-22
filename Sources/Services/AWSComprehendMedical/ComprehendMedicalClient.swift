@@ -8,12 +8,12 @@ import Logging
 public class ComprehendMedicalClient {
     public static let clientName = "ComprehendMedicalClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ComprehendMedicalClientConfigurationProtocol
+    let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration
     let serviceName = "ComprehendMedical"
     let encoder: ClientRuntime.RequestEncoder
     let decoder: ClientRuntime.ResponseDecoder
 
-    public init(config: ComprehendMedicalClientConfigurationProtocol) {
+    public init(config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
@@ -27,153 +27,28 @@ public class ComprehendMedicalClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try ComprehendMedicalClientConfiguration(region: region)
+        let config = try ComprehendMedicalClient.ComprehendMedicalClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await ComprehendMedicalClientConfiguration()
+        let config = try await ComprehendMedicalClient.ComprehendMedicalClientConfiguration()
         self.init(config: config)
     }
+}
 
-    public class ComprehendMedicalClientConfiguration: ComprehendMedicalClientConfigurationProtocol {
-        public var clientLogMode: ClientRuntime.ClientLogMode
-        public var decoder: ClientRuntime.ResponseDecoder?
-        public var encoder: ClientRuntime.RequestEncoder?
-        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-        public var httpClientEngine: ClientRuntime.HttpClientEngine
-        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-        public var logger: ClientRuntime.LogAgent
-        public var retryer: ClientRuntime.SDKRetryer
+extension ComprehendMedicalClient {
+    public typealias ComprehendMedicalClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
 
-        public var credentialsProvider: AWSClientRuntime.CredentialsProviding
-        public var endpoint: Swift.String?
-        public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
-        public var region: Swift.String?
-        public var regionResolver: AWSClientRuntime.RegionResolver?
-        public var signingRegion: Swift.String?
-        public var useDualStack: Swift.Bool?
-        public var useFIPS: Swift.Bool?
+    public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+        public typealias AWSServiceEndpointResolver = EndpointResolver
 
+        public var serviceName: String { "ComprehendMedical" }
+        public var clientName: String { "ComprehendMedicalClient" }
         public var endpointResolver: EndpointResolver
 
-        /// Creates a configuration asynchronously
-        public convenience init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            region: Swift.String? = nil,
-            regionResolver: AWSClientRuntime.RegionResolver? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) async throws {
-            let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
-
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
-
-            let resolvedRegion: String?
-            if let region = region {
-                resolvedRegion = region
-            } else {
-                resolvedRegion = await resolvedRegionResolver.resolveRegion()
-            }
-
-            let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: resolvedRegion,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        public convenience init(
-            region: Swift.String,
-            credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
-            endpoint: Swift.String? = nil,
-            endpointResolver: EndpointResolver? = nil,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
-            signingRegion: Swift.String? = nil,
-            useDualStack: Swift.Bool? = nil,
-            useFIPS: Swift.Bool? = nil
-        ) throws {
-            let resolvedCredentialsProvider: CredentialsProviding
-            if let credentialsProvider = credentialsProvider {
-                resolvedCredentialsProvider = credentialsProvider
-            } else {
-                let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
-            }
-
-            try self.init(
-                credentialsProvider: resolvedCredentialsProvider,
-                endpoint: endpoint,
-                endpointResolver: endpointResolver,
-                frameworkMetadata: frameworkMetadata,
-                region: region,
-                signingRegion: signingRegion,
-                useDualStack: useDualStack,
-                useFIPS: useFIPS,
-                runtimeConfig: runtimeConfig
-            )
-        }
-
-        /// Internal designated init
-        /// All convenience inits should call this
-        public init(
-            credentialsProvider: AWSClientRuntime.CredentialsProviding,
-            endpoint: Swift.String?,
-            endpointResolver: EndpointResolver?,
-            frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
-            region: Swift.String?,
-            signingRegion: Swift.String?,
-            useDualStack: Swift.Bool?,
-            useFIPS: Swift.Bool?,
-            runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
-        ) throws {
-            let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("ComprehendMedicalClient")
-
-            let resolvedSigningRegion = signingRegion ?? region
-
-            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
-
-            self.credentialsProvider = credentialsProvider
-            self.endpoint = endpoint
-            self.endpointResolver = resolvedEndpointsResolver
-            self.frameworkMetadata = frameworkMetadata
-            self.region = region
-            // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
-            self.regionResolver = nil
-            self.signingRegion = resolvedSigningRegion
-            self.useDualStack = useDualStack
-            self.useFIPS = useFIPS
-            self.clientLogMode = runtimeConfig.clientLogMode
-            self.decoder = runtimeConfig.decoder
-            self.encoder = runtimeConfig.encoder
-            self.httpClientConfiguration = runtimeConfig.httpClientConfiguration
-            self.httpClientEngine = runtimeConfig.httpClientEngine
-            self.idempotencyTokenGenerator = runtimeConfig.idempotencyTokenGenerator
-            self.logger = runtimeConfig.logger
-            self.retryer = runtimeConfig.retryer
-        }
-
-        public var partitionID: String? {
-            return "ComprehendMedicalClient - \(region ?? "")"
+        public init(endpointResolver: EndpointResolver? = nil) throws {
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
 }
@@ -213,14 +88,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DescribeEntitiesDetectionV2Job"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse>(xmlName: "DescribeEntitiesDetectionV2JobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>())
@@ -250,14 +125,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DescribeICD10CMInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse>(xmlName: "DescribeICD10CMInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>())
@@ -287,14 +162,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DescribePHIDetectionJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse>(xmlName: "DescribePHIDetectionJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>())
@@ -324,14 +199,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DescribeRxNormInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse>(xmlName: "DescribeRxNormInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>())
@@ -361,14 +236,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DescribeSNOMEDCTInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse>(xmlName: "DescribeSNOMEDCTInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>())
@@ -399,14 +274,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse, DetectEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DetectEntities"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse>(xmlName: "DetectEntitiesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectEntitiesOutputResponse, DetectEntitiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>())
@@ -436,14 +311,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DetectEntitiesV2"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse>(xmlName: "DetectEntitiesV2Request"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>())
@@ -473,14 +348,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectPHIInput, DetectPHIOutputResponse, DetectPHIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectPHIInput, DetectPHIOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectPHIInput, DetectPHIOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.DetectPHI"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetectPHIInput, DetectPHIOutputResponse>(xmlName: "DetectPHIRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetectPHIInput, DetectPHIOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectPHIOutputResponse, DetectPHIOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectPHIOutputResponse, DetectPHIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>())
@@ -510,14 +385,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferICD10CMInput, InferICD10CMOutputResponse, InferICD10CMOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferICD10CMInput, InferICD10CMOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InferICD10CMInput, InferICD10CMOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.InferICD10CM"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InferICD10CMInput, InferICD10CMOutputResponse>(xmlName: "InferICD10CMRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InferICD10CMInput, InferICD10CMOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InferICD10CMOutputResponse, InferICD10CMOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>())
@@ -547,14 +422,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferRxNormInput, InferRxNormOutputResponse, InferRxNormOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferRxNormInput, InferRxNormOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InferRxNormInput, InferRxNormOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.InferRxNorm"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InferRxNormInput, InferRxNormOutputResponse>(xmlName: "InferRxNormRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InferRxNormInput, InferRxNormOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InferRxNormOutputResponse, InferRxNormOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferRxNormOutputResponse, InferRxNormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>())
@@ -584,14 +459,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.InferSNOMEDCT"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse>(xmlName: "InferSNOMEDCTRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>())
@@ -621,14 +496,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.ListEntitiesDetectionV2Jobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse>(xmlName: "ListEntitiesDetectionV2JobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>())
@@ -658,14 +533,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.ListICD10CMInferenceJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse>(xmlName: "ListICD10CMInferenceJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>())
@@ -695,14 +570,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.ListPHIDetectionJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse>(xmlName: "ListPHIDetectionJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>())
@@ -732,14 +607,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.ListRxNormInferenceJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse>(xmlName: "ListRxNormInferenceJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>())
@@ -769,14 +644,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.ListSNOMEDCTInferenceJobs"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse>(xmlName: "ListSNOMEDCTInferenceJobsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>())
@@ -814,14 +689,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StartEntitiesDetectionV2Job"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse>(xmlName: "StartEntitiesDetectionV2JobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>())
@@ -859,14 +734,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StartICD10CMInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse>(xmlName: "StartICD10CMInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>())
@@ -904,14 +779,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StartPHIDetectionJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse>(xmlName: "StartPHIDetectionJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>())
@@ -949,14 +824,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StartRxNormInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse>(xmlName: "StartRxNormInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>())
@@ -994,14 +869,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StartSNOMEDCTInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse>(xmlName: "StartSNOMEDCTInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>())
@@ -1031,14 +906,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StopEntitiesDetectionV2Job"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse>(xmlName: "StopEntitiesDetectionV2JobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>())
@@ -1068,14 +943,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StopICD10CMInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse>(xmlName: "StopICD10CMInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>())
@@ -1105,14 +980,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StopPHIDetectionJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse>(xmlName: "StopPHIDetectionJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>())
@@ -1142,14 +1017,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StopRxNormInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse>(xmlName: "StopRxNormInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>())
@@ -1179,14 +1054,14 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse>(xAmzTarget: "ComprehendMedical_20181030.StopSNOMEDCTInferenceJob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse>(xmlName: "StopSNOMEDCTInferenceJobRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>())

@@ -389,7 +389,7 @@ public struct AllocateConnectionOnInterconnectOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -815,7 +815,7 @@ public struct AllocateHostedConnectionOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -1186,7 +1186,7 @@ public struct AllocatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -1610,7 +1610,7 @@ public struct AllocatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -2152,7 +2152,7 @@ public struct AssociateConnectionWithLagOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -2513,7 +2513,7 @@ public struct AssociateHostedConnectionOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -3024,7 +3024,7 @@ public struct AssociateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -4371,7 +4371,7 @@ extension DirectConnectClientTypes {
         public var encryptionMode: Swift.String?
         /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public var jumboFrameCapable: Swift.Bool?
         /// The ID of the LAG.
         public var lagId: Swift.String?
@@ -4855,7 +4855,7 @@ public struct CreateConnectionOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -5693,7 +5693,7 @@ public struct CreateInterconnectOutputResponse: Swift.Equatable {
     ///
     /// * unknown: The state of the interconnect is not available.
     public var interconnectState: DirectConnectClientTypes.InterconnectState?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -6081,7 +6081,7 @@ public struct CreateLagOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -6456,7 +6456,7 @@ public struct CreatePrivateVirtualInterfaceOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -6867,7 +6867,7 @@ public struct CreatePublicVirtualInterfaceOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -7563,7 +7563,7 @@ public struct DeleteConnectionOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -8326,7 +8326,7 @@ public struct DeleteLagOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -11817,7 +11817,7 @@ public struct DisassociateConnectionFromLagOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -12415,7 +12415,7 @@ extension DirectConnectClientTypes {
         ///
         /// * unknown: The state of the interconnect is not available.
         public var interconnectState: DirectConnectClientTypes.InterconnectState?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public var jumboFrameCapable: Swift.Bool?
         /// The ID of the LAG.
         public var lagId: Swift.String?
@@ -12710,7 +12710,7 @@ extension DirectConnectClientTypes {
         public var encryptionMode: Swift.String?
         /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public var jumboFrameCapable: Swift.Bool?
         /// The ID of the LAG.
         public var lagId: Swift.String?
@@ -15147,7 +15147,7 @@ public struct UpdateConnectionOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -15769,7 +15769,7 @@ public struct UpdateLagOutputResponse: Swift.Equatable {
     public var encryptionMode: Swift.String?
     /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The ID of the LAG.
     public var lagId: Swift.String?
@@ -16165,7 +16165,7 @@ public struct UpdateVirtualInterfaceAttributesOutputResponse: Swift.Equatable {
     public var customerRouterConfig: Swift.String?
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
-    /// Indicates whether jumbo frames (9001 MTU) are supported.
+    /// Indicates whether jumbo frames are supported.
     public var jumboFrameCapable: Swift.Bool?
     /// The location of the connection.
     public var location: Swift.String?
@@ -16698,7 +16698,7 @@ extension DirectConnectClientTypes {
         public var customerRouterConfig: Swift.String?
         /// The ID of the Direct Connect gateway.
         public var directConnectGatewayId: Swift.String?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public var jumboFrameCapable: Swift.Bool?
         /// The location of the connection.
         public var location: Swift.String?

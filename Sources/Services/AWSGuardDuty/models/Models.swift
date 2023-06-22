@@ -6077,7 +6077,7 @@ extension GuardDutyClientTypes {
     public struct DnsRequestAction: Swift.Equatable {
         /// Indicates whether the targeted port is blocked.
         public var blocked: Swift.Bool
-        /// The domain information for the API request.
+        /// The domain information for the DNS query.
         public var domain: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?

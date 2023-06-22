@@ -302,6 +302,38 @@ extension PaginatorSequence where Input == DescribeClusterVersionsInput, Output 
     }
 }
 extension RedshiftClient {
+    /// Paginate over `[DescribeCustomDomainAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCustomDomainAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomDomainAssociationsOutputResponse`
+    public func describeCustomDomainAssociationsPaginated(input: DescribeCustomDomainAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutputResponse>(input: input, inputKey: \DescribeCustomDomainAssociationsInput.marker, outputKey: \DescribeCustomDomainAssociationsOutputResponse.marker, paginationFunction: self.describeCustomDomainAssociations(input:))
+    }
+}
+
+extension DescribeCustomDomainAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCustomDomainAssociationsInput {
+        return DescribeCustomDomainAssociationsInput(
+            customDomainCertificateArn: self.customDomainCertificateArn,
+            customDomainName: self.customDomainName,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeCustomDomainAssociationsInput, Output == DescribeCustomDomainAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCustomDomainAssociationsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Association]`
+    /// - Returns: `[RedshiftClientTypes.Association]`
+    public func associations() async throws -> [RedshiftClientTypes.Association] {
+        return try await self.asyncCompactMap { item in item.associations }
+    }
+}
+extension RedshiftClient {
     /// Paginate over `[DescribeDataSharesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

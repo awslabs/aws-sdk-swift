@@ -129,6 +129,1025 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.CodegenFeatureFlags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isNonModelSupported
+        case isRelationshipSupported
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isNonModelSupported = self.isNonModelSupported {
+            try encodeContainer.encode(isNonModelSupported, forKey: .isNonModelSupported)
+        }
+        if let isRelationshipSupported = self.isRelationshipSupported {
+            try encodeContainer.encode(isRelationshipSupported, forKey: .isRelationshipSupported)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isRelationshipSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRelationshipSupported)
+        isRelationshipSupported = isRelationshipSupportedDecoded
+        let isNonModelSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isNonModelSupported)
+        isNonModelSupported = isNonModelSupportedDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the feature flags that you can specify for a code generation job.
+    public struct CodegenFeatureFlags: Swift.Equatable {
+        /// Specifies whether a code generation job supports non models.
+        public var isNonModelSupported: Swift.Bool?
+        /// Specifes whether a code generation job supports data relationships.
+        public var isRelationshipSupported: Swift.Bool?
+
+        public init(
+            isNonModelSupported: Swift.Bool? = nil,
+            isRelationshipSupported: Swift.Bool? = nil
+        )
+        {
+            self.isNonModelSupported = isNonModelSupported
+            self.isRelationshipSupported = isRelationshipSupported
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenGenericDataEnum: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for string0 in values {
+                try valuesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the enums in a generic data schema.
+    public struct CodegenGenericDataEnum: Swift.Equatable {
+        /// The list of enum values in the generic data schema.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            values: [Swift.String]? = nil
+        )
+        {
+            self.values = values
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenGenericDataField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataType
+        case dataTypeValue
+        case isArray
+        case readOnly
+        case relationship
+        case `required` = "required"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let dataTypeValue = self.dataTypeValue {
+            try encodeContainer.encode(dataTypeValue, forKey: .dataTypeValue)
+        }
+        if let isArray = self.isArray {
+            try encodeContainer.encode(isArray, forKey: .isArray)
+        }
+        if let readOnly = self.readOnly {
+            try encodeContainer.encode(readOnly, forKey: .readOnly)
+        }
+        if let relationship = self.relationship {
+            try encodeContainer.encode(relationship, forKey: .relationship)
+        }
+        if let `required` = self.`required` {
+            try encodeContainer.encode(`required`, forKey: .`required`)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataTypeDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenGenericDataFieldDataType.self, forKey: .dataType)
+        dataType = dataTypeDecoded
+        let dataTypeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataTypeValue)
+        dataTypeValue = dataTypeValueDecoded
+        let requiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .required)
+        `required` = requiredDecoded
+        let readOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnly)
+        readOnly = readOnlyDecoded
+        let isArrayDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArray)
+        isArray = isArrayDecoded
+        let relationshipDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType.self, forKey: .relationship)
+        relationship = relationshipDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes a field in a generic data schema.
+    public struct CodegenGenericDataField: Swift.Equatable {
+        /// The data type for the generic data field.
+        /// This member is required.
+        public var dataType: AmplifyUIBuilderClientTypes.CodegenGenericDataFieldDataType?
+        /// The value of the data type for the generic data field.
+        /// This member is required.
+        public var dataTypeValue: Swift.String?
+        /// Specifies whether the generic data field is an array.
+        /// This member is required.
+        public var isArray: Swift.Bool?
+        /// Specifies whether the generic data field is read-only.
+        /// This member is required.
+        public var readOnly: Swift.Bool?
+        /// The relationship of the generic data schema.
+        public var relationship: AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType?
+        /// Specifies whether the generic data field is required.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            dataType: AmplifyUIBuilderClientTypes.CodegenGenericDataFieldDataType? = nil,
+            dataTypeValue: Swift.String? = nil,
+            isArray: Swift.Bool? = nil,
+            readOnly: Swift.Bool? = nil,
+            relationship: AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType? = nil,
+            `required`: Swift.Bool? = nil
+        )
+        {
+            self.dataType = dataType
+            self.dataTypeValue = dataTypeValue
+            self.isArray = isArray
+            self.readOnly = readOnly
+            self.relationship = relationship
+            self.`required` = `required`
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum CodegenGenericDataFieldDataType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsDate
+        case awsDateTime
+        case awsEmail
+        case awsIpAddress
+        case awsJson
+        case awsPhone
+        case awsTime
+        case awsTimestamp
+        case awsUrl
+        case boolean
+        case `enum`
+        case float
+        case id
+        case int
+        case model
+        case nonModel
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodegenGenericDataFieldDataType] {
+            return [
+                .awsDate,
+                .awsDateTime,
+                .awsEmail,
+                .awsIpAddress,
+                .awsJson,
+                .awsPhone,
+                .awsTime,
+                .awsTimestamp,
+                .awsUrl,
+                .boolean,
+                .enum,
+                .float,
+                .id,
+                .int,
+                .model,
+                .nonModel,
+                .string,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsDate: return "AWSDate"
+            case .awsDateTime: return "AWSDateTime"
+            case .awsEmail: return "AWSEmail"
+            case .awsIpAddress: return "AWSIPAddress"
+            case .awsJson: return "AWSJSON"
+            case .awsPhone: return "AWSPhone"
+            case .awsTime: return "AWSTime"
+            case .awsTimestamp: return "AWSTimestamp"
+            case .awsUrl: return "AWSURL"
+            case .boolean: return "Boolean"
+            case .enum: return "Enum"
+            case .float: return "Float"
+            case .id: return "ID"
+            case .int: return "Int"
+            case .model: return "Model"
+            case .nonModel: return "NonModel"
+            case .string: return "String"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CodegenGenericDataFieldDataType(rawValue: rawValue) ?? CodegenGenericDataFieldDataType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenGenericDataModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields
+        case isJoinTable
+        case primaryKeys
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
+            for (dictKey0, codegenGenericDataFields0) in fields {
+                try fieldsContainer.encode(codegenGenericDataFields0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let isJoinTable = self.isJoinTable {
+            try encodeContainer.encode(isJoinTable, forKey: .isJoinTable)
+        }
+        if let primaryKeys = primaryKeys {
+            var primaryKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .primaryKeys)
+            for string0 in primaryKeys {
+                try primaryKeysContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataField?].self, forKey: .fields)
+        var fieldsDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]()
+            for (key0, codegengenericdatafield0) in fieldsContainer {
+                if let codegengenericdatafield0 = codegengenericdatafield0 {
+                    fieldsDecoded0?[key0] = codegengenericdatafield0
+                }
+            }
+        }
+        fields = fieldsDecoded0
+        let isJoinTableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isJoinTable)
+        isJoinTable = isJoinTableDecoded
+        let primaryKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .primaryKeys)
+        var primaryKeysDecoded0:[Swift.String]? = nil
+        if let primaryKeysContainer = primaryKeysContainer {
+            primaryKeysDecoded0 = [Swift.String]()
+            for string0 in primaryKeysContainer {
+                if let string0 = string0 {
+                    primaryKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        primaryKeys = primaryKeysDecoded0
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes a model in a generic data schema.
+    public struct CodegenGenericDataModel: Swift.Equatable {
+        /// The fields in the generic data model.
+        /// This member is required.
+        public var fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]?
+        /// Specifies whether the generic data model is a join table.
+        public var isJoinTable: Swift.Bool?
+        /// The primary keys of the generic data model.
+        /// This member is required.
+        public var primaryKeys: [Swift.String]?
+
+        public init(
+            fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil,
+            isJoinTable: Swift.Bool? = nil,
+            primaryKeys: [Swift.String]? = nil
+        )
+        {
+            self.fields = fields
+            self.isJoinTable = isJoinTable
+            self.primaryKeys = primaryKeys
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
+            for (dictKey0, codegenGenericDataNonModelFields0) in fields {
+                try fieldsContainer.encode(codegenGenericDataNonModelFields0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataField?].self, forKey: .fields)
+        var fieldsDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]()
+            for (key0, codegengenericdatafield0) in fieldsContainer {
+                if let codegengenericdatafield0 = codegengenericdatafield0 {
+                    fieldsDecoded0?[key0] = codegengenericdatafield0
+                }
+            }
+        }
+        fields = fieldsDecoded0
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes a non-model in a generic data schema.
+    public struct CodegenGenericDataNonModel: Swift.Equatable {
+        /// The fields in a generic data schema non model.
+        /// This member is required.
+        public var fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]?
+
+        public init(
+            fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil
+        )
+        {
+            self.fields = fields
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedFields
+        case belongsToFieldOnRelatedModel
+        case canUnlinkAssociatedModel
+        case isHasManyIndex
+        case relatedJoinFieldName
+        case relatedJoinTableName
+        case relatedModelFields
+        case relatedModelName
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associatedFields = associatedFields {
+            var associatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedFields)
+            for string0 in associatedFields {
+                try associatedFieldsContainer.encode(string0)
+            }
+        }
+        if let belongsToFieldOnRelatedModel = self.belongsToFieldOnRelatedModel {
+            try encodeContainer.encode(belongsToFieldOnRelatedModel, forKey: .belongsToFieldOnRelatedModel)
+        }
+        if let canUnlinkAssociatedModel = self.canUnlinkAssociatedModel {
+            try encodeContainer.encode(canUnlinkAssociatedModel, forKey: .canUnlinkAssociatedModel)
+        }
+        if let isHasManyIndex = self.isHasManyIndex {
+            try encodeContainer.encode(isHasManyIndex, forKey: .isHasManyIndex)
+        }
+        if let relatedJoinFieldName = self.relatedJoinFieldName {
+            try encodeContainer.encode(relatedJoinFieldName, forKey: .relatedJoinFieldName)
+        }
+        if let relatedJoinTableName = self.relatedJoinTableName {
+            try encodeContainer.encode(relatedJoinTableName, forKey: .relatedJoinTableName)
+        }
+        if let relatedModelFields = relatedModelFields {
+            var relatedModelFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedModelFields)
+            for string0 in relatedModelFields {
+                try relatedModelFieldsContainer.encode(string0)
+            }
+        }
+        if let relatedModelName = self.relatedModelName {
+            try encodeContainer.encode(relatedModelName, forKey: .relatedModelName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.GenericDataRelationshipType.self, forKey: .type)
+        type = typeDecoded
+        let relatedModelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedModelName)
+        relatedModelName = relatedModelNameDecoded
+        let relatedModelFieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedModelFields)
+        var relatedModelFieldsDecoded0:[Swift.String]? = nil
+        if let relatedModelFieldsContainer = relatedModelFieldsContainer {
+            relatedModelFieldsDecoded0 = [Swift.String]()
+            for string0 in relatedModelFieldsContainer {
+                if let string0 = string0 {
+                    relatedModelFieldsDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedModelFields = relatedModelFieldsDecoded0
+        let canUnlinkAssociatedModelDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .canUnlinkAssociatedModel)
+        canUnlinkAssociatedModel = canUnlinkAssociatedModelDecoded
+        let relatedJoinFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedJoinFieldName)
+        relatedJoinFieldName = relatedJoinFieldNameDecoded
+        let relatedJoinTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedJoinTableName)
+        relatedJoinTableName = relatedJoinTableNameDecoded
+        let belongsToFieldOnRelatedModelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .belongsToFieldOnRelatedModel)
+        belongsToFieldOnRelatedModel = belongsToFieldOnRelatedModelDecoded
+        let associatedFieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .associatedFields)
+        var associatedFieldsDecoded0:[Swift.String]? = nil
+        if let associatedFieldsContainer = associatedFieldsContainer {
+            associatedFieldsDecoded0 = [Swift.String]()
+            for string0 in associatedFieldsContainer {
+                if let string0 = string0 {
+                    associatedFieldsDecoded0?.append(string0)
+                }
+            }
+        }
+        associatedFields = associatedFieldsDecoded0
+        let isHasManyIndexDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isHasManyIndex)
+        isHasManyIndex = isHasManyIndexDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the relationship between generic data models.
+    public struct CodegenGenericDataRelationshipType: Swift.Equatable {
+        /// The associated fields of the data relationship.
+        public var associatedFields: [Swift.String]?
+        /// The value of the belongsTo field on the related data model.
+        public var belongsToFieldOnRelatedModel: Swift.String?
+        /// Specifies whether the relationship can unlink the associated model.
+        public var canUnlinkAssociatedModel: Swift.Bool?
+        /// Specifies whether the @index directive is supported for a hasMany data relationship.
+        public var isHasManyIndex: Swift.Bool?
+        /// The name of the related join field in the data relationship.
+        public var relatedJoinFieldName: Swift.String?
+        /// The name of the related join table in the data relationship.
+        public var relatedJoinTableName: Swift.String?
+        /// The related model fields in the data relationship.
+        public var relatedModelFields: [Swift.String]?
+        /// The name of the related model in the data relationship.
+        /// This member is required.
+        public var relatedModelName: Swift.String?
+        /// The data relationship type.
+        /// This member is required.
+        public var type: AmplifyUIBuilderClientTypes.GenericDataRelationshipType?
+
+        public init(
+            associatedFields: [Swift.String]? = nil,
+            belongsToFieldOnRelatedModel: Swift.String? = nil,
+            canUnlinkAssociatedModel: Swift.Bool? = nil,
+            isHasManyIndex: Swift.Bool? = nil,
+            relatedJoinFieldName: Swift.String? = nil,
+            relatedJoinTableName: Swift.String? = nil,
+            relatedModelFields: [Swift.String]? = nil,
+            relatedModelName: Swift.String? = nil,
+            type: AmplifyUIBuilderClientTypes.GenericDataRelationshipType? = nil
+        )
+        {
+            self.associatedFields = associatedFields
+            self.belongsToFieldOnRelatedModel = belongsToFieldOnRelatedModel
+            self.canUnlinkAssociatedModel = canUnlinkAssociatedModel
+            self.isHasManyIndex = isHasManyIndex
+            self.relatedJoinFieldName = relatedJoinFieldName
+            self.relatedJoinTableName = relatedJoinTableName
+            self.relatedModelFields = relatedModelFields
+            self.relatedModelName = relatedModelName
+            self.type = type
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenJob: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appId
+        case asset
+        case autoGenerateForms
+        case createdAt
+        case environmentName
+        case features
+        case genericDataSchema
+        case id
+        case modifiedAt
+        case renderConfig
+        case status
+        case statusMessage
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appId = self.appId {
+            try encodeContainer.encode(appId, forKey: .appId)
+        }
+        if let asset = self.asset {
+            try encodeContainer.encode(asset, forKey: .asset)
+        }
+        if let autoGenerateForms = self.autoGenerateForms {
+            try encodeContainer.encode(autoGenerateForms, forKey: .autoGenerateForms)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let features = self.features {
+            try encodeContainer.encode(features, forKey: .features)
+        }
+        if let genericDataSchema = self.genericDataSchema {
+            try encodeContainer.encode(genericDataSchema, forKey: .genericDataSchema)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let renderConfig = self.renderConfig {
+            try encodeContainer.encode(renderConfig, forKey: .renderConfig)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
+        appId = appIdDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let renderConfigDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobRenderConfig.self, forKey: .renderConfig)
+        renderConfig = renderConfigDecoded
+        let genericDataSchemaDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema.self, forKey: .genericDataSchema)
+        genericDataSchema = genericDataSchemaDecoded
+        let autoGenerateFormsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoGenerateForms)
+        autoGenerateForms = autoGenerateFormsDecoded
+        let featuresDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenFeatureFlags.self, forKey: .features)
+        features = featuresDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let assetDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobAsset.self, forKey: .asset)
+        asset = assetDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the configuration for a code generation job that is associated with an Amplify app.
+    public struct CodegenJob: Swift.Equatable {
+        /// The ID of the Amplify app associated with the code generation job.
+        /// This member is required.
+        public var appId: Swift.String?
+        /// The CodegenJobAsset to use for the code generation job.
+        public var asset: AmplifyUIBuilderClientTypes.CodegenJobAsset?
+        /// Specifies whether to autogenerate forms in the code generation job.
+        public var autoGenerateForms: Swift.Bool?
+        /// The time that the code generation job was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The name of the backend environment associated with the code generation job.
+        /// This member is required.
+        public var environmentName: Swift.String?
+        /// Describes the feature flags that you can specify for a code generation job.
+        public var features: AmplifyUIBuilderClientTypes.CodegenFeatureFlags?
+        /// Describes the data schema for a code generation job.
+        public var genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema?
+        /// The unique ID for the code generation job.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The time that the code generation job was modified.
+        public var modifiedAt: ClientRuntime.Date?
+        /// Describes the configuration information for rendering the UI component associated the code generation job.
+        public var renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig?
+        /// The status of the code generation job.
+        public var status: AmplifyUIBuilderClientTypes.CodegenJobStatus?
+        /// The customized status message for the code generation job.
+        public var statusMessage: Swift.String?
+        /// One or more key-value pairs to use when tagging the code generation job.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            appId: Swift.String? = nil,
+            asset: AmplifyUIBuilderClientTypes.CodegenJobAsset? = nil,
+            autoGenerateForms: Swift.Bool? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            environmentName: Swift.String? = nil,
+            features: AmplifyUIBuilderClientTypes.CodegenFeatureFlags? = nil,
+            genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig? = nil,
+            status: AmplifyUIBuilderClientTypes.CodegenJobStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.appId = appId
+            self.asset = asset
+            self.autoGenerateForms = autoGenerateForms
+            self.createdAt = createdAt
+            self.environmentName = environmentName
+            self.features = features
+            self.genericDataSchema = genericDataSchema
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.renderConfig = renderConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenJobAsset: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case downloadUrl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let downloadUrl = self.downloadUrl {
+            try encodeContainer.encode(downloadUrl, forKey: .downloadUrl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let downloadUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .downloadUrl)
+        downloadUrl = downloadUrlDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes an asset for a code generation job.
+    public struct CodegenJobAsset: Swift.Equatable {
+        /// The URL to use to access the asset.
+        public var downloadUrl: Swift.String?
+
+        public init(
+            downloadUrl: Swift.String? = nil
+        )
+        {
+            self.downloadUrl = downloadUrl
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType
+        case enums
+        case models
+        case nonModels
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceType = self.dataSourceType {
+            try encodeContainer.encode(dataSourceType.rawValue, forKey: .dataSourceType)
+        }
+        if let enums = enums {
+            var enumsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .enums)
+            for (dictKey0, codegenGenericDataEnums0) in enums {
+                try enumsContainer.encode(codegenGenericDataEnums0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let models = models {
+            var modelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .models)
+            for (dictKey0, codegenGenericDataModels0) in models {
+                try modelsContainer.encode(codegenGenericDataModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let nonModels = nonModels {
+            var nonModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .nonModels)
+            for (dictKey0, codegenGenericDataNonModels0) in nonModels {
+                try nonModelsContainer.encode(codegenGenericDataNonModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceTypeDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobGenericDataSourceType.self, forKey: .dataSourceType)
+        dataSourceType = dataSourceTypeDecoded
+        let modelsContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataModel?].self, forKey: .models)
+        var modelsDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataModel]? = nil
+        if let modelsContainer = modelsContainer {
+            modelsDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataModel]()
+            for (key0, codegengenericdatamodel0) in modelsContainer {
+                if let codegengenericdatamodel0 = codegengenericdatamodel0 {
+                    modelsDecoded0?[key0] = codegengenericdatamodel0
+                }
+            }
+        }
+        models = modelsDecoded0
+        let enumsContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataEnum?].self, forKey: .enums)
+        var enumsDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataEnum]? = nil
+        if let enumsContainer = enumsContainer {
+            enumsDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataEnum]()
+            for (key0, codegengenericdataenum0) in enumsContainer {
+                if let codegengenericdataenum0 = codegengenericdataenum0 {
+                    enumsDecoded0?[key0] = codegengenericdataenum0
+                }
+            }
+        }
+        enums = enumsDecoded0
+        let nonModelsContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel?].self, forKey: .nonModels)
+        var nonModelsDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel]? = nil
+        if let nonModelsContainer = nonModelsContainer {
+            nonModelsDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel]()
+            for (key0, codegengenericdatanonmodel0) in nonModelsContainer {
+                if let codegengenericdatanonmodel0 = codegengenericdatanonmodel0 {
+                    nonModelsDecoded0?[key0] = codegengenericdatanonmodel0
+                }
+            }
+        }
+        nonModels = nonModelsDecoded0
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the data schema for a code generation job.
+    public struct CodegenJobGenericDataSchema: Swift.Equatable {
+        /// The type of the data source for the schema. Currently, the only valid value is an Amplify DataStore.
+        /// This member is required.
+        public var dataSourceType: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSourceType?
+        /// The name of a CodegenGenericDataEnum.
+        /// This member is required.
+        public var enums: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataEnum]?
+        /// The name of a CodegenGenericDataModel.
+        /// This member is required.
+        public var models: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataModel]?
+        /// The name of a CodegenGenericDataNonModel.
+        /// This member is required.
+        public var nonModels: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel]?
+
+        public init(
+            dataSourceType: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSourceType? = nil,
+            enums: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataEnum]? = nil,
+            models: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataModel]? = nil,
+            nonModels: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel]? = nil
+        )
+        {
+            self.dataSourceType = dataSourceType
+            self.enums = enums
+            self.models = models
+            self.nonModels = nonModels
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum CodegenJobGenericDataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dataStore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodegenJobGenericDataSourceType] {
+            return [
+                .dataStore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataStore: return "DataStore"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CodegenJobGenericDataSourceType(rawValue: rawValue) ?? CodegenJobGenericDataSourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenJobRenderConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case react
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .react(react):
+                try container.encode(react, forKey: .react)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let reactDecoded = try values.decodeIfPresent(AmplifyUIBuilderClientTypes.ReactStartCodegenJobData.self, forKey: .react)
+        if let react = reactDecoded {
+            self = .react(react)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the configuration information for rendering the UI component associated the code generation job.
+    public enum CodegenJobRenderConfig: Swift.Equatable {
+        /// The name of the ReactStartCodegenJobData object.
+        case react(AmplifyUIBuilderClientTypes.ReactStartCodegenJobData)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum CodegenJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodegenJobStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .inProgress: return "in_progress"
+            case .succeeded: return "succeeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CodegenJobStatus(rawValue: rawValue) ?? CodegenJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes.CodegenJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appId
+        case createdAt
+        case environmentName
+        case id
+        case modifiedAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appId = self.appId {
+            try encodeContainer.encode(appId, forKey: .appId)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let environmentName = self.environmentName {
+            try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appId)
+        appId = appIdDecoded
+        let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
+        environmentName = environmentNameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// A summary of the basic information about the code generation job.
+    public struct CodegenJobSummary: Swift.Equatable {
+        /// The unique ID of the Amplify app associated with the code generation job.
+        /// This member is required.
+        public var appId: Swift.String?
+        /// The time that the code generation job summary was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The name of the backend environment associated with the code generation job.
+        /// This member is required.
+        public var environmentName: Swift.String?
+        /// The unique ID for the code generation job summary.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The time that the code generation job summary was modified.
+        public var modifiedAt: ClientRuntime.Date?
+
+        public init(
+            appId: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            environmentName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.appId = appId
+            self.createdAt = createdAt
+            self.environmentName = environmentName
+            self.id = id
+            self.modifiedAt = modifiedAt
+        }
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appId
@@ -4703,6 +5722,141 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes {
+    public enum GenericDataRelationshipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case belongsTo
+        case hasMany
+        case hasOne
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GenericDataRelationshipType] {
+            return [
+                .belongsTo,
+                .hasMany,
+                .hasOne,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .belongsTo: return "BELONGS_TO"
+            case .hasMany: return "HAS_MANY"
+            case .hasOne: return "HAS_ONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GenericDataRelationshipType(rawValue: rawValue) ?? GenericDataRelationshipType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetCodegenJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appId = appId else {
+            return nil
+        }
+        guard let environmentName = environmentName else {
+            return nil
+        }
+        guard let id = id else {
+            return nil
+        }
+        return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetCodegenJobInput: Swift.Equatable {
+    /// The unique ID of the Amplify app associated with the code generation job.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The name of the backend environment that is a part of the Amplify app associated with the code generation job.
+    /// This member is required.
+    public var environmentName: Swift.String?
+    /// The unique ID of the code generation job.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        environmentName: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.environmentName = environmentName
+        self.id = id
+    }
+}
+
+struct GetCodegenJobInputBody: Swift.Equatable {
+}
+
+extension GetCodegenJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCodegenJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.CodegenJob = try responseDecoder.decode(responseBody: data)
+            self.job = output
+        } else {
+            self.job = nil
+        }
+    }
+}
+
+public struct GetCodegenJobOutputResponse: Swift.Equatable {
+    /// The configuration settings for the code generation job.
+    public var job: AmplifyUIBuilderClientTypes.CodegenJob?
+
+    public init(
+        job: AmplifyUIBuilderClientTypes.CodegenJob? = nil
+    )
+    {
+        self.job = job
+    }
+}
+
+struct GetCodegenJobOutputResponseBody: Swift.Equatable {
+    let job: AmplifyUIBuilderClientTypes.CodegenJob?
+}
+
+extension GetCodegenJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case job
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJob.self, forKey: .job)
+        job = jobDecoded
+    }
+}
+
 extension GetComponentInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let appId = appId else {
@@ -5212,6 +6366,105 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 }
 
 extension AmplifyUIBuilderClientTypes {
+    public enum JSModule: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case es2020
+        case esnext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JSModule] {
+            return [
+                .es2020,
+                .esnext,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .es2020: return "es2020"
+            case .esnext: return "esnext"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JSModule(rawValue: rawValue) ?? JSModule.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum JSScript: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case js
+        case jsx
+        case tsx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JSScript] {
+            return [
+                .js,
+                .jsx,
+                .tsx,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .js: return "js"
+            case .jsx: return "jsx"
+            case .tsx: return "tsx"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JSScript(rawValue: rawValue) ?? JSScript.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum JSTarget: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case es2015
+        case es2020
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JSTarget] {
+            return [
+                .es2015,
+                .es2020,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .es2015: return "es2015"
+            case .es2020: return "es2020"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JSTarget(rawValue: rawValue) ?? JSTarget.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
     public enum LabelDecorator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
         case `optional`
@@ -5243,6 +6496,143 @@ extension AmplifyUIBuilderClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = LabelDecorator(rawValue: rawValue) ?? LabelDecorator.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ListCodegenJobsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCodegenJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appId = appId else {
+            return nil
+        }
+        guard let environmentName = environmentName else {
+            return nil
+        }
+        return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs"
+    }
+}
+
+public struct ListCodegenJobsInput: Swift.Equatable {
+    /// The unique ID for the Amplify app.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The name of the backend environment that is a part of the Amplify app.
+    /// This member is required.
+    public var environmentName: Swift.String?
+    /// The maximum number of jobs to retrieve.
+    public var maxResults: Swift.Int?
+    /// The token to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        environmentName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.environmentName = environmentName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCodegenJobsInputBody: Swift.Equatable {
+}
+
+extension ListCodegenJobsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListCodegenJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCodegenJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCodegenJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.entities = output.entities
+            self.nextToken = output.nextToken
+        } else {
+            self.entities = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCodegenJobsOutputResponse: Swift.Equatable {
+    /// The list of code generation jobs for the Amplify app.
+    /// This member is required.
+    public var entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]?
+    /// The pagination token that's included if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.entities = entities
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCodegenJobsOutputResponseBody: Swift.Equatable {
+    let entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCodegenJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entities
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entitiesContainer = try containerValues.decodeIfPresent([AmplifyUIBuilderClientTypes.CodegenJobSummary?].self, forKey: .entities)
+        var entitiesDecoded0:[AmplifyUIBuilderClientTypes.CodegenJobSummary]? = nil
+        if let entitiesContainer = entitiesContainer {
+            entitiesDecoded0 = [AmplifyUIBuilderClientTypes.CodegenJobSummary]()
+            for structure0 in entitiesContainer {
+                if let structure0 = structure0 {
+                    entitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        entities = entitiesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -5989,6 +7379,81 @@ public struct PutMetadataFlagOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inlineSourceMap
+        case module
+        case renderTypeDeclarations
+        case script
+        case target
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if inlineSourceMap != false {
+            try encodeContainer.encode(inlineSourceMap, forKey: .inlineSourceMap)
+        }
+        if let module = self.module {
+            try encodeContainer.encode(module.rawValue, forKey: .module)
+        }
+        if renderTypeDeclarations != false {
+            try encodeContainer.encode(renderTypeDeclarations, forKey: .renderTypeDeclarations)
+        }
+        if let script = self.script {
+            try encodeContainer.encode(script.rawValue, forKey: .script)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target.rawValue, forKey: .target)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let moduleDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.JSModule.self, forKey: .module)
+        module = moduleDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.JSTarget.self, forKey: .target)
+        target = targetDecoded
+        let scriptDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.JSScript.self, forKey: .script)
+        script = scriptDecoded
+        let renderTypeDeclarationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .renderTypeDeclarations) ?? false
+        renderTypeDeclarations = renderTypeDeclarationsDecoded
+        let inlineSourceMapDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .inlineSourceMap) ?? false
+        inlineSourceMap = inlineSourceMapDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the code generation job configuration for a React project.
+    public struct ReactStartCodegenJobData: Swift.Equatable {
+        /// Specifies whether the code generation job should render inline source maps.
+        public var inlineSourceMap: Swift.Bool
+        /// The JavaScript module type.
+        public var module: AmplifyUIBuilderClientTypes.JSModule?
+        /// Specifies whether the code generation job should render type declaration files.
+        public var renderTypeDeclarations: Swift.Bool
+        /// The file type to use for a JavaScript project.
+        public var script: AmplifyUIBuilderClientTypes.JSScript?
+        /// The ECMAScript specification to use.
+        public var target: AmplifyUIBuilderClientTypes.JSTarget?
+
+        public init(
+            inlineSourceMap: Swift.Bool = false,
+            module: AmplifyUIBuilderClientTypes.JSModule? = nil,
+            renderTypeDeclarations: Swift.Bool = false,
+            script: AmplifyUIBuilderClientTypes.JSScript? = nil,
+            target: AmplifyUIBuilderClientTypes.JSTarget? = nil
+        )
+        {
+            self.inlineSourceMap = inlineSourceMap
+            self.module = module
+            self.renderTypeDeclarations = renderTypeDeclarations
+            self.script = script
+            self.target = target
+        }
+    }
+
+}
+
 public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "RefreshTokenInputBodyMiddleware"
 
@@ -6532,6 +7997,265 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.StartCodegenJobData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoGenerateForms
+        case features
+        case genericDataSchema
+        case renderConfig
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoGenerateForms = self.autoGenerateForms {
+            try encodeContainer.encode(autoGenerateForms, forKey: .autoGenerateForms)
+        }
+        if let features = self.features {
+            try encodeContainer.encode(features, forKey: .features)
+        }
+        if let genericDataSchema = self.genericDataSchema {
+            try encodeContainer.encode(genericDataSchema, forKey: .genericDataSchema)
+        }
+        if let renderConfig = self.renderConfig {
+            try encodeContainer.encode(renderConfig, forKey: .renderConfig)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let renderConfigDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobRenderConfig.self, forKey: .renderConfig)
+        renderConfig = renderConfigDecoded
+        let genericDataSchemaDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema.self, forKey: .genericDataSchema)
+        genericDataSchema = genericDataSchemaDecoded
+        let autoGenerateFormsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoGenerateForms)
+        autoGenerateForms = autoGenerateFormsDecoded
+        let featuresDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenFeatureFlags.self, forKey: .features)
+        features = featuresDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// The code generation job resource configuration.
+    public struct StartCodegenJobData: Swift.Equatable {
+        /// Specifies whether to autogenerate forms in the code generation job.
+        public var autoGenerateForms: Swift.Bool?
+        /// The feature flags for a code generation job.
+        public var features: AmplifyUIBuilderClientTypes.CodegenFeatureFlags?
+        /// The data schema to use for a code generation job.
+        public var genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema?
+        /// The code generation configuration for the codegen job.
+        /// This member is required.
+        public var renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig?
+        /// One or more key-value pairs to use when tagging the code generation job data.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            autoGenerateForms: Swift.Bool? = nil,
+            features: AmplifyUIBuilderClientTypes.CodegenFeatureFlags? = nil,
+            genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema? = nil,
+            renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.autoGenerateForms = autoGenerateForms
+            self.features = features
+            self.genericDataSchema = genericDataSchema
+            self.renderConfig = renderConfig
+            self.tags = tags
+        }
+    }
+
+}
+
+public struct StartCodegenJobInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartCodegenJobInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartCodegenJobInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartCodegenJobOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let codegenJobToCreate = input.operationInput.codegenJobToCreate {
+                let codegenJobToCreateData = try encoder.encode(codegenJobToCreate)
+                let codegenJobToCreateBody = ClientRuntime.HttpBody.data(codegenJobToCreateData)
+                input.builder.withBody(codegenJobToCreateBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let codegenJobToCreateData = "{}".data(using: .utf8)!
+                    let codegenJobToCreateBody = ClientRuntime.HttpBody.data(codegenJobToCreateData)
+                    input.builder.withBody(codegenJobToCreateBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartCodegenJobInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartCodegenJobOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension StartCodegenJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codegenJobToCreate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codegenJobToCreate = self.codegenJobToCreate {
+            try encodeContainer.encode(codegenJobToCreate, forKey: .codegenJobToCreate)
+        }
+    }
+}
+
+extension StartCodegenJobInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension StartCodegenJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appId = appId else {
+            return nil
+        }
+        guard let environmentName = environmentName else {
+            return nil
+        }
+        return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs"
+    }
+}
+
+public struct StartCodegenJobInput: Swift.Equatable {
+    /// The unique ID for the Amplify app.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The idempotency token used to ensure that the code generation job request completes only once.
+    public var clientToken: Swift.String?
+    /// The code generation job resource configuration.
+    /// This member is required.
+    public var codegenJobToCreate: AmplifyUIBuilderClientTypes.StartCodegenJobData?
+    /// The name of the backend environment that is a part of the Amplify app.
+    /// This member is required.
+    public var environmentName: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        codegenJobToCreate: AmplifyUIBuilderClientTypes.StartCodegenJobData? = nil,
+        environmentName: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.clientToken = clientToken
+        self.codegenJobToCreate = codegenJobToCreate
+        self.environmentName = environmentName
+    }
+}
+
+struct StartCodegenJobInputBody: Swift.Equatable {
+    let codegenJobToCreate: AmplifyUIBuilderClientTypes.StartCodegenJobData?
+}
+
+extension StartCodegenJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codegenJobToCreate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codegenJobToCreateDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.StartCodegenJobData.self, forKey: .codegenJobToCreate)
+        codegenJobToCreate = codegenJobToCreateDecoded
+    }
+}
+
+public enum StartCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartCodegenJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AmplifyUIBuilderClientTypes.CodegenJob = try responseDecoder.decode(responseBody: data)
+            self.entity = output
+        } else {
+            self.entity = nil
+        }
+    }
+}
+
+public struct StartCodegenJobOutputResponse: Swift.Equatable {
+    /// The code generation job for a UI component that is associated with an Amplify app.
+    public var entity: AmplifyUIBuilderClientTypes.CodegenJob?
+
+    public init(
+        entity: AmplifyUIBuilderClientTypes.CodegenJob? = nil
+    )
+    {
+        self.entity = entity
+    }
+}
+
+struct StartCodegenJobOutputResponseBody: Swift.Equatable {
+    let entity: AmplifyUIBuilderClientTypes.CodegenJob?
+}
+
+extension StartCodegenJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entity
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entityDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.CodegenJob.self, forKey: .entity)
+        entity = entityDecoded
+    }
+}
+
 extension AmplifyUIBuilderClientTypes {
     public enum StorageAccessLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `private`
@@ -6893,6 +8617,61 @@ extension AmplifyUIBuilderClientTypes {
         }
     }
 
+}
+
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension AmplifyUIBuilderClientTypes {
