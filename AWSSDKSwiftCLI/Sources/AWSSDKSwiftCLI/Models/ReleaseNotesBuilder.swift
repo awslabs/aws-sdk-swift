@@ -12,6 +12,7 @@ import PackageDescription
 struct ReleaseNotesBuilder {
     let previousVersion: Version
     let newVersion: Version
+    let repoType: PrepareRelease.Repo
     let commits: [String]
     
     // MARK: - Build
@@ -21,7 +22,7 @@ struct ReleaseNotesBuilder {
             "## What's Changed",
             buildCommits(),
             .newline,
-            "**Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/\(previousVersion)...\(newVersion)"
+            "**Full Changelog**: https://github.com/awslabs/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
         ]
         return contents.joined(separator: .newline)
     }
