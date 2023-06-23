@@ -12,9 +12,25 @@ import AWSMediaConvert
 class AWSMediaConvertTests: XCTestCase {
 
     func test_getJobTemplate_handlesSpecialCharacters() async throws {
-        let name = "Android TV Template"
-        let ep = "https://4l8tgbpha.mediaconvert.us-west-2.amazonaws.com/"
+        let region = "us-west-2"
 
+        // MediaConvert requires that you use a provided endpoint for all requests.
+        // Retrieve the endpoint for all subsequent requests.
+        let client0 = try MediaConvertClient(region: region)
+        let input0 = DescribeEndpointsInput()
+        let output0 = try await client0.describeEndpoints(input: input0)
+        guard let endpoint = output0.endpoints?.first?.url else {
+            XCTFail("Unable to retrieve endpoint")
+            return
+        }
+
+        // Create a client, configured to use the endpoint you just retrieved.
+        let config = try MediaConvertClient.MediaConvertClientConfiguration(region: region, endpoint: endpoint)
+        let client = MediaConvertClient(config: config)
+
+        let name = "Android TV Template"
+
+        // These job template settings are filled in just enough to form a valid job template for creation.
         let settings = MediaConvertClientTypes.JobTemplateSettings(
             inputs: [
                 MediaConvertClientTypes.InputTemplate()
@@ -23,7 +39,7 @@ class AWSMediaConvertTests: XCTestCase {
                 MediaConvertClientTypes.OutputGroup(
                     outputGroupSettings: MediaConvertClientTypes.OutputGroupSettings(
                         hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings(
-                            destination: "s3://jbelkins-bucket/x-out.m3u8",
+                            destination: "s3://aws-sdk-mediaconvert-integration-test/out.m3u8",
                             minSegmentLength: 0,
                             segmentLength: 10
                         ),
@@ -63,12 +79,16 @@ class AWSMediaConvertTests: XCTestCase {
             ],
             timecodeConfig: MediaConvertClientTypes.TimecodeConfig(source: .zerobased)
         )
-        let config = try MediaConvertClient.MediaConvertClientConfiguration(region: "us-west-2", endpoint: ep)
-        let client = MediaConvertClient(config: config)
+
+        // Create a new template.
         let input1 = CreateJobTemplateInput(name: name, settings: settings)
         let output1 = try await client.createJobTemplate(input: input1)
+
+        // Get the template back again.
         let input2 = GetJobTemplateInput(name: name)
         let output2 = try await client.getJobTemplate(input: input2)
+
+        // Verify the name of the retrieved template is the same as the 
         XCTAssertEqual(output2.jobTemplate?.name, name)
     }
 }
