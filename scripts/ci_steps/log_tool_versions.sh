@@ -30,4 +30,3 @@ then
 else
   echo "java not installed"
 fi
-

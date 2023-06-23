@@ -22,98 +22,6 @@ env:
 
 jobs:
   ios-compat:
-    if: ${{ false }}
-    runs-on: macos-13
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
-    steps:
-      - name: Checkout Sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
-  macos-compat:
-    if: ${{ false }}
-    runs-on: macos-11
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
-  linux-compat:
-    if: ${{ false }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        image:
-          - ubuntu-x64
-          - al2-x64
-    steps:
-      - name: Checkout Sources
-        uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
-        run: |
-          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
-          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker pull $DOCKER_IMAGE
-          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
-          --env GITHUB_REF \
-          --env GITHUB_HEAD_REF \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
-          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
-          --env AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
-          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
-  ios-compat-2:
     runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
@@ -165,3 +73,62 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
+  macos-compat:
+    runs-on: macos-11
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Tools Versions
+        run: |
+          which swiftc
+          swiftc --version
+          echo
+          which xcodebuild
+          xcodebuild -version
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        run: |
+          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
+          chmod a+x builder.pyz
+          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+  linux-compat:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - ubuntu-x64
+          - al2-x64
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Build and Test ${{ env.PACKAGE_NAME }}
+        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
+        run: |
+          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
+          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
+          docker pull $DOCKER_IMAGE
+          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
+          --env GITHUB_REF \
+          --env GITHUB_HEAD_REF \
+          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
+          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
+          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
+          --env AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 \
+          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
+          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
