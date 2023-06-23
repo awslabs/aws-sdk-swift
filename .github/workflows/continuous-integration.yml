@@ -73,7 +73,12 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-          xcodebuild -scheme aws-sdk-swift -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' test
+          set -o pipefail && \
+          xcodebuild \
+            -scheme aws-sdk-swift \
+            -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' \
+            test | \
+            .bin/xcbeautify
   macos-compat:
     runs-on: macos-11
     env:
