@@ -10677,6 +10677,125 @@ extension AppflowClientTypes {
 
 }
 
+extension ResetConnectorMetadataCacheInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiVersion
+        case connectorEntityName
+        case connectorProfileName
+        case connectorType
+        case entitiesPath
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiVersion = self.apiVersion {
+            try encodeContainer.encode(apiVersion, forKey: .apiVersion)
+        }
+        if let connectorEntityName = self.connectorEntityName {
+            try encodeContainer.encode(connectorEntityName, forKey: .connectorEntityName)
+        }
+        if let connectorProfileName = self.connectorProfileName {
+            try encodeContainer.encode(connectorProfileName, forKey: .connectorProfileName)
+        }
+        if let connectorType = self.connectorType {
+            try encodeContainer.encode(connectorType.rawValue, forKey: .connectorType)
+        }
+        if let entitiesPath = self.entitiesPath {
+            try encodeContainer.encode(entitiesPath, forKey: .entitiesPath)
+        }
+    }
+}
+
+extension ResetConnectorMetadataCacheInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reset-connector-metadata-cache"
+    }
+}
+
+public struct ResetConnectorMetadataCacheInput: Swift.Equatable {
+    /// The API version that you specified in the connector profile that you’re resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action.
+    public var apiVersion: Swift.String?
+    /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
+    public var connectorEntityName: Swift.String?
+    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
+    public var connectorProfileName: Swift.String?
+    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
+    public var connectorType: AppflowClientTypes.ConnectorType?
+    /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
+    public var entitiesPath: Swift.String?
+
+    public init(
+        apiVersion: Swift.String? = nil,
+        connectorEntityName: Swift.String? = nil,
+        connectorProfileName: Swift.String? = nil,
+        connectorType: AppflowClientTypes.ConnectorType? = nil,
+        entitiesPath: Swift.String? = nil
+    )
+    {
+        self.apiVersion = apiVersion
+        self.connectorEntityName = connectorEntityName
+        self.connectorProfileName = connectorProfileName
+        self.connectorType = connectorType
+        self.entitiesPath = entitiesPath
+    }
+}
+
+struct ResetConnectorMetadataCacheInputBody: Swift.Equatable {
+    let connectorProfileName: Swift.String?
+    let connectorType: AppflowClientTypes.ConnectorType?
+    let connectorEntityName: Swift.String?
+    let entitiesPath: Swift.String?
+    let apiVersion: Swift.String?
+}
+
+extension ResetConnectorMetadataCacheInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiVersion
+        case connectorEntityName
+        case connectorProfileName
+        case connectorType
+        case entitiesPath
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
+        connectorProfileName = connectorProfileNameDecoded
+        let connectorTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorType.self, forKey: .connectorType)
+        connectorType = connectorTypeDecoded
+        let connectorEntityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorEntityName)
+        connectorEntityName = connectorEntityNameDecoded
+        let entitiesPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entitiesPath)
+        entitiesPath = entitiesPathDecoded
+        let apiVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiVersion)
+        apiVersion = apiVersionDecoded
+    }
+}
+
+public enum ResetConnectorMetadataCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ResetConnectorMetadataCacheOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ResetConnectorMetadataCacheOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

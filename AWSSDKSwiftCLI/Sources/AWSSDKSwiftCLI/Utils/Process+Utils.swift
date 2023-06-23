@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ArgumentParser
 
 extension Process {
     /// Creates a process using `/usr/bin/env` as the executable
@@ -73,6 +74,10 @@ struct ProcessRunner {
         log("Running process: \(process.commandString)")
         try process.run()
         process.waitUntilExit()
+        let exitCode = ExitCode(process.terminationStatus)
+        if !exitCode.isSuccess {
+            throw exitCode
+        }
     }
     
     #if DEBUG

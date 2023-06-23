@@ -7,10 +7,14 @@
 
 import AwsCommonRuntimeKit
 
-@_spi(FileBasedConfig) public typealias CRTFileBasedConfiguration = AwsCommonRuntimeKit.FileBasedConfiguration
-@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationSection = AwsCommonRuntimeKit.FileBasedConfiguration.Section
-@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationSectionType = AwsCommonRuntimeKit.FileBasedConfiguration.SectionType
-@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationProperty = AwsCommonRuntimeKit.FileBasedConfiguration.Section.Property
+@_spi(FileBasedConfig) public typealias CRTFileBasedConfiguration =
+    AwsCommonRuntimeKit.FileBasedConfiguration
+@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationSection =
+    AwsCommonRuntimeKit.FileBasedConfiguration.Section
+@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationSectionType =
+    AwsCommonRuntimeKit.FileBasedConfiguration.SectionType
+@_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationProperty =
+    AwsCommonRuntimeKit.FileBasedConfiguration.Section.Property
 
 extension CRTFileBasedConfigurationSectionType {
     init(_ type: FileBasedConfigurationSectionType) {
@@ -30,7 +34,8 @@ extension CRTFileBasedConfiguration: FileBasedConfiguration {
         credentialsFilePath: String? = nil
     ) throws -> CRTFileBasedConfiguration {
         let configFilePath = try configFilePath ?? CRTFileBasedConfiguration.resolveConfigPath(sourceType: .config)
-        let credentialsFilePath = try credentialsFilePath ?? CRTFileBasedConfiguration.resolveConfigPath(sourceType: .credentials)
+        let credentialsFilePath = try credentialsFilePath ??
+            CRTFileBasedConfiguration.resolveConfigPath(sourceType: .credentials)
         return try CRTFileBasedConfiguration(configFilePath: configFilePath, credentialsFilePath: credentialsFilePath)
     }
 

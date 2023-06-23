@@ -1737,7 +1737,7 @@ extension ContinueUpdateRollbackInput: ClientRuntime.URLPathProvider {
 
 /// The input for the [ContinueUpdateRollback] action.
 public struct ContinueUpdateRollbackInput: Swift.Equatable {
-    /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormationknows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
+    /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
     public var clientRequestToken: Swift.String?
     /// A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the [DescribeStackResources] action, and view the resource status reason. Specify this property to skip rolling back resources that CloudFormation can't successfully roll back. We recommend that you [ troubleshoot](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed) resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED. Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see [Using ResourcesToSkip to recover a nested stacks hierarchy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html#nested-stacks).
     public var resourcesToSkip: [Swift.String]?
@@ -1869,6 +1869,9 @@ extension CreateChangeSetInput: Swift.Encodable {
                 try notificationARNsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let onStackFailure = onStackFailure {
+            try container.encode(onStackFailure, forKey: ClientRuntime.Key("OnStackFailure"))
+        }
         if let parameters = parameters {
             if !parameters.isEmpty {
                 var parametersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Parameters"))
@@ -1993,6 +1996,17 @@ public struct CreateChangeSetInput: Swift.Equatable {
     public var includeNestedStacks: Swift.Bool?
     /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service (Amazon SNS) topics that CloudFormation associates with the stack. To remove all associated notification topics, specify an empty list.
     public var notificationARNs: [Swift.String]?
+    /// Determines what action will be taken if stack creation fails. If this parameter is specified, the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation must not be specified. This must be one of these values:
+    ///
+    /// * DELETE - Deletes the change set if the stack creation fails. This is only valid when the ChangeSetType parameter is set to CREATE. If the deletion of the stack fails, the status of the stack is DELETE_FAILED.
+    ///
+    /// * DO_NOTHING - if the stack creation fails, do nothing. This is equivalent to specifying true for the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation.
+    ///
+    /// * ROLLBACK - if the stack creation fails, roll back the stack. This is equivalent to specifying false for the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation.
+    ///
+    ///
+    /// For nested stacks, when the OnStackFailure parameter is set to DELETE for the change set for the parent stack, any failure in a child stack will cause the parent stack creation to fail and all stacks to be deleted.
+    public var onStackFailure: CloudFormationClientTypes.OnStackFailure?
     /// A list of Parameter structures that specify input parameters for the change set. For more information, see the [Parameter] data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
     /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Controlling access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html) in the CloudFormation User Guide.
@@ -2023,6 +2037,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
         description: Swift.String? = nil,
         includeNestedStacks: Swift.Bool? = nil,
         notificationARNs: [Swift.String]? = nil,
+        onStackFailure: CloudFormationClientTypes.OnStackFailure? = nil,
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         resourceTypes: [Swift.String]? = nil,
         resourcesToImport: [CloudFormationClientTypes.ResourceToImport]? = nil,
@@ -2042,6 +2057,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
         self.description = description
         self.includeNestedStacks = includeNestedStacks
         self.notificationARNs = notificationARNs
+        self.onStackFailure = onStackFailure
         self.parameters = parameters
         self.resourceTypes = resourceTypes
         self.resourcesToImport = resourcesToImport
@@ -2073,6 +2089,7 @@ struct CreateChangeSetInputBody: Swift.Equatable {
     let changeSetType: CloudFormationClientTypes.ChangeSetType?
     let resourcesToImport: [CloudFormationClientTypes.ResourceToImport]?
     let includeNestedStacks: Swift.Bool?
+    let onStackFailure: CloudFormationClientTypes.OnStackFailure?
 }
 
 extension CreateChangeSetInputBody: Swift.Decodable {
@@ -2084,6 +2101,7 @@ extension CreateChangeSetInputBody: Swift.Decodable {
         case description = "Description"
         case includeNestedStacks = "IncludeNestedStacks"
         case notificationARNs = "NotificationARNs"
+        case onStackFailure = "OnStackFailure"
         case parameters = "Parameters"
         case resourceTypes = "ResourceTypes"
         case resourcesToImport = "ResourcesToImport"
@@ -2234,6 +2252,8 @@ extension CreateChangeSetInputBody: Swift.Decodable {
         }
         let includeNestedStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeNestedStacks)
         includeNestedStacks = includeNestedStacksDecoded
+        let onStackFailureDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OnStackFailure.self, forKey: .onStackFailure)
+        onStackFailure = onStackFailureDecoded
     }
 }
 
@@ -4770,6 +4790,7 @@ extension DescribeChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
             self.includeNestedStacks = output.includeNestedStacks
             self.nextToken = output.nextToken
             self.notificationARNs = output.notificationARNs
+            self.onStackFailure = output.onStackFailure
             self.parameters = output.parameters
             self.parentChangeSetId = output.parentChangeSetId
             self.rollbackConfiguration = output.rollbackConfiguration
@@ -4790,6 +4811,7 @@ extension DescribeChangeSetOutputResponse: ClientRuntime.HttpResponseBinding {
             self.includeNestedStacks = nil
             self.nextToken = nil
             self.notificationARNs = nil
+            self.onStackFailure = nil
             self.parameters = nil
             self.parentChangeSetId = nil
             self.rollbackConfiguration = nil
@@ -4825,6 +4847,14 @@ public struct DescribeChangeSetOutputResponse: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
     public var notificationARNs: [Swift.String]?
+    /// Determines what action will be taken if stack creation fails. When this parameter is specified, the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation must not be specified. This must be one of these values:
+    ///
+    /// * DELETE - Deletes the change set if the stack creation fails. This is only valid when the ChangeSetType parameter is set to CREATE. If the deletion of the stack fails, the status of the stack is DELETE_FAILED.
+    ///
+    /// * DO_NOTHING - if the stack creation fails, do nothing. This is equivalent to specifying true for the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation.
+    ///
+    /// * ROLLBACK - if the stack creation fails, roll back the stack. This is equivalent to specifying false for the DisableRollback parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html) API operation.
+    public var onStackFailure: CloudFormationClientTypes.OnStackFailure?
     /// A list of Parameter structures that describes the input parameters and their values used to create the change set. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
     /// Specifies the change set ID of the parent change set in the current nested change set hierarchy.
@@ -4855,6 +4885,7 @@ public struct DescribeChangeSetOutputResponse: Swift.Equatable {
         includeNestedStacks: Swift.Bool? = nil,
         nextToken: Swift.String? = nil,
         notificationARNs: [Swift.String]? = nil,
+        onStackFailure: CloudFormationClientTypes.OnStackFailure? = nil,
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         parentChangeSetId: Swift.String? = nil,
         rollbackConfiguration: CloudFormationClientTypes.RollbackConfiguration? = nil,
@@ -4876,6 +4907,7 @@ public struct DescribeChangeSetOutputResponse: Swift.Equatable {
         self.includeNestedStacks = includeNestedStacks
         self.nextToken = nextToken
         self.notificationARNs = notificationARNs
+        self.onStackFailure = onStackFailure
         self.parameters = parameters
         self.parentChangeSetId = parentChangeSetId
         self.rollbackConfiguration = rollbackConfiguration
@@ -4908,6 +4940,7 @@ struct DescribeChangeSetOutputResponseBody: Swift.Equatable {
     let includeNestedStacks: Swift.Bool?
     let parentChangeSetId: Swift.String?
     let rootChangeSetId: Swift.String?
+    let onStackFailure: CloudFormationClientTypes.OnStackFailure?
 }
 
 extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
@@ -4922,6 +4955,7 @@ extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
         case includeNestedStacks = "IncludeNestedStacks"
         case nextToken = "NextToken"
         case notificationARNs = "NotificationARNs"
+        case onStackFailure = "OnStackFailure"
         case parameters = "Parameters"
         case parentChangeSetId = "ParentChangeSetId"
         case rollbackConfiguration = "RollbackConfiguration"
@@ -5059,6 +5093,8 @@ extension DescribeChangeSetOutputResponseBody: Swift.Decodable {
         parentChangeSetId = parentChangeSetIdDecoded
         let rootChangeSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootChangeSetId)
         rootChangeSetId = rootChangeSetIdDecoded
+        let onStackFailureDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OnStackFailure.self, forKey: .onStackFailure)
+        onStackFailure = onStackFailureDecoded
     }
 }
 
@@ -7787,7 +7823,14 @@ public struct ExecuteChangeSetInput: Swift.Equatable {
     public var changeSetName: Swift.String?
     /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that CloudFormation successfully received them.
     public var clientRequestToken: Swift.String?
-    /// Preserves the state of previously provisioned resources when an operation fails. Default: True
+    /// Preserves the state of previously provisioned resources when an operation fails. This parameter can't be specified when the OnStackFailure parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html) API operation was specified.
+    ///
+    /// * True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html) API operation.
+    ///
+    /// * False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html) API operation.
+    ///
+    ///
+    /// Default: True
     public var disableRollback: Swift.Bool?
     /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
     public var stackName: Swift.String?
@@ -11514,6 +11557,41 @@ extension CloudFormationClientTypes {
     }
 }
 
+extension CloudFormationClientTypes {
+    public enum OnStackFailure: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case doNothing
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnStackFailure] {
+            return [
+                .delete,
+                .doNothing,
+                .rollback,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .doNothing: return "DO_NOTHING"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OnStackFailure(rawValue: rawValue) ?? OnStackFailure.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OperationIdAlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -11986,7 +12064,7 @@ extension CloudFormationClientTypes {
         public var parameterKey: Swift.String?
         /// The input value associated with the parameter.
         public var parameterValue: Swift.String?
-        /// Read-only. The value that corresponds to a SSM parameter key. This field is returned only for [SSM](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) parameter types in the template.
+        /// Read-only. The value that corresponds to a SSM parameter key. This field is returned only for [ SSM](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) parameter types in the template.
         public var resolvedValue: Swift.String?
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public var usePreviousValue: Swift.Bool?
@@ -15495,6 +15573,8 @@ extension CloudFormationClientTypes {
         ///
         /// * RUNNING: The operation in the specified account and Region is currently in progress.
         ///
+        /// * SKIPPED_SUSPENDED_ACCOUNT: The operation in the specified account and Region has been skipped because the account was suspended at the time of the operation.
+        ///
         /// * SUCCEEDED: The operation in the specified account and Region completed successfully.
         public var detailedStatus: CloudFormationClientTypes.StackInstanceDetailedStatus?
 
@@ -15515,6 +15595,7 @@ extension CloudFormationClientTypes {
         case inoperable
         case pending
         case running
+        case skippedSuspendedAccount
         case succeeded
         case sdkUnknown(Swift.String)
 
@@ -15525,6 +15606,7 @@ extension CloudFormationClientTypes {
                 .inoperable,
                 .pending,
                 .running,
+                .skippedSuspendedAccount,
                 .succeeded,
                 .sdkUnknown("")
             ]
@@ -15540,6 +15622,7 @@ extension CloudFormationClientTypes {
             case .inoperable: return "INOPERABLE"
             case .pending: return "PENDING"
             case .running: return "RUNNING"
+            case .skippedSuspendedAccount: return "SKIPPED_SUSPENDED_ACCOUNT"
             case .succeeded: return "SUCCEEDED"
             case let .sdkUnknown(s): return s
             }
@@ -17616,7 +17699,7 @@ extension CloudFormationClientTypes {
         public var maxConcurrentPercentage: Swift.Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public var regionConcurrencyType: CloudFormationClientTypes.RegionConcurrencyType?
-        /// The order of the Regions in where you want to perform the stack operation.
+        /// The order of the Regions where you want to perform the stack operation.
         public var regionOrder: [Swift.String]?
 
         public init(

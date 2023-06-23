@@ -2,6 +2,42 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension LexModelsV2ClientTypes.ActiveContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The active context used in the test execution.
+    public struct ActiveContext: Swift.Equatable {
+        /// The name of active context.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.AdvancedRecognitionSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioRecognitionStrategy
@@ -32,6 +68,118 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.audioRecognitionStrategy = audioRecognitionStrategy
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AgentTurnResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualAgentPrompt
+        case actualElicitedSlot
+        case actualIntent
+        case errorDetails
+        case expectedAgentPrompt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualAgentPrompt = self.actualAgentPrompt {
+            try encodeContainer.encode(actualAgentPrompt, forKey: .actualAgentPrompt)
+        }
+        if let actualElicitedSlot = self.actualElicitedSlot {
+            try encodeContainer.encode(actualElicitedSlot, forKey: .actualElicitedSlot)
+        }
+        if let actualIntent = self.actualIntent {
+            try encodeContainer.encode(actualIntent, forKey: .actualIntent)
+        }
+        if let errorDetails = self.errorDetails {
+            try encodeContainer.encode(errorDetails, forKey: .errorDetails)
+        }
+        if let expectedAgentPrompt = self.expectedAgentPrompt {
+            try encodeContainer.encode(expectedAgentPrompt, forKey: .expectedAgentPrompt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expectedAgentPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedAgentPrompt)
+        expectedAgentPrompt = expectedAgentPromptDecoded
+        let actualAgentPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actualAgentPrompt)
+        actualAgentPrompt = actualAgentPromptDecoded
+        let errorDetailsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ExecutionErrorDetails.self, forKey: .errorDetails)
+        errorDetails = errorDetailsDecoded
+        let actualElicitedSlotDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actualElicitedSlot)
+        actualElicitedSlot = actualElicitedSlotDecoded
+        let actualIntentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actualIntent)
+        actualIntent = actualIntentDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The information about the agent turn in a test set execution.
+    public struct AgentTurnResult: Swift.Equatable {
+        /// The actual agent prompt for the agent turn in a test set execution.
+        public var actualAgentPrompt: Swift.String?
+        /// The actual elicited slot for the agent turn in a test set execution.
+        public var actualElicitedSlot: Swift.String?
+        /// The actual intent for the agent turn in a test set execution.
+        public var actualIntent: Swift.String?
+        /// Details about an error in an execution of a test set.
+        public var errorDetails: LexModelsV2ClientTypes.ExecutionErrorDetails?
+        /// The expected agent prompt for the agent turn in a test set execution.
+        /// This member is required.
+        public var expectedAgentPrompt: Swift.String?
+
+        public init(
+            actualAgentPrompt: Swift.String? = nil,
+            actualElicitedSlot: Swift.String? = nil,
+            actualIntent: Swift.String? = nil,
+            errorDetails: LexModelsV2ClientTypes.ExecutionErrorDetails? = nil,
+            expectedAgentPrompt: Swift.String? = nil
+        )
+        {
+            self.actualAgentPrompt = actualAgentPrompt
+            self.actualElicitedSlot = actualElicitedSlot
+            self.actualIntent = actualIntent
+            self.errorDetails = errorDetails
+            self.expectedAgentPrompt = expectedAgentPrompt
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.AgentTurnSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentPrompt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentPrompt = self.agentPrompt {
+            try encodeContainer.encode(agentPrompt, forKey: .agentPrompt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentPromptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentPrompt)
+        agentPrompt = agentPromptDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The specification of an agent turn.
+    public struct AgentTurnSpecification: Swift.Equatable {
+        /// The agent prompt for the agent turn in a test set.
+        /// This member is required.
+        public var agentPrompt: Swift.String?
+
+        public init(
+            agentPrompt: Swift.String? = nil
+        )
+        {
+            self.agentPrompt = agentPrompt
         }
     }
 
@@ -1540,6 +1688,64 @@ extension LexModelsV2ClientTypes {
             self.creationDateTime = creationDateTime
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.BotAliasTestExecutionTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasId
+        case botId
+        case localeId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botId = self.botId {
+            try encodeContainer.encode(botId, forKey: .botId)
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The target Amazon S3 location for the test set execution using a bot alias.
+    public struct BotAliasTestExecutionTarget: Swift.Equatable {
+        /// The bot alias Id of the bot alias used in the test set execution.
+        /// This member is required.
+        public var botAliasId: Swift.String?
+        /// The bot Id of the bot alias used in the test set execution.
+        /// This member is required.
+        public var botId: Swift.String?
+        /// The locale Id of the bot alias used in the test set execution.
+        /// This member is required.
+        public var localeId: Swift.String?
+
+        public init(
+            botAliasId: Swift.String? = nil,
+            botId: Swift.String? = nil,
+            localeId: Swift.String? = nil
+        )
+        {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.localeId = localeId
         }
     }
 
@@ -3908,6 +4114,343 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentName
+        case matchResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if let matchResult = self.matchResult {
+            try encodeContainer.encode(matchResult.rawValue, forKey: .matchResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let matchResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .matchResult)
+        matchResult = matchResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The item listing the evaluation of intent level success or failure.
+    public struct ConversationLevelIntentClassificationResultItem: Swift.Equatable {
+        /// The intent name used in the evaluation of intent level success or failure.
+        /// This member is required.
+        public var intentName: Swift.String?
+        /// The number of times the specific intent is used in the evaluation of intent level success or failure.
+        /// This member is required.
+        public var matchResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+
+        public init(
+            intentName: Swift.String? = nil,
+            matchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
+        )
+        {
+            self.intentName = intentName
+            self.matchResult = matchResult
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLevelResultDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endToEndResult
+        case speechTranscriptionResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endToEndResult = self.endToEndResult {
+            try encodeContainer.encode(endToEndResult.rawValue, forKey: .endToEndResult)
+        }
+        if let speechTranscriptionResult = self.speechTranscriptionResult {
+            try encodeContainer.encode(speechTranscriptionResult.rawValue, forKey: .speechTranscriptionResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endToEndResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .endToEndResult)
+        endToEndResult = endToEndResultDecoded
+        let speechTranscriptionResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .speechTranscriptionResult)
+        speechTranscriptionResult = speechTranscriptionResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The conversation level details of the conversation used in the test set.
+    public struct ConversationLevelResultDetail: Swift.Equatable {
+        /// The success or failure of the streaming of the conversation.
+        /// This member is required.
+        public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// The speech transcription success or failure details of the conversation.
+        public var speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+
+        public init(
+            endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
+        )
+        {
+            self.endToEndResult = endToEndResult
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentName
+        case matchResult
+        case slotName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if let matchResult = self.matchResult {
+            try encodeContainer.encode(matchResult.rawValue, forKey: .matchResult)
+        }
+        if let slotName = self.slotName {
+            try encodeContainer.encode(slotName, forKey: .slotName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let slotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .slotName)
+        slotName = slotNameDecoded
+        let matchResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .matchResult)
+        matchResult = matchResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The slots used for the slot resolution in the conversation.
+    public struct ConversationLevelSlotResolutionResultItem: Swift.Equatable {
+        /// The intents used in the slots list for the slot resolution details.
+        /// This member is required.
+        public var intentName: Swift.String?
+        /// The number of matching slots used in the slots listings for the slot resolution evaluation.
+        /// This member is required.
+        public var matchResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// The slot name in the slots list for the slot resolution details.
+        /// This member is required.
+        public var slotName: Swift.String?
+
+        public init(
+            intentName: Swift.String? = nil,
+            matchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            slotName: Swift.String? = nil
+        )
+        {
+            self.intentName = intentName
+            self.matchResult = matchResult
+            self.slotName = slotName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLevelTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case endToEndResult
+        case intentClassificationResults
+        case slotResolutionResults
+        case speechTranscriptionResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let endToEndResult = self.endToEndResult {
+            try encodeContainer.encode(endToEndResult.rawValue, forKey: .endToEndResult)
+        }
+        if let intentClassificationResults = intentClassificationResults {
+            var intentClassificationResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .intentClassificationResults)
+            for conversationlevelintentclassificationresultitem0 in intentClassificationResults {
+                try intentClassificationResultsContainer.encode(conversationlevelintentclassificationresultitem0)
+            }
+        }
+        if let slotResolutionResults = slotResolutionResults {
+            var slotResolutionResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotResolutionResults)
+            for conversationlevelslotresolutionresultitem0 in slotResolutionResults {
+                try slotResolutionResultsContainer.encode(conversationlevelslotresolutionresultitem0)
+            }
+        }
+        if let speechTranscriptionResult = self.speechTranscriptionResult {
+            try encodeContainer.encode(speechTranscriptionResult.rawValue, forKey: .speechTranscriptionResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let endToEndResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .endToEndResult)
+        endToEndResult = endToEndResultDecoded
+        let speechTranscriptionResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .speechTranscriptionResult)
+        speechTranscriptionResult = speechTranscriptionResultDecoded
+        let intentClassificationResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem?].self, forKey: .intentClassificationResults)
+        var intentClassificationResultsDecoded0:[LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem]? = nil
+        if let intentClassificationResultsContainer = intentClassificationResultsContainer {
+            intentClassificationResultsDecoded0 = [LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem]()
+            for structure0 in intentClassificationResultsContainer {
+                if let structure0 = structure0 {
+                    intentClassificationResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        intentClassificationResults = intentClassificationResultsDecoded0
+        let slotResolutionResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem?].self, forKey: .slotResolutionResults)
+        var slotResolutionResultsDecoded0:[LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem]? = nil
+        if let slotResolutionResultsContainer = slotResolutionResultsContainer {
+            slotResolutionResultsDecoded0 = [LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem]()
+            for structure0 in slotResolutionResultsContainer {
+                if let structure0 = structure0 {
+                    slotResolutionResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        slotResolutionResults = slotResolutionResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The test result evaluation item at the conversation level.
+    public struct ConversationLevelTestResultItem: Swift.Equatable {
+        /// The conversation Id of the test result evaluation item.
+        /// This member is required.
+        public var conversationId: Swift.String?
+        /// The end-to-end success or failure of the test result evaluation item.
+        /// This member is required.
+        public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// The intent classification of the test result evaluation item.
+        /// This member is required.
+        public var intentClassificationResults: [LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem]?
+        /// The slot success or failure of the test result evaluation item.
+        /// This member is required.
+        public var slotResolutionResults: [LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem]?
+        /// The speech transcription success or failure of the test result evaluation item.
+        public var speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            intentClassificationResults: [LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem]? = nil,
+            slotResolutionResults: [LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem]? = nil,
+            speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.endToEndResult = endToEndResult
+            self.intentClassificationResults = intentClassificationResults
+            self.slotResolutionResults = slotResolutionResults
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLevelTestResults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for conversationleveltestresultitem0 in items {
+                try itemsContainer.encode(conversationleveltestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ConversationLevelTestResultItem?].self, forKey: .items)
+        var itemsDecoded0:[LexModelsV2ClientTypes.ConversationLevelTestResultItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [LexModelsV2ClientTypes.ConversationLevelTestResultItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The test set results data at the conversation level.
+    public struct ConversationLevelTestResults: Swift.Equatable {
+        /// The item list in the test set results data at the conversation level.
+        /// This member is required.
+        public var items: [LexModelsV2ClientTypes.ConversationLevelTestResultItem]?
+
+        public init(
+            items: [LexModelsV2ClientTypes.ConversationLevelTestResultItem]? = nil
+        )
+        {
+            self.items = items
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endToEndResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endToEndResult = self.endToEndResult {
+            try encodeContainer.encode(endToEndResult.rawValue, forKey: .endToEndResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endToEndResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .endToEndResult)
+        endToEndResult = endToEndResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The selection to filter the test set results data at the conversation level.
+    public struct ConversationLevelTestResultsFilterBy: Swift.Equatable {
+        /// The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level.
+        public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+
+        public init(
+            endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
+        )
+        {
+            self.endToEndResult = endToEndResult
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.ConversationLogSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioLogSettings
@@ -3975,6 +4518,165 @@ extension LexModelsV2ClientTypes {
         }
     }
 
+}
+
+extension LexModelsV2ClientTypes.ConversationLogsDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasId
+        case botId
+        case filter
+        case localeId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botId = self.botId {
+            try encodeContainer.encode(botId, forKey: .botId)
+        }
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The data source that uses conversation logs.
+    public struct ConversationLogsDataSource: Swift.Equatable {
+        /// The bot alias Id from the conversation logs.
+        /// This member is required.
+        public var botAliasId: Swift.String?
+        /// The bot Id from the conversation logs.
+        /// This member is required.
+        public var botId: Swift.String?
+        /// The filter for the data source of the conversation log.
+        /// This member is required.
+        public var filter: LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy?
+        /// The locale Id of the conversation log.
+        /// This member is required.
+        public var localeId: Swift.String?
+
+        public init(
+            botAliasId: Swift.String? = nil,
+            botId: Swift.String? = nil,
+            filter: LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy? = nil,
+            localeId: Swift.String? = nil
+        )
+        {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.filter = filter
+            self.localeId = localeId
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case inputMode
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let inputMode = self.inputMode {
+            try encodeContainer.encode(inputMode.rawValue, forKey: .inputMode)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let inputModeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLogsInputModeFilter.self, forKey: .inputMode)
+        inputMode = inputModeDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The selected data source to filter the conversation log.
+    public struct ConversationLogsDataSourceFilterBy: Swift.Equatable {
+        /// The end time for the conversation log.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// The selection to filter by input mode for the conversation logs.
+        /// This member is required.
+        public var inputMode: LexModelsV2ClientTypes.ConversationLogsInputModeFilter?
+        /// The start time for the conversation log.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            inputMode: LexModelsV2ClientTypes.ConversationLogsInputModeFilter? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.inputMode = inputMode
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum ConversationLogsInputModeFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case speech
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConversationLogsInputModeFilter] {
+            return [
+                .speech,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .speech: return "Speech"
+            case .text: return "Text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConversationLogsInputModeFilter(rawValue: rawValue) ?? ConversationLogsInputModeFilter.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CreateBotAliasInput: Swift.Encodable {
@@ -5378,7 +6080,7 @@ public struct CreateIntentInput: Swift.Equatable {
     /// The identifier of the bot associated with this intent.
     /// This member is required.
     public var botId: Swift.String?
-    /// The identifier of the version of the bot associated with this intent.
+    /// The version of the bot associated with this intent.
     /// This member is required.
     public var botVersion: Swift.String?
     /// A description of the intent. Use the description to help identify the intent in lists.
@@ -5596,7 +6298,7 @@ extension CreateIntentOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateIntentOutputResponse: Swift.Equatable {
     /// The identifier of the bot associated with the intent.
     public var botId: Swift.String?
-    /// The identifier of the version of the bot associated with the intent.
+    /// The version of the bot associated with the intent.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the intent was created.
     public var creationDateTime: ClientRuntime.Date?
@@ -5972,7 +6674,7 @@ public struct CreateResourcePolicyStatementInput: Swift.Equatable {
     public var effect: LexModelsV2ClientTypes.Effect?
     /// The identifier of the revision of the policy to edit. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
     public var expectedRevisionId: Swift.String?
-    /// An IAM principal, such as an IAM users, IAM roles, or AWS services that is allowed or denied access to a resource. For more information, see [AWS JSON policy elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
+    /// An IAM principal, such as an IAM user, IAM role, or Amazon Web Services services that is allowed or denied access to a resource. For more information, see [Amazon Web Services JSON policy elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
     /// This member is required.
     public var principal: [LexModelsV2ClientTypes.Principal]?
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -6537,19 +7239,19 @@ public struct CreateSlotTypeInput: Swift.Equatable {
     public var localeId: Swift.String?
     /// The built-in slot type used as a parent of this slot type. When you define a parent slot type, the new slot type has the configuration of the parent slot type. Only AMAZON.AlphaNumeric is supported.
     public var parentSlotTypeSignature: Swift.String?
-    /// The name for the slot. A slot type name must be unique within the account.
+    /// The name for the slot. A slot type name must be unique within the intent.
     /// This member is required.
     public var slotTypeName: Swift.String?
     /// A list of SlotTypeValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, additional values that help train the machine learning model about the values that it resolves for a slot.
     public var slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]?
     /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:
     ///
-    /// * OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.
+    /// * ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.
     ///
-    /// * TopResolution - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.
+    /// * TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.
     ///
     ///
-    /// If you don't specify the valueSelectionSetting parameter, the default is OriginalValue.
+    /// If you don't specify the valueSelectionSetting parameter, the default is ORIGINAL_VALUE.
     public var valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting?
 
     public init(
@@ -6799,6 +7501,148 @@ extension CreateSlotTypeOutputResponseBody: Swift.Decodable {
         externalSourceSetting = externalSourceSettingDecoded
         let compositeSlotTypeSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.CompositeSlotTypeSetting.self, forKey: .compositeSlotTypeSetting)
         compositeSlotTypeSetting = compositeSlotTypeSettingDecoded
+    }
+}
+
+extension CreateTestSetDiscrepancyReportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case target
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+}
+
+extension CreateTestSetDiscrepancyReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())/testsetdiscrepancy"
+    }
+}
+
+public struct CreateTestSetDiscrepancyReportInput: Swift.Equatable {
+    /// The target bot for the test set discrepancy report.
+    /// This member is required.
+    public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+    /// The test set Id for the test set discrepancy report.
+    /// This member is required.
+    public var testSetId: Swift.String?
+
+    public init(
+        target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.target = target
+        self.testSetId = testSetId
+    }
+}
+
+struct CreateTestSetDiscrepancyReportInputBody: Swift.Equatable {
+    let target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+}
+
+extension CreateTestSetDiscrepancyReportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case target
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+public enum CreateTestSetDiscrepancyReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateTestSetDiscrepancyReportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTestSetDiscrepancyReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.target = output.target
+            self.testSetDiscrepancyReportId = output.testSetDiscrepancyReportId
+            self.testSetId = output.testSetId
+        } else {
+            self.creationDateTime = nil
+            self.target = nil
+            self.testSetDiscrepancyReportId = nil
+            self.testSetId = nil
+        }
+    }
+}
+
+public struct CreateTestSetDiscrepancyReportOutputResponse: Swift.Equatable {
+    /// The creation date and time for the test set discrepancy report.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The target bot for the test set discrepancy report.
+    public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+    /// The unique identifier of the test set discrepancy report to describe.
+    public var testSetDiscrepancyReportId: Swift.String?
+    /// The test set Id for the test set discrepancy report.
+    public var testSetId: Swift.String?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
+        testSetDiscrepancyReportId: Swift.String? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.target = target
+        self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+        self.testSetId = testSetId
+    }
+}
+
+struct CreateTestSetDiscrepancyReportOutputResponseBody: Swift.Equatable {
+    let testSetDiscrepancyReportId: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let testSetId: Swift.String?
+    let target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+}
+
+extension CreateTestSetDiscrepancyReportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case target
+        case testSetDiscrepancyReportId
+        case testSetId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetDiscrepancyReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetDiscrepancyReportId)
+        testSetDiscrepancyReportId = testSetDiscrepancyReportIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget.self, forKey: .target)
+        target = targetDecoded
     }
 }
 
@@ -7274,7 +8118,7 @@ extension LexModelsV2ClientTypes.DataPrivacy: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// By default, data stored by Amazon Lex is encrypted. The DataPrivacy structure provides settings that determine how Amazon Lex handles special cases of securing the data for your bot.
     public struct DataPrivacy: Swift.Equatable {
-        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the [Amazon Lex FAQ](https://aws.amazon.com/lex/faqs#data-security).
+        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the [Amazon Lex FAQ](http://aws.amazon.com/lex/faqs#data-security).
         /// This member is required.
         public var childDirected: Swift.Bool
 
@@ -7384,7 +8228,7 @@ extension DeleteBotAliasInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if skipResourceInUseCheck != false {
+            if let skipResourceInUseCheck = skipResourceInUseCheck {
                 let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
                 items.append(skipResourceInUseCheckQueryItem)
             }
@@ -7413,12 +8257,12 @@ public struct DeleteBotAliasInput: Swift.Equatable {
     /// This member is required.
     public var botId: Swift.String?
     /// By default, Amazon Lex checks if any other resource, such as a bot network, is using the bot alias before it is deleted and throws a ResourceInUseException exception if the alias is being used by another resource. Set this parameter to true to skip this check and remove the alias even if it is being used by another resource.
-    public var skipResourceInUseCheck: Swift.Bool
+    public var skipResourceInUseCheck: Swift.Bool?
 
     public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool = false
+        skipResourceInUseCheck: Swift.Bool? = nil
     )
     {
         self.botAliasId = botAliasId
@@ -7516,7 +8360,7 @@ extension DeleteBotInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if skipResourceInUseCheck != false {
+            if let skipResourceInUseCheck = skipResourceInUseCheck {
                 let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
                 items.append(skipResourceInUseCheckQueryItem)
             }
@@ -7539,11 +8383,11 @@ public struct DeleteBotInput: Swift.Equatable {
     /// This member is required.
     public var botId: Swift.String?
     /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the bot is being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by another resource.
-    public var skipResourceInUseCheck: Swift.Bool
+    public var skipResourceInUseCheck: Swift.Bool?
 
     public init(
         botId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool = false
+        skipResourceInUseCheck: Swift.Bool? = nil
     )
     {
         self.botId = botId
@@ -7763,7 +8607,7 @@ extension DeleteBotVersionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if skipResourceInUseCheck != false {
+            if let skipResourceInUseCheck = skipResourceInUseCheck {
                 let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
                 items.append(skipResourceInUseCheckQueryItem)
             }
@@ -7792,12 +8636,12 @@ public struct DeleteBotVersionInput: Swift.Equatable {
     /// This member is required.
     public var botVersion: Swift.String?
     /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is being used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by another resource.
-    public var skipResourceInUseCheck: Swift.Bool
+    public var skipResourceInUseCheck: Swift.Bool?
 
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool = false
+        skipResourceInUseCheck: Swift.Bool? = nil
     )
     {
         self.botId = botId
@@ -8622,7 +9466,7 @@ extension DeleteSlotTypeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if skipResourceInUseCheck != false {
+            if let skipResourceInUseCheck = skipResourceInUseCheck {
                 let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
                 items.append(skipResourceInUseCheckQueryItem)
             }
@@ -8660,7 +9504,7 @@ public struct DeleteSlotTypeInput: Swift.Equatable {
     /// This member is required.
     public var localeId: Swift.String?
     /// By default, the DeleteSlotType operations throws a ResourceInUseException exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
-    public var skipResourceInUseCheck: Swift.Bool
+    public var skipResourceInUseCheck: Swift.Bool?
     /// The identifier of the slot type to delete.
     /// This member is required.
     public var slotTypeId: Swift.String?
@@ -8669,7 +9513,7 @@ public struct DeleteSlotTypeInput: Swift.Equatable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool = false,
+        skipResourceInUseCheck: Swift.Bool? = nil,
         slotTypeId: Swift.String? = nil
     )
     {
@@ -8712,6 +9556,63 @@ extension DeleteSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteSlotTypeOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteTestSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTestSetInput: Swift.Equatable {
+    /// The test set Id of the test set to be deleted.
+    /// This member is required.
+    public var testSetId: Swift.String?
+
+    public init(
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.testSetId = testSetId
+    }
+}
+
+struct DeleteTestSetInputBody: Swift.Equatable {
+}
+
+extension DeleteTestSetInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteTestSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTestSetOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -9086,7 +9987,7 @@ public struct DescribeBotLocaleInput: Swift.Equatable {
     /// The identifier of the bot associated with the locale.
     /// This member is required.
     public var botId: Swift.String?
-    /// The identifier of the version of the bot associated with the locale.
+    /// The version of the bot associated with the locale.
     /// This member is required.
     public var botVersion: Swift.String?
     /// The unique identifier of the locale to describe. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
@@ -9178,7 +10079,7 @@ public struct DescribeBotLocaleOutputResponse: Swift.Equatable {
     public var botLocaleHistoryEvents: [LexModelsV2ClientTypes.BotLocaleHistoryEvent]?
     /// The status of the bot. If the status is Failed, the reasons for the failure are listed in the failureReasons field.
     public var botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus?
-    /// The identifier of the version of the bot associated with the locale.
+    /// The version of the bot associated with the locale.
     public var botVersion: Swift.String?
     /// The date and time that the locale was created.
     public var creationDateTime: ClientRuntime.Date?
@@ -10609,7 +11510,7 @@ public struct DescribeIntentOutputResponse: Swift.Equatable {
     public var dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings?
     /// The Lambda function called when the intent is complete and ready for fulfillment.
     public var fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings?
-    ///
+    /// Configuration setting for a response sent to the user before Amazon Lex starts eliciting slots.
     public var initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
     /// A list of contexts that must be active for the intent to be considered for sending to the user.
     public var inputContexts: [LexModelsV2ClientTypes.InputContext]?
@@ -11395,6 +12296,737 @@ extension DescribeSlotTypeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeTestExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testExecutionId = testExecutionId else {
+            return nil
+        }
+        return "/testexecutions/\(testExecutionId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTestExecutionInput: Swift.Equatable {
+    /// The execution Id of the test set execution.
+    /// This member is required.
+    public var testExecutionId: Swift.String?
+
+    public init(
+        testExecutionId: Swift.String? = nil
+    )
+    {
+        self.testExecutionId = testExecutionId
+    }
+}
+
+struct DescribeTestExecutionInputBody: Swift.Equatable {
+}
+
+extension DescribeTestExecutionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeTestExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeTestExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTestExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.apiMode = output.apiMode
+            self.creationDateTime = output.creationDateTime
+            self.failureReasons = output.failureReasons
+            self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.target = output.target
+            self.testExecutionId = output.testExecutionId
+            self.testExecutionModality = output.testExecutionModality
+            self.testExecutionStatus = output.testExecutionStatus
+            self.testSetId = output.testSetId
+            self.testSetName = output.testSetName
+        } else {
+            self.apiMode = nil
+            self.creationDateTime = nil
+            self.failureReasons = nil
+            self.lastUpdatedDateTime = nil
+            self.target = nil
+            self.testExecutionId = nil
+            self.testExecutionModality = nil
+            self.testExecutionStatus = nil
+            self.testSetId = nil
+            self.testSetName = nil
+        }
+    }
+}
+
+public struct DescribeTestExecutionOutputResponse: Swift.Equatable {
+    /// Indicates whether we use streaming or non-streaming APIs are used for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API is used.
+    public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    /// The execution creation date and time for the test set execution.
+    public var creationDateTime: ClientRuntime.Date?
+    /// Reasons for the failure of the test set execution.
+    public var failureReasons: [Swift.String]?
+    /// The date and time of the last update for the execution.
+    public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// The target bot for the test set execution details.
+    public var target: LexModelsV2ClientTypes.TestExecutionTarget?
+    /// The execution Id for the test set execution.
+    public var testExecutionId: Swift.String?
+    /// Indicates whether test set is audio or text.
+    public var testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+    /// The test execution status for the test execution.
+    public var testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus?
+    /// The test set Id for the test set execution.
+    public var testSetId: Swift.String?
+    /// The test set name of the test set execution.
+    public var testSetName: Swift.String?
+
+    public init(
+        apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        failureReasons: [Swift.String]? = nil,
+        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
+        testExecutionId: Swift.String? = nil,
+        testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
+        testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus? = nil,
+        testSetId: Swift.String? = nil,
+        testSetName: Swift.String? = nil
+    )
+    {
+        self.apiMode = apiMode
+        self.creationDateTime = creationDateTime
+        self.failureReasons = failureReasons
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.target = target
+        self.testExecutionId = testExecutionId
+        self.testExecutionModality = testExecutionModality
+        self.testExecutionStatus = testExecutionStatus
+        self.testSetId = testSetId
+        self.testSetName = testSetName
+    }
+}
+
+struct DescribeTestExecutionOutputResponseBody: Swift.Equatable {
+    let testExecutionId: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let lastUpdatedDateTime: ClientRuntime.Date?
+    let testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus?
+    let testSetId: Swift.String?
+    let testSetName: Swift.String?
+    let target: LexModelsV2ClientTypes.TestExecutionTarget?
+    let apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    let testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+    let failureReasons: [Swift.String]?
+}
+
+extension DescribeTestExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiMode
+        case creationDateTime
+        case failureReasons
+        case lastUpdatedDateTime
+        case target
+        case testExecutionId
+        case testExecutionModality
+        case testExecutionStatus
+        case testSetId
+        case testSetName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testExecutionId)
+        testExecutionId = testExecutionIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let testExecutionStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionStatus.self, forKey: .testExecutionStatus)
+        testExecutionStatus = testExecutionStatusDecoded
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionTarget.self, forKey: .target)
+        target = targetDecoded
+        let apiModeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionApiMode.self, forKey: .apiMode)
+        apiMode = apiModeDecoded
+        let testExecutionModalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionModality.self, forKey: .testExecutionModality)
+        testExecutionModality = testExecutionModalityDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+extension DescribeTestSetDiscrepancyReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetDiscrepancyReportId = testSetDiscrepancyReportId else {
+            return nil
+        }
+        return "/testsetdiscrepancy/\(testSetDiscrepancyReportId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTestSetDiscrepancyReportInput: Swift.Equatable {
+    /// The unique identifier of the test set discrepancy report.
+    /// This member is required.
+    public var testSetDiscrepancyReportId: Swift.String?
+
+    public init(
+        testSetDiscrepancyReportId: Swift.String? = nil
+    )
+    {
+        self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+    }
+}
+
+struct DescribeTestSetDiscrepancyReportInputBody: Swift.Equatable {
+}
+
+extension DescribeTestSetDiscrepancyReportInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeTestSetDiscrepancyReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeTestSetDiscrepancyReportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTestSetDiscrepancyReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.failureReasons = output.failureReasons
+            self.lastUpdatedDataTime = output.lastUpdatedDataTime
+            self.target = output.target
+            self.testSetDiscrepancyRawOutputUrl = output.testSetDiscrepancyRawOutputUrl
+            self.testSetDiscrepancyReportId = output.testSetDiscrepancyReportId
+            self.testSetDiscrepancyReportStatus = output.testSetDiscrepancyReportStatus
+            self.testSetDiscrepancyTopErrors = output.testSetDiscrepancyTopErrors
+            self.testSetId = output.testSetId
+        } else {
+            self.creationDateTime = nil
+            self.failureReasons = nil
+            self.lastUpdatedDataTime = nil
+            self.target = nil
+            self.testSetDiscrepancyRawOutputUrl = nil
+            self.testSetDiscrepancyReportId = nil
+            self.testSetDiscrepancyReportStatus = nil
+            self.testSetDiscrepancyTopErrors = nil
+            self.testSetId = nil
+        }
+    }
+}
+
+public struct DescribeTestSetDiscrepancyReportOutputResponse: Swift.Equatable {
+    /// The time and date of creation for the test set discrepancy report.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The failure report for the test set discrepancy report generation action.
+    public var failureReasons: [Swift.String]?
+    /// The date and time of the last update for the test set discrepancy report.
+    public var lastUpdatedDataTime: ClientRuntime.Date?
+    /// The target bot location for the test set discrepancy report.
+    public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+    /// Pre-signed Amazon S3 URL to download the test set discrepancy report.
+    public var testSetDiscrepancyRawOutputUrl: Swift.String?
+    /// The unique identifier of the test set discrepancy report to describe.
+    public var testSetDiscrepancyReportId: Swift.String?
+    /// The status for the test set discrepancy report.
+    public var testSetDiscrepancyReportStatus: LexModelsV2ClientTypes.TestSetDiscrepancyReportStatus?
+    /// The top 200 error results from the test set discrepancy report.
+    public var testSetDiscrepancyTopErrors: LexModelsV2ClientTypes.TestSetDiscrepancyErrors?
+    /// The test set Id for the test set discrepancy report.
+    public var testSetId: Swift.String?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        failureReasons: [Swift.String]? = nil,
+        lastUpdatedDataTime: ClientRuntime.Date? = nil,
+        target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
+        testSetDiscrepancyRawOutputUrl: Swift.String? = nil,
+        testSetDiscrepancyReportId: Swift.String? = nil,
+        testSetDiscrepancyReportStatus: LexModelsV2ClientTypes.TestSetDiscrepancyReportStatus? = nil,
+        testSetDiscrepancyTopErrors: LexModelsV2ClientTypes.TestSetDiscrepancyErrors? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.failureReasons = failureReasons
+        self.lastUpdatedDataTime = lastUpdatedDataTime
+        self.target = target
+        self.testSetDiscrepancyRawOutputUrl = testSetDiscrepancyRawOutputUrl
+        self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+        self.testSetDiscrepancyReportStatus = testSetDiscrepancyReportStatus
+        self.testSetDiscrepancyTopErrors = testSetDiscrepancyTopErrors
+        self.testSetId = testSetId
+    }
+}
+
+struct DescribeTestSetDiscrepancyReportOutputResponseBody: Swift.Equatable {
+    let testSetDiscrepancyReportId: Swift.String?
+    let testSetId: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
+    let testSetDiscrepancyReportStatus: LexModelsV2ClientTypes.TestSetDiscrepancyReportStatus?
+    let lastUpdatedDataTime: ClientRuntime.Date?
+    let testSetDiscrepancyTopErrors: LexModelsV2ClientTypes.TestSetDiscrepancyErrors?
+    let testSetDiscrepancyRawOutputUrl: Swift.String?
+    let failureReasons: [Swift.String]?
+}
+
+extension DescribeTestSetDiscrepancyReportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case failureReasons
+        case lastUpdatedDataTime
+        case target
+        case testSetDiscrepancyRawOutputUrl
+        case testSetDiscrepancyReportId
+        case testSetDiscrepancyReportStatus
+        case testSetDiscrepancyTopErrors
+        case testSetId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetDiscrepancyReportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetDiscrepancyReportId)
+        testSetDiscrepancyReportId = testSetDiscrepancyReportIdDecoded
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget.self, forKey: .target)
+        target = targetDecoded
+        let testSetDiscrepancyReportStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyReportStatus.self, forKey: .testSetDiscrepancyReportStatus)
+        testSetDiscrepancyReportStatus = testSetDiscrepancyReportStatusDecoded
+        let lastUpdatedDataTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDataTime)
+        lastUpdatedDataTime = lastUpdatedDataTimeDecoded
+        let testSetDiscrepancyTopErrorsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyErrors.self, forKey: .testSetDiscrepancyTopErrors)
+        testSetDiscrepancyTopErrors = testSetDiscrepancyTopErrorsDecoded
+        let testSetDiscrepancyRawOutputUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetDiscrepancyRawOutputUrl)
+        testSetDiscrepancyRawOutputUrl = testSetDiscrepancyRawOutputUrlDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+extension DescribeTestSetGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetGenerationId = testSetGenerationId else {
+            return nil
+        }
+        return "/testsetgenerations/\(testSetGenerationId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTestSetGenerationInput: Swift.Equatable {
+    /// The unique identifier of the test set generation.
+    /// This member is required.
+    public var testSetGenerationId: Swift.String?
+
+    public init(
+        testSetGenerationId: Swift.String? = nil
+    )
+    {
+        self.testSetGenerationId = testSetGenerationId
+    }
+}
+
+struct DescribeTestSetGenerationInputBody: Swift.Equatable {
+}
+
+extension DescribeTestSetGenerationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeTestSetGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeTestSetGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTestSetGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.description = output.description
+            self.failureReasons = output.failureReasons
+            self.generationDataSource = output.generationDataSource
+            self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.roleArn = output.roleArn
+            self.storageLocation = output.storageLocation
+            self.testSetGenerationId = output.testSetGenerationId
+            self.testSetGenerationStatus = output.testSetGenerationStatus
+            self.testSetId = output.testSetId
+            self.testSetName = output.testSetName
+        } else {
+            self.creationDateTime = nil
+            self.description = nil
+            self.failureReasons = nil
+            self.generationDataSource = nil
+            self.lastUpdatedDateTime = nil
+            self.roleArn = nil
+            self.storageLocation = nil
+            self.testSetGenerationId = nil
+            self.testSetGenerationStatus = nil
+            self.testSetId = nil
+            self.testSetName = nil
+        }
+    }
+}
+
+public struct DescribeTestSetGenerationOutputResponse: Swift.Equatable {
+    /// The creation date and time for the test set generation.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The test set description for the test set generation.
+    public var description: Swift.String?
+    /// The reasons the test set generation failed.
+    public var failureReasons: [Swift.String]?
+    /// The data source of the test set used for the test set generation.
+    public var generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    /// The date and time of the last update for the test set generation.
+    public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// The roleARN of the test set used for the test set generation.
+    public var roleArn: Swift.String?
+    /// The Amazon S3 storage location for the test set generation.
+    public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    /// The unique identifier of the test set generation.
+    public var testSetGenerationId: Swift.String?
+    /// The status for the test set generation.
+    public var testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
+    /// The unique identifier for the test set created for the generated test set.
+    public var testSetId: Swift.String?
+    /// The test set name for the generated test set.
+    public var testSetName: Swift.String?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        failureReasons: [Swift.String]? = nil,
+        generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource? = nil,
+        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        roleArn: Swift.String? = nil,
+        storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+        testSetGenerationId: Swift.String? = nil,
+        testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus? = nil,
+        testSetId: Swift.String? = nil,
+        testSetName: Swift.String? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.description = description
+        self.failureReasons = failureReasons
+        self.generationDataSource = generationDataSource
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.roleArn = roleArn
+        self.storageLocation = storageLocation
+        self.testSetGenerationId = testSetGenerationId
+        self.testSetGenerationStatus = testSetGenerationStatus
+        self.testSetId = testSetId
+        self.testSetName = testSetName
+    }
+}
+
+struct DescribeTestSetGenerationOutputResponseBody: Swift.Equatable {
+    let testSetGenerationId: Swift.String?
+    let testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
+    let failureReasons: [Swift.String]?
+    let testSetId: Swift.String?
+    let testSetName: Swift.String?
+    let description: Swift.String?
+    let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    let generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    let roleArn: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let lastUpdatedDateTime: ClientRuntime.Date?
+}
+
+extension DescribeTestSetGenerationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case description
+        case failureReasons
+        case generationDataSource
+        case lastUpdatedDateTime
+        case roleArn
+        case storageLocation
+        case testSetGenerationId
+        case testSetGenerationStatus
+        case testSetId
+        case testSetName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetGenerationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetGenerationId)
+        testSetGenerationId = testSetGenerationIdDecoded
+        let testSetGenerationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetGenerationStatus.self, forKey: .testSetGenerationStatus)
+        testSetGenerationStatus = testSetGenerationStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let generationDataSourceDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetGenerationDataSource.self, forKey: .generationDataSource)
+        generationDataSource = generationDataSourceDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+extension DescribeTestSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeTestSetInput: Swift.Equatable {
+    /// The test set Id for the test set request.
+    /// This member is required.
+    public var testSetId: Swift.String?
+
+    public init(
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.testSetId = testSetId
+    }
+}
+
+struct DescribeTestSetInputBody: Swift.Equatable {
+}
+
+extension DescribeTestSetInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeTestSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTestSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.description = output.description
+            self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.modality = output.modality
+            self.numTurns = output.numTurns
+            self.roleArn = output.roleArn
+            self.status = output.status
+            self.storageLocation = output.storageLocation
+            self.testSetId = output.testSetId
+            self.testSetName = output.testSetName
+        } else {
+            self.creationDateTime = nil
+            self.description = nil
+            self.lastUpdatedDateTime = nil
+            self.modality = nil
+            self.numTurns = nil
+            self.roleArn = nil
+            self.status = nil
+            self.storageLocation = nil
+            self.testSetId = nil
+            self.testSetName = nil
+        }
+    }
+}
+
+public struct DescribeTestSetOutputResponse: Swift.Equatable {
+    /// The creation date and time for the test set data.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The description of the test set.
+    public var description: Swift.String?
+    /// The date and time for the last update of the test set data.
+    public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// Indicates whether the test set is audio or text data.
+    public var modality: LexModelsV2ClientTypes.TestSetModality?
+    /// The total number of agent and user turn in the test set.
+    public var numTurns: Swift.Int?
+    /// The roleARN used for any operation in the test set to access resources in the Amazon Web Services account.
+    public var roleArn: Swift.String?
+    /// The status of the test set.
+    public var status: LexModelsV2ClientTypes.TestSetStatus?
+    /// The Amazon S3 storage location for the test set data.
+    public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    /// The test set Id for the test set response.
+    public var testSetId: Swift.String?
+    /// The test set name of the test set.
+    public var testSetName: Swift.String?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        modality: LexModelsV2ClientTypes.TestSetModality? = nil,
+        numTurns: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        status: LexModelsV2ClientTypes.TestSetStatus? = nil,
+        storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+        testSetId: Swift.String? = nil,
+        testSetName: Swift.String? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.description = description
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.modality = modality
+        self.numTurns = numTurns
+        self.roleArn = roleArn
+        self.status = status
+        self.storageLocation = storageLocation
+        self.testSetId = testSetId
+        self.testSetName = testSetName
+    }
+}
+
+struct DescribeTestSetOutputResponseBody: Swift.Equatable {
+    let testSetId: Swift.String?
+    let testSetName: Swift.String?
+    let description: Swift.String?
+    let modality: LexModelsV2ClientTypes.TestSetModality?
+    let status: LexModelsV2ClientTypes.TestSetStatus?
+    let roleArn: Swift.String?
+    let numTurns: Swift.Int?
+    let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    let creationDateTime: ClientRuntime.Date?
+    let lastUpdatedDateTime: ClientRuntime.Date?
+}
+
+extension DescribeTestSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case description
+        case lastUpdatedDateTime
+        case modality
+        case numTurns
+        case roleArn
+        case status
+        case storageLocation
+        case testSetId
+        case testSetName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let modalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetModality.self, forKey: .modality)
+        modality = modalityDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let numTurnsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numTurns)
+        numTurns = numTurnsDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
 extension LexModelsV2ClientTypes.DialogAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case slotToElicit
@@ -11851,6 +13483,53 @@ extension LexModelsV2ClientTypes {
     }
 }
 
+extension LexModelsV2ClientTypes.ExecutionErrorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Details about an error in an execution of a test set.
+    public struct ExecutionErrorDetails: Swift.Equatable {
+        /// The error code for the error.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The message describing the error.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.ExportFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -11987,6 +13666,7 @@ extension LexModelsV2ClientTypes.ExportResourceSpecification: Swift.Codable {
         case botExportSpecification
         case botLocaleExportSpecification
         case customVocabularyExportSpecification
+        case testSetExportSpecification
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12000,6 +13680,9 @@ extension LexModelsV2ClientTypes.ExportResourceSpecification: Swift.Codable {
         if let customVocabularyExportSpecification = self.customVocabularyExportSpecification {
             try encodeContainer.encode(customVocabularyExportSpecification, forKey: .customVocabularyExportSpecification)
         }
+        if let testSetExportSpecification = self.testSetExportSpecification {
+            try encodeContainer.encode(testSetExportSpecification, forKey: .testSetExportSpecification)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12010,6 +13693,8 @@ extension LexModelsV2ClientTypes.ExportResourceSpecification: Swift.Codable {
         botLocaleExportSpecification = botLocaleExportSpecificationDecoded
         let customVocabularyExportSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.CustomVocabularyExportSpecification.self, forKey: .customVocabularyExportSpecification)
         customVocabularyExportSpecification = customVocabularyExportSpecificationDecoded
+        let testSetExportSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetExportSpecification.self, forKey: .testSetExportSpecification)
+        testSetExportSpecification = testSetExportSpecificationDecoded
     }
 }
 
@@ -12022,16 +13707,20 @@ extension LexModelsV2ClientTypes {
         public var botLocaleExportSpecification: LexModelsV2ClientTypes.BotLocaleExportSpecification?
         /// The parameters required to export a custom vocabulary.
         public var customVocabularyExportSpecification: LexModelsV2ClientTypes.CustomVocabularyExportSpecification?
+        /// Specifications for the test set that is exported as a resource.
+        public var testSetExportSpecification: LexModelsV2ClientTypes.TestSetExportSpecification?
 
         public init(
             botExportSpecification: LexModelsV2ClientTypes.BotExportSpecification? = nil,
             botLocaleExportSpecification: LexModelsV2ClientTypes.BotLocaleExportSpecification? = nil,
-            customVocabularyExportSpecification: LexModelsV2ClientTypes.CustomVocabularyExportSpecification? = nil
+            customVocabularyExportSpecification: LexModelsV2ClientTypes.CustomVocabularyExportSpecification? = nil,
+            testSetExportSpecification: LexModelsV2ClientTypes.TestSetExportSpecification? = nil
         )
         {
             self.botExportSpecification = botExportSpecification
             self.botLocaleExportSpecification = botLocaleExportSpecification
             self.customVocabularyExportSpecification = customVocabularyExportSpecification
+            self.testSetExportSpecification = testSetExportSpecification
         }
     }
 
@@ -12443,7 +14132,7 @@ extension LexModelsV2ClientTypes {
         /// The delay between when the Lambda fulfillment function starts running and the start message is played. If the Lambda function returns before the delay is over, the start message isn't played.
         /// This member is required.
         public var delayInSeconds: Swift.Int?
-        /// One to 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
+        /// 1 - 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
         /// This member is required.
         public var messageGroups: [LexModelsV2ClientTypes.MessageGroup]?
 
@@ -12512,7 +14201,7 @@ extension LexModelsV2ClientTypes {
         /// The frequency that a message is sent to the user. When the period ends, Amazon Lex chooses a message from the message groups and plays it to the user. If the fulfillment Lambda returns before the first period ends, an update message is not played to the user.
         /// This member is required.
         public var frequencyInSeconds: Swift.Int?
-        /// One to 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
+        /// 1 - 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
         /// This member is required.
         public var messageGroups: [LexModelsV2ClientTypes.MessageGroup]?
 
@@ -12596,6 +14285,102 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension GetTestExecutionArtifactsUrlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testExecutionId = testExecutionId else {
+            return nil
+        }
+        return "/testexecutions/\(testExecutionId.urlPercentEncoding())/artifacturl"
+    }
+}
+
+public struct GetTestExecutionArtifactsUrlInput: Swift.Equatable {
+    /// The unique identifier of the completed test execution.
+    /// This member is required.
+    public var testExecutionId: Swift.String?
+
+    public init(
+        testExecutionId: Swift.String? = nil
+    )
+    {
+        self.testExecutionId = testExecutionId
+    }
+}
+
+struct GetTestExecutionArtifactsUrlInputBody: Swift.Equatable {
+}
+
+extension GetTestExecutionArtifactsUrlInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetTestExecutionArtifactsUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetTestExecutionArtifactsUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTestExecutionArtifactsUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.downloadArtifactsUrl = output.downloadArtifactsUrl
+            self.testExecutionId = output.testExecutionId
+        } else {
+            self.downloadArtifactsUrl = nil
+            self.testExecutionId = nil
+        }
+    }
+}
+
+public struct GetTestExecutionArtifactsUrlOutputResponse: Swift.Equatable {
+    /// The pre-signed Amazon S3 URL to download completed test execution.
+    public var downloadArtifactsUrl: Swift.String?
+    /// The unique identifier of the completed test execution.
+    public var testExecutionId: Swift.String?
+
+    public init(
+        downloadArtifactsUrl: Swift.String? = nil,
+        testExecutionId: Swift.String? = nil
+    )
+    {
+        self.downloadArtifactsUrl = downloadArtifactsUrl
+        self.testExecutionId = testExecutionId
+    }
+}
+
+struct GetTestExecutionArtifactsUrlOutputResponseBody: Swift.Equatable {
+    let testExecutionId: Swift.String?
+    let downloadArtifactsUrl: Swift.String?
+}
+
+extension GetTestExecutionArtifactsUrlOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case downloadArtifactsUrl
+        case testExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testExecutionId)
+        testExecutionId = testExecutionIdDecoded
+        let downloadArtifactsUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .downloadArtifactsUrl)
+        downloadArtifactsUrl = downloadArtifactsUrlDecoded
+    }
+}
+
 extension LexModelsV2ClientTypes.GrammarSlotTypeSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case source
@@ -12665,12 +14450,12 @@ extension LexModelsV2ClientTypes.GrammarSlotTypeSource: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// Describes the Amazon S3 bucket name and location for the grammar that is the source for the slot type.
     public struct GrammarSlotTypeSource: Swift.Equatable {
-        /// The Amazon KMS key required to decrypt the contents of the grammar, if any.
+        /// The KMS key required to decrypt the contents of the grammar, if any.
         public var kmsKeyArn: Swift.String?
-        /// The name of the S3 bucket that contains the grammar source.
+        /// The name of the Amazon S3 bucket that contains the grammar source.
         /// This member is required.
         public var s3BucketName: Swift.String?
-        /// The path to the grammar in the S3 bucket.
+        /// The path to the grammar in the Amazon S3 bucket.
         /// This member is required.
         public var s3ObjectKey: Swift.String?
 
@@ -12768,12 +14553,14 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
     public enum ImportExportFileFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
         case lexjson
         case tsv
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImportExportFileFormat] {
             return [
+                .csv,
                 .lexjson,
                 .tsv,
                 .sdkUnknown("")
@@ -12785,6 +14572,7 @@ extension LexModelsV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .csv: return "CSV"
             case .lexjson: return "LexJson"
             case .tsv: return "TSV"
             case let .sdkUnknown(s): return s
@@ -12934,6 +14722,7 @@ extension LexModelsV2ClientTypes.ImportResourceSpecification: Swift.Codable {
         case botImportSpecification
         case botLocaleImportSpecification
         case customVocabularyImportSpecification
+        case testSetImportResourceSpecification
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12947,6 +14736,9 @@ extension LexModelsV2ClientTypes.ImportResourceSpecification: Swift.Codable {
         if let customVocabularyImportSpecification = self.customVocabularyImportSpecification {
             try encodeContainer.encode(customVocabularyImportSpecification, forKey: .customVocabularyImportSpecification)
         }
+        if let testSetImportResourceSpecification = self.testSetImportResourceSpecification {
+            try encodeContainer.encode(testSetImportResourceSpecification, forKey: .testSetImportResourceSpecification)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12957,6 +14749,8 @@ extension LexModelsV2ClientTypes.ImportResourceSpecification: Swift.Codable {
         botLocaleImportSpecification = botLocaleImportSpecificationDecoded
         let customVocabularyImportSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.CustomVocabularyImportSpecification.self, forKey: .customVocabularyImportSpecification)
         customVocabularyImportSpecification = customVocabularyImportSpecificationDecoded
+        let testSetImportResourceSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetImportResourceSpecification.self, forKey: .testSetImportResourceSpecification)
+        testSetImportResourceSpecification = testSetImportResourceSpecificationDecoded
     }
 }
 
@@ -12969,16 +14763,20 @@ extension LexModelsV2ClientTypes {
         public var botLocaleImportSpecification: LexModelsV2ClientTypes.BotLocaleImportSpecification?
         /// Provides the parameters required for importing a custom vocabulary.
         public var customVocabularyImportSpecification: LexModelsV2ClientTypes.CustomVocabularyImportSpecification?
+        /// Specifications for the test set that is imported.
+        public var testSetImportResourceSpecification: LexModelsV2ClientTypes.TestSetImportResourceSpecification?
 
         public init(
             botImportSpecification: LexModelsV2ClientTypes.BotImportSpecification? = nil,
             botLocaleImportSpecification: LexModelsV2ClientTypes.BotLocaleImportSpecification? = nil,
-            customVocabularyImportSpecification: LexModelsV2ClientTypes.CustomVocabularyImportSpecification? = nil
+            customVocabularyImportSpecification: LexModelsV2ClientTypes.CustomVocabularyImportSpecification? = nil,
+            testSetImportResourceSpecification: LexModelsV2ClientTypes.TestSetImportResourceSpecification? = nil
         )
         {
             self.botImportSpecification = botImportSpecification
             self.botLocaleImportSpecification = botLocaleImportSpecification
             self.customVocabularyImportSpecification = customVocabularyImportSpecification
+            self.testSetImportResourceSpecification = testSetImportResourceSpecification
         }
     }
 
@@ -12989,6 +14787,7 @@ extension LexModelsV2ClientTypes {
         case bot
         case botlocale
         case customvocabulary
+        case testset
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImportResourceType] {
@@ -12996,6 +14795,7 @@ extension LexModelsV2ClientTypes {
                 .bot,
                 .botlocale,
                 .customvocabulary,
+                .testset,
                 .sdkUnknown("")
             ]
         }
@@ -13008,6 +14808,7 @@ extension LexModelsV2ClientTypes {
             case .bot: return "Bot"
             case .botlocale: return "BotLocale"
             case .customvocabulary: return "CustomVocabulary"
+            case .testset: return "TestSet"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13323,7 +15124,7 @@ extension LexModelsV2ClientTypes.InputContext: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// The name of a context that must be active for an intent to be selected by Amazon Lex.
+    /// A context that must be active for an intent to be selected by Amazon Lex.
     public struct InputContext: Swift.Equatable {
         /// The name of the context.
         /// This member is required.
@@ -13334,6 +15135,272 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.name = name
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.InputSessionStateSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeContexts
+        case runtimeHints
+        case sessionAttributes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeContexts = activeContexts {
+            var activeContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeContexts)
+            for activecontext0 in activeContexts {
+                try activeContextsContainer.encode(activecontext0)
+            }
+        }
+        if let runtimeHints = self.runtimeHints {
+            try encodeContainer.encode(runtimeHints, forKey: .runtimeHints)
+        }
+        if let sessionAttributes = sessionAttributes {
+            var sessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sessionAttributes)
+            for (dictKey0, stringMap0) in sessionAttributes {
+                try sessionAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .sessionAttributes)
+        var sessionAttributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let sessionAttributesContainer = sessionAttributesContainer {
+            sessionAttributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in sessionAttributesContainer {
+                if let string0 = string0 {
+                    sessionAttributesDecoded0?[key0] = string0
+                }
+            }
+        }
+        sessionAttributes = sessionAttributesDecoded0
+        let activeContextsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ActiveContext?].self, forKey: .activeContexts)
+        var activeContextsDecoded0:[LexModelsV2ClientTypes.ActiveContext]? = nil
+        if let activeContextsContainer = activeContextsContainer {
+            activeContextsDecoded0 = [LexModelsV2ClientTypes.ActiveContext]()
+            for structure0 in activeContextsContainer {
+                if let structure0 = structure0 {
+                    activeContextsDecoded0?.append(structure0)
+                }
+            }
+        }
+        activeContexts = activeContextsDecoded0
+        let runtimeHintsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.RuntimeHints.self, forKey: .runtimeHints)
+        runtimeHints = runtimeHintsDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Specifications for the current state of the dialog between the user and the bot in the test set.
+    public struct InputSessionStateSpecification: Swift.Equatable {
+        /// Active contexts for the session state.
+        public var activeContexts: [LexModelsV2ClientTypes.ActiveContext]?
+        /// Runtime hints for the session state.
+        public var runtimeHints: LexModelsV2ClientTypes.RuntimeHints?
+        /// Session attributes for the session state.
+        public var sessionAttributes: [Swift.String:Swift.String]?
+
+        public init(
+            activeContexts: [LexModelsV2ClientTypes.ActiveContext]? = nil,
+            runtimeHints: LexModelsV2ClientTypes.RuntimeHints? = nil,
+            sessionAttributes: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.activeContexts = activeContexts
+            self.runtimeHints = runtimeHints
+            self.sessionAttributes = sessionAttributes
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.IntentClassificationTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentName
+        case multiTurnConversation
+        case resultCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if multiTurnConversation != false {
+            try encodeContainer.encode(multiTurnConversation, forKey: .multiTurnConversation)
+        }
+        if let resultCounts = self.resultCounts {
+            try encodeContainer.encode(resultCounts, forKey: .resultCounts)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let multiTurnConversationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTurnConversation) ?? false
+        multiTurnConversation = multiTurnConversationDecoded
+        let resultCountsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts.self, forKey: .resultCounts)
+        resultCounts = resultCountsDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information for an intent that is classified by the test workbench.
+    public struct IntentClassificationTestResultItem: Swift.Equatable {
+        /// The name of the intent.
+        /// This member is required.
+        public var intentName: Swift.String?
+        /// Indicates whether the conversation involves multiple turns or not.
+        /// This member is required.
+        public var multiTurnConversation: Swift.Bool
+        /// The result of the intent classification test.
+        /// This member is required.
+        public var resultCounts: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts?
+
+        public init(
+            intentName: Swift.String? = nil,
+            multiTurnConversation: Swift.Bool = false,
+            resultCounts: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts? = nil
+        )
+        {
+            self.intentName = intentName
+            self.multiTurnConversation = multiTurnConversation
+            self.resultCounts = resultCounts
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentMatchResultCounts
+        case speechTranscriptionResultCounts
+        case totalResultCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentMatchResultCounts = intentMatchResultCounts {
+            var intentMatchResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .intentMatchResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in intentMatchResultCounts {
+                try intentMatchResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let speechTranscriptionResultCounts = speechTranscriptionResultCounts {
+            var speechTranscriptionResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .speechTranscriptionResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in speechTranscriptionResultCounts {
+                try speechTranscriptionResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let totalResultCount = self.totalResultCount {
+            try encodeContainer.encode(totalResultCount, forKey: .totalResultCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalResultCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalResultCount)
+        totalResultCount = totalResultCountDecoded
+        let speechTranscriptionResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .speechTranscriptionResultCounts)
+        var speechTranscriptionResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let speechTranscriptionResultCountsContainer = speechTranscriptionResultCountsContainer {
+            speechTranscriptionResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in speechTranscriptionResultCountsContainer {
+                if let count0 = count0 {
+                    speechTranscriptionResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        speechTranscriptionResultCounts = speechTranscriptionResultCountsDecoded0
+        let intentMatchResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .intentMatchResultCounts)
+        var intentMatchResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let intentMatchResultCountsContainer = intentMatchResultCountsContainer {
+            intentMatchResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in intentMatchResultCountsContainer {
+                if let count0 = count0 {
+                    intentMatchResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        intentMatchResultCounts = intentMatchResultCountsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The number of items in the intent classification test.
+    public struct IntentClassificationTestResultItemCounts: Swift.Equatable {
+        /// The number of matched and mismatched results for intent recognition for the intent.
+        /// This member is required.
+        public var intentMatchResultCounts: [Swift.String:Swift.Int]?
+        /// The number of matched, mismatched, and execution error results for speech transcription for the intent.
+        public var speechTranscriptionResultCounts: [Swift.String:Swift.Int]?
+        /// The total number of results in the intent classification test.
+        /// This member is required.
+        public var totalResultCount: Swift.Int?
+
+        public init(
+            intentMatchResultCounts: [Swift.String:Swift.Int]? = nil,
+            speechTranscriptionResultCounts: [Swift.String:Swift.Int]? = nil,
+            totalResultCount: Swift.Int? = nil
+        )
+        {
+            self.intentMatchResultCounts = intentMatchResultCounts
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.IntentClassificationTestResults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for intentclassificationtestresultitem0 in items {
+                try itemsContainer.encode(intentclassificationtestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.IntentClassificationTestResultItem?].self, forKey: .items)
+        var itemsDecoded0:[LexModelsV2ClientTypes.IntentClassificationTestResultItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [LexModelsV2ClientTypes.IntentClassificationTestResultItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information for the results of the intent classification test.
+    public struct IntentClassificationTestResults: Swift.Equatable {
+        /// A list of the results for the intent classification test.
+        /// This member is required.
+        public var items: [LexModelsV2ClientTypes.IntentClassificationTestResultItem]?
+
+        public init(
+            items: [LexModelsV2ClientTypes.IntentClassificationTestResultItem]? = nil
+        )
+        {
+            self.items = items
         }
     }
 
@@ -13691,6 +15758,124 @@ extension LexModelsV2ClientTypes {
     }
 }
 
+extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentName
+        case multiTurnConversation
+        case slotResolutionResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if multiTurnConversation != false {
+            try encodeContainer.encode(multiTurnConversation, forKey: .multiTurnConversation)
+        }
+        if let slotResolutionResults = slotResolutionResults {
+            var slotResolutionResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotResolutionResults)
+            for slotresolutiontestresultitem0 in slotResolutionResults {
+                try slotResolutionResultsContainer.encode(slotresolutiontestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let multiTurnConversationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTurnConversation) ?? false
+        multiTurnConversation = multiTurnConversationDecoded
+        let slotResolutionResultsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.SlotResolutionTestResultItem?].self, forKey: .slotResolutionResults)
+        var slotResolutionResultsDecoded0:[LexModelsV2ClientTypes.SlotResolutionTestResultItem]? = nil
+        if let slotResolutionResultsContainer = slotResolutionResultsContainer {
+            slotResolutionResultsDecoded0 = [LexModelsV2ClientTypes.SlotResolutionTestResultItem]()
+            for structure0 in slotResolutionResultsContainer {
+                if let structure0 = structure0 {
+                    slotResolutionResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        slotResolutionResults = slotResolutionResultsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information about intent-level slot resolution in a test result.
+    public struct IntentLevelSlotResolutionTestResultItem: Swift.Equatable {
+        /// The name of the intent that was recognized.
+        /// This member is required.
+        public var intentName: Swift.String?
+        /// Indicates whether the conversation involves multiple turns or not.
+        /// This member is required.
+        public var multiTurnConversation: Swift.Bool
+        /// The results for the slot resolution in the test execution result.
+        /// This member is required.
+        public var slotResolutionResults: [LexModelsV2ClientTypes.SlotResolutionTestResultItem]?
+
+        public init(
+            intentName: Swift.String? = nil,
+            multiTurnConversation: Swift.Bool = false,
+            slotResolutionResults: [LexModelsV2ClientTypes.SlotResolutionTestResultItem]? = nil
+        )
+        {
+            self.intentName = intentName
+            self.multiTurnConversation = multiTurnConversation
+            self.slotResolutionResults = slotResolutionResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for intentlevelslotresolutiontestresultitem0 in items {
+                try itemsContainer.encode(intentlevelslotresolutiontestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem?].self, forKey: .items)
+        var itemsDecoded0:[LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Indicates the success or failure of slots at the intent level.
+    public struct IntentLevelSlotResolutionTestResults: Swift.Equatable {
+        /// Indicates the items for the slot level resolution for the intents.
+        /// This member is required.
+        public var items: [LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]?
+
+        public init(
+            items: [LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]? = nil
+        )
+        {
+            self.items = items
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.IntentOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -13733,7 +15918,7 @@ extension LexModelsV2ClientTypes {
     public struct IntentOverride: Swift.Equatable {
         /// The name of the intent. Only required when you're switching intents.
         public var name: Swift.String?
-        /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.,
+        /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.
         public var slots: [Swift.String:LexModelsV2ClientTypes.SlotValueOverride]?
 
         public init(
@@ -17316,6 +19501,580 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListTestExecutionResultItemsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case resultFilterBy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resultFilterBy = self.resultFilterBy {
+            try encodeContainer.encode(resultFilterBy, forKey: .resultFilterBy)
+        }
+    }
+}
+
+extension ListTestExecutionResultItemsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testExecutionId = testExecutionId else {
+            return nil
+        }
+        return "/testexecutions/\(testExecutionId.urlPercentEncoding())/results"
+    }
+}
+
+public struct ListTestExecutionResultItemsInput: Swift.Equatable {
+    /// The maximum number of test execution result items to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListTestExecutionResultItems operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+    public var nextToken: Swift.String?
+    /// The filter for the list of results from the test set execution.
+    /// This member is required.
+    public var resultFilterBy: LexModelsV2ClientTypes.TestExecutionResultFilterBy?
+    /// The unique identifier of the test execution to list the result items.
+    /// This member is required.
+    public var testExecutionId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resultFilterBy: LexModelsV2ClientTypes.TestExecutionResultFilterBy? = nil,
+        testExecutionId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resultFilterBy = resultFilterBy
+        self.testExecutionId = testExecutionId
+    }
+}
+
+struct ListTestExecutionResultItemsInputBody: Swift.Equatable {
+    let resultFilterBy: LexModelsV2ClientTypes.TestExecutionResultFilterBy?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTestExecutionResultItemsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case resultFilterBy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultFilterByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionResultFilterBy.self, forKey: .resultFilterBy)
+        resultFilterBy = resultFilterByDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListTestExecutionResultItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTestExecutionResultItemsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTestExecutionResultItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.testExecutionResults = output.testExecutionResults
+        } else {
+            self.nextToken = nil
+            self.testExecutionResults = nil
+        }
+    }
+}
+
+public struct ListTestExecutionResultItemsOutputResponse: Swift.Equatable {
+    /// A token that indicates whether there are more results to return in a response to the ListTestExecutionResultItems operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestExecutionResultItems operation request to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of results from the test execution.
+    public var testExecutionResults: LexModelsV2ClientTypes.TestExecutionResultItems?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testExecutionResults: LexModelsV2ClientTypes.TestExecutionResultItems? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.testExecutionResults = testExecutionResults
+    }
+}
+
+struct ListTestExecutionResultItemsOutputResponseBody: Swift.Equatable {
+    let testExecutionResults: LexModelsV2ClientTypes.TestExecutionResultItems?
+    let nextToken: Swift.String?
+}
+
+extension ListTestExecutionResultItemsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case testExecutionResults
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionResultItems.self, forKey: .testExecutionResults)
+        testExecutionResults = testExecutionResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTestExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+    }
+}
+
+extension ListTestExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/testexecutions"
+    }
+}
+
+public struct ListTestExecutionsInput: Swift.Equatable {
+    /// The maximum number of test executions to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListTestExecutions operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+    public var nextToken: Swift.String?
+    /// The sort order of the test set executions.
+    public var sortBy: LexModelsV2ClientTypes.TestExecutionSortBy?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.TestExecutionSortBy? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+    }
+}
+
+struct ListTestExecutionsInputBody: Swift.Equatable {
+    let sortBy: LexModelsV2ClientTypes.TestExecutionSortBy?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTestExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListTestExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTestExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTestExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.testExecutions = output.testExecutions
+        } else {
+            self.nextToken = nil
+            self.testExecutions = nil
+        }
+    }
+}
+
+public struct ListTestExecutionsOutputResponse: Swift.Equatable {
+    /// A token that indicates whether there are more results to return in a response to the ListTestExecutions operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestExecutions operation request to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of test executions.
+    public var testExecutions: [LexModelsV2ClientTypes.TestExecutionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testExecutions: [LexModelsV2ClientTypes.TestExecutionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.testExecutions = testExecutions
+    }
+}
+
+struct ListTestExecutionsOutputResponseBody: Swift.Equatable {
+    let testExecutions: [LexModelsV2ClientTypes.TestExecutionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListTestExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case testExecutions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.TestExecutionSummary?].self, forKey: .testExecutions)
+        var testExecutionsDecoded0:[LexModelsV2ClientTypes.TestExecutionSummary]? = nil
+        if let testExecutionsContainer = testExecutionsContainer {
+            testExecutionsDecoded0 = [LexModelsV2ClientTypes.TestExecutionSummary]()
+            for structure0 in testExecutionsContainer {
+                if let structure0 = structure0 {
+                    testExecutionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        testExecutions = testExecutionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTestSetRecordsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListTestSetRecordsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())/records"
+    }
+}
+
+public struct ListTestSetRecordsInput: Swift.Equatable {
+    /// The maximum number of test set records to return in each page. If there are fewer records than the max page size, only the actual number of records are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListTestSetRecords operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the test set to list its test set records.
+    /// This member is required.
+    public var testSetId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.testSetId = testSetId
+    }
+}
+
+struct ListTestSetRecordsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTestSetRecordsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListTestSetRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTestSetRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTestSetRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.testSetRecords = output.testSetRecords
+        } else {
+            self.nextToken = nil
+            self.testSetRecords = nil
+        }
+    }
+}
+
+public struct ListTestSetRecordsOutputResponse: Swift.Equatable {
+    /// A token that indicates whether there are more records to return in a response to the ListTestSetRecords operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestSetRecords operation request to get the next page of records.
+    public var nextToken: Swift.String?
+    /// The list of records from the test set.
+    public var testSetRecords: [LexModelsV2ClientTypes.TestSetTurnRecord]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testSetRecords: [LexModelsV2ClientTypes.TestSetTurnRecord]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.testSetRecords = testSetRecords
+    }
+}
+
+struct ListTestSetRecordsOutputResponseBody: Swift.Equatable {
+    let testSetRecords: [LexModelsV2ClientTypes.TestSetTurnRecord]?
+    let nextToken: Swift.String?
+}
+
+extension ListTestSetRecordsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case testSetRecords
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetRecordsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.TestSetTurnRecord?].self, forKey: .testSetRecords)
+        var testSetRecordsDecoded0:[LexModelsV2ClientTypes.TestSetTurnRecord]? = nil
+        if let testSetRecordsContainer = testSetRecordsContainer {
+            testSetRecordsDecoded0 = [LexModelsV2ClientTypes.TestSetTurnRecord]()
+            for structure0 in testSetRecordsContainer {
+                if let structure0 = structure0 {
+                    testSetRecordsDecoded0?.append(structure0)
+                }
+            }
+        }
+        testSetRecords = testSetRecordsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTestSetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+    }
+}
+
+extension ListTestSetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/testsets"
+    }
+}
+
+public struct ListTestSetsInput: Swift.Equatable {
+    /// The maximum number of test sets to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
+    public var maxResults: Swift.Int?
+    /// If the response from the ListTestSets operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+    public var nextToken: Swift.String?
+    /// The sort order for the list of test sets.
+    public var sortBy: LexModelsV2ClientTypes.TestSetSortBy?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.TestSetSortBy? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+    }
+}
+
+struct ListTestSetsInputBody: Swift.Equatable {
+    let sortBy: LexModelsV2ClientTypes.TestSetSortBy?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTestSetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListTestSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTestSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTestSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.testSets = output.testSets
+        } else {
+            self.nextToken = nil
+            self.testSets = nil
+        }
+    }
+}
+
+public struct ListTestSetsOutputResponse: Swift.Equatable {
+    /// A token that indicates whether there are more results to return in a response to the ListTestSets operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestSets operation request to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The selected test sets in a list of test sets.
+    public var testSets: [LexModelsV2ClientTypes.TestSetSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testSets: [LexModelsV2ClientTypes.TestSetSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.testSets = testSets
+    }
+}
+
+struct ListTestSetsOutputResponseBody: Swift.Equatable {
+    let testSets: [LexModelsV2ClientTypes.TestSetSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListTestSetsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case testSets
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.TestSetSummary?].self, forKey: .testSets)
+        var testSetsDecoded0:[LexModelsV2ClientTypes.TestSetSummary]? = nil
+        if let testSetsContainer = testSetsContainer {
+            testSetsDecoded0 = [LexModelsV2ClientTypes.TestSetSummary]()
+            for structure0 in testSetsContainer {
+                if let structure0 = structure0 {
+                    testSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        testSets = testSetsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension LexModelsV2ClientTypes {
     public enum MergeStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case append
@@ -17389,7 +20148,7 @@ extension LexModelsV2ClientTypes.Message: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// The object that provides message text and it's type.
+    /// The object that provides message text and its type.
     public struct Message: Swift.Equatable {
         /// A message in a custom format defined by the client application.
         public var customPayload: LexModelsV2ClientTypes.CustomPayload?
@@ -17718,6 +20477,146 @@ extension LexModelsV2ClientTypes {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.OverallTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endToEndResultCounts
+        case multiTurnConversation
+        case speechTranscriptionResultCounts
+        case totalResultCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endToEndResultCounts = endToEndResultCounts {
+            var endToEndResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endToEndResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in endToEndResultCounts {
+                try endToEndResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if multiTurnConversation != false {
+            try encodeContainer.encode(multiTurnConversation, forKey: .multiTurnConversation)
+        }
+        if let speechTranscriptionResultCounts = speechTranscriptionResultCounts {
+            var speechTranscriptionResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .speechTranscriptionResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in speechTranscriptionResultCounts {
+                try speechTranscriptionResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let totalResultCount = self.totalResultCount {
+            try encodeContainer.encode(totalResultCount, forKey: .totalResultCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let multiTurnConversationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTurnConversation) ?? false
+        multiTurnConversation = multiTurnConversationDecoded
+        let totalResultCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalResultCount)
+        totalResultCount = totalResultCountDecoded
+        let speechTranscriptionResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .speechTranscriptionResultCounts)
+        var speechTranscriptionResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let speechTranscriptionResultCountsContainer = speechTranscriptionResultCountsContainer {
+            speechTranscriptionResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in speechTranscriptionResultCountsContainer {
+                if let count0 = count0 {
+                    speechTranscriptionResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        speechTranscriptionResultCounts = speechTranscriptionResultCountsDecoded0
+        let endToEndResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .endToEndResultCounts)
+        var endToEndResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let endToEndResultCountsContainer = endToEndResultCountsContainer {
+            endToEndResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in endToEndResultCountsContainer {
+                if let count0 = count0 {
+                    endToEndResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        endToEndResultCounts = endToEndResultCountsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information about the overall results for a test execution result.
+    public struct OverallTestResultItem: Swift.Equatable {
+        /// The number of results that succeeded.
+        /// This member is required.
+        public var endToEndResultCounts: [Swift.String:Swift.Int]?
+        /// Indicates whether the conversation contains multiple turns or not.
+        /// This member is required.
+        public var multiTurnConversation: Swift.Bool
+        /// The number of speech transcription results in the overall test.
+        public var speechTranscriptionResultCounts: [Swift.String:Swift.Int]?
+        /// The total number of overall results in the result of the test execution.
+        /// This member is required.
+        public var totalResultCount: Swift.Int?
+
+        public init(
+            endToEndResultCounts: [Swift.String:Swift.Int]? = nil,
+            multiTurnConversation: Swift.Bool = false,
+            speechTranscriptionResultCounts: [Swift.String:Swift.Int]? = nil,
+            totalResultCount: Swift.Int? = nil
+        )
+        {
+            self.endToEndResultCounts = endToEndResultCounts
+            self.multiTurnConversation = multiTurnConversation
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.OverallTestResults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for overalltestresultitem0 in items {
+                try itemsContainer.encode(overalltestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.OverallTestResultItem?].self, forKey: .items)
+        var itemsDecoded0:[LexModelsV2ClientTypes.OverallTestResultItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [LexModelsV2ClientTypes.OverallTestResultItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information about the overall test results.
+    public struct OverallTestResults: Swift.Equatable {
+        /// A list of the overall test results.
+        /// This member is required.
+        public var items: [LexModelsV2ClientTypes.OverallTestResultItem]?
+
+        public init(
+            items: [LexModelsV2ClientTypes.OverallTestResultItem]? = nil
+        )
+        {
+            self.items = items
         }
     }
 
@@ -18168,7 +21067,7 @@ extension LexModelsV2ClientTypes {
     public struct Principal: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the principal.
         public var arn: Swift.String?
-        /// The name of the AWS service that should allowed or denied access to an Amazon Lex action.
+        /// The name of the Amazon Web Services service that should allowed or denied access to an Amazon Lex action.
         public var service: Swift.String?
 
         public init(
@@ -18622,6 +21521,168 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes.RuntimeHintDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runtimeHintValues
+        case subSlotHints
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runtimeHintValues = runtimeHintValues {
+            var runtimeHintValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeHintValues)
+            for runtimehintvalue0 in runtimeHintValues {
+                try runtimeHintValuesContainer.encode(runtimehintvalue0)
+            }
+        }
+        if let subSlotHints = subSlotHints {
+            var subSlotHintsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .subSlotHints)
+            for (dictKey0, slotHintsSlotMap0) in subSlotHints {
+                try subSlotHintsContainer.encode(slotHintsSlotMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runtimeHintValuesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.RuntimeHintValue?].self, forKey: .runtimeHintValues)
+        var runtimeHintValuesDecoded0:[LexModelsV2ClientTypes.RuntimeHintValue]? = nil
+        if let runtimeHintValuesContainer = runtimeHintValuesContainer {
+            runtimeHintValuesDecoded0 = [LexModelsV2ClientTypes.RuntimeHintValue]()
+            for structure0 in runtimeHintValuesContainer {
+                if let structure0 = structure0 {
+                    runtimeHintValuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        runtimeHintValues = runtimeHintValuesDecoded0
+        let subSlotHintsContainer = try containerValues.decodeIfPresent([Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails?].self, forKey: .subSlotHints)
+        var subSlotHintsDecoded0: [Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]? = nil
+        if let subSlotHintsContainer = subSlotHintsContainer {
+            subSlotHintsDecoded0 = [Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]()
+            for (key0, runtimehintdetails0) in subSlotHintsContainer {
+                if let runtimehintdetails0 = runtimehintdetails0 {
+                    subSlotHintsDecoded0?[key0] = runtimehintdetails0
+                }
+            }
+        }
+        subSlotHints = subSlotHintsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Provides an array of phrases that should be given preference when resolving values for a slot.
+    public struct RuntimeHintDetails: Swift.Equatable {
+        /// One or more strings that Amazon Lex should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
+        public var runtimeHintValues: [LexModelsV2ClientTypes.RuntimeHintValue]?
+        /// A map of constituent sub slot names inside a composite slot in the intent and the phrases that should be added for each sub slot. Inside each composite slot hints, this structure provides a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots. The intent name, composite slot name and the constituent sub slot names must exist.
+        public var subSlotHints: [Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]?
+
+        public init(
+            runtimeHintValues: [LexModelsV2ClientTypes.RuntimeHintValue]? = nil,
+            subSlotHints: [Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]? = nil
+        )
+        {
+            self.runtimeHintValues = runtimeHintValues
+            self.subSlotHints = subSlotHints
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.RuntimeHintValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case phrase
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let phrase = self.phrase {
+            try encodeContainer.encode(phrase, forKey: .phrase)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phraseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phrase)
+        phrase = phraseDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Provides the phrase that Amazon Lex should look for in the user's input to the bot.
+    public struct RuntimeHintValue: Swift.Equatable {
+        /// The phrase that Amazon Lex should look for in the user's input to the bot.
+        /// This member is required.
+        public var phrase: Swift.String?
+
+        public init(
+            phrase: Swift.String? = nil
+        )
+        {
+            self.phrase = phrase
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.RuntimeHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case slotHints
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let slotHints = slotHints {
+            var slotHintsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slotHints)
+            for (dictKey0, slotHintsIntentMap0) in slotHints {
+                var slotHintsIntentMap0Container = slotHintsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, slotHintsSlotMap1) in slotHintsIntentMap0 {
+                    try slotHintsIntentMap0Container.encode(slotHintsSlotMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let slotHintsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails?]?].self, forKey: .slotHints)
+        var slotHintsDecoded0: [Swift.String:[Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]]? = nil
+        if let slotHintsContainer = slotHintsContainer {
+            slotHintsDecoded0 = [Swift.String:[Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]]()
+            for (key0, slothintsslotmap0) in slotHintsContainer {
+                var slothintsslotmap0Decoded0: [Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails]? = nil
+                if let slothintsslotmap0 = slothintsslotmap0 {
+                    slothintsslotmap0Decoded0 = [Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails]()
+                    for (key1, runtimehintdetails1) in slothintsslotmap0 {
+                        if let runtimehintdetails1 = runtimehintdetails1 {
+                            slothintsslotmap0Decoded0?[key1] = runtimehintdetails1
+                        }
+                    }
+                }
+                slotHintsDecoded0?[key0] = slothintsslotmap0Decoded0
+            }
+        }
+        slotHints = slotHintsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// You can provide Amazon Lex with hints to the phrases that a customer is likely to use for a slot. When a slot with hints is resolved, the phrases in the runtime hints are preferred in the resolution. You can provide hints for a maximum of 100 intents. You can provide a maximum of 100 slots. Before you can use runtime hints with an existing bot, you must first rebuild the bot. For more information, see [Using runtime hints to improve recognition of slot values](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html).
+    public struct RuntimeHints: Swift.Equatable {
+        /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see [Using hints to improve accuracy](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html). The intent name and slot name must exist.
+        public var slotHints: [Swift.String:[Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]]?
+
+        public init(
+            slotHints: [Swift.String:[Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]]? = nil
+        )
+        {
+            self.slotHints = slotHints
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.S3BucketLogDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyArn
@@ -18656,7 +21717,7 @@ extension LexModelsV2ClientTypes.S3BucketLogDestination: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// Specifies an Amazon S3 bucket for logging audio conversations
     public struct S3BucketLogDestination: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
         public var kmsKeyArn: Swift.String?
         /// The S3 prefix to assign to audio log files.
         /// This member is required.
@@ -19619,7 +22680,7 @@ extension LexModelsV2ClientTypes.SlotPriority: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// Sets the priority that Amazon Lex should use when eliciting slot values from a user.
     public struct SlotPriority: Swift.Equatable {
-        /// The priority that a slot should be elicited.
+        /// The priority that Amazon Lex should apply to the slot.
         /// This member is required.
         public var priority: Swift.Int?
         /// The unique identifier of the slot.
@@ -19633,6 +22694,134 @@ extension LexModelsV2ClientTypes {
         {
             self.priority = priority
             self.slotId = slotId
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.SlotResolutionTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultCounts
+        case slotName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resultCounts = self.resultCounts {
+            try encodeContainer.encode(resultCounts, forKey: .resultCounts)
+        }
+        if let slotName = self.slotName {
+            try encodeContainer.encode(slotName, forKey: .slotName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let slotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .slotName)
+        slotName = slotNameDecoded
+        let resultCountsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts.self, forKey: .resultCounts)
+        resultCounts = resultCountsDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information about the success and failure rate of slot resolution in the results of a test execution.
+    public struct SlotResolutionTestResultItem: Swift.Equatable {
+        /// A result for slot resolution in the results of a test execution.
+        /// This member is required.
+        public var resultCounts: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts?
+        /// The name of the slot.
+        /// This member is required.
+        public var slotName: Swift.String?
+
+        public init(
+            resultCounts: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts? = nil,
+            slotName: Swift.String? = nil
+        )
+        {
+            self.resultCounts = resultCounts
+            self.slotName = slotName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case slotMatchResultCounts
+        case speechTranscriptionResultCounts
+        case totalResultCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let slotMatchResultCounts = slotMatchResultCounts {
+            var slotMatchResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slotMatchResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in slotMatchResultCounts {
+                try slotMatchResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let speechTranscriptionResultCounts = speechTranscriptionResultCounts {
+            var speechTranscriptionResultCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .speechTranscriptionResultCounts)
+            for (dictKey0, testResultMatchStatusCountMap0) in speechTranscriptionResultCounts {
+                try speechTranscriptionResultCountsContainer.encode(testResultMatchStatusCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let totalResultCount = self.totalResultCount {
+            try encodeContainer.encode(totalResultCount, forKey: .totalResultCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalResultCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalResultCount)
+        totalResultCount = totalResultCountDecoded
+        let speechTranscriptionResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .speechTranscriptionResultCounts)
+        var speechTranscriptionResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let speechTranscriptionResultCountsContainer = speechTranscriptionResultCountsContainer {
+            speechTranscriptionResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in speechTranscriptionResultCountsContainer {
+                if let count0 = count0 {
+                    speechTranscriptionResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        speechTranscriptionResultCounts = speechTranscriptionResultCountsDecoded0
+        let slotMatchResultCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .slotMatchResultCounts)
+        var slotMatchResultCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let slotMatchResultCountsContainer = slotMatchResultCountsContainer {
+            slotMatchResultCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in slotMatchResultCountsContainer {
+                if let count0 = count0 {
+                    slotMatchResultCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        slotMatchResultCounts = slotMatchResultCountsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Information about the counts for a slot resolution in the results of a test execution.
+    public struct SlotResolutionTestResultItemCounts: Swift.Equatable {
+        /// The number of matched and mismatched results for slot resolution for the slot.
+        /// This member is required.
+        public var slotMatchResultCounts: [Swift.String:Swift.Int]?
+        /// The number of matched, mismatched and execution error results for speech transcription for the slot.
+        public var speechTranscriptionResultCounts: [Swift.String:Swift.Int]?
+        /// The total number of results.
+        /// This member is required.
+        public var totalResultCount: Swift.Int?
+
+        public init(
+            slotMatchResultCounts: [Swift.String:Swift.Int]? = nil,
+            speechTranscriptionResultCounts: [Swift.String:Swift.Int]? = nil,
+            totalResultCount: Swift.Int? = nil
+        )
+        {
+            self.slotMatchResultCounts = slotMatchResultCounts
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
         }
     }
 
@@ -20375,7 +23564,7 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Specifies the elicitation setting details for constituent sub slots of a composite slot.
+    /// Specifies the elicitation setting details eliciting a slot.
     public struct SlotValueElicitationSetting: Swift.Equatable {
         /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public var defaultValueSpecification: LexModelsV2ClientTypes.SlotDefaultValueSpecification?
@@ -20506,10 +23695,10 @@ extension LexModelsV2ClientTypes {
         ///
         /// * 0-9
         ///
-        /// * Unicode characters ("\ u")
+        /// * Unicode characters ("\⁠u")
         ///
         ///
-        /// Represent Unicode characters with four digits, for example "\u0041" or "\u005A". The following regular expression operators are not supported:
+        /// Represent Unicode characters with four digits, for example "\⁠u0041" or "\⁠u005A". The following regular expression operators are not supported:
         ///
         /// * Infinite repeaters: *, +, or {x,} with no upper bound.
         ///
@@ -20596,18 +23785,18 @@ extension LexModelsV2ClientTypes.SlotValueSelectionSetting: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// Contains settings used by Amazon Lex to select a slot value.
     public struct SlotValueSelectionSetting: Swift.Equatable {
-        /// Provides settings that enable advanced recognition settings for slot values.
+        /// Provides settings that enable advanced recognition settings for slot values. You can use this to enable using slot values as a custom vocabulary for recognizing user utterances.
         public var advancedRecognitionSetting: LexModelsV2ClientTypes.AdvancedRecognitionSetting?
         /// A regular expression used to validate the value of a slot.
         public var regexFilter: LexModelsV2ClientTypes.SlotValueRegexFilter?
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:
         ///
-        /// * OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.
+        /// * ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.
         ///
-        /// * TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.
+        /// * TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.
         ///
         ///
-        /// If you don't specify the valueSelectionStrategy, the default is OriginalValue.
+        /// If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
         /// This member is required.
         public var resolutionStrategy: LexModelsV2ClientTypes.SlotValueResolutionStrategy?
 
@@ -21099,6 +24288,461 @@ extension StartImportOutputResponseBody: Swift.Decodable {
         importStatus = importStatusDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
+    }
+}
+
+extension StartTestExecutionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiMode
+        case target
+        case testExecutionModality
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiMode = self.apiMode {
+            try encodeContainer.encode(apiMode.rawValue, forKey: .apiMode)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+        if let testExecutionModality = self.testExecutionModality {
+            try encodeContainer.encode(testExecutionModality.rawValue, forKey: .testExecutionModality)
+        }
+    }
+}
+
+extension StartTestExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())/testexecutions"
+    }
+}
+
+public struct StartTestExecutionInput: Swift.Equatable {
+    /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
+    /// This member is required.
+    public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    /// The target bot for the test set execution.
+    /// This member is required.
+    public var target: LexModelsV2ClientTypes.TestExecutionTarget?
+    /// Indicates whether audio or text is used.
+    public var testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+    /// The test set Id for the test set execution.
+    /// This member is required.
+    public var testSetId: Swift.String?
+
+    public init(
+        apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
+        target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
+        testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.apiMode = apiMode
+        self.target = target
+        self.testExecutionModality = testExecutionModality
+        self.testSetId = testSetId
+    }
+}
+
+struct StartTestExecutionInputBody: Swift.Equatable {
+    let target: LexModelsV2ClientTypes.TestExecutionTarget?
+    let apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    let testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+}
+
+extension StartTestExecutionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiMode
+        case target
+        case testExecutionModality
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionTarget.self, forKey: .target)
+        target = targetDecoded
+        let apiModeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionApiMode.self, forKey: .apiMode)
+        apiMode = apiModeDecoded
+        let testExecutionModalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionModality.self, forKey: .testExecutionModality)
+        testExecutionModality = testExecutionModalityDecoded
+    }
+}
+
+public enum StartTestExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartTestExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartTestExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.apiMode = output.apiMode
+            self.creationDateTime = output.creationDateTime
+            self.target = output.target
+            self.testExecutionId = output.testExecutionId
+            self.testExecutionModality = output.testExecutionModality
+            self.testSetId = output.testSetId
+        } else {
+            self.apiMode = nil
+            self.creationDateTime = nil
+            self.target = nil
+            self.testExecutionId = nil
+            self.testExecutionModality = nil
+            self.testSetId = nil
+        }
+    }
+}
+
+public struct StartTestExecutionOutputResponse: Swift.Equatable {
+    /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
+    public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    /// The creation date and time for the test set execution.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The target bot for the test set execution.
+    public var target: LexModelsV2ClientTypes.TestExecutionTarget?
+    /// The unique identifier of the test set execution.
+    public var testExecutionId: Swift.String?
+    /// Indicates whether audio or text is used.
+    public var testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+    /// The test set Id for the test set execution.
+    public var testSetId: Swift.String?
+
+    public init(
+        apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
+        testExecutionId: Swift.String? = nil,
+        testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
+        testSetId: Swift.String? = nil
+    )
+    {
+        self.apiMode = apiMode
+        self.creationDateTime = creationDateTime
+        self.target = target
+        self.testExecutionId = testExecutionId
+        self.testExecutionModality = testExecutionModality
+        self.testSetId = testSetId
+    }
+}
+
+struct StartTestExecutionOutputResponseBody: Swift.Equatable {
+    let testExecutionId: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let testSetId: Swift.String?
+    let target: LexModelsV2ClientTypes.TestExecutionTarget?
+    let apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+    let testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+}
+
+extension StartTestExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiMode
+        case creationDateTime
+        case target
+        case testExecutionId
+        case testExecutionModality
+        case testSetId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testExecutionId)
+        testExecutionId = testExecutionIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionTarget.self, forKey: .target)
+        target = targetDecoded
+        let apiModeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionApiMode.self, forKey: .apiMode)
+        apiMode = apiModeDecoded
+        let testExecutionModalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionModality.self, forKey: .testExecutionModality)
+        testExecutionModality = testExecutionModalityDecoded
+    }
+}
+
+extension StartTestSetGenerationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case generationDataSource
+        case roleArn
+        case storageLocation
+        case testSetName
+        case testSetTags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let generationDataSource = self.generationDataSource {
+            try encodeContainer.encode(generationDataSource, forKey: .generationDataSource)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let storageLocation = self.storageLocation {
+            try encodeContainer.encode(storageLocation, forKey: .storageLocation)
+        }
+        if let testSetName = self.testSetName {
+            try encodeContainer.encode(testSetName, forKey: .testSetName)
+        }
+        if let testSetTags = testSetTags {
+            var testSetTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .testSetTags)
+            for (dictKey0, tagMap0) in testSetTags {
+                try testSetTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension StartTestSetGenerationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/testsetgenerations"
+    }
+}
+
+public struct StartTestSetGenerationInput: Swift.Equatable {
+    /// The test set description for the test set generation request.
+    public var description: Swift.String?
+    /// The data source for the test set generation.
+    /// This member is required.
+    public var generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    /// The roleARN used for any operation in the test set to access resources in the Amazon Web Services account.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The Amazon S3 storage location for the test set generation.
+    /// This member is required.
+    public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    /// The test set name for the test set generation request.
+    /// This member is required.
+    public var testSetName: Swift.String?
+    /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
+    public var testSetTags: [Swift.String:Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource? = nil,
+        roleArn: Swift.String? = nil,
+        storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+        testSetName: Swift.String? = nil,
+        testSetTags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.generationDataSource = generationDataSource
+        self.roleArn = roleArn
+        self.storageLocation = storageLocation
+        self.testSetName = testSetName
+        self.testSetTags = testSetTags
+    }
+}
+
+struct StartTestSetGenerationInputBody: Swift.Equatable {
+    let testSetName: Swift.String?
+    let description: Swift.String?
+    let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    let generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    let roleArn: Swift.String?
+    let testSetTags: [Swift.String:Swift.String]?
+}
+
+extension StartTestSetGenerationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case generationDataSource
+        case roleArn
+        case storageLocation
+        case testSetName
+        case testSetTags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let generationDataSourceDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetGenerationDataSource.self, forKey: .generationDataSource)
+        generationDataSource = generationDataSourceDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let testSetTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .testSetTags)
+        var testSetTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let testSetTagsContainer = testSetTagsContainer {
+            testSetTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in testSetTagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    testSetTagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        testSetTags = testSetTagsDecoded0
+    }
+}
+
+public enum StartTestSetGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartTestSetGenerationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartTestSetGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.description = output.description
+            self.generationDataSource = output.generationDataSource
+            self.roleArn = output.roleArn
+            self.storageLocation = output.storageLocation
+            self.testSetGenerationId = output.testSetGenerationId
+            self.testSetGenerationStatus = output.testSetGenerationStatus
+            self.testSetName = output.testSetName
+            self.testSetTags = output.testSetTags
+        } else {
+            self.creationDateTime = nil
+            self.description = nil
+            self.generationDataSource = nil
+            self.roleArn = nil
+            self.storageLocation = nil
+            self.testSetGenerationId = nil
+            self.testSetGenerationStatus = nil
+            self.testSetName = nil
+            self.testSetTags = nil
+        }
+    }
+}
+
+public struct StartTestSetGenerationOutputResponse: Swift.Equatable {
+    /// The creation date and time for the test set generation.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The description used for the test set generation.
+    public var description: Swift.String?
+    /// The data source for the test set generation.
+    public var generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    /// The roleARN used for any operation in the test set to access resources in the Amazon Web Services account.
+    public var roleArn: Swift.String?
+    /// The Amazon S3 storage location for the test set generation.
+    public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    /// The unique identifier of the test set generation to describe.
+    public var testSetGenerationId: Swift.String?
+    /// The status for the test set generation.
+    public var testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
+    /// The test set name used for the test set generation.
+    public var testSetName: Swift.String?
+    /// A list of tags that was used for the test set that is being generated.
+    public var testSetTags: [Swift.String:Swift.String]?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource? = nil,
+        roleArn: Swift.String? = nil,
+        storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+        testSetGenerationId: Swift.String? = nil,
+        testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus? = nil,
+        testSetName: Swift.String? = nil,
+        testSetTags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.description = description
+        self.generationDataSource = generationDataSource
+        self.roleArn = roleArn
+        self.storageLocation = storageLocation
+        self.testSetGenerationId = testSetGenerationId
+        self.testSetGenerationStatus = testSetGenerationStatus
+        self.testSetName = testSetName
+        self.testSetTags = testSetTags
+    }
+}
+
+struct StartTestSetGenerationOutputResponseBody: Swift.Equatable {
+    let testSetGenerationId: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
+    let testSetName: Swift.String?
+    let description: Swift.String?
+    let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    let generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
+    let roleArn: Swift.String?
+    let testSetTags: [Swift.String:Swift.String]?
+}
+
+extension StartTestSetGenerationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case description
+        case generationDataSource
+        case roleArn
+        case storageLocation
+        case testSetGenerationId
+        case testSetGenerationStatus
+        case testSetName
+        case testSetTags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetGenerationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetGenerationId)
+        testSetGenerationId = testSetGenerationIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let testSetGenerationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetGenerationStatus.self, forKey: .testSetGenerationStatus)
+        testSetGenerationStatus = testSetGenerationStatusDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let generationDataSourceDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetGenerationDataSource.self, forKey: .generationDataSource)
+        generationDataSource = generationDataSourceDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let testSetTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .testSetTags)
+        var testSetTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let testSetTagsContainer = testSetTagsContainer {
+            testSetTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in testSetTagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    testSetTagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        testSetTags = testSetTagsDecoded0
     }
 }
 
@@ -21608,6 +25252,1561 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension LexModelsV2ClientTypes {
+    public enum TestExecutionApiMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nonstreaming
+        case streaming
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestExecutionApiMode] {
+            return [
+                .nonstreaming,
+                .streaming,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nonstreaming: return "NonStreaming"
+            case .streaming: return "Streaming"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestExecutionApiMode(rawValue: rawValue) ?? TestExecutionApiMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestExecutionModality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case audio
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestExecutionModality] {
+            return [
+                .audio,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "Audio"
+            case .text: return "Text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestExecutionModality(rawValue: rawValue) ?? TestExecutionModality.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestExecutionResultFilterBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationLevelTestResultsFilterBy
+        case resultTypeFilter
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationLevelTestResultsFilterBy = self.conversationLevelTestResultsFilterBy {
+            try encodeContainer.encode(conversationLevelTestResultsFilterBy, forKey: .conversationLevelTestResultsFilterBy)
+        }
+        if let resultTypeFilter = self.resultTypeFilter {
+            try encodeContainer.encode(resultTypeFilter.rawValue, forKey: .resultTypeFilter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultTypeFilterDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultTypeFilter.self, forKey: .resultTypeFilter)
+        resultTypeFilter = resultTypeFilterDecoded
+        let conversationLevelTestResultsFilterByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy.self, forKey: .conversationLevelTestResultsFilterBy)
+        conversationLevelTestResultsFilterBy = conversationLevelTestResultsFilterByDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the method by which to filter the results of the test execution.
+    public struct TestExecutionResultFilterBy: Swift.Equatable {
+        /// Contains information about the method for filtering Conversation level test results.
+        public var conversationLevelTestResultsFilterBy: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy?
+        /// Specifies which results to filter. See [Test result details">Test results details](https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html) for details about different types of results.
+        /// This member is required.
+        public var resultTypeFilter: LexModelsV2ClientTypes.TestResultTypeFilter?
+
+        public init(
+            conversationLevelTestResultsFilterBy: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy? = nil,
+            resultTypeFilter: LexModelsV2ClientTypes.TestResultTypeFilter? = nil
+        )
+        {
+            self.conversationLevelTestResultsFilterBy = conversationLevelTestResultsFilterBy
+            self.resultTypeFilter = resultTypeFilter
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestExecutionResultItems: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationLevelTestResults
+        case intentClassificationTestResults
+        case intentLevelSlotResolutionTestResults
+        case overallTestResults
+        case utteranceLevelTestResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationLevelTestResults = self.conversationLevelTestResults {
+            try encodeContainer.encode(conversationLevelTestResults, forKey: .conversationLevelTestResults)
+        }
+        if let intentClassificationTestResults = self.intentClassificationTestResults {
+            try encodeContainer.encode(intentClassificationTestResults, forKey: .intentClassificationTestResults)
+        }
+        if let intentLevelSlotResolutionTestResults = self.intentLevelSlotResolutionTestResults {
+            try encodeContainer.encode(intentLevelSlotResolutionTestResults, forKey: .intentLevelSlotResolutionTestResults)
+        }
+        if let overallTestResults = self.overallTestResults {
+            try encodeContainer.encode(overallTestResults, forKey: .overallTestResults)
+        }
+        if let utteranceLevelTestResults = self.utteranceLevelTestResults {
+            try encodeContainer.encode(utteranceLevelTestResults, forKey: .utteranceLevelTestResults)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let overallTestResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.OverallTestResults.self, forKey: .overallTestResults)
+        overallTestResults = overallTestResultsDecoded
+        let conversationLevelTestResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLevelTestResults.self, forKey: .conversationLevelTestResults)
+        conversationLevelTestResults = conversationLevelTestResultsDecoded
+        let intentClassificationTestResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.IntentClassificationTestResults.self, forKey: .intentClassificationTestResults)
+        intentClassificationTestResults = intentClassificationTestResultsDecoded
+        let intentLevelSlotResolutionTestResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults.self, forKey: .intentLevelSlotResolutionTestResults)
+        intentLevelSlotResolutionTestResults = intentLevelSlotResolutionTestResultsDecoded
+        let utteranceLevelTestResultsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UtteranceLevelTestResults.self, forKey: .utteranceLevelTestResults)
+        utteranceLevelTestResults = utteranceLevelTestResultsDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the results of the test execution, grouped by type of results. See [Test result details">Test results details](https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html) for details about different types of results.
+    public struct TestExecutionResultItems: Swift.Equatable {
+        /// Results related to conversations in the test set, including metrics about success and failure of conversations and intent and slot failures.
+        public var conversationLevelTestResults: LexModelsV2ClientTypes.ConversationLevelTestResults?
+        /// Intent recognition results aggregated by intent name. The aggregated results contain success and failure rates of intent recognition, speech transcriptions, and end-to-end conversations.
+        public var intentClassificationTestResults: LexModelsV2ClientTypes.IntentClassificationTestResults?
+        /// Slot resolution results aggregated by intent and slot name. The aggregated results contain success and failure rates of slot resolution, speech transcriptions, and end-to-end conversations
+        public var intentLevelSlotResolutionTestResults: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults?
+        /// Overall results for the test execution, including the breakdown of conversations and single-input utterances.
+        public var overallTestResults: LexModelsV2ClientTypes.OverallTestResults?
+        /// Results related to utterances in the test set.
+        public var utteranceLevelTestResults: LexModelsV2ClientTypes.UtteranceLevelTestResults?
+
+        public init(
+            conversationLevelTestResults: LexModelsV2ClientTypes.ConversationLevelTestResults? = nil,
+            intentClassificationTestResults: LexModelsV2ClientTypes.IntentClassificationTestResults? = nil,
+            intentLevelSlotResolutionTestResults: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults? = nil,
+            overallTestResults: LexModelsV2ClientTypes.OverallTestResults? = nil,
+            utteranceLevelTestResults: LexModelsV2ClientTypes.UtteranceLevelTestResults? = nil
+        )
+        {
+            self.conversationLevelTestResults = conversationLevelTestResults
+            self.intentClassificationTestResults = intentClassificationTestResults
+            self.intentLevelSlotResolutionTestResults = intentLevelSlotResolutionTestResults
+            self.overallTestResults = overallTestResults
+            self.utteranceLevelTestResults = utteranceLevelTestResults
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestExecutionSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case creationdatetime
+        case testsetname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestExecutionSortAttribute] {
+            return [
+                .creationdatetime,
+                .testsetname,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationdatetime: return "CreationDateTime"
+            case .testsetname: return "TestSetName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestExecutionSortAttribute(rawValue: rawValue) ?? TestExecutionSortAttribute.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestExecutionSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attribute
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attribute = self.attribute {
+            try encodeContainer.encode(attribute.rawValue, forKey: .attribute)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionSortAttribute.self, forKey: .attribute)
+        attribute = attributeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the method by which to sort the instances of test executions you have carried out.
+    public struct TestExecutionSortBy: Swift.Equatable {
+        /// Specifies whether to sort the test set executions by the date and time at which the test sets were created.
+        /// This member is required.
+        public var attribute: LexModelsV2ClientTypes.TestExecutionSortAttribute?
+        /// Specifies whether to sort in ascending or descending order.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.SortOrder?
+
+        public init(
+            attribute: LexModelsV2ClientTypes.TestExecutionSortAttribute? = nil,
+            order: LexModelsV2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.attribute = attribute
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inprogress
+        case pending
+        case stopped
+        case stopping
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestExecutionStatus] {
+            return [
+                .completed,
+                .failed,
+                .inprogress,
+                .pending,
+                .stopped,
+                .stopping,
+                .waiting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inprogress: return "InProgress"
+            case .pending: return "Pending"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case .waiting: return "Waiting"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestExecutionStatus(rawValue: rawValue) ?? TestExecutionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestExecutionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiMode
+        case creationDateTime
+        case lastUpdatedDateTime
+        case target
+        case testExecutionId
+        case testExecutionModality
+        case testExecutionStatus
+        case testSetId
+        case testSetName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiMode = self.apiMode {
+            try encodeContainer.encode(apiMode.rawValue, forKey: .apiMode)
+        }
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+        if let testExecutionId = self.testExecutionId {
+            try encodeContainer.encode(testExecutionId, forKey: .testExecutionId)
+        }
+        if let testExecutionModality = self.testExecutionModality {
+            try encodeContainer.encode(testExecutionModality.rawValue, forKey: .testExecutionModality)
+        }
+        if let testExecutionStatus = self.testExecutionStatus {
+            try encodeContainer.encode(testExecutionStatus.rawValue, forKey: .testExecutionStatus)
+        }
+        if let testSetId = self.testSetId {
+            try encodeContainer.encode(testSetId, forKey: .testSetId)
+        }
+        if let testSetName = self.testSetName {
+            try encodeContainer.encode(testSetName, forKey: .testSetName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testExecutionId)
+        testExecutionId = testExecutionIdDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let testExecutionStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionStatus.self, forKey: .testExecutionStatus)
+        testExecutionStatus = testExecutionStatusDecoded
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionTarget.self, forKey: .target)
+        target = targetDecoded
+        let apiModeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionApiMode.self, forKey: .apiMode)
+        apiMode = apiModeDecoded
+        let testExecutionModalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestExecutionModality.self, forKey: .testExecutionModality)
+        testExecutionModality = testExecutionModalityDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Summarizes metadata about the test execution.
+    public struct TestExecutionSummary: Swift.Equatable {
+        /// Specifies whether the API mode for the test execution is streaming or non-streaming.
+        public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
+        /// The date and time at which the test execution was created.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The date and time at which the test execution was last updated.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// Contains information about the bot used for the test execution..
+        public var target: LexModelsV2ClientTypes.TestExecutionTarget?
+        /// The unique identifier of the test execution.
+        public var testExecutionId: Swift.String?
+        /// Specifies whether the data used for the test execution is written or spoken.
+        public var testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
+        /// The current status of the test execution.
+        public var testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus?
+        /// The unique identifier of the test set used in the test execution.
+        public var testSetId: Swift.String?
+        /// The name of the test set used in the test execution.
+        public var testSetName: Swift.String?
+
+        public init(
+            apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
+            creationDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
+            testExecutionId: Swift.String? = nil,
+            testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
+            testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus? = nil,
+            testSetId: Swift.String? = nil,
+            testSetName: Swift.String? = nil
+        )
+        {
+            self.apiMode = apiMode
+            self.creationDateTime = creationDateTime
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.target = target
+            self.testExecutionId = testExecutionId
+            self.testExecutionModality = testExecutionModality
+            self.testExecutionStatus = testExecutionStatus
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestExecutionTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasTarget
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasTarget = self.botAliasTarget {
+            try encodeContainer.encode(botAliasTarget, forKey: .botAliasTarget)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botAliasTargetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotAliasTestExecutionTarget.self, forKey: .botAliasTarget)
+        botAliasTarget = botAliasTargetDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the bot used for the test execution.
+    public struct TestExecutionTarget: Swift.Equatable {
+        /// Contains information about the bot alias used for the test execution.
+        public var botAliasTarget: LexModelsV2ClientTypes.BotAliasTestExecutionTarget?
+
+        public init(
+            botAliasTarget: LexModelsV2ClientTypes.BotAliasTestExecutionTarget? = nil
+        )
+        {
+            self.botAliasTarget = botAliasTarget
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestResultMatchStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case executionerror
+        case matched
+        case mismatched
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestResultMatchStatus] {
+            return [
+                .executionerror,
+                .matched,
+                .mismatched,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .executionerror: return "ExecutionError"
+            case .matched: return "Matched"
+            case .mismatched: return "Mismatched"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestResultMatchStatus(rawValue: rawValue) ?? TestResultMatchStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestResultTypeFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case conversationleveltestresults
+        case intentclassificationtestresults
+        case overalltestresults
+        case slotresolutiontestresults
+        case utterancelevelresults
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestResultTypeFilter] {
+            return [
+                .conversationleveltestresults,
+                .intentclassificationtestresults,
+                .overalltestresults,
+                .slotresolutiontestresults,
+                .utterancelevelresults,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .conversationleveltestresults: return "ConversationLevelTestResults"
+            case .intentclassificationtestresults: return "IntentClassificationTestResults"
+            case .overalltestresults: return "OverallTestResults"
+            case .slotresolutiontestresults: return "SlotResolutionTestResults"
+            case .utterancelevelresults: return "UtteranceLevelResults"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestResultTypeFilter(rawValue: rawValue) ?? TestResultTypeFilter.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetDiscrepancyErrors: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intentDiscrepancies
+        case slotDiscrepancies
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intentDiscrepancies = intentDiscrepancies {
+            var intentDiscrepanciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .intentDiscrepancies)
+            for testsetintentdiscrepancyitem0 in intentDiscrepancies {
+                try intentDiscrepanciesContainer.encode(testsetintentdiscrepancyitem0)
+            }
+        }
+        if let slotDiscrepancies = slotDiscrepancies {
+            var slotDiscrepanciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotDiscrepancies)
+            for testsetslotdiscrepancyitem0 in slotDiscrepancies {
+                try slotDiscrepanciesContainer.encode(testsetslotdiscrepancyitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentDiscrepanciesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem?].self, forKey: .intentDiscrepancies)
+        var intentDiscrepanciesDecoded0:[LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]? = nil
+        if let intentDiscrepanciesContainer = intentDiscrepanciesContainer {
+            intentDiscrepanciesDecoded0 = [LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]()
+            for structure0 in intentDiscrepanciesContainer {
+                if let structure0 = structure0 {
+                    intentDiscrepanciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        intentDiscrepancies = intentDiscrepanciesDecoded0
+        let slotDiscrepanciesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem?].self, forKey: .slotDiscrepancies)
+        var slotDiscrepanciesDecoded0:[LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem]? = nil
+        if let slotDiscrepanciesContainer = slotDiscrepanciesContainer {
+            slotDiscrepanciesDecoded0 = [LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem]()
+            for structure0 in slotDiscrepanciesContainer {
+                if let structure0 = structure0 {
+                    slotDiscrepanciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        slotDiscrepancies = slotDiscrepanciesDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains details about the errors in the test set discrepancy report
+    public struct TestSetDiscrepancyErrors: Swift.Equatable {
+        /// Contains information about discrepancies found for intents between the test set and the bot.
+        /// This member is required.
+        public var intentDiscrepancies: [LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]?
+        /// Contains information about discrepancies found for slots between the test set and the bot.
+        /// This member is required.
+        public var slotDiscrepancies: [LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem]?
+
+        public init(
+            intentDiscrepancies: [LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]? = nil,
+            slotDiscrepancies: [LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem]? = nil
+        )
+        {
+            self.intentDiscrepancies = intentDiscrepancies
+            self.slotDiscrepancies = slotDiscrepancies
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasId
+        case botId
+        case localeId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botId = self.botId {
+            try encodeContainer.encode(botId, forKey: .botId)
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the bot alias used for the test set discrepancy report.
+    public struct TestSetDiscrepancyReportBotAliasTarget: Swift.Equatable {
+        /// The unique identifier for the bot associated with the bot alias.
+        /// This member is required.
+        public var botAliasId: Swift.String?
+        /// The unique identifier for the bot alias.
+        /// This member is required.
+        public var botId: Swift.String?
+        /// The unique identifier of the locale associated with the bot alias.
+        /// This member is required.
+        public var localeId: Swift.String?
+
+        public init(
+            botAliasId: Swift.String? = nil,
+            botId: Swift.String? = nil,
+            localeId: Swift.String? = nil
+        )
+        {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.localeId = localeId
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasTarget
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasTarget = self.botAliasTarget {
+            try encodeContainer.encode(botAliasTarget, forKey: .botAliasTarget)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botAliasTargetDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget.self, forKey: .botAliasTarget)
+        botAliasTarget = botAliasTargetDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the resource used for the test set discrepancy report.
+    public struct TestSetDiscrepancyReportResourceTarget: Swift.Equatable {
+        /// Contains information about the bot alias used as the resource for the test set discrepancy report.
+        public var botAliasTarget: LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget?
+
+        public init(
+            botAliasTarget: LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget? = nil
+        )
+        {
+            self.botAliasTarget = botAliasTarget
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestSetDiscrepancyReportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inprogress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestSetDiscrepancyReportStatus] {
+            return [
+                .completed,
+                .failed,
+                .inprogress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inprogress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestSetDiscrepancyReportStatus(rawValue: rawValue) ?? TestSetDiscrepancyReportStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetExportSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case testSetId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let testSetId = self.testSetId {
+            try encodeContainer.encode(testSetId, forKey: .testSetId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the test set that is exported.
+    public struct TestSetExportSpecification: Swift.Equatable {
+        /// The unique identifier of the test set.
+        /// This member is required.
+        public var testSetId: Swift.String?
+
+        public init(
+            testSetId: Swift.String? = nil
+        )
+        {
+            self.testSetId = testSetId
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetGenerationDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationLogsDataSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationLogsDataSource = self.conversationLogsDataSource {
+            try encodeContainer.encode(conversationLogsDataSource, forKey: .conversationLogsDataSource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationLogsDataSourceDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLogsDataSource.self, forKey: .conversationLogsDataSource)
+        conversationLogsDataSource = conversationLogsDataSourceDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the data source from which the test set is generated.
+    public struct TestSetGenerationDataSource: Swift.Equatable {
+        /// Contains information about the bot from which the conversation logs are sourced.
+        public var conversationLogsDataSource: LexModelsV2ClientTypes.ConversationLogsDataSource?
+
+        public init(
+            conversationLogsDataSource: LexModelsV2ClientTypes.ConversationLogsDataSource? = nil
+        )
+        {
+            self.conversationLogsDataSource = conversationLogsDataSource
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestSetGenerationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case generating
+        case pending
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestSetGenerationStatus] {
+            return [
+                .failed,
+                .generating,
+                .pending,
+                .ready,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .generating: return "Generating"
+            case .pending: return "Pending"
+            case .ready: return "Ready"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestSetGenerationStatus(rawValue: rawValue) ?? TestSetGenerationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetImportInputLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3BucketName
+        case s3Path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3BucketName = self.s3BucketName {
+            try encodeContainer.encode(s3BucketName, forKey: .s3BucketName)
+        }
+        if let s3Path = self.s3Path {
+            try encodeContainer.encode(s3Path, forKey: .s3Path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
+        s3BucketName = s3BucketNameDecoded
+        let s3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Path)
+        s3Path = s3PathDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the Amazon S3 location from which the test set is imported.
+    public struct TestSetImportInputLocation: Swift.Equatable {
+        /// The name of the Amazon S3 bucket.
+        /// This member is required.
+        public var s3BucketName: Swift.String?
+        /// The path inside the Amazon S3 bucket pointing to the test-set CSV file.
+        /// This member is required.
+        public var s3Path: Swift.String?
+
+        public init(
+            s3BucketName: Swift.String? = nil,
+            s3Path: Swift.String? = nil
+        )
+        {
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetImportResourceSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case importInputLocation
+        case modality
+        case roleArn
+        case storageLocation
+        case testSetName
+        case testSetTags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let importInputLocation = self.importInputLocation {
+            try encodeContainer.encode(importInputLocation, forKey: .importInputLocation)
+        }
+        if let modality = self.modality {
+            try encodeContainer.encode(modality.rawValue, forKey: .modality)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let storageLocation = self.storageLocation {
+            try encodeContainer.encode(storageLocation, forKey: .storageLocation)
+        }
+        if let testSetName = self.testSetName {
+            try encodeContainer.encode(testSetName, forKey: .testSetName)
+        }
+        if let testSetTags = testSetTags {
+            var testSetTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .testSetTags)
+            for (dictKey0, tagMap0) in testSetTags {
+                try testSetTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let importInputLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetImportInputLocation.self, forKey: .importInputLocation)
+        importInputLocation = importInputLocationDecoded
+        let modalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetModality.self, forKey: .modality)
+        modality = modalityDecoded
+        let testSetTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .testSetTags)
+        var testSetTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let testSetTagsContainer = testSetTagsContainer {
+            testSetTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in testSetTagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    testSetTagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        testSetTags = testSetTagsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the test set that is imported.
+    public struct TestSetImportResourceSpecification: Swift.Equatable {
+        /// The description of the test set.
+        public var description: Swift.String?
+        /// Contains information about the input location from where test-set should be imported.
+        /// This member is required.
+        public var importInputLocation: LexModelsV2ClientTypes.TestSetImportInputLocation?
+        /// Specifies whether the test-set being imported contains written or spoken data.
+        /// This member is required.
+        public var modality: LexModelsV2ClientTypes.TestSetModality?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the test set.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// Contains information about the location that Amazon Lex uses to store the test-set.
+        /// This member is required.
+        public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+        /// The name of the test set.
+        /// This member is required.
+        public var testSetName: Swift.String?
+        /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
+        public var testSetTags: [Swift.String:Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            importInputLocation: LexModelsV2ClientTypes.TestSetImportInputLocation? = nil,
+            modality: LexModelsV2ClientTypes.TestSetModality? = nil,
+            roleArn: Swift.String? = nil,
+            storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+            testSetName: Swift.String? = nil,
+            testSetTags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.description = description
+            self.importInputLocation = importInputLocation
+            self.modality = modality
+            self.roleArn = roleArn
+            self.storageLocation = storageLocation
+            self.testSetName = testSetName
+            self.testSetTags = testSetTags
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case intentName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about discrepancy in an intent information between the test set and the bot.
+    public struct TestSetIntentDiscrepancyItem: Swift.Equatable {
+        /// The error message for a discrepancy for an intent between the test set and the bot.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The name of the intent in the discrepancy report.
+        /// This member is required.
+        public var intentName: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            intentName: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.intentName = intentName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestSetModality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case audio
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestSetModality] {
+            return [
+                .audio,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "Audio"
+            case .text: return "Text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestSetModality(rawValue: rawValue) ?? TestSetModality.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case intentName
+        case slotName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let intentName = self.intentName {
+            try encodeContainer.encode(intentName, forKey: .intentName)
+        }
+        if let slotName = self.slotName {
+            try encodeContainer.encode(slotName, forKey: .slotName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .intentName)
+        intentName = intentNameDecoded
+        let slotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .slotName)
+        slotName = slotNameDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about discrepancy in a slot information between the test set and the bot.
+    public struct TestSetSlotDiscrepancyItem: Swift.Equatable {
+        /// The error message for a discrepancy for an intent between the test set and the bot.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The name of the intent associated with the slot in the discrepancy report.
+        /// This member is required.
+        public var intentName: Swift.String?
+        /// The name of the slot in the discrepancy report.
+        /// This member is required.
+        public var slotName: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            intentName: Swift.String? = nil,
+            slotName: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.intentName = intentName
+            self.slotName = slotName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestSetSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lastupdateddatetime
+        case testsetname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestSetSortAttribute] {
+            return [
+                .lastupdateddatetime,
+                .testsetname,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lastupdateddatetime: return "LastUpdatedDateTime"
+            case .testsetname: return "TestSetName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestSetSortAttribute(rawValue: rawValue) ?? TestSetSortAttribute.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attribute
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attribute = self.attribute {
+            try encodeContainer.encode(attribute.rawValue, forKey: .attribute)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetSortAttribute.self, forKey: .attribute)
+        attribute = attributeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the methods by which to sort the test set.
+    public struct TestSetSortBy: Swift.Equatable {
+        /// Specifies whether to sort the test sets by name or by the time they were last updated.
+        /// This member is required.
+        public var attribute: LexModelsV2ClientTypes.TestSetSortAttribute?
+        /// Specifies whether to sort in ascending or descending order.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.SortOrder?
+
+        public init(
+            attribute: LexModelsV2ClientTypes.TestSetSortAttribute? = nil,
+            order: LexModelsV2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.attribute = attribute
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    public enum TestSetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleting
+        case importing
+        case pendingannotation
+        case ready
+        case validationerror
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestSetStatus] {
+            return [
+                .deleting,
+                .importing,
+                .pendingannotation,
+                .ready,
+                .validationerror,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "Deleting"
+            case .importing: return "Importing"
+            case .pendingannotation: return "PendingAnnotation"
+            case .ready: return "Ready"
+            case .validationerror: return "ValidationError"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestSetStatus(rawValue: rawValue) ?? TestSetStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.TestSetStorageLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyArn
+        case s3BucketName
+        case s3Path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let s3BucketName = self.s3BucketName {
+            try encodeContainer.encode(s3BucketName, forKey: .s3BucketName)
+        }
+        if let s3Path = self.s3Path {
+            try encodeContainer.encode(s3Path, forKey: .s3Path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
+        s3BucketName = s3BucketNameDecoded
+        let s3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Path)
+        s3Path = s3PathDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the location in which the test set is stored.
+    public struct TestSetStorageLocation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting the test set.
+        public var kmsKeyArn: Swift.String?
+        /// The name of the Amazon S3 bucket in which the test set is stored.
+        /// This member is required.
+        public var s3BucketName: Swift.String?
+        /// The path inside the Amazon S3 bucket where the test set is stored.
+        /// This member is required.
+        public var s3Path: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            s3BucketName: Swift.String? = nil,
+            s3Path: Swift.String? = nil
+        )
+        {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case description
+        case lastUpdatedDateTime
+        case modality
+        case numTurns
+        case roleArn
+        case status
+        case storageLocation
+        case testSetId
+        case testSetName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let modality = self.modality {
+            try encodeContainer.encode(modality.rawValue, forKey: .modality)
+        }
+        if let numTurns = self.numTurns {
+            try encodeContainer.encode(numTurns, forKey: .numTurns)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let storageLocation = self.storageLocation {
+            try encodeContainer.encode(storageLocation, forKey: .storageLocation)
+        }
+        if let testSetId = self.testSetId {
+            try encodeContainer.encode(testSetId, forKey: .testSetId)
+        }
+        if let testSetName = self.testSetName {
+            try encodeContainer.encode(testSetName, forKey: .testSetName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let modalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetModality.self, forKey: .modality)
+        modality = modalityDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let numTurnsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numTurns)
+        numTurns = numTurnsDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains summary information about the test set.
+    public struct TestSetSummary: Swift.Equatable {
+        /// The date and time at which the test set was created.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The description of the test set.
+        public var description: Swift.String?
+        /// The date and time at which the test set was last updated.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// Specifies whether the test set contains written or spoken data.
+        public var modality: LexModelsV2ClientTypes.TestSetModality?
+        /// The number of turns in the test set.
+        public var numTurns: Swift.Int?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the test set.
+        public var roleArn: Swift.String?
+        /// The status of the test set.
+        public var status: LexModelsV2ClientTypes.TestSetStatus?
+        /// Contains information about the location at which the test set is stored.
+        public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+        /// The unique identifier of the test set.
+        public var testSetId: Swift.String?
+        /// The name of the test set.
+        public var testSetName: Swift.String?
+
+        public init(
+            creationDateTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            modality: LexModelsV2ClientTypes.TestSetModality? = nil,
+            numTurns: Swift.Int? = nil,
+            roleArn: Swift.String? = nil,
+            status: LexModelsV2ClientTypes.TestSetStatus? = nil,
+            storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+            testSetId: Swift.String? = nil,
+            testSetName: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.modality = modality
+            self.numTurns = numTurns
+            self.roleArn = roleArn
+            self.status = status
+            self.storageLocation = storageLocation
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetTurnRecord: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case recordNumber
+        case turnNumber
+        case turnSpecification
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let recordNumber = self.recordNumber {
+            try encodeContainer.encode(recordNumber, forKey: .recordNumber)
+        }
+        if let turnNumber = self.turnNumber {
+            try encodeContainer.encode(turnNumber, forKey: .turnNumber)
+        }
+        if let turnSpecification = self.turnSpecification {
+            try encodeContainer.encode(turnSpecification, forKey: .turnSpecification)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recordNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordNumber)
+        recordNumber = recordNumberDecoded
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let turnNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .turnNumber)
+        turnNumber = turnNumberDecoded
+        let turnSpecificationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TurnSpecification.self, forKey: .turnSpecification)
+        turnSpecification = turnSpecificationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about a turn in a test set.
+    public struct TestSetTurnRecord: Swift.Equatable {
+        /// The unique identifier for the conversation associated with the turn.
+        public var conversationId: Swift.String?
+        /// The record number associated with the turn.
+        /// This member is required.
+        public var recordNumber: Swift.Int?
+        /// The number of turns that has elapsed up to that turn.
+        public var turnNumber: Swift.Int?
+        /// Contains information about the agent or user turn depending upon type of turn.
+        /// This member is required.
+        public var turnSpecification: LexModelsV2ClientTypes.TurnSpecification?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            recordNumber: Swift.Int? = nil,
+            turnNumber: Swift.Int? = nil,
+            turnSpecification: LexModelsV2ClientTypes.TurnSpecification? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.recordNumber = recordNumber
+            self.turnNumber = turnNumber
+            self.turnSpecification = turnSpecification
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TestSetTurnResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agent
+        case user
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agent = self.agent {
+            try encodeContainer.encode(agent, forKey: .agent)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AgentTurnResult.self, forKey: .agent)
+        agent = agentDecoded
+        let userDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnResult.self, forKey: .user)
+        user = userDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the results of the analysis of a turn in the test set.
+    public struct TestSetTurnResult: Swift.Equatable {
+        /// Contains information about the agent messages in the turn.
+        public var agent: LexModelsV2ClientTypes.AgentTurnResult?
+        /// Contains information about the user messages in the turn.
+        public var user: LexModelsV2ClientTypes.UserTurnResult?
+
+        public init(
+            agent: LexModelsV2ClientTypes.AgentTurnResult? = nil,
+            user: LexModelsV2ClientTypes.UserTurnResult? = nil
+        )
+        {
+            self.agent = agent
+            self.user = user
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.TextInputSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case startTimeoutMs
@@ -21920,6 +27119,51 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.s3BucketTranscriptSource = s3BucketTranscriptSource
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.TurnSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentTurn
+        case userTurn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentTurn = self.agentTurn {
+            try encodeContainer.encode(agentTurn, forKey: .agentTurn)
+        }
+        if let userTurn = self.userTurn {
+            try encodeContainer.encode(userTurn, forKey: .userTurn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentTurnDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.AgentTurnSpecification.self, forKey: .agentTurn)
+        agentTurn = agentTurnDecoded
+        let userTurnDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnSpecification.self, forKey: .userTurn)
+        userTurn = userTurnDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the messages in the turn.
+    public struct TurnSpecification: Swift.Equatable {
+        /// Contains information about the agent messages in the turn.
+        public var agentTurn: LexModelsV2ClientTypes.AgentTurnSpecification?
+        /// Contains information about the user messages in the turn.
+        public var userTurn: LexModelsV2ClientTypes.UserTurnSpecification?
+
+        public init(
+            agentTurn: LexModelsV2ClientTypes.AgentTurnSpecification? = nil,
+            userTurn: LexModelsV2ClientTypes.UserTurnSpecification? = nil
+        )
+        {
+            self.agentTurn = agentTurn
+            self.userTurn = userTurn
         }
     }
 
@@ -23378,7 +28622,7 @@ public struct UpdateIntentInput: Swift.Equatable {
     public var dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings?
     /// The new Lambda function to call when all of the intents required slots are provided and the intent is ready for fulfillment.
     public var fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings?
-    ///
+    /// Configuration settings for a response sent to the user before Amazon Lex starts eliciting slots.
     public var initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
     /// A new list of contexts that must be active in order for Amazon Lex to consider the intent.
     public var inputContexts: [LexModelsV2ClientTypes.InputContext]?
@@ -23623,7 +28867,7 @@ public struct UpdateIntentOutputResponse: Swift.Equatable {
     public var dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings?
     /// The updated Lambda function called when the intent is ready for fulfillment.
     public var fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings?
-    ///
+    /// Configuration settings for a response sent to the user before Amazon Lex starts eliciting slots.
     public var initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
     /// The updated list of contexts that must be active for the intent to be considered by Amazon Lex.
     public var inputContexts: [LexModelsV2ClientTypes.InputContext]?
@@ -24175,7 +29419,7 @@ extension UpdateSlotOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateSlotOutputResponse: Swift.Equatable {
     /// The identifier of the bot that contains the slot.
     public var botId: Swift.String?
-    /// The identifier of the slot version that contains the slot. Will always be DRAFT.
+    /// The version of the bot that contains the slot. Will always be DRAFT.
     public var botVersion: Swift.String?
     /// The timestamp of the date and time that the slot was created.
     public var creationDateTime: ClientRuntime.Date?
@@ -24653,6 +29897,657 @@ extension UpdateSlotTypeOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateTestSetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case testSetName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let testSetName = self.testSetName {
+            try encodeContainer.encode(testSetName, forKey: .testSetName)
+        }
+    }
+}
+
+extension UpdateTestSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let testSetId = testSetId else {
+            return nil
+        }
+        return "/testsets/\(testSetId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateTestSetInput: Swift.Equatable {
+    /// The new test set description.
+    public var description: Swift.String?
+    /// The test set Id for which update test operation to be performed.
+    /// This member is required.
+    public var testSetId: Swift.String?
+    /// The new test set name.
+    /// This member is required.
+    public var testSetName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        testSetId: Swift.String? = nil,
+        testSetName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.testSetId = testSetId
+        self.testSetName = testSetName
+    }
+}
+
+struct UpdateTestSetInputBody: Swift.Equatable {
+    let testSetName: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateTestSetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case testSetName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateTestSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTestSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationDateTime = output.creationDateTime
+            self.description = output.description
+            self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.modality = output.modality
+            self.numTurns = output.numTurns
+            self.roleArn = output.roleArn
+            self.status = output.status
+            self.storageLocation = output.storageLocation
+            self.testSetId = output.testSetId
+            self.testSetName = output.testSetName
+        } else {
+            self.creationDateTime = nil
+            self.description = nil
+            self.lastUpdatedDateTime = nil
+            self.modality = nil
+            self.numTurns = nil
+            self.roleArn = nil
+            self.status = nil
+            self.storageLocation = nil
+            self.testSetId = nil
+            self.testSetName = nil
+        }
+    }
+}
+
+public struct UpdateTestSetOutputResponse: Swift.Equatable {
+    /// The creation date and time for the updated test set.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The test set description for the updated test set.
+    public var description: Swift.String?
+    /// The date and time of the last update for the updated test set.
+    public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// Indicates whether audio or text is used for the updated test set.
+    public var modality: LexModelsV2ClientTypes.TestSetModality?
+    /// The number of conversation turns from the updated test set.
+    public var numTurns: Swift.Int?
+    /// The roleARN used for any operation in the test set to access resources in the Amazon Web Services account.
+    public var roleArn: Swift.String?
+    /// The status for the updated test set.
+    public var status: LexModelsV2ClientTypes.TestSetStatus?
+    /// The Amazon S3 storage location for the updated test set.
+    public var storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    /// The test set Id for which update test operation to be performed.
+    public var testSetId: Swift.String?
+    /// The test set name for the updated test set.
+    public var testSetName: Swift.String?
+
+    public init(
+        creationDateTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        modality: LexModelsV2ClientTypes.TestSetModality? = nil,
+        numTurns: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        status: LexModelsV2ClientTypes.TestSetStatus? = nil,
+        storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
+        testSetId: Swift.String? = nil,
+        testSetName: Swift.String? = nil
+    )
+    {
+        self.creationDateTime = creationDateTime
+        self.description = description
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.modality = modality
+        self.numTurns = numTurns
+        self.roleArn = roleArn
+        self.status = status
+        self.storageLocation = storageLocation
+        self.testSetId = testSetId
+        self.testSetName = testSetName
+    }
+}
+
+struct UpdateTestSetOutputResponseBody: Swift.Equatable {
+    let testSetId: Swift.String?
+    let testSetName: Swift.String?
+    let description: Swift.String?
+    let modality: LexModelsV2ClientTypes.TestSetModality?
+    let status: LexModelsV2ClientTypes.TestSetStatus?
+    let roleArn: Swift.String?
+    let numTurns: Swift.Int?
+    let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
+    let creationDateTime: ClientRuntime.Date?
+    let lastUpdatedDateTime: ClientRuntime.Date?
+}
+
+extension UpdateTestSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case description
+        case lastUpdatedDateTime
+        case modality
+        case numTurns
+        case roleArn
+        case status
+        case storageLocation
+        case testSetId
+        case testSetName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let testSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetId)
+        testSetId = testSetIdDecoded
+        let testSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .testSetName)
+        testSetName = testSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let modalityDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetModality.self, forKey: .modality)
+        modality = modalityDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let numTurnsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numTurns)
+        numTurns = numTurnsDecoded
+        let storageLocationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetStorageLocation.self, forKey: .storageLocation)
+        storageLocation = storageLocationDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes.UserTurnInputSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestAttributes
+        case sessionState
+        case utteranceInput
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let requestAttributes = requestAttributes {
+            var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let sessionState = self.sessionState {
+            try encodeContainer.encode(sessionState, forKey: .sessionState)
+        }
+        if let utteranceInput = self.utteranceInput {
+            try encodeContainer.encode(utteranceInput, forKey: .utteranceInput)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let utteranceInputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UtteranceInputSpecification.self, forKey: .utteranceInput)
+        utteranceInput = utteranceInputDecoded
+        let requestAttributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .requestAttributes)
+        var requestAttributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let requestAttributesContainer = requestAttributesContainer {
+            requestAttributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in requestAttributesContainer {
+                if let string0 = string0 {
+                    requestAttributesDecoded0?[key0] = string0
+                }
+            }
+        }
+        requestAttributes = requestAttributesDecoded0
+        let sessionStateDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InputSessionStateSpecification.self, forKey: .sessionState)
+        sessionState = sessionStateDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the user messages in the turn in the input.
+    public struct UserTurnInputSpecification: Swift.Equatable {
+        /// Request attributes of the user turn.
+        public var requestAttributes: [Swift.String:Swift.String]?
+        /// Contains information about the session state in the input.
+        public var sessionState: LexModelsV2ClientTypes.InputSessionStateSpecification?
+        /// The utterance input in the user turn.
+        /// This member is required.
+        public var utteranceInput: LexModelsV2ClientTypes.UtteranceInputSpecification?
+
+        public init(
+            requestAttributes: [Swift.String:Swift.String]? = nil,
+            sessionState: LexModelsV2ClientTypes.InputSessionStateSpecification? = nil,
+            utteranceInput: LexModelsV2ClientTypes.UtteranceInputSpecification? = nil
+        )
+        {
+            self.requestAttributes = requestAttributes
+            self.sessionState = sessionState
+            self.utteranceInput = utteranceInput
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UserTurnIntentOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case slots
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let slots = slots {
+            var slotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slots)
+            for (dictKey0, userTurnSlotOutputMap0) in slots {
+                try slotsContainer.encode(userTurnSlotOutputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let slotsContainer = try containerValues.decodeIfPresent([Swift.String: LexModelsV2ClientTypes.UserTurnSlotOutput?].self, forKey: .slots)
+        var slotsDecoded0: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
+        if let slotsContainer = slotsContainer {
+            slotsDecoded0 = [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]()
+            for (key0, userturnslotoutput0) in slotsContainer {
+                if let userturnslotoutput0 = userturnslotoutput0 {
+                    slotsDecoded0?[key0] = userturnslotoutput0
+                }
+            }
+        }
+        slots = slotsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the intent that is output for the turn by the test execution.
+    public struct UserTurnIntentOutput: Swift.Equatable {
+        /// The name of the intent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The slots associated with the intent.
+        public var slots: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]?
+
+        public init(
+            name: Swift.String? = nil,
+            slots: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
+        )
+        {
+            self.name = name
+            self.slots = slots
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UserTurnOutputSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeContexts
+        case intent
+        case transcript
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeContexts = activeContexts {
+            var activeContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeContexts)
+            for activecontext0 in activeContexts {
+                try activeContextsContainer.encode(activecontext0)
+            }
+        }
+        if let intent = self.intent {
+            try encodeContainer.encode(intent, forKey: .intent)
+        }
+        if let transcript = self.transcript {
+            try encodeContainer.encode(transcript, forKey: .transcript)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intentDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnIntentOutput.self, forKey: .intent)
+        intent = intentDecoded
+        let activeContextsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ActiveContext?].self, forKey: .activeContexts)
+        var activeContextsDecoded0:[LexModelsV2ClientTypes.ActiveContext]? = nil
+        if let activeContextsContainer = activeContextsContainer {
+            activeContextsDecoded0 = [LexModelsV2ClientTypes.ActiveContext]()
+            for structure0 in activeContextsContainer {
+                if let structure0 = structure0 {
+                    activeContextsDecoded0?.append(structure0)
+                }
+            }
+        }
+        activeContexts = activeContextsDecoded0
+        let transcriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transcript)
+        transcript = transcriptDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains results that are output for the user turn by the test execution.
+    public struct UserTurnOutputSpecification: Swift.Equatable {
+        /// The contexts that are active in the turn.
+        public var activeContexts: [LexModelsV2ClientTypes.ActiveContext]?
+        /// Contains information about the intent.
+        /// This member is required.
+        public var intent: LexModelsV2ClientTypes.UserTurnIntentOutput?
+        /// The transcript that is output for the user turn by the test execution.
+        public var transcript: Swift.String?
+
+        public init(
+            activeContexts: [LexModelsV2ClientTypes.ActiveContext]? = nil,
+            intent: LexModelsV2ClientTypes.UserTurnIntentOutput? = nil,
+            transcript: Swift.String? = nil
+        )
+        {
+            self.activeContexts = activeContexts
+            self.intent = intent
+            self.transcript = transcript
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UserTurnResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualOutput
+        case conversationLevelResult
+        case endToEndResult
+        case errorDetails
+        case expectedOutput
+        case input
+        case intentMatchResult
+        case slotMatchResult
+        case speechTranscriptionResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualOutput = self.actualOutput {
+            try encodeContainer.encode(actualOutput, forKey: .actualOutput)
+        }
+        if let conversationLevelResult = self.conversationLevelResult {
+            try encodeContainer.encode(conversationLevelResult, forKey: .conversationLevelResult)
+        }
+        if let endToEndResult = self.endToEndResult {
+            try encodeContainer.encode(endToEndResult.rawValue, forKey: .endToEndResult)
+        }
+        if let errorDetails = self.errorDetails {
+            try encodeContainer.encode(errorDetails, forKey: .errorDetails)
+        }
+        if let expectedOutput = self.expectedOutput {
+            try encodeContainer.encode(expectedOutput, forKey: .expectedOutput)
+        }
+        if let input = self.input {
+            try encodeContainer.encode(input, forKey: .input)
+        }
+        if let intentMatchResult = self.intentMatchResult {
+            try encodeContainer.encode(intentMatchResult.rawValue, forKey: .intentMatchResult)
+        }
+        if let slotMatchResult = self.slotMatchResult {
+            try encodeContainer.encode(slotMatchResult.rawValue, forKey: .slotMatchResult)
+        }
+        if let speechTranscriptionResult = self.speechTranscriptionResult {
+            try encodeContainer.encode(speechTranscriptionResult.rawValue, forKey: .speechTranscriptionResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnInputSpecification.self, forKey: .input)
+        input = inputDecoded
+        let expectedOutputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnOutputSpecification.self, forKey: .expectedOutput)
+        expectedOutput = expectedOutputDecoded
+        let actualOutputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnOutputSpecification.self, forKey: .actualOutput)
+        actualOutput = actualOutputDecoded
+        let errorDetailsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ExecutionErrorDetails.self, forKey: .errorDetails)
+        errorDetails = errorDetailsDecoded
+        let endToEndResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .endToEndResult)
+        endToEndResult = endToEndResultDecoded
+        let intentMatchResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .intentMatchResult)
+        intentMatchResult = intentMatchResultDecoded
+        let slotMatchResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .slotMatchResult)
+        slotMatchResult = slotMatchResultDecoded
+        let speechTranscriptionResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestResultMatchStatus.self, forKey: .speechTranscriptionResult)
+        speechTranscriptionResult = speechTranscriptionResultDecoded
+        let conversationLevelResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ConversationLevelResultDetail.self, forKey: .conversationLevelResult)
+        conversationLevelResult = conversationLevelResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the results for the user turn by the test execution.
+    public struct UserTurnResult: Swift.Equatable {
+        /// Contains information about the actual output for the user turn.
+        public var actualOutput: LexModelsV2ClientTypes.UserTurnOutputSpecification?
+        /// Contains information about the results related to the conversation associated with the user turn.
+        public var conversationLevelResult: LexModelsV2ClientTypes.ConversationLevelResultDetail?
+        /// Specifies whether the expected and actual outputs match or not, or if there is an error in execution.
+        public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// Details about an error in an execution of a test set.
+        public var errorDetails: LexModelsV2ClientTypes.ExecutionErrorDetails?
+        /// Contains information about the expected output for the user turn.
+        /// This member is required.
+        public var expectedOutput: LexModelsV2ClientTypes.UserTurnOutputSpecification?
+        /// Contains information about the user messages in the turn in the input.
+        /// This member is required.
+        public var input: LexModelsV2ClientTypes.UserTurnInputSpecification?
+        /// Specifies whether the expected and actual intents match or not.
+        public var intentMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// Specifies whether the expected and actual slots match or not.
+        public var slotMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+        /// Specifies whether the expected and actual speech transcriptions match or not, or if there is an error in execution.
+        public var speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus?
+
+        public init(
+            actualOutput: LexModelsV2ClientTypes.UserTurnOutputSpecification? = nil,
+            conversationLevelResult: LexModelsV2ClientTypes.ConversationLevelResultDetail? = nil,
+            endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            errorDetails: LexModelsV2ClientTypes.ExecutionErrorDetails? = nil,
+            expectedOutput: LexModelsV2ClientTypes.UserTurnOutputSpecification? = nil,
+            input: LexModelsV2ClientTypes.UserTurnInputSpecification? = nil,
+            intentMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            slotMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
+            speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
+        )
+        {
+            self.actualOutput = actualOutput
+            self.conversationLevelResult = conversationLevelResult
+            self.endToEndResult = endToEndResult
+            self.errorDetails = errorDetails
+            self.expectedOutput = expectedOutput
+            self.input = input
+            self.intentMatchResult = intentMatchResult
+            self.slotMatchResult = slotMatchResult
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UserTurnSlotOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subSlots
+        case value
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let subSlots = subSlots {
+            var subSlotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .subSlots)
+            for (dictKey0, userTurnSlotOutputMap0) in subSlots {
+                try subSlotsContainer.encode(userTurnSlotOutputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for userturnslotoutput0 in values {
+                try valuesContainer.encode(userturnslotoutput0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.UserTurnSlotOutput?].self, forKey: .values)
+        var valuesDecoded0:[LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [LexModelsV2ClientTypes.UserTurnSlotOutput]()
+            for structure0 in valuesContainer {
+                if let structure0 = structure0 {
+                    valuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let subSlotsContainer = try containerValues.decodeIfPresent([Swift.String: LexModelsV2ClientTypes.UserTurnSlotOutput?].self, forKey: .subSlots)
+        var subSlotsDecoded0: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
+        if let subSlotsContainer = subSlotsContainer {
+            subSlotsDecoded0 = [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]()
+            for (key0, userturnslotoutput0) in subSlotsContainer {
+                if let userturnslotoutput0 = userturnslotoutput0 {
+                    subSlotsDecoded0?[key0] = userturnslotoutput0
+                }
+            }
+        }
+        subSlots = subSlotsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about a slot output by the test set execution.
+    public struct UserTurnSlotOutput: Swift.Equatable {
+        /// A list of items mapping the name of the subslots to information about those subslots.
+        public var subSlots: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]?
+        /// The value output by the slot recognition.
+        public var value: Swift.String?
+        /// Values that are output by the slot recognition.
+        public var values: [LexModelsV2ClientTypes.UserTurnSlotOutput]?
+
+        public init(
+            subSlots: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil,
+            value: Swift.String? = nil,
+            values: [LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
+        )
+        {
+            self.subSlots = subSlots
+            self.value = value
+            self.values = values
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UserTurnSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expected
+        case input
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expected = self.expected {
+            try encodeContainer.encode(expected, forKey: .expected)
+        }
+        if let input = self.input {
+            try encodeContainer.encode(input, forKey: .input)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnInputSpecification.self, forKey: .input)
+        input = inputDecoded
+        let expectedDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UserTurnOutputSpecification.self, forKey: .expected)
+        expected = expectedDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the expected and input values for the user turn.
+    public struct UserTurnSpecification: Swift.Equatable {
+        /// Contains results about the expected output for the user turn.
+        /// This member is required.
+        public var expected: LexModelsV2ClientTypes.UserTurnOutputSpecification?
+        /// Contains information about the user messages in the turn in the input.
+        /// This member is required.
+        public var input: LexModelsV2ClientTypes.UserTurnInputSpecification?
+
+        public init(
+            expected: LexModelsV2ClientTypes.UserTurnOutputSpecification? = nil,
+            input: LexModelsV2ClientTypes.UserTurnInputSpecification? = nil
+        )
+        {
+            self.expected = expected
+            self.input = input
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.UtteranceAggregationDuration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case relativeAggregationDuration
@@ -24684,6 +30579,192 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.relativeAggregationDuration = relativeAggregationDuration
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UtteranceAudioInputSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioFileS3Location
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioFileS3Location = self.audioFileS3Location {
+            try encodeContainer.encode(audioFileS3Location, forKey: .audioFileS3Location)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let audioFileS3LocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audioFileS3Location)
+        audioFileS3Location = audioFileS3LocationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the audio for an utterance.
+    public struct UtteranceAudioInputSpecification: Swift.Equatable {
+        /// Amazon S3 file pointing to the audio.
+        /// This member is required.
+        public var audioFileS3Location: Swift.String?
+
+        public init(
+            audioFileS3Location: Swift.String? = nil
+        )
+        {
+            self.audioFileS3Location = audioFileS3Location
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UtteranceInputSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioInput
+        case textInput
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioInput = self.audioInput {
+            try encodeContainer.encode(audioInput, forKey: .audioInput)
+        }
+        if let textInput = self.textInput {
+            try encodeContainer.encode(textInput, forKey: .textInput)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textInputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textInput)
+        textInput = textInputDecoded
+        let audioInputDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.UtteranceAudioInputSpecification.self, forKey: .audioInput)
+        audioInput = audioInputDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about input of an utterance.
+    public struct UtteranceInputSpecification: Swift.Equatable {
+        /// Contains information about the audio input for an utterance.
+        public var audioInput: LexModelsV2ClientTypes.UtteranceAudioInputSpecification?
+        /// A text input transcription of the utterance. It is only applicable for test-sets containing text data.
+        public var textInput: Swift.String?
+
+        public init(
+            audioInput: LexModelsV2ClientTypes.UtteranceAudioInputSpecification? = nil,
+            textInput: Swift.String? = nil
+        )
+        {
+            self.audioInput = audioInput
+            self.textInput = textInput
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UtteranceLevelTestResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case recordNumber
+        case turnResult
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let recordNumber = self.recordNumber {
+            try encodeContainer.encode(recordNumber, forKey: .recordNumber)
+        }
+        if let turnResult = self.turnResult {
+            try encodeContainer.encode(turnResult, forKey: .turnResult)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recordNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordNumber)
+        recordNumber = recordNumberDecoded
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let turnResultDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TestSetTurnResult.self, forKey: .turnResult)
+        turnResult = turnResultDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about multiple utterances in the results of a test set execution.
+    public struct UtteranceLevelTestResultItem: Swift.Equatable {
+        /// The unique identifier for the conversation associated with the result.
+        public var conversationId: Swift.String?
+        /// The record number of the result.
+        /// This member is required.
+        public var recordNumber: Swift.Int?
+        /// Contains information about the turn associated with the result.
+        /// This member is required.
+        public var turnResult: LexModelsV2ClientTypes.TestSetTurnResult?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            recordNumber: Swift.Int? = nil,
+            turnResult: LexModelsV2ClientTypes.TestSetTurnResult? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.recordNumber = recordNumber
+            self.turnResult = turnResult
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.UtteranceLevelTestResults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for utteranceleveltestresultitem0 in items {
+                try itemsContainer.encode(utteranceleveltestresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.UtteranceLevelTestResultItem?].self, forKey: .items)
+        var itemsDecoded0:[LexModelsV2ClientTypes.UtteranceLevelTestResultItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [LexModelsV2ClientTypes.UtteranceLevelTestResultItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about the utterances in the results of the test set execution.
+    public struct UtteranceLevelTestResults: Swift.Equatable {
+        /// Contains information about an utterance in the results of the test set execution.
+        /// This member is required.
+        public var items: [LexModelsV2ClientTypes.UtteranceLevelTestResultItem]?
+
+        public init(
+            items: [LexModelsV2ClientTypes.UtteranceLevelTestResultItem]? = nil
+        )
+        {
+            self.items = items
         }
     }
 

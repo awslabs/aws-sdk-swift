@@ -3379,7 +3379,7 @@ extension LightsailClientTypes.Certificate: Swift.Codable {
 }
 
 extension LightsailClientTypes {
-    /// Describes the full details of an Amazon Lightsail SSL/TLS certificate. To get a summary of a certificate, use the GetCertificates action and ommit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
+    /// Describes the full details of an Amazon Lightsail SSL/TLS certificate. To get a summary of a certificate, use the GetCertificates action and omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
     public struct Certificate: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the certificate.
         public var arn: Swift.String?
@@ -16559,6 +16559,7 @@ extension GetCertificatesInput: Swift.Encodable {
         case certificateName
         case certificateStatuses
         case includeCertificateDetails
+        case pageToken
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16574,6 +16575,9 @@ extension GetCertificatesInput: Swift.Encodable {
         }
         if let includeCertificateDetails = self.includeCertificateDetails {
             try encodeContainer.encode(includeCertificateDetails, forKey: .includeCertificateDetails)
+        }
+        if let pageToken = self.pageToken {
+            try encodeContainer.encode(pageToken, forKey: .pageToken)
         }
     }
 }
@@ -16591,16 +16595,20 @@ public struct GetCertificatesInput: Swift.Equatable {
     public var certificateStatuses: [LightsailClientTypes.CertificateStatus]?
     /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
     public var includeCertificateDetails: Swift.Bool?
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetCertificates request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+    public var pageToken: Swift.String?
 
     public init(
         certificateName: Swift.String? = nil,
         certificateStatuses: [LightsailClientTypes.CertificateStatus]? = nil,
-        includeCertificateDetails: Swift.Bool? = nil
+        includeCertificateDetails: Swift.Bool? = nil,
+        pageToken: Swift.String? = nil
     )
     {
         self.certificateName = certificateName
         self.certificateStatuses = certificateStatuses
         self.includeCertificateDetails = includeCertificateDetails
+        self.pageToken = pageToken
     }
 }
 
@@ -16608,6 +16616,7 @@ struct GetCertificatesInputBody: Swift.Equatable {
     let certificateStatuses: [LightsailClientTypes.CertificateStatus]?
     let includeCertificateDetails: Swift.Bool?
     let certificateName: Swift.String?
+    let pageToken: Swift.String?
 }
 
 extension GetCertificatesInputBody: Swift.Decodable {
@@ -16615,6 +16624,7 @@ extension GetCertificatesInputBody: Swift.Decodable {
         case certificateName
         case certificateStatuses
         case includeCertificateDetails
+        case pageToken
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -16634,6 +16644,8 @@ extension GetCertificatesInputBody: Swift.Decodable {
         includeCertificateDetails = includeCertificateDetailsDecoded
         let certificateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateName)
         certificateName = certificateNameDecoded
+        let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
+        pageToken = pageTokenDecoded
     }
 }
 
@@ -16658,8 +16670,10 @@ extension GetCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
+            self.nextPageToken = output.nextPageToken
         } else {
             self.certificates = nil
+            self.nextPageToken = nil
         }
     }
 }
@@ -16667,22 +16681,28 @@ extension GetCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetCertificatesOutputResponse: Swift.Equatable {
     /// An object that describes certificates.
     public var certificates: [LightsailClientTypes.CertificateSummary]?
+    /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+    public var nextPageToken: Swift.String?
 
     public init(
-        certificates: [LightsailClientTypes.CertificateSummary]? = nil
+        certificates: [LightsailClientTypes.CertificateSummary]? = nil,
+        nextPageToken: Swift.String? = nil
     )
     {
         self.certificates = certificates
+        self.nextPageToken = nextPageToken
     }
 }
 
 struct GetCertificatesOutputResponseBody: Swift.Equatable {
     let certificates: [LightsailClientTypes.CertificateSummary]?
+    let nextPageToken: Swift.String?
 }
 
 extension GetCertificatesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificates
+        case nextPageToken
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -16698,6 +16718,8 @@ extension GetCertificatesOutputResponseBody: Swift.Decodable {
             }
         }
         certificates = certificatesDecoded0
+        let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
+        nextPageToken = nextPageTokenDecoded
     }
 }
 
@@ -17801,7 +17823,7 @@ public struct GetCostEstimateInput: Swift.Equatable {
     ///
     /// * Specified in Coordinated Universal Time (UTC).
     ///
-    /// * Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.
+    /// * Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.
     ///
     ///
     /// You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
@@ -17814,7 +17836,7 @@ public struct GetCostEstimateInput: Swift.Equatable {
     ///
     /// * Specified in Coordinated Universal Time (UTC).
     ///
-    /// * Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.
+    /// * Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.
     ///
     ///
     /// You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).

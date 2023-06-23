@@ -858,7 +858,7 @@ extension LimitExceededException {
     }
 }
 
-/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables.
+/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1150,7 +1150,7 @@ extension DynamoDBStreamsClientTypes {
         ///
         /// * REMOVE - the item was deleted from the table
         public var eventName: DynamoDBStreamsClientTypes.OperationType?
-        /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
+        /// The Amazon Web Services service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
         public var eventSource: Swift.String?
         /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
         public var eventVersion: Swift.String?
@@ -1415,7 +1415,7 @@ extension DynamoDBStreamsClientTypes {
         public var streamArn: Swift.String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
         ///
-        /// * the AWS customer ID.
+        /// * the Amazon Web Services customer ID.
         ///
         /// * the table name
         ///
@@ -1544,7 +1544,7 @@ extension DynamoDBStreamsClientTypes {
         public var streamArn: Swift.String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
         ///
-        /// * the AWS customer ID.
+        /// * the Amazon Web Services customer ID.
         ///
         /// * the table name
         ///
@@ -1693,7 +1693,7 @@ extension DynamoDBStreamsClientTypes.StreamRecord: Swift.Codable {
 extension DynamoDBStreamsClientTypes {
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
     public struct StreamRecord: Swift.Equatable {
-        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format.
+        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second.
         public var approximateCreationDateTime: ClientRuntime.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public var keys: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]?

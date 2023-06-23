@@ -22144,12 +22144,17 @@ extension ConfigClientTypes {
         case accountpublicaccessblock
         case alarm
         case amazonmqbroker
+        case amplifyapp
         case api
         case appconfigapplication
         case appconfigconfigurationprofile
         case appconfigdeploymentstrategy
         case appconfigenvironment
         case appflowflow
+        case appmeshvirtualnode
+        case appmeshvirtualservice
+        case apprunnervpcconnector
+        case appstreamapplication
         case appstreamdirectoryconfig
         case appsyncgraphqlapi
         case application
@@ -22169,6 +22174,7 @@ extension ConfigClientTypes {
         case batchjobqueue
         case bucket
         case budgetsbudgetsaction
+        case cassandrakeyspace
         case certificate
         case cloud9environmentec2
         case cloudformationproduct
@@ -22179,6 +22185,7 @@ extension ConfigClientTypes {
         case clustersecuritygroup
         case clustersnapshot
         case clustersubnetgroup
+        case codeartifactrepository
         case codedeployapplication
         case codedeploydeploymentconfig
         case codedeploydeploymentgroup
@@ -22215,6 +22222,8 @@ extension ConfigClientTypes {
         case ec2ec2fleet
         case ec2ipam
         case ec2networkinsightspath
+        case ec2prefixlist
+        case ec2spotfleet
         case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
@@ -22226,6 +22235,7 @@ extension ConfigClientTypes {
         case ecscluster
         case ecsservice
         case ecstaskdefinition
+        case ecstaskset
         case efsaccesspoint
         case efsfilesystem
         case eip
@@ -22248,9 +22258,11 @@ extension ConfigClientTypes {
         case eventsendpoint
         case eventseventbus
         case eventsrule
+        case evidentlyproject
         case fisexperimenttemplate
         case filedata
         case flowlog
+        case forecastdataset
         case frauddetectorentitytype
         case frauddetectorlabel
         case frauddetectoroutcome
@@ -22270,6 +22282,8 @@ extension ConfigClientTypes {
         case guarddutythreatintelset
         case healthlakefhirdatastore
         case host
+        case iamsamlprovider
+        case iamservercertificate
         case ipsetv2
         case ivschannel
         case ivsplaybackkeypair
@@ -22308,6 +22322,7 @@ extension ConfigClientTypes {
         case iotwirelessserviceprofile
         case key
         case kinesisanalyticsv2application
+        case kinesisfirehosedeliverystream
         case kinesisstream
         case kinesisstreamconsumer
         case kinesisvideosignalingchannel
@@ -22346,6 +22361,8 @@ extension ConfigClientTypes {
         case patchcompliance
         case pinpointapp
         case pinpointapplicationsettings
+        case pinpointcampaign
+        case pinpointinapptemplate
         case pinpointsegment
         case pipeline
         case policy
@@ -22400,6 +22417,7 @@ extension ConfigClientTypes {
         case sestemplate
         case sagemakerappimageconfig
         case sagemakercoderepository
+        case sagemakerdomain
         case sagemakerimage
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
@@ -22411,6 +22429,7 @@ extension ConfigClientTypes {
         case servicediscoveryhttpnamespace
         case servicediscoverypublicdnsnamespace
         case servicediscoveryservice
+        case signersigningprofile
         case stack
         case stage
         case stagev2
@@ -22421,6 +22440,8 @@ extension ConfigClientTypes {
         case table
         case topic
         case trail
+        case transferagreement
+        case transferconnector
         case transferworkflow
         case transitgateway
         case transitgatewayattachment
@@ -22445,12 +22466,17 @@ extension ConfigClientTypes {
                 .accountpublicaccessblock,
                 .alarm,
                 .amazonmqbroker,
+                .amplifyapp,
                 .api,
                 .appconfigapplication,
                 .appconfigconfigurationprofile,
                 .appconfigdeploymentstrategy,
                 .appconfigenvironment,
                 .appflowflow,
+                .appmeshvirtualnode,
+                .appmeshvirtualservice,
+                .apprunnervpcconnector,
+                .appstreamapplication,
                 .appstreamdirectoryconfig,
                 .appsyncgraphqlapi,
                 .application,
@@ -22470,6 +22496,7 @@ extension ConfigClientTypes {
                 .batchjobqueue,
                 .bucket,
                 .budgetsbudgetsaction,
+                .cassandrakeyspace,
                 .certificate,
                 .cloud9environmentec2,
                 .cloudformationproduct,
@@ -22480,6 +22507,7 @@ extension ConfigClientTypes {
                 .clustersecuritygroup,
                 .clustersnapshot,
                 .clustersubnetgroup,
+                .codeartifactrepository,
                 .codedeployapplication,
                 .codedeploydeploymentconfig,
                 .codedeploydeploymentgroup,
@@ -22516,6 +22544,8 @@ extension ConfigClientTypes {
                 .ec2ec2fleet,
                 .ec2ipam,
                 .ec2networkinsightspath,
+                .ec2prefixlist,
+                .ec2spotfleet,
                 .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
@@ -22527,6 +22557,7 @@ extension ConfigClientTypes {
                 .ecscluster,
                 .ecsservice,
                 .ecstaskdefinition,
+                .ecstaskset,
                 .efsaccesspoint,
                 .efsfilesystem,
                 .eip,
@@ -22549,9 +22580,11 @@ extension ConfigClientTypes {
                 .eventsendpoint,
                 .eventseventbus,
                 .eventsrule,
+                .evidentlyproject,
                 .fisexperimenttemplate,
                 .filedata,
                 .flowlog,
+                .forecastdataset,
                 .frauddetectorentitytype,
                 .frauddetectorlabel,
                 .frauddetectoroutcome,
@@ -22571,6 +22604,8 @@ extension ConfigClientTypes {
                 .guarddutythreatintelset,
                 .healthlakefhirdatastore,
                 .host,
+                .iamsamlprovider,
+                .iamservercertificate,
                 .ipsetv2,
                 .ivschannel,
                 .ivsplaybackkeypair,
@@ -22609,6 +22644,7 @@ extension ConfigClientTypes {
                 .iotwirelessserviceprofile,
                 .key,
                 .kinesisanalyticsv2application,
+                .kinesisfirehosedeliverystream,
                 .kinesisstream,
                 .kinesisstreamconsumer,
                 .kinesisvideosignalingchannel,
@@ -22647,6 +22683,8 @@ extension ConfigClientTypes {
                 .patchcompliance,
                 .pinpointapp,
                 .pinpointapplicationsettings,
+                .pinpointcampaign,
+                .pinpointinapptemplate,
                 .pinpointsegment,
                 .pipeline,
                 .policy,
@@ -22701,6 +22739,7 @@ extension ConfigClientTypes {
                 .sestemplate,
                 .sagemakerappimageconfig,
                 .sagemakercoderepository,
+                .sagemakerdomain,
                 .sagemakerimage,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
@@ -22712,6 +22751,7 @@ extension ConfigClientTypes {
                 .servicediscoveryhttpnamespace,
                 .servicediscoverypublicdnsnamespace,
                 .servicediscoveryservice,
+                .signersigningprofile,
                 .stack,
                 .stage,
                 .stagev2,
@@ -22722,6 +22762,8 @@ extension ConfigClientTypes {
                 .table,
                 .topic,
                 .trail,
+                .transferagreement,
+                .transferconnector,
                 .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
@@ -22751,12 +22793,17 @@ extension ConfigClientTypes {
             case .accountpublicaccessblock: return "AWS::S3::AccountPublicAccessBlock"
             case .alarm: return "AWS::CloudWatch::Alarm"
             case .amazonmqbroker: return "AWS::AmazonMQ::Broker"
+            case .amplifyapp: return "AWS::Amplify::App"
             case .api: return "AWS::ApiGatewayV2::Api"
             case .appconfigapplication: return "AWS::AppConfig::Application"
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
             case .appflowflow: return "AWS::AppFlow::Flow"
+            case .appmeshvirtualnode: return "AWS::AppMesh::VirtualNode"
+            case .appmeshvirtualservice: return "AWS::AppMesh::VirtualService"
+            case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
+            case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
@@ -22776,6 +22823,7 @@ extension ConfigClientTypes {
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
+            case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
             case .certificate: return "AWS::ACM::Certificate"
             case .cloud9environmentec2: return "AWS::Cloud9::EnvironmentEC2"
             case .cloudformationproduct: return "AWS::ServiceCatalog::CloudFormationProduct"
@@ -22786,6 +22834,7 @@ extension ConfigClientTypes {
             case .clustersecuritygroup: return "AWS::Redshift::ClusterSecurityGroup"
             case .clustersnapshot: return "AWS::Redshift::ClusterSnapshot"
             case .clustersubnetgroup: return "AWS::Redshift::ClusterSubnetGroup"
+            case .codeartifactrepository: return "AWS::CodeArtifact::Repository"
             case .codedeployapplication: return "AWS::CodeDeploy::Application"
             case .codedeploydeploymentconfig: return "AWS::CodeDeploy::DeploymentConfig"
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
@@ -22822,6 +22871,8 @@ extension ConfigClientTypes {
             case .ec2ec2fleet: return "AWS::EC2::EC2Fleet"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
+            case .ec2prefixlist: return "AWS::EC2::PrefixList"
+            case .ec2spotfleet: return "AWS::EC2::SpotFleet"
             case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
@@ -22833,6 +22884,7 @@ extension ConfigClientTypes {
             case .ecscluster: return "AWS::ECS::Cluster"
             case .ecsservice: return "AWS::ECS::Service"
             case .ecstaskdefinition: return "AWS::ECS::TaskDefinition"
+            case .ecstaskset: return "AWS::ECS::TaskSet"
             case .efsaccesspoint: return "AWS::EFS::AccessPoint"
             case .efsfilesystem: return "AWS::EFS::FileSystem"
             case .eip: return "AWS::EC2::EIP"
@@ -22855,9 +22907,11 @@ extension ConfigClientTypes {
             case .eventsendpoint: return "AWS::Events::Endpoint"
             case .eventseventbus: return "AWS::Events::EventBus"
             case .eventsrule: return "AWS::Events::Rule"
+            case .evidentlyproject: return "AWS::Evidently::Project"
             case .fisexperimenttemplate: return "AWS::FIS::ExperimentTemplate"
             case .filedata: return "AWS::SSM::FileData"
             case .flowlog: return "AWS::EC2::FlowLog"
+            case .forecastdataset: return "AWS::Forecast::Dataset"
             case .frauddetectorentitytype: return "AWS::FraudDetector::EntityType"
             case .frauddetectorlabel: return "AWS::FraudDetector::Label"
             case .frauddetectoroutcome: return "AWS::FraudDetector::Outcome"
@@ -22877,6 +22931,8 @@ extension ConfigClientTypes {
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
+            case .iamsamlprovider: return "AWS::IAM::SAMLProvider"
+            case .iamservercertificate: return "AWS::IAM::ServerCertificate"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
             case .ivschannel: return "AWS::IVS::Channel"
             case .ivsplaybackkeypair: return "AWS::IVS::PlaybackKeyPair"
@@ -22915,6 +22971,7 @@ extension ConfigClientTypes {
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
+            case .kinesisfirehosedeliverystream: return "AWS::KinesisFirehose::DeliveryStream"
             case .kinesisstream: return "AWS::Kinesis::Stream"
             case .kinesisstreamconsumer: return "AWS::Kinesis::StreamConsumer"
             case .kinesisvideosignalingchannel: return "AWS::KinesisVideo::SignalingChannel"
@@ -22953,6 +23010,8 @@ extension ConfigClientTypes {
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .pinpointapp: return "AWS::Pinpoint::App"
             case .pinpointapplicationsettings: return "AWS::Pinpoint::ApplicationSettings"
+            case .pinpointcampaign: return "AWS::Pinpoint::Campaign"
+            case .pinpointinapptemplate: return "AWS::Pinpoint::InAppTemplate"
             case .pinpointsegment: return "AWS::Pinpoint::Segment"
             case .pipeline: return "AWS::CodePipeline::Pipeline"
             case .policy: return "AWS::IAM::Policy"
@@ -23007,6 +23066,7 @@ extension ConfigClientTypes {
             case .sestemplate: return "AWS::SES::Template"
             case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
+            case .sagemakerdomain: return "AWS::SageMaker::Domain"
             case .sagemakerimage: return "AWS::SageMaker::Image"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
@@ -23018,6 +23078,7 @@ extension ConfigClientTypes {
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
             case .servicediscoverypublicdnsnamespace: return "AWS::ServiceDiscovery::PublicDnsNamespace"
             case .servicediscoveryservice: return "AWS::ServiceDiscovery::Service"
+            case .signersigningprofile: return "AWS::Signer::SigningProfile"
             case .stack: return "AWS::CloudFormation::Stack"
             case .stage: return "AWS::ApiGateway::Stage"
             case .stagev2: return "AWS::ApiGatewayV2::Stage"
@@ -23028,6 +23089,8 @@ extension ConfigClientTypes {
             case .table: return "AWS::DynamoDB::Table"
             case .topic: return "AWS::SNS::Topic"
             case .trail: return "AWS::CloudTrail::Trail"
+            case .transferagreement: return "AWS::Transfer::Agreement"
+            case .transferconnector: return "AWS::Transfer::Connector"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"

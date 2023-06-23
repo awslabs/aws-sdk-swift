@@ -2800,6 +2800,51 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.CoverageDateFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endInclusive
+        case startInclusive
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endInclusive = self.endInclusive {
+            try encodeContainer.encodeTimestamp(endInclusive, format: .epochSeconds, forKey: .endInclusive)
+        }
+        if let startInclusive = self.startInclusive {
+            try encodeContainer.encodeTimestamp(startInclusive, format: .epochSeconds, forKey: .startInclusive)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startInclusive)
+        startInclusive = startInclusiveDecoded
+        let endInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endInclusive)
+        endInclusive = endInclusiveDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains details of a coverage date filter.
+    public struct CoverageDateFilter: Swift.Equatable {
+        /// A timestamp representing the end of the time period to filter results by.
+        public var endInclusive: ClientRuntime.Date?
+        /// A timestamp representing the start of the time period to filter results by.
+        public var startInclusive: ClientRuntime.Date?
+
+        public init(
+            endInclusive: ClientRuntime.Date? = nil,
+            startInclusive: ClientRuntime.Date? = nil
+        )
+        {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
@@ -2809,6 +2854,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         case lambdaFunctionName
         case lambdaFunctionRuntime
         case lambdaFunctionTags
+        case lastScannedAt
         case resourceId
         case resourceType
         case scanStatusCode
@@ -2858,6 +2904,12 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             var lambdaFunctionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionTags)
             for coveragemapfilter0 in lambdaFunctionTags {
                 try lambdaFunctionTagsContainer.encode(coveragemapfilter0)
+            }
+        }
+        if let lastScannedAt = lastScannedAt {
+            var lastScannedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastScannedAt)
+            for coveragedatefilter0 in lastScannedAt {
+                try lastScannedAtContainer.encode(coveragedatefilter0)
             }
         }
         if let resourceId = resourceId {
@@ -3026,6 +3078,17 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             }
         }
         lambdaFunctionRuntime = lambdaFunctionRuntimeDecoded0
+        let lastScannedAtContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageDateFilter?].self, forKey: .lastScannedAt)
+        var lastScannedAtDecoded0:[Inspector2ClientTypes.CoverageDateFilter]? = nil
+        if let lastScannedAtContainer = lastScannedAtContainer {
+            lastScannedAtDecoded0 = [Inspector2ClientTypes.CoverageDateFilter]()
+            for structure0 in lastScannedAtContainer {
+                if let structure0 = structure0 {
+                    lastScannedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        lastScannedAt = lastScannedAtDecoded0
     }
 }
 
@@ -3046,9 +3109,11 @@ extension Inspector2ClientTypes {
         public var lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]?
         /// Returns coverage statistics for AWS Lambda functions filtered by tag.
         public var lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
+        /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
+        public var lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION or AWS_ECR_REPOSITORY.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -3065,6 +3130,7 @@ extension Inspector2ClientTypes {
             lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
+            lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
             resourceId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -3079,6 +3145,7 @@ extension Inspector2ClientTypes {
             self.lambdaFunctionName = lambdaFunctionName
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanStatusCode = scanStatusCode
@@ -3295,6 +3362,7 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
+        case lastScannedAt
         case resourceId
         case resourceMetadata
         case resourceType
@@ -3306,6 +3374,9 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let lastScannedAt = self.lastScannedAt {
+            try encodeContainer.encodeTimestamp(lastScannedAt, format: .epochSeconds, forKey: .lastScannedAt)
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -3338,6 +3409,8 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         scanStatus = scanStatusDecoded
         let resourceMetadataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceScanMetadata.self, forKey: .resourceMetadata)
         resourceMetadata = resourceMetadataDecoded
+        let lastScannedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastScannedAt)
+        lastScannedAt = lastScannedAtDecoded
     }
 }
 
@@ -3347,6 +3420,8 @@ extension Inspector2ClientTypes {
         /// The Amazon Web Services account ID of the covered resource.
         /// This member is required.
         public var accountId: Swift.String?
+        /// The date and time the resource was last checked for vulnerabilities.
+        public var lastScannedAt: ClientRuntime.Date?
         /// The ID of the covered resource.
         /// This member is required.
         public var resourceId: Swift.String?
@@ -3363,6 +3438,7 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            lastScannedAt: ClientRuntime.Date? = nil,
             resourceId: Swift.String? = nil,
             resourceMetadata: Inspector2ClientTypes.ResourceScanMetadata? = nil,
             resourceType: Inspector2ClientTypes.CoverageResourceType? = nil,
@@ -3371,6 +3447,7 @@ extension Inspector2ClientTypes {
         )
         {
             self.accountId = accountId
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType

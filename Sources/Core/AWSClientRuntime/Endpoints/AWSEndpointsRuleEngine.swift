@@ -9,6 +9,7 @@ public class AWSEndpointsRuleEngine {
     let crtEngine: AwsCommonRuntimeKit.EndpointsRuleEngine
 
     public init(partitions: String, ruleSet: String) throws {
+        Utils.setupCRT()  // ensures CRT is set up before calling the CRT endpoint rules engine
         crtEngine = try AwsCommonRuntimeKit.EndpointsRuleEngine(partitions: partitions, ruleSet: ruleSet)
     }
 

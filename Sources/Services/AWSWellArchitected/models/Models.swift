@@ -398,6 +398,7 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         case pillarId = "PillarId"
         case questionId = "QuestionId"
         case questionTitle = "QuestionTitle"
+        case questionType = "QuestionType"
         case reason = "Reason"
         case risk = "Risk"
         case selectedChoices = "SelectedChoices"
@@ -428,6 +429,9 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         }
         if let questionTitle = self.questionTitle {
             try encodeContainer.encode(questionTitle, forKey: .questionTitle)
+        }
+        if let questionType = self.questionType {
+            try encodeContainer.encode(questionType.rawValue, forKey: .questionType)
         }
         if let reason = self.reason {
             try encodeContainer.encode(reason.rawValue, forKey: .reason)
@@ -490,6 +494,8 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         risk = riskDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
         reason = reasonDecoded
+        let questionTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.QuestionType.self, forKey: .questionType)
+        questionType = questionTypeDecoded
     }
 }
 
@@ -508,6 +514,8 @@ extension WellArchitectedClientTypes {
         public var questionId: Swift.String?
         /// The title of the question.
         public var questionTitle: Swift.String?
+        /// The type of the question.
+        public var questionType: WellArchitectedClientTypes.QuestionType?
         /// The reason why a choice is non-applicable to a question in your workload.
         public var reason: WellArchitectedClientTypes.AnswerReason?
         /// The risk for a given workload, lens review, pillar, or question.
@@ -522,6 +530,7 @@ extension WellArchitectedClientTypes {
             pillarId: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
+            questionType: WellArchitectedClientTypes.QuestionType? = nil,
             reason: WellArchitectedClientTypes.AnswerReason? = nil,
             risk: WellArchitectedClientTypes.Risk? = nil,
             selectedChoices: [Swift.String]? = nil
@@ -533,6 +542,7 @@ extension WellArchitectedClientTypes {
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
+            self.questionType = questionType
             self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
@@ -632,6 +642,100 @@ extension AssociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AssociateLensesOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension AssociateProfilesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArns = "ProfileArns"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profileArns = profileArns {
+            var profileArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileArns)
+            for profilearn0 in profileArns {
+                try profileArnsContainer.encode(profilearn0)
+            }
+        }
+    }
+}
+
+extension AssociateProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workloadId = workloadId else {
+            return nil
+        }
+        return "/workloads/\(workloadId.urlPercentEncoding())/associateProfiles"
+    }
+}
+
+public struct AssociateProfilesInput: Swift.Equatable {
+    /// The list of profile ARNs to associate with the workload.
+    /// This member is required.
+    public var profileArns: [Swift.String]?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        profileArns: [Swift.String]? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.profileArns = profileArns
+        self.workloadId = workloadId
+    }
+}
+
+struct AssociateProfilesInputBody: Swift.Equatable {
+    let profileArns: [Swift.String]?
+}
+
+extension AssociateProfilesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArns = "ProfileArns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .profileArns)
+        var profileArnsDecoded0:[Swift.String]? = nil
+        if let profileArnsContainer = profileArnsContainer {
+            profileArnsDecoded0 = [Swift.String]()
+            for string0 in profileArnsContainer {
+                if let string0 = string0 {
+                    profileArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        profileArns = profileArnsDecoded0
+    }
+}
+
+public enum AssociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateProfilesOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -1781,7 +1885,7 @@ public struct CreateLensShareInput: Swift.Equatable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
     /// This member is required.
     public var sharedWith: Swift.String?
 
@@ -1847,7 +1951,7 @@ extension CreateLensShareOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateLensShareOutputResponse: Swift.Equatable {
-    /// The ID associated with the workload share.
+    /// The ID associated with the share.
     public var shareId: Swift.String?
 
     public init(
@@ -2160,6 +2264,331 @@ extension CreateMilestoneOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case profileDescription = "ProfileDescription"
+        case profileName = "ProfileName"
+        case profileQuestions = "ProfileQuestions"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let profileDescription = self.profileDescription {
+            try encodeContainer.encode(profileDescription, forKey: .profileDescription)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
+        }
+        if let profileQuestions = profileQuestions {
+            var profileQuestionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileQuestions)
+            for profilequestionupdate0 in profileQuestions {
+                try profileQuestionsContainer.encode(profilequestionupdate0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/profiles"
+    }
+}
+
+public struct CreateProfileInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The profile description.
+    /// This member is required.
+    public var profileDescription: Swift.String?
+    /// Name of the profile.
+    /// This member is required.
+    public var profileName: Swift.String?
+    /// The profile questions.
+    /// This member is required.
+    public var profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
+    /// The tags assigned to the profile.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        profileDescription: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.profileDescription = profileDescription
+        self.profileName = profileName
+        self.profileQuestions = profileQuestions
+        self.tags = tags
+    }
+}
+
+struct CreateProfileInputBody: Swift.Equatable {
+    let profileName: Swift.String?
+    let profileDescription: Swift.String?
+    let profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
+    let clientRequestToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case profileDescription = "ProfileDescription"
+        case profileName = "ProfileName"
+        case profileQuestions = "ProfileQuestions"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let profileDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileDescription)
+        profileDescription = profileDescriptionDecoded
+        let profileQuestionsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileQuestionUpdate?].self, forKey: .profileQuestions)
+        var profileQuestionsDecoded0:[WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil
+        if let profileQuestionsContainer = profileQuestionsContainer {
+            profileQuestionsDecoded0 = [WellArchitectedClientTypes.ProfileQuestionUpdate]()
+            for structure0 in profileQuestionsContainer {
+                if let structure0 = structure0 {
+                    profileQuestionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        profileQuestions = profileQuestionsDecoded0
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profileArn = output.profileArn
+            self.profileVersion = output.profileVersion
+        } else {
+            self.profileArn = nil
+            self.profileVersion = nil
+        }
+    }
+}
+
+public struct CreateProfileOutputResponse: Swift.Equatable {
+    /// The profile ARN.
+    public var profileArn: Swift.String?
+    /// Version of the profile.
+    public var profileVersion: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil,
+        profileVersion: Swift.String? = nil
+    )
+    {
+        self.profileArn = profileArn
+        self.profileVersion = profileVersion
+    }
+}
+
+struct CreateProfileOutputResponseBody: Swift.Equatable {
+    let profileArn: Swift.String?
+    let profileVersion: Swift.String?
+}
+
+extension CreateProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArn = "ProfileArn"
+        case profileVersion = "ProfileVersion"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+        let profileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersion)
+        profileVersion = profileVersionDecoded
+    }
+}
+
+extension CreateProfileShareInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sharedWith = "SharedWith"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let sharedWith = self.sharedWith {
+            try encodeContainer.encode(sharedWith, forKey: .sharedWith)
+        }
+    }
+}
+
+extension CreateProfileShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())/shares"
+    }
+}
+
+public struct CreateProfileShareInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+    /// This member is required.
+    public var sharedWith: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        sharedWith: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.profileArn = profileArn
+        self.sharedWith = sharedWith
+    }
+}
+
+struct CreateProfileShareInputBody: Swift.Equatable {
+    let sharedWith: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateProfileShareInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sharedWith = "SharedWith"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sharedWithDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedWith)
+        sharedWith = sharedWithDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+public enum CreateProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateProfileShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateProfileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profileArn = output.profileArn
+            self.shareId = output.shareId
+        } else {
+            self.profileArn = nil
+            self.shareId = nil
+        }
+    }
+}
+
+public struct CreateProfileShareOutputResponse: Swift.Equatable {
+    /// The profile ARN.
+    public var profileArn: Swift.String?
+    /// The ID associated with the share.
+    public var shareId: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil,
+        shareId: Swift.String? = nil
+    )
+    {
+        self.profileArn = profileArn
+        self.shareId = shareId
+    }
+}
+
+struct CreateProfileShareOutputResponseBody: Swift.Equatable {
+    let shareId: Swift.String?
+    let profileArn: Swift.String?
+}
+
+extension CreateProfileShareOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArn = "ProfileArn"
+        case shareId = "ShareId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+    }
+}
+
 extension CreateWorkloadInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "AccountIds"
@@ -2176,6 +2605,7 @@ extension CreateWorkloadInput: Swift.Encodable {
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
         case pillarPriorities = "PillarPriorities"
+        case profileArns = "ProfileArns"
         case reviewOwner = "ReviewOwner"
         case tags = "Tags"
         case workloadName = "WorkloadName"
@@ -2241,6 +2671,12 @@ extension CreateWorkloadInput: Swift.Encodable {
             var pillarPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarPriorities)
             for pillarid0 in pillarPriorities {
                 try pillarPrioritiesContainer.encode(pillarid0)
+            }
+        }
+        if let profileArns = profileArns {
+            var profileArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileArns)
+            for profilearn0 in profileArns {
+                try profileArnsContainer.encode(profilearn0)
             }
         }
         if let reviewOwner = self.reviewOwner {
@@ -2352,6 +2788,8 @@ public struct CreateWorkloadInput: Swift.Equatable {
     public var notes: Swift.String?
     /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its [PillarReviewSummary$PillarId].
     public var pillarPriorities: [Swift.String]?
+    /// The list of profile ARNs associated with the workload.
+    public var profileArns: [Swift.String]?
     /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process.
     public var reviewOwner: Swift.String?
     /// The tags to be associated with the workload.
@@ -2375,6 +2813,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         nonAwsRegions: [Swift.String]? = nil,
         notes: Swift.String? = nil,
         pillarPriorities: [Swift.String]? = nil,
+        profileArns: [Swift.String]? = nil,
         reviewOwner: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workloadName: Swift.String? = nil
@@ -2394,6 +2833,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         self.nonAwsRegions = nonAwsRegions
         self.notes = notes
         self.pillarPriorities = pillarPriorities
+        self.profileArns = profileArns
         self.reviewOwner = reviewOwner
         self.tags = tags
         self.workloadName = workloadName
@@ -2418,6 +2858,7 @@ struct CreateWorkloadInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let discoveryConfig: WellArchitectedClientTypes.WorkloadDiscoveryConfig?
     let applications: [Swift.String]?
+    let profileArns: [Swift.String]?
 }
 
 extension CreateWorkloadInputBody: Swift.Decodable {
@@ -2436,6 +2877,7 @@ extension CreateWorkloadInputBody: Swift.Decodable {
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
         case pillarPriorities = "PillarPriorities"
+        case profileArns = "ProfileArns"
         case reviewOwner = "ReviewOwner"
         case tags = "Tags"
         case workloadName = "WorkloadName"
@@ -2540,6 +2982,17 @@ extension CreateWorkloadInputBody: Swift.Decodable {
             }
         }
         applications = applicationsDecoded0
+        let profileArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .profileArns)
+        var profileArnsDecoded0:[Swift.String]? = nil
+        if let profileArnsContainer = profileArnsContainer {
+            profileArnsDecoded0 = [Swift.String]()
+            for string0 in profileArnsContainer {
+                if let string0 = string0 {
+                    profileArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        profileArns = profileArnsDecoded0
     }
 }
 
@@ -2646,10 +3099,10 @@ public struct CreateWorkloadShareInput: Swift.Equatable {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// Permission granted on a workload share.
+    /// Permission granted on a share request.
     /// This member is required.
     public var permissionType: WellArchitectedClientTypes.PermissionType?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
     /// This member is required.
     public var sharedWith: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -2727,7 +3180,7 @@ extension CreateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// Input for Create Workload Share
 public struct CreateWorkloadShareOutputResponse: Swift.Equatable {
-    /// The ID associated with the workload share.
+    /// The ID associated with the share.
     public var shareId: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
@@ -2916,7 +3369,7 @@ public struct DeleteLensShareInput: Swift.Equatable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
-    /// The ID associated with the workload share.
+    /// The ID associated with the share.
     /// This member is required.
     public var shareId: Swift.String?
 
@@ -2963,6 +3416,168 @@ extension DeleteLensShareOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteLensShareOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteProfileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
+            items.append(clientRequestTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteProfileInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.profileArn = profileArn
+    }
+}
+
+struct DeleteProfileInputBody: Swift.Equatable {
+}
+
+extension DeleteProfileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProfileOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteProfileShareInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
+            items.append(clientRequestTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteProfileShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        guard let shareId = shareId else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())/shares/\(shareId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteProfileShareInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The ID associated with the share.
+    /// This member is required.
+    public var shareId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        shareId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.profileArn = profileArn
+        self.shareId = shareId
+    }
+}
+
+struct DeleteProfileShareInputBody: Swift.Equatable {
+}
+
+extension DeleteProfileShareInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteProfileShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProfileShareOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -3077,7 +3692,7 @@ public struct DeleteWorkloadShareInput: Swift.Equatable {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The ID associated with the workload share.
+    /// The ID associated with the share.
     /// This member is required.
     public var shareId: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3257,6 +3872,100 @@ extension DisassociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DisassociateLensesOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DisassociateProfilesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArns = "ProfileArns"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profileArns = profileArns {
+            var profileArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileArns)
+            for profilearn0 in profileArns {
+                try profileArnsContainer.encode(profilearn0)
+            }
+        }
+    }
+}
+
+extension DisassociateProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workloadId = workloadId else {
+            return nil
+        }
+        return "/workloads/\(workloadId.urlPercentEncoding())/disassociateProfiles"
+    }
+}
+
+public struct DisassociateProfilesInput: Swift.Equatable {
+    /// The list of profile ARNs to disassociate from the workload.
+    /// This member is required.
+    public var profileArns: [Swift.String]?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        profileArns: [Swift.String]? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.profileArns = profileArns
+        self.workloadId = workloadId
+    }
+}
+
+struct DisassociateProfilesInputBody: Swift.Equatable {
+    let profileArns: [Swift.String]?
+}
+
+extension DisassociateProfilesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArns = "ProfileArns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .profileArns)
+        var profileArnsDecoded0:[Swift.String]? = nil
+        if let profileArnsContainer = profileArnsContainer {
+            profileArnsDecoded0 = [Swift.String]()
+            for string0 in profileArnsContainer {
+                if let string0 = string0 {
+                    profileArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        profileArns = profileArnsDecoded0
+    }
+}
+
+public enum DisassociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateProfilesOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -4344,6 +5053,184 @@ extension GetMilestoneOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetProfileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let profileVersion = profileVersion {
+                let profileVersionQueryItem = ClientRuntime.URLQueryItem(name: "ProfileVersion".urlPercentEncoding(), value: Swift.String(profileVersion).urlPercentEncoding())
+                items.append(profileVersionQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())"
+    }
+}
+
+public struct GetProfileInput: Swift.Equatable {
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The profile version.
+    public var profileVersion: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil,
+        profileVersion: Swift.String? = nil
+    )
+    {
+        self.profileArn = profileArn
+        self.profileVersion = profileVersion
+    }
+}
+
+struct GetProfileInputBody: Swift.Equatable {
+}
+
+extension GetProfileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct GetProfileOutputResponse: Swift.Equatable {
+    /// The profile.
+    public var profile: WellArchitectedClientTypes.Profile?
+
+    public init(
+        profile: WellArchitectedClientTypes.Profile? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct GetProfileOutputResponseBody: Swift.Equatable {
+    let profile: WellArchitectedClientTypes.Profile?
+}
+
+extension GetProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile = "Profile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
+extension GetProfileTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/profileTemplate"
+    }
+}
+
+public struct GetProfileTemplateInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetProfileTemplateInputBody: Swift.Equatable {
+}
+
+extension GetProfileTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetProfileTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetProfileTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProfileTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profileTemplate = output.profileTemplate
+        } else {
+            self.profileTemplate = nil
+        }
+    }
+}
+
+public struct GetProfileTemplateOutputResponse: Swift.Equatable {
+    /// The profile template.
+    public var profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+
+    public init(
+        profileTemplate: WellArchitectedClientTypes.ProfileTemplate? = nil
+    )
+    {
+        self.profileTemplate = profileTemplate
+    }
+}
+
+struct GetProfileTemplateOutputResponseBody: Swift.Equatable {
+    let profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+}
+
+extension GetProfileTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileTemplate = "ProfileTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileTemplateDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ProfileTemplate.self, forKey: .profileTemplate)
+        profileTemplate = profileTemplateDecoded
+    }
+}
+
 extension GetWorkloadInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let workloadId = workloadId else {
@@ -4981,6 +5868,8 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
         case nextToken = "NextToken"
         case notes = "Notes"
         case pillarReviewSummaries = "PillarReviewSummaries"
+        case prioritizedRiskCounts = "PrioritizedRiskCounts"
+        case profiles = "Profiles"
         case riskCounts = "RiskCounts"
         case updatedAt = "UpdatedAt"
     }
@@ -5012,6 +5901,18 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
             var pillarReviewSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarReviewSummaries)
             for pillarreviewsummary0 in pillarReviewSummaries {
                 try pillarReviewSummariesContainer.encode(pillarreviewsummary0)
+            }
+        }
+        if let prioritizedRiskCounts = prioritizedRiskCounts {
+            var prioritizedRiskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .prioritizedRiskCounts)
+            for (dictKey0, riskCounts0) in prioritizedRiskCounts {
+                try prioritizedRiskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profiles)
+            for workloadprofile0 in profiles {
+                try profilesContainer.encode(workloadprofile0)
             }
         }
         if let riskCounts = riskCounts {
@@ -5065,6 +5966,28 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
         riskCounts = riskCountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let profilesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.WorkloadProfile?].self, forKey: .profiles)
+        var profilesDecoded0:[WellArchitectedClientTypes.WorkloadProfile]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [WellArchitectedClientTypes.WorkloadProfile]()
+            for structure0 in profilesContainer {
+                if let structure0 = structure0 {
+                    profilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profiles = profilesDecoded0
+        let prioritizedRiskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .prioritizedRiskCounts)
+        var prioritizedRiskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let prioritizedRiskCountsContainer = prioritizedRiskCountsContainer {
+            prioritizedRiskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in prioritizedRiskCountsContainer {
+                if let count0 = count0 {
+                    prioritizedRiskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        prioritizedRiskCounts = prioritizedRiskCountsDecoded0
     }
 }
 
@@ -5088,6 +6011,10 @@ extension WellArchitectedClientTypes {
         /// List of pillar review summaries of lens review in a workload.
         public var pillarReviewSummaries: [WellArchitectedClientTypes.PillarReviewSummary]?
         /// A map from risk names to the count of how many questions have that rating.
+        public var prioritizedRiskCounts: [Swift.String:Swift.Int]?
+        /// The profiles associated with the workload.
+        public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
         public var updatedAt: ClientRuntime.Date?
@@ -5101,6 +6028,8 @@ extension WellArchitectedClientTypes {
             nextToken: Swift.String? = nil,
             notes: Swift.String? = nil,
             pillarReviewSummaries: [WellArchitectedClientTypes.PillarReviewSummary]? = nil,
+            prioritizedRiskCounts: [Swift.String:Swift.Int]? = nil,
+            profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -5113,6 +6042,8 @@ extension WellArchitectedClientTypes {
             self.nextToken = nextToken
             self.notes = notes
             self.pillarReviewSummaries = pillarReviewSummaries
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -5182,6 +6113,8 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
         case lensName = "LensName"
         case lensStatus = "LensStatus"
         case lensVersion = "LensVersion"
+        case prioritizedRiskCounts = "PrioritizedRiskCounts"
+        case profiles = "Profiles"
         case riskCounts = "RiskCounts"
         case updatedAt = "UpdatedAt"
     }
@@ -5202,6 +6135,18 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
         }
         if let lensVersion = self.lensVersion {
             try encodeContainer.encode(lensVersion, forKey: .lensVersion)
+        }
+        if let prioritizedRiskCounts = prioritizedRiskCounts {
+            var prioritizedRiskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .prioritizedRiskCounts)
+            for (dictKey0, riskCounts0) in prioritizedRiskCounts {
+                try prioritizedRiskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profiles)
+            for workloadprofile0 in profiles {
+                try profilesContainer.encode(workloadprofile0)
+            }
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
@@ -5239,6 +6184,28 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
             }
         }
         riskCounts = riskCountsDecoded0
+        let profilesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.WorkloadProfile?].self, forKey: .profiles)
+        var profilesDecoded0:[WellArchitectedClientTypes.WorkloadProfile]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [WellArchitectedClientTypes.WorkloadProfile]()
+            for structure0 in profilesContainer {
+                if let structure0 = structure0 {
+                    profilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profiles = profilesDecoded0
+        let prioritizedRiskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .prioritizedRiskCounts)
+        var prioritizedRiskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let prioritizedRiskCountsContainer = prioritizedRiskCountsContainer {
+            prioritizedRiskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in prioritizedRiskCountsContainer {
+                if let count0 = count0 {
+                    prioritizedRiskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        prioritizedRiskCounts = prioritizedRiskCountsDecoded0
     }
 }
 
@@ -5256,6 +6223,10 @@ extension WellArchitectedClientTypes {
         /// The version of the lens.
         public var lensVersion: Swift.String?
         /// A map from risk names to the count of how many questions have that rating.
+        public var prioritizedRiskCounts: [Swift.String:Swift.Int]?
+        /// The profiles associated with the workload.
+        public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
         public var updatedAt: ClientRuntime.Date?
@@ -5266,6 +6237,8 @@ extension WellArchitectedClientTypes {
             lensName: Swift.String? = nil,
             lensStatus: WellArchitectedClientTypes.LensStatus? = nil,
             lensVersion: Swift.String? = nil,
+            prioritizedRiskCounts: [Swift.String:Swift.Int]? = nil,
+            profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -5275,6 +6248,8 @@ extension WellArchitectedClientTypes {
             self.lensName = lensName
             self.lensStatus = lensStatus
             self.lensVersion = lensVersion
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -5322,11 +6297,11 @@ extension WellArchitectedClientTypes.LensShareSummary: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A lens share summary return object.
     public struct LensShareSummary: Swift.Equatable {
-        /// The ID associated with the workload share.
+        /// The ID associated with the share.
         public var shareId: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
         public var sharedWith: Swift.String?
-        /// The status of a workload share.
+        /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
         /// Optional message to compliment the Status field.
         public var statusMessage: Swift.String?
@@ -5672,6 +6647,10 @@ extension ListAnswersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            if let questionPriority = questionPriority {
+                let questionPriorityQueryItem = ClientRuntime.URLQueryItem(name: "QuestionPriority".urlPercentEncoding(), value: Swift.String(questionPriority.rawValue).urlPercentEncoding())
+                items.append(questionPriorityQueryItem)
+            }
             if let pillarId = pillarId {
                 let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
                 items.append(pillarIdQueryItem)
@@ -5718,6 +6697,8 @@ public struct ListAnswersInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
     public var pillarId: Swift.String?
+    /// The priority of the question.
+    public var questionPriority: WellArchitectedClientTypes.QuestionPriority?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
@@ -5728,6 +6709,7 @@ public struct ListAnswersInput: Swift.Equatable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
+        questionPriority: WellArchitectedClientTypes.QuestionPriority? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -5736,6 +6718,7 @@ public struct ListAnswersInput: Swift.Equatable {
         self.milestoneNumber = milestoneNumber
         self.nextToken = nextToken
         self.pillarId = pillarId
+        self.questionPriority = questionPriority
         self.workloadId = workloadId
     }
 }
@@ -6254,6 +7237,10 @@ extension ListLensReviewImprovementsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            if let questionPriority = questionPriority {
+                let questionPriorityQueryItem = ClientRuntime.URLQueryItem(name: "QuestionPriority".urlPercentEncoding(), value: Swift.String(questionPriority.rawValue).urlPercentEncoding())
+                items.append(questionPriorityQueryItem)
+            }
             if let pillarId = pillarId {
                 let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
                 items.append(pillarIdQueryItem)
@@ -6300,6 +7287,8 @@ public struct ListLensReviewImprovementsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
     public var pillarId: Swift.String?
+    /// The priority of the question.
+    public var questionPriority: WellArchitectedClientTypes.QuestionPriority?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
@@ -6310,6 +7299,7 @@ public struct ListLensReviewImprovementsInput: Swift.Equatable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
+        questionPriority: WellArchitectedClientTypes.QuestionPriority? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -6318,6 +7308,7 @@ public struct ListLensReviewImprovementsInput: Swift.Equatable {
         self.milestoneNumber = milestoneNumber
         self.nextToken = nextToken
         self.pillarId = pillarId
+        self.questionPriority = questionPriority
         self.workloadId = workloadId
     }
 }
@@ -6650,7 +7641,7 @@ public struct ListLensSharesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the lens is shared.
     public var sharedWithPrefix: Swift.String?
-    /// The status of a workload share.
+    /// The status of the share request.
     public var status: WellArchitectedClientTypes.ShareStatus?
 
     public init(
@@ -7196,6 +8187,418 @@ extension ListNotificationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListProfileNotificationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let workloadId = workloadId {
+                let workloadIdQueryItem = ClientRuntime.URLQueryItem(name: "WorkloadId".urlPercentEncoding(), value: Swift.String(workloadId).urlPercentEncoding())
+                items.append(workloadIdQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProfileNotificationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/profileNotifications"
+    }
+}
+
+public struct ListProfileNotificationsInput: Swift.Equatable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    public var workloadId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workloadId = workloadId
+    }
+}
+
+struct ListProfileNotificationsInputBody: Swift.Equatable {
+}
+
+extension ListProfileNotificationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListProfileNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProfileNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProfileNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.notificationSummaries = output.notificationSummaries
+        } else {
+            self.nextToken = nil
+            self.notificationSummaries = nil
+        }
+    }
+}
+
+public struct ListProfileNotificationsOutputResponse: Swift.Equatable {
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Notification summaries.
+    public var notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.notificationSummaries = notificationSummaries
+    }
+}
+
+struct ListProfileNotificationsOutputResponseBody: Swift.Equatable {
+    let notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListProfileNotificationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case notificationSummaries = "NotificationSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notificationSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileNotificationSummary?].self, forKey: .notificationSummaries)
+        var notificationSummariesDecoded0:[WellArchitectedClientTypes.ProfileNotificationSummary]? = nil
+        if let notificationSummariesContainer = notificationSummariesContainer {
+            notificationSummariesDecoded0 = [WellArchitectedClientTypes.ProfileNotificationSummary]()
+            for structure0 in notificationSummariesContainer {
+                if let structure0 = structure0 {
+                    notificationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        notificationSummaries = notificationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListProfileSharesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let sharedWithPrefix = sharedWithPrefix {
+                let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
+                items.append(sharedWithPrefixQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProfileSharesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())/shares"
+    }
+}
+
+public struct ListProfileSharesInput: Swift.Equatable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the profile is shared.
+    public var sharedWithPrefix: Swift.String?
+    /// The status of the share request.
+    public var status: WellArchitectedClientTypes.ShareStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        sharedWithPrefix: Swift.String? = nil,
+        status: WellArchitectedClientTypes.ShareStatus? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileArn = profileArn
+        self.sharedWithPrefix = sharedWithPrefix
+        self.status = status
+    }
+}
+
+struct ListProfileSharesInputBody: Swift.Equatable {
+}
+
+extension ListProfileSharesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListProfileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProfileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProfileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.profileShareSummaries = output.profileShareSummaries
+        } else {
+            self.nextToken = nil
+            self.profileShareSummaries = nil
+        }
+    }
+}
+
+public struct ListProfileSharesOutputResponse: Swift.Equatable {
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Profile share summaries.
+    public var profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.profileShareSummaries = profileShareSummaries
+    }
+}
+
+struct ListProfileSharesOutputResponseBody: Swift.Equatable {
+    let profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListProfileSharesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case profileShareSummaries = "ProfileShareSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileShareSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileShareSummary?].self, forKey: .profileShareSummaries)
+        var profileShareSummariesDecoded0:[WellArchitectedClientTypes.ProfileShareSummary]? = nil
+        if let profileShareSummariesContainer = profileShareSummariesContainer {
+            profileShareSummariesDecoded0 = [WellArchitectedClientTypes.ProfileShareSummary]()
+            for structure0 in profileShareSummariesContainer {
+                if let structure0 = structure0 {
+                    profileShareSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profileShareSummaries = profileShareSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListProfilesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let profileNamePrefix = profileNamePrefix {
+                let profileNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "ProfileNamePrefix".urlPercentEncoding(), value: Swift.String(profileNamePrefix).urlPercentEncoding())
+                items.append(profileNamePrefixQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let profileOwnerType = profileOwnerType {
+                let profileOwnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "ProfileOwnerType".urlPercentEncoding(), value: Swift.String(profileOwnerType.rawValue).urlPercentEncoding())
+                items.append(profileOwnerTypeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/profileSummaries"
+    }
+}
+
+public struct ListProfilesInput: Swift.Equatable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Prefix for profile name.
+    public var profileNamePrefix: Swift.String?
+    /// Profile owner type.
+    public var profileOwnerType: WellArchitectedClientTypes.ProfileOwnerType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileNamePrefix: Swift.String? = nil,
+        profileOwnerType: WellArchitectedClientTypes.ProfileOwnerType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileNamePrefix = profileNamePrefix
+        self.profileOwnerType = profileOwnerType
+    }
+}
+
+struct ListProfilesInputBody: Swift.Equatable {
+}
+
+extension ListProfilesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.profileSummaries = output.profileSummaries
+        } else {
+            self.nextToken = nil
+            self.profileSummaries = nil
+        }
+    }
+}
+
+public struct ListProfilesOutputResponse: Swift.Equatable {
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Profile summaries.
+    public var profileSummaries: [WellArchitectedClientTypes.ProfileSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profileSummaries: [WellArchitectedClientTypes.ProfileSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.profileSummaries = profileSummaries
+    }
+}
+
+struct ListProfilesOutputResponseBody: Swift.Equatable {
+    let profileSummaries: [WellArchitectedClientTypes.ProfileSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListProfilesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case profileSummaries = "ProfileSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileSummary?].self, forKey: .profileSummaries)
+        var profileSummariesDecoded0:[WellArchitectedClientTypes.ProfileSummary]? = nil
+        if let profileSummariesContainer = profileSummariesContainer {
+            profileSummariesDecoded0 = [WellArchitectedClientTypes.ProfileSummary]()
+            for structure0 in profileSummariesContainer {
+                if let structure0 = structure0 {
+                    profileSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profileSummaries = profileSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListShareInvitationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -7207,6 +8610,10 @@ extension ListShareInvitationsInput: ClientRuntime.QueryItemProvider {
             if let nextToken = nextToken {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
+            }
+            if let profileNamePrefix = profileNamePrefix {
+                let profileNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "ProfileNamePrefix".urlPercentEncoding(), value: Swift.String(profileNamePrefix).urlPercentEncoding())
+                items.append(profileNamePrefixQueryItem)
             }
             if let shareResourceType = shareResourceType {
                 let shareResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ShareResourceType".urlPercentEncoding(), value: Swift.String(shareResourceType.rawValue).urlPercentEncoding())
@@ -7239,6 +8646,8 @@ public struct ListShareInvitationsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
+    /// Profile name prefix.
+    public var profileNamePrefix: Swift.String?
     /// The type of share invitations to be returned.
     public var shareResourceType: WellArchitectedClientTypes.ShareResourceType?
     /// An optional string added to the beginning of each workload name returned in the results.
@@ -7248,6 +8657,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
         lensNamePrefix: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        profileNamePrefix: Swift.String? = nil,
         shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
         workloadNamePrefix: Swift.String? = nil
     )
@@ -7255,6 +8665,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
         self.lensNamePrefix = lensNamePrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.profileNamePrefix = profileNamePrefix
         self.shareResourceType = shareResourceType
         self.workloadNamePrefix = workloadNamePrefix
     }
@@ -7477,7 +8888,7 @@ public struct ListWorkloadSharesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
     public var sharedWithPrefix: Swift.String?
-    /// The status of a workload share.
+    /// The status of the share request.
     public var status: WellArchitectedClientTypes.ShareStatus?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
@@ -8008,7 +9419,7 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes {
-    /// Permission granted on a workload share.
+    /// Permission granted on a share request.
     public enum PermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case contributor
         case readonly
@@ -8201,6 +9612,7 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
         case notes = "Notes"
         case pillarId = "PillarId"
         case pillarName = "PillarName"
+        case prioritizedRiskCounts = "PrioritizedRiskCounts"
         case riskCounts = "RiskCounts"
     }
 
@@ -8214,6 +9626,12 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
         }
         if let pillarName = self.pillarName {
             try encodeContainer.encode(pillarName, forKey: .pillarName)
+        }
+        if let prioritizedRiskCounts = prioritizedRiskCounts {
+            var prioritizedRiskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .prioritizedRiskCounts)
+            for (dictKey0, riskCounts0) in prioritizedRiskCounts {
+                try prioritizedRiskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
@@ -8242,6 +9660,17 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
             }
         }
         riskCounts = riskCountsDecoded0
+        let prioritizedRiskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .prioritizedRiskCounts)
+        var prioritizedRiskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let prioritizedRiskCountsContainer = prioritizedRiskCountsContainer {
+            prioritizedRiskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in prioritizedRiskCountsContainer {
+                if let count0 = count0 {
+                    prioritizedRiskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        prioritizedRiskCounts = prioritizedRiskCountsDecoded0
     }
 }
 
@@ -8255,19 +9684,951 @@ extension WellArchitectedClientTypes {
         /// The name of the pillar.
         public var pillarName: Swift.String?
         /// A map from risk names to the count of how many questions have that rating.
+        public var prioritizedRiskCounts: [Swift.String:Swift.Int]?
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
 
         public init(
             notes: Swift.String? = nil,
             pillarId: Swift.String? = nil,
             pillarName: Swift.String? = nil,
+            prioritizedRiskCounts: [Swift.String:Swift.Int]? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil
         )
         {
             self.notes = notes
             self.pillarId = pillarId
             self.pillarName = pillarName
+            self.prioritizedRiskCounts = prioritizedRiskCounts
             self.riskCounts = riskCounts
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.Profile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case owner = "Owner"
+        case profileArn = "ProfileArn"
+        case profileDescription = "ProfileDescription"
+        case profileName = "ProfileName"
+        case profileQuestions = "ProfileQuestions"
+        case profileVersion = "ProfileVersion"
+        case shareInvitationId = "ShareInvitationId"
+        case tags = "Tags"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
+        }
+        if let profileDescription = self.profileDescription {
+            try encodeContainer.encode(profileDescription, forKey: .profileDescription)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
+        }
+        if let profileQuestions = profileQuestions {
+            var profileQuestionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileQuestions)
+            for profilequestion0 in profileQuestions {
+                try profileQuestionsContainer.encode(profilequestion0)
+            }
+        }
+        if let profileVersion = self.profileVersion {
+            try encodeContainer.encode(profileVersion, forKey: .profileVersion)
+        }
+        if let shareInvitationId = self.shareInvitationId {
+            try encodeContainer.encode(shareInvitationId, forKey: .shareInvitationId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+        let profileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersion)
+        profileVersion = profileVersionDecoded
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let profileDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileDescription)
+        profileDescription = profileDescriptionDecoded
+        let profileQuestionsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileQuestion?].self, forKey: .profileQuestions)
+        var profileQuestionsDecoded0:[WellArchitectedClientTypes.ProfileQuestion]? = nil
+        if let profileQuestionsContainer = profileQuestionsContainer {
+            profileQuestionsDecoded0 = [WellArchitectedClientTypes.ProfileQuestion]()
+            for structure0 in profileQuestionsContainer {
+                if let structure0 = structure0 {
+                    profileQuestionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        profileQuestions = profileQuestionsDecoded0
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let shareInvitationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareInvitationId)
+        shareInvitationId = shareInvitationIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A profile.
+    public struct Profile: Swift.Equatable {
+        /// The date and time recorded.
+        public var createdAt: ClientRuntime.Date?
+        /// An Amazon Web Services account ID.
+        public var owner: Swift.String?
+        /// The profile ARN.
+        public var profileArn: Swift.String?
+        /// The profile description.
+        public var profileDescription: Swift.String?
+        /// The profile name.
+        public var profileName: Swift.String?
+        /// Profile questions.
+        public var profileQuestions: [WellArchitectedClientTypes.ProfileQuestion]?
+        /// The profile version.
+        public var profileVersion: Swift.String?
+        /// The ID assigned to the share invitation.
+        public var shareInvitationId: Swift.String?
+        /// The tags assigned to the profile.
+        public var tags: [Swift.String:Swift.String]?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            profileDescription: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            profileQuestions: [WellArchitectedClientTypes.ProfileQuestion]? = nil,
+            profileVersion: Swift.String? = nil,
+            shareInvitationId: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileQuestions = profileQuestions
+            self.profileVersion = profileVersion
+            self.shareInvitationId = shareInvitationId
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileChoice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case choiceDescription = "ChoiceDescription"
+        case choiceId = "ChoiceId"
+        case choiceTitle = "ChoiceTitle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let choiceDescription = self.choiceDescription {
+            try encodeContainer.encode(choiceDescription, forKey: .choiceDescription)
+        }
+        if let choiceId = self.choiceId {
+            try encodeContainer.encode(choiceId, forKey: .choiceId)
+        }
+        if let choiceTitle = self.choiceTitle {
+            try encodeContainer.encode(choiceTitle, forKey: .choiceTitle)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let choiceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceId)
+        choiceId = choiceIdDecoded
+        let choiceTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceTitle)
+        choiceTitle = choiceTitleDecoded
+        let choiceDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceDescription)
+        choiceDescription = choiceDescriptionDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The profile choice.
+    public struct ProfileChoice: Swift.Equatable {
+        /// The description of a choice.
+        public var choiceDescription: Swift.String?
+        /// The ID of a choice.
+        public var choiceId: Swift.String?
+        /// The title of a choice.
+        public var choiceTitle: Swift.String?
+
+        public init(
+            choiceDescription: Swift.String? = nil,
+            choiceId: Swift.String? = nil,
+            choiceTitle: Swift.String? = nil
+        )
+        {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileNotificationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentProfileVersion = "CurrentProfileVersion"
+        case latestProfileVersion = "LatestProfileVersion"
+        case profileArn = "ProfileArn"
+        case profileName = "ProfileName"
+        case type = "Type"
+        case workloadId = "WorkloadId"
+        case workloadName = "WorkloadName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentProfileVersion = self.currentProfileVersion {
+            try encodeContainer.encode(currentProfileVersion, forKey: .currentProfileVersion)
+        }
+        if let latestProfileVersion = self.latestProfileVersion {
+            try encodeContainer.encode(latestProfileVersion, forKey: .latestProfileVersion)
+        }
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+        if let workloadName = self.workloadName {
+            try encodeContainer.encode(workloadName, forKey: .workloadName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentProfileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentProfileVersion)
+        currentProfileVersion = currentProfileVersionDecoded
+        let latestProfileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestProfileVersion)
+        latestProfileVersion = latestProfileVersionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ProfileNotificationType.self, forKey: .type)
+        type = typeDecoded
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadName)
+        workloadName = workloadNameDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The profile notification summary.
+    public struct ProfileNotificationSummary: Swift.Equatable {
+        /// The current profile version.
+        public var currentProfileVersion: Swift.String?
+        /// The latest profile version.
+        public var latestProfileVersion: Swift.String?
+        /// The profile ARN.
+        public var profileArn: Swift.String?
+        /// The profile name.
+        public var profileName: Swift.String?
+        /// Type of notification.
+        public var type: WellArchitectedClientTypes.ProfileNotificationType?
+        /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+        public var workloadId: Swift.String?
+        /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
+        public var workloadName: Swift.String?
+
+        public init(
+            currentProfileVersion: Swift.String? = nil,
+            latestProfileVersion: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            type: WellArchitectedClientTypes.ProfileNotificationType? = nil,
+            workloadId: Swift.String? = nil,
+            workloadName: Swift.String? = nil
+        )
+        {
+            self.currentProfileVersion = currentProfileVersion
+            self.latestProfileVersion = latestProfileVersion
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.type = type
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes {
+    public enum ProfileNotificationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case profileAnswersUpdated
+        case profileDeleted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileNotificationType] {
+            return [
+                .profileAnswersUpdated,
+                .profileDeleted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .profileAnswersUpdated: return "PROFILE_ANSWERS_UPDATED"
+            case .profileDeleted: return "PROFILE_DELETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileNotificationType(rawValue: rawValue) ?? ProfileNotificationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+    public enum ProfileOwnerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `self`
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileOwnerType] {
+            return [
+                .self,
+                .shared,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .self: return "SELF"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileOwnerType(rawValue: rawValue) ?? ProfileOwnerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.ProfileQuestion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxSelectedChoices = "MaxSelectedChoices"
+        case minSelectedChoices = "MinSelectedChoices"
+        case questionChoices = "QuestionChoices"
+        case questionDescription = "QuestionDescription"
+        case questionId = "QuestionId"
+        case questionTitle = "QuestionTitle"
+        case selectedChoiceIds = "SelectedChoiceIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if maxSelectedChoices != 0 {
+            try encodeContainer.encode(maxSelectedChoices, forKey: .maxSelectedChoices)
+        }
+        if minSelectedChoices != 0 {
+            try encodeContainer.encode(minSelectedChoices, forKey: .minSelectedChoices)
+        }
+        if let questionChoices = questionChoices {
+            var questionChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .questionChoices)
+            for profilechoice0 in questionChoices {
+                try questionChoicesContainer.encode(profilechoice0)
+            }
+        }
+        if let questionDescription = self.questionDescription {
+            try encodeContainer.encode(questionDescription, forKey: .questionDescription)
+        }
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let questionTitle = self.questionTitle {
+            try encodeContainer.encode(questionTitle, forKey: .questionTitle)
+        }
+        if let selectedChoiceIds = selectedChoiceIds {
+            var selectedChoiceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoiceIds)
+            for choiceid0 in selectedChoiceIds {
+                try selectedChoiceIdsContainer.encode(choiceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let questionTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionTitle)
+        questionTitle = questionTitleDecoded
+        let questionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionDescription)
+        questionDescription = questionDescriptionDecoded
+        let questionChoicesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileChoice?].self, forKey: .questionChoices)
+        var questionChoicesDecoded0:[WellArchitectedClientTypes.ProfileChoice]? = nil
+        if let questionChoicesContainer = questionChoicesContainer {
+            questionChoicesDecoded0 = [WellArchitectedClientTypes.ProfileChoice]()
+            for structure0 in questionChoicesContainer {
+                if let structure0 = structure0 {
+                    questionChoicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        questionChoices = questionChoicesDecoded0
+        let selectedChoiceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedChoiceIds)
+        var selectedChoiceIdsDecoded0:[Swift.String]? = nil
+        if let selectedChoiceIdsContainer = selectedChoiceIdsContainer {
+            selectedChoiceIdsDecoded0 = [Swift.String]()
+            for string0 in selectedChoiceIdsContainer {
+                if let string0 = string0 {
+                    selectedChoiceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedChoiceIds = selectedChoiceIdsDecoded0
+        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices) ?? 0
+        minSelectedChoices = minSelectedChoicesDecoded
+        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices) ?? 0
+        maxSelectedChoices = maxSelectedChoicesDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A profile question.
+    public struct ProfileQuestion: Swift.Equatable {
+        /// The maximum number of selected choices.
+        public var maxSelectedChoices: Swift.Int
+        /// The minimum number of selected choices.
+        public var minSelectedChoices: Swift.Int
+        /// The question choices.
+        public var questionChoices: [WellArchitectedClientTypes.ProfileChoice]?
+        /// The description of the question.
+        public var questionDescription: Swift.String?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The title of the question.
+        public var questionTitle: Swift.String?
+        /// The selected choices.
+        public var selectedChoiceIds: [Swift.String]?
+
+        public init(
+            maxSelectedChoices: Swift.Int = 0,
+            minSelectedChoices: Swift.Int = 0,
+            questionChoices: [WellArchitectedClientTypes.ProfileChoice]? = nil,
+            questionDescription: Swift.String? = nil,
+            questionId: Swift.String? = nil,
+            questionTitle: Swift.String? = nil,
+            selectedChoiceIds: [Swift.String]? = nil
+        )
+        {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileQuestionUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case questionId = "QuestionId"
+        case selectedChoiceIds = "SelectedChoiceIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let selectedChoiceIds = selectedChoiceIds {
+            var selectedChoiceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoiceIds)
+            for choiceid0 in selectedChoiceIds {
+                try selectedChoiceIdsContainer.encode(choiceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let selectedChoiceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedChoiceIds)
+        var selectedChoiceIdsDecoded0:[Swift.String]? = nil
+        if let selectedChoiceIdsContainer = selectedChoiceIdsContainer {
+            selectedChoiceIdsDecoded0 = [Swift.String]()
+            for string0 in selectedChoiceIdsContainer {
+                if let string0 = string0 {
+                    selectedChoiceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedChoiceIds = selectedChoiceIdsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// An update to a profile question.
+    public struct ProfileQuestionUpdate: Swift.Equatable {
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The selected choices.
+        public var selectedChoiceIds: [Swift.String]?
+
+        public init(
+            questionId: Swift.String? = nil,
+            selectedChoiceIds: [Swift.String]? = nil
+        )
+        {
+            self.questionId = questionId
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileShareSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareId = "ShareId"
+        case sharedWith = "SharedWith"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let shareId = self.shareId {
+            try encodeContainer.encode(shareId, forKey: .shareId)
+        }
+        if let sharedWith = self.sharedWith {
+            try encodeContainer.encode(sharedWith, forKey: .sharedWith)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let sharedWithDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedWith)
+        sharedWith = sharedWithDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Summary of a profile share.
+    public struct ProfileShareSummary: Swift.Equatable {
+        /// The ID associated with the share.
+        public var shareId: Swift.String?
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        public var sharedWith: Swift.String?
+        /// The status of the share request.
+        public var status: WellArchitectedClientTypes.ShareStatus?
+        /// Profile share invitation status message.
+        public var statusMessage: Swift.String?
+
+        public init(
+            shareId: Swift.String? = nil,
+            sharedWith: Swift.String? = nil,
+            status: WellArchitectedClientTypes.ShareStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.shareId = shareId
+            self.sharedWith = sharedWith
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case owner = "Owner"
+        case profileArn = "ProfileArn"
+        case profileDescription = "ProfileDescription"
+        case profileName = "ProfileName"
+        case profileVersion = "ProfileVersion"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
+        }
+        if let profileDescription = self.profileDescription {
+            try encodeContainer.encode(profileDescription, forKey: .profileDescription)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
+        }
+        if let profileVersion = self.profileVersion {
+            try encodeContainer.encode(profileVersion, forKey: .profileVersion)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+        let profileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersion)
+        profileVersion = profileVersionDecoded
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let profileDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileDescription)
+        profileDescription = profileDescriptionDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Summary of a profile.
+    public struct ProfileSummary: Swift.Equatable {
+        /// The date and time recorded.
+        public var createdAt: ClientRuntime.Date?
+        /// An Amazon Web Services account ID.
+        public var owner: Swift.String?
+        /// The profile ARN.
+        public var profileArn: Swift.String?
+        /// The profile description.
+        public var profileDescription: Swift.String?
+        /// The profile name.
+        public var profileName: Swift.String?
+        /// The profile version.
+        public var profileVersion: Swift.String?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            owner: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            profileDescription: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            profileVersion: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileVersion = profileVersion
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case templateName = "TemplateName"
+        case templateQuestions = "TemplateQuestions"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+        if let templateQuestions = templateQuestions {
+            var templateQuestionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .templateQuestions)
+            for profiletemplatequestion0 in templateQuestions {
+                try templateQuestionsContainer.encode(profiletemplatequestion0)
+            }
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateQuestionsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileTemplateQuestion?].self, forKey: .templateQuestions)
+        var templateQuestionsDecoded0:[WellArchitectedClientTypes.ProfileTemplateQuestion]? = nil
+        if let templateQuestionsContainer = templateQuestionsContainer {
+            templateQuestionsDecoded0 = [WellArchitectedClientTypes.ProfileTemplateQuestion]()
+            for structure0 in templateQuestionsContainer {
+                if let structure0 = structure0 {
+                    templateQuestionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        templateQuestions = templateQuestionsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The profile template.
+    public struct ProfileTemplate: Swift.Equatable {
+        /// The date and time recorded.
+        public var createdAt: ClientRuntime.Date?
+        /// The name of the profile template.
+        public var templateName: Swift.String?
+        /// Profile template questions.
+        public var templateQuestions: [WellArchitectedClientTypes.ProfileTemplateQuestion]?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            templateName: Swift.String? = nil,
+            templateQuestions: [WellArchitectedClientTypes.ProfileTemplateQuestion]? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.templateName = templateName
+            self.templateQuestions = templateQuestions
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileTemplateChoice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case choiceDescription = "ChoiceDescription"
+        case choiceId = "ChoiceId"
+        case choiceTitle = "ChoiceTitle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let choiceDescription = self.choiceDescription {
+            try encodeContainer.encode(choiceDescription, forKey: .choiceDescription)
+        }
+        if let choiceId = self.choiceId {
+            try encodeContainer.encode(choiceId, forKey: .choiceId)
+        }
+        if let choiceTitle = self.choiceTitle {
+            try encodeContainer.encode(choiceTitle, forKey: .choiceTitle)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let choiceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceId)
+        choiceId = choiceIdDecoded
+        let choiceTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceTitle)
+        choiceTitle = choiceTitleDecoded
+        let choiceDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceDescription)
+        choiceDescription = choiceDescriptionDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A profile template choice.
+    public struct ProfileTemplateChoice: Swift.Equatable {
+        /// The description of a choice.
+        public var choiceDescription: Swift.String?
+        /// The ID of a choice.
+        public var choiceId: Swift.String?
+        /// The title of a choice.
+        public var choiceTitle: Swift.String?
+
+        public init(
+            choiceDescription: Swift.String? = nil,
+            choiceId: Swift.String? = nil,
+            choiceTitle: Swift.String? = nil
+        )
+        {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ProfileTemplateQuestion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxSelectedChoices = "MaxSelectedChoices"
+        case minSelectedChoices = "MinSelectedChoices"
+        case questionChoices = "QuestionChoices"
+        case questionDescription = "QuestionDescription"
+        case questionId = "QuestionId"
+        case questionTitle = "QuestionTitle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if maxSelectedChoices != 0 {
+            try encodeContainer.encode(maxSelectedChoices, forKey: .maxSelectedChoices)
+        }
+        if minSelectedChoices != 0 {
+            try encodeContainer.encode(minSelectedChoices, forKey: .minSelectedChoices)
+        }
+        if let questionChoices = questionChoices {
+            var questionChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .questionChoices)
+            for profiletemplatechoice0 in questionChoices {
+                try questionChoicesContainer.encode(profiletemplatechoice0)
+            }
+        }
+        if let questionDescription = self.questionDescription {
+            try encodeContainer.encode(questionDescription, forKey: .questionDescription)
+        }
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let questionTitle = self.questionTitle {
+            try encodeContainer.encode(questionTitle, forKey: .questionTitle)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let questionTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionTitle)
+        questionTitle = questionTitleDecoded
+        let questionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionDescription)
+        questionDescription = questionDescriptionDecoded
+        let questionChoicesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileTemplateChoice?].self, forKey: .questionChoices)
+        var questionChoicesDecoded0:[WellArchitectedClientTypes.ProfileTemplateChoice]? = nil
+        if let questionChoicesContainer = questionChoicesContainer {
+            questionChoicesDecoded0 = [WellArchitectedClientTypes.ProfileTemplateChoice]()
+            for structure0 in questionChoicesContainer {
+                if let structure0 = structure0 {
+                    questionChoicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        questionChoices = questionChoicesDecoded0
+        let minSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSelectedChoices) ?? 0
+        minSelectedChoices = minSelectedChoicesDecoded
+        let maxSelectedChoicesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSelectedChoices) ?? 0
+        maxSelectedChoices = maxSelectedChoicesDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A profile template question.
+    public struct ProfileTemplateQuestion: Swift.Equatable {
+        /// The maximum number of choices selected.
+        public var maxSelectedChoices: Swift.Int
+        /// The minimum number of choices selected.
+        public var minSelectedChoices: Swift.Int
+        /// The question choices.
+        public var questionChoices: [WellArchitectedClientTypes.ProfileTemplateChoice]?
+        /// The description of the question.
+        public var questionDescription: Swift.String?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The title of the question.
+        public var questionTitle: Swift.String?
+
+        public init(
+            maxSelectedChoices: Swift.Int = 0,
+            minSelectedChoices: Swift.Int = 0,
+            questionChoices: [WellArchitectedClientTypes.ProfileTemplateChoice]? = nil,
+            questionDescription: Swift.String? = nil,
+            questionId: Swift.String? = nil,
+            questionTitle: Swift.String? = nil
+        )
+        {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
         }
     }
 
@@ -8393,6 +10754,70 @@ extension WellArchitectedClientTypes {
         }
     }
 
+}
+
+extension WellArchitectedClientTypes {
+    public enum QuestionPriority: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuestionPriority] {
+            return [
+                .none,
+                .prioritized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .prioritized: return "PRIORITIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuestionPriority(rawValue: rawValue) ?? QuestionPriority.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+    public enum QuestionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nonPrioritized
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuestionType] {
+            return [
+                .nonPrioritized,
+                .prioritized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nonPrioritized: return "NON_PRIORITIZED"
+            case .prioritized: return "PRIORITIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuestionType(rawValue: rawValue) ?? QuestionType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WellArchitectedClientTypes {
@@ -8651,6 +11076,7 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensAlias = "LensAlias"
         case lensArn = "LensArn"
+        case profileArn = "ProfileArn"
         case shareInvitationId = "ShareInvitationId"
         case shareResourceType = "ShareResourceType"
         case workloadId = "WorkloadId"
@@ -8663,6 +11089,9 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
         }
         if let lensArn = self.lensArn {
             try encodeContainer.encode(lensArn, forKey: .lensArn)
+        }
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
         }
         if let shareInvitationId = self.shareInvitationId {
             try encodeContainer.encode(shareInvitationId, forKey: .shareInvitationId)
@@ -8687,6 +11116,8 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
         lensAlias = lensAliasDecoded
         let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
         lensArn = lensArnDecoded
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
     }
 }
 
@@ -8697,6 +11128,8 @@ extension WellArchitectedClientTypes {
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
+        /// The profile ARN.
+        public var profileArn: Swift.String?
         /// The ID assigned to the share invitation.
         public var shareInvitationId: Swift.String?
         /// The resource type of the share invitation.
@@ -8707,6 +11140,7 @@ extension WellArchitectedClientTypes {
         public init(
             lensAlias: Swift.String? = nil,
             lensArn: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
             shareInvitationId: Swift.String? = nil,
             shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
             workloadId: Swift.String? = nil
@@ -8714,6 +11148,7 @@ extension WellArchitectedClientTypes {
         {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
+            self.profileArn = profileArn
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
             self.workloadId = workloadId
@@ -8760,6 +11195,8 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         case lensArn = "LensArn"
         case lensName = "LensName"
         case permissionType = "PermissionType"
+        case profileArn = "ProfileArn"
+        case profileName = "ProfileName"
         case shareInvitationId = "ShareInvitationId"
         case shareResourceType = "ShareResourceType"
         case sharedBy = "SharedBy"
@@ -8778,6 +11215,12 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         }
         if let permissionType = self.permissionType {
             try encodeContainer.encode(permissionType.rawValue, forKey: .permissionType)
+        }
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
+        }
+        if let profileName = self.profileName {
+            try encodeContainer.encode(profileName, forKey: .profileName)
         }
         if let shareInvitationId = self.shareInvitationId {
             try encodeContainer.encode(shareInvitationId, forKey: .shareInvitationId)
@@ -8819,6 +11262,10 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         lensName = lensNameDecoded
         let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
         lensArn = lensArnDecoded
+        let profileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileName)
+        profileName = profileNameDecoded
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
     }
 }
 
@@ -8829,15 +11276,19 @@ extension WellArchitectedClientTypes {
         public var lensArn: Swift.String?
         /// The full name of the lens.
         public var lensName: Swift.String?
-        /// Permission granted on a workload share.
+        /// Permission granted on a share request.
         public var permissionType: WellArchitectedClientTypes.PermissionType?
+        /// The profile ARN.
+        public var profileArn: Swift.String?
+        /// The profile name.
+        public var profileName: Swift.String?
         /// The ID assigned to the share invitation.
         public var shareInvitationId: Swift.String?
         /// The resource type of the share invitation.
         public var shareResourceType: WellArchitectedClientTypes.ShareResourceType?
         /// An Amazon Web Services account ID.
         public var sharedBy: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
         public var sharedWith: Swift.String?
         /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
         public var workloadId: Swift.String?
@@ -8848,6 +11299,8 @@ extension WellArchitectedClientTypes {
             lensArn: Swift.String? = nil,
             lensName: Swift.String? = nil,
             permissionType: WellArchitectedClientTypes.PermissionType? = nil,
+            profileArn: Swift.String? = nil,
+            profileName: Swift.String? = nil,
             shareInvitationId: Swift.String? = nil,
             shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
             sharedBy: Swift.String? = nil,
@@ -8859,6 +11312,8 @@ extension WellArchitectedClientTypes {
             self.lensArn = lensArn
             self.lensName = lensName
             self.permissionType = permissionType
+            self.profileArn = profileArn
+            self.profileName = profileName
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
             self.sharedBy = sharedBy
@@ -8873,12 +11328,14 @@ extension WellArchitectedClientTypes {
 extension WellArchitectedClientTypes {
     public enum ShareResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case lens
+        case profile
         case workload
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ShareResourceType] {
             return [
                 .lens,
+                .profile,
                 .workload,
                 .sdkUnknown("")
             ]
@@ -8890,6 +11347,7 @@ extension WellArchitectedClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lens: return "LENS"
+            case .profile: return "PROFILE"
             case .workload: return "WORKLOAD"
             case let .sdkUnknown(s): return s
             }
@@ -8903,7 +11361,7 @@ extension WellArchitectedClientTypes {
 }
 
 extension WellArchitectedClientTypes {
-    /// The status of a workload share.
+    /// The status of the share request.
     public enum ShareStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accepted
         case associated
@@ -9697,6 +12155,141 @@ extension UpdateLensReviewOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileDescription = "ProfileDescription"
+        case profileQuestions = "ProfileQuestions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profileDescription = self.profileDescription {
+            try encodeContainer.encode(profileDescription, forKey: .profileDescription)
+        }
+        if let profileQuestions = profileQuestions {
+            var profileQuestionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileQuestions)
+            for profilequestionupdate0 in profileQuestions {
+                try profileQuestionsContainer.encode(profilequestionupdate0)
+            }
+        }
+    }
+}
+
+extension UpdateProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/profiles/\(profileArn.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateProfileInput: Swift.Equatable {
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The profile description.
+    public var profileDescription: Swift.String?
+    /// Profile questions.
+    public var profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
+
+    public init(
+        profileArn: Swift.String? = nil,
+        profileDescription: Swift.String? = nil,
+        profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil
+    )
+    {
+        self.profileArn = profileArn
+        self.profileDescription = profileDescription
+        self.profileQuestions = profileQuestions
+    }
+}
+
+struct UpdateProfileInputBody: Swift.Equatable {
+    let profileDescription: Swift.String?
+    let profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
+}
+
+extension UpdateProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileDescription = "ProfileDescription"
+        case profileQuestions = "ProfileQuestions"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileDescription)
+        profileDescription = profileDescriptionDecoded
+        let profileQuestionsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ProfileQuestionUpdate?].self, forKey: .profileQuestions)
+        var profileQuestionsDecoded0:[WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil
+        if let profileQuestionsContainer = profileQuestionsContainer {
+            profileQuestionsDecoded0 = [WellArchitectedClientTypes.ProfileQuestionUpdate]()
+            for structure0 in profileQuestionsContainer {
+                if let structure0 = structure0 {
+                    profileQuestionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        profileQuestions = profileQuestionsDecoded0
+    }
+}
+
+public enum UpdateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct UpdateProfileOutputResponse: Swift.Equatable {
+    /// The profile.
+    public var profile: WellArchitectedClientTypes.Profile?
+
+    public init(
+        profile: WellArchitectedClientTypes.Profile? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct UpdateProfileOutputResponseBody: Swift.Equatable {
+    let profile: WellArchitectedClientTypes.Profile?
+}
+
+extension UpdateProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile = "Profile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
 extension UpdateShareInvitationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shareInvitationAction = "ShareInvitationAction"
@@ -10244,10 +12837,10 @@ extension UpdateWorkloadShareInput: ClientRuntime.URLPathProvider {
 
 /// Input for Update Workload Share
 public struct UpdateWorkloadShareInput: Swift.Equatable {
-    /// Permission granted on a workload share.
+    /// Permission granted on a share request.
     /// This member is required.
     public var permissionType: WellArchitectedClientTypes.PermissionType?
-    /// The ID associated with the workload share.
+    /// The ID associated with the share.
     /// This member is required.
     public var shareId: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -10447,6 +13040,107 @@ extension UpgradeLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpgradeLensReviewOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension UpgradeProfileVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case milestoneName = "MilestoneName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let milestoneName = self.milestoneName {
+            try encodeContainer.encode(milestoneName, forKey: .milestoneName)
+        }
+    }
+}
+
+extension UpgradeProfileVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workloadId = workloadId else {
+            return nil
+        }
+        guard let profileArn = profileArn else {
+            return nil
+        }
+        return "/workloads/\(workloadId.urlPercentEncoding())/profiles/\(profileArn.urlPercentEncoding())/upgrade"
+    }
+}
+
+public struct UpgradeProfileVersionInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    public var clientRequestToken: Swift.String?
+    /// The name of the milestone in a workload. Milestone names must be unique within a workload.
+    public var milestoneName: Swift.String?
+    /// The profile ARN.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        milestoneName: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.milestoneName = milestoneName
+        self.profileArn = profileArn
+        self.workloadId = workloadId
+    }
+}
+
+struct UpgradeProfileVersionInputBody: Swift.Equatable {
+    let milestoneName: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension UpgradeProfileVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case milestoneName = "MilestoneName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let milestoneNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .milestoneName)
+        milestoneName = milestoneNameDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+public enum UpgradeProfileVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpgradeProfileVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpgradeProfileVersionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -10688,6 +13382,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         case notes = "Notes"
         case owner = "Owner"
         case pillarPriorities = "PillarPriorities"
+        case prioritizedRiskCounts = "PrioritizedRiskCounts"
+        case profiles = "Profiles"
         case reviewOwner = "ReviewOwner"
         case reviewRestrictionDate = "ReviewRestrictionDate"
         case riskCounts = "RiskCounts"
@@ -10765,6 +13461,18 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
             var pillarPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarPriorities)
             for pillarid0 in pillarPriorities {
                 try pillarPrioritiesContainer.encode(pillarid0)
+            }
+        }
+        if let prioritizedRiskCounts = prioritizedRiskCounts {
+            var prioritizedRiskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .prioritizedRiskCounts)
+            for (dictKey0, riskCounts0) in prioritizedRiskCounts {
+                try prioritizedRiskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profiles)
+            for workloadprofile0 in profiles {
+                try profilesContainer.encode(workloadprofile0)
             }
         }
         if let reviewOwner = self.reviewOwner {
@@ -10926,6 +13634,28 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
             }
         }
         applications = applicationsDecoded0
+        let profilesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.WorkloadProfile?].self, forKey: .profiles)
+        var profilesDecoded0:[WellArchitectedClientTypes.WorkloadProfile]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [WellArchitectedClientTypes.WorkloadProfile]()
+            for structure0 in profilesContainer {
+                if let structure0 = structure0 {
+                    profilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profiles = profilesDecoded0
+        let prioritizedRiskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .prioritizedRiskCounts)
+        var prioritizedRiskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let prioritizedRiskCountsContainer = prioritizedRiskCountsContainer {
+            prioritizedRiskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in prioritizedRiskCountsContainer {
+                if let count0 = count0 {
+                    prioritizedRiskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        prioritizedRiskCounts = prioritizedRiskCountsDecoded0
     }
 }
 
@@ -11018,6 +13748,10 @@ extension WellArchitectedClientTypes {
         public var owner: Swift.String?
         /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its [PillarReviewSummary$PillarId].
         public var pillarPriorities: [Swift.String]?
+        /// A map from risk names to the count of how many questions have that rating.
+        public var prioritizedRiskCounts: [Swift.String:Swift.Int]?
+        /// Profile associated with a workload.
+        public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process.
         public var reviewOwner: Swift.String?
         /// The date and time recorded.
@@ -11054,6 +13788,8 @@ extension WellArchitectedClientTypes {
             notes: Swift.String? = nil,
             owner: Swift.String? = nil,
             pillarPriorities: [Swift.String]? = nil,
+            prioritizedRiskCounts: [Swift.String:Swift.Int]? = nil,
+            profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             reviewOwner: Swift.String? = nil,
             reviewRestrictionDate: ClientRuntime.Date? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil,
@@ -11081,6 +13817,8 @@ extension WellArchitectedClientTypes {
             self.notes = notes
             self.owner = owner
             self.pillarPriorities = pillarPriorities
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.reviewOwner = reviewOwner
             self.reviewRestrictionDate = reviewRestrictionDate
             self.riskCounts = riskCounts
@@ -11227,6 +13965,51 @@ extension WellArchitectedClientTypes {
     }
 }
 
+extension WellArchitectedClientTypes.WorkloadProfile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArn = "ProfileArn"
+        case profileVersion = "ProfileVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profileArn = self.profileArn {
+            try encodeContainer.encode(profileArn, forKey: .profileArn)
+        }
+        if let profileVersion = self.profileVersion {
+            try encodeContainer.encode(profileVersion, forKey: .profileVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+        let profileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersion)
+        profileVersion = profileVersionDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The profile associated with a workload.
+    public struct WorkloadProfile: Swift.Equatable {
+        /// The profile ARN.
+        public var profileArn: Swift.String?
+        /// The profile version.
+        public var profileVersion: Swift.String?
+
+        public init(
+            profileArn: Swift.String? = nil,
+            profileVersion: Swift.String? = nil
+        )
+        {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+    }
+
+}
+
 extension WellArchitectedClientTypes.WorkloadShare: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case permissionType = "PermissionType"
@@ -11285,15 +14068,15 @@ extension WellArchitectedClientTypes.WorkloadShare: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A workload share return object.
     public struct WorkloadShare: Swift.Equatable {
-        /// Permission granted on a workload share.
+        /// Permission granted on a share request.
         public var permissionType: WellArchitectedClientTypes.PermissionType?
-        /// The ID associated with the workload share.
+        /// The ID associated with the share.
         public var shareId: Swift.String?
         /// An Amazon Web Services account ID.
         public var sharedBy: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
         public var sharedWith: Swift.String?
-        /// The status of a workload share.
+        /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
         /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
         public var workloadId: Swift.String?
@@ -11368,13 +14151,13 @@ extension WellArchitectedClientTypes.WorkloadShareSummary: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A workload share summary return object.
     public struct WorkloadShareSummary: Swift.Equatable {
-        /// Permission granted on a workload share.
+        /// Permission granted on a share request.
         public var permissionType: WellArchitectedClientTypes.PermissionType?
-        /// The ID associated with the workload share.
+        /// The ID associated with the share.
         public var shareId: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
         public var sharedWith: Swift.String?
-        /// The status of a workload share.
+        /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
         /// Optional message to compliment the Status field.
         public var statusMessage: Swift.String?
@@ -11402,6 +14185,8 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
         case improvementStatus = "ImprovementStatus"
         case lenses = "Lenses"
         case owner = "Owner"
+        case prioritizedRiskCounts = "PrioritizedRiskCounts"
+        case profiles = "Profiles"
         case riskCounts = "RiskCounts"
         case updatedAt = "UpdatedAt"
         case workloadArn = "WorkloadArn"
@@ -11422,6 +14207,18 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
         }
         if let owner = self.owner {
             try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let prioritizedRiskCounts = prioritizedRiskCounts {
+            var prioritizedRiskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .prioritizedRiskCounts)
+            for (dictKey0, riskCounts0) in prioritizedRiskCounts {
+                try prioritizedRiskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profiles)
+            for workloadprofile0 in profiles {
+                try profilesContainer.encode(workloadprofile0)
+            }
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
@@ -11479,6 +14276,28 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
         riskCounts = riskCountsDecoded0
         let improvementStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadImprovementStatus.self, forKey: .improvementStatus)
         improvementStatus = improvementStatusDecoded
+        let profilesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.WorkloadProfile?].self, forKey: .profiles)
+        var profilesDecoded0:[WellArchitectedClientTypes.WorkloadProfile]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [WellArchitectedClientTypes.WorkloadProfile]()
+            for structure0 in profilesContainer {
+                if let structure0 = structure0 {
+                    profilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        profiles = profilesDecoded0
+        let prioritizedRiskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .prioritizedRiskCounts)
+        var prioritizedRiskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let prioritizedRiskCountsContainer = prioritizedRiskCountsContainer {
+            prioritizedRiskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in prioritizedRiskCountsContainer {
+                if let count0 = count0 {
+                    prioritizedRiskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        prioritizedRiskCounts = prioritizedRiskCountsDecoded0
     }
 }
 
@@ -11491,6 +14310,10 @@ extension WellArchitectedClientTypes {
         public var lenses: [Swift.String]?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
+        /// A map from risk names to the count of how many questions have that rating.
+        public var prioritizedRiskCounts: [Swift.String:Swift.Int]?
+        /// Profile associated with a workload.
+        public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
@@ -11506,6 +14329,8 @@ extension WellArchitectedClientTypes {
             improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus? = nil,
             lenses: [Swift.String]? = nil,
             owner: Swift.String? = nil,
+            prioritizedRiskCounts: [Swift.String:Swift.Int]? = nil,
+            profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             riskCounts: [Swift.String:Swift.Int]? = nil,
             updatedAt: ClientRuntime.Date? = nil,
             workloadArn: Swift.String? = nil,
@@ -11516,6 +14341,8 @@ extension WellArchitectedClientTypes {
             self.improvementStatus = improvementStatus
             self.lenses = lenses
             self.owner = owner
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
             self.workloadArn = workloadArn

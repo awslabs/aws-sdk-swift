@@ -357,11 +357,11 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// The ARN of the principal (user, role, or group). The supported value is a fully defined [IAM] ARN(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) if the PrincipalType is IAM. If the PrincipalType is IAM_PATTERN, the supported value is an IAM ARN without an AccountID in the following format: arn:partition:iam:::resource-type/resource-id The resource-id can be either of the following:
+    /// The ARN of the principal (user, role, or group). If the PrincipalType is IAM, the supported value is a fully defined [IAM Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns). If the PrincipalType is IAM_PATTERN, the supported value is an IAM ARN without an AccountID in the following format: arn:partition:iam:::resource-type/resource-id The ARN resource-id can be either:
     ///
-    /// * Fully formed, for example arn:aws:iam:::role/resource-name or arn:aws:iam:::role/resource-path/resource-name
+    /// * A fully formed resource-id. For example, arn:aws:iam:::role/resource-name or arn:aws:iam:::role/resource-path/resource-name
     ///
-    /// * A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a "*" or "?" in the resource-id segment of the ARN, for example arn:partition:service:::resource-type/resource-path/resource-name. The new symbols are exclusive to the resource-path and resource-name and cannot be used to replace the resource-type or other ARN values.
+    /// * A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a "*" or "?" in the resource-id segment of the ARN. For example arn:partition:service:::resource-type/resource-path/resource-name. The new symbols are exclusive to the resource-path and resource-name and cannot replace the resource-type or other ARN values. The ARN path and principal name allow unlimited wildcard characters.
     ///
     ///
     /// Examples of an acceptable wildcard ARN:
@@ -376,20 +376,10 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     /// * arn:aws:iam:::*/ResourceName
     ///
     ///
-    /// You can associate multiple IAM_PATTERNs even if the account has no principal with that name.
-    ///
-    /// * The ARN path and principal name allow unlimited wildcard characters.
-    ///
-    /// * The "?" wildcard character matches zero or one of any character. This is similar to ".?" in regular regex context.
-    ///
-    /// * The "*" wildcard character matches any number of any characters. This is similar ".*" in regular regex context.
-    ///
-    /// * In the IAM Principal ARNs format (arn:partition:iam:::resource-type/resource-path/resource-name), valid resource-type values include user/, group/, or role/. The "?" and "*" are allowed only after the resource-type, in the resource-id segment. You can use special characters anywhere within the resource-id.
-    ///
-    /// * The "*" also matches the "/" character, allowing paths to be formed within the resource-id. For example, arn:aws:iam:::role/*/ResourceName_? matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1 and arn:aws:iam:::role/pathA/ResourceName_1.
+    /// You can associate multiple IAM_PATTERNs even if the account has no principal with that name. The "?" wildcard character matches zero or one of any character. This is similar to ".?" in regular regex context. The "*" wildcard character matches any number of any characters. This is similar to ".*" in regular regex context. In the IAM Principal ARN format (arn:partition:iam:::resource-type/resource-path/resource-name), valid resource-type values include user/, group/, or role/. The "?" and "*" characters are allowed only after the resource-type in the resource-id segment. You can use special characters anywhere within the resource-id. The "*" character also matches the "/" character, allowing paths to be formed within the resource-id. For example, arn:aws:iam:::role/*/ResourceName_? matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1 and arn:aws:iam:::role/pathA/ResourceName_1.
     /// This member is required.
     public var principalARN: Swift.String?
-    /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard characters.
+    /// The principal type. The supported value is IAM if you use a fully defined Amazon Resource Name (ARN), or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard characters.
     /// This member is required.
     public var principalType: ServiceCatalogClientTypes.PrincipalType?
 
@@ -5662,6 +5652,7 @@ extension DescribeProvisionedProductPlanOutputResponseBody: Swift.Decodable {
 extension DescribeProvisioningArtifactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case includeProvisioningArtifactParameters = "IncludeProvisioningArtifactParameters"
         case productId = "ProductId"
         case productName = "ProductName"
         case provisioningArtifactId = "ProvisioningArtifactId"
@@ -5673,6 +5664,9 @@ extension DescribeProvisioningArtifactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
+        }
+        if let includeProvisioningArtifactParameters = self.includeProvisioningArtifactParameters {
+            try encodeContainer.encode(includeProvisioningArtifactParameters, forKey: .includeProvisioningArtifactParameters)
         }
         if let productId = self.productId {
             try encodeContainer.encode(productId, forKey: .productId)
@@ -5705,6 +5699,8 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
     ///
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
+    /// Indicates if the API call response does or does not include additional details about the provisioning parameters.
+    public var includeProvisioningArtifactParameters: Swift.Bool?
     /// The product identifier.
     public var productId: Swift.String?
     /// The product name.
@@ -5718,6 +5714,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
 
     public init(
         acceptLanguage: Swift.String? = nil,
+        includeProvisioningArtifactParameters: Swift.Bool? = nil,
         productId: Swift.String? = nil,
         productName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
@@ -5726,6 +5723,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
     )
     {
         self.acceptLanguage = acceptLanguage
+        self.includeProvisioningArtifactParameters = includeProvisioningArtifactParameters
         self.productId = productId
         self.productName = productName
         self.provisioningArtifactId = provisioningArtifactId
@@ -5741,11 +5739,13 @@ struct DescribeProvisioningArtifactInputBody: Swift.Equatable {
     let provisioningArtifactName: Swift.String?
     let productName: Swift.String?
     let verbose: Swift.Bool?
+    let includeProvisioningArtifactParameters: Swift.Bool?
 }
 
 extension DescribeProvisioningArtifactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case includeProvisioningArtifactParameters = "IncludeProvisioningArtifactParameters"
         case productId = "ProductId"
         case productName = "ProductName"
         case provisioningArtifactId = "ProvisioningArtifactId"
@@ -5767,6 +5767,8 @@ extension DescribeProvisioningArtifactInputBody: Swift.Decodable {
         productName = productNameDecoded
         let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose)
         verbose = verboseDecoded
+        let includeProvisioningArtifactParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeProvisioningArtifactParameters)
+        includeProvisioningArtifactParameters = includeProvisioningArtifactParametersDecoded
     }
 }
 
@@ -5789,10 +5791,12 @@ extension DescribeProvisioningArtifactOutputResponse: ClientRuntime.HttpResponse
             let output: DescribeProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
+            self.provisioningArtifactParameters = output.provisioningArtifactParameters
             self.status = output.status
         } else {
             self.info = nil
             self.provisioningArtifactDetail = nil
+            self.provisioningArtifactParameters = nil
             self.status = nil
         }
     }
@@ -5803,17 +5807,21 @@ public struct DescribeProvisioningArtifactOutputResponse: Swift.Equatable {
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
     public var provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
+    /// Information about the parameters used to provision the product.
+    public var provisioningArtifactParameters: [ServiceCatalogClientTypes.ProvisioningArtifactParameter]?
     /// The status of the current request.
     public var status: ServiceCatalogClientTypes.Status?
 
     public init(
         info: [Swift.String:Swift.String]? = nil,
         provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail? = nil,
+        provisioningArtifactParameters: [ServiceCatalogClientTypes.ProvisioningArtifactParameter]? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
     )
     {
         self.info = info
         self.provisioningArtifactDetail = provisioningArtifactDetail
+        self.provisioningArtifactParameters = provisioningArtifactParameters
         self.status = status
     }
 }
@@ -5822,12 +5830,14 @@ struct DescribeProvisioningArtifactOutputResponseBody: Swift.Equatable {
     let provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
     let info: [Swift.String:Swift.String]?
     let status: ServiceCatalogClientTypes.Status?
+    let provisioningArtifactParameters: [ServiceCatalogClientTypes.ProvisioningArtifactParameter]?
 }
 
 extension DescribeProvisioningArtifactOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case info = "Info"
         case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+        case provisioningArtifactParameters = "ProvisioningArtifactParameters"
         case status = "Status"
     }
 
@@ -5848,6 +5858,17 @@ extension DescribeProvisioningArtifactOutputResponseBody: Swift.Decodable {
         info = infoDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let provisioningArtifactParametersContainer = try containerValues.decodeIfPresent([ServiceCatalogClientTypes.ProvisioningArtifactParameter?].self, forKey: .provisioningArtifactParameters)
+        var provisioningArtifactParametersDecoded0:[ServiceCatalogClientTypes.ProvisioningArtifactParameter]? = nil
+        if let provisioningArtifactParametersContainer = provisioningArtifactParametersContainer {
+            provisioningArtifactParametersDecoded0 = [ServiceCatalogClientTypes.ProvisioningArtifactParameter]()
+            for structure0 in provisioningArtifactParametersContainer {
+                if let structure0 = structure0 {
+                    provisioningArtifactParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        provisioningArtifactParameters = provisioningArtifactParametersDecoded0
     }
 }
 
