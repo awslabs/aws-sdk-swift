@@ -156,6 +156,248 @@ extension RekognitionClientTypes {
 
 }
 
+extension AssociateFacesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
+        case userId = "UserId"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let faceIds = faceIds {
+            var faceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faceIds)
+            for faceid0 in faceIds {
+                try faceIdsContainer.encode(faceid0)
+            }
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+        if let userMatchThreshold = self.userMatchThreshold {
+            try encodeContainer.encode(userMatchThreshold, forKey: .userMatchThreshold)
+        }
+    }
+}
+
+extension AssociateFacesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AssociateFacesInput: Swift.Equatable {
+    /// Idempotent token used to identify the request to AssociateFaces. If you use the same token with multiple AssociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+    public var clientRequestToken: Swift.String?
+    /// The ID of an existing collection containing the UserID.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// An array of FaceIDs to associate with the UserID.
+    /// This member is required.
+    public var faceIds: [Swift.String]?
+    /// The ID for the existing UserID.
+    /// This member is required.
+    public var userId: Swift.String?
+    /// An optional value specifying the minimum confidence in the UserID match to return. The default value is 75.
+    public var userMatchThreshold: Swift.Float?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        collectionId: Swift.String? = nil,
+        faceIds: [Swift.String]? = nil,
+        userId: Swift.String? = nil,
+        userMatchThreshold: Swift.Float? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.collectionId = collectionId
+        self.faceIds = faceIds
+        self.userId = userId
+        self.userMatchThreshold = userMatchThreshold
+    }
+}
+
+struct AssociateFacesInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let userId: Swift.String?
+    let faceIds: [Swift.String]?
+    let userMatchThreshold: Swift.Float?
+    let clientRequestToken: Swift.String?
+}
+
+extension AssociateFacesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
+        case userId = "UserId"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let faceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .faceIds)
+        var faceIdsDecoded0:[Swift.String]? = nil
+        if let faceIdsContainer = faceIdsContainer {
+            faceIdsDecoded0 = [Swift.String]()
+            for string0 in faceIdsContainer {
+                if let string0 = string0 {
+                    faceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        faceIds = faceIdsDecoded0
+        let userMatchThresholdDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .userMatchThreshold)
+        userMatchThreshold = userMatchThresholdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+public enum AssociateFacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateFacesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateFacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.associatedFaces = output.associatedFaces
+            self.unsuccessfulFaceAssociations = output.unsuccessfulFaceAssociations
+            self.userStatus = output.userStatus
+        } else {
+            self.associatedFaces = nil
+            self.unsuccessfulFaceAssociations = nil
+            self.userStatus = nil
+        }
+    }
+}
+
+public struct AssociateFacesOutputResponse: Swift.Equatable {
+    /// An array of AssociatedFace objects containing FaceIDs that are successfully associated with the UserID is returned. Returned if the AssociateFaces action is successful.
+    public var associatedFaces: [RekognitionClientTypes.AssociatedFace]?
+    /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
+    public var unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
+    /// The status of an update made to a UserID. Reflects if the UserID has been updated for every requested change.
+    public var userStatus: RekognitionClientTypes.UserStatus?
+
+    public init(
+        associatedFaces: [RekognitionClientTypes.AssociatedFace]? = nil,
+        unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]? = nil,
+        userStatus: RekognitionClientTypes.UserStatus? = nil
+    )
+    {
+        self.associatedFaces = associatedFaces
+        self.unsuccessfulFaceAssociations = unsuccessfulFaceAssociations
+        self.userStatus = userStatus
+    }
+}
+
+struct AssociateFacesOutputResponseBody: Swift.Equatable {
+    let associatedFaces: [RekognitionClientTypes.AssociatedFace]?
+    let unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
+    let userStatus: RekognitionClientTypes.UserStatus?
+}
+
+extension AssociateFacesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedFaces = "AssociatedFaces"
+        case unsuccessfulFaceAssociations = "UnsuccessfulFaceAssociations"
+        case userStatus = "UserStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associatedFacesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.AssociatedFace?].self, forKey: .associatedFaces)
+        var associatedFacesDecoded0:[RekognitionClientTypes.AssociatedFace]? = nil
+        if let associatedFacesContainer = associatedFacesContainer {
+            associatedFacesDecoded0 = [RekognitionClientTypes.AssociatedFace]()
+            for structure0 in associatedFacesContainer {
+                if let structure0 = structure0 {
+                    associatedFacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        associatedFaces = associatedFacesDecoded0
+        let unsuccessfulFaceAssociationsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceAssociation?].self, forKey: .unsuccessfulFaceAssociations)
+        var unsuccessfulFaceAssociationsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceAssociation]? = nil
+        if let unsuccessfulFaceAssociationsContainer = unsuccessfulFaceAssociationsContainer {
+            unsuccessfulFaceAssociationsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceAssociation]()
+            for structure0 in unsuccessfulFaceAssociationsContainer {
+                if let structure0 = structure0 {
+                    unsuccessfulFaceAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unsuccessfulFaceAssociations = unsuccessfulFaceAssociationsDecoded0
+        let userStatusDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.UserStatus.self, forKey: .userStatus)
+        userStatus = userStatusDecoded
+    }
+}
+
+extension RekognitionClientTypes.AssociatedFace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceId = "FaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Provides face metadata for the faces that are associated to a specific UserID.
+    public struct AssociatedFace: Swift.Equatable {
+        /// Unique identifier assigned to the face.
+        public var faceId: Swift.String?
+
+        public init(
+            faceId: Swift.String? = nil
+        )
+        {
+            self.faceId = faceId
+        }
+    }
+
+}
+
 extension RekognitionClientTypes {
     public enum Attribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ageRange
@@ -1231,6 +1473,80 @@ extension RekognitionClientTypes {
         }
     }
 
+}
+
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.code = output.code
+            self.properties.logref = output.logref
+            self.properties.message = output.message
+        } else {
+            self.properties.code = nil
+            self.properties.logref = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A User with the same Id already exists within the collection, or the update or deletion of the User caused an inconsistent state. **
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        /// A universally unique identifier (UUID) for the request.
+        public internal(set) var logref: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        logref: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.code = code
+        self.properties.logref = logref
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let code: Swift.String?
+    let logref: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case logref = "Logref"
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let logrefDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logref)
+        logref = logrefDecoded
+    }
 }
 
 extension RekognitionClientTypes.ConnectedHomeSettings: Swift.Codable {
@@ -2774,6 +3090,108 @@ extension CreateStreamProcessorOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension CreateUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateUserInput: Swift.Equatable {
+    /// Idempotent token used to identify the request to CreateUser. If you use the same token with multiple CreateUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+    public var clientRequestToken: Swift.String?
+    /// The ID of an existing collection to which the new UserID needs to be created.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// ID for the UserID to be created. This ID needs to be unique within the collection.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        collectionId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.collectionId = collectionId
+        self.userId = userId
+    }
+}
+
+struct CreateUserInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let userId: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case userId = "UserId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+public enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateUserOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension RekognitionClientTypes.CustomLabel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case confidence = "Confidence"
@@ -3624,8 +4042,10 @@ extension DeleteFacesOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DeleteFacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deletedFaces = output.deletedFaces
+            self.unsuccessfulFaceDeletions = output.unsuccessfulFaceDeletions
         } else {
             self.deletedFaces = nil
+            self.unsuccessfulFaceDeletions = nil
         }
     }
 }
@@ -3633,22 +4053,28 @@ extension DeleteFacesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteFacesOutputResponse: Swift.Equatable {
     /// An array of strings (face IDs) of the faces that were deleted.
     public var deletedFaces: [Swift.String]?
+    /// An array of any faces that weren't deleted.
+    public var unsuccessfulFaceDeletions: [RekognitionClientTypes.UnsuccessfulFaceDeletion]?
 
     public init(
-        deletedFaces: [Swift.String]? = nil
+        deletedFaces: [Swift.String]? = nil,
+        unsuccessfulFaceDeletions: [RekognitionClientTypes.UnsuccessfulFaceDeletion]? = nil
     )
     {
         self.deletedFaces = deletedFaces
+        self.unsuccessfulFaceDeletions = unsuccessfulFaceDeletions
     }
 }
 
 struct DeleteFacesOutputResponseBody: Swift.Equatable {
     let deletedFaces: [Swift.String]?
+    let unsuccessfulFaceDeletions: [RekognitionClientTypes.UnsuccessfulFaceDeletion]?
 }
 
 extension DeleteFacesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletedFaces = "DeletedFaces"
+        case unsuccessfulFaceDeletions = "UnsuccessfulFaceDeletions"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3664,6 +4090,17 @@ extension DeleteFacesOutputResponseBody: Swift.Decodable {
             }
         }
         deletedFaces = deletedFacesDecoded0
+        let unsuccessfulFaceDeletionsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceDeletion?].self, forKey: .unsuccessfulFaceDeletions)
+        var unsuccessfulFaceDeletionsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceDeletion]? = nil
+        if let unsuccessfulFaceDeletionsContainer = unsuccessfulFaceDeletionsContainer {
+            unsuccessfulFaceDeletionsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceDeletion]()
+            for structure0 in unsuccessfulFaceDeletionsContainer {
+                if let structure0 = structure0 {
+                    unsuccessfulFaceDeletionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unsuccessfulFaceDeletions = unsuccessfulFaceDeletionsDecoded0
     }
 }
 
@@ -4052,6 +4489,107 @@ public struct DeleteStreamProcessorOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension DeleteUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteUserInput: Swift.Equatable {
+    /// Idempotent token used to identify the request to DeleteUser. If you use the same token with multiple DeleteUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+    public var clientRequestToken: Swift.String?
+    /// The ID of an existing collection from which the UserID needs to be deleted.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// ID for the UserID to be deleted.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        collectionId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.collectionId = collectionId
+        self.userId = userId
+    }
+}
+
+struct DeleteUserInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let userId: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension DeleteUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case userId = "UserId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+public enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteUserOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DescribeCollectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionId = "CollectionId"
@@ -4125,11 +4663,13 @@ extension DescribeCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.creationTimestamp = output.creationTimestamp
             self.faceCount = output.faceCount
             self.faceModelVersion = output.faceModelVersion
+            self.userCount = output.userCount
         } else {
             self.collectionARN = nil
             self.creationTimestamp = nil
             self.faceCount = nil
             self.faceModelVersion = nil
+            self.userCount = nil
         }
     }
 }
@@ -4143,18 +4683,22 @@ public struct DescribeCollectionOutputResponse: Swift.Equatable {
     public var faceCount: Swift.Int?
     /// The version of the face model that's used by the collection for face detection. For more information, see Model versioning in the Amazon Rekognition Developer Guide.
     public var faceModelVersion: Swift.String?
+    /// The number of UserIDs assigned to the specified colleciton.
+    public var userCount: Swift.Int?
 
     public init(
         collectionARN: Swift.String? = nil,
         creationTimestamp: ClientRuntime.Date? = nil,
         faceCount: Swift.Int? = nil,
-        faceModelVersion: Swift.String? = nil
+        faceModelVersion: Swift.String? = nil,
+        userCount: Swift.Int? = nil
     )
     {
         self.collectionARN = collectionARN
         self.creationTimestamp = creationTimestamp
         self.faceCount = faceCount
         self.faceModelVersion = faceModelVersion
+        self.userCount = userCount
     }
 }
 
@@ -4163,6 +4707,7 @@ struct DescribeCollectionOutputResponseBody: Swift.Equatable {
     let faceModelVersion: Swift.String?
     let collectionARN: Swift.String?
     let creationTimestamp: ClientRuntime.Date?
+    let userCount: Swift.Int?
 }
 
 extension DescribeCollectionOutputResponseBody: Swift.Decodable {
@@ -4171,6 +4716,7 @@ extension DescribeCollectionOutputResponseBody: Swift.Decodable {
         case creationTimestamp = "CreationTimestamp"
         case faceCount = "FaceCount"
         case faceModelVersion = "FaceModelVersion"
+        case userCount = "UserCount"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4183,6 +4729,8 @@ extension DescribeCollectionOutputResponseBody: Swift.Decodable {
         collectionARN = collectionARNDecoded
         let creationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTimestamp)
         creationTimestamp = creationTimestampDecoded
+        let userCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .userCount)
+        userCount = userCountDecoded
     }
 }
 
@@ -6286,6 +6834,235 @@ extension RekognitionClientTypes {
 
 }
 
+extension DisassociateFacesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let faceIds = faceIds {
+            var faceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faceIds)
+            for faceid0 in faceIds {
+                try faceIdsContainer.encode(faceid0)
+            }
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension DisassociateFacesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisassociateFacesInput: Swift.Equatable {
+    /// Idempotent token used to identify the request to DisassociateFaces. If you use the same token with multiple DisassociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+    public var clientRequestToken: Swift.String?
+    /// The ID of an existing collection containing the UserID.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// An array of face IDs to disassociate from the UserID.
+    /// This member is required.
+    public var faceIds: [Swift.String]?
+    /// ID for the existing UserID.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        collectionId: Swift.String? = nil,
+        faceIds: [Swift.String]? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.collectionId = collectionId
+        self.faceIds = faceIds
+        self.userId = userId
+    }
+}
+
+struct DisassociateFacesInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let userId: Swift.String?
+    let clientRequestToken: Swift.String?
+    let faceIds: [Swift.String]?
+}
+
+extension DisassociateFacesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
+        case userId = "UserId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let faceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .faceIds)
+        var faceIdsDecoded0:[Swift.String]? = nil
+        if let faceIdsContainer = faceIdsContainer {
+            faceIdsDecoded0 = [Swift.String]()
+            for string0 in faceIdsContainer {
+                if let string0 = string0 {
+                    faceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        faceIds = faceIdsDecoded0
+    }
+}
+
+public enum DisassociateFacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateFacesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisassociateFacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.disassociatedFaces = output.disassociatedFaces
+            self.unsuccessfulFaceDisassociations = output.unsuccessfulFaceDisassociations
+            self.userStatus = output.userStatus
+        } else {
+            self.disassociatedFaces = nil
+            self.unsuccessfulFaceDisassociations = nil
+            self.userStatus = nil
+        }
+    }
+}
+
+public struct DisassociateFacesOutputResponse: Swift.Equatable {
+    /// An array of DissociatedFace objects containing FaceIds that are successfully disassociated with the UserID is returned. Returned if the DisassociatedFaces action is successful.
+    public var disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]?
+    /// An array of UnsuccessfulDisassociation objects containing FaceIds that are not successfully associated, along with the reasons for the failure to associate. Returned if the DisassociateFaces action is successful.
+    public var unsuccessfulFaceDisassociations: [RekognitionClientTypes.UnsuccessfulFaceDisassociation]?
+    /// The status of an update made to a User. Reflects if the User has been updated for every requested change.
+    public var userStatus: RekognitionClientTypes.UserStatus?
+
+    public init(
+        disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]? = nil,
+        unsuccessfulFaceDisassociations: [RekognitionClientTypes.UnsuccessfulFaceDisassociation]? = nil,
+        userStatus: RekognitionClientTypes.UserStatus? = nil
+    )
+    {
+        self.disassociatedFaces = disassociatedFaces
+        self.unsuccessfulFaceDisassociations = unsuccessfulFaceDisassociations
+        self.userStatus = userStatus
+    }
+}
+
+struct DisassociateFacesOutputResponseBody: Swift.Equatable {
+    let disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]?
+    let unsuccessfulFaceDisassociations: [RekognitionClientTypes.UnsuccessfulFaceDisassociation]?
+    let userStatus: RekognitionClientTypes.UserStatus?
+}
+
+extension DisassociateFacesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case disassociatedFaces = "DisassociatedFaces"
+        case unsuccessfulFaceDisassociations = "UnsuccessfulFaceDisassociations"
+        case userStatus = "UserStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let disassociatedFacesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.DisassociatedFace?].self, forKey: .disassociatedFaces)
+        var disassociatedFacesDecoded0:[RekognitionClientTypes.DisassociatedFace]? = nil
+        if let disassociatedFacesContainer = disassociatedFacesContainer {
+            disassociatedFacesDecoded0 = [RekognitionClientTypes.DisassociatedFace]()
+            for structure0 in disassociatedFacesContainer {
+                if let structure0 = structure0 {
+                    disassociatedFacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        disassociatedFaces = disassociatedFacesDecoded0
+        let unsuccessfulFaceDisassociationsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceDisassociation?].self, forKey: .unsuccessfulFaceDisassociations)
+        var unsuccessfulFaceDisassociationsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceDisassociation]? = nil
+        if let unsuccessfulFaceDisassociationsContainer = unsuccessfulFaceDisassociationsContainer {
+            unsuccessfulFaceDisassociationsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceDisassociation]()
+            for structure0 in unsuccessfulFaceDisassociationsContainer {
+                if let structure0 = structure0 {
+                    unsuccessfulFaceDisassociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unsuccessfulFaceDisassociations = unsuccessfulFaceDisassociationsDecoded0
+        let userStatusDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.UserStatus.self, forKey: .userStatus)
+        userStatus = userStatusDecoded
+    }
+}
+
+extension RekognitionClientTypes.DisassociatedFace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceId = "FaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Provides face metadata for the faces that are disassociated from a specific UserID.
+    public struct DisassociatedFace: Swift.Equatable {
+        /// Unique identifier assigned to the face.
+        public var faceId: Swift.String?
+
+        public init(
+            faceId: Swift.String? = nil
+        )
+        {
+            self.faceId = faceId
+        }
+    }
+
+}
+
 extension RekognitionClientTypes.DistributeDataset: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -6865,6 +7642,7 @@ extension RekognitionClientTypes.Face: Swift.Codable {
         case faceId = "FaceId"
         case imageId = "ImageId"
         case indexFacesModelVersion = "IndexFacesModelVersion"
+        case userId = "UserId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6887,6 +7665,9 @@ extension RekognitionClientTypes.Face: Swift.Codable {
         if let indexFacesModelVersion = self.indexFacesModelVersion {
             try encodeContainer.encode(indexFacesModelVersion, forKey: .indexFacesModelVersion)
         }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6903,6 +7684,8 @@ extension RekognitionClientTypes.Face: Swift.Codable {
         confidence = confidenceDecoded
         let indexFacesModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexFacesModelVersion)
         indexFacesModelVersion = indexFacesModelVersionDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
     }
 }
 
@@ -6921,6 +7704,8 @@ extension RekognitionClientTypes {
         public var imageId: Swift.String?
         /// The version of the face detect and storage model that was used when indexing the face vector.
         public var indexFacesModelVersion: Swift.String?
+        /// Unique identifier assigned to the user.
+        public var userId: Swift.String?
 
         public init(
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
@@ -6928,7 +7713,8 @@ extension RekognitionClientTypes {
             externalImageId: Swift.String? = nil,
             faceId: Swift.String? = nil,
             imageId: Swift.String? = nil,
-            indexFacesModelVersion: Swift.String? = nil
+            indexFacesModelVersion: Swift.String? = nil,
+            userId: Swift.String? = nil
         )
         {
             self.boundingBox = boundingBox
@@ -6937,6 +7723,7 @@ extension RekognitionClientTypes {
             self.faceId = faceId
             self.imageId = imageId
             self.indexFacesModelVersion = indexFacesModelVersion
+            self.userId = userId
         }
     }
 
@@ -12581,8 +13368,10 @@ extension ListDatasetLabelsOutputResponseBody: Swift.Decodable {
 extension ListFacesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case userId = "UserId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12590,11 +13379,20 @@ extension ListFacesInput: Swift.Encodable {
         if let collectionId = self.collectionId {
             try encodeContainer.encode(collectionId, forKey: .collectionId)
         }
+        if let faceIds = faceIds {
+            var faceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faceIds)
+            for faceid0 in faceIds {
+                try faceIdsContainer.encode(faceid0)
+            }
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
         }
     }
 }
@@ -12609,20 +13407,28 @@ public struct ListFacesInput: Swift.Equatable {
     /// ID of the collection from which to list the faces.
     /// This member is required.
     public var collectionId: Swift.String?
+    /// An array of face IDs to match when listing faces in a collection.
+    public var faceIds: [Swift.String]?
     /// Maximum number of faces to return.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
     public var nextToken: Swift.String?
+    /// An array of user IDs to match when listing faces in a collection.
+    public var userId: Swift.String?
 
     public init(
         collectionId: Swift.String? = nil,
+        faceIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        userId: Swift.String? = nil
     )
     {
         self.collectionId = collectionId
+        self.faceIds = faceIds
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.userId = userId
     }
 }
 
@@ -12630,13 +13436,17 @@ struct ListFacesInputBody: Swift.Equatable {
     let collectionId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let userId: Swift.String?
+    let faceIds: [Swift.String]?
 }
 
 extension ListFacesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionId = "CollectionId"
+        case faceIds = "FaceIds"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case userId = "UserId"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12647,6 +13457,19 @@ extension ListFacesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let faceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .faceIds)
+        var faceIdsDecoded0:[Swift.String]? = nil
+        if let faceIdsContainer = faceIdsContainer {
+            faceIdsDecoded0 = [Swift.String]()
+            for string0 in faceIdsContainer {
+                if let string0 = string0 {
+                    faceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        faceIds = faceIdsDecoded0
     }
 }
 
@@ -13131,6 +13954,154 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListUsersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListUsersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListUsersInput: Swift.Equatable {
+    /// The ID of an existing collection.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// Maximum number of UsersID to return.
+    public var maxResults: Swift.Int?
+    /// Pagingation token to receive the next set of UsersID.
+    public var nextToken: Swift.String?
+
+    public init(
+        collectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.collectionId = collectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListUsersInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListUsersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.users = output.users
+        } else {
+            self.nextToken = nil
+            self.users = nil
+        }
+    }
+}
+
+public struct ListUsersOutputResponse: Swift.Equatable {
+    /// A pagination token to be used with the subsequent request if the response is truncated.
+    public var nextToken: Swift.String?
+    /// List of UsersID associated with the specified collection.
+    public var users: [RekognitionClientTypes.User]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        users: [RekognitionClientTypes.User]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.users = users
+    }
+}
+
+struct ListUsersOutputResponseBody: Swift.Equatable {
+    let users: [RekognitionClientTypes.User]?
+    let nextToken: Swift.String?
+}
+
+extension ListUsersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case users = "Users"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usersContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.User?].self, forKey: .users)
+        var usersDecoded0:[RekognitionClientTypes.User]? = nil
+        if let usersContainer = usersContainer {
+            usersDecoded0 = [RekognitionClientTypes.User]()
+            for structure0 in usersContainer {
+                if let structure0 = structure0 {
+                    usersDecoded0?.append(structure0)
+                }
+            }
+        }
+        users = usersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension RekognitionClientTypes.LivenessOutputConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Bucket = "S3Bucket"
@@ -13290,6 +14261,51 @@ extension MalformedPolicyDocumentExceptionBody: Swift.Decodable {
         let logrefDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logref)
         logref = logrefDecoded
     }
+}
+
+extension RekognitionClientTypes.MatchedUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userId = "UserId"
+        case userStatus = "UserStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+        if let userStatus = self.userStatus {
+            try encodeContainer.encode(userStatus.rawValue, forKey: .userStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let userStatusDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.UserStatus.self, forKey: .userStatus)
+        userStatus = userStatusDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata for a UserID matched with a given face.
+    public struct MatchedUser: Swift.Equatable {
+        /// A provided ID for the UserID. Unique within the collection.
+        public var userId: Swift.String?
+        /// The status of the user matched to a provided FaceID.
+        public var userStatus: RekognitionClientTypes.UserStatus?
+
+        public init(
+            userId: Swift.String? = nil,
+            userStatus: RekognitionClientTypes.UserStatus? = nil
+        )
+        {
+            self.userId = userId
+            self.userStatus = userStatus
+        }
+    }
+
 }
 
 extension RekognitionClientTypes.ModerationLabel: Swift.Codable {
@@ -15933,6 +16949,515 @@ extension SearchFacesOutputResponseBody: Swift.Decodable {
         let faceModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceModelVersion)
         faceModelVersion = faceModelVersionDecoded
     }
+}
+
+extension SearchUsersByImageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case image = "Image"
+        case maxUsers = "MaxUsers"
+        case qualityFilter = "QualityFilter"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let image = self.image {
+            try encodeContainer.encode(image, forKey: .image)
+        }
+        if let maxUsers = self.maxUsers {
+            try encodeContainer.encode(maxUsers, forKey: .maxUsers)
+        }
+        if let qualityFilter = self.qualityFilter {
+            try encodeContainer.encode(qualityFilter.rawValue, forKey: .qualityFilter)
+        }
+        if let userMatchThreshold = self.userMatchThreshold {
+            try encodeContainer.encode(userMatchThreshold, forKey: .userMatchThreshold)
+        }
+    }
+}
+
+extension SearchUsersByImageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SearchUsersByImageInput: Swift.Equatable {
+    /// The ID of an existing collection containing the UserID.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+    /// This member is required.
+    public var image: RekognitionClientTypes.Image?
+    /// Maximum number of UserIDs to return.
+    public var maxUsers: Swift.Int?
+    /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. The default value is NONE.
+    public var qualityFilter: RekognitionClientTypes.QualityFilter?
+    /// Specifies the minimum confidence in the UserID match to return. Default value is 80.
+    public var userMatchThreshold: Swift.Float?
+
+    public init(
+        collectionId: Swift.String? = nil,
+        image: RekognitionClientTypes.Image? = nil,
+        maxUsers: Swift.Int? = nil,
+        qualityFilter: RekognitionClientTypes.QualityFilter? = nil,
+        userMatchThreshold: Swift.Float? = nil
+    )
+    {
+        self.collectionId = collectionId
+        self.image = image
+        self.maxUsers = maxUsers
+        self.qualityFilter = qualityFilter
+        self.userMatchThreshold = userMatchThreshold
+    }
+}
+
+struct SearchUsersByImageInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let image: RekognitionClientTypes.Image?
+    let userMatchThreshold: Swift.Float?
+    let maxUsers: Swift.Int?
+    let qualityFilter: RekognitionClientTypes.QualityFilter?
+}
+
+extension SearchUsersByImageInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case image = "Image"
+        case maxUsers = "MaxUsers"
+        case qualityFilter = "QualityFilter"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.Image.self, forKey: .image)
+        image = imageDecoded
+        let userMatchThresholdDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .userMatchThreshold)
+        userMatchThreshold = userMatchThresholdDecoded
+        let maxUsersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxUsers)
+        maxUsers = maxUsersDecoded
+        let qualityFilterDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.QualityFilter.self, forKey: .qualityFilter)
+        qualityFilter = qualityFilterDecoded
+    }
+}
+
+public enum SearchUsersByImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ImageTooLargeException": return try await ImageTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidImageFormatException": return try await InvalidImageFormatException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3ObjectException": return try await InvalidS3ObjectException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchUsersByImageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchUsersByImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.faceModelVersion = output.faceModelVersion
+            self.searchedFace = output.searchedFace
+            self.unsearchedFaces = output.unsearchedFaces
+            self.userMatches = output.userMatches
+        } else {
+            self.faceModelVersion = nil
+            self.searchedFace = nil
+            self.unsearchedFaces = nil
+            self.userMatches = nil
+        }
+    }
+}
+
+public struct SearchUsersByImageOutputResponse: Swift.Equatable {
+    /// Version number of the face detection model associated with the input collection CollectionId.
+    public var faceModelVersion: Swift.String?
+    /// A list of FaceDetail objects containing the BoundingBox for the largest face in image, as well as the confidence in the bounding box, that was searched for matches. If no valid face is detected in the image the response will contain no SearchedFace object.
+    public var searchedFace: RekognitionClientTypes.SearchedFaceDetails?
+    /// List of UnsearchedFace objects. Contains the face details infered from the specified image but not used for search. Contains reasons that describe why a face wasn't used for Search.
+    public var unsearchedFaces: [RekognitionClientTypes.UnsearchedFace]?
+    /// An array of UserID objects that matched the input face, along with the confidence in the match. The returned structure will be empty if there are no matches. Returned if the SearchUsersByImageResponse action is successful.
+    public var userMatches: [RekognitionClientTypes.UserMatch]?
+
+    public init(
+        faceModelVersion: Swift.String? = nil,
+        searchedFace: RekognitionClientTypes.SearchedFaceDetails? = nil,
+        unsearchedFaces: [RekognitionClientTypes.UnsearchedFace]? = nil,
+        userMatches: [RekognitionClientTypes.UserMatch]? = nil
+    )
+    {
+        self.faceModelVersion = faceModelVersion
+        self.searchedFace = searchedFace
+        self.unsearchedFaces = unsearchedFaces
+        self.userMatches = userMatches
+    }
+}
+
+struct SearchUsersByImageOutputResponseBody: Swift.Equatable {
+    let userMatches: [RekognitionClientTypes.UserMatch]?
+    let faceModelVersion: Swift.String?
+    let searchedFace: RekognitionClientTypes.SearchedFaceDetails?
+    let unsearchedFaces: [RekognitionClientTypes.UnsearchedFace]?
+}
+
+extension SearchUsersByImageOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceModelVersion = "FaceModelVersion"
+        case searchedFace = "SearchedFace"
+        case unsearchedFaces = "UnsearchedFaces"
+        case userMatches = "UserMatches"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userMatchesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UserMatch?].self, forKey: .userMatches)
+        var userMatchesDecoded0:[RekognitionClientTypes.UserMatch]? = nil
+        if let userMatchesContainer = userMatchesContainer {
+            userMatchesDecoded0 = [RekognitionClientTypes.UserMatch]()
+            for structure0 in userMatchesContainer {
+                if let structure0 = structure0 {
+                    userMatchesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userMatches = userMatchesDecoded0
+        let faceModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceModelVersion)
+        faceModelVersion = faceModelVersionDecoded
+        let searchedFaceDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.SearchedFaceDetails.self, forKey: .searchedFace)
+        searchedFace = searchedFaceDecoded
+        let unsearchedFacesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsearchedFace?].self, forKey: .unsearchedFaces)
+        var unsearchedFacesDecoded0:[RekognitionClientTypes.UnsearchedFace]? = nil
+        if let unsearchedFacesContainer = unsearchedFacesContainer {
+            unsearchedFacesDecoded0 = [RekognitionClientTypes.UnsearchedFace]()
+            for structure0 in unsearchedFacesContainer {
+                if let structure0 = structure0 {
+                    unsearchedFacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        unsearchedFaces = unsearchedFacesDecoded0
+    }
+}
+
+extension SearchUsersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case faceId = "FaceId"
+        case maxUsers = "MaxUsers"
+        case userId = "UserId"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionId = self.collectionId {
+            try encodeContainer.encode(collectionId, forKey: .collectionId)
+        }
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+        if let maxUsers = self.maxUsers {
+            try encodeContainer.encode(maxUsers, forKey: .maxUsers)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+        if let userMatchThreshold = self.userMatchThreshold {
+            try encodeContainer.encode(userMatchThreshold, forKey: .userMatchThreshold)
+        }
+    }
+}
+
+extension SearchUsersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SearchUsersInput: Swift.Equatable {
+    /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isn’t required to be present in the Collection.
+    /// This member is required.
+    public var collectionId: Swift.String?
+    /// ID for the existing face.
+    public var faceId: Swift.String?
+    /// Maximum number of identities to return.
+    public var maxUsers: Swift.Int?
+    /// ID for the existing User.
+    public var userId: Swift.String?
+    /// Optional value that specifies the minimum confidence in the matched UserID to return. Default value of 80.
+    public var userMatchThreshold: Swift.Float?
+
+    public init(
+        collectionId: Swift.String? = nil,
+        faceId: Swift.String? = nil,
+        maxUsers: Swift.Int? = nil,
+        userId: Swift.String? = nil,
+        userMatchThreshold: Swift.Float? = nil
+    )
+    {
+        self.collectionId = collectionId
+        self.faceId = faceId
+        self.maxUsers = maxUsers
+        self.userId = userId
+        self.userMatchThreshold = userMatchThreshold
+    }
+}
+
+struct SearchUsersInputBody: Swift.Equatable {
+    let collectionId: Swift.String?
+    let userId: Swift.String?
+    let faceId: Swift.String?
+    let userMatchThreshold: Swift.Float?
+    let maxUsers: Swift.Int?
+}
+
+extension SearchUsersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionId = "CollectionId"
+        case faceId = "FaceId"
+        case maxUsers = "MaxUsers"
+        case userId = "UserId"
+        case userMatchThreshold = "UserMatchThreshold"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let collectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionId)
+        collectionId = collectionIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+        let userMatchThresholdDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .userMatchThreshold)
+        userMatchThreshold = userMatchThresholdDecoded
+        let maxUsersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxUsers)
+        maxUsers = maxUsersDecoded
+    }
+}
+
+public enum SearchUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.faceModelVersion = output.faceModelVersion
+            self.searchedFace = output.searchedFace
+            self.searchedUser = output.searchedUser
+            self.userMatches = output.userMatches
+        } else {
+            self.faceModelVersion = nil
+            self.searchedFace = nil
+            self.searchedUser = nil
+            self.userMatches = nil
+        }
+    }
+}
+
+public struct SearchUsersOutputResponse: Swift.Equatable {
+    /// Version number of the face detection model associated with the input CollectionId.
+    public var faceModelVersion: Swift.String?
+    /// Contains the ID of a face that was used to search for matches in a collection.
+    public var searchedFace: RekognitionClientTypes.SearchedFace?
+    /// Contains the ID of the UserID that was used to search for matches in a collection.
+    public var searchedUser: RekognitionClientTypes.SearchedUser?
+    /// An array of UserMatch objects that matched the input face along with the confidence in the match. Array will be empty if there are no matches.
+    public var userMatches: [RekognitionClientTypes.UserMatch]?
+
+    public init(
+        faceModelVersion: Swift.String? = nil,
+        searchedFace: RekognitionClientTypes.SearchedFace? = nil,
+        searchedUser: RekognitionClientTypes.SearchedUser? = nil,
+        userMatches: [RekognitionClientTypes.UserMatch]? = nil
+    )
+    {
+        self.faceModelVersion = faceModelVersion
+        self.searchedFace = searchedFace
+        self.searchedUser = searchedUser
+        self.userMatches = userMatches
+    }
+}
+
+struct SearchUsersOutputResponseBody: Swift.Equatable {
+    let userMatches: [RekognitionClientTypes.UserMatch]?
+    let faceModelVersion: Swift.String?
+    let searchedFace: RekognitionClientTypes.SearchedFace?
+    let searchedUser: RekognitionClientTypes.SearchedUser?
+}
+
+extension SearchUsersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceModelVersion = "FaceModelVersion"
+        case searchedFace = "SearchedFace"
+        case searchedUser = "SearchedUser"
+        case userMatches = "UserMatches"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userMatchesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UserMatch?].self, forKey: .userMatches)
+        var userMatchesDecoded0:[RekognitionClientTypes.UserMatch]? = nil
+        if let userMatchesContainer = userMatchesContainer {
+            userMatchesDecoded0 = [RekognitionClientTypes.UserMatch]()
+            for structure0 in userMatchesContainer {
+                if let structure0 = structure0 {
+                    userMatchesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userMatches = userMatchesDecoded0
+        let faceModelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceModelVersion)
+        faceModelVersion = faceModelVersionDecoded
+        let searchedFaceDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.SearchedFace.self, forKey: .searchedFace)
+        searchedFace = searchedFaceDecoded
+        let searchedUserDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.SearchedUser.self, forKey: .searchedUser)
+        searchedUser = searchedUserDecoded
+    }
+}
+
+extension RekognitionClientTypes.SearchedFace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceId = "FaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Provides face metadata such as FaceId, BoundingBox, Confidence of the input face used for search.
+    public struct SearchedFace: Swift.Equatable {
+        /// Unique identifier assigned to the face.
+        public var faceId: Swift.String?
+
+        public init(
+            faceId: Swift.String? = nil
+        )
+        {
+            self.faceId = faceId
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.SearchedFaceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceDetail = "FaceDetail"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceDetail = self.faceDetail {
+            try encodeContainer.encode(faceDetail, forKey: .faceDetail)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceDetailDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.FaceDetail.self, forKey: .faceDetail)
+        faceDetail = faceDetailDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains data regarding the input face used for a search.
+    public struct SearchedFaceDetails: Swift.Equatable {
+        /// Structure containing attributes of the face that the algorithm detected. A FaceDetail object contains either the default facial attributes or all facial attributes. The default attributes are BoundingBox, Confidence, Landmarks, Pose, and Quality. [GetFaceDetection] is the only Amazon Rekognition Video stored video operation that can return a FaceDetail object with all attributes. To specify which attributes to return, use the FaceAttributes input parameter for [StartFaceDetection]. The following Amazon Rekognition Video operations return only the default attributes. The corresponding Start operations don't have a FaceAttributes input parameter:
+        ///
+        /// * GetCelebrityRecognition
+        ///
+        /// * GetPersonTracking
+        ///
+        /// * GetFaceSearch
+        ///
+        ///
+        /// The Amazon Rekognition Image [DetectFaces] and [IndexFaces] operations can return all facial attributes. To specify which attributes to return, use the Attributes input parameter for DetectFaces. For IndexFaces, use the DetectAttributes input parameter.
+        public var faceDetail: RekognitionClientTypes.FaceDetail?
+
+        public init(
+            faceDetail: RekognitionClientTypes.FaceDetail? = nil
+        )
+        {
+            self.faceDetail = faceDetail
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.SearchedUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata about a User searched for within a collection.
+    public struct SearchedUser: Swift.Equatable {
+        /// A provided ID for the UserID. Unique within the collection.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
+        }
+    }
+
 }
 
 extension RekognitionClientTypes.SegmentDetection: Swift.Codable {
@@ -19522,6 +21047,432 @@ extension RekognitionClientTypes {
 
 }
 
+extension RekognitionClientTypes.UnsearchedFace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceDetails = "FaceDetails"
+        case reasons = "Reasons"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceDetails = self.faceDetails {
+            try encodeContainer.encode(faceDetails, forKey: .faceDetails)
+        }
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for unsearchedfacereason0 in reasons {
+                try reasonsContainer.encode(unsearchedfacereason0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceDetailsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.FaceDetail.self, forKey: .faceDetails)
+        faceDetails = faceDetailsDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsearchedFaceReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[RekognitionClientTypes.UnsearchedFaceReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [RekognitionClientTypes.UnsearchedFaceReason]()
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Face details inferred from the image but not used for search. The response attribute contains reasons for why a face wasn't used for Search.
+    public struct UnsearchedFace: Swift.Equatable {
+        /// Structure containing attributes of the face that the algorithm detected. A FaceDetail object contains either the default facial attributes or all facial attributes. The default attributes are BoundingBox, Confidence, Landmarks, Pose, and Quality. [GetFaceDetection] is the only Amazon Rekognition Video stored video operation that can return a FaceDetail object with all attributes. To specify which attributes to return, use the FaceAttributes input parameter for [StartFaceDetection]. The following Amazon Rekognition Video operations return only the default attributes. The corresponding Start operations don't have a FaceAttributes input parameter:
+        ///
+        /// * GetCelebrityRecognition
+        ///
+        /// * GetPersonTracking
+        ///
+        /// * GetFaceSearch
+        ///
+        ///
+        /// The Amazon Rekognition Image [DetectFaces] and [IndexFaces] operations can return all facial attributes. To specify which attributes to return, use the Attributes input parameter for DetectFaces. For IndexFaces, use the DetectAttributes input parameter.
+        public var faceDetails: RekognitionClientTypes.FaceDetail?
+        /// Reasons why a face wasn't used for Search.
+        public var reasons: [RekognitionClientTypes.UnsearchedFaceReason]?
+
+        public init(
+            faceDetails: RekognitionClientTypes.FaceDetail? = nil,
+            reasons: [RekognitionClientTypes.UnsearchedFaceReason]? = nil
+        )
+        {
+            self.faceDetails = faceDetails
+            self.reasons = reasons
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum UnsearchedFaceReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case exceedsMaxFaces
+        case extremePose
+        case faceNotLargest
+        case lowBrightness
+        case lowConfidence
+        case lowFaceQuality
+        case lowSharpness
+        case smallBoundingBox
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnsearchedFaceReason] {
+            return [
+                .exceedsMaxFaces,
+                .extremePose,
+                .faceNotLargest,
+                .lowBrightness,
+                .lowConfidence,
+                .lowFaceQuality,
+                .lowSharpness,
+                .smallBoundingBox,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .exceedsMaxFaces: return "EXCEEDS_MAX_FACES"
+            case .extremePose: return "EXTREME_POSE"
+            case .faceNotLargest: return "FACE_NOT_LARGEST"
+            case .lowBrightness: return "LOW_BRIGHTNESS"
+            case .lowConfidence: return "LOW_CONFIDENCE"
+            case .lowFaceQuality: return "LOW_FACE_QUALITY"
+            case .lowSharpness: return "LOW_SHARPNESS"
+            case .smallBoundingBox: return "SMALL_BOUNDING_BOX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnsearchedFaceReason(rawValue: rawValue) ?? UnsearchedFaceReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case faceId = "FaceId"
+        case reasons = "Reasons"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for unsuccessfulfaceassociationreason0 in reasons {
+                try reasonsContainer.encode(unsuccessfulfaceassociationreason0.rawValue)
+            }
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceAssociationReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceAssociationReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceAssociationReason]()
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully associated.
+    public struct UnsuccessfulFaceAssociation: Swift.Equatable {
+        /// Match confidence with the UserID, provides information regarding if a face association was unsuccessful because it didn't meet UserMatchThreshold.
+        public var confidence: Swift.Float?
+        /// A unique identifier assigned to the face.
+        public var faceId: Swift.String?
+        /// The reason why the association was unsuccessful.
+        public var reasons: [RekognitionClientTypes.UnsuccessfulFaceAssociationReason]?
+        /// A provided ID for the UserID. Unique within the collection.
+        public var userId: Swift.String?
+
+        public init(
+            confidence: Swift.Float? = nil,
+            faceId: Swift.String? = nil,
+            reasons: [RekognitionClientTypes.UnsuccessfulFaceAssociationReason]? = nil,
+            userId: Swift.String? = nil
+        )
+        {
+            self.confidence = confidence
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum UnsuccessfulFaceAssociationReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associatedToADifferentUser
+        case faceNotFound
+        case lowMatchConfidence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnsuccessfulFaceAssociationReason] {
+            return [
+                .associatedToADifferentUser,
+                .faceNotFound,
+                .lowMatchConfidence,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .associatedToADifferentUser: return "ASSOCIATED_TO_A_DIFFERENT_USER"
+            case .faceNotFound: return "FACE_NOT_FOUND"
+            case .lowMatchConfidence: return "LOW_MATCH_CONFIDENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnsuccessfulFaceAssociationReason(rawValue: rawValue) ?? UnsuccessfulFaceAssociationReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceDeletion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceId = "FaceId"
+        case reasons = "Reasons"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for unsuccessfulfacedeletionreason0 in reasons {
+                try reasonsContainer.encode(unsuccessfulfacedeletionreason0.rawValue)
+            }
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceDeletionReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceDeletionReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceDeletionReason]()
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully deleted.
+    public struct UnsuccessfulFaceDeletion: Swift.Equatable {
+        /// A unique identifier assigned to the face.
+        public var faceId: Swift.String?
+        /// The reason why the deletion was unsuccessful.
+        public var reasons: [RekognitionClientTypes.UnsuccessfulFaceDeletionReason]?
+        /// A provided ID for the UserID. Unique within the collection.
+        public var userId: Swift.String?
+
+        public init(
+            faceId: Swift.String? = nil,
+            reasons: [RekognitionClientTypes.UnsuccessfulFaceDeletionReason]? = nil,
+            userId: Swift.String? = nil
+        )
+        {
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum UnsuccessfulFaceDeletionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associatedToAnExistingUser
+        case faceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnsuccessfulFaceDeletionReason] {
+            return [
+                .associatedToAnExistingUser,
+                .faceNotFound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .associatedToAnExistingUser: return "ASSOCIATED_TO_AN_EXISTING_USER"
+            case .faceNotFound: return "FACE_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnsuccessfulFaceDeletionReason(rawValue: rawValue) ?? UnsuccessfulFaceDeletionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceDisassociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case faceId = "FaceId"
+        case reasons = "Reasons"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let faceId = self.faceId {
+            try encodeContainer.encode(faceId, forKey: .faceId)
+        }
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for unsuccessfulfacedisassociationreason0 in reasons {
+                try reasonsContainer.encode(unsuccessfulfacedisassociationreason0.rawValue)
+            }
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let faceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .faceId)
+        faceId = faceIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.UnsuccessfulFaceDisassociationReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[RekognitionClientTypes.UnsuccessfulFaceDisassociationReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [RekognitionClientTypes.UnsuccessfulFaceDisassociationReason]()
+            for enum0 in reasonsContainer {
+                if let enum0 = enum0 {
+                    reasonsDecoded0?.append(enum0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully disassociated.
+    public struct UnsuccessfulFaceDisassociation: Swift.Equatable {
+        /// A unique identifier assigned to the face.
+        public var faceId: Swift.String?
+        /// The reason why the deletion was unsuccessful.
+        public var reasons: [RekognitionClientTypes.UnsuccessfulFaceDisassociationReason]?
+        /// A provided ID for the UserID. Unique within the collection.
+        public var userId: Swift.String?
+
+        public init(
+            faceId: Swift.String? = nil,
+            reasons: [RekognitionClientTypes.UnsuccessfulFaceDisassociationReason]? = nil,
+            userId: Swift.String? = nil
+        )
+        {
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum UnsuccessfulFaceDisassociationReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case associatedToADifferentUser
+        case faceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnsuccessfulFaceDisassociationReason] {
+            return [
+                .associatedToADifferentUser,
+                .faceNotFound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .associatedToADifferentUser: return "ASSOCIATED_TO_A_DIFFERENT_USER"
+            case .faceNotFound: return "FACE_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnsuccessfulFaceDisassociationReason(rawValue: rawValue) ?? UnsuccessfulFaceDisassociationReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -19855,6 +21806,134 @@ extension UpdateStreamProcessorOutputResponse: ClientRuntime.HttpResponseBinding
 public struct UpdateStreamProcessorOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension RekognitionClientTypes.User: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userId = "UserId"
+        case userStatus = "UserStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+        if let userStatus = self.userStatus {
+            try encodeContainer.encode(userStatus.rawValue, forKey: .userStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let userStatusDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.UserStatus.self, forKey: .userStatus)
+        userStatus = userStatusDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Metadata of the user stored in a collection.
+    public struct User: Swift.Equatable {
+        /// A provided ID for the User. Unique within the collection.
+        public var userId: Swift.String?
+        /// Communicates if the UserID has been updated with latest set of faces to be associated with the UserID.
+        public var userStatus: RekognitionClientTypes.UserStatus?
+
+        public init(
+            userId: Swift.String? = nil,
+            userStatus: RekognitionClientTypes.UserStatus? = nil
+        )
+        {
+            self.userId = userId
+            self.userStatus = userStatus
+        }
+    }
+
+}
+
+extension RekognitionClientTypes.UserMatch: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case similarity = "Similarity"
+        case user = "User"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let similarity = self.similarity {
+            try encodeContainer.encode(similarity, forKey: .similarity)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let similarityDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .similarity)
+        similarity = similarityDecoded
+        let userDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.MatchedUser.self, forKey: .user)
+        user = userDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Provides UserID metadata along with the confidence in the match of this UserID with the input face.
+    public struct UserMatch: Swift.Equatable {
+        /// Describes the UserID metadata.
+        public var similarity: Swift.Float?
+        /// Confidence in the match of this UserID with the input face.
+        public var user: RekognitionClientTypes.MatchedUser?
+
+        public init(
+            similarity: Swift.Float? = nil,
+            user: RekognitionClientTypes.MatchedUser? = nil
+        )
+        {
+            self.similarity = similarity
+            self.user = user
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum UserStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case created
+        case creating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserStatus] {
+            return [
+                .active,
+                .created,
+                .creating,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UserStatus(rawValue: rawValue) ?? UserStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension RekognitionClientTypes.ValidationData: Swift.Codable {

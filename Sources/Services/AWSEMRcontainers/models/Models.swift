@@ -373,6 +373,53 @@ extension EMRcontainersClientTypes {
 
 }
 
+extension EMRcontainersClientTypes.ContainerLogRotationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxFilesToKeep
+        case rotationSize
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxFilesToKeep = self.maxFilesToKeep {
+            try encodeContainer.encode(maxFilesToKeep, forKey: .maxFilesToKeep)
+        }
+        if let rotationSize = self.rotationSize {
+            try encodeContainer.encode(rotationSize, forKey: .rotationSize)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationSizeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationSize)
+        rotationSize = rotationSizeDecoded
+        let maxFilesToKeepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFilesToKeep)
+        maxFilesToKeep = maxFilesToKeepDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// The settings for container log rotation.
+    public struct ContainerLogRotationConfiguration: Swift.Equatable {
+        /// The number of files to keep in container after rotation.
+        /// This member is required.
+        public var maxFilesToKeep: Swift.Int?
+        /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
+        /// This member is required.
+        public var rotationSize: Swift.String?
+
+        public init(
+            maxFilesToKeep: Swift.Int? = nil,
+            rotationSize: Swift.String? = nil
+        )
+        {
+            self.maxFilesToKeep = maxFilesToKeep
+            self.rotationSize = rotationSize
+        }
+    }
+
+}
+
 extension EMRcontainersClientTypes.ContainerProvider: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
@@ -3570,6 +3617,7 @@ extension ListVirtualClustersOutputResponseBody: Swift.Decodable {
 extension EMRcontainersClientTypes.MonitoringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchMonitoringConfiguration
+        case containerLogRotationConfiguration
         case persistentAppUI
         case s3MonitoringConfiguration
     }
@@ -3578,6 +3626,9 @@ extension EMRcontainersClientTypes.MonitoringConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cloudWatchMonitoringConfiguration = self.cloudWatchMonitoringConfiguration {
             try encodeContainer.encode(cloudWatchMonitoringConfiguration, forKey: .cloudWatchMonitoringConfiguration)
+        }
+        if let containerLogRotationConfiguration = self.containerLogRotationConfiguration {
+            try encodeContainer.encode(containerLogRotationConfiguration, forKey: .containerLogRotationConfiguration)
         }
         if let persistentAppUI = self.persistentAppUI {
             try encodeContainer.encode(persistentAppUI.rawValue, forKey: .persistentAppUI)
@@ -3595,6 +3646,8 @@ extension EMRcontainersClientTypes.MonitoringConfiguration: Swift.Codable {
         cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfigurationDecoded
         let s3MonitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.S3MonitoringConfiguration.self, forKey: .s3MonitoringConfiguration)
         s3MonitoringConfiguration = s3MonitoringConfigurationDecoded
+        let containerLogRotationConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.ContainerLogRotationConfiguration.self, forKey: .containerLogRotationConfiguration)
+        containerLogRotationConfiguration = containerLogRotationConfigurationDecoded
     }
 }
 
@@ -3603,6 +3656,8 @@ extension EMRcontainersClientTypes {
     public struct MonitoringConfiguration: Swift.Equatable {
         /// Monitoring configurations for CloudWatch.
         public var cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration?
+        /// Enable or disable container log rotation.
+        public var containerLogRotationConfiguration: EMRcontainersClientTypes.ContainerLogRotationConfiguration?
         /// Monitoring configurations for the persistent application UI.
         public var persistentAppUI: EMRcontainersClientTypes.PersistentAppUI?
         /// Amazon S3 configuration for monitoring log publishing.
@@ -3610,11 +3665,13 @@ extension EMRcontainersClientTypes {
 
         public init(
             cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration? = nil,
+            containerLogRotationConfiguration: EMRcontainersClientTypes.ContainerLogRotationConfiguration? = nil,
             persistentAppUI: EMRcontainersClientTypes.PersistentAppUI? = nil,
             s3MonitoringConfiguration: EMRcontainersClientTypes.S3MonitoringConfiguration? = nil
         )
         {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
+            self.containerLogRotationConfiguration = containerLogRotationConfiguration
             self.persistentAppUI = persistentAppUI
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }

@@ -995,7 +995,7 @@ extension FSxClientTypes {
         public var lifecycle: FSxClientTypes.BackupLifecycle?
         /// An Amazon Web Services account ID. This ID is a 12-digit number that you use to construct Amazon Resource Names (ARNs) for resources.
         public var ownerId: Swift.String?
-        /// The current percent of progress of an asynchronous task.
+        /// Displays the current percent of progress of an asynchronous task.
         public var progressPercent: Swift.Int?
         /// The Amazon Resource Name (ARN) for the backup resource.
         public var resourceARN: Swift.String?
@@ -3793,23 +3793,23 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:
         ///
-        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MB/s. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available, except US West (Oregon).
+        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available, except US West (Oregon).
         ///
-        /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
+        /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MBps using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
         ///
         ///
         /// For more information, see: [Deployment type availability](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions) and [File system performance](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance) in the Amazon FSx for OpenZFS User Guide.
         /// This member is required.
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how the amount was provisioned (by the customer or by the system).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MB/s). Valid values depend on the DeploymentType you choose, as follows:
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:
         ///
-        /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
+        /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.
         ///
-        /// * For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.
+        /// * For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.
         ///
         ///
         /// You pay for additional throughput capacity that you provision.
@@ -4035,7 +4035,7 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ data transfer costs and minimize latency.
         public var preferredSubnetId: Swift.String?
-        /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
+        /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?
         /// Sets the throughput capacity of an Amazon FSx file system, measured in megabytes per second (MB/s), in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
         /// This member is required.
@@ -4822,7 +4822,7 @@ extension FSxClientTypes {
         /// The NetBIOS name of the Active Directory computer object that will be created for your SVM.
         /// This member is required.
         public var netBiosName: Swift.String?
-        /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
+        /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?
 
         public init(
@@ -5358,7 +5358,7 @@ extension FSxClientTypes {
     /// * DescribeDataRepositoryAssociations
     ///
     ///
-    /// Data repository associations are supported on Amazon File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1 deployment types.
+    /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and newer file systems, excluding scratch_1 deployment type.
     public struct DataRepositoryAssociation: Swift.Equatable {
         /// The system-generated, unique ID of the data repository association.
         public var associationId: Swift.String?
@@ -7897,6 +7897,7 @@ public enum DeleteVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -9689,11 +9690,11 @@ extension FSxClientTypes.DiskIopsConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how the amount was provisioned (by the customer or by the system).
+    /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
     public struct DiskIopsConfiguration: Swift.Equatable {
         /// The total number of SSD IOPS provisioned for the file system.
         public var iops: Swift.Int?
-        /// Specifies whether the number of IOPS for the file system is using the system default (AUTOMATIC) or was provisioned by the customer (USER_PROVISIONED).
+        /// Specifies whether the file system is using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, , or if it using a USER_PROVISIONED value.
         public var mode: FSxClientTypes.DiskIopsConfigurationMode?
 
         public init(
@@ -11105,7 +11106,7 @@ extension FSxClientTypes.FileSystemEndpoint: Swift.Codable {
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP file system has two endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror. They are the Management and Intercluster endpoints.
     public struct FileSystemEndpoint: Swift.Equatable {
-        /// The Domain Name Service (DNS) name for the file system. You can mount your file system using its DNS name.
+        /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
         /// IP addresses of the file system endpoint.
         public var ipAddresses: [Swift.String]?
@@ -13185,6 +13186,7 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         case diskIopsConfiguration = "DiskIopsConfiguration"
         case endpointIpAddressRange = "EndpointIpAddressRange"
         case endpoints = "Endpoints"
+        case fsxAdminPassword = "FsxAdminPassword"
         case preferredSubnetId = "PreferredSubnetId"
         case routeTableIds = "RouteTableIds"
         case throughputCapacity = "ThroughputCapacity"
@@ -13210,6 +13212,9 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         }
         if let endpoints = self.endpoints {
             try encodeContainer.encode(endpoints, forKey: .endpoints)
+        }
+        if let fsxAdminPassword = self.fsxAdminPassword {
+            try encodeContainer.encode(fsxAdminPassword, forKey: .fsxAdminPassword)
         }
         if let preferredSubnetId = self.preferredSubnetId {
             try encodeContainer.encode(preferredSubnetId, forKey: .preferredSubnetId)
@@ -13259,7 +13264,14 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         throughputCapacity = throughputCapacityDecoded
         let weeklyMaintenanceStartTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .weeklyMaintenanceStartTime)
         weeklyMaintenanceStartTime = weeklyMaintenanceStartTimeDecoded
+        let fsxAdminPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fsxAdminPassword)
+        fsxAdminPassword = fsxAdminPasswordDecoded
     }
+}
+
+extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OntapFileSystemConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpoints: \(Swift.String(describing: endpoints)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -13284,6 +13296,8 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public var endpoints: FSxClientTypes.FileSystemEndpoints?
+        /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and REST API. The password value is always redacted in the response.
+        public var fsxAdminPassword: Swift.String?
         /// The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see [VPC and subnets](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) in the Amazon VPC User Guide.
         public var preferredSubnetId: Swift.String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
@@ -13300,6 +13314,7 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             endpoints: FSxClientTypes.FileSystemEndpoints? = nil,
+            fsxAdminPassword: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -13312,6 +13327,7 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.endpoints = endpoints
+            self.fsxAdminPassword = fsxAdminPassword
             self.preferredSubnetId = preferredSubnetId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -13879,7 +13895,7 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  SINGLE_AZ_1 and SINGLE_AZ_2.
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how the amount was provisioned (by the customer or by the system).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// The ID of the root volume of the OpenZFS file system.
         public var rootVolumeId: Swift.String?
@@ -15084,7 +15100,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration: Swift.CustomDe
 }
 
 extension FSxClientTypes {
-    /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
+    /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
     public struct SelfManagedActiveDirectoryConfiguration: Swift.Equatable {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         /// This member is required.
@@ -15126,6 +15142,9 @@ extension FSxClientTypes {
 extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dnsIps = "DnsIps"
+        case domainName = "DomainName"
+        case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
+        case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
         case password = "Password"
         case userName = "UserName"
     }
@@ -15137,6 +15156,15 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.C
             for ipaddress0 in dnsIps {
                 try dnsIpsContainer.encode(ipaddress0)
             }
+        }
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let fileSystemAdministratorsGroup = self.fileSystemAdministratorsGroup {
+            try encodeContainer.encode(fileSystemAdministratorsGroup, forKey: .fileSystemAdministratorsGroup)
+        }
+        if let organizationalUnitDistinguishedName = self.organizationalUnitDistinguishedName {
+            try encodeContainer.encode(organizationalUnitDistinguishedName, forKey: .organizationalUnitDistinguishedName)
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
@@ -15163,31 +15191,49 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.C
             }
         }
         dnsIps = dnsIpsDecoded0
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let organizationalUnitDistinguishedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationalUnitDistinguishedName)
+        organizationalUnitDistinguishedName = organizationalUnitDistinguishedNameDecoded
+        let fileSystemAdministratorsGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAdministratorsGroup)
+        fileSystemAdministratorsGroup = fileSystemAdministratorsGroupDecoded
     }
 }
 
 extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
-    /// The configuration that Amazon FSx uses to join the Windows File Server instance to a self-managed Microsoft Active Directory (AD) directory.
+    /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
     public struct SelfManagedActiveDirectoryConfigurationUpdates: Swift.Equatable {
-        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of up to three DNS server or domain controller IP addresses in your self-managed AD domain.
         public var dnsIps: [Swift.String]?
-        /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
+        /// Specifies an updated fully qualified domain name of your self-managed AD configuration.
+        public var domainName: Swift.String?
+        /// Specifies the updated name of the self-managed AD domain group whose members are granted administrative privileges for the Amazon FSx resource.
+        public var fileSystemAdministratorsGroup: Swift.String?
+        /// Specifies an updated fully qualified distinguished name of the organization unit within your self-managed AD.
+        public var organizationalUnitDistinguishedName: Swift.String?
+        /// Specifies the updated password for the service account on your self-managed AD domain. Amazon FSx uses this account to join to your self-managed AD domain.
         public var password: Swift.String?
-        /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
+        /// Specifies the updated user name for the service account on your self-managed AD domain. Amazon FSx uses this account to join to your self-managed AD domain. This account must have the permissions required to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
         public var userName: Swift.String?
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainName: Swift.String? = nil,
+            fileSystemAdministratorsGroup: Swift.String? = nil,
+            organizationalUnitDistinguishedName: Swift.String? = nil,
             password: Swift.String? = nil,
             userName: Swift.String? = nil
         )
         {
             self.dnsIps = dnsIps
+            self.domainName = domainName
+            self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
+            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
             self.password = password
             self.userName = userName
         }
@@ -15757,7 +15803,7 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes {
-    /// The storage type for your Amazon FSx file system.
+    /// Specifies the file system's storage type.
     public enum StorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hdd
         case ssd
@@ -16253,9 +16299,9 @@ extension FSxClientTypes.SvmActiveDirectoryConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// Describes the configuration of the Microsoft Active Directory (AD) directory to which the Amazon FSx for ONTAP storage virtual machine (SVM) is joined. Pleae note, account credentials are not returned in the response payload.
+    /// Describes the Microsoft Active Directory (AD) directory configuration to which the FSx for ONTAP storage virtual machine (SVM) is joined. Note that account credentials are not returned in the response payload.
     public struct SvmActiveDirectoryConfiguration: Swift.Equatable {
-        /// The NetBIOS name of the Active Directory computer object that is joined to your SVM.
+        /// The NetBIOS name of the AD computer object to which the SVM is joined.
         public var netBiosName: Swift.String?
         /// The configuration of the self-managed Microsoft Active Directory (AD) directory to which the Windows File Server or ONTAP storage virtual machine (SVM) instance is joined.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryAttributes?
@@ -16312,7 +16358,7 @@ extension FSxClientTypes.SvmEndpoint: Swift.Codable {
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP storage virtual machine (SVM) has four endpoints that are used to access data or to manage the SVM using the NetApp ONTAP CLI, REST API, or NetApp CloudManager. They are the Iscsi, Management, Nfs, and Smb endpoints.
     public struct SvmEndpoint: Swift.Equatable {
-        /// The Domain Name Service (DNS) name for the file system. You can mount your file system using its DNS name.
+        /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
         /// The SVM endpoint's IP addresses.
         public var ipAddresses: [Swift.String]?
@@ -17162,7 +17208,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     public var lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
-    /// The configuration updates for an Amazon FSx for OpenZFS file system.
+    /// The configuration updates for an FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
     /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
@@ -17173,7 +17219,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// The configuration updates for an Amazon FSx for Windows File Server file system.
     public var windowsConfiguration: FSxClientTypes.UpdateFileSystemWindowsConfiguration?
@@ -17450,13 +17496,13 @@ extension FSxClientTypes {
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// The ONTAP administrative password for the fsxadmin user.
+        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Applicaton](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
         public var removeRouteTableIds: [Swift.String]?
-        /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps.
+        /// Enter a new value to change the amount of throughput capacity for the file system. Throughput capacity is measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps. For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html) in the FSx for ONTAP User Guide.
         public var throughputCapacity: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
@@ -17551,7 +17597,7 @@ extension FSxClientTypes {
         public var copyTagsToVolumes: Swift.Bool?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how the amount was provisioned (by the customer or by the system).
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:
         ///
@@ -18120,14 +18166,14 @@ extension UpdateStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateStorageVirtualMachineInput: Swift.Equatable {
-    /// Updates the Microsoft Active Directory (AD) configuration for an SVM that is joined to an AD.
+    /// Specifies updates to an SVM's Microsoft Active Directory (AD) configuration.
     public var activeDirectoryConfiguration: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the SVM that you want to update, in the format svm-0123456789abcdef0.
     /// This member is required.
     public var storageVirtualMachineId: Swift.String?
-    /// Enter a new SvmAdminPassword if you are updating it.
+    /// Specifies a new SvmAdminPassword.
     public var svmAdminPassword: Swift.String?
 
     public init(
@@ -18229,11 +18275,15 @@ extension UpdateStorageVirtualMachineOutputResponseBody: Swift.Decodable {
 
 extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case netBiosName = "NetBiosName"
         case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let netBiosName = self.netBiosName {
+            try encodeContainer.encode(netBiosName, forKey: .netBiosName)
+        }
         if let selfManagedActiveDirectoryConfiguration = self.selfManagedActiveDirectoryConfiguration {
             try encodeContainer.encode(selfManagedActiveDirectoryConfiguration, forKey: .selfManagedActiveDirectoryConfiguration)
         }
@@ -18243,19 +18293,25 @@ extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let selfManagedActiveDirectoryConfigurationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.self, forKey: .selfManagedActiveDirectoryConfiguration)
         selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfigurationDecoded
+        let netBiosNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .netBiosName)
+        netBiosName = netBiosNameDecoded
     }
 }
 
 extension FSxClientTypes {
-    /// Updates the Microsoft Active Directory (AD) configuration of an SVM joined to an AD. Please note, account credentials are not returned in the response payload.
+    /// Specifies updates to an FSx for ONTAP storage virtual machine's (SVM) Microsoft Active Directory (AD) configuration. Note that account credentials are not returned in the response payload.
     public struct UpdateSvmActiveDirectoryConfiguration: Swift.Equatable {
-        /// The configuration that Amazon FSx uses to join the Windows File Server instance to a self-managed Microsoft Active Directory (AD) directory.
+        /// Specifies an updated NetBIOS name of the AD computer object NetBiosName to which an SVM is joined.
+        public var netBiosName: Swift.String?
+        /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?
 
         public init(
+            netBiosName: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil
         )
         {
+            self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
         }
     }

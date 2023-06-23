@@ -2608,11 +2608,15 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes.ConnectionProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossClusterSearch = "CrossClusterSearch"
         case endpoint = "Endpoint"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let crossClusterSearch = self.crossClusterSearch {
+            try encodeContainer.encode(crossClusterSearch, forKey: .crossClusterSearch)
+        }
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
@@ -2622,19 +2626,25 @@ extension OpenSearchClientTypes.ConnectionProperties: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
         endpoint = endpointDecoded
+        let crossClusterSearchDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.CrossClusterSearchConnectionProperties.self, forKey: .crossClusterSearch)
+        crossClusterSearch = crossClusterSearchDecoded
     }
 }
 
 extension OpenSearchClientTypes {
     /// The connection properties of an outbound connection.
     public struct ConnectionProperties: Swift.Equatable {
-        /// The endpoint of the remote domain.
+        /// The connection properties for cross cluster search.
+        public var crossClusterSearch: OpenSearchClientTypes.CrossClusterSearchConnectionProperties?
+        /// The Endpoint attribute cannot be modified. The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode.
         public var endpoint: Swift.String?
 
         public init(
+            crossClusterSearch: OpenSearchClientTypes.CrossClusterSearchConnectionProperties? = nil,
             endpoint: Swift.String? = nil
         )
         {
+            self.crossClusterSearch = crossClusterSearch
             self.endpoint = endpoint
         }
     }
@@ -3002,6 +3012,7 @@ extension CreateOutboundConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
         case connectionMode = "ConnectionMode"
+        case connectionProperties = "ConnectionProperties"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
     }
@@ -3013,6 +3024,9 @@ extension CreateOutboundConnectionInput: Swift.Encodable {
         }
         if let connectionMode = self.connectionMode {
             try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
+        }
+        if let connectionProperties = self.connectionProperties {
+            try encodeContainer.encode(connectionProperties, forKey: .connectionProperties)
         }
         if let localDomainInfo = self.localDomainInfo {
             try encodeContainer.encode(localDomainInfo, forKey: .localDomainInfo)
@@ -3036,6 +3050,8 @@ public struct CreateOutboundConnectionInput: Swift.Equatable {
     public var connectionAlias: Swift.String?
     /// The connection mode.
     public var connectionMode: OpenSearchClientTypes.ConnectionMode?
+    /// The ConnectionProperties for the outbound connection.
+    public var connectionProperties: OpenSearchClientTypes.ConnectionProperties?
     /// Name and Region of the source (local) domain.
     /// This member is required.
     public var localDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
@@ -3046,12 +3062,14 @@ public struct CreateOutboundConnectionInput: Swift.Equatable {
     public init(
         connectionAlias: Swift.String? = nil,
         connectionMode: OpenSearchClientTypes.ConnectionMode? = nil,
+        connectionProperties: OpenSearchClientTypes.ConnectionProperties? = nil,
         localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
         remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
     )
     {
         self.connectionAlias = connectionAlias
         self.connectionMode = connectionMode
+        self.connectionProperties = connectionProperties
         self.localDomainInfo = localDomainInfo
         self.remoteDomainInfo = remoteDomainInfo
     }
@@ -3062,12 +3080,14 @@ struct CreateOutboundConnectionInputBody: Swift.Equatable {
     let remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let connectionAlias: Swift.String?
     let connectionMode: OpenSearchClientTypes.ConnectionMode?
+    let connectionProperties: OpenSearchClientTypes.ConnectionProperties?
 }
 
 extension CreateOutboundConnectionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
         case connectionMode = "ConnectionMode"
+        case connectionProperties = "ConnectionProperties"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
     }
@@ -3082,6 +3102,8 @@ extension CreateOutboundConnectionInputBody: Swift.Decodable {
         connectionAlias = connectionAliasDecoded
         let connectionModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionMode.self, forKey: .connectionMode)
         connectionMode = connectionModeDecoded
+        let connectionPropertiesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionProperties.self, forKey: .connectionProperties)
+        connectionProperties = connectionPropertiesDecoded
     }
 }
 
@@ -3473,6 +3495,41 @@ extension CreateVpcEndpointOutputResponseBody: Swift.Decodable {
         let vpcEndpointDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.VpcEndpoint.self, forKey: .vpcEndpoint)
         vpcEndpoint = vpcEndpointDecoded
     }
+}
+
+extension OpenSearchClientTypes.CrossClusterSearchConnectionProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case skipUnavailable = "SkipUnavailable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let skipUnavailable = self.skipUnavailable {
+            try encodeContainer.encode(skipUnavailable.rawValue, forKey: .skipUnavailable)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let skipUnavailableDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SkipUnavailableStatus.self, forKey: .skipUnavailable)
+        skipUnavailable = skipUnavailableDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Cross cluster search specific connection properties.
+    public struct CrossClusterSearchConnectionProperties: Swift.Equatable {
+        /// Status of SkipUnavailable param for outbound connection.
+        public var skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus?
+
+        public init(
+            skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus? = nil
+        )
+        {
+            self.skipUnavailable = skipUnavailable
+        }
+    }
+
 }
 
 extension DeleteDomainInput: ClientRuntime.URLPathProvider {
@@ -13502,6 +13559,43 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension OpenSearchClientTypes {
+    /// Status of SkipUnavailable param for outbound connection.
+    ///
+    /// * ENABLED - The SkipUnavailable param is enabled for the connection.
+    ///
+    /// * DISABLED - The SkipUnavailable param is disabled for the connection.
+    public enum SkipUnavailableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SkipUnavailableStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SkipUnavailableStatus(rawValue: rawValue) ?? SkipUnavailableStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SlotNotAvailableException {

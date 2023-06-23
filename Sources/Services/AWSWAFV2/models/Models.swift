@@ -79,8 +79,87 @@ extension WAFV2ClientTypes {
 
 }
 
+extension WAFV2ClientTypes.AWSManagedRulesACFPRuleSet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationPath = "CreationPath"
+        case enableRegexInPath = "EnableRegexInPath"
+        case registrationPagePath = "RegistrationPagePath"
+        case requestInspection = "RequestInspection"
+        case responseInspection = "ResponseInspection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationPath = self.creationPath {
+            try encodeContainer.encode(creationPath, forKey: .creationPath)
+        }
+        if enableRegexInPath != false {
+            try encodeContainer.encode(enableRegexInPath, forKey: .enableRegexInPath)
+        }
+        if let registrationPagePath = self.registrationPagePath {
+            try encodeContainer.encode(registrationPagePath, forKey: .registrationPagePath)
+        }
+        if let requestInspection = self.requestInspection {
+            try encodeContainer.encode(requestInspection, forKey: .requestInspection)
+        }
+        if let responseInspection = self.responseInspection {
+            try encodeContainer.encode(responseInspection, forKey: .responseInspection)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationPath)
+        creationPath = creationPathDecoded
+        let registrationPagePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registrationPagePath)
+        registrationPagePath = registrationPagePathDecoded
+        let requestInspectionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RequestInspectionACFP.self, forKey: .requestInspection)
+        requestInspection = requestInspectionDecoded
+        let responseInspectionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ResponseInspection.self, forKey: .responseInspection)
+        responseInspection = responseInspectionDecoded
+        let enableRegexInPathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableRegexInPath) ?? false
+        enableRegexInPath = enableRegexInPathDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    public struct AWSManagedRulesACFPRuleSet: Swift.Equatable {
+        /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/signup, you would provide the path /web/signup.
+        /// This member is required.
+        public var creationPath: Swift.String?
+        /// Allow the use of regular expressions in the registration page path and the account creation path.
+        public var enableRegexInPath: Swift.Bool
+        /// The path of the account registration endpoint for your application. This is the page on your website that presents the registration form to new users. This page must accept GET text/html requests. For example, for the URL https://example.com/web/register, you would provide the path /web/register.
+        /// This member is required.
+        public var registrationPagePath: Swift.String?
+        /// The criteria for inspecting account creation requests, used by the ACFP rule group to validate and track account creation attempts.
+        /// This member is required.
+        public var requestInspection: WAFV2ClientTypes.RequestInspectionACFP?
+        /// The criteria for inspecting responses to account creation requests, used by the ACFP rule group to track account creation success rates. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions. The ACFP rule group evaluates the responses that your protected resources send back to client account creation attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses that have had too many successful account creation attempts in a short amount of time.
+        public var responseInspection: WAFV2ClientTypes.ResponseInspection?
+
+        public init(
+            creationPath: Swift.String? = nil,
+            enableRegexInPath: Swift.Bool = false,
+            registrationPagePath: Swift.String? = nil,
+            requestInspection: WAFV2ClientTypes.RequestInspectionACFP? = nil,
+            responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
+        )
+        {
+            self.creationPath = creationPath
+            self.enableRegexInPath = enableRegexInPath
+            self.registrationPagePath = registrationPagePath
+            self.requestInspection = requestInspection
+            self.responseInspection = responseInspection
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableRegexInPath = "EnableRegexInPath"
         case loginPath = "LoginPath"
         case requestInspection = "RequestInspection"
         case responseInspection = "ResponseInspection"
@@ -88,6 +167,9 @@ extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enableRegexInPath != false {
+            try encodeContainer.encode(enableRegexInPath, forKey: .enableRegexInPath)
+        }
         if let loginPath = self.loginPath {
             try encodeContainer.encode(loginPath, forKey: .loginPath)
         }
@@ -107,26 +189,32 @@ extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
         requestInspection = requestInspectionDecoded
         let responseInspectionDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ResponseInspection.self, forKey: .responseInspection)
         responseInspection = responseInspectionDecoded
+        let enableRegexInPathDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableRegexInPath) ?? false
+        enableRegexInPath = enableRegexInPathDecoded
     }
 }
 
 extension WAFV2ClientTypes {
     /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig.
     public struct AWSManagedRulesATPRuleSet: Swift.Equatable {
+        /// Allow the use of regular expressions in the login page path.
+        public var enableRegexInPath: Swift.Bool
         /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login. The rule group inspects only HTTP POST requests to your specified login endpoint.
         /// This member is required.
         public var loginPath: Swift.String?
         /// The criteria for inspecting login requests, used by the ATP rule group to validate credentials usage.
         public var requestInspection: WAFV2ClientTypes.RequestInspection?
-        /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates. The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses that submit too many failed login attempts in a short amount of time. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+        /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions. The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts for each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses that have had too many failed login attempts in a short amount of time.
         public var responseInspection: WAFV2ClientTypes.ResponseInspection?
 
         public init(
+            enableRegexInPath: Swift.Bool = false,
             loginPath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspection? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
         )
         {
+            self.enableRegexInPath = enableRegexInPath
             self.loginPath = loginPath
             self.requestInspection = requestInspection
             self.responseInspection = responseInspection
@@ -249,6 +337,46 @@ extension WAFV2ClientTypes {
             self = ActionValue(rawValue: rawValue) ?? ActionValue.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WAFV2ClientTypes.AddressField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The name of a field in the request payload that contains part or all of your customer's primary physical address. This data type is used in the RequestInspectionACFP data type.
+    public struct AddressField: Swift.Equatable {
+        /// The name of a single primary address field. How you specify the address fields depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } }, the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryaddressline1, primaryaddressline2, and primaryaddressline3, the address fields identifiers are primaryaddressline1, primaryaddressline2, and primaryaddressline3.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil
+        )
+        {
+            self.identifier = identifier
+        }
+    }
+
 }
 
 extension WAFV2ClientTypes.All: Swift.Codable {
@@ -4838,6 +4966,46 @@ public struct DisassociateWebACLOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension WAFV2ClientTypes.EmailField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The name of the field in the request payload that contains your customer's email. This data type is used in the RequestInspectionACFP data type.
+    public struct EmailField: Swift.Equatable {
+        /// The name of the email field. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "email": "THE_EMAIL" } }, the email field specification is /form/email.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named email1, the email field specification is email1.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil
+        )
+        {
+            self.identifier = identifier
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.ExcludedRule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -5032,7 +5200,7 @@ extension WAFV2ClientTypes {
         public var body: WAFV2ClientTypes.Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects. Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public var cookies: WAFV2ClientTypes.Cookies?
-        /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+        /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
         public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
@@ -7214,7 +7382,7 @@ extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetWebACLOutputResponse: Swift.Equatable {
-    /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
+    /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet and the account creation fraud prevention managed rule group AWSManagedRulesACFPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     public var applicationIntegrationURL: Swift.String?
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var lockToken: Swift.String?
@@ -7502,7 +7670,7 @@ extension WAFV2ClientTypes.HeaderOrder: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+    /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
     public struct HeaderOrder: Swift.Equatable {
         /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
@@ -10247,7 +10415,7 @@ extension WAFV2ClientTypes {
         public var loggingFilter: WAFV2ClientTypes.LoggingFilter?
         /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
         public var managedByFirewallManager: Swift.Bool
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, Method, and JsonBody.
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method.
         public var redactedFields: [WAFV2ClientTypes.FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         /// This member is required.
@@ -10447,6 +10615,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.ManagedRuleGroupConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsManagedRulesACFPRuleSet = "AWSManagedRulesACFPRuleSet"
         case awsManagedRulesATPRuleSet = "AWSManagedRulesATPRuleSet"
         case awsManagedRulesBotControlRuleSet = "AWSManagedRulesBotControlRuleSet"
         case loginPath = "LoginPath"
@@ -10457,6 +10626,9 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsManagedRulesACFPRuleSet = self.awsManagedRulesACFPRuleSet {
+            try encodeContainer.encode(awsManagedRulesACFPRuleSet, forKey: .awsManagedRulesACFPRuleSet)
+        }
         if let awsManagedRulesATPRuleSet = self.awsManagedRulesATPRuleSet {
             try encodeContainer.encode(awsManagedRulesATPRuleSet, forKey: .awsManagedRulesATPRuleSet)
         }
@@ -10491,12 +10663,25 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig: Swift.Codable {
         awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSetDecoded
         let awsManagedRulesATPRuleSetDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.AWSManagedRulesATPRuleSet.self, forKey: .awsManagedRulesATPRuleSet)
         awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSetDecoded
+        let awsManagedRulesACFPRuleSetDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.AWSManagedRulesACFPRuleSet.self, forKey: .awsManagedRulesACFPRuleSet)
+        awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSetDecoded
     }
 }
 
 extension WAFV2ClientTypes {
-    /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. Use the AWSManagedRulesATPRuleSet configuration object for the account takeover prevention managed rule group, to provide information such as the sign-in page of your application and the type of content to accept or reject from the client. Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use. For example specifications, see the examples section of [CreateWebACL].
+    /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:
+    ///
+    /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
+    ///
+    /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
+    ///
+    /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
+    ///
+    ///
+    /// For example specifications, see the examples section of [CreateWebACL].
     public struct ManagedRuleGroupConfig: Swift.Equatable {
+        /// Additional configuration for using the account creation fraud prevention (ACFP) managed rule group, AWSManagedRulesACFPRuleSet. Use this to provide account creation request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to account creation requests. For information about using the ACFP managed rule group, see [WAF Fraud Control account creation fraud prevention (ACFP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-acfp.html) and [WAF Fraud Control account creation fraud prevention (ACFP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-acfp.html) in the WAF Developer Guide.
+        public var awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet. Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests. This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration. For information about using the ATP managed rule group, see [WAF Fraud Control account takeover prevention (ATP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html) and [WAF Fraud Control account takeover prevention (ATP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html) in the WAF Developer Guide.
         public var awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?
         /// Additional configuration for using the Bot Control managed rule group. Use this to specify the inspection level that you want to use. For information about using the Bot Control managed rule group, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) and [WAF Bot Control](https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control.html) in the WAF Developer Guide.
@@ -10504,17 +10689,18 @@ extension WAFV2ClientTypes {
         /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet.
         @available(*, deprecated, message: "Deprecated. Use AWSManagedRulesATPRuleSet LoginPath")
         public var loginPath: Swift.String?
-        /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSetRequestInspection.
+        /// Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         @available(*, deprecated, message: "Deprecated. Use AWSManagedRulesATPRuleSet RequestInspection PasswordField")
         public var passwordField: WAFV2ClientTypes.PasswordField?
-        /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSetRequestInspection.
+        /// Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         @available(*, deprecated, message: "Deprecated. Use AWSManagedRulesATPRuleSet RequestInspection PayloadType")
         public var payloadType: WAFV2ClientTypes.PayloadType?
-        /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSetRequestInspection.
+        /// Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         @available(*, deprecated, message: "Deprecated. Use AWSManagedRulesATPRuleSet RequestInspection UsernameField")
         public var usernameField: WAFV2ClientTypes.UsernameField?
 
         public init(
+            awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet? = nil,
             awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet? = nil,
             awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet? = nil,
             loginPath: Swift.String? = nil,
@@ -10523,6 +10709,7 @@ extension WAFV2ClientTypes {
             usernameField: WAFV2ClientTypes.UsernameField? = nil
         )
         {
+            self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = loginPath
@@ -10626,11 +10813,17 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
     public struct ManagedRuleGroupStatement: Swift.Equatable {
         /// Rules in the referenced rule group whose actions are set to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public var excludedRules: [WAFV2ClientTypes.ExcludedRule]?
-        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. Use the AWSManagedRulesATPRuleSet configuration object for the account takeover prevention managed rule group, to provide information such as the sign-in page of your application and the type of content to accept or reject from the client. Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
+        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:
+        ///
+        /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
+        ///
+        /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
+        ///
+        /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
         public var managedRuleGroupConfigs: [WAFV2ClientTypes.ManagedRuleGroupConfig]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         /// This member is required.
@@ -11383,6 +11576,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
     public enum ParameterExceptionField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case acpRuleSetResponseInspection
         case andStatement
         case associableResource
         case associatedResourceType
@@ -11456,6 +11650,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [ParameterExceptionField] {
             return [
+                .acpRuleSetResponseInspection,
                 .andStatement,
                 .associableResource,
                 .associatedResourceType,
@@ -11534,6 +11729,7 @@ extension WAFV2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .acpRuleSetResponseInspection: return "ACP_RULE_SET_RESPONSE_INSPECTION"
             case .andStatement: return "AND_STATEMENT"
             case .associableResource: return "ASSOCIABLE_RESOURCE"
             case .associatedResourceType: return "ASSOCIATED_RESOURCE_TYPE"
@@ -11634,9 +11830,13 @@ extension WAFV2ClientTypes.PasswordField: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Details about your login page password field for request inspection, used in the AWSManagedRulesATPRuleSetRequestInspection configuration.
+    /// The name of the field in the request payload that contains your customer's password. This data type is used in the RequestInspection and RequestInspectionACFP data types.
     public struct PasswordField: Swift.Equatable {
-        /// The name of the password field. For example /form/password.
+        /// The name of the password field. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } }, the password field specification is /form/password.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
         /// This member is required.
         public var identifier: Swift.String?
 
@@ -11680,6 +11880,46 @@ extension WAFV2ClientTypes {
             self = PayloadType(rawValue: rawValue) ?? PayloadType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WAFV2ClientTypes.PhoneNumberField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The name of a field in the request payload that contains part or all of your customer's primary phone number. This data type is used in the RequestInspectionACFP data type.
+    public struct PhoneNumberField: Swift.Equatable {
+        /// The name of a single primary phone number field. How you specify the phone number fields depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } }, the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil
+        )
+        {
+            self.identifier = identifier
+        }
+    }
+
 }
 
 extension WAFV2ClientTypes {
@@ -13278,21 +13518,21 @@ extension WAFV2ClientTypes.RequestInspection: Swift.Codable {
 extension WAFV2ClientTypes {
     /// The criteria for inspecting login requests, used by the ATP rule group to validate credentials usage. This is part of the AWSManagedRulesATPRuleSet configuration in ManagedRuleGroupConfig. In these settings, you specify how your application accepts login attempts by providing the request payload type and the names of the fields within the request body where the username and password are provided.
     public struct RequestInspection: Swift.Equatable {
-        /// Details about your login page password field. How you specify this depends on the payload type.
+        /// The name of the field in the request payload that contains your customer's password. How you specify this depends on the request inspection payload type.
         ///
-        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "login": { "username": "THE_USERNAME", "password": "THE_PASSWORD" } }, the username field specification is /login/username and the password field specification is /login/password.
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } }, the password field specification is /form/password.
         ///
-        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named username1 and password1, the username field specification is username1 and the password field specification is password1.
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
         /// This member is required.
         public var passwordField: WAFV2ClientTypes.PasswordField?
         /// The payload type for your login endpoint, either JSON or form encoded.
         /// This member is required.
         public var payloadType: WAFV2ClientTypes.PayloadType?
-        /// Details about your login page username field. How you specify this depends on the payload type.
+        /// The name of the field in the request payload that contains your customer's username. How you specify this depends on the request inspection payload type.
         ///
-        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "login": { "username": "THE_USERNAME", "password": "THE_PASSWORD" } }, the username field specification is /login/username and the password field specification is /login/password.
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "username": "THE_USERNAME" } }, the username field specification is /form/username.
         ///
-        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named username1 and password1, the username field specification is username1 and the password field specification is password1.
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         /// This member is required.
         public var usernameField: WAFV2ClientTypes.UsernameField?
 
@@ -13304,6 +13544,136 @@ extension WAFV2ClientTypes {
         {
             self.passwordField = passwordField
             self.payloadType = payloadType
+            self.usernameField = usernameField
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RequestInspectionACFP: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addressFields = "AddressFields"
+        case emailField = "EmailField"
+        case passwordField = "PasswordField"
+        case payloadType = "PayloadType"
+        case phoneNumberFields = "PhoneNumberFields"
+        case usernameField = "UsernameField"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addressFields = addressFields {
+            var addressFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addressFields)
+            for addressfield0 in addressFields {
+                try addressFieldsContainer.encode(addressfield0)
+            }
+        }
+        if let emailField = self.emailField {
+            try encodeContainer.encode(emailField, forKey: .emailField)
+        }
+        if let passwordField = self.passwordField {
+            try encodeContainer.encode(passwordField, forKey: .passwordField)
+        }
+        if let payloadType = self.payloadType {
+            try encodeContainer.encode(payloadType.rawValue, forKey: .payloadType)
+        }
+        if let phoneNumberFields = phoneNumberFields {
+            var phoneNumberFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberFields)
+            for phonenumberfield0 in phoneNumberFields {
+                try phoneNumberFieldsContainer.encode(phonenumberfield0)
+            }
+        }
+        if let usernameField = self.usernameField {
+            try encodeContainer.encode(usernameField, forKey: .usernameField)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.PayloadType.self, forKey: .payloadType)
+        payloadType = payloadTypeDecoded
+        let usernameFieldDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.UsernameField.self, forKey: .usernameField)
+        usernameField = usernameFieldDecoded
+        let passwordFieldDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.PasswordField.self, forKey: .passwordField)
+        passwordField = passwordFieldDecoded
+        let emailFieldDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.EmailField.self, forKey: .emailField)
+        emailField = emailFieldDecoded
+        let phoneNumberFieldsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.PhoneNumberField?].self, forKey: .phoneNumberFields)
+        var phoneNumberFieldsDecoded0:[WAFV2ClientTypes.PhoneNumberField]? = nil
+        if let phoneNumberFieldsContainer = phoneNumberFieldsContainer {
+            phoneNumberFieldsDecoded0 = [WAFV2ClientTypes.PhoneNumberField]()
+            for structure0 in phoneNumberFieldsContainer {
+                if let structure0 = structure0 {
+                    phoneNumberFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        phoneNumberFields = phoneNumberFieldsDecoded0
+        let addressFieldsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.AddressField?].self, forKey: .addressFields)
+        var addressFieldsDecoded0:[WAFV2ClientTypes.AddressField]? = nil
+        if let addressFieldsContainer = addressFieldsContainer {
+            addressFieldsDecoded0 = [WAFV2ClientTypes.AddressField]()
+            for structure0 in addressFieldsContainer {
+                if let structure0 = structure0 {
+                    addressFieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        addressFields = addressFieldsDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// The criteria for inspecting account creation requests, used by the ACFP rule group to validate and track account creation attempts. This is part of the AWSManagedRulesACFPRuleSet configuration in ManagedRuleGroupConfig. In these settings, you specify how your application accepts account creation attempts by providing the request payload type and the names of the fields within the request body where the username, password, email, and primary address and phone number fields are provided.
+    public struct RequestInspectionACFP: Swift.Equatable {
+        /// The names of the fields in the request payload that contain your customer's primary physical address. Order the address fields in the array exactly as they are ordered in the request payload. How you specify the address fields depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } }, the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryaddressline1, primaryaddressline2, and primaryaddressline3, the address fields identifiers are primaryaddressline1, primaryaddressline2, and primaryaddressline3.
+        public var addressFields: [WAFV2ClientTypes.AddressField]?
+        /// The name of the field in the request payload that contains your customer's email. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "email": "THE_EMAIL" } }, the email field specification is /form/email.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named email1, the email field specification is email1.
+        public var emailField: WAFV2ClientTypes.EmailField?
+        /// The name of the field in the request payload that contains your customer's password. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } }, the password field specification is /form/password.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
+        public var passwordField: WAFV2ClientTypes.PasswordField?
+        /// The payload type for your account creation endpoint, either JSON or form encoded.
+        /// This member is required.
+        public var payloadType: WAFV2ClientTypes.PayloadType?
+        /// The names of the fields in the request payload that contain your customer's primary phone number. Order the phone number fields in the array exactly as they are ordered in the request payload. How you specify the phone number fields depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } }, the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
+        public var phoneNumberFields: [WAFV2ClientTypes.PhoneNumberField]?
+        /// The name of the field in the request payload that contains your customer's username. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "username": "THE_USERNAME" } }, the username field specification is /form/username.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
+        public var usernameField: WAFV2ClientTypes.UsernameField?
+
+        public init(
+            addressFields: [WAFV2ClientTypes.AddressField]? = nil,
+            emailField: WAFV2ClientTypes.EmailField? = nil,
+            passwordField: WAFV2ClientTypes.PasswordField? = nil,
+            payloadType: WAFV2ClientTypes.PayloadType? = nil,
+            phoneNumberFields: [WAFV2ClientTypes.PhoneNumberField]? = nil,
+            usernameField: WAFV2ClientTypes.UsernameField? = nil
+        )
+        {
+            self.addressFields = addressFields
+            self.emailField = emailField
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.phoneNumberFields = phoneNumberFields
             self.usernameField = usernameField
         }
     }
@@ -13427,15 +13797,15 @@ extension WAFV2ClientTypes.ResponseInspection: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates. The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses that submit too many failed login attempts in a short amount of time. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions. This is part of the AWSManagedRulesATPRuleSet configuration in ManagedRuleGroupConfig. Enable login response inspection by configuring exactly one component of the response to inspect. You can't configure more than one. If you don't configure any of the response inspection options, response inspection is disabled.
+    /// The criteria for inspecting responses to login requests and account creation requests, used by the ATP and ACFP rule groups to track login and account creation success and failure rates. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions. The rule groups evaluates the responses that your protected resources send back to client login and account creation attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses with too much suspicious activity in a short amount of time. This is part of the AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet configurations in ManagedRuleGroupConfig. Enable response inspection by configuring exactly one component of the response to inspect, for example, Header or StatusCode. You can't configure more than one component for inspection. If you don't configure any of the response inspection options, response inspection is disabled.
     public struct ResponseInspection: Swift.Equatable {
-        /// Configures inspection of the response body. WAF can inspect the first 65,536 bytes (64 KB) of the response body.
+        /// Configures inspection of the response body for success and failure indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response body.
         public var bodyContains: WAFV2ClientTypes.ResponseInspectionBodyContains?
-        /// Configures inspection of the response header.
+        /// Configures inspection of the response header for success and failure indicators.
         public var header: WAFV2ClientTypes.ResponseInspectionHeader?
-        /// Configures inspection of the response JSON. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON.
+        /// Configures inspection of the response JSON for success and failure indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON.
         public var json: WAFV2ClientTypes.ResponseInspectionJson?
-        /// Configures inspection of the response status code.
+        /// Configures inspection of the response status code for success and failure indicators.
         public var statusCode: WAFV2ClientTypes.ResponseInspectionStatusCode?
 
         public init(
@@ -13504,12 +13874,12 @@ extension WAFV2ClientTypes.ResponseInspectionBodyContains: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Configures inspection of the response body. WAF can inspect the first 65,536 bytes (64 KB) of the response body. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+    /// Configures inspection of the response body. WAF can inspect the first 65,536 bytes (64 KB) of the response body. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
     public struct ResponseInspectionBodyContains: Swift.Equatable {
-        /// Strings in the body of the response that indicate a failed login attempt. To be counted as a failed login, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings. JSON example: "FailureStrings": [ "Login failed" ]
+        /// Strings in the body of the response that indicate a failed login or account creation attempt. To be counted as a failure, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings. JSON example: "FailureStrings": [ "Request failed" ]
         /// This member is required.
         public var failureStrings: [Swift.String]?
-        /// Strings in the body of the response that indicate a successful login attempt. To be counted as a successful login, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings. JSON example: "SuccessStrings": [ "Login successful", "Welcome to our site!" ]
+        /// Strings in the body of the response that indicate a successful login or account creation attempt. To be counted as a success, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings. JSON examples: "SuccessStrings": [ "Login successful" ] and "SuccessStrings": [ "Account creation successful", "Welcome to our site!" ]
         /// This member is required.
         public var successStrings: [Swift.String]?
 
@@ -13581,15 +13951,15 @@ extension WAFV2ClientTypes.ResponseInspectionHeader: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Configures inspection of the response header. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+    /// Configures inspection of the response header. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
     public struct ResponseInspectionHeader: Swift.Equatable {
-        /// Values in the response header with the specified name that indicate a failed login attempt. To be counted as a failed login, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "FailureValues": [ "LoginFailed", "Failed login" ]
+        /// Values in the response header with the specified name that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON examples: "FailureValues": [ "LoginFailed", "Failed login" ] and "FailureValues": [ "AccountCreationFailed" ]
         /// This member is required.
         public var failureValues: [Swift.String]?
-        /// The name of the header to match against. The name must be an exact match, including case. JSON example: "Name": [ "LoginResult" ]
+        /// The name of the header to match against. The name must be an exact match, including case. JSON example: "Name": [ "RequestResult" ]
         /// This member is required.
         public var name: Swift.String?
-        /// Values in the response header with the specified name that indicate a successful login attempt. To be counted as a successful login, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "SuccessValues": [ "LoginPassed", "Successful login" ]
+        /// Values in the response header with the specified name that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON examples: "SuccessValues": [ "LoginPassed", "Successful login" ] and "SuccessValues": [ "AccountCreated", "Successful account creation" ]
         /// This member is required.
         public var successValues: [Swift.String]?
 
@@ -13663,15 +14033,15 @@ extension WAFV2ClientTypes.ResponseInspectionJson: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Configures inspection of the response JSON. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+    /// Configures inspection of the response JSON. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
     public struct ResponseInspectionJson: Swift.Equatable {
-        /// Values for the specified identifier in the response JSON that indicate a failed login attempt. To be counted as a failed login, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "FailureValues": [ "False", "Failed" ]
+        /// Values for the specified identifier in the response JSON that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "FailureValues": [ "False", "Failed" ]
         /// This member is required.
         public var failureValues: [Swift.String]?
-        /// The identifier for the value to match against in the JSON. The identifier must be an exact match, including case. JSON example: "Identifier": [ "/login/success" ]
+        /// The identifier for the value to match against in the JSON. The identifier must be an exact match, including case. JSON examples: "Identifier": [ "/login/success" ] and "Identifier": [ "/sign-up/success" ]
         /// This member is required.
         public var identifier: Swift.String?
-        /// Values for the specified identifier in the response JSON that indicate a successful login attempt. To be counted as a successful login, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "SuccessValues": [ "True", "Succeeded" ]
+        /// Values for the specified identifier in the response JSON that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "SuccessValues": [ "True", "Succeeded" ]
         /// This member is required.
         public var successValues: [Swift.String]?
 
@@ -13739,12 +14109,12 @@ extension WAFV2ClientTypes.ResponseInspectionStatusCode: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Configures inspection of the response status code. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+    /// Configures inspection of the response status code. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
     public struct ResponseInspectionStatusCode: Swift.Equatable {
-        /// Status codes in the response that indicate a failed login attempt. To be counted as a failed login, the response status code must match one of these. Each code must be unique among the success and failure status codes. JSON example: "FailureCodes": [ 400, 404 ]
+        /// Status codes in the response that indicate a failed login or account creation attempt. To be counted as a failure, the response status code must match one of these. Each code must be unique among the success and failure status codes. JSON example: "FailureCodes": [ 400, 404 ]
         /// This member is required.
         public var failureCodes: [Swift.Int]?
-        /// Status codes in the response that indicate a successful login attempt. To be counted as a successful login, the response status code must match one of these. Each code must be unique among the success and failure status codes. JSON example: "SuccessCodes": [ 200, 201 ]
+        /// Status codes in the response that indicate a successful login or account creation attempt. To be counted as a success, the response status code must match one of these. Each code must be unique among the success and failure status codes. JSON example: "SuccessCodes": [ 200, 201 ]
         /// This member is required.
         public var successCodes: [Swift.Int]?
 
@@ -15028,7 +15398,7 @@ extension WAFV2ClientTypes {
         public var ipSetReferenceStatement: WAFV2ClientTypes.IPSetReferenceStatement?
         /// A rule statement to match against labels that have been added to the web request by rules that have already run in the web ACL. The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label. If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
         public var labelMatchStatement: WAFV2ClientTypes.LabelMatchStatement?
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
         public var managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement?
         /// A logical rule statement used to negate the results of another rule statement. You provide one [Statement] within the NotStatement.
         public var notStatement: WAFV2ClientTypes.NotStatement?
@@ -16806,9 +17176,13 @@ extension WAFV2ClientTypes.UsernameField: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Details about your login page username field for request inspection, used in the AWSManagedRulesATPRuleSetRequestInspection configuration.
+    /// The name of the field in the request payload that contains your customer's username. This data type is used in the RequestInspection and RequestInspectionACFP data types.
     public struct UsernameField: Swift.Equatable {
-        /// The name of the username field. For example /form/username.
+        /// The name of the username field. How you specify this depends on the request inspection payload type.
+        ///
+        /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "username": "THE_USERNAME" } }, the username field specification is /form/username.
+        ///
+        /// * For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         /// This member is required.
         public var identifier: Swift.String?
 

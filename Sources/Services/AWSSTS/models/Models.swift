@@ -1291,7 +1291,7 @@ extension GetCallerIdentityInput: Swift.Encodable {
 }
 
 extension GetCallerIdentityInput {
-    public func presign(config: STSClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "STS"
         let input = self
         let encoder = ClientRuntime.FormURLEncoder()
@@ -1313,14 +1313,14 @@ extension GetCallerIdentityInput {
         var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(id: "getCallerIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>(xmlName: "GetCallerIdentityRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())

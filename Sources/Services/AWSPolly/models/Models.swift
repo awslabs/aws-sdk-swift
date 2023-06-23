@@ -2661,7 +2661,7 @@ extension SynthesizeSpeechInput: Swift.Encodable {
 }
 
 extension SynthesizeSpeechInput {
-    public func presignURL(config: PollyClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
         let serviceName = "Polly"
         let input = self
         let encoder = ClientRuntime.JSONEncoder()
@@ -2688,9 +2688,9 @@ extension SynthesizeSpeechInput {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
@@ -2704,7 +2704,7 @@ extension SynthesizeSpeechInput {
 }
 
 extension SynthesizeSpeechInput {
-    public func presign(config: PollyClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "Polly"
         let input = self
         let encoder = ClientRuntime.JSONEncoder()
@@ -2731,13 +2731,13 @@ extension SynthesizeSpeechInput {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>(xmlName: "SynthesizeSpeechInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())

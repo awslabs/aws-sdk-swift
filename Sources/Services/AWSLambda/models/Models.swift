@@ -10490,6 +10490,7 @@ public enum InvokeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "KMSDisabledException": return try await KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSNotFoundException": return try await KMSNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RecursiveInvocationException": return try await RecursiveInvocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RequestTooLargeException": return try await RequestTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10850,6 +10851,7 @@ public enum InvokeWithResponseStreamOutputError: ClientRuntime.HttpResponseError
             case "KMSDisabledException": return try await KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSNotFoundException": return try await KMSNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RecursiveInvocationException": return try await RecursiveInvocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RequestTooLargeException": return try await RequestTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -15441,6 +15443,72 @@ extension PutRuntimeManagementConfigOutputResponseBody: Swift.Decodable {
         functionArn = functionArnDecoded
         let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
         runtimeVersionArn = runtimeVersionArnDecoded
+    }
+}
+
+extension RecursiveInvocationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RecursiveInvocationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+            self.properties.type = output.type
+        } else {
+            self.properties.message = nil
+            self.properties.type = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
+public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RecursiveInvocationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+struct RecursiveInvocationExceptionBody: Swift.Equatable {
+    let type: Swift.String?
+    let message: Swift.String?
+}
+
+extension RecursiveInvocationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
