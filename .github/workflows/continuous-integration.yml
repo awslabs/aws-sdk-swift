@@ -118,33 +118,8 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
     steps:
-      - name: Dump env
-        run: env | sort
-      - name: Trigger Workflow
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: 'awslabs',
-              repo: 'aws-sdk-swift',
-              workflow_id: 'codegen-build-test.yml',
-              ref: process.env.GITHUB_HEAD_REF
-            })
-      - name: Check status to queued
-        id: check
-        uses: LouisBrunner/checks-action@v1.6.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Check Yourself
-          status: queued
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
-      - name: Check status to in_progress
-        uses: LouisBrunner/checks-action@v1.6.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          check_id: ${{ steps.check.outputs.check_id }}
-          status: in_progress
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
@@ -190,10 +165,3 @@ jobs:
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/build_and_run_protocol_and_unit_tests.sh
-      - name: Check status to ${{ job.status }}
-        if: always()
-        uses: LouisBrunner/checks-action@v1.6.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          check_id: ${{ steps.check.outputs.check_id }}
-          conclusion: ${{ job.status }}
