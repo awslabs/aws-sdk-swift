@@ -21,5 +21,5 @@ cat Package.swift
 ./gradlew --stop
 ./scripts/mergeModels.sh codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models
 
-# Run aws-sdk-swift protocol and unit tests
-swift test
+# Run aws-sdk-swift protocol and unit tests as a separate step
+# (allows for use of either Xcode or pure Swift toolchains)
