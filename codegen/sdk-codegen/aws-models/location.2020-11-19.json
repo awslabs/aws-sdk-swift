@@ -33,7 +33,11 @@
         "com.amazonaws.location#ApiKeyAction": {
             "type": "string",
             "traits": {
-                "smithy.api#pattern": "^geo:GetMap\\*$"
+                "smithy.api#length": {
+                    "min": 5,
+                    "max": 200
+                },
+                "smithy.api#pattern": "^geo:\\w*\\*?$"
             }
         },
         "com.amazonaws.location#ApiKeyActionList": {
@@ -94,7 +98,7 @@
                         "smithy.api#documentation": "<p>A list of allowed actions that an API key resource grants permissions to\n            perform</p>\n         <note>\n            <p>Currently, the only valid action is <code>geo:GetMap*</code> as an input to the\n                list. For example, <code>[\"geo:GetMap*\"]</code> is valid but\n                    <code>[\"geo:GetMapTile\"]</code> is not.</p>\n         </note>",
                         "smithy.api#length": {
                             "min": 1,
-                            "max": 1
+                            "max": 7
                         },
                         "smithy.api#required": {}
                     }
@@ -779,6 +783,12 @@
                         "smithy.api#documentation": "<p>Contains the details of the position of the geofence. Can be either a \n            polygon or a circle. Including both will return a validation error.</p>\n         <note>\n            <p>Each <a href=\"https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html\">\n                geofence polygon</a> can have a maximum of 1,000 vertices.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
+                },
+                "GeofenceProperties": {
+                    "target": "com.amazonaws.location#PropertyMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies additional user-defined properties to store with the Geofence. An array \n            of key-value pairs.</p>"
+                    }
                 }
             },
             "traits": {
@@ -871,7 +881,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Uploads position update data for one or more devices to a tracker resource. Amazon Location\n           uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 \n           days.</p>\n         <note>\n            <p>Position updates are handled based on the <code>PositionFiltering</code> property of the tracker. \n               When <code>PositionFiltering</code> is set to <code>TimeBased</code>, updates are evaluated against linked geofence collections, \n               and location data is stored at a maximum of one position per 30 second interval. If your update frequency is more often than \n               every 30 seconds, only one update per 30 seconds is stored for each unique device ID.</p>\n            <p>When <code>PositionFiltering</code> is set to <code>DistanceBased</code> filtering, location data is stored and evaluated against linked geofence \n                collections only if the device has moved more than 30 m (98.4 ft).</p>\n            <p>When <code>PositionFiltering</code> is set to <code>AccuracyBased</code> filtering,\n                location data is stored and evaluated against linked geofence collections only if the\n                device has moved more than the measured accuracy. For example, if two consecutive\n                updates from a device have a horizontal accuracy of 5 m and 10 m, the second update\n                is neither stored or evaluated if the device has moved less than 15 m. If\n                <code>PositionFiltering</code> is set to <code>AccuracyBased</code> filtering, Amazon Location\n                uses the default value <code>{ \"Horizontal\": 0}</code> when accuracy is not provided on\n                a <code>DevicePositionUpdate</code>.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Uploads position update data for one or more devices to a tracker resource (up to \n           10 devices per batch). Amazon Location uses the data when it reports the last known device \n           position and position history. Amazon Location retains location data for 30 days.</p>\n         <note>\n            <p>Position updates are handled based on the <code>PositionFiltering</code> \n               property of the tracker. When <code>PositionFiltering</code> is set to \n               <code>TimeBased</code>, updates are evaluated against linked geofence collections, \n               and location data is stored at a maximum of one position per 30 second interval. \n               If your update frequency is more often than every 30 seconds, only one update per \n               30 seconds is stored for each unique device ID.</p>\n            <p>When <code>PositionFiltering</code> is set to <code>DistanceBased</code> \n                filtering, location data is stored and evaluated against linked geofence \n                collections only if the device has moved more than 30 m (98.4 ft).</p>\n            <p>When <code>PositionFiltering</code> is set to <code>AccuracyBased</code> \n                filtering, location data is stored and evaluated against linked geofence \n                collections only if the device has moved more than the measured accuracy. For \n                example, if two consecutive updates from a device have a horizontal accuracy of \n                5 m and 10 m, the second update is neither stored or evaluated if the device has \n                moved less than 15 m. If <code>PositionFiltering</code> is set to \n                <code>AccuracyBased</code> filtering, Amazon Location uses the default value \n                <code>{ \"Horizontal\": 0}</code> when accuracy is not provided on a\n                <code>DevicePositionUpdate</code>.</p>\n         </note>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "tracking."
                 },
@@ -930,7 +940,7 @@
                 "Updates": {
                     "target": "com.amazonaws.location#DevicePositionUpdateList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Contains the position update details for each device.</p>",
+                        "smithy.api#documentation": "<p>Contains the position update details for each device, up to 10 devices.</p>",
                         "smithy.api#length": {
                             "min": 1,
                             "max": 10
@@ -1446,6 +1456,26 @@
                 "smithy.api#pattern": "^[A-Z]{3}$"
             }
         },
+        "com.amazonaws.location#CountryCode3": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 3,
+                    "max": 3
+                },
+                "smithy.api#pattern": "^[A-Z]{3}$"
+            }
+        },
+        "com.amazonaws.location#CountryCode3OrEmpty": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 3
+                },
+                "smithy.api#pattern": "^[A-Z]{3}$|^$"
+            }
+        },
         "com.amazonaws.location#CountryCodeList": {
             "type": "list",
             "member": {
@@ -1895,7 +1925,7 @@
                     }
                 },
                 "IndexArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the place index resource. Used to specify a\n            resource across Amazon Web Services. </p>\n         <ul>\n            <li>\n               <p>Format example:\n                        <code>arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
@@ -2002,7 +2032,7 @@
                     }
                 },
                 "CalculatorArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the route calculator resource. Use the ARN when you\n            specify a resource across all Amazon Web Services.</p>\n         <ul>\n            <li>\n               <p>Format example:\n                        <code>arn:aws:geo:region:account-id:route-calculator/ExampleCalculator</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
@@ -2034,6 +2064,9 @@
                 },
                 {
                     "target": "com.amazonaws.location#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.location#ServiceQuotaExceededException"
                 },
                 {
                     "target": "com.amazonaws.location#ThrottlingException"
@@ -2895,7 +2928,7 @@
                     }
                 },
                 "IndexArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the place index resource. Used to specify a\n            resource across Amazon Web Services. </p>\n         <ul>\n            <li>\n               <p>Format example:\n                        <code>arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
@@ -3015,7 +3048,7 @@
                     }
                 },
                 "CalculatorArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the Route calculator resource. Use the ARN when you\n            specify a resource across Amazon Web Services.</p>\n         <ul>\n            <li>\n               <p>Format example:\n                        <code>arn:aws:geo:region:account-id:route-calculator/ExampleCalculator</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
@@ -3386,6 +3419,18 @@
                         "value": "Miles"
                     }
                 ]
+            }
+        },
+        "com.amazonaws.location#FilterPlaceCategoryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.location#PlaceCategory"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
             }
         },
         "com.amazonaws.location#GenericResource": {
@@ -3803,6 +3848,12 @@
                         "smithy.api#documentation": "<p>The timestamp for when the geofence collection was last updated in <a href=\"https://www.iso.org/iso-8601-date-and-time-format.html\">ISO 8601</a>\n            format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>\n         </p>",
                         "smithy.api#required": {}
                     }
+                },
+                "GeofenceProperties": {
+                    "target": "com.amazonaws.location#PropertyMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains additional user-defined properties stored with the geofence. An array of \n            key-value pairs.</p>"
+                    }
                 }
             }
         },
@@ -3857,7 +3908,7 @@
                 "FontStack": {
                     "target": "smithy.api#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>A comma-separated list of fonts to load glyphs from in order of preference. For\n            example, <code>Noto Sans Regular, Arial Unicode</code>.</p>\n         <p>Valid fonts stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri</a> styles: </p>\n         <ul>\n            <li>\n               <p>VectorEsriDarkGrayCanvas – <code>Ubuntu Medium Italic</code> | <code>Ubuntu\n                        Medium</code> | <code>Ubuntu Italic</code> | <code>Ubuntu Regular</code> |\n                        <code>Ubuntu Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriLightGrayCanvas – <code>Ubuntu Italic</code> | <code>Ubuntu\n                        Regular</code> | <code>Ubuntu Light</code> | <code>Ubuntu Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriTopographic – <code>Noto Sans Italic</code> | <code>Noto Sans\n                        Regular</code> | <code>Noto Sans Bold</code> | <code>Noto Serif\n                        Regular</code> | <code>Roboto Condensed Light Italic</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriStreets – <code>Arial Regular</code> | <code>Arial Italic</code> |\n                        <code>Arial Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriNavigation – <code>Arial Regular</code> | <code>Arial Italic</code>\n                    | <code>Arial Bold</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE Technologies</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorHereContrast – <code>Fira \n                    GO Regular</code> | <code>Fira GO Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – \n                    <code>Fira GO Italic</code> | <code>Fira GO Map</code> | \n                    <code>Fira GO Map Bold</code> | <code>Noto Sans CJK JP Bold</code> | \n                    <code>Noto Sans CJK JP Light</code> | \n                    <code>Noto Sans CJK JP Regular</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorGrabStandardLight, VectorGrabStandardDark – \n                    <code>Noto Sans Regular</code> |\n                    <code>Noto Sans Medium</code> |\n                    <code>Noto Sans Bold</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/open-data.html\">Open Data</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorOpenDataStandardLight, VectorOpenDataStandardDark,\n                    VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – \n                    <code>Amazon Ember Regular,Noto Sans Regular</code> |\n                    <code>Amazon Ember Bold,Noto Sans Bold</code> | \n                    <code>Amazon Ember Medium,Noto Sans Medium</code> |\n                    <code>Amazon Ember Regular Italic,Noto Sans Italic</code> | \n                    <code>Amazon Ember Condensed RC Regular,Noto Sans Regular</code> | \n                    <code>Amazon Ember Condensed RC Bold,Noto Sans Bold</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>The fonts used by the Open Data map styles are combined fonts\n                that use <code>Amazon Ember</code> for most glyphs but <code>Noto Sans</code> \n                for glyphs unsupported by <code>Amazon Ember</code>.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>A comma-separated list of fonts to load glyphs from in order of preference. For\n            example, <code>Noto Sans Regular, Arial Unicode</code>.</p>\n         <p>Valid fonts stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri</a> styles: </p>\n         <ul>\n            <li>\n               <p>VectorEsriDarkGrayCanvas – <code>Ubuntu Medium Italic</code> | <code>Ubuntu\n                        Medium</code> | <code>Ubuntu Italic</code> | <code>Ubuntu Regular</code> |\n                        <code>Ubuntu Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriLightGrayCanvas – <code>Ubuntu Italic</code> | <code>Ubuntu\n                        Regular</code> | <code>Ubuntu Light</code> | <code>Ubuntu Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriTopographic – <code>Noto Sans Italic</code> | <code>Noto Sans\n                        Regular</code> | <code>Noto Sans Bold</code> | <code>Noto Serif\n                        Regular</code> | <code>Roboto Condensed Light Italic</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriStreets – <code>Arial Regular</code> | <code>Arial Italic</code> |\n                        <code>Arial Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorEsriNavigation – <code>Arial Regular</code> | <code>Arial Italic</code>\n                    | <code>Arial Bold</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE Technologies</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorHereContrast – <code>Fira \n                    GO Regular</code> | <code>Fira GO Bold</code>\n               </p>\n            </li>\n            <li>\n               <p>VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – \n                    <code>Fira GO Italic</code> | <code>Fira GO Map</code> | \n                    <code>Fira GO Map Bold</code> | <code>Noto Sans CJK JP Bold</code> | \n                    <code>Noto Sans CJK JP Light</code> | \n                    <code>Noto Sans CJK JP Regular</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorGrabStandardLight, VectorGrabStandardDark – \n                    <code>Noto Sans Regular</code> |\n                    <code>Noto Sans Medium</code> |\n                    <code>Noto Sans Bold</code>\n               </p>\n            </li>\n         </ul>\n         <p>Valid font stacks for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/open-data.html\">Open Data</a> styles:</p>\n         <ul>\n            <li>\n               <p>VectorOpenDataStandardLight, VectorOpenDataStandardDark,\n                    VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – \n                    <code>Amazon Ember Regular,Noto Sans Regular</code> |\n                    <code>Amazon Ember Bold,Noto Sans Bold</code> | \n                    <code>Amazon Ember Medium,Noto Sans Medium</code> |\n                    <code>Amazon Ember Regular Italic,Noto Sans Italic</code> | \n                    <code>Amazon Ember Condensed RC Regular,Noto Sans Regular</code> | \n                    <code>Amazon Ember Condensed RC Bold,Noto Sans Bold</code> |\n                    <code>Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular</code> |\n                    <code>Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic \n                        Condensed Bold</code> |\n                    <code>Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold</code> |\n                    <code>Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic \n                        Regular</code> |\n                    <code>Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic \n                        Condensed Regular</code> |\n                    <code>Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>The fonts used by the Open Data map styles are combined fonts\n                that use <code>Amazon Ember</code> for most glyphs but <code>Noto Sans</code> \n                for glyphs unsupported by <code>Amazon Ember</code>.</p>\n         </note>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -4768,6 +4819,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The timestamp for when the geofence was last updated in <a href=\"https://www.iso.org/iso-8601-date-and-time-format.html\">ISO 8601</a>\n            format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>\n         </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "GeofenceProperties": {
+                    "target": "com.amazonaws.location#PropertyMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains additional user-defined properties stored with the geofence. An array of \n            key-value pairs.</p>"
                     }
                 }
             },
@@ -6425,13 +6482,33 @@
                 "Style": {
                     "target": "com.amazonaws.location#MapStyle",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the map style selected from an available data provider.</p>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorEsriDarkGrayCanvas</code> – The Esri Dark Gray Canvas map style. A\n                    vector basemap with a dark gray, neutral background with minimal colors, labels,\n                    and features that's designed to draw attention to your thematic content. </p>\n            </li>\n            <li>\n               <p>\n                  <code>RasterEsriImagery</code> – The Esri Imagery map style. A raster basemap\n                    that provides one meter or better satellite and aerial imagery in many parts of\n                    the world and lower resolution satellite imagery worldwide. </p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriLightGrayCanvas</code> – The Esri Light Gray Canvas map style,\n                    which provides a detailed vector basemap with a light gray, neutral background\n                    style with minimal colors, labels, and features that's designed to draw\n                    attention to your thematic content. </p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriTopographic</code> – The Esri Light map style, which provides\n                    a detailed vector basemap with a classic Esri map style.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriStreets</code> – The Esri World Streets map style, which\n                    provides a detailed vector basemap for the world symbolized with a classic Esri\n                    street map style. The vector tile layer is similar in content and style to the\n                    World Street Map raster map.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriNavigation</code> – The Esri World Navigation map style, which\n                    provides a detailed basemap for the world symbolized with a custom navigation\n                    map style that's designed for use during the day in mobile devices.</p>\n            </li>\n         </ul>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE\n                Technologies map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorHereContrast</code> – The HERE Contrast (Berlin) map style is a \n                    high contrast\n                    detailed base map of the world that blends 3D and 2D rendering.</p>\n               <note>\n                  <p>The <code>VectorHereContrast</code> style has been renamed from \n                    <code>VectorHereBerlin</code>. \n                    <code>VectorHereBerlin</code> has been deprecated, but will continue to work in \n                    applications that use it.</p>\n               </note>\n            </li>\n            <li>\n               <p>\n                  <code>VectorHereExplore</code> – A default HERE map style containing a \n                    neutral, global map and its features including roads, buildings, landmarks, \n                    and water features. It also now includes a fully designed map of Japan.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorHereExploreTruck</code> – A global map containing truck \n                    restrictions and attributes (e.g. width / height / HAZMAT) symbolized with \n                    highlighted segments and icons on top of HERE Explore to support use cases \n                    within transport and logistics.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RasterHereExploreSatellite</code> – A global map containing high\n                    resolution satellite imagery.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HybridHereExploreSatellite</code> – A global map displaying the road \n                    network, street names, and city labels over satellite imagery. This style \n                    will automatically retrieve both raster and vector tiles, and your charges \n                    will be based on total tiles retrieved.</p>\n               <note>\n                  <p>Hybrid styles use both vector and raster tiles when rendering the \n                    map that you see. This means that more tiles are retrieved than when using \n                    either vector or raster tiles alone. Your charges will include all tiles \n                    retrieved.</p>\n               </note>\n            </li>\n         </ul>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorGrabStandardLight</code> – The Grab Standard Light \n                    map style provides a basemap with detailed land use coloring, \n                    area names, roads, landmarks, and points of interest covering \n                    Southeast Asia.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorGrabStandardDark</code> – The Grab Standard Dark \n                    map style provides a dark variation of the standard basemap \n                    covering Southeast Asia.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Grab provides maps only for countries in Southeast Asia, and is only available \n                in the Asia Pacific (Singapore) Region (<code>ap-southeast-1</code>).\n                For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area\">GrabMaps countries and area covered</a>.</p>\n         </note>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/open-data.html\">Open Data map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorOpenDataStandardLight</code> – The Open Data Standard Light \n                    map style provides a detailed basemap for the world suitable for\n                    website and mobile application use. The map includes highways major roads, \n                    minor roads, railways, water features, cities, parks, landmarks, building\n                    footprints, and administrative boundaries.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataStandardDark</code> – Open Data Standard Dark is a\n                    dark-themed map style that provides a detailed basemap for the world \n                    suitable for website and mobile application use. The map includes highways \n                    major roads, minor roads, railways, water features, cities, parks, \n                    landmarks, building footprints, and administrative boundaries.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataVisualizationLight</code> – The Open Data \n                    Visualization Light map style is a light-themed style with muted colors and\n                    fewer features that aids in understanding overlaid data.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataVisualizationDark</code> – The Open Data \n                    Visualization Dark map style is a dark-themed style with muted colors and\n                    fewer features that aids in understanding overlaid data.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>Specifies the map style selected from an available data provider.</p>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorEsriDarkGrayCanvas</code> – The Esri Dark Gray Canvas map style. A\n                    vector basemap with a dark gray, neutral background with minimal colors, labels,\n                    and features that's designed to draw attention to your thematic content. </p>\n            </li>\n            <li>\n               <p>\n                  <code>RasterEsriImagery</code> – The Esri Imagery map style. A raster basemap\n                    that provides one meter or better satellite and aerial imagery in many parts of\n                    the world and lower resolution satellite imagery worldwide. </p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriLightGrayCanvas</code> – The Esri Light Gray Canvas map style,\n                    which provides a detailed vector basemap with a light gray, neutral background\n                    style with minimal colors, labels, and features that's designed to draw\n                    attention to your thematic content. </p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriTopographic</code> – The Esri Light map style, which provides\n                    a detailed vector basemap with a classic Esri map style.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriStreets</code> – The Esri Street Map style, which\n                    provides a detailed vector basemap for the world symbolized with a classic Esri\n                    street map style. The vector tile layer is similar in content and style to the\n                    World Street Map raster map.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorEsriNavigation</code> – The Esri Navigation map style, which\n                    provides a detailed basemap for the world symbolized with a custom navigation\n                    map style that's designed for use during the day in mobile devices.</p>\n            </li>\n         </ul>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE\n                Technologies map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorHereContrast</code> – The HERE Contrast (Berlin) map style is a \n                    high contrast\n                    detailed base map of the world that blends 3D and 2D rendering.</p>\n               <note>\n                  <p>The <code>VectorHereContrast</code> style has been renamed from \n                    <code>VectorHereBerlin</code>. \n                    <code>VectorHereBerlin</code> has been deprecated, but will continue to work in \n                    applications that use it.</p>\n               </note>\n            </li>\n            <li>\n               <p>\n                  <code>VectorHereExplore</code> – A default HERE map style containing a \n                    neutral, global map and its features including roads, buildings, landmarks, \n                    and water features. It also now includes a fully designed map of Japan.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorHereExploreTruck</code> – A global map containing truck \n                    restrictions and attributes (e.g. width / height / HAZMAT) symbolized with \n                    highlighted segments and icons on top of HERE Explore to support use cases \n                    within transport and logistics.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RasterHereExploreSatellite</code> – A global map containing high\n                    resolution satellite imagery.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HybridHereExploreSatellite</code> – A global map displaying the road \n                    network, street names, and city labels over satellite imagery. This style \n                    will automatically retrieve both raster and vector tiles, and your charges \n                    will be based on total tiles retrieved.</p>\n               <note>\n                  <p>Hybrid styles use both vector and raster tiles when rendering the \n                    map that you see. This means that more tiles are retrieved than when using \n                    either vector or raster tiles alone. Your charges will include all tiles \n                    retrieved.</p>\n               </note>\n            </li>\n         </ul>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorGrabStandardLight</code> – The Grab Standard Light \n                    map style provides a basemap with detailed land use coloring, \n                    area names, roads, landmarks, and points of interest covering \n                    Southeast Asia.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorGrabStandardDark</code> – The Grab Standard Dark \n                    map style provides a dark variation of the standard basemap \n                    covering Southeast Asia.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Grab provides maps only for countries in Southeast Asia, and is only available \n                in the Asia Pacific (Singapore) Region (<code>ap-southeast-1</code>).\n                For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area\">GrabMaps countries and area covered</a>.</p>\n         </note>\n         <p>Valid <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/open-data.html\">Open Data map styles</a>:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>VectorOpenDataStandardLight</code> – The Open Data Standard Light \n                    map style provides a detailed basemap for the world suitable for\n                    website and mobile application use. The map includes highways major roads, \n                    minor roads, railways, water features, cities, parks, landmarks, building\n                    footprints, and administrative boundaries.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataStandardDark</code> – Open Data Standard Dark is a\n                    dark-themed map style that provides a detailed basemap for the world \n                    suitable for website and mobile application use. The map includes highways \n                    major roads, minor roads, railways, water features, cities, parks, \n                    landmarks, building footprints, and administrative boundaries.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataVisualizationLight</code> – The Open Data \n                    Visualization Light map style is a light-themed style with muted colors and\n                    fewer features that aids in understanding overlaid data.</p>\n            </li>\n            <li>\n               <p>\n                  <code>VectorOpenDataVisualizationDark</code> – The Open Data \n                    Visualization Dark map style is a dark-themed style with muted colors and\n                    fewer features that aids in understanding overlaid data.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
+                    }
+                },
+                "PoliticalView": {
+                    "target": "com.amazonaws.location#CountryCode3",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the political view for the style. Leave unset to not use a political \n            view, or, for styles that support specific political views, you can choose a view, \n            such as <code>IND</code> for the Indian view.</p>\n         <p>Default is unset.</p>\n         <note>\n            <p>Not all map resources or styles support political view styles. See \n                <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views\">Political \n                    views</a> \n                for more information.</p>\n         </note>"
                     }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies the map tile style selected from an available provider.</p>"
+            }
+        },
+        "com.amazonaws.location#MapConfigurationUpdate": {
+            "type": "structure",
+            "members": {
+                "PoliticalView": {
+                    "target": "com.amazonaws.location#CountryCode3OrEmpty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the political view for the style. Set to an empty string to not use a\n            political view, or, for styles that support specific political views, you can choose a \n            view, such as <code>IND</code> for the Indian view.</p>\n         <note>\n            <p>Not all map resources or styles support political view styles. See \n                <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views\">Political \n                    views</a> \n                for more information.</p>\n         </note>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies the political view for the style.</p>"
             }
         },
         "com.amazonaws.location#MapResource": {
@@ -6559,24 +6636,56 @@
                 "TimeZone": {
                     "target": "com.amazonaws.location#TimeZone",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time zone in which the <code>Place</code> is located. Returned only when using\n            HERE as the selected partner.</p>"
+                        "smithy.api#documentation": "<p>The time zone in which the <code>Place</code> is located. Returned only when using\n            HERE or Grab as the selected partner.</p>"
                     }
                 },
                 "UnitType": {
                     "target": "smithy.api#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>For addresses with a <code>UnitNumber</code>, the type of unit. For example,\n                <code>Apartment</code>.</p>"
+                        "smithy.api#documentation": "<p>For addresses with a <code>UnitNumber</code>, the type of unit. For example,\n                <code>Apartment</code>.</p>\n         <note>\n            <p>Returned only for a place index that uses Esri as a data provider.</p>\n         </note>"
                     }
                 },
                 "UnitNumber": {
                     "target": "smithy.api#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>For addresses with multiple units, the unit identifier. Can include numbers and\n            letters, for example <code>3B</code> or <code>Unit 123</code>.</p>\n         <note>\n            <p>Returned only for a place index that uses Esri as a data provider. Is not returned\n                for <code>SearchPlaceIndexForPosition</code>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>For addresses with multiple units, the unit identifier. Can include numbers and\n            letters, for example <code>3B</code> or <code>Unit 123</code>.</p>\n         <note>\n            <p>Returned only for a place index that uses Esri or Grab as a data provider. Is \n                not returned for <code>SearchPlaceIndexForPosition</code>.</p>\n         </note>"
+                    }
+                },
+                "Categories": {
+                    "target": "com.amazonaws.location#PlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Location categories that describe this Place.</p>\n         <p>For more information about using categories, including a list of Amazon Location\n            categories, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html\">Categories and filtering</a>, in the <i>Amazon Location Service Developer \n                Guide</i>.</p>"
+                    }
+                },
+                "SupplementalCategories": {
+                    "target": "com.amazonaws.location#PlaceSupplementalCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Categories from the data provider that describe the Place that are not mapped\n            to any Amazon Location categories.</p>"
                     }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains details about addresses or points of interest that match the search\n            criteria.</p>\n         <p>Not all details are included with all responses. Some details may only be returned by\n            specific data partners.</p>"
+            }
+        },
+        "com.amazonaws.location#PlaceCategory": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 35
+                }
+            }
+        },
+        "com.amazonaws.location#PlaceCategoryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.location#PlaceCategory"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
+                }
             }
         },
         "com.amazonaws.location#PlaceGeometry": {
@@ -6646,6 +6755,26 @@
                 "smithy.api#range": {
                     "min": 1,
                     "max": 50
+                }
+            }
+        },
+        "com.amazonaws.location#PlaceSupplementalCategory": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 35
+                }
+            }
+        },
+        "com.amazonaws.location#PlaceSupplementalCategoryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.location#PlaceSupplementalCategory"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
                 }
             }
         },
@@ -6819,6 +6948,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Contains the details to specify the position of the geofence. Can be either a \n            polygon or a circle. Including both will return a validation error.</p>\n         <note>\n            <p>Each <a href=\"https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html\">\n                geofence polygon</a> can have a maximum of 1,000 vertices.</p>\n         </note>",
                         "smithy.api#required": {}
+                    }
+                },
+                "GeofenceProperties": {
+                    "target": "com.amazonaws.location#PropertyMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies additional user-defined properties to store with the Geofence. An array \n            of key-value pairs.</p>"
                     }
                 }
             }
@@ -7077,7 +7212,19 @@
                 "PlaceId": {
                     "target": "com.amazonaws.location#PlaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The unique identifier of the place. You can use this with the <code>GetPlace</code>\n            operation to find the place again later.</p>\n         <note>\n            <p>For <code>SearchPlaceIndexForSuggestions</code> operations, the\n                    <code>PlaceId</code> is returned by place indexes that use Esri, Grab, or HERE\n                as data providers.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The unique identifier of the Place. You can use this with the <code>GetPlace</code>\n            operation to find the place again later, or to get full information for the Place.</p>\n         <p>The <code>GetPlace</code> request must use the same <code>PlaceIndex</code> \n            resource as the <code>SearchPlaceIndexForSuggestions</code> that generated the Place \n            ID.</p>\n         <note>\n            <p>For <code>SearchPlaceIndexForSuggestions</code> operations, the\n                    <code>PlaceId</code> is returned by place indexes that use Esri, Grab, or HERE\n                as data providers.</p>\n         </note>"
+                    }
+                },
+                "Categories": {
+                    "target": "com.amazonaws.location#PlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Location categories that describe the Place.</p>\n         <p>For more information about using categories, including a list of Amazon Location\n            categories, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html\">Categories and filtering</a>, in the <i>Amazon Location Service Developer \n                    Guide</i>.</p>"
+                    }
+                },
+                "SupplementalCategories": {
+                    "target": "com.amazonaws.location#PlaceSupplementalCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Categories from the data provider that describe the Place that are not mapped\n            to any Amazon Location categories.</p>"
                     }
                 }
             },
@@ -7353,6 +7500,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The preferred language used to return results. The value must be a valid <a href=\"https://tools.ietf.org/search/bcp47\">BCP 47</a> language tag, for example,\n                <code>en</code> for English.</p>\n         <p>This setting affects the languages used in the results. If no language is specified,\n            or not supported for a particular result, the partner automatically chooses a language\n            for the result.</p>\n         <p>For an example, we'll use the Greek language. You search for <code>Athens, Gr</code>\n            to get suggestions with the <code>language</code> parameter set to <code>en</code>. The\n            results found will most likely be returned as <code>Athens, Greece</code>.</p>\n         <p>If you set the <code>language</code> parameter to <code>el</code>, for Greek, then the\n            result found will more likely be returned as <code>Αθήνα, Ελλάδα</code>.</p>\n         <p>If the data provider does not have a value for Greek, the result will be in a language\n            that the provider does support.</p>"
                     }
+                },
+                "FilterCategories": {
+                    "target": "com.amazonaws.location#FilterPlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of one or more Amazon Location categories to filter the returned places. If you \n            include more than one category, the results will include results that match \n            <i>any</i> of the categories listed.</p>\n         <p>For more information about using categories, including a list of Amazon Location\n            categories, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html\">Categories and filtering</a>, in the <i>Amazon Location Service Developer \n                    Guide</i>.</p>"
+                    }
                 }
             }
         },
@@ -7420,6 +7573,12 @@
                     "target": "com.amazonaws.location#LanguageTag",
                     "traits": {
                         "smithy.api#documentation": "<p>The preferred language used to return results. Matches the language in the request.\n            The value is a valid <a href=\"https://tools.ietf.org/search/bcp47\">BCP 47</a>\n            language tag, for example, <code>en</code> for English.</p>"
+                    }
+                },
+                "FilterCategories": {
+                    "target": "com.amazonaws.location#FilterPlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The optional category filter specified in the request.</p>"
                     }
                 }
             },
@@ -7516,6 +7675,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The preferred language used to return results. The value must be a valid <a href=\"https://tools.ietf.org/search/bcp47\">BCP 47</a> language tag, for example,\n                <code>en</code> for English.</p>\n         <p>This setting affects the languages used in the results, but not the results\n            themselves. If no language is specified, or not supported for a particular result, the\n            partner automatically chooses a language for the result.</p>\n         <p>For an example, we'll use the Greek language. You search for <code>Athens,\n                Greece</code>, with the <code>language</code> parameter set to <code>en</code>. The\n            result found will most likely be returned as <code>Athens</code>.</p>\n         <p>If you set the <code>language</code> parameter to <code>el</code>, for Greek, then the\n            result found will more likely be returned as <code>Αθήνα</code>.</p>\n         <p>If the data provider does not have a value for Greek, the result will be in a language\n            that the provider does support.</p>"
                     }
+                },
+                "FilterCategories": {
+                    "target": "com.amazonaws.location#FilterPlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of one or more Amazon Location categories to filter the returned places. If you \n            include more than one category, the results will include results that match \n            <i>any</i> of the categories listed.</p>\n         <p>For more information about using categories, including a list of Amazon Location\n            categories, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html\">Categories and filtering</a>, in the <i>Amazon Location Service Developer \n                    Guide</i>.</p>"
+                    }
                 }
             }
         },
@@ -7590,6 +7755,12 @@
                     "target": "com.amazonaws.location#LanguageTag",
                     "traits": {
                         "smithy.api#documentation": "<p>The preferred language used to return results. Matches the language in the request.\n            The value is a valid <a href=\"https://tools.ietf.org/search/bcp47\">BCP 47</a>\n            language tag, for example, <code>en</code> for English.</p>"
+                    }
+                },
+                "FilterCategories": {
+                    "target": "com.amazonaws.location#FilterPlaceCategoryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The optional category filter specified in the request.</p>"
                     }
                 }
             },
@@ -8333,6 +8504,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Updates the description for the map resource.</p>"
                     }
+                },
+                "ConfigurationUpdate": {
+                    "target": "com.amazonaws.location#MapConfigurationUpdate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Updates the parts of the map configuration that can be updated, including the\n            political view.</p>"
+                    }
                 }
             }
         },
@@ -8445,7 +8622,7 @@
                     }
                 },
                 "IndexArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a\n            resource across Amazon Web Services.</p>\n         <ul>\n            <li>\n               <p>Format example: <code>arn:aws:geo:region:account-id:place-\n                        index/ExamplePlaceIndex</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
@@ -8537,7 +8714,7 @@
                     }
                 },
                 "CalculatorArn": {
-                    "target": "com.amazonaws.location#Arn",
+                    "target": "com.amazonaws.location#GeoArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the updated route calculator resource. Used to\n            specify a resource across AWS.</p>\n         <ul>\n            <li>\n               <p>Format example: <code>arn:aws:geo:region:account-id:route-\n                        calculator/ExampleCalculator</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}

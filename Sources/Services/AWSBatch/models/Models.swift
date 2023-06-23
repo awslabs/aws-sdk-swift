@@ -46,7 +46,7 @@ extension BatchClientTypes.ArrayProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
@@ -59,7 +59,7 @@ extension BatchClientTypes {
         /// The size of the array job.
         public var size: Swift.Int?
 
-        public init (
+        public init(
             size: Swift.Int? = nil
         )
         {
@@ -92,7 +92,7 @@ extension BatchClientTypes.ArrayPropertiesDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusSummaryContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .statusSummary)
         var statusSummaryDecoded0: [Swift.String:Swift.Int]? = nil
@@ -122,7 +122,7 @@ extension BatchClientTypes {
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
         public var statusSummary: [Swift.String:Swift.Int]?
 
-        public init (
+        public init(
             index: Swift.Int? = nil,
             size: Swift.Int? = nil,
             statusSummary: [Swift.String:Swift.Int]? = nil
@@ -152,7 +152,7 @@ extension BatchClientTypes.ArrayPropertiesSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
@@ -169,7 +169,7 @@ extension BatchClientTypes {
         /// The size of the array job. This parameter is returned for parent array jobs.
         public var size: Swift.Int?
 
-        public init (
+        public init(
             index: Swift.Int? = nil,
             size: Swift.Int? = nil
         )
@@ -248,7 +248,7 @@ extension BatchClientTypes.AttemptContainerDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerInstanceArn)
         containerInstanceArn = containerInstanceArnDecoded
@@ -290,7 +290,7 @@ extension BatchClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with the job attempt. Each container attempt receives a task ARN when they reach the STARTING status.
         public var taskArn: Swift.String?
 
-        public init (
+        public init(
             containerInstanceArn: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             logStreamName: Swift.String? = nil,
@@ -334,7 +334,7 @@ extension BatchClientTypes.AttemptDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerDecoded = try containerValues.decodeIfPresent(BatchClientTypes.AttemptContainerDetail.self, forKey: .container)
         container = containerDecoded
@@ -359,7 +359,7 @@ extension BatchClientTypes {
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public var stoppedAt: Swift.Int?
 
-        public init (
+        public init(
             container: BatchClientTypes.AttemptContainerDetail? = nil,
             startedAt: Swift.Int? = nil,
             statusReason: Swift.String? = nil,
@@ -620,7 +620,7 @@ public struct CancelJobInput: Swift.Equatable {
     /// This member is required.
     public var reason: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil,
         reason: Swift.String? = nil
     )
@@ -641,7 +641,7 @@ extension CancelJobInputBody: Swift.Decodable {
         case reason
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -650,72 +650,64 @@ extension CancelJobInputBody: Swift.Decodable {
     }
 }
 
-extension CancelJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelJobOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CancelJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ClientException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ClientExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
-public struct ClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClientException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -728,7 +720,7 @@ extension ClientExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -806,7 +798,7 @@ extension BatchClientTypes.ComputeEnvironmentDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironmentName)
         computeEnvironmentName = computeEnvironmentNameDecoded
@@ -886,7 +878,7 @@ extension BatchClientTypes {
         /// Unique identifier for the compute environment.
         public var uuid: Swift.String?
 
-        public init (
+        public init(
             computeEnvironmentArn: Swift.String? = nil,
             computeEnvironmentName: Swift.String? = nil,
             computeResources: BatchClientTypes.ComputeResource? = nil,
@@ -940,7 +932,7 @@ extension BatchClientTypes.ComputeEnvironmentOrder: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
@@ -959,7 +951,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var order: Swift.Int?
 
-        public init (
+        public init(
             computeEnvironment: Swift.String? = nil,
             order: Swift.Int? = nil
         )
@@ -1062,7 +1054,7 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(BatchClientTypes.CRType.self, forKey: .type)
         type = typeDecoded
@@ -1188,7 +1180,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var type: BatchClientTypes.CRType?
 
-        public init (
+        public init(
             allocationStrategy: BatchClientTypes.CRAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
             desiredvCpus: Swift.Int? = nil,
@@ -1321,7 +1313,7 @@ extension BatchClientTypes.ComputeResourceUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minvCpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minvCpus)
         minvCpus = minvCpusDecoded
@@ -1443,7 +1435,7 @@ extension BatchClientTypes {
         /// Specifies whether the AMI ID is updated to the latest one that's supported by Batch when the compute environment has an infrastructure update. The default value is false. An AMI ID can either be specified in the imageId or imageIdOverride parameters or be determined by the launch template that's specified in the launchTemplate parameter. If an AMI ID is specified any of these ways, this parameter is ignored. For more information about to update AMI IDs during an infrastructure update, see [Updating the AMI ID](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html#updating-compute-environments-ami) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var updateToLatestImageVersion: Swift.Bool?
 
-        public init (
+        public init(
             allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
             desiredvCpus: Swift.Int? = nil,
@@ -1625,7 +1617,7 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
         image = imageDecoded
@@ -1814,7 +1806,7 @@ extension BatchClientTypes {
         /// A list of volumes that are associated with the job.
         public var volumes: [BatchClientTypes.Volume]?
 
-        public init (
+        public init(
             command: [Swift.String]? = nil,
             containerInstanceArn: Swift.String? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
@@ -1917,7 +1909,7 @@ extension BatchClientTypes.ContainerOverrides: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vcpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vcpus)
         vcpus = vcpusDecoded
@@ -1979,7 +1971,7 @@ extension BatchClientTypes {
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var vcpus: Swift.Int?
 
-        public init (
+        public init(
             command: [Swift.String]? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             instanceType: Swift.String? = nil,
@@ -2112,7 +2104,7 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
         image = imageDecoded
@@ -2280,7 +2272,7 @@ extension BatchClientTypes {
         /// A list of data volumes used in a job.
         public var volumes: [BatchClientTypes.Volume]?
 
-        public init (
+        public init(
             command: [Swift.String]? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
@@ -2346,7 +2338,7 @@ extension BatchClientTypes.ContainerSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exitCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exitCode)
         exitCode = exitCodeDecoded
@@ -2363,7 +2355,7 @@ extension BatchClientTypes {
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             exitCode: Swift.Int? = nil,
             reason: Swift.String? = nil
         )
@@ -2446,7 +2438,7 @@ public struct CreateComputeEnvironmentInput: Swift.Equatable {
     /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved. This parameter is only supported when the type parameter is set to UNMANAGED.
     public var unmanagedvCpus: Swift.Int?
 
-    public init (
+    public init(
         computeEnvironmentName: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResource? = nil,
         eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
@@ -2491,7 +2483,7 @@ extension CreateComputeEnvironmentInputBody: Swift.Decodable {
         case unmanagedvCpus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironmentName)
         computeEnvironmentName = computeEnvironmentNameDecoded
@@ -2521,33 +2513,21 @@ extension CreateComputeEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension CreateComputeEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateComputeEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateComputeEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateComputeEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateComputeEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateComputeEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironmentArn = output.computeEnvironmentArn
@@ -2565,7 +2545,7 @@ public struct CreateComputeEnvironmentOutputResponse: Swift.Equatable {
     /// The name of the compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     public var computeEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         computeEnvironmentArn: Swift.String? = nil,
         computeEnvironmentName: Swift.String? = nil
     )
@@ -2586,7 +2566,7 @@ extension CreateComputeEnvironmentOutputResponseBody: Swift.Decodable {
         case computeEnvironmentName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironmentName)
         computeEnvironmentName = computeEnvironmentNameDecoded
@@ -2658,7 +2638,7 @@ public struct CreateJobQueueInput: Swift.Equatable {
     /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
         jobQueueName: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -2695,7 +2675,7 @@ extension CreateJobQueueInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueueName)
         jobQueueName = jobQueueNameDecoded
@@ -2730,33 +2710,21 @@ extension CreateJobQueueInputBody: Swift.Decodable {
     }
 }
 
-extension CreateJobQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateJobQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateJobQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateJobQueueOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateJobQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateJobQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueueArn = output.jobQueueArn
@@ -2776,7 +2744,7 @@ public struct CreateJobQueueOutputResponse: Swift.Equatable {
     /// This member is required.
     public var jobQueueName: Swift.String?
 
-    public init (
+    public init(
         jobQueueArn: Swift.String? = nil,
         jobQueueName: Swift.String? = nil
     )
@@ -2797,7 +2765,7 @@ extension CreateJobQueueOutputResponseBody: Swift.Decodable {
         case jobQueueName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueueName)
         jobQueueName = jobQueueNameDecoded
@@ -2846,7 +2814,7 @@ public struct CreateSchedulingPolicyInput: Swift.Equatable {
     /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2871,7 +2839,7 @@ extension CreateSchedulingPolicyInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2891,33 +2859,21 @@ extension CreateSchedulingPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension CreateSchedulingPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateSchedulingPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateSchedulingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateSchedulingPolicyOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateSchedulingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateSchedulingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -2937,7 +2893,7 @@ public struct CreateSchedulingPolicyOutputResponse: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
     )
@@ -2958,7 +2914,7 @@ extension CreateSchedulingPolicyOutputResponseBody: Swift.Decodable {
         case name
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2992,7 +2948,7 @@ public struct DeleteComputeEnvironmentInput: Swift.Equatable {
     /// This member is required.
     public var computeEnvironment: Swift.String?
 
-    public init (
+    public init(
         computeEnvironment: Swift.String? = nil
     )
     {
@@ -3009,45 +2965,33 @@ extension DeleteComputeEnvironmentInputBody: Swift.Decodable {
         case computeEnvironment
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironment)
         computeEnvironment = computeEnvironmentDecoded
     }
 }
 
-extension DeleteComputeEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteComputeEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteComputeEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteComputeEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteComputeEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteComputeEnvironmentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteJobQueueInput: Swift.Encodable {
@@ -3075,7 +3019,7 @@ public struct DeleteJobQueueInput: Swift.Equatable {
     /// This member is required.
     public var jobQueue: Swift.String?
 
-    public init (
+    public init(
         jobQueue: Swift.String? = nil
     )
     {
@@ -3092,45 +3036,33 @@ extension DeleteJobQueueInputBody: Swift.Decodable {
         case jobQueue
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueue)
         jobQueue = jobQueueDecoded
     }
 }
 
-extension DeleteJobQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteJobQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteJobQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteJobQueueOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteJobQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteJobQueueOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteSchedulingPolicyInput: Swift.Encodable {
@@ -3158,7 +3090,7 @@ public struct DeleteSchedulingPolicyInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -3175,45 +3107,33 @@ extension DeleteSchedulingPolicyInputBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension DeleteSchedulingPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteSchedulingPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteSchedulingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteSchedulingPolicyOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteSchedulingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteSchedulingPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeregisterJobDefinitionInput: Swift.Encodable {
@@ -3240,7 +3160,7 @@ public struct DeregisterJobDefinitionInput: Swift.Equatable {
     /// This member is required.
     public var jobDefinition: Swift.String?
 
-    public init (
+    public init(
         jobDefinition: Swift.String? = nil
     )
     {
@@ -3257,45 +3177,33 @@ extension DeregisterJobDefinitionInputBody: Swift.Decodable {
         case jobDefinition
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDefinition)
         jobDefinition = jobDefinitionDecoded
     }
 }
 
-extension DeregisterJobDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterJobDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterJobDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterJobDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterJobDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeregisterJobDefinitionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeComputeEnvironmentsInput: Swift.Encodable {
@@ -3337,7 +3245,7 @@ public struct DescribeComputeEnvironmentsInput: Swift.Equatable {
     /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         computeEnvironments: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3362,7 +3270,7 @@ extension DescribeComputeEnvironmentsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .computeEnvironments)
         var computeEnvironmentsDecoded0:[Swift.String]? = nil
@@ -3382,33 +3290,21 @@ extension DescribeComputeEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeComputeEnvironmentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeComputeEnvironmentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeComputeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeComputeEnvironmentsOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeComputeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeComputeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironments = output.computeEnvironments
@@ -3426,7 +3322,7 @@ public struct DescribeComputeEnvironmentsOutputResponse: Swift.Equatable {
     /// The nextToken value to include in a future DescribeComputeEnvironments request. When the results of a DescribeComputeEnvironments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         computeEnvironments: [BatchClientTypes.ComputeEnvironmentDetail]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3447,7 +3343,7 @@ extension DescribeComputeEnvironmentsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ComputeEnvironmentDetail?].self, forKey: .computeEnvironments)
         var computeEnvironmentsDecoded0:[BatchClientTypes.ComputeEnvironmentDetail]? = nil
@@ -3516,7 +3412,7 @@ public struct DescribeJobDefinitionsInput: Swift.Equatable {
     /// The status used to filter job definitions.
     public var status: Swift.String?
 
-    public init (
+    public init(
         jobDefinitionName: Swift.String? = nil,
         jobDefinitions: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -3549,7 +3445,7 @@ extension DescribeJobDefinitionsInputBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .jobDefinitions)
         var jobDefinitionsDecoded0:[Swift.String]? = nil
@@ -3573,33 +3469,21 @@ extension DescribeJobDefinitionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeJobDefinitionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeJobDefinitionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeJobDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeJobDefinitionsOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeJobDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeJobDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobDefinitions = output.jobDefinitions
@@ -3617,7 +3501,7 @@ public struct DescribeJobDefinitionsOutputResponse: Swift.Equatable {
     /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobDefinitions: [BatchClientTypes.JobDefinition]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3638,7 +3522,7 @@ extension DescribeJobDefinitionsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionsContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobDefinition?].self, forKey: .jobDefinitions)
         var jobDefinitionsDecoded0:[BatchClientTypes.JobDefinition]? = nil
@@ -3695,7 +3579,7 @@ public struct DescribeJobQueuesInput: Swift.Equatable {
     /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobQueues: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3720,7 +3604,7 @@ extension DescribeJobQueuesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .jobQueues)
         var jobQueuesDecoded0:[Swift.String]? = nil
@@ -3740,33 +3624,21 @@ extension DescribeJobQueuesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeJobQueuesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeJobQueuesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeJobQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeJobQueuesOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeJobQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeJobQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueues = output.jobQueues
@@ -3784,7 +3656,7 @@ public struct DescribeJobQueuesOutputResponse: Swift.Equatable {
     /// The nextToken value to include in a future DescribeJobQueues request. When the results of a DescribeJobQueues request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobQueues: [BatchClientTypes.JobQueueDetail]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3805,7 +3677,7 @@ extension DescribeJobQueuesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueuesContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobQueueDetail?].self, forKey: .jobQueues)
         var jobQueuesDecoded0:[BatchClientTypes.JobQueueDetail]? = nil
@@ -3851,7 +3723,7 @@ public struct DescribeJobsInput: Swift.Equatable {
     /// This member is required.
     public var jobs: [Swift.String]?
 
-    public init (
+    public init(
         jobs: [Swift.String]? = nil
     )
     {
@@ -3868,7 +3740,7 @@ extension DescribeJobsInputBody: Swift.Decodable {
         case jobs
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .jobs)
         var jobsDecoded0:[Swift.String]? = nil
@@ -3884,33 +3756,21 @@ extension DescribeJobsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeJobsOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
@@ -3924,7 +3784,7 @@ public struct DescribeJobsOutputResponse: Swift.Equatable {
     /// The list of jobs.
     public var jobs: [BatchClientTypes.JobDetail]?
 
-    public init (
+    public init(
         jobs: [BatchClientTypes.JobDetail]? = nil
     )
     {
@@ -3941,7 +3801,7 @@ extension DescribeJobsOutputResponseBody: Swift.Decodable {
         case jobs
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobsContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobDetail?].self, forKey: .jobs)
         var jobsDecoded0:[BatchClientTypes.JobDetail]? = nil
@@ -3985,7 +3845,7 @@ public struct DescribeSchedulingPoliciesInput: Swift.Equatable {
     /// This member is required.
     public var arns: [Swift.String]?
 
-    public init (
+    public init(
         arns: [Swift.String]? = nil
     )
     {
@@ -4002,7 +3862,7 @@ extension DescribeSchedulingPoliciesInputBody: Swift.Decodable {
         case arns
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .arns)
         var arnsDecoded0:[Swift.String]? = nil
@@ -4018,33 +3878,21 @@ extension DescribeSchedulingPoliciesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeSchedulingPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeSchedulingPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeSchedulingPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeSchedulingPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeSchedulingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeSchedulingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.schedulingPolicies = output.schedulingPolicies
@@ -4058,7 +3906,7 @@ public struct DescribeSchedulingPoliciesOutputResponse: Swift.Equatable {
     /// The list of scheduling policies.
     public var schedulingPolicies: [BatchClientTypes.SchedulingPolicyDetail]?
 
-    public init (
+    public init(
         schedulingPolicies: [BatchClientTypes.SchedulingPolicyDetail]? = nil
     )
     {
@@ -4075,7 +3923,7 @@ extension DescribeSchedulingPoliciesOutputResponseBody: Swift.Decodable {
         case schedulingPolicies
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let schedulingPoliciesContainer = try containerValues.decodeIfPresent([BatchClientTypes.SchedulingPolicyDetail?].self, forKey: .schedulingPolicies)
         var schedulingPoliciesDecoded0:[BatchClientTypes.SchedulingPolicyDetail]? = nil
@@ -4114,7 +3962,7 @@ extension BatchClientTypes.Device: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostPath)
         hostPath = hostPathDecoded
@@ -4145,7 +3993,7 @@ extension BatchClientTypes {
         /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
         public var permissions: [BatchClientTypes.DeviceCgroupPermission]?
 
-        public init (
+        public init(
             containerPath: Swift.String? = nil,
             hostPath: Swift.String? = nil,
             permissions: [BatchClientTypes.DeviceCgroupPermission]? = nil
@@ -4210,7 +4058,7 @@ extension BatchClientTypes.EFSAuthorizationConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPointId)
         accessPointId = accessPointIdDecoded
@@ -4227,7 +4075,7 @@ extension BatchClientTypes {
         /// Whether or not to use the Batch job IAM role defined in a job definition when mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see [Using Amazon EFS access points](https://docs.aws.amazon.com/batch/latest/userguide/efs-volumes.html#efs-volume-accesspoints) in the Batch User Guide. EFS IAM authorization requires that TransitEncryption be ENABLED and that a JobRoleArn is specified.
         public var iam: BatchClientTypes.EFSAuthorizationConfigIAM?
 
-        public init (
+        public init(
             accessPointId: Swift.String? = nil,
             iam: BatchClientTypes.EFSAuthorizationConfigIAM? = nil
         )
@@ -4331,7 +4179,7 @@ extension BatchClientTypes.EFSVolumeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemId)
         fileSystemId = fileSystemIdDecoded
@@ -4361,7 +4209,7 @@ extension BatchClientTypes {
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server. If you don't specify a transit encryption port, it uses the port selection strategy that the Amazon EFS mount helper uses. The value must be between 0 and 65,535. For more information, see [EFS mount helper](https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html) in the Amazon Elastic File System User Guide.
         public var transitEncryptionPort: Swift.Int?
 
-        public init (
+        public init(
             authorizationConfig: BatchClientTypes.EFSAuthorizationConfig? = nil,
             fileSystemId: Swift.String? = nil,
             rootDirectory: Swift.String? = nil,
@@ -4399,7 +4247,7 @@ extension BatchClientTypes.Ec2Configuration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageType)
         imageType = imageTypeDecoded
@@ -4421,7 +4269,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var imageType: Swift.String?
 
-        public init (
+        public init(
             imageIdOverride: Swift.String? = nil,
             imageKubernetesVersion: Swift.String? = nil,
             imageType: Swift.String? = nil
@@ -4451,7 +4299,7 @@ extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exitCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exitCode)
         exitCode = exitCodeDecoded
@@ -4468,7 +4316,7 @@ extension BatchClientTypes {
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             exitCode: Swift.Int? = nil,
             reason: Swift.String? = nil
         )
@@ -4515,7 +4363,7 @@ extension BatchClientTypes.EksAttemptDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksAttemptContainerDetail?].self, forKey: .containers)
         var containersDecoded0:[BatchClientTypes.EksAttemptContainerDetail]? = nil
@@ -4557,7 +4405,7 @@ extension BatchClientTypes {
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped. This happens when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public var stoppedAt: Swift.Int?
 
-        public init (
+        public init(
             containers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
@@ -4593,7 +4441,7 @@ extension BatchClientTypes.EksConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eksClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksClusterArn)
         eksClusterArn = eksClusterArnDecoded
@@ -4612,7 +4460,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var kubernetesNamespace: Swift.String?
 
-        public init (
+        public init(
             eksClusterArn: Swift.String? = nil,
             kubernetesNamespace: Swift.String? = nil
         )
@@ -4680,7 +4528,7 @@ extension BatchClientTypes.EksContainer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4762,7 +4610,7 @@ extension BatchClientTypes {
         /// The volume mounts for the container. Batch supports emptyDir, hostPath, and secret volume types. For more information about volumes and volume mounts in Kubernetes, see [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/) in the Kubernetes documentation.
         public var volumeMounts: [BatchClientTypes.EksContainerVolumeMount]?
 
-        public init (
+        public init(
             args: [Swift.String]? = nil,
             command: [Swift.String]? = nil,
             env: [BatchClientTypes.EksContainerEnvironmentVariable]? = nil,
@@ -4852,7 +4700,7 @@ extension BatchClientTypes.EksContainerDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4941,7 +4789,7 @@ extension BatchClientTypes {
         /// The volume mounts for the container. Batch supports emptyDir, hostPath, and secret volume types. For more information about volumes and volume mounts in Kubernetes, see [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/) in the Kubernetes documentation.
         public var volumeMounts: [BatchClientTypes.EksContainerVolumeMount]?
 
-        public init (
+        public init(
             args: [Swift.String]? = nil,
             command: [Swift.String]? = nil,
             env: [BatchClientTypes.EksContainerEnvironmentVariable]? = nil,
@@ -4987,7 +4835,7 @@ extension BatchClientTypes.EksContainerEnvironmentVariable: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5005,7 +4853,7 @@ extension BatchClientTypes {
         /// The value of the environment variable.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -5054,7 +4902,7 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
         image = imageDecoded
@@ -5110,7 +4958,7 @@ extension BatchClientTypes {
         /// The type and amount of resources to assign to a container. These override the settings in the job definition. The supported resources include memory, cpu, and nvidia.com/gpu. For more information, see [Resource management for pods and containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) in the Kubernetes documentation.
         public var resources: BatchClientTypes.EksContainerResourceRequirements?
 
-        public init (
+        public init(
             args: [Swift.String]? = nil,
             command: [Swift.String]? = nil,
             env: [BatchClientTypes.EksContainerEnvironmentVariable]? = nil,
@@ -5150,7 +4998,7 @@ extension BatchClientTypes.EksContainerResourceRequirements: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .limits)
         var limitsDecoded0: [Swift.String:Swift.String]? = nil
@@ -5185,7 +5033,7 @@ extension BatchClientTypes {
         /// The type and quantity of the resources to request for the container. The values vary based on the name that's specified. Resources can be requested by using either the limits or the requests objects. memory The memory hard limit (in MiB) for the container, using whole integers, with a "Mi" suffix. If your container attempts to exceed the memory specified, the container is terminated. You must specify at least 4 MiB of memory for a job. memory can be specified in limits, requests, or both. If memory is specified in both, then the value that's specified in limits must be equal to the value that's specified in requests. If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. cpu The number of CPUs that are reserved for the container. Values must be an even multiple of 0.25. cpu can be specified in limits, requests, or both. If cpu is specified in both, then the value that's specified in limits must be at least as large as the value that's specified in requests. nvidia.com/gpu The number of GPUs that are reserved for the container. Values must be a whole integer. nvidia.com/gpu can be specified in limits, requests, or both. If nvidia.com/gpu is specified in both, then the value that's specified in limits must be equal to the value that's specified in requests.
         public var requests: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             limits: [Swift.String:Swift.String]? = nil,
             requests: [Swift.String:Swift.String]? = nil
         )
@@ -5225,7 +5073,7 @@ extension BatchClientTypes.EksContainerSecurityContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let runAsUserDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runAsUser)
         runAsUser = runAsUserDecoded
@@ -5254,7 +5102,7 @@ extension BatchClientTypes {
         /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. This parameter maps to RunAsUser and MustRanAs policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
         public var runAsUser: Swift.Int?
 
-        public init (
+        public init(
             privileged: Swift.Bool? = nil,
             readOnlyRootFilesystem: Swift.Bool? = nil,
             runAsGroup: Swift.Int? = nil,
@@ -5292,7 +5140,7 @@ extension BatchClientTypes.EksContainerVolumeMount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5313,7 +5161,7 @@ extension BatchClientTypes {
         /// If this value is true, the container has read-only access to the volume. Otherwise, the container can write to the volume. The default value is false.
         public var readOnly: Swift.Bool?
 
-        public init (
+        public init(
             mountPath: Swift.String? = nil,
             name: Swift.String? = nil,
             readOnly: Swift.Bool? = nil
@@ -5343,7 +5191,7 @@ extension BatchClientTypes.EksEmptyDir: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mediumDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .medium)
         medium = mediumDecoded
@@ -5360,7 +5208,7 @@ extension BatchClientTypes {
         /// The maximum size of the volume. By default, there's no maximum size defined.
         public var sizeLimit: Swift.String?
 
-        public init (
+        public init(
             medium: Swift.String? = nil,
             sizeLimit: Swift.String? = nil
         )
@@ -5384,7 +5232,7 @@ extension BatchClientTypes.EksHostPath: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
         path = pathDecoded
@@ -5397,7 +5245,7 @@ extension BatchClientTypes {
         /// The path of the file or directory on the host to mount into containers on the pod.
         public var path: Swift.String?
 
-        public init (
+        public init(
             path: Swift.String? = nil
         )
         {
@@ -5422,7 +5270,7 @@ extension BatchClientTypes.EksMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let labelsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .labels)
         var labelsDecoded0: [Swift.String:Swift.String]? = nil
@@ -5444,7 +5292,7 @@ extension BatchClientTypes {
         /// Key-value pairs used to identify, sort, and organize cube resources. Can contain up to 63 uppercase letters, lowercase letters, numbers, hyphens (-), and underscores (_). Labels can be added or modified at any time. Each resource can have multiple labels, but each key must be unique for a given object.
         public var labels: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             labels: [Swift.String:Swift.String]? = nil
         )
         {
@@ -5492,7 +5340,7 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountName)
         serviceAccountName = serviceAccountNameDecoded
@@ -5543,7 +5391,7 @@ extension BatchClientTypes {
         /// Specifies the volumes for a job definition that uses Amazon EKS resources.
         public var volumes: [BatchClientTypes.EksVolume]?
 
-        public init (
+        public init(
             containers: [BatchClientTypes.EksContainer]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
@@ -5609,7 +5457,7 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountName)
         serviceAccountName = serviceAccountNameDecoded
@@ -5668,7 +5516,7 @@ extension BatchClientTypes {
         /// Specifies the volumes for a job definition using Amazon EKS resources.
         public var volumes: [BatchClientTypes.EksVolume]?
 
-        public init (
+        public init(
             containers: [BatchClientTypes.EksContainerDetail]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
@@ -5711,7 +5559,7 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainerOverride?].self, forKey: .containers)
         var containersDecoded0:[BatchClientTypes.EksContainerOverride]? = nil
@@ -5737,7 +5585,7 @@ extension BatchClientTypes {
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public var metadata: BatchClientTypes.EksMetadata?
 
-        public init (
+        public init(
             containers: [BatchClientTypes.EksContainerOverride]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil
         )
@@ -5761,7 +5609,7 @@ extension BatchClientTypes.EksProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let podPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksPodProperties.self, forKey: .podProperties)
         podProperties = podPropertiesDecoded
@@ -5774,7 +5622,7 @@ extension BatchClientTypes {
         /// The properties for the Kubernetes pod resources of a job.
         public var podProperties: BatchClientTypes.EksPodProperties?
 
-        public init (
+        public init(
             podProperties: BatchClientTypes.EksPodProperties? = nil
         )
         {
@@ -5796,7 +5644,7 @@ extension BatchClientTypes.EksPropertiesDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let podPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksPodPropertiesDetail.self, forKey: .podProperties)
         podProperties = podPropertiesDecoded
@@ -5809,7 +5657,7 @@ extension BatchClientTypes {
         /// The properties for the Kubernetes pod resources of a job.
         public var podProperties: BatchClientTypes.EksPodPropertiesDetail?
 
-        public init (
+        public init(
             podProperties: BatchClientTypes.EksPodPropertiesDetail? = nil
         )
         {
@@ -5831,7 +5679,7 @@ extension BatchClientTypes.EksPropertiesOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let podPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksPodPropertiesOverride.self, forKey: .podProperties)
         podProperties = podPropertiesDecoded
@@ -5844,7 +5692,7 @@ extension BatchClientTypes {
         /// The overrides for the Kubernetes pod resources of a job.
         public var podProperties: BatchClientTypes.EksPodPropertiesOverride?
 
-        public init (
+        public init(
             podProperties: BatchClientTypes.EksPodPropertiesOverride? = nil
         )
         {
@@ -5870,7 +5718,7 @@ extension BatchClientTypes.EksSecret: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let secretNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretName)
         secretName = secretNameDecoded
@@ -5888,7 +5736,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var secretName: Swift.String?
 
-        public init (
+        public init(
             `optional`: Swift.Bool? = nil,
             secretName: Swift.String? = nil
         )
@@ -5924,7 +5772,7 @@ extension BatchClientTypes.EksVolume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5950,7 +5798,7 @@ extension BatchClientTypes {
         /// Specifies the configuration of a Kubernetes secret volume. For more information, see [secret](https://kubernetes.io/docs/concepts/storage/volumes/#secret) in the Kubernetes documentation.
         public var secret: BatchClientTypes.EksSecret?
 
-        public init (
+        public init(
             emptyDir: BatchClientTypes.EksEmptyDir? = nil,
             hostPath: BatchClientTypes.EksHostPath? = nil,
             name: Swift.String? = nil,
@@ -5978,7 +5826,7 @@ extension BatchClientTypes.EphemeralStorage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB)
         sizeInGiB = sizeInGiBDecoded
@@ -5992,7 +5840,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var sizeInGiB: Swift.Int?
 
-        public init (
+        public init(
             sizeInGiB: Swift.Int? = nil
         )
         {
@@ -6026,7 +5874,7 @@ extension BatchClientTypes.EvaluateOnExit: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onStatusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onStatusReason)
         onStatusReason = onStatusReasonDecoded
@@ -6052,7 +5900,7 @@ extension BatchClientTypes {
         /// Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters. It can contain letters, numbers, periods (.), colons (:), and white spaces (including spaces or tabs). It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
         public var onStatusReason: Swift.String?
 
-        public init (
+        public init(
             action: BatchClientTypes.RetryAction? = nil,
             onExitCode: Swift.String? = nil,
             onReason: Swift.String? = nil,
@@ -6091,7 +5939,7 @@ extension BatchClientTypes.FairsharePolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shareDecaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shareDecaySeconds)
         shareDecaySeconds = shareDecaySecondsDecoded
@@ -6121,7 +5969,7 @@ extension BatchClientTypes {
         /// An array of SharedIdentifier objects that contain the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
         public var shareDistribution: [BatchClientTypes.ShareAttributes]?
 
-        public init (
+        public init(
             computeReservation: Swift.Int? = nil,
             shareDecaySeconds: Swift.Int? = nil,
             shareDistribution: [BatchClientTypes.ShareAttributes]? = nil
@@ -6147,7 +5995,7 @@ extension BatchClientTypes.FargatePlatformConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformVersion)
         platformVersion = platformVersionDecoded
@@ -6160,7 +6008,7 @@ extension BatchClientTypes {
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
         public var platformVersion: Swift.String?
 
-        public init (
+        public init(
             platformVersion: Swift.String? = nil
         )
         {
@@ -6182,7 +6030,7 @@ extension BatchClientTypes.Host: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourcePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourcePath)
         sourcePath = sourcePathDecoded
@@ -6195,7 +6043,7 @@ extension BatchClientTypes {
         /// The path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. This parameter isn't applicable to jobs that run on Fargate resources. Don't provide this for these jobs.
         public var sourcePath: Swift.String?
 
-        public init (
+        public init(
             sourcePath: Swift.String? = nil
         )
         {
@@ -6362,7 +6210,7 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDefinitionName)
         jobDefinitionName = jobDefinitionNameDecoded
@@ -6466,7 +6314,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var type: Swift.String?
 
-        public init (
+        public init(
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             containerProperties: BatchClientTypes.ContainerProperties? = nil,
             eksProperties: BatchClientTypes.EksProperties? = nil,
@@ -6554,7 +6402,7 @@ extension BatchClientTypes.JobDependency: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -6571,7 +6419,7 @@ extension BatchClientTypes {
         /// The type of the job dependency.
         public var type: BatchClientTypes.ArrayJobDependency?
 
-        public init (
+        public init(
             jobId: Swift.String? = nil,
             type: BatchClientTypes.ArrayJobDependency? = nil
         )
@@ -6721,7 +6569,7 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
         jobArn = jobArnDecoded
@@ -6902,7 +6750,7 @@ extension BatchClientTypes {
         /// The timeout configuration for the job.
         public var timeout: BatchClientTypes.JobTimeout?
 
-        public init (
+        public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesDetail? = nil,
             attempts: [BatchClientTypes.AttemptDetail]? = nil,
             container: BatchClientTypes.ContainerDetail? = nil,
@@ -7016,7 +6864,7 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueueName)
         jobQueueName = jobQueueNameDecoded
@@ -7084,7 +6932,7 @@ extension BatchClientTypes {
         /// The tags that are applied to the job queue. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
             jobQueueArn: Swift.String? = nil,
             jobQueueName: Swift.String? = nil,
@@ -7213,7 +7061,7 @@ extension BatchClientTypes.JobSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
         jobArn = jobArnDecoded
@@ -7272,7 +7120,7 @@ extension BatchClientTypes {
         /// The Unix timestamp for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public var stoppedAt: Swift.Int?
 
-        public init (
+        public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesSummary? = nil,
             container: BatchClientTypes.ContainerSummary? = nil,
             createdAt: Swift.Int? = nil,
@@ -7316,7 +7164,7 @@ extension BatchClientTypes.JobTimeout: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attemptDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attemptDurationSeconds)
         attemptDurationSeconds = attemptDurationSecondsDecoded
@@ -7329,7 +7177,7 @@ extension BatchClientTypes {
         /// The job timeout time (in seconds) that's measured from the job attempt's startedAt timestamp. After this time passes, Batch terminates your jobs if they aren't finished. The minimum value for the timeout is 60 seconds. For array jobs, the timeout applies to the child jobs, not to the parent array job. For multi-node parallel (MNP) jobs, the timeout applies to the whole job, not to the individual nodes.
         public var attemptDurationSeconds: Swift.Int?
 
-        public init (
+        public init(
             attemptDurationSeconds: Swift.Int? = nil
         )
         {
@@ -7355,7 +7203,7 @@ extension BatchClientTypes.KeyValuePair: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7372,7 +7220,7 @@ extension BatchClientTypes {
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -7403,7 +7251,7 @@ extension BatchClientTypes.KeyValuesPair: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7429,7 +7277,7 @@ extension BatchClientTypes {
         /// The filter values.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -7461,7 +7309,7 @@ extension BatchClientTypes.LaunchTemplateSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchTemplateId)
         launchTemplateId = launchTemplateIdDecoded
@@ -7482,7 +7330,7 @@ extension BatchClientTypes {
         /// The version number of the launch template, $Latest, or $Default. If the value is $Latest, the latest version of the launch template is used. If the value is $Default, the default version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Latest or $Default is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default.
         public var version: Swift.String?
 
-        public init (
+        public init(
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
@@ -7534,7 +7382,7 @@ extension BatchClientTypes.LinuxParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let devicesContainer = try containerValues.decodeIfPresent([BatchClientTypes.Device?].self, forKey: .devices)
         var devicesDecoded0:[BatchClientTypes.Device]? = nil
@@ -7594,7 +7442,7 @@ extension BatchClientTypes {
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide this parameter for this resource type.
         public var tmpfs: [BatchClientTypes.Tmpfs]?
 
-        public init (
+        public init(
             devices: [BatchClientTypes.Device]? = nil,
             initProcessEnabled: Swift.Bool? = nil,
             maxSwap: Swift.Int? = nil,
@@ -7677,7 +7525,7 @@ public struct ListJobsInput: Swift.Equatable {
     /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         arrayJobId: Swift.String? = nil,
         filters: [BatchClientTypes.KeyValuesPair]? = nil,
         jobQueue: Swift.String? = nil,
@@ -7718,7 +7566,7 @@ extension ListJobsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueue)
         jobQueue = jobQueueDecoded
@@ -7746,33 +7594,21 @@ extension ListJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobSummaryList = output.jobSummaryList
@@ -7791,7 +7627,7 @@ public struct ListJobsOutputResponse: Swift.Equatable {
     /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         jobSummaryList: [BatchClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7812,7 +7648,7 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobSummaryListContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobSummary?].self, forKey: .jobSummaryList)
         var jobSummaryListDecoded0:[BatchClientTypes.JobSummary]? = nil
@@ -7860,7 +7696,7 @@ public struct ListSchedulingPoliciesInput: Swift.Equatable {
     /// The nextToken value that's returned from a previous paginated ListSchedulingPolicies request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7881,7 +7717,7 @@ extension ListSchedulingPoliciesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -7890,33 +7726,21 @@ extension ListSchedulingPoliciesInputBody: Swift.Decodable {
     }
 }
 
-extension ListSchedulingPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListSchedulingPoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListSchedulingPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListSchedulingPoliciesOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListSchedulingPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSchedulingPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7934,7 +7758,7 @@ public struct ListSchedulingPoliciesOutputResponse: Swift.Equatable {
     /// A list of scheduling policies that match the request.
     public var schedulingPolicies: [BatchClientTypes.SchedulingPolicyListingDetail]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         schedulingPolicies: [BatchClientTypes.SchedulingPolicyListingDetail]? = nil
     )
@@ -7955,7 +7779,7 @@ extension ListSchedulingPoliciesOutputResponseBody: Swift.Decodable {
         case schedulingPolicies
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let schedulingPoliciesContainer = try containerValues.decodeIfPresent([BatchClientTypes.SchedulingPolicyListingDetail?].self, forKey: .schedulingPolicies)
         var schedulingPoliciesDecoded0:[BatchClientTypes.SchedulingPolicyListingDetail]? = nil
@@ -7988,7 +7812,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -8001,37 +7825,25 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -8045,7 +7857,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -8062,7 +7874,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -8104,7 +7916,7 @@ extension BatchClientTypes.LogConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logDriverDecoded = try containerValues.decodeIfPresent(BatchClientTypes.LogDriver.self, forKey: .logDriver)
         logDriver = logDriverDecoded
@@ -8144,7 +7956,7 @@ extension BatchClientTypes {
         /// The secrets to pass to the log configuration. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html) in the Batch User Guide.
         public var secretOptions: [BatchClientTypes.Secret]?
 
-        public init (
+        public init(
             logDriver: BatchClientTypes.LogDriver? = nil,
             options: [Swift.String:Swift.String]? = nil,
             secretOptions: [BatchClientTypes.Secret]? = nil
@@ -8225,7 +8037,7 @@ extension BatchClientTypes.MountPoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerPath)
         containerPath = containerPathDecoded
@@ -8246,7 +8058,7 @@ extension BatchClientTypes {
         /// The name of the volume to mount.
         public var sourceVolume: Swift.String?
 
-        public init (
+        public init(
             containerPath: Swift.String? = nil,
             readOnly: Swift.Bool? = nil,
             sourceVolume: Swift.String? = nil
@@ -8272,7 +8084,7 @@ extension BatchClientTypes.NetworkConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let assignPublicIpDecoded = try containerValues.decodeIfPresent(BatchClientTypes.AssignPublicIp.self, forKey: .assignPublicIp)
         assignPublicIp = assignPublicIpDecoded
@@ -8285,7 +8097,7 @@ extension BatchClientTypes {
         /// Indicates whether the job has a public IP address. For a job that's running on Fargate resources in a private subnet to send outbound traffic to the internet (for example, to pull container images), the private subnet requires a NAT gateway be attached to route requests to the internet. For more information, see [Amazon ECS task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. The default value is "DISABLED".
         public var assignPublicIp: BatchClientTypes.AssignPublicIp?
 
-        public init (
+        public init(
             assignPublicIp: BatchClientTypes.AssignPublicIp? = nil
         )
         {
@@ -8315,7 +8127,7 @@ extension BatchClientTypes.NetworkInterface: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attachmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentId)
         attachmentId = attachmentIdDecoded
@@ -8336,7 +8148,7 @@ extension BatchClientTypes {
         /// The private IPv4 address for the network interface.
         public var privateIpv4Address: Swift.String?
 
-        public init (
+        public init(
             attachmentId: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             privateIpv4Address: Swift.String? = nil
@@ -8366,7 +8178,7 @@ extension BatchClientTypes.NodeDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeIndex)
         nodeIndex = nodeIndexDecoded
@@ -8383,7 +8195,7 @@ extension BatchClientTypes {
         /// The node index for the node. Node index numbering starts at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
         public var nodeIndex: Swift.Int?
 
-        public init (
+        public init(
             isMainNode: Swift.Bool? = nil,
             nodeIndex: Swift.Int? = nil
         )
@@ -8414,7 +8226,7 @@ extension BatchClientTypes.NodeOverrides: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numNodes)
         numNodes = numNodesDecoded
@@ -8446,7 +8258,7 @@ extension BatchClientTypes {
         /// * The main node index that's specified in the job definition must be fewer than the number of nodes specified in the override.
         public var numNodes: Swift.Int?
 
-        public init (
+        public init(
             nodePropertyOverrides: [BatchClientTypes.NodePropertyOverride]? = nil,
             numNodes: Swift.Int? = nil
         )
@@ -8481,7 +8293,7 @@ extension BatchClientTypes.NodeProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numNodes)
         numNodes = numNodesDecoded
@@ -8514,7 +8326,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var numNodes: Swift.Int?
 
-        public init (
+        public init(
             mainNode: Swift.Int? = nil,
             nodeRangeProperties: [BatchClientTypes.NodeRangeProperty]? = nil,
             numNodes: Swift.Int? = nil
@@ -8548,7 +8360,7 @@ extension BatchClientTypes.NodePropertiesSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isMainNodeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMainNode)
         isMainNode = isMainNodeDecoded
@@ -8569,7 +8381,7 @@ extension BatchClientTypes {
         /// The number of nodes that are associated with a multi-node parallel job.
         public var numNodes: Swift.Int?
 
-        public init (
+        public init(
             isMainNode: Swift.Bool? = nil,
             nodeIndex: Swift.Int? = nil,
             numNodes: Swift.Int? = nil
@@ -8599,7 +8411,7 @@ extension BatchClientTypes.NodePropertyOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetNodesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetNodes)
         targetNodes = targetNodesDecoded
@@ -8617,7 +8429,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var targetNodes: Swift.String?
 
-        public init (
+        public init(
             containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
             targetNodes: Swift.String? = nil
         )
@@ -8645,7 +8457,7 @@ extension BatchClientTypes.NodeRangeProperty: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetNodesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetNodes)
         targetNodes = targetNodesDecoded
@@ -8663,7 +8475,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var targetNodes: Swift.String?
 
-        public init (
+        public init(
             container: BatchClientTypes.ContainerProperties? = nil,
             targetNodes: Swift.String? = nil
         )
@@ -8840,7 +8652,7 @@ public struct RegisterJobDefinitionInput: Swift.Equatable {
     /// This member is required.
     public var type: BatchClientTypes.JobDefinitionType?
 
-    public init (
+    public init(
         containerProperties: BatchClientTypes.ContainerProperties? = nil,
         eksProperties: BatchClientTypes.EksProperties? = nil,
         jobDefinitionName: Swift.String? = nil,
@@ -8901,7 +8713,7 @@ extension RegisterJobDefinitionInputBody: Swift.Decodable {
         case type
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDefinitionName)
         jobDefinitionName = jobDefinitionNameDecoded
@@ -8957,33 +8769,21 @@ extension RegisterJobDefinitionInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterJobDefinitionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterJobDefinitionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterJobDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterJobDefinitionOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterJobDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterJobDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobDefinitionArn = output.jobDefinitionArn
@@ -9008,7 +8808,7 @@ public struct RegisterJobDefinitionOutputResponse: Swift.Equatable {
     /// This member is required.
     public var revision: Swift.Int?
 
-    public init (
+    public init(
         jobDefinitionArn: Swift.String? = nil,
         jobDefinitionName: Swift.String? = nil,
         revision: Swift.Int? = nil
@@ -9033,7 +8833,7 @@ extension RegisterJobDefinitionOutputResponseBody: Swift.Decodable {
         case revision
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDefinitionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDefinitionName)
         jobDefinitionName = jobDefinitionNameDecoded
@@ -9060,7 +8860,7 @@ extension BatchClientTypes.ResourceRequirement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -9079,7 +8879,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             type: BatchClientTypes.ResourceType? = nil,
             value: Swift.String? = nil
         )
@@ -9177,7 +8977,7 @@ extension BatchClientTypes.RetryStrategy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attempts)
         attempts = attemptsDecoded
@@ -9203,7 +9003,7 @@ extension BatchClientTypes {
         /// Array of up to 5 objects that specify the conditions where jobs are retried or failed. If this parameter is specified, then the attempts parameter must also be specified. If none of the listed conditions match, then the job is retried.
         public var evaluateOnExit: [BatchClientTypes.EvaluateOnExit]?
 
-        public init (
+        public init(
             attempts: Swift.Int? = nil,
             evaluateOnExit: [BatchClientTypes.EvaluateOnExit]? = nil
         )
@@ -9242,7 +9042,7 @@ extension BatchClientTypes.SchedulingPolicyDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9278,7 +9078,7 @@ extension BatchClientTypes {
         /// The tags that you apply to the scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
             name: Swift.String? = nil,
@@ -9306,7 +9106,7 @@ extension BatchClientTypes.SchedulingPolicyListingDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -9320,7 +9120,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var arn: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil
         )
         {
@@ -9346,7 +9146,7 @@ extension BatchClientTypes.Secret: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9372,7 +9172,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var valueFrom: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             valueFrom: Swift.String? = nil
         )
@@ -9385,37 +9185,41 @@ extension BatchClientTypes {
 }
 
 extension ServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// These errors are usually caused by a server issue.
-public struct ServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9428,7 +9232,7 @@ extension ServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9451,7 +9255,7 @@ extension BatchClientTypes.ShareAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shareIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareIdentifier)
         shareIdentifier = shareIdentifierDecoded
@@ -9469,7 +9273,7 @@ extension BatchClientTypes {
         /// The weight factor for the fair share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public var weightFactor: Swift.Float?
 
-        public init (
+        public init(
             shareIdentifier: Swift.String? = nil,
             weightFactor: Swift.Float? = nil
         )
@@ -9601,7 +9405,7 @@ public struct SubmitJobInput: Swift.Equatable {
     /// The timeout configuration for this [SubmitJob] operation. You can specify a timeout duration after which Batch terminates your jobs if they haven't finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see [Job Timeouts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html) in the Amazon Elastic Container Service Developer Guide.
     public var timeout: BatchClientTypes.JobTimeout?
 
-    public init (
+    public init(
         arrayProperties: BatchClientTypes.ArrayProperties? = nil,
         containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
         dependsOn: [BatchClientTypes.JobDependency]? = nil,
@@ -9674,7 +9478,7 @@ extension SubmitJobInputBody: Swift.Decodable {
         case timeout
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
         jobName = jobNameDecoded
@@ -9736,33 +9540,21 @@ extension SubmitJobInputBody: Swift.Decodable {
     }
 }
 
-extension SubmitJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SubmitJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SubmitJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SubmitJobOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SubmitJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SubmitJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobArn = output.jobArn
@@ -9786,7 +9578,7 @@ public struct SubmitJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var jobName: Swift.String?
 
-    public init (
+    public init(
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobName: Swift.String? = nil
@@ -9811,7 +9603,7 @@ extension SubmitJobOutputResponseBody: Swift.Decodable {
         case jobName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
         jobArn = jobArnDecoded
@@ -9856,7 +9648,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -9875,7 +9667,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -9891,38 +9683,26 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TerminateJobInput: Swift.Encodable {
@@ -9957,7 +9737,7 @@ public struct TerminateJobInput: Swift.Equatable {
     /// This member is required.
     public var reason: Swift.String?
 
-    public init (
+    public init(
         jobId: Swift.String? = nil,
         reason: Swift.String? = nil
     )
@@ -9978,7 +9758,7 @@ extension TerminateJobInputBody: Swift.Decodable {
         case reason
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -9987,38 +9767,26 @@ extension TerminateJobInputBody: Swift.Decodable {
     }
 }
 
-extension TerminateJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TerminateJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TerminateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TerminateJobOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TerminateJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TerminateJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension BatchClientTypes.Tmpfs: Swift.Codable {
@@ -10044,7 +9812,7 @@ extension BatchClientTypes.Tmpfs: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let containerPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerPath)
         containerPath = containerPathDecoded
@@ -10076,7 +9844,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var size: Swift.Int?
 
-        public init (
+        public init(
             containerPath: Swift.String? = nil,
             mountOptions: [Swift.String]? = nil,
             size: Swift.Int? = nil
@@ -10110,7 +9878,7 @@ extension BatchClientTypes.Ulimit: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hardLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hardLimit)
         hardLimit = hardLimitDecoded
@@ -10134,7 +9902,7 @@ extension BatchClientTypes {
         /// This member is required.
         public var softLimit: Swift.Int?
 
-        public init (
+        public init(
             hardLimit: Swift.Int? = nil,
             name: Swift.String? = nil,
             softLimit: Swift.Int? = nil
@@ -10154,7 +9922,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -10183,7 +9951,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -10198,42 +9966,30 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateComputeEnvironmentInput: Swift.Encodable {
@@ -10291,7 +10047,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Equatable {
     /// Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public var updatePolicy: BatchClientTypes.UpdatePolicy?
 
-    public init (
+    public init(
         computeEnvironment: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResourceUpdate? = nil,
         serviceRole: Swift.String? = nil,
@@ -10328,7 +10084,7 @@ extension UpdateComputeEnvironmentInputBody: Swift.Decodable {
         case updatePolicy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironment)
         computeEnvironment = computeEnvironmentDecoded
@@ -10345,33 +10101,21 @@ extension UpdateComputeEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateComputeEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateComputeEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateComputeEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateComputeEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateComputeEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateComputeEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.computeEnvironmentArn = output.computeEnvironmentArn
@@ -10389,7 +10133,7 @@ public struct UpdateComputeEnvironmentOutputResponse: Swift.Equatable {
     /// The name of the compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     public var computeEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         computeEnvironmentArn: Swift.String? = nil,
         computeEnvironmentName: Swift.String? = nil
     )
@@ -10410,7 +10154,7 @@ extension UpdateComputeEnvironmentOutputResponseBody: Swift.Decodable {
         case computeEnvironmentName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeEnvironmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computeEnvironmentName)
         computeEnvironmentName = computeEnvironmentNameDecoded
@@ -10471,7 +10215,7 @@ public struct UpdateJobQueueInput: Swift.Equatable {
     /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     public var state: BatchClientTypes.JQState?
 
-    public init (
+    public init(
         computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
         jobQueue: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -10504,7 +10248,7 @@ extension UpdateJobQueueInputBody: Swift.Decodable {
         case state
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueue)
         jobQueue = jobQueueDecoded
@@ -10528,33 +10272,21 @@ extension UpdateJobQueueInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateJobQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateJobQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateJobQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateJobQueueOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateJobQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateJobQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobQueueArn = output.jobQueueArn
@@ -10572,7 +10304,7 @@ public struct UpdateJobQueueOutputResponse: Swift.Equatable {
     /// The name of the job queue.
     public var jobQueueName: Swift.String?
 
-    public init (
+    public init(
         jobQueueArn: Swift.String? = nil,
         jobQueueName: Swift.String? = nil
     )
@@ -10593,7 +10325,7 @@ extension UpdateJobQueueOutputResponseBody: Swift.Decodable {
         case jobQueueName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobQueueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobQueueName)
         jobQueueName = jobQueueNameDecoded
@@ -10618,7 +10350,7 @@ extension BatchClientTypes.UpdatePolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminateJobsOnUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminateJobsOnUpdate)
         terminateJobsOnUpdate = terminateJobsOnUpdateDecoded
@@ -10635,7 +10367,7 @@ extension BatchClientTypes {
         /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
         public var terminateJobsOnUpdate: Swift.Bool?
 
-        public init (
+        public init(
             jobExecutionTimeoutMinutes: Swift.Int = 0,
             terminateJobsOnUpdate: Swift.Bool? = nil
         )
@@ -10678,7 +10410,7 @@ public struct UpdateSchedulingPolicyInput: Swift.Equatable {
     /// The fair share policy.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
 
-    public init (
+    public init(
         arn: Swift.String? = nil,
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil
     )
@@ -10699,7 +10431,7 @@ extension UpdateSchedulingPolicyInputBody: Swift.Decodable {
         case fairsharePolicy
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -10708,38 +10440,26 @@ extension UpdateSchedulingPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateSchedulingPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateSchedulingPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateSchedulingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateSchedulingPolicyOutputError: Swift.Error, Swift.Equatable {
-    case clientException(ClientException)
-    case serverException(ServerException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateSchedulingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateSchedulingPolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension BatchClientTypes.Volume: Swift.Codable {
@@ -10762,7 +10482,7 @@ extension BatchClientTypes.Volume: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(BatchClientTypes.Host.self, forKey: .host)
         host = hostDecoded
@@ -10783,7 +10503,7 @@ extension BatchClientTypes {
         /// The name of the volume. It can be up to 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_). This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public var name: Swift.String?
 
-        public init (
+        public init(
             efsVolumeConfiguration: BatchClientTypes.EFSVolumeConfiguration? = nil,
             host: BatchClientTypes.Host? = nil,
             name: Swift.String? = nil

@@ -284,3 +284,33 @@ extension PaginatorSequence where Input == ListUsageTotalsInput, Output == ListU
         return try await self.asyncCompactMap { item in item.totals }
     }
 }
+extension Inspector2Client {
+    /// Paginate over `[SearchVulnerabilitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchVulnerabilitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchVulnerabilitiesOutputResponse`
+    public func searchVulnerabilitiesPaginated(input: SearchVulnerabilitiesInput) -> ClientRuntime.PaginatorSequence<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchVulnerabilitiesInput, SearchVulnerabilitiesOutputResponse>(input: input, inputKey: \SearchVulnerabilitiesInput.nextToken, outputKey: \SearchVulnerabilitiesOutputResponse.nextToken, paginationFunction: self.searchVulnerabilities(input:))
+    }
+}
+
+extension SearchVulnerabilitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchVulnerabilitiesInput {
+        return SearchVulnerabilitiesInput(
+            filterCriteria: self.filterCriteria,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == SearchVulnerabilitiesInput, Output == SearchVulnerabilitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchVulnerabilitiesPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.Vulnerability]`
+    /// - Returns: `[Inspector2ClientTypes.Vulnerability]`
+    public func vulnerabilities() async throws -> [Inspector2ClientTypes.Vulnerability] {
+        return try await self.asyncCompactMap { item in item.vulnerabilities }
+    }
+}

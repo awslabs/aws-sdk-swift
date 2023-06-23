@@ -35,11 +35,11 @@ extension MediaConnectClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ServiceUnavailableException"
+                return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
             .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
@@ -74,7 +74,7 @@ extension MediaConnectClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFoundException"
+                return (error as? ServiceError)?.typeName == "NotFoundException"
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
@@ -87,11 +87,11 @@ extension MediaConnectClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ServiceUnavailableException"
+                return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
             .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
@@ -144,11 +144,11 @@ extension MediaConnectClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "InternalServerErrorException"
+                return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
             .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ServiceUnavailableException"
+                return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
             .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"

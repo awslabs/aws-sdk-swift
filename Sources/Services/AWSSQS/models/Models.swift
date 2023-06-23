@@ -61,7 +61,7 @@ public struct AddPermissionInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         actions: [Swift.String]? = nil,
         awsAccountIds: [Swift.String]? = nil,
         label: Swift.String? = nil,
@@ -90,7 +90,7 @@ extension AddPermissionInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -135,79 +135,66 @@ extension AddPermissionInputBody: Swift.Decodable {
     }
 }
 
-extension AddPermissionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AddPermissionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OverLimit" : self = .overLimit(try OverLimit(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AddPermissionOutputError: Swift.Error, Swift.Equatable {
-    case overLimit(OverLimit)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddPermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AddPermissionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension BatchEntryIdsNotDistinct {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Two or more batch entries in the request have the same Id.
-public struct BatchEntryIdsNotDistinct: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.BatchEntryIdsNotDistinct" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension BatchRequestTooLong {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The length of all the messages put together is more than the limit.
-public struct BatchRequestTooLong: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.BatchRequestTooLong" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
@@ -234,7 +221,7 @@ extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -262,7 +249,7 @@ extension SQSClientTypes {
         /// This member is required.
         public var senderFault: Swift.Bool
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil,
@@ -276,6 +263,104 @@ extension SQSClientTypes {
         }
     }
 
+}
+
+extension CancelMessageMoveTaskInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let taskHandle = taskHandle {
+            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        }
+        try container.encode("CancelMessageMoveTask", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CancelMessageMoveTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CancelMessageMoveTaskInput: Swift.Equatable {
+    /// An identifier associated with a message movement task.
+    /// This member is required.
+    public var taskHandle: Swift.String?
+
+    public init(
+        taskHandle: Swift.String? = nil
+    )
+    {
+        self.taskHandle = taskHandle
+    }
+}
+
+struct CancelMessageMoveTaskInputBody: Swift.Equatable {
+    let taskHandle: Swift.String?
+}
+
+extension CancelMessageMoveTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskHandle = "TaskHandle"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+    }
+}
+
+public enum CancelMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CancelMessageMoveTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelMessageMoveTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateNumberOfMessagesMoved = output.approximateNumberOfMessagesMoved
+        } else {
+            self.approximateNumberOfMessagesMoved = 0
+        }
+    }
+}
+
+public struct CancelMessageMoveTaskOutputResponse: Swift.Equatable {
+    /// The approximate number of messages already moved to the destination queue.
+    public var approximateNumberOfMessagesMoved: Swift.Int
+
+    public init(
+        approximateNumberOfMessagesMoved: Swift.Int = 0
+    )
+    {
+        self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
+    }
+}
+
+struct CancelMessageMoveTaskOutputResponseBody: Swift.Equatable {
+    let approximateNumberOfMessagesMoved: Swift.Int
+}
+
+extension CancelMessageMoveTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateNumberOfMessagesMoved = "ApproximateNumberOfMessagesMoved"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CancelMessageMoveTaskResult"))
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
+    }
 }
 
 extension ChangeMessageVisibilityBatchInput: Swift.Encodable {
@@ -309,14 +394,14 @@ extension ChangeMessageVisibilityBatchInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ChangeMessageVisibilityBatchInput: Swift.Equatable {
-    /// A list of receipt handles of the messages for which the visibility timeout must be changed.
+    /// Lists the receipt handles of the messages for which the visibility timeout must be changed.
     /// This member is required.
     public var entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]?
     /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -337,7 +422,7 @@ extension ChangeMessageVisibilityBatchInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -362,36 +447,22 @@ extension ChangeMessageVisibilityBatchInputBody: Swift.Decodable {
     }
 }
 
-extension ChangeMessageVisibilityBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ChangeMessageVisibilityBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct" : self = .batchEntryIdsNotDistinct(try BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.EmptyBatchRequest" : self = .emptyBatchRequest(try EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ChangeMessageVisibilityBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ChangeMessageVisibilityBatchOutputError: Swift.Error, Swift.Equatable {
-    case batchEntryIdsNotDistinct(BatchEntryIdsNotDistinct)
-    case emptyBatchRequest(EmptyBatchRequest)
-    case invalidBatchEntryId(InvalidBatchEntryId)
-    case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ChangeMessageVisibilityBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ChangeMessageVisibilityBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -412,7 +483,7 @@ public struct ChangeMessageVisibilityBatchOutputResponse: Swift.Equatable {
     /// This member is required.
     public var successful: [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]?
 
-    public init (
+    public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]? = nil
     )
@@ -433,7 +504,7 @@ extension ChangeMessageVisibilityBatchOutputResponseBody: Swift.Decodable {
         case successful = "ChangeMessageVisibilityBatchResultEntry"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ChangeMessageVisibilityBatchResult"))
         if containerValues.contains(.successful) {
@@ -495,7 +566,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -507,11 +578,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
 }
 
 extension SQSClientTypes {
-    /// Encloses a receipt handle and an entry id for each message in [ChangeMessageVisibilityBatch]. All of the following list parameters must be prefixed with ChangeMessageVisibilityBatchRequestEntry.n, where n is an integer value starting with 1. For example, a parameter list for this action might look like this: &ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2
-    ///     &ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle
-    ///
-    ///
-    ///     &ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45
+    /// Encloses a receipt handle and an entry ID for each message in [ChangeMessageVisibilityBatch].
     public struct ChangeMessageVisibilityBatchRequestEntry: Swift.Equatable {
         /// An identifier for this particular receipt handle used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
@@ -522,7 +589,7 @@ extension SQSClientTypes {
         /// The new value (in seconds) for the message's visibility timeout.
         public var visibilityTimeout: Swift.Int
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil,
             visibilityTimeout: Swift.Int = 0
@@ -548,7 +615,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -562,7 +629,7 @@ extension SQSClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -581,7 +648,7 @@ extension ChangeMessageVisibilityInput: Swift.Encodable {
         if let receiptHandle = receiptHandle {
             try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
         }
-        if visibilityTimeout != 0 {
+        if let visibilityTimeout = visibilityTimeout {
             try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
         }
         try container.encode("ChangeMessageVisibility", forKey:ClientRuntime.Key("Action"))
@@ -599,17 +666,17 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
     /// The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
-    /// The receipt handle associated with the message whose visibility timeout is changed. This parameter is returned by the [ReceiveMessage] action.
+    /// The receipt handle associated with the message, whose visibility timeout is changed. This parameter is returned by the [ReceiveMessage] action.
     /// This member is required.
     public var receiptHandle: Swift.String?
     /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
     /// This member is required.
-    public var visibilityTimeout: Swift.Int
+    public var visibilityTimeout: Swift.Int?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil,
-        visibilityTimeout: Swift.Int = 0
+        visibilityTimeout: Swift.Int? = nil
     )
     {
         self.queueUrl = queueUrl
@@ -621,7 +688,7 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
 struct ChangeMessageVisibilityInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let receiptHandle: Swift.String?
-    let visibilityTimeout: Swift.Int
+    let visibilityTimeout: Swift.Int?
 }
 
 extension ChangeMessageVisibilityInputBody: Swift.Decodable {
@@ -631,48 +698,36 @@ extension ChangeMessageVisibilityInputBody: Swift.Decodable {
         case visibilityTimeout = "VisibilityTimeout"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
 
-extension ChangeMessageVisibilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ChangeMessageVisibilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.MessageNotInflight" : self = .messageNotInflight(try MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReceiptHandleIsInvalid" : self = .receiptHandleIsInvalid(try ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ChangeMessageVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.MessageNotInflight": return try await MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ChangeMessageVisibilityOutputError: Swift.Error, Swift.Equatable {
-    case messageNotInflight(MessageNotInflight)
-    case receiptHandleIsInvalid(ReceiptHandleIsInvalid)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ChangeMessageVisibilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ChangeMessageVisibilityOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateQueueInput: Swift.Encodable {
@@ -726,31 +781,52 @@ public struct CreateQueueInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
     ///
-    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days).
+    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
-    /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the Amazon IAM User Guide.
+    /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the IAM User Guide.
     ///
     /// * ReceiveMessageWaitTimeSeconds – The length of time, in seconds, for which a [ReceiveMessage] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
-    ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.
     ///
     /// * VisibilityTimeout – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+    ///
+    ///
+    ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms). While the alias of the Amazon Web Services managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
-    /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
+    /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work)
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attributes apply only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -819,10 +895,10 @@ public struct CreateQueueInput: Swift.Equatable {
     /// * A new tag with a key identical to that of an existing tag overwrites the existing tag.
     ///
     ///
-    /// For a full list of tag restrictions, see [Quotas related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html#limits-queues) in the Amazon SQS Developer Guide. To be able to tag a queue on creation, you must have the sqs:CreateQueue and sqs:TagQueue permissions. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
+    /// For a full list of tag restrictions, see [Quotas related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html#limits-queues) in the Amazon SQS Developer Guide. To be able to tag a queue on creation, you must have the sqs:CreateQueue and sqs:TagQueue permissions. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         attributes: [Swift.String:Swift.String]? = nil,
         queueName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -847,7 +923,7 @@ extension CreateQueueInputBody: Swift.Decodable {
         case tags = "Tag"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueName)
         queueName = queueNameDecoded
@@ -892,32 +968,20 @@ extension CreateQueueInputBody: Swift.Decodable {
     }
 }
 
-extension CreateQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.QueueDeletedRecently" : self = .queueDeletedRecently(try QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "QueueAlreadyExists" : self = .queueNameExists(try QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.QueueDeletedRecently": return try await QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "QueueAlreadyExists": return try await QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateQueueOutputError: Swift.Error, Swift.Equatable {
-    case queueDeletedRecently(QueueDeletedRecently)
-    case queueNameExists(QueueNameExists)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateQueueOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueUrl = output.queueUrl
@@ -932,7 +996,7 @@ public struct CreateQueueOutputResponse: Swift.Equatable {
     /// The URL of the created Amazon SQS queue.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil
     )
     {
@@ -949,7 +1013,7 @@ extension CreateQueueOutputResponseBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateQueueResult"))
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
@@ -988,14 +1052,14 @@ extension DeleteMessageBatchInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DeleteMessageBatchInput: Swift.Equatable {
-    /// A list of receipt handles for the messages to be deleted.
+    /// Lists the receipt handles for the messages to be deleted.
     /// This member is required.
     public var entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]?
     /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -1016,7 +1080,7 @@ extension DeleteMessageBatchInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -1041,36 +1105,22 @@ extension DeleteMessageBatchInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteMessageBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteMessageBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct" : self = .batchEntryIdsNotDistinct(try BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.EmptyBatchRequest" : self = .emptyBatchRequest(try EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteMessageBatchOutputError: Swift.Error, Swift.Equatable {
-    case batchEntryIdsNotDistinct(BatchEntryIdsNotDistinct)
-    case emptyBatchRequest(EmptyBatchRequest)
-    case invalidBatchEntryId(InvalidBatchEntryId)
-    case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteMessageBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -1091,7 +1141,7 @@ public struct DeleteMessageBatchOutputResponse: Swift.Equatable {
     /// This member is required.
     public var successful: [SQSClientTypes.DeleteMessageBatchResultEntry]?
 
-    public init (
+    public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.DeleteMessageBatchResultEntry]? = nil
     )
@@ -1112,7 +1162,7 @@ extension DeleteMessageBatchOutputResponseBody: Swift.Decodable {
         case successful = "DeleteMessageBatchResultEntry"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteMessageBatchResult"))
         if containerValues.contains(.successful) {
@@ -1170,7 +1220,7 @@ extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1182,14 +1232,14 @@ extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
 extension SQSClientTypes {
     /// Encloses a receipt handle and an identifier for it.
     public struct DeleteMessageBatchRequestEntry: Swift.Equatable {
-        /// An identifier for this particular receipt handle. This is used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
+        /// The identifier for this particular receipt handle. This is used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
         public var id: Swift.String?
         /// A receipt handle.
         /// This member is required.
         public var receiptHandle: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil
         )
@@ -1213,7 +1263,7 @@ extension SQSClientTypes.DeleteMessageBatchResultEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1227,7 +1277,7 @@ extension SQSClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -1266,7 +1316,7 @@ public struct DeleteMessageInput: Swift.Equatable {
     /// This member is required.
     public var receiptHandle: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil
     )
@@ -1287,7 +1337,7 @@ extension DeleteMessageInputBody: Swift.Decodable {
         case receiptHandle = "ReceiptHandle"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -1296,37 +1346,25 @@ extension DeleteMessageInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteMessageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteMessageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidIdFormat" : self = .invalidIdFormat(try InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReceiptHandleIsInvalid" : self = .receiptHandleIsInvalid(try ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidIdFormat": return try await InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteMessageOutputError: Swift.Error, Swift.Equatable {
-    case invalidIdFormat(InvalidIdFormat)
-    case receiptHandleIsInvalid(ReceiptHandleIsInvalid)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteMessageOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteQueueInput: Swift.Encodable {
@@ -1352,7 +1390,7 @@ public struct DeleteQueueInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil
     )
     {
@@ -1369,62 +1407,51 @@ extension DeleteQueueInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
     }
 }
 
-extension DeleteQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteQueueOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteQueueOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension EmptyBatchRequest {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The batch request doesn't contain any entries.
-public struct EmptyBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.EmptyBatchRequest" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension GetQueueAttributesInput: Swift.Encodable {
@@ -1458,7 +1485,7 @@ extension GetQueueAttributesInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct GetQueueAttributesInput: Swift.Equatable {
-    /// A list of attributes for which to retrieve information. The AttributeName.N parameter is optional, but if you don't specify values for this parameter, the request returns empty results. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully. The following attributes are supported: The ApproximateNumberOfMessagesDelayed, ApproximateNumberOfMessagesNotVisible, and ApproximateNumberOfMessagesVisible metrics may not achieve consistency until at least 1 minute after the producers stop sending messages. This period is required for the queue metadata to reach eventual consistency.
+    /// A list of attributes for which to retrieve information. The AttributeNames parameter is optional, but if you don't specify values for this parameter, the request returns empty results. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully. The following attributes are supported: The ApproximateNumberOfMessagesDelayed, ApproximateNumberOfMessagesNotVisible, and ApproximateNumberOfMessages metrics may not achieve consistency until at least 1 minute after the producers stop sending messages. This period is required for the queue metadata to reach eventual consistency.
     ///
     /// * All – Returns all values.
     ///
@@ -1476,7 +1503,7 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.
     ///
-    /// * MessageRetentionPeriod – Returns the length of time, in seconds, for which Amazon SQS retains a message.
+    /// * MessageRetentionPeriod – Returns the length of time, in seconds, for which Amazon SQS retains a message. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
     /// * Policy – Returns the policy of the queue.
     ///
@@ -1484,25 +1511,46 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     ///
     /// * ReceiveMessageWaitTimeSeconds – Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.
     ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    ///
-    ///
     /// * VisibilityTimeout – Returns the visibility timeout for the queue. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+    ///
+    ///
+    ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – Returns the ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms).
     ///
     /// * KmsDataKeyReusePeriodSeconds – Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling KMS again. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
     ///
-    /// * SqsManagedSseEnabled – Returns information about whether the queue is using SSE-SQS encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Returns information about whether the queue is using SSE-SQS encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attributes apply only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -1532,7 +1580,7 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -1553,7 +1601,7 @@ extension GetQueueAttributesInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -1564,8 +1612,8 @@ extension GetQueueAttributesInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer
@@ -1578,30 +1626,19 @@ extension GetQueueAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension GetQueueAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetQueueAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidAttributeName" : self = .invalidAttributeName(try InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetQueueAttributesOutputError: Swift.Error, Swift.Equatable {
-    case invalidAttributeName(InvalidAttributeName)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQueueAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
@@ -1616,7 +1653,7 @@ public struct GetQueueAttributesOutputResponse: Swift.Equatable {
     /// A map of attributes to their respective values.
     public var attributes: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         attributes: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1633,7 +1670,7 @@ extension GetQueueAttributesOutputResponseBody: Swift.Decodable {
         case attributes = "Attribute"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetQueueAttributesResult"))
         if containerValues.contains(.attributes) {
@@ -1686,7 +1723,7 @@ public struct GetQueueUrlInput: Swift.Equatable {
     /// The Amazon Web Services account ID of the account that created the queue.
     public var queueOwnerAWSAccountId: Swift.String?
 
-    public init (
+    public init(
         queueName: Swift.String? = nil,
         queueOwnerAWSAccountId: Swift.String? = nil
     )
@@ -1707,7 +1744,7 @@ extension GetQueueUrlInputBody: Swift.Decodable {
         case queueOwnerAWSAccountId = "QueueOwnerAWSAccountId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueName)
         queueName = queueNameDecoded
@@ -1716,30 +1753,19 @@ extension GetQueueUrlInputBody: Swift.Decodable {
     }
 }
 
-extension GetQueueUrlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetQueueUrlOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetQueueUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetQueueUrlOutputError: Swift.Error, Swift.Equatable {
-    case queueDoesNotExist(QueueDoesNotExist)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetQueueUrlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQueueUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.queueUrl = output.queueUrl
@@ -1754,7 +1780,7 @@ public struct GetQueueUrlOutputResponse: Swift.Equatable {
     /// The URL of the queue.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil
     )
     {
@@ -1771,7 +1797,7 @@ extension GetQueueUrlOutputResponseBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetQueueUrlResult"))
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
@@ -1780,91 +1806,87 @@ extension GetQueueUrlOutputResponseBody: Swift.Decodable {
 }
 
 extension InvalidAttributeName {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified attribute doesn't exist.
-public struct InvalidAttributeName: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "InvalidAttributeName" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension InvalidBatchEntryId {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Id of a batch entry in a batch request doesn't abide by the specification.
-public struct InvalidBatchEntryId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.InvalidBatchEntryId" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension InvalidIdFormat {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified receipt handle isn't valid for the current version.
-public struct InvalidIdFormat: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct InvalidIdFormat: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "InvalidIdFormat" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension InvalidMessageContents {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The message contains characters outside the allowed set.
-public struct InvalidMessageContents: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "InvalidMessageContents" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension ListDeadLetterSourceQueuesInput: Swift.Encodable {
@@ -1900,7 +1922,7 @@ public struct ListDeadLetterSourceQueuesInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueUrl: Swift.String? = nil
@@ -1925,7 +1947,7 @@ extension ListDeadLetterSourceQueuesInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -1936,30 +1958,19 @@ extension ListDeadLetterSourceQueuesInputBody: Swift.Decodable {
     }
 }
 
-extension ListDeadLetterSourceQueuesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListDeadLetterSourceQueuesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDeadLetterSourceQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListDeadLetterSourceQueuesOutputError: Swift.Error, Swift.Equatable {
-    case queueDoesNotExist(QueueDoesNotExist)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDeadLetterSourceQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDeadLetterSourceQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -1979,7 +1990,7 @@ public struct ListDeadLetterSourceQueuesOutputResponse: Swift.Equatable {
     /// This member is required.
     public var queueUrls: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
     )
@@ -2000,7 +2011,7 @@ extension ListDeadLetterSourceQueuesOutputResponseBody: Swift.Decodable {
         case queueUrls = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListDeadLetterSourceQueuesResult"))
         if containerValues.contains(.queueUrls) {
@@ -2026,6 +2037,246 @@ extension ListDeadLetterSourceQueuesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListMessageMoveTasksInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        try container.encode("ListMessageMoveTasks", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListMessageMoveTasksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListMessageMoveTasksInput: Swift.Equatable {
+    /// The maximum number of results to include in the response. The default is 1, which provides the most recent message movement task. The upper limit is 10.
+    public var maxResults: Swift.Int?
+    /// The ARN of the queue whose message movement tasks are to be listed.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        sourceArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.sourceArn = sourceArn
+    }
+}
+
+struct ListMessageMoveTasksInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListMessageMoveTasksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case sourceArn = "SourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListMessageMoveTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ListMessageMoveTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMessageMoveTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+        } else {
+            self.results = nil
+        }
+    }
+}
+
+public struct ListMessageMoveTasksOutputResponse: Swift.Equatable {
+    /// A list of message movement tasks and their attributes.
+    public var results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
+
+    public init(
+        results: [SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct ListMessageMoveTasksOutputResponseBody: Swift.Equatable {
+    let results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
+}
+
+extension ListMessageMoveTasksOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results = "ListMessageMoveTasksResultEntry"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListMessageMoveTasksResult"))
+        if containerValues.contains(.results) {
+            let resultsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .results)
+            if resultsWrappedContainer != nil {
+                let resultsContainer = try containerValues.decodeIfPresent([SQSClientTypes.ListMessageMoveTasksResultEntry].self, forKey: .results)
+                var resultsBuffer:[SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
+                if let resultsContainer = resultsContainer {
+                    resultsBuffer = [SQSClientTypes.ListMessageMoveTasksResultEntry]()
+                    for structureContainer0 in resultsContainer {
+                        resultsBuffer?.append(structureContainer0)
+                    }
+                }
+                results = resultsBuffer
+            } else {
+                results = []
+            }
+        } else {
+            results = nil
+        }
+    }
+}
+
+extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateNumberOfMessagesMoved = "ApproximateNumberOfMessagesMoved"
+        case approximateNumberOfMessagesToMove = "ApproximateNumberOfMessagesToMove"
+        case destinationArn = "DestinationArn"
+        case failureReason = "FailureReason"
+        case maxNumberOfMessagesPerSecond = "MaxNumberOfMessagesPerSecond"
+        case sourceArn = "SourceArn"
+        case startedTimestamp = "StartedTimestamp"
+        case status = "Status"
+        case taskHandle = "TaskHandle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if approximateNumberOfMessagesMoved != 0 {
+            try container.encode(approximateNumberOfMessagesMoved, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesMoved"))
+        }
+        if approximateNumberOfMessagesToMove != 0 {
+            try container.encode(approximateNumberOfMessagesToMove, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesToMove"))
+        }
+        if let destinationArn = destinationArn {
+            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        }
+        if let failureReason = failureReason {
+            try container.encode(failureReason, forKey: ClientRuntime.Key("FailureReason"))
+        }
+        if maxNumberOfMessagesPerSecond != 0 {
+            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if startedTimestamp != 0 {
+            try container.encode(startedTimestamp, forKey: ClientRuntime.Key("StartedTimestamp"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let taskHandle = taskHandle {
+            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
+        destinationArn = destinationArnDecoded
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
+        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove)
+        approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMoveDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let startedTimestampDecoded = try containerValues.decode(Swift.Int.self, forKey: .startedTimestamp)
+        startedTimestamp = startedTimestampDecoded
+    }
+}
+
+extension SQSClientTypes {
+    /// Contains the details of a message movement task.
+    public struct ListMessageMoveTasksResultEntry: Swift.Equatable {
+        /// The approximate number of messages already moved to the destination queue.
+        public var approximateNumberOfMessagesMoved: Swift.Int
+        /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task.
+        public var approximateNumberOfMessagesToMove: Swift.Int
+        /// The ARN of the destination queue if it has been specified in the StartMessageMoveTask request. If a DestinationArn has not been specified in the StartMessageMoveTask request, this field value will be NULL.
+        public var destinationArn: Swift.String?
+        /// The task failure reason (only included if the task status is FAILED).
+        public var failureReason: Swift.String?
+        /// The number of messages to be moved per second (the message movement rate), if it has been specified in the StartMessageMoveTask request. If a MaxNumberOfMessagesPerSecond has not been specified in the StartMessageMoveTask request, this field value will be NULL.
+        public var maxNumberOfMessagesPerSecond: Swift.Int
+        /// The ARN of the queue that contains the messages to be moved to another queue.
+        public var sourceArn: Swift.String?
+        /// The timestamp of starting the message movement task.
+        public var startedTimestamp: Swift.Int
+        /// The status of the message movement task. Possible values are: RUNNING, COMPLETED, CANCELLING, CANCELLED, and FAILED.
+        public var status: Swift.String?
+        /// An identifier associated with a message movement task. When this field is returned in the response of the ListMessageMoveTasks action, it is only populated for tasks that are in RUNNING status.
+        public var taskHandle: Swift.String?
+
+        public init(
+            approximateNumberOfMessagesMoved: Swift.Int = 0,
+            approximateNumberOfMessagesToMove: Swift.Int = 0,
+            destinationArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            maxNumberOfMessagesPerSecond: Swift.Int = 0,
+            sourceArn: Swift.String? = nil,
+            startedTimestamp: Swift.Int = 0,
+            status: Swift.String? = nil,
+            taskHandle: Swift.String? = nil
+        )
+        {
+            self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
+            self.approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMove
+            self.destinationArn = destinationArn
+            self.failureReason = failureReason
+            self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
+            self.sourceArn = sourceArn
+            self.startedTimestamp = startedTimestamp
+            self.status = status
+            self.taskHandle = taskHandle
+        }
+    }
+
+}
+
 extension ListQueueTagsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -2048,7 +2299,7 @@ public struct ListQueueTagsInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil
     )
     {
@@ -2065,35 +2316,25 @@ extension ListQueueTagsInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
     }
 }
 
-extension ListQueueTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListQueueTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListQueueTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListQueueTagsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListQueueTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListQueueTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -2107,7 +2348,7 @@ public struct ListQueueTagsOutputResponse: Swift.Equatable {
     /// The list of all tags added to the specified queue.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -2124,7 +2365,7 @@ extension ListQueueTagsOutputResponseBody: Swift.Decodable {
         case tags = "Tag"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListQueueTagsResult"))
         if containerValues.contains(.tags) {
@@ -2181,7 +2422,7 @@ public struct ListQueuesInput: Swift.Equatable {
     /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue URLs and names are case-sensitive.
     public var queueNamePrefix: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueNamePrefix: Swift.String? = nil
@@ -2206,7 +2447,7 @@ extension ListQueuesInputBody: Swift.Decodable {
         case queueNamePrefix = "QueueNamePrefix"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueNamePrefix)
         queueNamePrefix = queueNamePrefixDecoded
@@ -2217,28 +2458,18 @@ extension ListQueuesInputBody: Swift.Decodable {
     }
 }
 
-extension ListQueuesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListQueuesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListQueuesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListQueuesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListQueuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -2257,7 +2488,7 @@ public struct ListQueuesOutputResponse: Swift.Equatable {
     /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that you sent in the request.
     public var queueUrls: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
     )
@@ -2278,7 +2509,7 @@ extension ListQueuesOutputResponseBody: Swift.Decodable {
         case queueUrls = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListQueuesResult"))
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -2360,7 +2591,7 @@ extension SQSClientTypes.Message: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
@@ -2448,7 +2679,7 @@ extension SQSClientTypes {
         /// An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
         public var receiptHandle: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             body: Swift.String? = nil,
             md5OfBody: Swift.String? = nil,
@@ -2515,7 +2746,7 @@ extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
         stringValue = stringValueDecoded
@@ -2571,7 +2802,7 @@ extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
 }
 
 extension SQSClientTypes {
-    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KB or 262,144 bytes).
+    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KiB or 262,144 bytes).
     public struct MessageAttributeValue: Swift.Equatable {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [ClientRuntime.Data]?
@@ -2585,7 +2816,7 @@ extension SQSClientTypes {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see [ASCII Printable Characters](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters).
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             binaryListValues: [ClientRuntime.Data]? = nil,
             binaryValue: ClientRuntime.Data? = nil,
             dataType: Swift.String? = nil,
@@ -2604,25 +2835,24 @@ extension SQSClientTypes {
 }
 
 extension MessageNotInflight {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified message isn't in flight.
-public struct MessageNotInflight: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct MessageNotInflight: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.MessageNotInflight" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension SQSClientTypes {
@@ -2630,6 +2860,7 @@ extension SQSClientTypes {
         case awstraceheader
         case approximatefirstreceivetimestamp
         case approximatereceivecount
+        case deadletterqueuesourcearn
         case messagededuplicationid
         case messagegroupid
         case senderid
@@ -2642,6 +2873,7 @@ extension SQSClientTypes {
                 .awstraceheader,
                 .approximatefirstreceivetimestamp,
                 .approximatereceivecount,
+                .deadletterqueuesourcearn,
                 .messagededuplicationid,
                 .messagegroupid,
                 .senderid,
@@ -2659,6 +2891,7 @@ extension SQSClientTypes {
             case .awstraceheader: return "AWSTraceHeader"
             case .approximatefirstreceivetimestamp: return "ApproximateFirstReceiveTimestamp"
             case .approximatereceivecount: return "ApproximateReceiveCount"
+            case .deadletterqueuesourcearn: return "DeadLetterQueueSourceArn"
             case .messagededuplicationid: return "MessageDeduplicationId"
             case .messagegroupid: return "MessageGroupId"
             case .senderid: return "SenderId"
@@ -2749,7 +2982,7 @@ extension SQSClientTypes.MessageSystemAttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
         stringValue = stringValueDecoded
@@ -2819,7 +3052,7 @@ extension SQSClientTypes {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see [ASCII Printable Characters](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters).
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             binaryListValues: [ClientRuntime.Data]? = nil,
             binaryValue: ClientRuntime.Data? = nil,
             dataType: Swift.String? = nil,
@@ -2838,47 +3071,45 @@ extension SQSClientTypes {
 }
 
 extension OverLimit {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of inflight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-public struct OverLimit: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+/// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "OverLimit" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension PurgeQueueInProgress {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
-public struct PurgeQueueInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.PurgeQueueInProgress" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension PurgeQueueInput: Swift.Encodable {
@@ -2904,7 +3135,7 @@ public struct PurgeQueueInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil
     )
     {
@@ -2921,44 +3152,32 @@ extension PurgeQueueInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
     }
 }
 
-extension PurgeQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PurgeQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.PurgeQueueInProgress" : self = .purgeQueueInProgress(try PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PurgeQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.PurgeQueueInProgress": return try await PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PurgeQueueOutputError: Swift.Error, Swift.Equatable {
-    case purgeQueueInProgress(PurgeQueueInProgress)
-    case queueDoesNotExist(QueueDoesNotExist)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PurgeQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PurgeQueueOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SQSClientTypes {
@@ -3054,91 +3273,87 @@ extension SQSClientTypes {
 }
 
 extension QueueDeletedRecently {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
-public struct QueueDeletedRecently: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.QueueDeletedRecently" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension QueueDoesNotExist {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified queue doesn't exist.
-public struct QueueDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.NonExistentQueue" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension QueueNameExists {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
-public struct QueueNameExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "QueueAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension ReceiptHandleIsInvalid {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified receipt handle isn't valid.
-public struct ReceiptHandleIsInvalid: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "ReceiptHandleIsInvalid" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension ReceiveMessageInput: Swift.Encodable {
@@ -3156,7 +3371,7 @@ extension ReceiveMessageInput: Swift.Encodable {
                 try attributeNamesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if maxNumberOfMessages != 0 {
+        if let maxNumberOfMessages = maxNumberOfMessages {
             try container.encode(maxNumberOfMessages, forKey: ClientRuntime.Key("MaxNumberOfMessages"))
         }
         if let messageAttributeNames = messageAttributeNames {
@@ -3177,10 +3392,10 @@ extension ReceiveMessageInput: Swift.Encodable {
         if let receiveRequestAttemptId = receiveRequestAttemptId {
             try container.encode(receiveRequestAttemptId, forKey: ClientRuntime.Key("ReceiveRequestAttemptId"))
         }
-        if visibilityTimeout != 0 {
+        if let visibilityTimeout = visibilityTimeout {
             try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
         }
-        if waitTimeSeconds != 0 {
+        if let waitTimeSeconds = waitTimeSeconds {
             try container.encode(waitTimeSeconds, forKey: ClientRuntime.Key("WaitTimeSeconds"))
         }
         try container.encode("ReceiveMessage", forKey:ClientRuntime.Key("Action"))
@@ -3208,7 +3423,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     ///
     /// * SenderId
     ///
-    /// * For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.
+    /// * For a user, returns the user ID, for example ABCDEFGHI1JKLMNOPQ23R.
     ///
     /// * For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.
     ///
@@ -3217,7 +3432,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     ///
     /// * SentTimestamp – Returns the time the message was sent to the queue ([epoch time](http://en.wikipedia.org/wiki/Unix_time) in milliseconds).
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
@@ -3226,7 +3441,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     public var attributeNames: [SQSClientTypes.QueueAttributeName]?
     /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
-    public var maxNumberOfMessages: Swift.Int
+    public var maxNumberOfMessages: Swift.Int?
     /// The name of the message attribute, where N is the index.
     ///
     /// * The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).
@@ -3240,7 +3455,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// * The name can be up to 256 characters long.
     ///
     ///
-    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or . in your request. You can also use all message attributes starting with a prefix, for example bar..
+    /// When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
     public var messageAttributeNames: [Swift.String]?
     /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
     /// This member is required.
@@ -3265,18 +3480,18 @@ public struct ReceiveMessageInput: Swift.Equatable {
     /// The maximum length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see [Using the ReceiveRequestAttemptId Request Parameter](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html) in the Amazon SQS Developer Guide.
     public var receiveRequestAttemptId: Swift.String?
     /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
-    public var visibilityTimeout: Swift.Int
+    public var visibilityTimeout: Swift.Int?
     /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
-    public var waitTimeSeconds: Swift.Int
+    public var waitTimeSeconds: Swift.Int?
 
-    public init (
+    public init(
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
-        maxNumberOfMessages: Swift.Int = 0,
+        maxNumberOfMessages: Swift.Int? = nil,
         messageAttributeNames: [Swift.String]? = nil,
         queueUrl: Swift.String? = nil,
         receiveRequestAttemptId: Swift.String? = nil,
-        visibilityTimeout: Swift.Int = 0,
-        waitTimeSeconds: Swift.Int = 0
+        visibilityTimeout: Swift.Int? = nil,
+        waitTimeSeconds: Swift.Int? = nil
     )
     {
         self.attributeNames = attributeNames
@@ -3293,9 +3508,9 @@ struct ReceiveMessageInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let attributeNames: [SQSClientTypes.QueueAttributeName]?
     let messageAttributeNames: [Swift.String]?
-    let maxNumberOfMessages: Swift.Int
-    let visibilityTimeout: Swift.Int
-    let waitTimeSeconds: Swift.Int
+    let maxNumberOfMessages: Swift.Int?
+    let visibilityTimeout: Swift.Int?
+    let waitTimeSeconds: Swift.Int?
     let receiveRequestAttemptId: Swift.String?
 }
 
@@ -3310,7 +3525,7 @@ extension ReceiveMessageInputBody: Swift.Decodable {
         case waitTimeSeconds = "WaitTimeSeconds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -3321,8 +3536,8 @@ extension ReceiveMessageInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer
@@ -3350,41 +3565,30 @@ extension ReceiveMessageInputBody: Swift.Decodable {
         } else {
             messageAttributeNames = nil
         }
-        let maxNumberOfMessagesDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxNumberOfMessages)
+        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages)
         maxNumberOfMessages = maxNumberOfMessagesDecoded
-        let visibilityTimeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
-        let waitTimeSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .waitTimeSeconds)
+        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds)
         waitTimeSeconds = waitTimeSecondsDecoded
         let receiveRequestAttemptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiveRequestAttemptId)
         receiveRequestAttemptId = receiveRequestAttemptIdDecoded
     }
 }
 
-extension ReceiveMessageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ReceiveMessageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OverLimit" : self = .overLimit(try OverLimit(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ReceiveMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ReceiveMessageOutputError: Swift.Error, Swift.Equatable {
-    case overLimit(OverLimit)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ReceiveMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReceiveMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
@@ -3399,7 +3603,7 @@ public struct ReceiveMessageOutputResponse: Swift.Equatable {
     /// A list of messages.
     public var messages: [SQSClientTypes.Message]?
 
-    public init (
+    public init(
         messages: [SQSClientTypes.Message]? = nil
     )
     {
@@ -3416,7 +3620,7 @@ extension ReceiveMessageOutputResponseBody: Swift.Decodable {
         case messages = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ReceiveMessageResult"))
         if containerValues.contains(.messages) {
@@ -3469,7 +3673,7 @@ public struct RemovePermissionInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         label: Swift.String? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -3490,7 +3694,7 @@ extension RemovePermissionInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -3499,33 +3703,44 @@ extension RemovePermissionInputBody: Swift.Decodable {
     }
 }
 
-extension RemovePermissionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RemovePermissionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RemovePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RemovePermissionOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RemovePermissionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RemovePermissionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension ResourceNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// One or more specified resources don't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init() { }
 }
 
 extension SendMessageBatchInput: Swift.Encodable {
@@ -3566,7 +3781,7 @@ public struct SendMessageBatchInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         entries: [SQSClientTypes.SendMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -3587,7 +3802,7 @@ extension SendMessageBatchInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -3612,40 +3827,24 @@ extension SendMessageBatchInputBody: Swift.Decodable {
     }
 }
 
-extension SendMessageBatchOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SendMessageBatchOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct" : self = .batchEntryIdsNotDistinct(try BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.BatchRequestTooLong" : self = .batchRequestTooLong(try BatchRequestTooLong(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.EmptyBatchRequest" : self = .emptyBatchRequest(try EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.BatchRequestTooLong": return try await BatchRequestTooLong(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SendMessageBatchOutputError: Swift.Error, Swift.Equatable {
-    case batchEntryIdsNotDistinct(BatchEntryIdsNotDistinct)
-    case batchRequestTooLong(BatchRequestTooLong)
-    case emptyBatchRequest(EmptyBatchRequest)
-    case invalidBatchEntryId(InvalidBatchEntryId)
-    case tooManyEntriesInBatchRequest(TooManyEntriesInBatchRequest)
-    case unsupportedOperation(UnsupportedOperation)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendMessageBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendMessageBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
@@ -3666,7 +3865,7 @@ public struct SendMessageBatchOutputResponse: Swift.Equatable {
     /// This member is required.
     public var successful: [SQSClientTypes.SendMessageBatchResultEntry]?
 
-    public init (
+    public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.SendMessageBatchResultEntry]? = nil
     )
@@ -3687,7 +3886,7 @@ extension SendMessageBatchOutputResponseBody: Swift.Decodable {
         case successful = "SendMessageBatchResultEntry"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendMessageBatchResult"))
         if containerValues.contains(.successful) {
@@ -3785,7 +3984,7 @@ extension SQSClientTypes.SendMessageBatchRequestEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3889,7 +4088,7 @@ extension SQSClientTypes {
         /// * The size of a message system attribute doesn't count towards the total size of a message.
         public var messageSystemAttributes: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]?
 
-        public init (
+        public init(
             delaySeconds: Swift.Int = 0,
             id: Swift.String? = nil,
             messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil,
@@ -3943,7 +4142,7 @@ extension SQSClientTypes.SendMessageBatchResultEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3979,7 +4178,7 @@ extension SQSClientTypes {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. As SequenceNumber continues to increase for a particular MessageGroupId.
         public var sequenceNumber: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             md5OfMessageAttributes: Swift.String? = nil,
             md5OfMessageBody: Swift.String? = nil,
@@ -4002,7 +4201,7 @@ extension SQSClientTypes {
 extension SendMessageInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if delaySeconds != 0 {
+        if let delaySeconds = delaySeconds {
             try container.encode(delaySeconds, forKey: ClientRuntime.Key("DelaySeconds"))
         }
         if let messageAttributes = messageAttributes {
@@ -4057,10 +4256,10 @@ extension SendMessageInput: ClientRuntime.URLPathProvider {
 ///
 public struct SendMessageInput: Swift.Equatable {
     /// The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies. When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level.
-    public var delaySeconds: Swift.Int
+    public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
     public var messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]?
-    /// The message to send. The minimum size is one character. The maximum size is 256 KB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
+    /// The message to send. The minimum size is one character. The maximum size is 256 KiB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
     /// This member is required.
     public var messageBody: Swift.String?
     /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see [ Exactly-once processing](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html) in the Amazon SQS Developer Guide.
@@ -4104,8 +4303,8 @@ public struct SendMessageInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
-        delaySeconds: Swift.Int = 0,
+    public init(
+        delaySeconds: Swift.Int? = nil,
         messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil,
         messageBody: Swift.String? = nil,
         messageDeduplicationId: Swift.String? = nil,
@@ -4127,7 +4326,7 @@ public struct SendMessageInput: Swift.Equatable {
 struct SendMessageInputBody: Swift.Equatable {
     let queueUrl: Swift.String?
     let messageBody: Swift.String?
-    let delaySeconds: Swift.Int
+    let delaySeconds: Swift.Int?
     let messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]?
     let messageSystemAttributes: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]?
     let messageDeduplicationId: Swift.String?
@@ -4145,13 +4344,13 @@ extension SendMessageInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .delaySeconds)
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds)
         delaySeconds = delaySecondsDecoded
         if containerValues.contains(.messageAttributes) {
             struct KeyVal0{struct Name{}; struct Value{}}
@@ -4198,32 +4397,20 @@ extension SendMessageInputBody: Swift.Decodable {
     }
 }
 
-extension SendMessageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SendMessageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidMessageContents" : self = .invalidMessageContents(try InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "AWS.SimpleQueueService.UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SendMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidMessageContents": return try await InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SendMessageOutputError: Swift.Error, Swift.Equatable {
-    case invalidMessageContents(InvalidMessageContents)
-    case unsupportedOperation(UnsupportedOperation)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SendMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: SendMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.md5OfMessageAttributes = output.md5OfMessageAttributes
@@ -4254,7 +4441,7 @@ public struct SendMessageOutputResponse: Swift.Equatable {
     /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
     public var sequenceNumber: Swift.String?
 
-    public init (
+    public init(
         md5OfMessageAttributes: Swift.String? = nil,
         md5OfMessageBody: Swift.String? = nil,
         md5OfMessageSystemAttributes: Swift.String? = nil,
@@ -4287,7 +4474,7 @@ extension SendMessageOutputResponseBody: Swift.Decodable {
         case sequenceNumber = "SequenceNumber"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendMessageResult"))
         let md5OfMessageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .md5OfMessageBody)
@@ -4341,34 +4528,52 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     ///
     /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
     ///
-    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days).
+    /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
     /// * Policy – The queue's policy. A valid Amazon Web Services policy. For more information about policy structure, see [Overview of Amazon Web Services IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html) in the Identity and Access Management User Guide.
     ///
     /// * ReceiveMessageWaitTimeSeconds – The length of time, in seconds, for which a [ReceiveMessage] action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). Default: 0.
     ///
-    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. For more information about the redrive policy and dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
-    ///
-    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-    ///
-    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-    ///
-    ///
-    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.
-    ///
     /// * VisibilityTimeout – The visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours). Default: 30. For more information about the visibility timeout, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     ///
     ///
-    /// The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
+    /// The following attributes apply only to [dead-letter queues:](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+    ///
+    /// * RedrivePolicy – The string that includes the parameters for the dead-letter queue functionality of the source queue as a JSON object. The parameters are as follows:
+    ///
+    /// * deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+    ///
+    /// * maxReceiveCount – The number of times a message is delivered to the source queue before being moved to the dead-letter queue. Default: 10. When the ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
     ///
     ///
     ///
+    ///
+    /// * RedriveAllowPolicy – The string that includes the parameters for the permissions for the dead-letter queue redrive permission and which source queues can specify dead-letter queues as a JSON object. The parameters are as follows:
+    ///
+    /// * redrivePermission – The permission type that defines which source queues can specify the current queue as the dead-letter queue. Valid values are:
+    ///
+    /// * allowAll – (Default) Any source queues in this Amazon Web Services account in the same Region can specify this queue as the dead-letter queue.
+    ///
+    /// * denyAll – No source queues can specify this queue as the dead-letter queue.
+    ///
+    /// * byQueue – Only queues specified by the sourceQueueArns parameter can specify this queue as the dead-letter queue.
+    ///
+    ///
+    ///
+    ///
+    /// * sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify this queue as the dead-letter queue and redrive messages. You can specify this parameter only when the redrivePermission parameter is set to byQueue. You can specify up to 10 source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set the redrivePermission parameter to allowAll.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue. The following attributes apply only to [server-side-encryption](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-sse-key-terms). While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
     /// * KmsDataKeyReusePeriodSeconds – The length of time, in seconds, for which Amazon SQS can reuse a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) to encrypt or decrypt messages before calling KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). Default: 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see [How Does the Data Key Reuse Period Work?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
     ///
-    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (e.g. [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
+    /// * SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, [SSE-KMS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html) or [SSE-SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
     ///
     ///
     /// The following attribute applies only to [FIFO (first-in-first-out) queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html):
@@ -4396,9 +4601,6 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     ///
     ///
     ///
-    ///
-    ///
-    ///
     /// The following attributes apply only to [high throughput for FIFO queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/high-throughput-fifo.html):
     ///
     /// * DeduplicationScope – Specifies whether message deduplication occurs at the message group or queue level. Valid values are messageGroup and queue.
@@ -4420,7 +4622,7 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     /// This member is required.
     public var queueUrl: Swift.String?
 
-    public init (
+    public init(
         attributes: [Swift.String:Swift.String]? = nil,
         queueUrl: Swift.String? = nil
     )
@@ -4441,7 +4643,7 @@ extension SetQueueAttributesInputBody: Swift.Decodable {
         case queueUrl = "QueueUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -4467,35 +4669,144 @@ extension SetQueueAttributesInputBody: Swift.Decodable {
     }
 }
 
-extension SetQueueAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetQueueAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidAttributeName" : self = .invalidAttributeName(try InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetQueueAttributesOutputError: Swift.Error, Swift.Equatable {
-    case invalidAttributeName(InvalidAttributeName)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetQueueAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetQueueAttributesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension StartMessageMoveTaskInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let destinationArn = destinationArn {
+            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        }
+        if let maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond {
+            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        try container.encode("StartMessageMoveTask", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension StartMessageMoveTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMessageMoveTaskInput: Swift.Equatable {
+    /// The ARN of the queue that receives the moved messages. You can use this field to specify the destination queue where you would like to redrive messages. If this field is left blank, the messages will be redriven back to their respective original source queues.
+    public var destinationArn: Swift.String?
+    /// The number of messages to be moved per second (the message movement rate). You can use this field to define a fixed message movement rate. The maximum value for messages per second is 500. If this field is left blank, the system will optimize the rate based on the queue message backlog size, which may vary throughout the duration of the message movement task.
+    public var maxNumberOfMessagesPerSecond: Swift.Int?
+    /// The ARN of the queue that contains the messages to be moved to another queue. Currently, only dead-letter queue (DLQ) ARNs are accepted.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+
+    public init(
+        destinationArn: Swift.String? = nil,
+        maxNumberOfMessagesPerSecond: Swift.Int? = nil,
+        sourceArn: Swift.String? = nil
+    )
+    {
+        self.destinationArn = destinationArn
+        self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
+        self.sourceArn = sourceArn
+    }
+}
+
+struct StartMessageMoveTaskInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let destinationArn: Swift.String?
+    let maxNumberOfMessagesPerSecond: Swift.Int?
+}
+
+extension StartMessageMoveTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationArn = "DestinationArn"
+        case maxNumberOfMessagesPerSecond = "MaxNumberOfMessagesPerSecond"
+        case sourceArn = "SourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
+        destinationArn = destinationArnDecoded
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
+    }
+}
+
+public enum StartMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension StartMessageMoveTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMessageMoveTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.taskHandle = output.taskHandle
+        } else {
+            self.taskHandle = nil
+        }
+    }
+}
+
+public struct StartMessageMoveTaskOutputResponse: Swift.Equatable {
+    /// An identifier associated with a message movement task. You can use this identifier to cancel a specified message movement task using the CancelMessageMoveTask action.
+    public var taskHandle: Swift.String?
+
+    public init(
+        taskHandle: Swift.String? = nil
+    )
+    {
+        self.taskHandle = taskHandle
+    }
+}
+
+struct StartMessageMoveTaskOutputResponseBody: Swift.Equatable {
+    let taskHandle: Swift.String?
+}
+
+extension StartMessageMoveTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskHandle = "TaskHandle"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartMessageMoveTaskResult"))
+        let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
+        taskHandle = taskHandleDecoded
+    }
 }
 
 extension TagQueueInput: Swift.Encodable {
@@ -4536,7 +4847,7 @@ public struct TagQueueInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -4557,7 +4868,7 @@ extension TagQueueInputBody: Swift.Decodable {
         case tags = "Tag"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -4583,77 +4894,65 @@ extension TagQueueInputBody: Swift.Decodable {
     }
 }
 
-extension TagQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension TagQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum TagQueueOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagQueueOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TooManyEntriesInBatchRequest {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The batch request contains more entries than permissible.
-public struct TooManyEntriesInBatchRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension UnsupportedOperation {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Error code 400. Unsupported operation.
-public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "AWS.SimpleQueueService.UnsupportedOperation" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-    public init () { }
+    public init() { }
 }
 
 extension UntagQueueInput: Swift.Encodable {
@@ -4693,7 +4992,7 @@ public struct UntagQueueInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         queueUrl: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -4714,7 +5013,7 @@ extension UntagQueueInputBody: Swift.Decodable {
         case tagKeys = "TagKey"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
@@ -4739,31 +5038,21 @@ extension UntagQueueInputBody: Swift.Decodable {
     }
 }
 
-extension UntagQueueOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UntagQueueOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UntagQueueOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagQueueOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagQueueOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }

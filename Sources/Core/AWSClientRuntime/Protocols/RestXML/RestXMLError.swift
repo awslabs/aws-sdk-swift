@@ -11,8 +11,9 @@ public struct RestXMLError {
     public let errorCode: String?
     public let requestId: String?
     public let message: String?
-    public init(httpResponse: HttpResponse) throws {
-        guard let data = try httpResponse.body.toData() else {
+
+    public init(httpResponse: HttpResponse) async throws {
+        guard let data = try await httpResponse.body.readData() else {
             errorCode = nil
             requestId = nil
             message = nil
@@ -31,6 +32,7 @@ public struct RestXMLError {
             self.requestId = decoded.requestId
         }
     }
+
     public init(errorCode: String? = nil, requestId: String? = nil, message: String? = nil) {
         self.errorCode = errorCode
         self.requestId = requestId

@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.19.0",
+    clientRuntimeVersion: "0.22.0",
     crtVersion: "0.12.0"
 )
 
@@ -237,6 +237,7 @@ let serviceTargets: [String] = [
     "AWSCodeDeploy",
     "AWSCodeGuruProfiler",
     "AWSCodeGuruReviewer",
+    "AWSCodeGuruSecurity",
     "AWSCodePipeline",
     "AWSCodeStar",
     "AWSCodeStarconnections",
@@ -386,6 +387,7 @@ let serviceTargets: [String] = [
     "AWSMediaConvert",
     "AWSMediaLive",
     "AWSMediaPackage",
+    "AWSMediaPackageV2",
     "AWSMediaPackageVod",
     "AWSMediaStore",
     "AWSMediaStoreData",
@@ -404,6 +406,7 @@ let serviceTargets: [String] = [
     "AWSNetworkManager",
     "AWSNimble",
     "AWSOAM",
+    "AWSOSIS",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",
@@ -413,6 +416,8 @@ let serviceTargets: [String] = [
     "AWSOutposts",
     "AWSPI",
     "AWSPanorama",
+    "AWSPaymentCryptography",
+    "AWSPaymentCryptographyData",
     "AWSPersonalize",
     "AWSPersonalizeEvents",
     "AWSPersonalizeRuntime",

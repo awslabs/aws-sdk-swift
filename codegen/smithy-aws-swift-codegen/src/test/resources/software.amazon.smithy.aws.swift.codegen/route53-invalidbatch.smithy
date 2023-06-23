@@ -4,7 +4,7 @@ namespace com.amazonaws.route53
 use aws.api#service
 use aws.protocols#restXml
 
-@service(sdkId: "Route53")
+@service(sdkId: "Route 53")
 @restXml
 service Route53 {
     version: "2019-12-16",

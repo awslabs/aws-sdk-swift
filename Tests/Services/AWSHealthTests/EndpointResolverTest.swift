@@ -113,18 +113,10 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "health",
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+            [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://global.health.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://health.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -229,18 +221,10 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "health",
-                        "signingRegion": "cn-northwest-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+            [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://global.health.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://health.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

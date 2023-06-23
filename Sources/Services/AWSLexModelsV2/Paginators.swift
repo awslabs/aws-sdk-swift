@@ -373,3 +373,92 @@ extension ListSlotTypesInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
+extension LexModelsV2Client {
+    /// Paginate over `[ListTestExecutionResultItemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestExecutionResultItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestExecutionResultItemsOutputResponse`
+    public func listTestExecutionResultItemsPaginated(input: ListTestExecutionResultItemsInput) -> ClientRuntime.PaginatorSequence<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutputResponse>(input: input, inputKey: \ListTestExecutionResultItemsInput.nextToken, outputKey: \ListTestExecutionResultItemsOutputResponse.nextToken, paginationFunction: self.listTestExecutionResultItems(input:))
+    }
+}
+
+extension ListTestExecutionResultItemsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestExecutionResultItemsInput {
+        return ListTestExecutionResultItemsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resultFilterBy: self.resultFilterBy,
+            testExecutionId: self.testExecutionId
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListTestExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestExecutionsOutputResponse`
+    public func listTestExecutionsPaginated(input: ListTestExecutionsInput) -> ClientRuntime.PaginatorSequence<ListTestExecutionsInput, ListTestExecutionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTestExecutionsInput, ListTestExecutionsOutputResponse>(input: input, inputKey: \ListTestExecutionsInput.nextToken, outputKey: \ListTestExecutionsOutputResponse.nextToken, paginationFunction: self.listTestExecutions(input:))
+    }
+}
+
+extension ListTestExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestExecutionsInput {
+        return ListTestExecutionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListTestSetRecordsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestSetRecordsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestSetRecordsOutputResponse`
+    public func listTestSetRecordsPaginated(input: ListTestSetRecordsInput) -> ClientRuntime.PaginatorSequence<ListTestSetRecordsInput, ListTestSetRecordsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTestSetRecordsInput, ListTestSetRecordsOutputResponse>(input: input, inputKey: \ListTestSetRecordsInput.nextToken, outputKey: \ListTestSetRecordsOutputResponse.nextToken, paginationFunction: self.listTestSetRecords(input:))
+    }
+}
+
+extension ListTestSetRecordsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestSetRecordsInput {
+        return ListTestSetRecordsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            testSetId: self.testSetId
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListTestSetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestSetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestSetsOutputResponse`
+    public func listTestSetsPaginated(input: ListTestSetsInput) -> ClientRuntime.PaginatorSequence<ListTestSetsInput, ListTestSetsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTestSetsInput, ListTestSetsOutputResponse>(input: input, inputKey: \ListTestSetsInput.nextToken, outputKey: \ListTestSetsOutputResponse.nextToken, paginationFunction: self.listTestSets(input:))
+    }
+}
+
+extension ListTestSetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestSetsInput {
+        return ListTestSetsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )}
+}

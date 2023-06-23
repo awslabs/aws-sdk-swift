@@ -34,7 +34,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
     /// This member is required.
     public var password: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         password: Swift.String? = nil
     )
@@ -55,7 +55,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountInputBody: Swift.Decodable {
         case password = "Password"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -64,37 +64,23 @@ extension AcceptDomainTransferFromAnotherAwsAccountInputBody: Swift.Decodable {
     }
 }
 
-extension AcceptDomainTransferFromAnotherAwsAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AcceptDomainTransferFromAnotherAwsAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainLimitExceeded" : self = .domainLimitExceeded(try DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AcceptDomainTransferFromAnotherAwsAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainLimitExceeded": return try await DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AcceptDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, Swift.Equatable {
-    case domainLimitExceeded(DomainLimitExceeded)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AcceptDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -109,7 +95,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutputResponse: Swift.Equ
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -126,7 +112,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody: Swift.Dec
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -164,7 +150,7 @@ public struct AssociateDelegationSignerToDomainInput: Swift.Equatable {
     /// This member is required.
     public var signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes? = nil
     )
@@ -185,7 +171,7 @@ extension AssociateDelegationSignerToDomainInputBody: Swift.Decodable {
         case signingAttributes = "SigningAttributes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -194,41 +180,25 @@ extension AssociateDelegationSignerToDomainInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateDelegationSignerToDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateDelegationSignerToDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DnssecLimitExceeded" : self = .dnssecLimitExceeded(try DnssecLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateDelegationSignerToDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DnssecLimitExceeded": return try await DnssecLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateDelegationSignerToDomainOutputError: Swift.Error, Swift.Equatable {
-    case dnssecLimitExceeded(DnssecLimitExceeded)
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateDelegationSignerToDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateDelegationSignerToDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -242,7 +212,7 @@ public struct AssociateDelegationSignerToDomainOutputResponse: Swift.Equatable {
     /// The identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -259,7 +229,7 @@ extension AssociateDelegationSignerToDomainOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -294,7 +264,7 @@ extension Route53DomainsClientTypes.BillingRecord: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -323,7 +293,7 @@ extension Route53DomainsClientTypes {
         /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public var price: Swift.Double
 
-        public init (
+        public init(
             billDate: ClientRuntime.Date? = nil,
             domainName: Swift.String? = nil,
             invoiceId: Swift.String? = nil,
@@ -366,7 +336,7 @@ public struct CancelDomainTransferToAnotherAwsAccountInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -383,42 +353,29 @@ extension CancelDomainTransferToAnotherAwsAccountInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension CancelDomainTransferToAnotherAwsAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelDomainTransferToAnotherAwsAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelDomainTransferToAnotherAwsAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelDomainTransferToAnotherAwsAccountOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelDomainTransferToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelDomainTransferToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -433,7 +390,7 @@ public struct CancelDomainTransferToAnotherAwsAccountOutputResponse: Swift.Equat
     /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was canceled, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -450,7 +407,7 @@ extension CancelDomainTransferToAnotherAwsAccountOutputResponseBody: Swift.Decod
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -499,7 +456,7 @@ public struct CheckDomainAvailabilityInput: Swift.Equatable {
     /// Reserved for future use.
     public var idnLangCode: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         idnLangCode: Swift.String? = nil
     )
@@ -520,7 +477,7 @@ extension CheckDomainAvailabilityInputBody: Swift.Decodable {
         case idnLangCode = "IdnLangCode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -529,33 +486,21 @@ extension CheckDomainAvailabilityInputBody: Swift.Decodable {
     }
 }
 
-extension CheckDomainAvailabilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckDomainAvailabilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckDomainAvailabilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckDomainAvailabilityOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckDomainAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckDomainAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availability = output.availability
@@ -570,7 +515,7 @@ public struct CheckDomainAvailabilityOutputResponse: Swift.Equatable {
     /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
     public var availability: Route53DomainsClientTypes.DomainAvailability?
 
-    public init (
+    public init(
         availability: Route53DomainsClientTypes.DomainAvailability? = nil
     )
     {
@@ -587,7 +532,7 @@ extension CheckDomainAvailabilityOutputResponseBody: Swift.Decodable {
         case availability = "Availability"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availabilityDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.DomainAvailability.self, forKey: .availability)
         availability = availabilityDecoded
@@ -638,7 +583,7 @@ public struct CheckDomainTransferabilityInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         authCode: Swift.String? = nil,
         domainName: Swift.String? = nil
     )
@@ -659,7 +604,7 @@ extension CheckDomainTransferabilityInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -668,33 +613,21 @@ extension CheckDomainTransferabilityInputBody: Swift.Decodable {
     }
 }
 
-extension CheckDomainTransferabilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CheckDomainTransferabilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckDomainTransferabilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CheckDomainTransferabilityOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckDomainTransferabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transferability = output.transferability
@@ -709,7 +642,7 @@ public struct CheckDomainTransferabilityOutputResponse: Swift.Equatable {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public var transferability: Route53DomainsClientTypes.DomainTransferability?
 
-    public init (
+    public init(
         transferability: Route53DomainsClientTypes.DomainTransferability? = nil
     )
     {
@@ -726,7 +659,7 @@ extension CheckDomainTransferabilityOutputResponseBody: Swift.Decodable {
         case transferability = "Transferability"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transferabilityDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.DomainTransferability.self, forKey: .transferability)
         transferability = transferabilityDecoded
@@ -749,7 +682,7 @@ extension Route53DomainsClientTypes.Consent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxPrice) ?? 0.0
         maxPrice = maxPriceDecoded
@@ -768,7 +701,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var maxPrice: Swift.Double
 
-        public init (
+        public init(
             currency: Swift.String? = nil,
             maxPrice: Swift.Double = 0.0
         )
@@ -847,7 +780,7 @@ extension Route53DomainsClientTypes.ContactDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let firstNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firstName)
         firstName = firstNameDecoded
@@ -933,7 +866,7 @@ extension Route53DomainsClientTypes {
         /// The zip or postal code of the contact's address.
         public var zipCode: Swift.String?
 
-        public init (
+        public init(
             addressLine1: Swift.String? = nil,
             addressLine2: Swift.String? = nil,
             city: Swift.String? = nil,
@@ -1813,7 +1746,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -1830,44 +1763,30 @@ extension DeleteDomainInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension DeleteDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDomainOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -1881,7 +1800,7 @@ public struct DeleteDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -1898,7 +1817,7 @@ extension DeleteDomainOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -1940,7 +1859,7 @@ public struct DeleteTagsForDomainInput: Swift.Equatable {
     /// This member is required.
     public var tagsToDelete: [Swift.String]?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         tagsToDelete: [Swift.String]? = nil
     )
@@ -1961,7 +1880,7 @@ extension DeleteTagsForDomainInputBody: Swift.Decodable {
         case tagsToDelete = "TagsToDelete"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -1979,40 +1898,27 @@ extension DeleteTagsForDomainInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTagsForDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTagsForDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTagsForDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTagsForDomainOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTagsForDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DisableDomainAutoRenewInput: Swift.Encodable {
@@ -2039,7 +1945,7 @@ public struct DisableDomainAutoRenewInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -2056,45 +1962,33 @@ extension DisableDomainAutoRenewInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension DisableDomainAutoRenewOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableDomainAutoRenewOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableDomainAutoRenewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableDomainAutoRenewOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableDomainAutoRenewOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisableDomainAutoRenewOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DisableDomainTransferLockInput: Swift.Encodable {
@@ -2122,7 +2016,7 @@ public struct DisableDomainTransferLockInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -2139,46 +2033,31 @@ extension DisableDomainTransferLockInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension DisableDomainTransferLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableDomainTransferLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableDomainTransferLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -2193,7 +2072,7 @@ public struct DisableDomainTransferLockOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -2210,7 +2089,7 @@ extension DisableDomainTransferLockOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -2248,7 +2127,7 @@ public struct DisassociateDelegationSignerFromDomainInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         id: Swift.String? = nil
     )
@@ -2269,7 +2148,7 @@ extension DisassociateDelegationSignerFromDomainInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -2278,39 +2157,24 @@ extension DisassociateDelegationSignerFromDomainInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateDelegationSignerFromDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateDelegationSignerFromDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateDelegationSignerFromDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateDelegationSignerFromDomainOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateDelegationSignerFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateDelegationSignerFromDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -2324,7 +2188,7 @@ public struct DisassociateDelegationSignerFromDomainOutputResponse: Swift.Equata
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -2341,7 +2205,7 @@ extension DisassociateDelegationSignerFromDomainOutputResponseBody: Swift.Decoda
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -2384,7 +2248,7 @@ extension Route53DomainsClientTypes.DnssecKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let algorithmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .algorithm)
         algorithm = algorithmDecoded
@@ -2421,7 +2285,7 @@ extension Route53DomainsClientTypes {
         /// The base64-encoded public key part of the key pair that is passed to the registry .
         public var publicKey: Swift.String?
 
-        public init (
+        public init(
             algorithm: Swift.Int? = nil,
             digest: Swift.String? = nil,
             digestType: Swift.Int? = nil,
@@ -2444,37 +2308,41 @@ extension Route53DomainsClientTypes {
 }
 
 extension DnssecLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DnssecLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This error is returned if you call AssociateDelegationSignerToDomain when the specified domain has reached the maximum number of DS records. You can't add any additional DS records unless you delete an existing one first.
-public struct DnssecLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DnssecLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2487,7 +2355,7 @@ extension DnssecLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2514,7 +2382,7 @@ extension Route53DomainsClientTypes.DnssecSigningAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let algorithmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .algorithm)
         algorithm = algorithmDecoded
@@ -2535,7 +2403,7 @@ extension Route53DomainsClientTypes {
         /// The base64-encoded public key part of the key pair that is passed to the registry.
         public var publicKey: Swift.String?
 
-        public init (
+        public init(
             algorithm: Swift.Int? = nil,
             flags: Swift.Int? = nil,
             publicKey: Swift.String? = nil
@@ -2600,38 +2468,42 @@ extension Route53DomainsClientTypes {
 }
 
 extension DomainLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DomainLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of domains has exceeded the allowed threshold for the account.
-public struct DomainLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The number of domains has exceeded the allowed threshold for the account.
-    public var message: Swift.String?
+public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The number of domains has exceeded the allowed threshold for the account.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DomainLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2644,7 +2516,7 @@ extension DomainLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2683,7 +2555,7 @@ extension Route53DomainsClientTypes.DomainPrice: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -2716,7 +2588,7 @@ extension Route53DomainsClientTypes {
         /// The price for transferring the domain registration to Route 53.
         public var transferPrice: Route53DomainsClientTypes.PriceWithCurrency?
 
-        public init (
+        public init(
             changeOwnershipPrice: Route53DomainsClientTypes.PriceWithCurrency? = nil,
             name: Swift.String? = nil,
             registrationPrice: Route53DomainsClientTypes.PriceWithCurrency? = nil,
@@ -2752,7 +2624,7 @@ extension Route53DomainsClientTypes.DomainSuggestion: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -2769,7 +2641,7 @@ extension Route53DomainsClientTypes {
         /// A suggested domain name.
         public var domainName: Swift.String?
 
-        public init (
+        public init(
             availability: Swift.String? = nil,
             domainName: Swift.String? = nil
         )
@@ -2805,7 +2677,7 @@ extension Route53DomainsClientTypes.DomainSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -2830,7 +2702,7 @@ extension Route53DomainsClientTypes {
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public var transferLock: Swift.Bool?
 
-        public init (
+        public init(
             autoRenew: Swift.Bool? = nil,
             domainName: Swift.String? = nil,
             expiry: ClientRuntime.Date? = nil,
@@ -2858,7 +2730,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transferableDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.Transferable.self, forKey: .transferable)
         transferable = transferableDecoded
@@ -2871,7 +2743,7 @@ extension Route53DomainsClientTypes {
         /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
-        public init (
+        public init(
             transferable: Route53DomainsClientTypes.Transferable? = nil
         )
         {
@@ -2882,38 +2754,42 @@ extension Route53DomainsClientTypes {
 }
 
 extension DuplicateRequest {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request is already in progress for the domain.
-public struct DuplicateRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The request is already in progress for the domain.
-    public var message: Swift.String?
+public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The request is already in progress for the domain.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateRequest" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2926,7 +2802,7 @@ extension DuplicateRequestBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2957,7 +2833,7 @@ public struct EnableDomainAutoRenewInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -2974,47 +2850,34 @@ extension EnableDomainAutoRenewInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension EnableDomainAutoRenewOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EnableDomainAutoRenewOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableDomainAutoRenewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EnableDomainAutoRenewOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableDomainAutoRenewOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct EnableDomainAutoRenewOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension EnableDomainTransferLockInput: Swift.Encodable {
@@ -3042,7 +2905,7 @@ public struct EnableDomainTransferLockInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -3059,46 +2922,31 @@ extension EnableDomainTransferLockInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension EnableDomainTransferLockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EnableDomainTransferLockOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableDomainTransferLockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EnableDomainTransferLockOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EnableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -3113,7 +2961,7 @@ public struct EnableDomainTransferLockOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -3130,7 +2978,7 @@ extension EnableDomainTransferLockOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -3153,7 +3001,7 @@ extension Route53DomainsClientTypes.ExtraParam: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ExtraParamName.self, forKey: .name)
         name = nameDecoded
@@ -3469,19 +3317,6 @@ extension Route53DomainsClientTypes {
         ///
         ///
         ///
-        /// .fr
-        ///
-        /// * BIRTH_CITY
-        ///
-        /// * BIRTH_COUNTRY
-        ///
-        /// * BIRTH_DATE_IN_YYYY_MM_DD
-        ///
-        /// * BIRTH_DEPARTMENT: Specify the INSEE code that corresponds with the department where the contact was born. If the contact was born somewhere other than France or its overseas departments, specify 99. For more information, including a list of departments and the corresponding INSEE numbers, see the Wikipedia entry [Departments of France](https://en.wikipedia.org/wiki/Departments_of_France).
-        ///
-        /// * BRAND_NUMBER
-        ///
-        ///
         /// .it
         ///
         /// * IT_NATIONALITY
@@ -3574,7 +3409,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Route53DomainsClientTypes.ExtraParamName? = nil,
             value: Swift.String? = nil
         )
@@ -3728,7 +3563,7 @@ extension Route53DomainsClientTypes.FilterCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ListDomainsAttributeName.self, forKey: .name)
         name = nameDecoded
@@ -3767,7 +3602,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Route53DomainsClientTypes.ListDomainsAttributeName? = nil,
             `operator`: Route53DomainsClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
@@ -3804,7 +3639,7 @@ public struct GetContactReachabilityStatusInput: Swift.Equatable {
     /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -3821,42 +3656,29 @@ extension GetContactReachabilityStatusInputBody: Swift.Decodable {
         case domainName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension GetContactReachabilityStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetContactReachabilityStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetContactReachabilityStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetContactReachabilityStatusOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetContactReachabilityStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetContactReachabilityStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
@@ -3874,7 +3696,7 @@ public struct GetContactReachabilityStatusOutputResponse: Swift.Equatable {
     /// Whether the registrant contact has responded. Values include the following: PENDING We sent the confirmation email and haven't received a response yet. DONE We sent the email and got confirmation from the registrant contact. EXPIRED The time limit expired before the registrant contact responded.
     public var status: Route53DomainsClientTypes.ReachabilityStatus?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         status: Route53DomainsClientTypes.ReachabilityStatus? = nil
     )
@@ -3895,7 +3717,7 @@ extension GetContactReachabilityStatusOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -3929,7 +3751,7 @@ public struct GetDomainDetailInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -3946,35 +3768,23 @@ extension GetDomainDetailInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension GetDomainDetailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDomainDetailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDomainDetailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum GetDomainDetailOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
@@ -3983,8 +3793,8 @@ extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDomainDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abuseContactEmail = output.abuseContactEmail
@@ -4083,7 +3893,7 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
     /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
     public var whoIsServer: Swift.String?
 
-    public init (
+    public init(
         abuseContactEmail: Swift.String? = nil,
         abuseContactPhone: Swift.String? = nil,
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
@@ -4184,7 +3994,7 @@ extension GetDomainDetailOutputResponseBody: Swift.Decodable {
         case whoIsServer = "WhoIsServer"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -4275,7 +4085,7 @@ extension GetDomainSuggestionsInput: Swift.Encodable {
         if let onlyAvailable = self.onlyAvailable {
             try encodeContainer.encode(onlyAvailable, forKey: .onlyAvailable)
         }
-        if suggestionCount != 0 {
+        if let suggestionCount = self.suggestionCount {
             try encodeContainer.encode(suggestionCount, forKey: .suggestionCount)
         }
     }
@@ -4307,12 +4117,12 @@ public struct GetDomainSuggestionsInput: Swift.Equatable {
     public var onlyAvailable: Swift.Bool?
     /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50.
     /// This member is required.
-    public var suggestionCount: Swift.Int
+    public var suggestionCount: Swift.Int?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         onlyAvailable: Swift.Bool? = nil,
-        suggestionCount: Swift.Int = 0
+        suggestionCount: Swift.Int? = nil
     )
     {
         self.domainName = domainName
@@ -4323,7 +4133,7 @@ public struct GetDomainSuggestionsInput: Swift.Equatable {
 
 struct GetDomainSuggestionsInputBody: Swift.Equatable {
     let domainName: Swift.String?
-    let suggestionCount: Swift.Int
+    let suggestionCount: Swift.Int?
     let onlyAvailable: Swift.Bool?
 }
 
@@ -4334,44 +4144,32 @@ extension GetDomainSuggestionsInputBody: Swift.Decodable {
         case suggestionCount = "SuggestionCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
-        let suggestionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestionCount) ?? 0
+        let suggestionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestionCount)
         suggestionCount = suggestionCountDecoded
         let onlyAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAvailable)
         onlyAvailable = onlyAvailableDecoded
     }
 }
 
-extension GetDomainSuggestionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDomainSuggestionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDomainSuggestionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDomainSuggestionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDomainSuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDomainSuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggestionsList = output.suggestionsList
@@ -4385,7 +4183,7 @@ public struct GetDomainSuggestionsOutputResponse: Swift.Equatable {
     /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
     public var suggestionsList: [Route53DomainsClientTypes.DomainSuggestion]?
 
-    public init (
+    public init(
         suggestionsList: [Route53DomainsClientTypes.DomainSuggestion]? = nil
     )
     {
@@ -4402,7 +4200,7 @@ extension GetDomainSuggestionsOutputResponseBody: Swift.Decodable {
         case suggestionsList = "SuggestionsList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suggestionsListContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.DomainSuggestion?].self, forKey: .suggestionsList)
         var suggestionsListDecoded0:[Route53DomainsClientTypes.DomainSuggestion]? = nil
@@ -4443,7 +4241,7 @@ public struct GetOperationDetailInput: Swift.Equatable {
     /// This member is required.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -4460,38 +4258,27 @@ extension GetOperationDetailInputBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
     }
 }
 
-extension GetOperationDetailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOperationDetailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOperationDetailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOperationDetailOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOperationDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
@@ -4544,7 +4331,7 @@ public struct GetOperationDetailOutputResponse: Swift.Equatable {
     /// The type of operation that was requested.
     public var type: Route53DomainsClientTypes.OperationType?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         message: Swift.String? = nil,
@@ -4589,7 +4376,7 @@ extension GetOperationDetailOutputResponseBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -4611,38 +4398,42 @@ extension GetOperationDetailOutputResponseBody: Swift.Decodable {
 }
 
 extension InvalidInput {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInputBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The requested item is not acceptable. For example, for an OperationId it might refer to the ID of an operation that is already completed. For a domain name, it might not be a valid domain name or belong to the requester account.
-    public var message: Swift.String?
+public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The requested item is not acceptable. For example, for an OperationId it might refer to the ID of an operation that is already completed. For a domain name, it might not be a valid domain name or belong to the requester account.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInput" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4655,7 +4446,7 @@ extension InvalidInputBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4739,7 +4530,7 @@ public struct ListDomainsInput: Swift.Equatable {
     /// A complex type that contains information about the requested ordering of domains in the returned list.
     public var sortCondition: Route53DomainsClientTypes.SortCondition?
 
-    public init (
+    public init(
         filterConditions: [Route53DomainsClientTypes.FilterCondition]? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
@@ -4768,7 +4559,7 @@ extension ListDomainsInputBody: Swift.Decodable {
         case sortCondition = "SortCondition"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterConditionsContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.FilterCondition?].self, forKey: .filterConditions)
         var filterConditionsDecoded0:[Route53DomainsClientTypes.FilterCondition]? = nil
@@ -4790,31 +4581,20 @@ extension ListDomainsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDomainsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDomainsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDomainsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domains = output.domains
@@ -4833,7 +4613,7 @@ public struct ListDomainsOutputResponse: Swift.Equatable {
     /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
     public var nextPageMarker: Swift.String?
 
-    public init (
+    public init(
         domains: [Route53DomainsClientTypes.DomainSummary]? = nil,
         nextPageMarker: Swift.String? = nil
     )
@@ -4854,7 +4634,7 @@ extension ListDomainsOutputResponseBody: Swift.Decodable {
         case nextPageMarker = "NextPageMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainsContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.DomainSummary?].self, forKey: .domains)
         var domainsDecoded0:[Route53DomainsClientTypes.DomainSummary]? = nil
@@ -4938,7 +4718,7 @@ public struct ListOperationsInput: Swift.Equatable {
     /// An arrays of the domains operation types.
     public var type: [Route53DomainsClientTypes.OperationType]?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName? = nil,
@@ -4979,7 +4759,7 @@ extension ListOperationsInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let submittedSinceDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .submittedSince)
         submittedSince = submittedSinceDecoded
@@ -5016,31 +4796,20 @@ extension ListOperationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListOperationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListOperationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
@@ -5059,7 +4828,7 @@ public struct ListOperationsOutputResponse: Swift.Equatable {
     /// Lists summaries of the operations.
     public var operations: [Route53DomainsClientTypes.OperationSummary]?
 
-    public init (
+    public init(
         nextPageMarker: Swift.String? = nil,
         operations: [Route53DomainsClientTypes.OperationSummary]? = nil
     )
@@ -5080,7 +4849,7 @@ extension ListOperationsOutputResponseBody: Swift.Decodable {
         case operations = "Operations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationsContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.OperationSummary?].self, forKey: .operations)
         var operationsDecoded0:[Route53DomainsClientTypes.OperationSummary]? = nil
@@ -5162,7 +4931,7 @@ public struct ListPricesInput: Swift.Equatable {
     /// The TLD for which you want to receive the pricing information. For example. .net. If a Tld value is not provided, a list of prices for all TLDs supported by Route 53 is returned.
     public var tld: Swift.String?
 
-    public init (
+    public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         tld: Swift.String? = nil
@@ -5187,7 +4956,7 @@ extension ListPricesInputBody: Swift.Decodable {
         case tld = "Tld"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tld)
         tld = tldDecoded
@@ -5198,33 +4967,21 @@ extension ListPricesInputBody: Swift.Decodable {
     }
 }
 
-extension ListPricesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListPricesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPricesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListPricesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPricesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPricesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
@@ -5242,7 +4999,7 @@ public struct ListPricesOutputResponse: Swift.Equatable {
     /// A complex type that includes all the pricing information. If you specify a TLD, this array contains only the pricing for that TLD.
     public var prices: [Route53DomainsClientTypes.DomainPrice]?
 
-    public init (
+    public init(
         nextPageMarker: Swift.String? = nil,
         prices: [Route53DomainsClientTypes.DomainPrice]? = nil
     )
@@ -5263,7 +5020,7 @@ extension ListPricesOutputResponseBody: Swift.Decodable {
         case prices = "Prices"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pricesContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.DomainPrice?].self, forKey: .prices)
         var pricesDecoded0:[Route53DomainsClientTypes.DomainPrice]? = nil
@@ -5306,7 +5063,7 @@ public struct ListTagsForDomainInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -5323,42 +5080,29 @@ extension ListTagsForDomainInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension ListTagsForDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForDomainOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
@@ -5373,7 +5117,7 @@ public struct ListTagsForDomainOutputResponse: Swift.Equatable {
     /// A list of the tags that are associated with the specified domain.
     public var tagList: [Route53DomainsClientTypes.Tag]?
 
-    public init (
+    public init(
         tagList: [Route53DomainsClientTypes.Tag]? = nil
     )
     {
@@ -5390,7 +5134,7 @@ extension ListTagsForDomainOutputResponseBody: Swift.Decodable {
         case tagList = "TagList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagListContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.Tag?].self, forKey: .tagList)
         var tagListDecoded0:[Route53DomainsClientTypes.Tag]? = nil
@@ -5425,7 +5169,7 @@ extension Route53DomainsClientTypes.Nameserver: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5452,7 +5196,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             glueIps: [Swift.String]? = nil,
             name: Swift.String? = nil
         )
@@ -5465,38 +5209,42 @@ extension Route53DomainsClientTypes {
 }
 
 extension OperationLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of operations or jobs running exceeded the allowed threshold for the account.
-public struct OperationLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The number of operations or jobs running exceeded the allowed threshold for the account.
-    public var message: Swift.String?
+public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The number of operations or jobs running exceeded the allowed threshold for the account.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5509,7 +5257,7 @@ extension OperationLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5597,7 +5345,7 @@ extension Route53DomainsClientTypes.OperationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -5648,7 +5396,7 @@ extension Route53DomainsClientTypes {
         /// Type of the action requested.
         public var type: Route53DomainsClientTypes.OperationType?
 
-        public init (
+        public init(
             domainName: Swift.String? = nil,
             lastUpdatedDate: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
@@ -5803,7 +5551,7 @@ extension Route53DomainsClientTypes.PriceWithCurrency: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let priceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .price) ?? 0.0
         price = priceDecoded
@@ -5822,7 +5570,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var price: Swift.Double
 
-        public init (
+        public init(
             currency: Swift.String? = nil,
             price: Swift.Double = 0.0
         )
@@ -5865,7 +5613,7 @@ public struct PushDomainInput: Swift.Equatable {
     /// This member is required.
     public var target: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         target: Swift.String? = nil
     )
@@ -5886,7 +5634,7 @@ extension PushDomainInputBody: Swift.Decodable {
         case target = "Target"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -5895,40 +5643,27 @@ extension PushDomainInputBody: Swift.Decodable {
     }
 }
 
-extension PushDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PushDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PushDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PushDomainOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PushDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PushDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension Route53DomainsClientTypes {
@@ -6065,7 +5800,7 @@ public struct RegisterDomainInput: Swift.Equatable {
     /// This member is required.
     public var techContact: Route53DomainsClientTypes.ContactDetail?
 
-    public init (
+    public init(
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         autoRenew: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
@@ -6118,7 +5853,7 @@ extension RegisterDomainInputBody: Swift.Decodable {
         case techContact = "TechContact"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -6143,41 +5878,25 @@ extension RegisterDomainInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainLimitExceeded" : self = .domainLimitExceeded(try DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainLimitExceeded": return try await DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterDomainOutputError: Swift.Error, Swift.Equatable {
-    case domainLimitExceeded(DomainLimitExceeded)
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -6192,7 +5911,7 @@ public struct RegisterDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -6209,7 +5928,7 @@ extension RegisterDomainOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -6241,7 +5960,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -6258,42 +5977,29 @@ extension RejectDomainTransferFromAnotherAwsAccountInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension RejectDomainTransferFromAnotherAwsAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RejectDomainTransferFromAnotherAwsAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RejectDomainTransferFromAnotherAwsAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RejectDomainTransferFromAnotherAwsAccountOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RejectDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RejectDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -6308,7 +6014,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountOutputResponse: Swift.Equ
     /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was rejected, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -6325,7 +6031,7 @@ extension RejectDomainTransferFromAnotherAwsAccountOutputResponseBody: Swift.Dec
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -6341,7 +6047,7 @@ extension RenewDomainInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if currentExpiryYear != 0 {
+        if let currentExpiryYear = self.currentExpiryYear {
             try encodeContainer.encode(currentExpiryYear, forKey: .currentExpiryYear)
         }
         if let domainName = self.domainName {
@@ -6363,15 +6069,15 @@ extension RenewDomainInput: ClientRuntime.URLPathProvider {
 public struct RenewDomainInput: Swift.Equatable {
     /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
     /// This member is required.
-    public var currentExpiryYear: Swift.Int
+    public var currentExpiryYear: Swift.Int?
     /// The name of the domain that you want to renew.
     /// This member is required.
     public var domainName: Swift.String?
     /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. Default: 1
     public var durationInYears: Swift.Int?
 
-    public init (
-        currentExpiryYear: Swift.Int = 0,
+    public init(
+        currentExpiryYear: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil
     )
@@ -6385,7 +6091,7 @@ public struct RenewDomainInput: Swift.Equatable {
 struct RenewDomainInputBody: Swift.Equatable {
     let domainName: Swift.String?
     let durationInYears: Swift.Int?
-    let currentExpiryYear: Swift.Int
+    let currentExpiryYear: Swift.Int?
 }
 
 extension RenewDomainInputBody: Swift.Decodable {
@@ -6395,50 +6101,35 @@ extension RenewDomainInputBody: Swift.Decodable {
         case durationInYears = "DurationInYears"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
         let durationInYearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInYears)
         durationInYears = durationInYearsDecoded
-        let currentExpiryYearDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentExpiryYear) ?? 0
+        let currentExpiryYearDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentExpiryYear)
         currentExpiryYear = currentExpiryYearDecoded
     }
 }
 
-extension RenewDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RenewDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RenewDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RenewDomainOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RenewDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RenewDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -6452,7 +6143,7 @@ public struct RenewDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -6469,7 +6160,7 @@ extension RenewDomainOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -6499,7 +6190,7 @@ public struct ResendContactReachabilityEmailInput: Swift.Equatable {
     /// The name of the domain for which you want Route 53 to resend a confirmation email to the registrant contact.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -6516,42 +6207,29 @@ extension ResendContactReachabilityEmailInputBody: Swift.Decodable {
         case domainName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension ResendContactReachabilityEmailOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ResendContactReachabilityEmailOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResendContactReachabilityEmailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ResendContactReachabilityEmailOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResendContactReachabilityEmailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResendContactReachabilityEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
@@ -6573,7 +6251,7 @@ public struct ResendContactReachabilityEmailOutputResponse: Swift.Equatable {
     /// True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
     public var isAlreadyVerified: Swift.Bool?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
         isAlreadyVerified: Swift.Bool? = nil
@@ -6598,7 +6276,7 @@ extension ResendContactReachabilityEmailOutputResponseBody: Swift.Decodable {
         case isAlreadyVerified
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -6633,7 +6311,7 @@ public struct ResendOperationAuthorizationInput: Swift.Equatable {
     /// This member is required.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -6650,43 +6328,32 @@ extension ResendOperationAuthorizationInputBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
     }
 }
 
-extension ResendOperationAuthorizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ResendOperationAuthorizationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResendOperationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ResendOperationAuthorizationOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResendOperationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ResendOperationAuthorizationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RetrieveDomainAuthCodeInput: Swift.Encodable {
@@ -6714,7 +6381,7 @@ public struct RetrieveDomainAuthCodeInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil
     )
     {
@@ -6731,35 +6398,23 @@ extension RetrieveDomainAuthCodeInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
     }
 }
 
-extension RetrieveDomainAuthCodeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RetrieveDomainAuthCodeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetrieveDomainAuthCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum RetrieveDomainAuthCodeOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension RetrieveDomainAuthCodeOutputResponse: Swift.CustomDebugStringConvertible {
@@ -6768,8 +6423,8 @@ extension RetrieveDomainAuthCodeOutputResponse: Swift.CustomDebugStringConvertib
 }
 
 extension RetrieveDomainAuthCodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetrieveDomainAuthCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authCode = output.authCode
@@ -6784,7 +6439,7 @@ public struct RetrieveDomainAuthCodeOutputResponse: Swift.Equatable {
     /// The authorization code for the domain.
     public var authCode: Swift.String?
 
-    public init (
+    public init(
         authCode: Swift.String? = nil
     )
     {
@@ -6801,7 +6456,7 @@ extension RetrieveDomainAuthCodeOutputResponseBody: Swift.Decodable {
         case authCode = "AuthCode"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authCode)
         authCode = authCodeDecoded
@@ -6824,7 +6479,7 @@ extension Route53DomainsClientTypes.SortCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ListDomainsAttributeName.self, forKey: .name)
         name = nameDecoded
@@ -6843,7 +6498,7 @@ extension Route53DomainsClientTypes {
         /// This member is required.
         public var sortOrder: Route53DomainsClientTypes.SortOrder?
 
-        public init (
+        public init(
             name: Route53DomainsClientTypes.ListDomainsAttributeName? = nil,
             sortOrder: Route53DomainsClientTypes.SortOrder? = nil
         )
@@ -6929,38 +6584,42 @@ extension Route53DomainsClientTypes {
 }
 
 extension TLDRulesViolation {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TLDRulesViolationBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The top-level domain does not support this operation.
-public struct TLDRulesViolation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The top-level domain does not support this operation.
-    public var message: Swift.String?
+public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The top-level domain does not support this operation.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TLDRulesViolation" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6973,7 +6632,7 @@ extension TLDRulesViolationBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6996,7 +6655,7 @@ extension Route53DomainsClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -7013,7 +6672,7 @@ extension Route53DomainsClientTypes {
         /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -7123,7 +6782,7 @@ public struct TransferDomainInput: Swift.Equatable {
     public var idnLangCode: Swift.String?
     /// Contains details for the host and glue IP addresses.
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of owner.". While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. Default: true
     public var privacyProtectAdminContact: Swift.Bool?
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
     public var privacyProtectRegistrantContact: Swift.Bool?
@@ -7136,7 +6795,7 @@ public struct TransferDomainInput: Swift.Equatable {
     /// This member is required.
     public var techContact: Route53DomainsClientTypes.ContactDetail?
 
-    public init (
+    public init(
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         authCode: Swift.String? = nil,
         autoRenew: Swift.Bool? = nil,
@@ -7197,7 +6856,7 @@ extension TransferDomainInputBody: Swift.Decodable {
         case techContact = "TechContact"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -7235,41 +6894,25 @@ extension TransferDomainInputBody: Swift.Decodable {
     }
 }
 
-extension TransferDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TransferDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DomainLimitExceeded" : self = .domainLimitExceeded(try DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TransferDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DomainLimitExceeded": return try await DomainLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TransferDomainOutputError: Swift.Error, Swift.Equatable {
-    case domainLimitExceeded(DomainLimitExceeded)
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TransferDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransferDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7284,7 +6927,7 @@ public struct TransferDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7301,7 +6944,7 @@ extension TransferDomainOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7340,7 +6983,7 @@ public struct TransferDomainToAnotherAwsAccountInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil,
         domainName: Swift.String? = nil
     )
@@ -7361,7 +7004,7 @@ extension TransferDomainToAnotherAwsAccountInputBody: Swift.Decodable {
         case domainName = "DomainName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -7370,37 +7013,23 @@ extension TransferDomainToAnotherAwsAccountInputBody: Swift.Decodable {
     }
 }
 
-extension TransferDomainToAnotherAwsAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TransferDomainToAnotherAwsAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TransferDomainToAnotherAwsAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TransferDomainToAnotherAwsAccountOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TransferDomainToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransferDomainToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7419,7 +7048,7 @@ public struct TransferDomainToAnotherAwsAccountOutputResponse: Swift.Equatable {
     /// To finish transferring a domain to another Amazon Web Services account, the account that the domain is being transferred to must submit an [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html) request. The request must include the value of the Password element that was returned in the TransferDomainToAnotherAwsAccount response.
     public var password: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil,
         password: Swift.String? = nil
     )
@@ -7440,7 +7069,7 @@ extension TransferDomainToAnotherAwsAccountOutputResponseBody: Swift.Decodable {
         case password = "Password"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7495,38 +7124,42 @@ extension Route53DomainsClientTypes {
 }
 
 extension UnsupportedTLD {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedTLDBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Amazon Route 53 does not support this top-level domain (TLD).
-public struct UnsupportedTLD: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Amazon Route 53 does not support this top-level domain (TLD).
-    public var message: Swift.String?
+public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Amazon Route 53 does not support this top-level domain (TLD).
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedTLD" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7539,7 +7172,7 @@ extension UnsupportedTLDBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7590,7 +7223,7 @@ extension UpdateDomainContactInput: ClientRuntime.URLPathProvider {
 public struct UpdateDomainContactInput: Swift.Equatable {
     /// Provides detailed contact information.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
-    /// Customer's consent for the owner change request.
+    /// Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
     public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to update contact information for.
     /// This member is required.
@@ -7600,7 +7233,7 @@ public struct UpdateDomainContactInput: Swift.Equatable {
     /// Provides detailed contact information.
     public var techContact: Route53DomainsClientTypes.ContactDetail?
 
-    public init (
+    public init(
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         consent: Route53DomainsClientTypes.Consent? = nil,
         domainName: Swift.String? = nil,
@@ -7633,7 +7266,7 @@ extension UpdateDomainContactInputBody: Swift.Decodable {
         case techContact = "TechContact"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -7648,39 +7281,24 @@ extension UpdateDomainContactInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDomainContactOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDomainContactOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDomainContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDomainContactOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDomainContactOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDomainContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7695,7 +7313,7 @@ public struct UpdateDomainContactOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7712,7 +7330,7 @@ extension UpdateDomainContactOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7762,7 +7380,7 @@ public struct UpdateDomainContactPrivacyInput: Swift.Equatable {
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts.
     public var techPrivacy: Swift.Bool?
 
-    public init (
+    public init(
         adminPrivacy: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
         registrantPrivacy: Swift.Bool? = nil,
@@ -7791,7 +7409,7 @@ extension UpdateDomainContactPrivacyInputBody: Swift.Decodable {
         case techPrivacy = "TechPrivacy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -7804,39 +7422,24 @@ extension UpdateDomainContactPrivacyInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDomainContactPrivacyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDomainContactPrivacyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDomainContactPrivacyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDomainContactPrivacyOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDomainContactPrivacyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDomainContactPrivacyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7851,7 +7454,7 @@ public struct UpdateDomainContactPrivacyOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7868,7 +7471,7 @@ extension UpdateDomainContactPrivacyOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7922,7 +7525,7 @@ public struct UpdateDomainNameserversInput: Swift.Equatable {
     /// This member is required.
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         fiAuthKey: Swift.String? = nil,
         nameservers: [Route53DomainsClientTypes.Nameserver]? = nil
@@ -7947,7 +7550,7 @@ extension UpdateDomainNameserversInputBody: Swift.Decodable {
         case nameservers = "Nameservers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -7967,39 +7570,24 @@ extension UpdateDomainNameserversInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDomainNameserversOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDomainNameserversOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDomainNameserversOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TLDRulesViolation": return try await TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDomainNameserversOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case tLDRulesViolation(TLDRulesViolation)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDomainNameserversOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateDomainNameserversOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -8014,7 +7602,7 @@ public struct UpdateDomainNameserversOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -8031,7 +7619,7 @@ extension UpdateDomainNameserversOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -8072,7 +7660,7 @@ public struct UpdateTagsForDomainInput: Swift.Equatable {
     /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
     public var tagsToUpdate: [Route53DomainsClientTypes.Tag]?
 
-    public init (
+    public init(
         domainName: Swift.String? = nil,
         tagsToUpdate: [Route53DomainsClientTypes.Tag]? = nil
     )
@@ -8093,7 +7681,7 @@ extension UpdateTagsForDomainInputBody: Swift.Decodable {
         case tagsToUpdate = "TagsToUpdate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -8111,40 +7699,27 @@ extension UpdateTagsForDomainInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTagsForDomainOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTagsForDomainOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTagsForDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationLimitExceeded": return try await OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedTLD": return try await UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTagsForDomainOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationLimitExceeded(OperationLimitExceeded)
-    case unsupportedTLD(UnsupportedTLD)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateTagsForDomainOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ViewBillingInput: Swift.Encodable {
@@ -8189,7 +7764,7 @@ public struct ViewBillingInput: Swift.Equatable {
     /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
     public var start: ClientRuntime.Date?
 
-    public init (
+    public init(
         end: ClientRuntime.Date? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
@@ -8218,7 +7793,7 @@ extension ViewBillingInputBody: Swift.Decodable {
         case start = "Start"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .start)
         start = startDecoded
@@ -8231,31 +7806,20 @@ extension ViewBillingInputBody: Swift.Decodable {
     }
 }
 
-extension ViewBillingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ViewBillingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ViewBillingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ViewBillingOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ViewBillingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ViewBillingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingRecords = output.billingRecords
@@ -8274,7 +7838,7 @@ public struct ViewBillingOutputResponse: Swift.Equatable {
     /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
     public var nextPageMarker: Swift.String?
 
-    public init (
+    public init(
         billingRecords: [Route53DomainsClientTypes.BillingRecord]? = nil,
         nextPageMarker: Swift.String? = nil
     )
@@ -8295,7 +7859,7 @@ extension ViewBillingOutputResponseBody: Swift.Decodable {
         case nextPageMarker = "NextPageMarker"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextPageMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageMarker)
         nextPageMarker = nextPageMarkerDecoded

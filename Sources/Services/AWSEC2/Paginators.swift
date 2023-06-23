@@ -958,6 +958,39 @@ extension PaginatorSequence where Input == DescribeImportSnapshotTasksInput, Out
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeInstanceConnectEndpointsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceConnectEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceConnectEndpointsOutputResponse`
+    public func describeInstanceConnectEndpointsPaginated(input: DescribeInstanceConnectEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutputResponse>(input: input, inputKey: \DescribeInstanceConnectEndpointsInput.nextToken, outputKey: \DescribeInstanceConnectEndpointsOutputResponse.nextToken, paginationFunction: self.describeInstanceConnectEndpoints(input:))
+    }
+}
+
+extension DescribeInstanceConnectEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInstanceConnectEndpointsInput {
+        return DescribeInstanceConnectEndpointsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            instanceConnectEndpointIds: self.instanceConnectEndpointIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeInstanceConnectEndpointsInput, Output == DescribeInstanceConnectEndpointsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstanceConnectEndpointsPaginated`
+    /// to access the nested member `[EC2ClientTypes.Ec2InstanceConnectEndpoint]`
+    /// - Returns: `[EC2ClientTypes.Ec2InstanceConnectEndpoint]`
+    public func instanceConnectEndpoints() async throws -> [EC2ClientTypes.Ec2InstanceConnectEndpoint] {
+        return try await self.asyncCompactMap { item in item.instanceConnectEndpoints }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeInstanceCreditSpecificationsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -4059,6 +4092,38 @@ extension PaginatorSequence where Input == GetManagedPrefixListEntriesInput, Out
     /// - Returns: `[EC2ClientTypes.PrefixListEntry]`
     public func entries() async throws -> [EC2ClientTypes.PrefixListEntry] {
         return try await self.asyncCompactMap { item in item.entries }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetNetworkInsightsAccessScopeAnalysisFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse`
+    public func getNetworkInsightsAccessScopeAnalysisFindingsPaginated(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) -> ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse>(input: input, inputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsInput.nextToken, outputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse.nextToken, paginationFunction: self.getNetworkInsightsAccessScopeAnalysisFindings(input:))
+    }
+}
+
+extension GetNetworkInsightsAccessScopeAnalysisFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetNetworkInsightsAccessScopeAnalysisFindingsInput {
+        return GetNetworkInsightsAccessScopeAnalysisFindingsInput(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            networkInsightsAccessScopeAnalysisId: self.networkInsightsAccessScopeAnalysisId,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == GetNetworkInsightsAccessScopeAnalysisFindingsInput, Output == GetNetworkInsightsAccessScopeAnalysisFindingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getNetworkInsightsAccessScopeAnalysisFindingsPaginated`
+    /// to access the nested member `[EC2ClientTypes.AccessScopeAnalysisFinding]`
+    /// - Returns: `[EC2ClientTypes.AccessScopeAnalysisFinding]`
+    public func analysisFindings() async throws -> [EC2ClientTypes.AccessScopeAnalysisFinding] {
+        return try await self.asyncCompactMap { item in item.analysisFindings }
     }
 }
 extension EC2Client {

@@ -2,6 +2,219 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AddStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case clientToken = "ClientToken"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case systemType = "SystemType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let cloudWatchLogGroupArn = self.cloudWatchLogGroupArn {
+            try encodeContainer.encode(cloudWatchLogGroupArn, forKey: .cloudWatchLogGroupArn)
+        }
+        if let credentials = self.credentials {
+            try encodeContainer.encode(credentials, forKey: .credentials)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverConfiguration = self.serverConfiguration {
+            try encodeContainer.encode(serverConfiguration, forKey: .serverConfiguration)
+        }
+        if let systemType = self.systemType {
+            try encodeContainer.encode(systemType.rawValue, forKey: .systemType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
+            }
+        }
+    }
+}
+
+extension AddStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AddStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface.
+    /// This member is required.
+    public var agentArns: [Swift.String]?
+    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
+    /// This member is required.
+    public var credentials: DataSyncClientTypes.Credentials?
+    /// Specifies a familiar name for your on-premises storage system.
+    public var name: Swift.String?
+    /// Specifies the server name and network port required to connect with the management interface of your on-premises storage system.
+    /// This member is required.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// Specifies the type of on-premises storage system that you want DataSync Discovery to collect information about. DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+    /// This member is required.
+    public var systemType: DataSyncClientTypes.DiscoverySystemType?
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
+    public var tags: [DataSyncClientTypes.TagListEntry]?
+
+    public init(
+        agentArns: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        credentials: DataSyncClientTypes.Credentials? = nil,
+        name: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        systemType: DataSyncClientTypes.DiscoverySystemType? = nil,
+        tags: [DataSyncClientTypes.TagListEntry]? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.clientToken = clientToken
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.credentials = credentials
+        self.name = name
+        self.serverConfiguration = serverConfiguration
+        self.systemType = systemType
+        self.tags = tags
+    }
+}
+
+struct AddStorageSystemInputBody: Swift.Equatable {
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let systemType: DataSyncClientTypes.DiscoverySystemType?
+    let agentArns: [Swift.String]?
+    let cloudWatchLogGroupArn: Swift.String?
+    let tags: [DataSyncClientTypes.TagListEntry]?
+    let name: Swift.String?
+    let clientToken: Swift.String?
+    let credentials: DataSyncClientTypes.Credentials?
+}
+
+extension AddStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case clientToken = "ClientToken"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case systemType = "SystemType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let systemTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoverySystemType.self, forKey: .systemType)
+        systemType = systemTypeDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
+        var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DataSyncClientTypes.TagListEntry]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+public enum AddStorageSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AddStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AddStorageSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.storageSystemArn = output.storageSystemArn
+        } else {
+            self.storageSystemArn = nil
+        }
+    }
+}
+
+public struct AddStorageSystemOutputResponse: Swift.Equatable {
+    /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct AddStorageSystemOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension AddStorageSystemOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
 extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"
@@ -22,7 +235,7 @@ extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
@@ -43,7 +256,7 @@ extension DataSyncClientTypes {
         /// The status of an agent. For more information, see [DataSync agent statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-agent-statuses.html).
         public var status: DataSyncClientTypes.AgentStatus?
 
-        public init (
+        public init(
             agentArn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: DataSyncClientTypes.AgentStatus? = nil
@@ -146,7 +359,7 @@ public struct CancelTaskExecutionInput: Swift.Equatable {
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
-    public init (
+    public init(
         taskExecutionArn: Swift.String? = nil
     )
     {
@@ -163,45 +376,88 @@ extension CancelTaskExecutionInputBody: Swift.Decodable {
         case taskExecutionArn = "TaskExecutionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
     }
 }
 
-extension CancelTaskExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelTaskExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelTaskExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelTaskExecutionOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CancelTaskExecutionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension DataSyncClientTypes.Capacity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logicalUsed = "LogicalUsed"
+        case provisioned = "Provisioned"
+        case used = "Used"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logicalUsed = self.logicalUsed {
+            try encodeContainer.encode(logicalUsed, forKey: .logicalUsed)
+        }
+        if let provisioned = self.provisioned {
+            try encodeContainer.encode(provisioned, forKey: .provisioned)
+        }
+        if let used = self.used {
+            try encodeContainer.encode(used, forKey: .used)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .used)
+        used = usedDecoded
+        let provisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .provisioned)
+        provisioned = provisionedDecoded
+        let logicalUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .logicalUsed)
+        logicalUsed = logicalUsedDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The storage capacity of an on-premises storage system resource (for example, a volume).
+    public struct Capacity: Swift.Equatable {
+        /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
+        public var logicalUsed: Swift.Int?
+        /// The total amount of space available in a storage system resource.
+        public var provisioned: Swift.Int?
+        /// The amount of space that's being used in a storage system resource.
+        public var used: Swift.Int?
+
+        public init(
+            logicalUsed: Swift.Int? = nil,
+            provisioned: Swift.Int? = nil,
+            used: Swift.Int? = nil
+        )
+        {
+            self.logicalUsed = logicalUsed
+            self.provisioned = provisioned
+            self.used = used
+        }
+    }
+
 }
 
 extension CreateAgentInput: Swift.Encodable {
@@ -268,7 +524,7 @@ public struct CreateAgentInput: Swift.Equatable {
     /// The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see [Creating a VPC Endpoint Service Configuration](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html#create-endpoint-service) in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
     public var vpcEndpointId: Swift.String?
 
-    public init (
+    public init(
         activationKey: Swift.String? = nil,
         agentName: Swift.String? = nil,
         securityGroupArns: [Swift.String]? = nil,
@@ -305,7 +561,7 @@ extension CreateAgentInputBody: Swift.Decodable {
         case vpcEndpointId = "VpcEndpointId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activationKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activationKey)
         activationKey = activationKeyDecoded
@@ -349,33 +605,21 @@ extension CreateAgentInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAgentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAgentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAgentOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAgentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAgentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArn = output.agentArn
@@ -390,7 +634,7 @@ public struct CreateAgentOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
     public var agentArn: Swift.String?
 
-    public init (
+    public init(
         agentArn: Swift.String? = nil
     )
     {
@@ -407,7 +651,7 @@ extension CreateAgentOutputResponseBody: Swift.Decodable {
         case agentArn = "AgentArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
@@ -479,7 +723,7 @@ public struct CreateLocationEfsInput: Swift.Equatable {
     /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         accessPointArn: Swift.String? = nil,
         ec2Config: DataSyncClientTypes.Ec2Config? = nil,
         efsFilesystemArn: Swift.String? = nil,
@@ -520,7 +764,7 @@ extension CreateLocationEfsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -548,33 +792,21 @@ extension CreateLocationEfsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationEfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationEfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationEfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationEfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationEfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationEfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -589,7 +821,7 @@ public struct CreateLocationEfsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you create.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -606,7 +838,7 @@ extension CreateLocationEfsOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -662,7 +894,7 @@ public struct CreateLocationFsxLustreInput: Swift.Equatable {
     /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         fsxFilesystemArn: Swift.String? = nil,
         securityGroupArns: [Swift.String]? = nil,
         subdirectory: Swift.String? = nil,
@@ -691,7 +923,7 @@ extension CreateLocationFsxLustreInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fsxFilesystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fsxFilesystemArn)
         fsxFilesystemArn = fsxFilesystemArnDecoded
@@ -722,33 +954,21 @@ extension CreateLocationFsxLustreInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationFsxLustreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationFsxLustreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationFsxLustreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationFsxLustreOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationFsxLustreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationFsxLustreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -762,7 +982,7 @@ public struct CreateLocationFsxLustreOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -779,7 +999,7 @@ extension CreateLocationFsxLustreOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -849,7 +1069,7 @@ public struct CreateLocationFsxOntapInput: Swift.Equatable {
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
         securityGroupArns: [Swift.String]? = nil,
         storageVirtualMachineArn: Swift.String? = nil,
@@ -882,7 +1102,7 @@ extension CreateLocationFsxOntapInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protocolDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.FsxProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -915,33 +1135,21 @@ extension CreateLocationFsxOntapInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationFsxOntapOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationFsxOntapOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationFsxOntapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationFsxOntapOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationFsxOntapOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationFsxOntapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -955,7 +1163,7 @@ public struct CreateLocationFsxOntapOutputResponse: Swift.Equatable {
     /// Specifies the ARN of the FSx for ONTAP file system location that you create.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -972,7 +1180,7 @@ extension CreateLocationFsxOntapOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -1035,7 +1243,7 @@ public struct CreateLocationFsxOpenZfsInput: Swift.Equatable {
     /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         fsxFilesystemArn: Swift.String? = nil,
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
         securityGroupArns: [Swift.String]? = nil,
@@ -1068,7 +1276,7 @@ extension CreateLocationFsxOpenZfsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fsxFilesystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fsxFilesystemArn)
         fsxFilesystemArn = fsxFilesystemArnDecoded
@@ -1101,33 +1309,21 @@ extension CreateLocationFsxOpenZfsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationFsxOpenZfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationFsxOpenZfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationFsxOpenZfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationFsxOpenZfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationFsxOpenZfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationFsxOpenZfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -1141,7 +1337,7 @@ public struct CreateLocationFsxOpenZfsOutputResponse: Swift.Equatable {
     /// The ARN of the FSx for OpenZFS file system location that you created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -1158,7 +1354,7 @@ extension CreateLocationFsxOpenZfsOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -1243,7 +1439,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Equatable {
     /// This member is required.
     public var user: Swift.String?
 
-    public init (
+    public init(
         domain: Swift.String? = nil,
         fsxFilesystemArn: Swift.String? = nil,
         password: Swift.String? = nil,
@@ -1284,7 +1480,7 @@ extension CreateLocationFsxWindowsInputBody: Swift.Decodable {
         case user = "User"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -1321,33 +1517,21 @@ extension CreateLocationFsxWindowsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationFsxWindowsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationFsxWindowsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationFsxWindowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationFsxWindowsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationFsxWindowsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationFsxWindowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -1361,7 +1545,7 @@ public struct CreateLocationFsxWindowsOutputResponse: Swift.Equatable {
     /// The ARN of the FSx for Windows File Server file system location you created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -1378,7 +1562,7 @@ extension CreateLocationFsxWindowsOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -1492,7 +1676,7 @@ public struct CreateLocationHdfsInput: Swift.Equatable {
     /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
@@ -1557,7 +1741,7 @@ extension CreateLocationHdfsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -1615,33 +1799,21 @@ extension CreateLocationHdfsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationHdfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationHdfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationHdfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationHdfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationHdfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationHdfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -1655,7 +1827,7 @@ public struct CreateLocationHdfsOutputResponse: Swift.Equatable {
     /// The ARN of the source HDFS cluster location that's created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -1672,7 +1844,7 @@ extension CreateLocationHdfsOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -1733,7 +1905,7 @@ public struct CreateLocationNfsInput: Swift.Equatable {
     /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
         onPremConfig: DataSyncClientTypes.OnPremConfig? = nil,
         serverHostname: Swift.String? = nil,
@@ -1766,7 +1938,7 @@ extension CreateLocationNfsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -1790,33 +1962,21 @@ extension CreateLocationNfsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationNfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationNfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationNfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationNfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationNfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -1831,7 +1991,7 @@ public struct CreateLocationNfsOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -1848,7 +2008,7 @@ extension CreateLocationNfsOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -1947,7 +2107,7 @@ public struct CreateLocationObjectStorageInput: Swift.Equatable {
     /// Specifies the key-value pair that represents a tag that you want to add to the resource. Tags can help you manage, filter, and search for your resources. We recommend creating a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         accessKey: Swift.String? = nil,
         agentArns: [Swift.String]? = nil,
         bucketName: Swift.String? = nil,
@@ -2000,7 +2160,7 @@ extension CreateLocationObjectStorageInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverHostname)
         serverHostname = serverHostnameDecoded
@@ -2043,33 +2203,21 @@ extension CreateLocationObjectStorageInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationObjectStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationObjectStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationObjectStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationObjectStorageOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationObjectStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationObjectStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -2084,7 +2232,7 @@ public struct CreateLocationObjectStorageOutputResponse: Swift.Equatable {
     /// Specifies the ARN of the object storage system location that you create.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -2101,7 +2249,7 @@ extension CreateLocationObjectStorageOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -2170,7 +2318,7 @@ public struct CreateLocationS3Input: Swift.Equatable {
     /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         s3BucketArn: Swift.String? = nil,
         s3Config: DataSyncClientTypes.S3Config? = nil,
@@ -2207,7 +2355,7 @@ extension CreateLocationS3InputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -2242,33 +2390,21 @@ extension CreateLocationS3InputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationS3OutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationS3OutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationS3OutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationS3OutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationS3OutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationS3OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -2283,7 +2419,7 @@ public struct CreateLocationS3OutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -2300,7 +2436,7 @@ extension CreateLocationS3OutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -2389,7 +2525,7 @@ public struct CreateLocationSmbInput: Swift.Equatable {
     /// This member is required.
     public var user: Swift.String?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         domain: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
@@ -2434,7 +2570,7 @@ extension CreateLocationSmbInputBody: Swift.Decodable {
         case user = "User"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
         subdirectory = subdirectoryDecoded
@@ -2473,33 +2609,21 @@ extension CreateLocationSmbInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLocationSmbOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateLocationSmbOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLocationSmbOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateLocationSmbOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLocationSmbOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateLocationSmbOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationArn = output.locationArn
@@ -2514,7 +2638,7 @@ public struct CreateLocationSmbOutputResponse: Swift.Equatable {
     /// The ARN of the SMB location that you created.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -2531,7 +2655,7 @@ extension CreateLocationSmbOutputResponseBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -2621,7 +2745,7 @@ public struct CreateTaskInput: Swift.Equatable {
     /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
         destinationLocationArn: Swift.String? = nil,
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
@@ -2670,7 +2794,7 @@ extension CreateTaskInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceLocationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLocationArn)
         sourceLocationArn = sourceLocationArnDecoded
@@ -2720,33 +2844,21 @@ extension CreateTaskInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTaskOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskArn = output.taskArn
@@ -2761,7 +2873,7 @@ public struct CreateTaskOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the task.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         taskArn: Swift.String? = nil
     )
     {
@@ -2778,11 +2890,63 @@ extension CreateTaskOutputResponseBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
     }
+}
+
+extension DataSyncClientTypes.Credentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case password = "Password"
+        case username = "Username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let password = self.password {
+            try encodeContainer.encode(password, forKey: .password)
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
+        password = passwordDecoded
+    }
+}
+
+extension DataSyncClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+extension DataSyncClientTypes {
+    /// The credentials that provide DataSync Discovery read access to your on-premises storage system's management interface. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html). For more information, see [Accessing your on-premises storage system](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html).
+    public struct Credentials: Swift.Equatable {
+        /// Specifies the password for your storage system's management interface.
+        /// This member is required.
+        public var password: Swift.String?
+        /// Specifies the user name for your storage system's management interface.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+
 }
 
 extension DeleteAgentInput: Swift.Encodable {
@@ -2810,7 +2974,7 @@ public struct DeleteAgentInput: Swift.Equatable {
     /// This member is required.
     public var agentArn: Swift.String?
 
-    public init (
+    public init(
         agentArn: Swift.String? = nil
     )
     {
@@ -2827,45 +2991,33 @@ extension DeleteAgentInputBody: Swift.Decodable {
         case agentArn = "AgentArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
     }
 }
 
-extension DeleteAgentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAgentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAgentOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAgentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAgentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteLocationInput: Swift.Encodable {
@@ -2893,7 +3045,7 @@ public struct DeleteLocationInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -2910,45 +3062,33 @@ extension DeleteLocationInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DeleteLocationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteLocationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteLocationOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLocationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLocationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteTaskInput: Swift.Encodable {
@@ -2976,7 +3116,7 @@ public struct DeleteTaskInput: Swift.Equatable {
     /// This member is required.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         taskArn: Swift.String? = nil
     )
     {
@@ -2993,45 +3133,33 @@ extension DeleteTaskInputBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
     }
 }
 
-extension DeleteTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTaskOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTaskOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAgentInput: Swift.Encodable {
@@ -3059,7 +3187,7 @@ public struct DescribeAgentInput: Swift.Equatable {
     /// This member is required.
     public var agentArn: Swift.String?
 
-    public init (
+    public init(
         agentArn: Swift.String? = nil
     )
     {
@@ -3076,40 +3204,28 @@ extension DescribeAgentInputBody: Swift.Decodable {
         case agentArn = "AgentArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
     }
 }
 
-extension DescribeAgentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAgentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAgentOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAgentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAgentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArn = output.agentArn
@@ -3148,7 +3264,7 @@ public struct DescribeAgentOutputResponse: Swift.Equatable {
     /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
     public var status: DataSyncClientTypes.AgentStatus?
 
-    public init (
+    public init(
         agentArn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         endpointType: DataSyncClientTypes.EndpointType? = nil,
@@ -3189,7 +3305,7 @@ extension DescribeAgentOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
@@ -3205,6 +3321,156 @@ extension DescribeAgentOutputResponseBody: Swift.Decodable {
         endpointType = endpointTypeDecoded
         let privateLinkConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.PrivateLinkConfig.self, forKey: .privateLinkConfig)
         privateLinkConfig = privateLinkConfigDecoded
+    }
+}
+
+extension DescribeDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension DescribeDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDiscoveryJobInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct DescribeDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension DescribeDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+    }
+}
+
+public enum DescribeDiscoveryJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDiscoveryJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.collectionDurationMinutes = output.collectionDurationMinutes
+            self.discoveryJobArn = output.discoveryJobArn
+            self.jobEndTime = output.jobEndTime
+            self.jobStartTime = output.jobStartTime
+            self.status = output.status
+            self.storageSystemArn = output.storageSystemArn
+        } else {
+            self.collectionDurationMinutes = nil
+            self.discoveryJobArn = nil
+            self.jobEndTime = nil
+            self.jobStartTime = nil
+            self.status = nil
+            self.storageSystemArn = nil
+        }
+    }
+}
+
+public struct DescribeDiscoveryJobOutputResponse: Swift.Equatable {
+    /// The number of minutes that the discovery job runs.
+    public var collectionDurationMinutes: Swift.Int?
+    /// The ARN of the discovery job.
+    public var discoveryJobArn: Swift.String?
+    /// The time when the discovery job ended.
+    public var jobEndTime: ClientRuntime.Date?
+    /// The time when the discovery job started.
+    public var jobStartTime: ClientRuntime.Date?
+    /// Indicates the status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
+    public var status: DataSyncClientTypes.DiscoveryJobStatus?
+    /// The ARN of the on-premises storage system you're running the discovery job on.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        collectionDurationMinutes: Swift.Int? = nil,
+        discoveryJobArn: Swift.String? = nil,
+        jobEndTime: ClientRuntime.Date? = nil,
+        jobStartTime: ClientRuntime.Date? = nil,
+        status: DataSyncClientTypes.DiscoveryJobStatus? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.discoveryJobArn = discoveryJobArn
+        self.jobEndTime = jobEndTime
+        self.jobStartTime = jobStartTime
+        self.status = status
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct DescribeDiscoveryJobOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let discoveryJobArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+    let status: DataSyncClientTypes.DiscoveryJobStatus?
+    let jobStartTime: ClientRuntime.Date?
+    let jobEndTime: ClientRuntime.Date?
+}
+
+extension DescribeDiscoveryJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+        case jobEndTime = "JobEndTime"
+        case jobStartTime = "JobStartTime"
+        case status = "Status"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let jobStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .jobStartTime)
+        jobStartTime = jobStartTimeDecoded
+        let jobEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .jobEndTime)
+        jobEndTime = jobEndTimeDecoded
     }
 }
 
@@ -3233,7 +3499,7 @@ public struct DescribeLocationEfsInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -3250,40 +3516,28 @@ extension DescribeLocationEfsInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationEfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationEfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationEfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationEfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationEfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationEfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
@@ -3322,7 +3576,7 @@ public struct DescribeLocationEfsOutputResponse: Swift.Equatable {
     /// The URL of the Amazon EFS file system location.
     public var locationUri: Swift.String?
 
-    public init (
+    public init(
         accessPointArn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         ec2Config: DataSyncClientTypes.Ec2Config? = nil,
@@ -3363,7 +3617,7 @@ extension DescribeLocationEfsOutputResponseBody: Swift.Decodable {
         case locationUri = "LocationUri"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -3406,7 +3660,7 @@ public struct DescribeLocationFsxLustreInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -3423,40 +3677,28 @@ extension DescribeLocationFsxLustreInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationFsxLustreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationFsxLustreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationFsxLustreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationFsxLustreOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationFsxLustreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationFsxLustreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
@@ -3482,7 +3724,7 @@ public struct DescribeLocationFsxLustreOutputResponse: Swift.Equatable {
     /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Lustre file system.
     public var securityGroupArns: [Swift.String]?
 
-    public init (
+    public init(
         creationTime: ClientRuntime.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -3511,7 +3753,7 @@ extension DescribeLocationFsxLustreOutputResponseBody: Swift.Decodable {
         case securityGroupArns = "SecurityGroupArns"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -3557,7 +3799,7 @@ public struct DescribeLocationFsxOntapInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -3574,40 +3816,28 @@ extension DescribeLocationFsxOntapInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationFsxOntapOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationFsxOntapOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationFsxOntapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationFsxOntapOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationFsxOntapOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationFsxOntapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`protocol` = output.`protocol`
@@ -3645,7 +3875,7 @@ public struct DescribeLocationFsxOntapOutputResponse: Swift.Equatable {
     /// The ARN of the storage virtual machine (SVM) on your FSx for ONTAP file system where you're copying data to or from.
     public var storageVirtualMachineArn: Swift.String?
 
-    public init (
+    public init(
         creationTime: ClientRuntime.Date? = nil,
         fsxFilesystemArn: Swift.String? = nil,
         locationArn: Swift.String? = nil,
@@ -3686,7 +3916,7 @@ extension DescribeLocationFsxOntapOutputResponseBody: Swift.Decodable {
         case storageVirtualMachineArn = "StorageVirtualMachineArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
@@ -3738,7 +3968,7 @@ public struct DescribeLocationFsxOpenZfsInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -3755,40 +3985,28 @@ extension DescribeLocationFsxOpenZfsInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationFsxOpenZfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationFsxOpenZfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationFsxOpenZfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationFsxOpenZfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationFsxOpenZfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationFsxOpenZfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`protocol` = output.`protocol`
@@ -3818,7 +4036,7 @@ public struct DescribeLocationFsxOpenZfsOutputResponse: Swift.Equatable {
     /// The ARNs of the security groups that are configured for the FSx for OpenZFS file system.
     public var securityGroupArns: [Swift.String]?
 
-    public init (
+    public init(
         creationTime: ClientRuntime.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -3851,7 +4069,7 @@ extension DescribeLocationFsxOpenZfsOutputResponseBody: Swift.Decodable {
         case securityGroupArns = "SecurityGroupArns"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -3899,7 +4117,7 @@ public struct DescribeLocationFsxWindowsInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -3916,40 +4134,28 @@ extension DescribeLocationFsxWindowsInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationFsxWindowsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationFsxWindowsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationFsxWindowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationFsxWindowsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationFsxWindowsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationFsxWindowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
@@ -3983,7 +4189,7 @@ public struct DescribeLocationFsxWindowsOutputResponse: Swift.Equatable {
     /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
     public var user: Swift.String?
 
-    public init (
+    public init(
         creationTime: ClientRuntime.Date? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
@@ -4020,7 +4226,7 @@ extension DescribeLocationFsxWindowsOutputResponseBody: Swift.Decodable {
         case user = "User"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4070,7 +4276,7 @@ public struct DescribeLocationHdfsInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -4087,40 +4293,28 @@ extension DescribeLocationHdfsInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationHdfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationHdfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationHdfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationHdfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationHdfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationHdfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
@@ -4178,7 +4372,7 @@ public struct DescribeLocationHdfsOutputResponse: Swift.Equatable {
     /// The user name used to identify the client on the host operating system. This parameter is used if the AuthenticationType is defined as SIMPLE.
     public var simpleUser: Swift.String?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
@@ -4239,7 +4433,7 @@ extension DescribeLocationHdfsOutputResponseBody: Swift.Decodable {
         case simpleUser = "SimpleUser"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4311,7 +4505,7 @@ public struct DescribeLocationNfsInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -4328,40 +4522,28 @@ extension DescribeLocationNfsInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationNfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationNfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationNfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationNfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationNfsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
@@ -4392,7 +4574,7 @@ public struct DescribeLocationNfsOutputResponse: Swift.Equatable {
     /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File System (NFS) location.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
 
-    public init (
+    public init(
         creationTime: ClientRuntime.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -4425,7 +4607,7 @@ extension DescribeLocationNfsOutputResponseBody: Swift.Decodable {
         case onPremConfig = "OnPremConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4465,7 +4647,7 @@ public struct DescribeLocationObjectStorageInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -4482,40 +4664,28 @@ extension DescribeLocationObjectStorageInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationObjectStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationObjectStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationObjectStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationObjectStorageOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationObjectStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationObjectStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessKey = output.accessKey
@@ -4558,7 +4728,7 @@ public struct DescribeLocationObjectStorageOutputResponse: Swift.Equatable {
     /// The protocol that your object storage system uses to communicate.
     public var serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol?
 
-    public init (
+    public init(
         accessKey: Swift.String? = nil,
         agentArns: [Swift.String]? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -4603,7 +4773,7 @@ extension DescribeLocationObjectStorageOutputResponseBody: Swift.Decodable {
         case serverProtocol = "ServerProtocol"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4658,7 +4828,7 @@ public struct DescribeLocationS3Input: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -4675,40 +4845,28 @@ extension DescribeLocationS3InputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationS3OutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationS3OutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationS3OutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationS3OutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationS3OutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationS3OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
@@ -4743,7 +4901,7 @@ public struct DescribeLocationS3OutputResponse: Swift.Equatable {
     /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see [Amazon S3 Storage Classes](http://aws.amazon.com/s3/storage-classes/). Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see [Considerations when working with S3 storage classes in DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
     public var s3StorageClass: DataSyncClientTypes.S3StorageClass?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         creationTime: ClientRuntime.Date? = nil,
         locationArn: Swift.String? = nil,
@@ -4780,7 +4938,7 @@ extension DescribeLocationS3OutputResponseBody: Swift.Decodable {
         case s3StorageClass = "S3StorageClass"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4831,7 +4989,7 @@ public struct DescribeLocationSmbInput: Swift.Equatable {
     /// This member is required.
     public var locationArn: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil
     )
     {
@@ -4848,40 +5006,28 @@ extension DescribeLocationSmbInputBody: Swift.Decodable {
         case locationArn = "LocationArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
     }
 }
 
-extension DescribeLocationSmbOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLocationSmbOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLocationSmbOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLocationSmbOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLocationSmbOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLocationSmbOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentArns = output.agentArns
@@ -4920,7 +5066,7 @@ public struct DescribeLocationSmbOutputResponse: Swift.Equatable {
     /// The user who can mount the share, has the permissions to access files and folders in the SMB share.
     public var user: Swift.String?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         creationTime: ClientRuntime.Date? = nil,
         domain: Swift.String? = nil,
@@ -4961,7 +5107,7 @@ extension DescribeLocationSmbOutputResponseBody: Swift.Decodable {
         case user = "User"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -4986,6 +5132,603 @@ extension DescribeLocationSmbOutputResponseBody: Swift.Decodable {
         mountOptions = mountOptionsDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+    }
+}
+
+extension DescribeStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension DescribeStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct DescribeStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension DescribeStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
+public enum DescribeStorageSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentArns = output.agentArns
+            self.cloudWatchLogGroupArn = output.cloudWatchLogGroupArn
+            self.connectivityStatus = output.connectivityStatus
+            self.creationTime = output.creationTime
+            self.errorMessage = output.errorMessage
+            self.name = output.name
+            self.secretsManagerArn = output.secretsManagerArn
+            self.serverConfiguration = output.serverConfiguration
+            self.storageSystemArn = output.storageSystemArn
+            self.systemType = output.systemType
+        } else {
+            self.agentArns = nil
+            self.cloudWatchLogGroupArn = nil
+            self.connectivityStatus = nil
+            self.creationTime = nil
+            self.errorMessage = nil
+            self.name = nil
+            self.secretsManagerArn = nil
+            self.serverConfiguration = nil
+            self.storageSystemArn = nil
+            self.systemType = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemOutputResponse: Swift.Equatable {
+    /// The ARN of the DataSync agent that connects to and reads from your on-premises storage system.
+    public var agentArns: [Swift.String]?
+    /// The ARN of the Amazon CloudWatch log group that's used to monitor and log discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Indicates whether your DataSync agent can connect to your on-premises storage system.
+    public var connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
+    /// The time when you added the on-premises storage system to DataSync Discovery.
+    public var creationTime: ClientRuntime.Date?
+    /// Describes the connectivity error that the DataSync agent is encountering with your on-premises storage system.
+    public var errorMessage: Swift.String?
+    /// The name that you gave your on-premises storage system when adding it to DataSync Discovery.
+    public var name: Swift.String?
+    /// The ARN of the secret that stores your on-premises storage system's credentials. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html#discovery-add-storage).
+    public var secretsManagerArn: Swift.String?
+    /// The server name and network port required to connect with your on-premises storage system's management interface.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// The ARN of the on-premises storage system that the discovery job looked at.
+    public var storageSystemArn: Swift.String?
+    /// The type of on-premises storage system. DataSync Discovery currently only supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+    public var systemType: DataSyncClientTypes.DiscoverySystemType?
+
+    public init(
+        agentArns: [Swift.String]? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        errorMessage: Swift.String? = nil,
+        name: Swift.String? = nil,
+        secretsManagerArn: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        storageSystemArn: Swift.String? = nil,
+        systemType: DataSyncClientTypes.DiscoverySystemType? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.connectivityStatus = connectivityStatus
+        self.creationTime = creationTime
+        self.errorMessage = errorMessage
+        self.name = name
+        self.secretsManagerArn = secretsManagerArn
+        self.serverConfiguration = serverConfiguration
+        self.storageSystemArn = storageSystemArn
+        self.systemType = systemType
+    }
+}
+
+struct DescribeStorageSystemOutputResponseBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let systemType: DataSyncClientTypes.DiscoverySystemType?
+    let agentArns: [Swift.String]?
+    let name: Swift.String?
+    let errorMessage: Swift.String?
+    let connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
+    let cloudWatchLogGroupArn: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let secretsManagerArn: Swift.String?
+}
+
+extension DescribeStorageSystemOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case connectivityStatus = "ConnectivityStatus"
+        case creationTime = "CreationTime"
+        case errorMessage = "ErrorMessage"
+        case name = "Name"
+        case secretsManagerArn = "SecretsManagerArn"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+        case systemType = "SystemType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let systemTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoverySystemType.self, forKey: .systemType)
+        systemType = systemTypeDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let connectivityStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.StorageSystemConnectivityStatus.self, forKey: .connectivityStatus)
+        connectivityStatus = connectivityStatusDecoded
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let secretsManagerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerArn)
+        secretsManagerArn = secretsManagerArnDecoded
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemResourceMetricsInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
+    public var endTime: ClientRuntime.Date?
+    /// Specifies how many results that you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// Specifies the kind of storage system resource that you want information about.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
+    public var startTime: ClientRuntime.Date?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil,
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+        self.startTime = startTime
+    }
+}
+
+struct DescribeStorageSystemResourceMetricsInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    let resourceId: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourceMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case startTime = "StartTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum DescribeStorageSystemResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.metrics = output.metrics
+            self.nextToken = output.nextToken
+        } else {
+            self.metrics = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemResourceMetricsOutputResponse: Swift.Equatable {
+    /// The details that your discovery job collected about your storage system resource.
+    public var metrics: [DataSyncClientTypes.ResourceMetrics]?
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init(
+        metrics: [DataSyncClientTypes.ResourceMetrics]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.metrics = metrics
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeStorageSystemResourceMetricsOutputResponseBody: Swift.Equatable {
+    let metrics: [DataSyncClientTypes.ResourceMetrics]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourceMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metrics = "Metrics"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.ResourceMetrics?].self, forKey: .metrics)
+        var metricsDecoded0:[DataSyncClientTypes.ResourceMetrics]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [DataSyncClientTypes.ResourceMetrics]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeStorageSystemResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let filter = filter {
+            var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
+            for (dictKey0, resourceFilters0) in filter {
+                var resourceFilters0Container = filterContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ptolemystring1 in resourceFilters0 {
+                    try resourceFilters0Container.encode(ptolemystring1)
+                }
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for resourceid0 in resourceIds {
+                try resourceIdsContainer.encode(resourceid0)
+            }
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeStorageSystemResourcesInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
+    public var filter: [Swift.String:[Swift.String]]?
+    /// Specifies the maximum number of storage system resources that you want to list in a response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
+    public var resourceIds: [Swift.String]?
+    /// Specifies what kind of storage system resources that you want information about.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil,
+        filter: [Swift.String:[Swift.String]]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceIds = resourceIds
+        self.resourceType = resourceType
+    }
+}
+
+struct DescribeStorageSystemResourcesInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+    let resourceIds: [Swift.String]?
+    let filter: [Swift.String:[Swift.String]]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let filterContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .filter)
+        var filterDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let filterContainer = filterContainer {
+            filterDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, filtermembers0) in filterContainer {
+                var filtermembers0Decoded0: [Swift.String]? = nil
+                if let filtermembers0 = filtermembers0 {
+                    filtermembers0Decoded0 = [Swift.String]()
+                    for string1 in filtermembers0 {
+                        if let string1 = string1 {
+                            filtermembers0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                filterDecoded0?[key0] = filtermembers0Decoded0
+            }
+        }
+        filter = filterDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum DescribeStorageSystemResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeStorageSystemResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeStorageSystemResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resourceDetails = output.resourceDetails
+        } else {
+            self.nextToken = nil
+            self.resourceDetails = nil
+        }
+    }
+}
+
+public struct DescribeStorageSystemResourcesOutputResponse: Swift.Equatable {
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see [storage resource information](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-findings.html) collected by and [recommendations](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html) provided by DataSync Discovery.
+    public var resourceDetails: DataSyncClientTypes.ResourceDetails?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceDetails: DataSyncClientTypes.ResourceDetails? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceDetails = resourceDetails
+    }
+}
+
+struct DescribeStorageSystemResourcesOutputResponseBody: Swift.Equatable {
+    let resourceDetails: DataSyncClientTypes.ResourceDetails?
+    let nextToken: Swift.String?
+}
+
+extension DescribeStorageSystemResourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourceDetails = "ResourceDetails"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDetailsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ResourceDetails.self, forKey: .resourceDetails)
+        resourceDetails = resourceDetailsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -5014,7 +5757,7 @@ public struct DescribeTaskExecutionInput: Swift.Equatable {
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
-    public init (
+    public init(
         taskExecutionArn: Swift.String? = nil
     )
     {
@@ -5031,40 +5774,28 @@ extension DescribeTaskExecutionInputBody: Swift.Decodable {
         case taskExecutionArn = "TaskExecutionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
     }
 }
 
-extension DescribeTaskExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTaskExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTaskExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTaskExecutionOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTaskExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bytesCompressed = output.bytesCompressed
@@ -5127,7 +5858,7 @@ public struct DescribeTaskExecutionOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed. For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
     public var taskExecutionArn: Swift.String?
 
-    public init (
+    public init(
         bytesCompressed: Swift.Int = 0,
         bytesTransferred: Swift.Int = 0,
         bytesWritten: Swift.Int = 0,
@@ -5192,7 +5923,7 @@ extension DescribeTaskExecutionOutputResponseBody: Swift.Decodable {
         case taskExecutionArn = "TaskExecutionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
@@ -5266,7 +5997,7 @@ public struct DescribeTaskInput: Swift.Equatable {
     /// This member is required.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         taskArn: Swift.String? = nil
     )
     {
@@ -5283,40 +6014,28 @@ extension DescribeTaskInputBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
     }
 }
 
-extension DescribeTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTaskOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogGroupArn = output.cloudWatchLogGroupArn
@@ -5391,7 +6110,7 @@ public struct DescribeTaskOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the task that was described.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         currentTaskExecutionArn: Swift.String? = nil,
@@ -5468,7 +6187,7 @@ extension DescribeTaskOutputResponseBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
@@ -5541,6 +6260,237 @@ extension DescribeTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DataSyncClientTypes.DiscoveryJobListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryJobStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The details about a specific DataSync discovery job.
+    public struct DiscoveryJobListEntry: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a discovery job.
+        public var discoveryJobArn: Swift.String?
+        /// The status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
+        public var status: DataSyncClientTypes.DiscoveryJobStatus?
+
+        public init(
+            discoveryJobArn: Swift.String? = nil,
+            status: DataSyncClientTypes.DiscoveryJobStatus? = nil
+        )
+        {
+            self.discoveryJobArn = discoveryJobArn
+            self.status = status
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case completedWithIssues
+        case failed
+        case running
+        case stopped
+        case terminated
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryJobStatus] {
+            return [
+                .completed,
+                .completedWithIssues,
+                .failed,
+                .running,
+                .stopped,
+                .terminated,
+                .warning,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .terminated: return "TERMINATED"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryJobStatus(rawValue: rawValue) ?? DiscoveryJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryResourceFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case svm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryResourceFilter] {
+            return [
+                .svm,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .svm: return "SVM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryResourceFilter(rawValue: rawValue) ?? DiscoveryResourceFilter.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoveryResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cluster
+        case svm
+        case volume
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryResourceType] {
+            return [
+                .cluster,
+                .svm,
+                .volume,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cluster: return "CLUSTER"
+            case .svm: return "SVM"
+            case .volume: return "VOLUME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoveryResourceType(rawValue: rawValue) ?? DiscoveryResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.DiscoveryServerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverHostname = "ServerHostname"
+        case serverPort = "ServerPort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serverHostname = self.serverHostname {
+            try encodeContainer.encode(serverHostname, forKey: .serverHostname)
+        }
+        if let serverPort = self.serverPort {
+            try encodeContainer.encode(serverPort, forKey: .serverPort)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverHostname)
+        serverHostname = serverHostnameDecoded
+        let serverPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serverPort)
+        serverPort = serverPortDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The network settings that DataSync Discovery uses to connect with your on-premises storage system's management interface.
+    public struct DiscoveryServerConfiguration: Swift.Equatable {
+        /// The domain name or IP address of your storage system's management interface.
+        /// This member is required.
+        public var serverHostname: Swift.String?
+        /// The network port for accessing the storage system's management interface.
+        public var serverPort: Swift.Int?
+
+        public init(
+            serverHostname: Swift.String? = nil,
+            serverPort: Swift.Int? = nil
+        )
+        {
+            self.serverHostname = serverHostname
+            self.serverPort = serverPort
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum DiscoverySystemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case netappontap
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoverySystemType] {
+            return [
+                .netappontap,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .netappontap: return "NetAppONTAP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DiscoverySystemType(rawValue: rawValue) ?? DiscoverySystemType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataSyncClientTypes.Ec2Config: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityGroupArns = "SecurityGroupArns"
@@ -5560,7 +6510,7 @@ extension DataSyncClientTypes.Ec2Config: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetArn)
         subnetArn = subnetArnDecoded
@@ -5595,7 +6545,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var subnetArn: Swift.String?
 
-        public init (
+        public init(
             securityGroupArns: [Swift.String]? = nil,
             subnetArn: Swift.String? = nil
         )
@@ -5690,7 +6640,7 @@ extension DataSyncClientTypes.FilterRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.FilterType.self, forKey: .filterType)
         filterType = filterTypeDecoded
@@ -5707,7 +6657,7 @@ extension DataSyncClientTypes {
         /// A single filter string that consists of the patterns to include or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2
         public var value: Swift.String?
 
-        public init (
+        public init(
             filterType: DataSyncClientTypes.FilterType? = nil,
             value: Swift.String? = nil
         )
@@ -5764,7 +6714,7 @@ extension DataSyncClientTypes.FsxProtocol: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nfsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.FsxProtocolNfs.self, forKey: .nfs)
         nfs = nfsDecoded
@@ -5781,7 +6731,7 @@ extension DataSyncClientTypes {
         /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's SVM.
         public var smb: DataSyncClientTypes.FsxProtocolSmb?
 
-        public init (
+        public init(
             nfs: DataSyncClientTypes.FsxProtocolNfs? = nil,
             smb: DataSyncClientTypes.FsxProtocolSmb? = nil
         )
@@ -5805,7 +6755,7 @@ extension DataSyncClientTypes.FsxProtocolNfs: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mountOptionsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.NfsMountOptions.self, forKey: .mountOptions)
         mountOptions = mountOptionsDecoded
@@ -5818,7 +6768,7 @@ extension DataSyncClientTypes {
         /// Specifies how DataSync can access a location using the NFS protocol.
         public var mountOptions: DataSyncClientTypes.NfsMountOptions?
 
-        public init (
+        public init(
             mountOptions: DataSyncClientTypes.NfsMountOptions? = nil
         )
         {
@@ -5852,7 +6802,7 @@ extension DataSyncClientTypes.FsxProtocolSmb: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -5895,7 +6845,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var user: Swift.String?
 
-        public init (
+        public init(
             domain: Swift.String? = nil,
             mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
             password: Swift.String? = nil,
@@ -5909,6 +6859,114 @@ extension DataSyncClientTypes {
         }
     }
 
+}
+
+extension GenerateRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for resourceid0 in resourceIds {
+                try resourceIdsContainer.encode(resourceid0)
+            }
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+}
+
+extension GenerateRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GenerateRecommendationsInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+    /// Specifies the universally unique identifiers (UUIDs) of the resources in your storage system that you want recommendations on.
+    /// This member is required.
+    public var resourceIds: [Swift.String]?
+    /// Specifies the type of resource in your storage system that you want recommendations on.
+    /// This member is required.
+    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil,
+        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+        self.resourceIds = resourceIds
+        self.resourceType = resourceType
+    }
+}
+
+struct GenerateRecommendationsInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let resourceIds: [Swift.String]?
+    let resourceType: DataSyncClientTypes.DiscoveryResourceType?
+}
+
+extension GenerateRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+public enum GenerateRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GenerateRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct GenerateRecommendationsOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension DataSyncClientTypes {
@@ -6035,7 +7093,7 @@ extension DataSyncClientTypes.HdfsNameNode: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostname)
         hostname = hostnameDecoded
@@ -6054,7 +7112,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var port: Swift.Int?
 
-        public init (
+        public init(
             hostname: Swift.String? = nil,
             port: Swift.Int? = nil
         )
@@ -6104,43 +7162,112 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.IOPS: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case total = "Total"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct IOPS: Swift.Equatable {
+        /// Peak IOPS unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak IOPS related to read operations.
+        public var read: Swift.Double?
+        /// Peak total IOPS on your on-premises storage system resource.
+        public var total: Swift.Double?
+        /// Peak IOPS related to write operations.
+        public var write: Swift.Double?
+
+        public init(
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            total: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.total = total
+            self.write = write
+        }
+    }
+
+}
+
 extension InternalException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.errorCode = output.errorCode
-            self.message = output.message
+            self.properties.errorCode = output.errorCode
+            self.properties.message = output.message
         } else {
-            self.errorCode = nil
-            self.message = nil
+            self.properties.errorCode = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when an error occurs in the DataSync service.
-public struct InternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var errorCode: Swift.String?
-    public var message: Swift.String?
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.errorCode = errorCode
-        self.message = message
+        self.properties.errorCode = errorCode
+        self.properties.message = message
     }
 }
 
@@ -6155,7 +7282,7 @@ extension InternalExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6165,47 +7292,51 @@ extension InternalExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.datasyncErrorCode = output.datasyncErrorCode
-            self.errorCode = output.errorCode
-            self.message = output.message
+            self.properties.datasyncErrorCode = output.datasyncErrorCode
+            self.properties.errorCode = output.errorCode
+            self.properties.message = output.message
         } else {
-            self.datasyncErrorCode = nil
-            self.errorCode = nil
-            self.message = nil
+            self.properties.datasyncErrorCode = nil
+            self.properties.errorCode = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// This exception is thrown when the client submits a malformed request.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var datasyncErrorCode: Swift.String?
-    public var errorCode: Swift.String?
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var datasyncErrorCode: Swift.String? = nil
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         datasyncErrorCode: Swift.String? = nil,
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.datasyncErrorCode = datasyncErrorCode
-        self.errorCode = errorCode
-        self.message = message
+        self.properties.datasyncErrorCode = datasyncErrorCode
+        self.properties.errorCode = errorCode
+        self.properties.message = message
     }
 }
 
@@ -6222,7 +7353,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6231,6 +7362,61 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         let datasyncErrorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasyncErrorCode)
         datasyncErrorCode = datasyncErrorCodeDecoded
     }
+}
+
+extension DataSyncClientTypes.Latency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct Latency: Swift.Equatable {
+        /// Peak latency for operations unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak latency for read operations.
+        public var read: Swift.Double?
+        /// Peak latency for write operations.
+        public var write: Swift.Double?
+
+        public init(
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.write = write
+        }
+    }
+
 }
 
 extension ListAgentsInput: Swift.Encodable {
@@ -6263,7 +7449,7 @@ public struct ListAgentsInput: Swift.Equatable {
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6284,7 +7470,7 @@ extension ListAgentsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -6293,33 +7479,21 @@ extension ListAgentsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAgentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAgentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAgentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAgentsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAgentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAgentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agents = output.agents
@@ -6338,7 +7512,7 @@ public struct ListAgentsOutputResponse: Swift.Equatable {
     /// The opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         agents: [DataSyncClientTypes.AgentListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6359,7 +7533,7 @@ extension ListAgentsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.AgentListEntry?].self, forKey: .agents)
         var agentsDecoded0:[DataSyncClientTypes.AgentListEntry]? = nil
@@ -6372,6 +7546,148 @@ extension ListAgentsOutputResponseBody: Swift.Decodable {
             }
         }
         agents = agentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListDiscoveryJobsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension ListDiscoveryJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDiscoveryJobsInput: Swift.Equatable {
+    /// Specifies how many results you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct ListDiscoveryJobsInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListDiscoveryJobsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListDiscoveryJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListDiscoveryJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDiscoveryJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.discoveryJobs = output.discoveryJobs
+            self.nextToken = output.nextToken
+        } else {
+            self.discoveryJobs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDiscoveryJobsOutputResponse: Swift.Equatable {
+    /// The discovery jobs that you've run.
+    public var discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init(
+        discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.discoveryJobs = discoveryJobs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDiscoveryJobsOutputResponseBody: Swift.Equatable {
+    let discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListDiscoveryJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobs = "DiscoveryJobs"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.DiscoveryJobListEntry?].self, forKey: .discoveryJobs)
+        var discoveryJobsDecoded0:[DataSyncClientTypes.DiscoveryJobListEntry]? = nil
+        if let discoveryJobsContainer = discoveryJobsContainer {
+            discoveryJobsDecoded0 = [DataSyncClientTypes.DiscoveryJobListEntry]()
+            for structure0 in discoveryJobsContainer {
+                if let structure0 = structure0 {
+                    discoveryJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        discoveryJobs = discoveryJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6416,7 +7732,7 @@ public struct ListLocationsInput: Swift.Equatable {
     /// An opaque string that indicates the position at which to begin the next list of locations.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [DataSyncClientTypes.LocationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -6441,7 +7757,7 @@ extension ListLocationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -6461,33 +7777,21 @@ extension ListLocationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListLocationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListLocationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListLocationsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locations = output.locations
@@ -6506,7 +7810,7 @@ public struct ListLocationsOutputResponse: Swift.Equatable {
     /// An opaque string that indicates the position at which to begin returning the next list of locations.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         locations: [DataSyncClientTypes.LocationListEntry]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6527,7 +7831,7 @@ extension ListLocationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.LocationListEntry?].self, forKey: .locations)
         var locationsDecoded0:[DataSyncClientTypes.LocationListEntry]? = nil
@@ -6540,6 +7844,136 @@ extension ListLocationsOutputResponseBody: Swift.Decodable {
             }
         }
         locations = locationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListStorageSystemsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListStorageSystemsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListStorageSystemsInput: Swift.Equatable {
+    /// Specifies how many results you want in the response.
+    public var maxResults: Swift.Int?
+    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListStorageSystemsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListStorageSystemsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListStorageSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListStorageSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListStorageSystemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.storageSystems = output.storageSystems
+        } else {
+            self.nextToken = nil
+            self.storageSystems = nil
+        }
+    }
+}
+
+public struct ListStorageSystemsOutputResponse: Swift.Equatable {
+    /// The opaque string that indicates the position to begin the next list of results in the response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
+    public var storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        storageSystems: [DataSyncClientTypes.StorageSystemListEntry]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.storageSystems = storageSystems
+    }
+}
+
+struct ListStorageSystemsOutputResponseBody: Swift.Equatable {
+    let storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListStorageSystemsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case storageSystems = "StorageSystems"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.StorageSystemListEntry?].self, forKey: .storageSystems)
+        var storageSystemsDecoded0:[DataSyncClientTypes.StorageSystemListEntry]? = nil
+        if let storageSystemsContainer = storageSystemsContainer {
+            storageSystemsDecoded0 = [DataSyncClientTypes.StorageSystemListEntry]()
+            for structure0 in storageSystemsContainer {
+                if let structure0 = structure0 {
+                    storageSystemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        storageSystems = storageSystemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6582,7 +8016,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
@@ -6607,7 +8041,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -6618,33 +8052,21 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6663,7 +8085,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// An array of tags applied to the specified resource.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
     )
@@ -6684,7 +8106,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
         var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
@@ -6738,7 +8160,7 @@ public struct ListTaskExecutionsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskArn: Swift.String? = nil
@@ -6763,7 +8185,7 @@ extension ListTaskExecutionsInputBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
@@ -6774,33 +8196,21 @@ extension ListTaskExecutionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListTaskExecutionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTaskExecutionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTaskExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTaskExecutionsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTaskExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTaskExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6819,7 +8229,7 @@ public struct ListTaskExecutionsOutputResponse: Swift.Equatable {
     /// A list of executed tasks.
     public var taskExecutions: [DataSyncClientTypes.TaskExecutionListEntry]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         taskExecutions: [DataSyncClientTypes.TaskExecutionListEntry]? = nil
     )
@@ -6840,7 +8250,7 @@ extension ListTaskExecutionsOutputResponseBody: Swift.Decodable {
         case taskExecutions = "TaskExecutions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TaskExecutionListEntry?].self, forKey: .taskExecutions)
         var taskExecutionsDecoded0:[DataSyncClientTypes.TaskExecutionListEntry]? = nil
@@ -6897,7 +8307,7 @@ public struct ListTasksInput: Swift.Equatable {
     /// An opaque string that indicates the position at which to begin the next list of tasks.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [DataSyncClientTypes.TaskFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -6922,7 +8332,7 @@ extension ListTasksInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -6942,33 +8352,21 @@ extension ListTasksInputBody: Swift.Decodable {
     }
 }
 
-extension ListTasksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTasksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTasksOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTasksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6987,7 +8385,7 @@ public struct ListTasksOutputResponse: Swift.Equatable {
     /// A list of all the tasks that are returned.
     public var tasks: [DataSyncClientTypes.TaskListEntry]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tasks: [DataSyncClientTypes.TaskListEntry]? = nil
     )
@@ -7008,7 +8406,7 @@ extension ListTasksOutputResponseBody: Swift.Decodable {
         case tasks = "Tasks"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tasksContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TaskListEntry?].self, forKey: .tasks)
         var tasksDecoded0:[DataSyncClientTypes.TaskListEntry]? = nil
@@ -7049,7 +8447,7 @@ extension DataSyncClientTypes.LocationFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.LocationFilterName.self, forKey: .name)
         name = nameDecoded
@@ -7082,7 +8480,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: DataSyncClientTypes.LocationFilterName? = nil,
             `operator`: DataSyncClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
@@ -7147,7 +8545,7 @@ extension DataSyncClientTypes.LocationListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -7164,7 +8562,7 @@ extension DataSyncClientTypes {
         /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the [ListLocations](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html) operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a hostname that is compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
         public var locationUri: Swift.String?
 
-        public init (
+        public init(
             locationArn: Swift.String? = nil,
             locationUri: Swift.String? = nil
         )
@@ -7211,6 +8609,141 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.MaxP95Performance: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iopsOther = "IopsOther"
+        case iopsRead = "IopsRead"
+        case iopsTotal = "IopsTotal"
+        case iopsWrite = "IopsWrite"
+        case latencyOther = "LatencyOther"
+        case latencyRead = "LatencyRead"
+        case latencyWrite = "LatencyWrite"
+        case throughputOther = "ThroughputOther"
+        case throughputRead = "ThroughputRead"
+        case throughputTotal = "ThroughputTotal"
+        case throughputWrite = "ThroughputWrite"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iopsOther = self.iopsOther {
+            try encodeContainer.encode(iopsOther, forKey: .iopsOther)
+        }
+        if let iopsRead = self.iopsRead {
+            try encodeContainer.encode(iopsRead, forKey: .iopsRead)
+        }
+        if let iopsTotal = self.iopsTotal {
+            try encodeContainer.encode(iopsTotal, forKey: .iopsTotal)
+        }
+        if let iopsWrite = self.iopsWrite {
+            try encodeContainer.encode(iopsWrite, forKey: .iopsWrite)
+        }
+        if let latencyOther = self.latencyOther {
+            try encodeContainer.encode(latencyOther, forKey: .latencyOther)
+        }
+        if let latencyRead = self.latencyRead {
+            try encodeContainer.encode(latencyRead, forKey: .latencyRead)
+        }
+        if let latencyWrite = self.latencyWrite {
+            try encodeContainer.encode(latencyWrite, forKey: .latencyWrite)
+        }
+        if let throughputOther = self.throughputOther {
+            try encodeContainer.encode(throughputOther, forKey: .throughputOther)
+        }
+        if let throughputRead = self.throughputRead {
+            try encodeContainer.encode(throughputRead, forKey: .throughputRead)
+        }
+        if let throughputTotal = self.throughputTotal {
+            try encodeContainer.encode(throughputTotal, forKey: .throughputTotal)
+        }
+        if let throughputWrite = self.throughputWrite {
+            try encodeContainer.encode(throughputWrite, forKey: .throughputWrite)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iopsReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsRead)
+        iopsRead = iopsReadDecoded
+        let iopsWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsWrite)
+        iopsWrite = iopsWriteDecoded
+        let iopsOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsOther)
+        iopsOther = iopsOtherDecoded
+        let iopsTotalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .iopsTotal)
+        iopsTotal = iopsTotalDecoded
+        let throughputReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputRead)
+        throughputRead = throughputReadDecoded
+        let throughputWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputWrite)
+        throughputWrite = throughputWriteDecoded
+        let throughputOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputOther)
+        throughputOther = throughputOtherDecoded
+        let throughputTotalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughputTotal)
+        throughputTotal = throughputTotalDecoded
+        let latencyReadDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyRead)
+        latencyRead = latencyReadDecoded
+        let latencyWriteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyWrite)
+        latencyWrite = latencyWriteDecoded
+        let latencyOtherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latencyOther)
+        latencyOther = latencyOtherDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The performance data that DataSync Discovery collects about an on-premises storage system resource.
+    public struct MaxP95Performance: Swift.Equatable {
+        /// Peak IOPS unrelated to read and write operations.
+        public var iopsOther: Swift.Double?
+        /// Peak IOPS related to read operations.
+        public var iopsRead: Swift.Double?
+        /// Peak total IOPS on your on-premises storage system resource.
+        public var iopsTotal: Swift.Double?
+        /// Peak IOPS related to write operations.
+        public var iopsWrite: Swift.Double?
+        /// Peak latency for operations unrelated to read and write operations.
+        public var latencyOther: Swift.Double?
+        /// Peak latency for read operations.
+        public var latencyRead: Swift.Double?
+        /// Peak latency for write operations.
+        public var latencyWrite: Swift.Double?
+        /// Peak throughput unrelated to read and write operations.
+        public var throughputOther: Swift.Double?
+        /// Peak throughput related to read operations.
+        public var throughputRead: Swift.Double?
+        /// Peak total throughput on your on-premises storage system resource.
+        public var throughputTotal: Swift.Double?
+        /// Peak throughput related to write operations.
+        public var throughputWrite: Swift.Double?
+
+        public init(
+            iopsOther: Swift.Double? = nil,
+            iopsRead: Swift.Double? = nil,
+            iopsTotal: Swift.Double? = nil,
+            iopsWrite: Swift.Double? = nil,
+            latencyOther: Swift.Double? = nil,
+            latencyRead: Swift.Double? = nil,
+            latencyWrite: Swift.Double? = nil,
+            throughputOther: Swift.Double? = nil,
+            throughputRead: Swift.Double? = nil,
+            throughputTotal: Swift.Double? = nil,
+            throughputWrite: Swift.Double? = nil
+        )
+        {
+            self.iopsOther = iopsOther
+            self.iopsRead = iopsRead
+            self.iopsTotal = iopsTotal
+            self.iopsWrite = iopsWrite
+            self.latencyOther = latencyOther
+            self.latencyRead = latencyRead
+            self.latencyWrite = latencyWrite
+            self.throughputOther = throughputOther
+            self.throughputRead = throughputRead
+            self.throughputTotal = throughputTotal
+            self.throughputWrite = throughputWrite
+        }
+    }
+
+}
+
 extension DataSyncClientTypes {
     public enum Mtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -7243,6 +8776,499 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cifsShareCount = "CifsShareCount"
+        case clusterBlockStorageLogicalUsed = "ClusterBlockStorageLogicalUsed"
+        case clusterBlockStorageSize = "ClusterBlockStorageSize"
+        case clusterBlockStorageUsed = "ClusterBlockStorageUsed"
+        case clusterName = "ClusterName"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExportedVolumes = "NfsExportedVolumes"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let clusterBlockStorageLogicalUsed = self.clusterBlockStorageLogicalUsed {
+            try encodeContainer.encode(clusterBlockStorageLogicalUsed, forKey: .clusterBlockStorageLogicalUsed)
+        }
+        if let clusterBlockStorageSize = self.clusterBlockStorageSize {
+            try encodeContainer.encode(clusterBlockStorageSize, forKey: .clusterBlockStorageSize)
+        }
+        if let clusterBlockStorageUsed = self.clusterBlockStorageUsed {
+            try encodeContainer.encode(clusterBlockStorageUsed, forKey: .clusterBlockStorageUsed)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if let nfsExportedVolumes = self.nfsExportedVolumes {
+            try encodeContainer.encode(nfsExportedVolumes, forKey: .nfsExportedVolumes)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let nfsExportedVolumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nfsExportedVolumes)
+        nfsExportedVolumes = nfsExportedVolumesDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let clusterBlockStorageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageSize)
+        clusterBlockStorageSize = clusterBlockStorageSizeDecoded
+        let clusterBlockStorageUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageUsed)
+        clusterBlockStorageUsed = clusterBlockStorageUsedDecoded
+        let clusterBlockStorageLogicalUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .clusterBlockStorageLogicalUsed)
+        clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsedDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about an on-premises storage system cluster.
+    public struct NetAppONTAPCluster: Swift.Equatable {
+        /// The number of CIFS shares in the cluster.
+        public var cifsShareCount: Swift.Int?
+        /// The storage space that's being used in the cluster without accounting for compression or deduplication.
+        public var clusterBlockStorageLogicalUsed: Swift.Int?
+        /// The total storage space that's available in the cluster.
+        public var clusterBlockStorageSize: Swift.Int?
+        /// The storage space that's being used in a cluster.
+        public var clusterBlockStorageUsed: Swift.Int?
+        /// The name of the cluster.
+        public var clusterName: Swift.String?
+        /// The performance data that DataSync Discovery collects about the cluster.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the cluster.
+        public var nfsExportedVolumes: Swift.Int?
+        /// Indicates whether DataSync Discovery recommendations for the cluster are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the cluster. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The universally unique identifier (UUID) of the cluster.
+        public var resourceId: Swift.String?
+
+        public init(
+            cifsShareCount: Swift.Int? = nil,
+            clusterBlockStorageLogicalUsed: Swift.Int? = nil,
+            clusterBlockStorageSize: Swift.Int? = nil,
+            clusterBlockStorageUsed: Swift.Int? = nil,
+            clusterName: Swift.String? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExportedVolumes: Swift.Int? = nil,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil
+        )
+        {
+            self.cifsShareCount = cifsShareCount
+            self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
+            self.clusterBlockStorageSize = clusterBlockStorageSize
+            self.clusterBlockStorageUsed = clusterBlockStorageUsed
+            self.clusterName = clusterName
+            self.maxP95Performance = maxP95Performance
+            self.nfsExportedVolumes = nfsExportedVolumes
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cifsShareCount = "CifsShareCount"
+        case clusterUuid = "ClusterUuid"
+        case enabledProtocols = "EnabledProtocols"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExportedVolumes = "NfsExportedVolumes"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+        case svmName = "SvmName"
+        case totalCapacityProvisioned = "TotalCapacityProvisioned"
+        case totalCapacityUsed = "TotalCapacityUsed"
+        case totalLogicalCapacityUsed = "TotalLogicalCapacityUsed"
+        case totalSnapshotCapacityUsed = "TotalSnapshotCapacityUsed"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let clusterUuid = self.clusterUuid {
+            try encodeContainer.encode(clusterUuid, forKey: .clusterUuid)
+        }
+        if let enabledProtocols = enabledProtocols {
+            var enabledProtocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enabledProtocols)
+            for ptolemystring0 in enabledProtocols {
+                try enabledProtocolsContainer.encode(ptolemystring0)
+            }
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if let nfsExportedVolumes = self.nfsExportedVolumes {
+            try encodeContainer.encode(nfsExportedVolumes, forKey: .nfsExportedVolumes)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let svmName = self.svmName {
+            try encodeContainer.encode(svmName, forKey: .svmName)
+        }
+        if let totalCapacityProvisioned = self.totalCapacityProvisioned {
+            try encodeContainer.encode(totalCapacityProvisioned, forKey: .totalCapacityProvisioned)
+        }
+        if let totalCapacityUsed = self.totalCapacityUsed {
+            try encodeContainer.encode(totalCapacityUsed, forKey: .totalCapacityUsed)
+        }
+        if let totalLogicalCapacityUsed = self.totalLogicalCapacityUsed {
+            try encodeContainer.encode(totalLogicalCapacityUsed, forKey: .totalLogicalCapacityUsed)
+        }
+        if let totalSnapshotCapacityUsed = self.totalSnapshotCapacityUsed {
+            try encodeContainer.encode(totalSnapshotCapacityUsed, forKey: .totalSnapshotCapacityUsed)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterUuid)
+        clusterUuid = clusterUuidDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let svmNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmName)
+        svmName = svmNameDecoded
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let enabledProtocolsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enabledProtocols)
+        var enabledProtocolsDecoded0:[Swift.String]? = nil
+        if let enabledProtocolsContainer = enabledProtocolsContainer {
+            enabledProtocolsDecoded0 = [Swift.String]()
+            for string0 in enabledProtocolsContainer {
+                if let string0 = string0 {
+                    enabledProtocolsDecoded0?.append(string0)
+                }
+            }
+        }
+        enabledProtocols = enabledProtocolsDecoded0
+        let totalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCapacityUsed)
+        totalCapacityUsed = totalCapacityUsedDecoded
+        let totalCapacityProvisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCapacityProvisioned)
+        totalCapacityProvisioned = totalCapacityProvisionedDecoded
+        let totalLogicalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalLogicalCapacityUsed)
+        totalLogicalCapacityUsed = totalLogicalCapacityUsedDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let nfsExportedVolumesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nfsExportedVolumes)
+        nfsExportedVolumes = nfsExportedVolumesDecoded
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+        let totalSnapshotCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSnapshotCapacityUsed)
+        totalSnapshotCapacityUsed = totalSnapshotCapacityUsedDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about a storage virtual machine (SVM) in your on-premises storage system.
+    public struct NetAppONTAPSVM: Swift.Equatable {
+        /// The number of CIFS shares in the SVM.
+        public var cifsShareCount: Swift.Int?
+        /// The universally unique identifier (UUID) of the cluster associated with the SVM.
+        public var clusterUuid: Swift.String?
+        /// The data transfer protocols (such as NFS) configured for the SVM.
+        public var enabledProtocols: [Swift.String]?
+        /// The performance data that DataSync Discovery collects about the SVM.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the SVM.
+        public var nfsExportedVolumes: Swift.Int?
+        /// Indicates whether DataSync Discovery recommendations for the SVM are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the SVM. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The UUID of the SVM.
+        public var resourceId: Swift.String?
+        /// The name of the SVM
+        public var svmName: Swift.String?
+        /// The total storage space that's available in the SVM.
+        public var totalCapacityProvisioned: Swift.Int?
+        /// The storage space that's being used in the SVM.
+        public var totalCapacityUsed: Swift.Int?
+        /// The storage space that's being used in the SVM without accounting for compression or deduplication.
+        public var totalLogicalCapacityUsed: Swift.Int?
+        /// The amount of storage in the SVM that's being used for snapshots.
+        public var totalSnapshotCapacityUsed: Swift.Int?
+
+        public init(
+            cifsShareCount: Swift.Int? = nil,
+            clusterUuid: Swift.String? = nil,
+            enabledProtocols: [Swift.String]? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExportedVolumes: Swift.Int? = nil,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil,
+            svmName: Swift.String? = nil,
+            totalCapacityProvisioned: Swift.Int? = nil,
+            totalCapacityUsed: Swift.Int? = nil,
+            totalLogicalCapacityUsed: Swift.Int? = nil,
+            totalSnapshotCapacityUsed: Swift.Int? = nil
+        )
+        {
+            self.cifsShareCount = cifsShareCount
+            self.clusterUuid = clusterUuid
+            self.enabledProtocols = enabledProtocols
+            self.maxP95Performance = maxP95Performance
+            self.nfsExportedVolumes = nfsExportedVolumes
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+            self.svmName = svmName
+            self.totalCapacityProvisioned = totalCapacityProvisioned
+            self.totalCapacityUsed = totalCapacityUsed
+            self.totalLogicalCapacityUsed = totalLogicalCapacityUsed
+            self.totalSnapshotCapacityUsed = totalSnapshotCapacityUsed
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityProvisioned = "CapacityProvisioned"
+        case capacityUsed = "CapacityUsed"
+        case cifsShareCount = "CifsShareCount"
+        case logicalCapacityUsed = "LogicalCapacityUsed"
+        case maxP95Performance = "MaxP95Performance"
+        case nfsExported = "NfsExported"
+        case recommendationStatus = "RecommendationStatus"
+        case recommendations = "Recommendations"
+        case resourceId = "ResourceId"
+        case securityStyle = "SecurityStyle"
+        case snapshotCapacityUsed = "SnapshotCapacityUsed"
+        case svmName = "SvmName"
+        case svmUuid = "SvmUuid"
+        case volumeName = "VolumeName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityProvisioned = self.capacityProvisioned {
+            try encodeContainer.encode(capacityProvisioned, forKey: .capacityProvisioned)
+        }
+        if let capacityUsed = self.capacityUsed {
+            try encodeContainer.encode(capacityUsed, forKey: .capacityUsed)
+        }
+        if let cifsShareCount = self.cifsShareCount {
+            try encodeContainer.encode(cifsShareCount, forKey: .cifsShareCount)
+        }
+        if let logicalCapacityUsed = self.logicalCapacityUsed {
+            try encodeContainer.encode(logicalCapacityUsed, forKey: .logicalCapacityUsed)
+        }
+        if let maxP95Performance = self.maxP95Performance {
+            try encodeContainer.encode(maxP95Performance, forKey: .maxP95Performance)
+        }
+        if nfsExported != false {
+            try encodeContainer.encode(nfsExported, forKey: .nfsExported)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
+        }
+        if let recommendations = recommendations {
+            var recommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendations)
+            for recommendation0 in recommendations {
+                try recommendationsContainer.encode(recommendation0)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let securityStyle = self.securityStyle {
+            try encodeContainer.encode(securityStyle, forKey: .securityStyle)
+        }
+        if let snapshotCapacityUsed = self.snapshotCapacityUsed {
+            try encodeContainer.encode(snapshotCapacityUsed, forKey: .snapshotCapacityUsed)
+        }
+        if let svmName = self.svmName {
+            try encodeContainer.encode(svmName, forKey: .svmName)
+        }
+        if let svmUuid = self.svmUuid {
+            try encodeContainer.encode(svmUuid, forKey: .svmUuid)
+        }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let cifsShareCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cifsShareCount)
+        cifsShareCount = cifsShareCountDecoded
+        let securityStyleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityStyle)
+        securityStyle = securityStyleDecoded
+        let svmUuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmUuid)
+        svmUuid = svmUuidDecoded
+        let svmNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .svmName)
+        svmName = svmNameDecoded
+        let capacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityUsed)
+        capacityUsed = capacityUsedDecoded
+        let capacityProvisionedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacityProvisioned)
+        capacityProvisioned = capacityProvisionedDecoded
+        let logicalCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .logicalCapacityUsed)
+        logicalCapacityUsed = logicalCapacityUsedDecoded
+        let nfsExportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .nfsExported) ?? false
+        nfsExported = nfsExportedDecoded
+        let snapshotCapacityUsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotCapacityUsed)
+        snapshotCapacityUsed = snapshotCapacityUsedDecoded
+        let maxP95PerformanceDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.MaxP95Performance.self, forKey: .maxP95Performance)
+        maxP95Performance = maxP95PerformanceDecoded
+        let recommendationsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.Recommendation?].self, forKey: .recommendations)
+        var recommendationsDecoded0:[DataSyncClientTypes.Recommendation]? = nil
+        if let recommendationsContainer = recommendationsContainer {
+            recommendationsDecoded0 = [DataSyncClientTypes.Recommendation]()
+            for structure0 in recommendationsContainer {
+                if let structure0 = structure0 {
+                    recommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendations = recommendationsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The information that DataSync Discovery collects about a volume in your on-premises storage system.
+    public struct NetAppONTAPVolume: Swift.Equatable {
+        /// The total storage space that's available in the volume.
+        public var capacityProvisioned: Swift.Int?
+        /// The storage space that's being used in the volume.
+        public var capacityUsed: Swift.Int?
+        /// The number of CIFS shares in the volume.
+        public var cifsShareCount: Swift.Int?
+        /// The storage space that's being used in the volume without accounting for compression or deduplication.
+        public var logicalCapacityUsed: Swift.Int?
+        /// The performance data that DataSync Discovery collects about the volume.
+        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
+        /// The number of NFS volumes in the volume.
+        public var nfsExported: Swift.Bool
+        /// Indicates whether DataSync Discovery recommendations for the volume are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
+        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
+        /// The Amazon Web Services storage services that DataSync Discovery recommends for the volume. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+        public var recommendations: [DataSyncClientTypes.Recommendation]?
+        /// The universally unique identifier (UUID) of the volume.
+        public var resourceId: Swift.String?
+        /// The volume's security style (such as Unix or NTFS).
+        public var securityStyle: Swift.String?
+        /// The amount of storage in the volume that's being used for snapshots.
+        public var snapshotCapacityUsed: Swift.Int?
+        /// The name of the SVM associated with the volume.
+        public var svmName: Swift.String?
+        /// The UUID of the storage virtual machine (SVM) associated with the volume.
+        public var svmUuid: Swift.String?
+        /// The name of the volume.
+        public var volumeName: Swift.String?
+
+        public init(
+            capacityProvisioned: Swift.Int? = nil,
+            capacityUsed: Swift.Int? = nil,
+            cifsShareCount: Swift.Int? = nil,
+            logicalCapacityUsed: Swift.Int? = nil,
+            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
+            nfsExported: Swift.Bool = false,
+            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
+            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
+            resourceId: Swift.String? = nil,
+            securityStyle: Swift.String? = nil,
+            snapshotCapacityUsed: Swift.Int? = nil,
+            svmName: Swift.String? = nil,
+            svmUuid: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        )
+        {
+            self.capacityProvisioned = capacityProvisioned
+            self.capacityUsed = capacityUsed
+            self.cifsShareCount = cifsShareCount
+            self.logicalCapacityUsed = logicalCapacityUsed
+            self.maxP95Performance = maxP95Performance
+            self.nfsExported = nfsExported
+            self.recommendationStatus = recommendationStatus
+            self.recommendations = recommendations
+            self.resourceId = resourceId
+            self.securityStyle = securityStyle
+            self.snapshotCapacityUsed = snapshotCapacityUsed
+            self.svmName = svmName
+            self.svmUuid = svmUuid
+            self.volumeName = volumeName
+        }
+    }
+
+}
+
 extension DataSyncClientTypes.NfsMountOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case version = "Version"
@@ -7255,7 +9281,7 @@ extension DataSyncClientTypes.NfsMountOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.NfsVersion.self, forKey: .version)
         version = versionDecoded
@@ -7279,7 +9305,7 @@ extension DataSyncClientTypes {
         /// DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public var version: DataSyncClientTypes.NfsVersion?
 
-        public init (
+        public init(
             version: DataSyncClientTypes.NfsVersion? = nil
         )
         {
@@ -7406,7 +9432,7 @@ extension DataSyncClientTypes.OnPremConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
         var agentArnsDecoded0:[Swift.String]? = nil
@@ -7429,7 +9455,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var agentArns: [Swift.String]?
 
-        public init (
+        public init(
             agentArns: [Swift.String]? = nil
         )
         {
@@ -7563,7 +9589,7 @@ extension DataSyncClientTypes.Options: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let verifyModeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.VerifyMode.self, forKey: .verifyMode)
         verifyMode = verifyModeDecoded
@@ -7648,7 +9674,7 @@ extension DataSyncClientTypes {
         /// Specifies how and when DataSync checks the integrity of your data during a transfer. Default value: POINT_IN_TIME_CONSISTENTONLY_FILES_TRANSFERRED (recommended): DataSync calculates the checksum of transferred files and metadata at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on those files at the destination. We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes). POINT_IN_TIME_CONSISTENT: At the end of the transfer, DataSync scans the entire source and destination to verify that both locations are fully synchronized. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes). NONE: DataSync doesn't run additional verification at the end of the transfer. All data transmissions are still integrity-checked with checksum verification during the transfer.
         public var verifyMode: DataSyncClientTypes.VerifyMode?
 
-        public init (
+        public init(
             atime: DataSyncClientTypes.Atime? = nil,
             bytesPerSecond: Swift.Int? = nil,
             gid: DataSyncClientTypes.Gid? = nil,
@@ -7716,6 +9742,61 @@ extension DataSyncClientTypes {
             self = OverwriteMode(rawValue: rawValue) ?? OverwriteMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DataSyncClientTypes.P95Metrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iops = "IOPS"
+        case latency = "Latency"
+        case throughput = "Throughput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iops = self.iops {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let latency = self.latency {
+            try encodeContainer.encode(latency, forKey: .latency)
+        }
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let iopsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.IOPS.self, forKey: .iops)
+        iops = iopsDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Throughput.self, forKey: .throughput)
+        throughput = throughputDecoded
+        let latencyDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Latency.self, forKey: .latency)
+        latency = latencyDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The types of performance data that DataSync Discovery collects about an on-premises storage system resource.
+    public struct P95Metrics: Swift.Equatable {
+        /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var iops: DataSyncClientTypes.IOPS?
+        /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var latency: DataSyncClientTypes.Latency?
+        /// The throughput peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
+        public var throughput: DataSyncClientTypes.Throughput?
+
+        public init(
+            iops: DataSyncClientTypes.IOPS? = nil,
+            latency: DataSyncClientTypes.Latency? = nil,
+            throughput: DataSyncClientTypes.Throughput? = nil
+        )
+        {
+            self.iops = iops
+            self.latency = latency
+            self.throughput = throughput
+        }
+    }
+
 }
 
 extension DataSyncClientTypes {
@@ -7879,7 +9960,7 @@ extension DataSyncClientTypes.PrivateLinkConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
         vpcEndpointId = vpcEndpointIdDecoded
@@ -7922,7 +10003,7 @@ extension DataSyncClientTypes {
         /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public internet.
         public var vpcEndpointId: Swift.String?
 
-        public init (
+        public init(
             privateLinkEndpoint: Swift.String? = nil,
             securityGroupArns: [Swift.String]? = nil,
             subnetArns: [Swift.String]? = nil,
@@ -7954,7 +10035,7 @@ extension DataSyncClientTypes.QopConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rpcProtectionDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.HdfsRpcProtection.self, forKey: .rpcProtection)
         rpcProtection = rpcProtectionDecoded
@@ -7971,13 +10052,354 @@ extension DataSyncClientTypes {
         /// The RPC protection setting configured on the HDFS cluster. This setting corresponds to your hadoop.rpc.protection setting in your core-site.xml file on your Hadoop cluster.
         public var rpcProtection: DataSyncClientTypes.HdfsRpcProtection?
 
-        public init (
+        public init(
             dataTransferProtection: DataSyncClientTypes.HdfsDataTransferProtection? = nil,
             rpcProtection: DataSyncClientTypes.HdfsRpcProtection? = nil
         )
         {
             self.dataTransferProtection = dataTransferProtection
             self.rpcProtection = rpcProtection
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.Recommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlyStorageCost = "EstimatedMonthlyStorageCost"
+        case storageConfiguration = "StorageConfiguration"
+        case storageType = "StorageType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlyStorageCost = self.estimatedMonthlyStorageCost {
+            try encodeContainer.encode(estimatedMonthlyStorageCost, forKey: .estimatedMonthlyStorageCost)
+        }
+        if let storageConfiguration = storageConfiguration {
+            var storageConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .storageConfiguration)
+            for (dictKey0, recommendationsConfigMap0) in storageConfiguration {
+                try storageConfigurationContainer.encode(recommendationsConfigMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType, forKey: .storageType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let storageConfigurationContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .storageConfiguration)
+        var storageConfigurationDecoded0: [Swift.String:Swift.String]? = nil
+        if let storageConfigurationContainer = storageConfigurationContainer {
+            storageConfigurationDecoded0 = [Swift.String:Swift.String]()
+            for (key0, ptolemystring0) in storageConfigurationContainer {
+                if let ptolemystring0 = ptolemystring0 {
+                    storageConfigurationDecoded0?[key0] = ptolemystring0
+                }
+            }
+        }
+        storageConfiguration = storageConfigurationDecoded0
+        let estimatedMonthlyStorageCostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .estimatedMonthlyStorageCost)
+        estimatedMonthlyStorageCost = estimatedMonthlyStorageCostDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The details about an Amazon Web Services storage service that DataSync Discovery recommends for a resource in your on-premises storage system. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
+    public struct Recommendation: Swift.Equatable {
+        /// The estimated monthly cost of the recommended Amazon Web Services storage service.
+        public var estimatedMonthlyStorageCost: Swift.String?
+        /// Information about how you can set up a recommended Amazon Web Services storage service.
+        public var storageConfiguration: [Swift.String:Swift.String]?
+        /// A recommended Amazon Web Services storage service that you can migrate data to based on information that DataSync Discovery collects about your on-premises storage system.
+        public var storageType: Swift.String?
+
+        public init(
+            estimatedMonthlyStorageCost: Swift.String? = nil,
+            storageConfiguration: [Swift.String:Swift.String]? = nil,
+            storageType: Swift.String? = nil
+        )
+        {
+            self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
+            self.storageConfiguration = storageConfiguration
+            self.storageType = storageType
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum RecommendationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendationStatus(rawValue: rawValue) ?? RecommendationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RemoveStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension RemoveStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RemoveStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct RemoveStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+}
+
+extension RemoveStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+    }
+}
+
+public enum RemoveStorageSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RemoveStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveStorageSystemOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DataSyncClientTypes.ResourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case netAppONTAPClusters = "NetAppONTAPClusters"
+        case netAppONTAPSVMs = "NetAppONTAPSVMs"
+        case netAppONTAPVolumes = "NetAppONTAPVolumes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let netAppONTAPClusters = netAppONTAPClusters {
+            var netAppONTAPClustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPClusters)
+            for netappontapcluster0 in netAppONTAPClusters {
+                try netAppONTAPClustersContainer.encode(netappontapcluster0)
+            }
+        }
+        if let netAppONTAPSVMs = netAppONTAPSVMs {
+            var netAppONTAPSVMsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPSVMs)
+            for netappontapsvm0 in netAppONTAPSVMs {
+                try netAppONTAPSVMsContainer.encode(netappontapsvm0)
+            }
+        }
+        if let netAppONTAPVolumes = netAppONTAPVolumes {
+            var netAppONTAPVolumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netAppONTAPVolumes)
+            for netappontapvolume0 in netAppONTAPVolumes {
+                try netAppONTAPVolumesContainer.encode(netappontapvolume0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let netAppONTAPSVMsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPSVM?].self, forKey: .netAppONTAPSVMs)
+        var netAppONTAPSVMsDecoded0:[DataSyncClientTypes.NetAppONTAPSVM]? = nil
+        if let netAppONTAPSVMsContainer = netAppONTAPSVMsContainer {
+            netAppONTAPSVMsDecoded0 = [DataSyncClientTypes.NetAppONTAPSVM]()
+            for structure0 in netAppONTAPSVMsContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPSVMsDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPSVMs = netAppONTAPSVMsDecoded0
+        let netAppONTAPVolumesContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPVolume?].self, forKey: .netAppONTAPVolumes)
+        var netAppONTAPVolumesDecoded0:[DataSyncClientTypes.NetAppONTAPVolume]? = nil
+        if let netAppONTAPVolumesContainer = netAppONTAPVolumesContainer {
+            netAppONTAPVolumesDecoded0 = [DataSyncClientTypes.NetAppONTAPVolume]()
+            for structure0 in netAppONTAPVolumesContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPVolumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPVolumes = netAppONTAPVolumesDecoded0
+        let netAppONTAPClustersContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.NetAppONTAPCluster?].self, forKey: .netAppONTAPClusters)
+        var netAppONTAPClustersDecoded0:[DataSyncClientTypes.NetAppONTAPCluster]? = nil
+        if let netAppONTAPClustersContainer = netAppONTAPClustersContainer {
+            netAppONTAPClustersDecoded0 = [DataSyncClientTypes.NetAppONTAPCluster]()
+            for structure0 in netAppONTAPClustersContainer {
+                if let structure0 = structure0 {
+                    netAppONTAPClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        netAppONTAPClusters = netAppONTAPClustersDecoded0
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information provided by DataSync Discovery about the resources in your on-premises storage system.
+    public struct ResourceDetails: Swift.Equatable {
+        /// The information that DataSync Discovery collects about the cluster in your on-premises storage system.
+        public var netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]?
+        /// The information that DataSync Discovery collects about storage virtual machines (SVMs) in your on-premises storage system.
+        public var netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]?
+        /// The information that DataSync Discovery collects about volumes in your on-premises storage system.
+        public var netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]?
+
+        public init(
+            netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]? = nil,
+            netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]? = nil,
+            netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]? = nil
+        )
+        {
+            self.netAppONTAPClusters = netAppONTAPClusters
+            self.netAppONTAPSVMs = netAppONTAPSVMs
+            self.netAppONTAPVolumes = netAppONTAPVolumes
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.ResourceMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacity = "Capacity"
+        case p95Metrics = "P95Metrics"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case timestamp = "Timestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacity = self.capacity {
+            try encodeContainer.encode(capacity, forKey: .capacity)
+        }
+        if let p95Metrics = self.p95Metrics {
+            try encodeContainer.encode(p95Metrics, forKey: .p95Metrics)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let p95MetricsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.P95Metrics.self, forKey: .p95Metrics)
+        p95Metrics = p95MetricsDecoded
+        let capacityDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Capacity.self, forKey: .capacity)
+        capacity = capacityDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information, including performance data and capacity usage, provided by DataSync Discovery about a resource in your on-premises storage system.
+    public struct ResourceMetrics: Swift.Equatable {
+        /// The storage capacity of the on-premises storage system resource.
+        public var capacity: DataSyncClientTypes.Capacity?
+        /// The types of performance data that DataSync Discovery collects about the on-premises storage system resource.
+        public var p95Metrics: DataSyncClientTypes.P95Metrics?
+        /// The universally unique identifier (UUID) of the on-premises storage system resource.
+        public var resourceId: Swift.String?
+        /// The type of on-premises storage system resource.
+        public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
+        /// The time when DataSync Discovery collected this information from the resource.
+        public var timestamp: ClientRuntime.Date?
+
+        public init(
+            capacity: DataSyncClientTypes.Capacity? = nil,
+            p95Metrics: DataSyncClientTypes.P95Metrics? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
+            timestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.capacity = capacity
+            self.p95Metrics = p95Metrics
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.timestamp = timestamp
         }
     }
 
@@ -7995,7 +10417,7 @@ extension DataSyncClientTypes.S3Config: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccessRoleArn)
         bucketAccessRoleArn = bucketAccessRoleArnDecoded
@@ -8009,7 +10431,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var bucketAccessRoleArn: Swift.String?
 
-        public init (
+        public init(
             bucketAccessRoleArn: Swift.String? = nil
         )
         {
@@ -8081,7 +10503,7 @@ extension DataSyncClientTypes.SmbMountOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.SmbVersion.self, forKey: .version)
         version = versionDecoded
@@ -8093,7 +10515,7 @@ extension DataSyncClientTypes {
     public struct SmbMountOptions: Swift.Equatable {
         /// By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version:
         ///
-        /// * AUTOMATIC (default): DataSync and the SMB file server negotiate a protocol version that they mutually support. (DataSync supports SMB versions 1.0 and later.) This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.
+        /// * AUTOMATIC (default): DataSync and the SMB file server negotiate the highest version of SMB that they mutually support between 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.
         ///
         /// * SMB3: Restricts the protocol negotiation to only SMB version 3.0.2.
         ///
@@ -8104,7 +10526,7 @@ extension DataSyncClientTypes {
         /// * SMB1: Restricts the protocol negotiation to only SMB version 1.0. The SMB1 option isn't available when [creating an Amazon FSx for NetApp ONTAP location](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationFsxOntap.html).
         public var version: DataSyncClientTypes.SmbVersion?
 
-        public init (
+        public init(
             version: DataSyncClientTypes.SmbVersion? = nil
         )
         {
@@ -8190,6 +10612,156 @@ extension DataSyncClientTypes {
     }
 }
 
+extension StartDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case storageSystemArn = "StorageSystemArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let collectionDurationMinutes = self.collectionDurationMinutes {
+            try encodeContainer.encode(collectionDurationMinutes, forKey: .collectionDurationMinutes)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
+            }
+        }
+    }
+}
+
+extension StartDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartDiscoveryJobInput: Swift.Equatable {
+    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies in minutes how long you want the discovery job to run. For more accurate recommendations, we recommend a duration of at least 14 days. Longer durations allow time to collect a sufficient number of data points and provide a realistic representation of storage performance and utilization.
+    /// This member is required.
+    public var collectionDurationMinutes: Swift.Int?
+    /// Specifies the Amazon Resource Name (ARN) of the on-premises storage system that you want to run the discovery job on.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
+    public var tags: [DataSyncClientTypes.TagListEntry]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        collectionDurationMinutes: Swift.Int? = nil,
+        storageSystemArn: Swift.String? = nil,
+        tags: [DataSyncClientTypes.TagListEntry]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.storageSystemArn = storageSystemArn
+        self.tags = tags
+    }
+}
+
+struct StartDiscoveryJobInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+    let clientToken: Swift.String?
+    let tags: [DataSyncClientTypes.TagListEntry]?
+}
+
+extension StartDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case storageSystemArn = "StorageSystemArn"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DataSyncClientTypes.TagListEntry?].self, forKey: .tags)
+        var tagsDecoded0:[DataSyncClientTypes.TagListEntry]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DataSyncClientTypes.TagListEntry]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum StartDiscoveryJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDiscoveryJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.discoveryJobArn = output.discoveryJobArn
+        } else {
+            self.discoveryJobArn = nil
+        }
+    }
+}
+
+public struct StartDiscoveryJobOutputResponse: Swift.Equatable {
+    /// The ARN of the discovery job that you started.
+    public var discoveryJobArn: Swift.String?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct StartDiscoveryJobOutputResponseBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension StartDiscoveryJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+    }
+}
+
 extension StartTaskExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case excludes = "Excludes"
@@ -8248,7 +10820,7 @@ public struct StartTaskExecutionInput: Swift.Equatable {
     /// This member is required.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
         includes: [DataSyncClientTypes.FilterRule]? = nil,
         overrideOptions: DataSyncClientTypes.Options? = nil,
@@ -8281,7 +10853,7 @@ extension StartTaskExecutionInputBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
@@ -8323,33 +10895,21 @@ extension StartTaskExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension StartTaskExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartTaskExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartTaskExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartTaskExecutionOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartTaskExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.taskExecutionArn = output.taskExecutionArn
@@ -8364,7 +10924,7 @@ public struct StartTaskExecutionOutputResponse: Swift.Equatable {
     /// The ARN of the running task execution.
     public var taskExecutionArn: Swift.String?
 
-    public init (
+    public init(
         taskExecutionArn: Swift.String? = nil
     )
     {
@@ -8381,11 +10941,161 @@ extension StartTaskExecutionOutputResponseBody: Swift.Decodable {
         case taskExecutionArn = "TaskExecutionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
     }
+}
+
+extension StopDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension StopDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopDiscoveryJobInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init(
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct StopDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+}
+
+extension StopDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+    }
+}
+
+public enum StopDiscoveryJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopDiscoveryJobOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DataSyncClientTypes {
+    public enum StorageSystemConnectivityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case pass
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageSystemConnectivityStatus] {
+            return [
+                .fail,
+                .pass,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageSystemConnectivityStatus(rawValue: rawValue) ?? StorageSystemConnectivityStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.StorageSystemListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Information that identifies an on-premises storage system that you're using with DataSync Discovery.
+    public struct StorageSystemListEntry: Swift.Equatable {
+        /// The name of an on-premises storage system that you added to DataSync Discovery.
+        public var name: Swift.String?
+        /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
+        public var storageSystemArn: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            storageSystemArn: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.storageSystemArn = storageSystemArn
+        }
+    }
+
 }
 
 extension DataSyncClientTypes.TagListEntry: Swift.Codable {
@@ -8404,7 +11114,7 @@ extension DataSyncClientTypes.TagListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -8422,7 +11132,7 @@ extension DataSyncClientTypes {
         /// The value for an Amazon Web Services resource tag.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -8469,7 +11179,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
     )
@@ -8490,7 +11200,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -8508,38 +11218,26 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DataSyncClientTypes.TaskExecutionListEntry: Swift.Codable {
@@ -8558,7 +11256,7 @@ extension DataSyncClientTypes.TaskExecutionListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
@@ -8575,7 +11273,7 @@ extension DataSyncClientTypes {
         /// The Amazon Resource Name (ARN) of the task that was executed.
         public var taskExecutionArn: Swift.String?
 
-        public init (
+        public init(
             status: DataSyncClientTypes.TaskExecutionStatus? = nil,
             taskExecutionArn: Swift.String? = nil
         )
@@ -8631,7 +11329,7 @@ extension DataSyncClientTypes.TaskExecutionResultDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let prepareDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .prepareDuration)
         prepareDuration = prepareDurationDecoded
@@ -8676,7 +11374,7 @@ extension DataSyncClientTypes {
         /// The status of the VERIFYING phase.
         public var verifyStatus: DataSyncClientTypes.PhaseStatus?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorDetail: Swift.String? = nil,
             prepareDuration: Swift.Int? = nil,
@@ -8772,7 +11470,7 @@ extension DataSyncClientTypes.TaskFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskFilterName.self, forKey: .name)
         name = nameDecoded
@@ -8805,7 +11503,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: DataSyncClientTypes.TaskFilterName? = nil,
             `operator`: DataSyncClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
@@ -8871,7 +11569,7 @@ extension DataSyncClientTypes.TaskListEntry: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
@@ -8892,7 +11590,7 @@ extension DataSyncClientTypes {
         /// The Amazon Resource Name (ARN) of the task.
         public var taskArn: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             status: DataSyncClientTypes.TaskStatus? = nil,
             taskArn: Swift.String? = nil
@@ -8950,7 +11648,7 @@ extension DataSyncClientTypes.TaskSchedule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
         scheduleExpression = scheduleExpressionDecoded
@@ -8964,7 +11662,7 @@ extension DataSyncClientTypes {
         /// This member is required.
         public var scheduleExpression: Swift.String?
 
-        public init (
+        public init(
             scheduleExpression: Swift.String? = nil
         )
         {
@@ -9013,6 +11711,71 @@ extension DataSyncClientTypes {
             self = TaskStatus(rawValue: rawValue) ?? TaskStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DataSyncClientTypes.Throughput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case other = "Other"
+        case read = "Read"
+        case total = "Total"
+        case write = "Write"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let other = self.other {
+            try encodeContainer.encode(other, forKey: .other)
+        }
+        if let read = self.read {
+            try encodeContainer.encode(read, forKey: .read)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+        if let write = self.write {
+            try encodeContainer.encode(write, forKey: .write)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let readDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .read)
+        read = readDecoded
+        let writeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .write)
+        write = writeDecoded
+        let otherDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .other)
+        other = otherDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The throughput peaks for an on-premises storage system volume. Each data point represents the 95th percentile peak value during a 1-hour interval.
+    public struct Throughput: Swift.Equatable {
+        /// Peak throughput unrelated to read and write operations.
+        public var other: Swift.Double?
+        /// Peak throughput related to read operations.
+        public var read: Swift.Double?
+        /// Peak total throughput on your on-premises storage system resource.
+        public var total: Swift.Double?
+        /// Peak throughput related to write operations.
+        public var write: Swift.Double?
+
+        public init(
+            other: Swift.Double? = nil,
+            read: Swift.Double? = nil,
+            total: Swift.Double? = nil,
+            write: Swift.Double? = nil
+        )
+        {
+            self.other = other
+            self.read = read
+            self.total = total
+            self.write = write
+        }
+    }
+
 }
 
 extension DataSyncClientTypes {
@@ -9120,7 +11883,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         keys: [Swift.String]? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -9141,7 +11904,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -9159,38 +11922,26 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateAgentInput: Swift.Encodable {
@@ -9224,7 +11975,7 @@ public struct UpdateAgentInput: Swift.Equatable {
     /// The name that you want to use to configure the agent.
     public var name: Swift.String?
 
-    public init (
+    public init(
         agentArn: Swift.String? = nil,
         name: Swift.String? = nil
     )
@@ -9245,7 +11996,7 @@ extension UpdateAgentInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentArn)
         agentArn = agentArnDecoded
@@ -9254,38 +12005,109 @@ extension UpdateAgentInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAgentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAgentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAgentOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAgentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateAgentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension UpdateDiscoveryJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionDurationMinutes = self.collectionDurationMinutes {
+            try encodeContainer.encode(collectionDurationMinutes, forKey: .collectionDurationMinutes)
+        }
+        if let discoveryJobArn = self.discoveryJobArn {
+            try encodeContainer.encode(discoveryJobArn, forKey: .discoveryJobArn)
+        }
+    }
+}
+
+extension UpdateDiscoveryJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateDiscoveryJobInput: Swift.Equatable {
+    /// Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
+    /// This member is required.
+    public var collectionDurationMinutes: Swift.Int?
+    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
+    /// This member is required.
+    public var discoveryJobArn: Swift.String?
+
+    public init(
+        collectionDurationMinutes: Swift.Int? = nil,
+        discoveryJobArn: Swift.String? = nil
+    )
+    {
+        self.collectionDurationMinutes = collectionDurationMinutes
+        self.discoveryJobArn = discoveryJobArn
+    }
+}
+
+struct UpdateDiscoveryJobInputBody: Swift.Equatable {
+    let discoveryJobArn: Swift.String?
+    let collectionDurationMinutes: Swift.Int?
+}
+
+extension UpdateDiscoveryJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionDurationMinutes = "CollectionDurationMinutes"
+        case discoveryJobArn = "DiscoveryJobArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryJobArn)
+        discoveryJobArn = discoveryJobArnDecoded
+        let collectionDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .collectionDurationMinutes)
+        collectionDurationMinutes = collectionDurationMinutesDecoded
+    }
+}
+
+public enum UpdateDiscoveryJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateDiscoveryJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateDiscoveryJobOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension UpdateLocationHdfsInput: Swift.Encodable {
@@ -9390,7 +12212,7 @@ public struct UpdateLocationHdfsInput: Swift.Equatable {
     /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster.
     public var subdirectory: Swift.String?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
@@ -9455,7 +12277,7 @@ extension UpdateLocationHdfsInputBody: Swift.Decodable {
         case subdirectory = "Subdirectory"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -9504,38 +12326,26 @@ extension UpdateLocationHdfsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLocationHdfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLocationHdfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLocationHdfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLocationHdfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLocationHdfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLocationHdfsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLocationNfsInput: Swift.Encodable {
@@ -9580,7 +12390,7 @@ public struct UpdateLocationNfsInput: Swift.Equatable {
     /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication. To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see [NFS Server on Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone) for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
     public var subdirectory: Swift.String?
 
-    public init (
+    public init(
         locationArn: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
         onPremConfig: DataSyncClientTypes.OnPremConfig? = nil,
@@ -9609,7 +12419,7 @@ extension UpdateLocationNfsInputBody: Swift.Decodable {
         case subdirectory = "Subdirectory"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -9622,38 +12432,26 @@ extension UpdateLocationNfsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLocationNfsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLocationNfsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLocationNfsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLocationNfsOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLocationNfsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLocationNfsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLocationObjectStorageInput: Swift.CustomDebugStringConvertible {
@@ -9730,7 +12528,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Equatable {
     /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.
     public var subdirectory: Swift.String?
 
-    public init (
+    public init(
         accessKey: Swift.String? = nil,
         agentArns: [Swift.String]? = nil,
         locationArn: Swift.String? = nil,
@@ -9775,7 +12573,7 @@ extension UpdateLocationObjectStorageInputBody: Swift.Decodable {
         case subdirectory = "Subdirectory"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -9805,38 +12603,26 @@ extension UpdateLocationObjectStorageInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLocationObjectStorageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLocationObjectStorageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLocationObjectStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLocationObjectStorageOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLocationObjectStorageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLocationObjectStorageOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateLocationSmbInput: Swift.CustomDebugStringConvertible {
@@ -9914,7 +12700,7 @@ public struct UpdateLocationSmbInput: Swift.Equatable {
     /// The user who can mount the share has the permissions to access files and folders in the SMB share.
     public var user: Swift.String?
 
-    public init (
+    public init(
         agentArns: [Swift.String]? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
@@ -9955,7 +12741,7 @@ extension UpdateLocationSmbInputBody: Swift.Decodable {
         case user = "User"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let locationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locationArn)
         locationArn = locationArnDecoded
@@ -9983,38 +12769,168 @@ extension UpdateLocationSmbInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateLocationSmbOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateLocationSmbOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateLocationSmbOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateLocationSmbOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateLocationSmbOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateLocationSmbOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension UpdateStorageSystemInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentArns = agentArns {
+            var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
+            }
+        }
+        if let cloudWatchLogGroupArn = self.cloudWatchLogGroupArn {
+            try encodeContainer.encode(cloudWatchLogGroupArn, forKey: .cloudWatchLogGroupArn)
+        }
+        if let credentials = self.credentials {
+            try encodeContainer.encode(credentials, forKey: .credentials)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverConfiguration = self.serverConfiguration {
+            try encodeContainer.encode(serverConfiguration, forKey: .serverConfiguration)
+        }
+        if let storageSystemArn = self.storageSystemArn {
+            try encodeContainer.encode(storageSystemArn, forKey: .storageSystemArn)
+        }
+    }
+}
+
+extension UpdateStorageSystemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateStorageSystemInput: Swift.Equatable {
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system.
+    public var agentArns: [Swift.String]?
+    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
+    public var cloudWatchLogGroupArn: Swift.String?
+    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
+    public var credentials: DataSyncClientTypes.Credentials?
+    /// Specifies a familiar name for your on-premises storage system.
+    public var name: Swift.String?
+    /// Specifies the server name and network port required to connect with your on-premises storage system's management interface.
+    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    /// Specifies the ARN of the on-premises storage system that you want reconfigure.
+    /// This member is required.
+    public var storageSystemArn: Swift.String?
+
+    public init(
+        agentArns: [Swift.String]? = nil,
+        cloudWatchLogGroupArn: Swift.String? = nil,
+        credentials: DataSyncClientTypes.Credentials? = nil,
+        name: Swift.String? = nil,
+        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
+        storageSystemArn: Swift.String? = nil
+    )
+    {
+        self.agentArns = agentArns
+        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+        self.credentials = credentials
+        self.name = name
+        self.serverConfiguration = serverConfiguration
+        self.storageSystemArn = storageSystemArn
+    }
+}
+
+struct UpdateStorageSystemInputBody: Swift.Equatable {
+    let storageSystemArn: Swift.String?
+    let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
+    let agentArns: [Swift.String]?
+    let name: Swift.String?
+    let cloudWatchLogGroupArn: Swift.String?
+    let credentials: DataSyncClientTypes.Credentials?
+}
+
+extension UpdateStorageSystemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentArns = "AgentArns"
+        case cloudWatchLogGroupArn = "CloudWatchLogGroupArn"
+        case credentials = "Credentials"
+        case name = "Name"
+        case serverConfiguration = "ServerConfiguration"
+        case storageSystemArn = "StorageSystemArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageSystemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageSystemArn)
+        storageSystemArn = storageSystemArnDecoded
+        let serverConfigurationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.DiscoveryServerConfiguration.self, forKey: .serverConfiguration)
+        serverConfiguration = serverConfigurationDecoded
+        let agentArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentArns)
+        var agentArnsDecoded0:[Swift.String]? = nil
+        if let agentArnsContainer = agentArnsContainer {
+            agentArnsDecoded0 = [Swift.String]()
+            for string0 in agentArnsContainer {
+                if let string0 = string0 {
+                    agentArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentArns = agentArnsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let cloudWatchLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLogGroupArn)
+        cloudWatchLogGroupArn = cloudWatchLogGroupArnDecoded
+        let credentialsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+public enum UpdateStorageSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateStorageSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateStorageSystemOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension UpdateTaskExecutionInput: Swift.Encodable {
@@ -10044,11 +12960,11 @@ public struct UpdateTaskExecutionInput: Swift.Equatable {
     /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
     /// This member is required.
     public var options: DataSyncClientTypes.Options?
-    /// The Amazon Resource Name (ARN) of the specific task execution that is being updated.
+    /// Specifies the Amazon Resource Name (ARN) of the task execution that you're updating.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
-    public init (
+    public init(
         options: DataSyncClientTypes.Options? = nil,
         taskExecutionArn: Swift.String? = nil
     )
@@ -10069,7 +12985,7 @@ extension UpdateTaskExecutionInputBody: Swift.Decodable {
         case taskExecutionArn = "TaskExecutionArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskExecutionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskExecutionArn)
         taskExecutionArn = taskExecutionArnDecoded
@@ -10078,38 +12994,26 @@ extension UpdateTaskExecutionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTaskExecutionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTaskExecutionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTaskExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTaskExecutionOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateTaskExecutionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateTaskInput: Swift.Encodable {
@@ -10179,7 +13083,7 @@ public struct UpdateTaskInput: Swift.Equatable {
     /// This member is required.
     public var taskArn: Swift.String?
 
-    public init (
+    public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
         includes: [DataSyncClientTypes.FilterRule]? = nil,
@@ -10220,7 +13124,7 @@ extension UpdateTaskInputBody: Swift.Decodable {
         case taskArn = "TaskArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
         taskArn = taskArnDecoded
@@ -10257,38 +13161,26 @@ extension UpdateTaskInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTaskOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTaskOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTaskOutputError: Swift.Error, Swift.Equatable {
-    case internalException(InternalException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateTaskOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DataSyncClientTypes {

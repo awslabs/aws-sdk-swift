@@ -13,10 +13,9 @@ import AWSS3
 class S3XCTestCase: XCTestCase {
     static var client: S3Client!
     static let region = "us-west-2"
-    static let bucketName = "aws-sdk-s3-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     var client: S3Client { Self.client }
     var region: String { Self.region }
-    var bucketName: String { Self.bucketName }
+    var bucketName: String!
 
     struct HTTPError: Error, CustomDebugStringConvertible {
         let code: Int
@@ -36,14 +35,15 @@ class S3XCTestCase: XCTestCase {
     }
 
     override func setUp() async throws{
+        self.bucketName = "aws-sdk-s3-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
         Self.client = try S3Client(region: region)
-        try await Self.createBucket()
+        try await Self.createBucket(bucketName: bucketName)
     }
 
     /// Empty & delete the test bucket before each test.
     override func tearDown() async throws {
         try await emptyBucket()
-        try await Self.deleteBucket()
+        try await Self.deleteBucket(bucketName: bucketName)
     }
 
     // MARK: Helpers
@@ -70,7 +70,7 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    static func createBucket() async throws {
+    static func createBucket(bucketName: String) async throws {
         let input = CreateBucketInput(bucket: bucketName, createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration(locationConstraint: S3ClientTypes.BucketLocationConstraint.usWest2))
         _ = try await Self.client.createBucket(input: input)
     }
@@ -89,7 +89,7 @@ class S3XCTestCase: XCTestCase {
             let data = try XCTUnwrap(dataOrNil)
             return String(data: data, encoding: .utf8)
         case .stream(let stream):
-            return String(data: try stream.readToEnd()!, encoding: .utf8)
+            return String(data: try await stream.readToEndAsync()!, encoding: .utf8)
         }
     }
 
@@ -107,7 +107,7 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    static func deleteBucket() async throws {
+    static func deleteBucket(bucketName: String) async throws {
         let input = DeleteBucketInput(bucket: bucketName)
         _ = try await client.deleteBucket(input: input)
     }

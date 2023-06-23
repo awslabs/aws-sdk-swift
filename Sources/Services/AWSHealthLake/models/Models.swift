@@ -3,37 +3,41 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Access is denied. Your account is not authorized to perform this operation.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,10 +50,42 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension HealthLakeClientTypes {
+    public enum AuthorizationStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsAuth
+        case smartv1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthorizationStrategy] {
+            return [
+                .awsAuth,
+                .smartv1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsAuth: return "AWS_AUTH"
+            case .smartv1: return "SMART_ON_FHIR_V1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthorizationStrategy(rawValue: rawValue) ?? AuthorizationStrategy.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -86,37 +122,41 @@ extension HealthLakeClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The Data Store is in a transition state and the user requested action can not be performed.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -129,7 +169,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -141,6 +181,7 @@ extension CreateFHIRDatastoreInput: Swift.Encodable {
         case clientToken = "ClientToken"
         case datastoreName = "DatastoreName"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
         case tags = "Tags"
@@ -156,6 +197,9 @@ extension CreateFHIRDatastoreInput: Swift.Encodable {
         }
         if let datastoreTypeVersion = self.datastoreTypeVersion {
             try encodeContainer.encode(datastoreTypeVersion.rawValue, forKey: .datastoreTypeVersion)
+        }
+        if let identityProviderConfiguration = self.identityProviderConfiguration {
+            try encodeContainer.encode(identityProviderConfiguration, forKey: .identityProviderConfiguration)
         }
         if let preloadDataConfig = self.preloadDataConfig {
             try encodeContainer.encode(preloadDataConfig, forKey: .preloadDataConfig)
@@ -186,6 +230,8 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
     /// The FHIR version of the Data Store. The only supported version is R4.
     /// This member is required.
     public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
+    /// The configuration of the identity provider that you want to use for your Data Store.
+    public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
     /// Optional parameter to preload data upon creation of the Data Store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
     public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
     /// The server-side encryption key configuration for a customer provided encryption key specified for creating a Data Store.
@@ -193,10 +239,11 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
     /// Resource tags that are applied to a Data Store when it is created.
     public var tags: [HealthLakeClientTypes.Tag]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         datastoreName: Swift.String? = nil,
         datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
+        identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
         preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
         sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil,
         tags: [HealthLakeClientTypes.Tag]? = nil
@@ -205,6 +252,7 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.datastoreTypeVersion = datastoreTypeVersion
+        self.identityProviderConfiguration = identityProviderConfiguration
         self.preloadDataConfig = preloadDataConfig
         self.sseConfiguration = sseConfiguration
         self.tags = tags
@@ -218,6 +266,7 @@ struct CreateFHIRDatastoreInputBody: Swift.Equatable {
     let preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
     let clientToken: Swift.String?
     let tags: [HealthLakeClientTypes.Tag]?
+    let identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
 }
 
 extension CreateFHIRDatastoreInputBody: Swift.Decodable {
@@ -225,12 +274,13 @@ extension CreateFHIRDatastoreInputBody: Swift.Decodable {
         case clientToken = "ClientToken"
         case datastoreName = "DatastoreName"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreName)
         datastoreName = datastoreNameDecoded
@@ -253,40 +303,28 @@ extension CreateFHIRDatastoreInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let identityProviderConfigurationDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.IdentityProviderConfiguration.self, forKey: .identityProviderConfiguration)
+        identityProviderConfiguration = identityProviderConfigurationDecoded
     }
 }
 
-extension CreateFHIRDatastoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFHIRDatastoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
@@ -303,10 +341,10 @@ extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateFHIRDatastoreOutputResponse: Swift.Equatable {
-    /// The datastore ARN is generated during the creation of the Data Store and can be found in the output from the initial Data Store creation call.
+    /// The Data Store ARN is generated during the creation of the Data Store and can be found in the output from the initial Data Store creation call.
     /// This member is required.
     public var datastoreArn: Swift.String?
-    /// The AWS endpoint for the created Data Store. For preview, only US-east-1 endpoints are supported.
+    /// The AWS endpoint for the created Data Store.
     /// This member is required.
     public var datastoreEndpoint: Swift.String?
     /// The AWS-generated Data Store id. This id is in the output from the initial Data Store creation call.
@@ -316,7 +354,7 @@ public struct CreateFHIRDatastoreOutputResponse: Swift.Equatable {
     /// This member is required.
     public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
-    public init (
+    public init(
         datastoreArn: Swift.String? = nil,
         datastoreEndpoint: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
@@ -345,7 +383,7 @@ extension CreateFHIRDatastoreOutputResponseBody: Swift.Decodable {
         case datastoreStatus = "DatastoreStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -382,7 +420,7 @@ extension HealthLakeClientTypes.DatastoreFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreName)
         datastoreName = datastoreNameDecoded
@@ -407,7 +445,7 @@ extension HealthLakeClientTypes {
         /// Allows the user to filter Data Store results by status.
         public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
-        public init (
+        public init(
             createdAfter: ClientRuntime.Date? = nil,
             createdBefore: ClientRuntime.Date? = nil,
             datastoreName: Swift.String? = nil,
@@ -432,6 +470,7 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         case datastoreName = "DatastoreName"
         case datastoreStatus = "DatastoreStatus"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
     }
@@ -459,6 +498,9 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         if let datastoreTypeVersion = self.datastoreTypeVersion {
             try encodeContainer.encode(datastoreTypeVersion.rawValue, forKey: .datastoreTypeVersion)
         }
+        if let identityProviderConfiguration = self.identityProviderConfiguration {
+            try encodeContainer.encode(identityProviderConfiguration, forKey: .identityProviderConfiguration)
+        }
         if let preloadDataConfig = self.preloadDataConfig {
             try encodeContainer.encode(preloadDataConfig, forKey: .preloadDataConfig)
         }
@@ -467,7 +509,7 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -487,11 +529,13 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         sseConfiguration = sseConfigurationDecoded
         let preloadDataConfigDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.PreloadDataConfig.self, forKey: .preloadDataConfig)
         preloadDataConfig = preloadDataConfigDecoded
+        let identityProviderConfigurationDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.IdentityProviderConfiguration.self, forKey: .identityProviderConfiguration)
+        identityProviderConfiguration = identityProviderConfigurationDecoded
     }
 }
 
 extension HealthLakeClientTypes {
-    /// Displays the properties of the Data Store, including the ID, Arn, name, and the status of the Data Store.
+    /// Displays the properties of the Data Store, including the ID, ARN, name, and the status of the Data Store.
     public struct DatastoreProperties: Swift.Equatable {
         /// The time that a Data Store was created.
         public var createdAt: ClientRuntime.Date?
@@ -512,12 +556,14 @@ extension HealthLakeClientTypes {
         /// The FHIR version. Only R4 version data is supported.
         /// This member is required.
         public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
+        /// The identity provider that you selected when you created the Data Store.
+        public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
         /// The preloaded data configuration for the Data Store. Only data preloaded from Synthea is supported.
         public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
         /// The server-side encryption key configuration for a customer provided encryption key (CMK).
         public var sseConfiguration: HealthLakeClientTypes.SseConfiguration?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             datastoreArn: Swift.String? = nil,
             datastoreEndpoint: Swift.String? = nil,
@@ -525,6 +571,7 @@ extension HealthLakeClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil,
             datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
+            identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
             preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
             sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil
         )
@@ -536,6 +583,7 @@ extension HealthLakeClientTypes {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.datastoreTypeVersion = datastoreTypeVersion
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.preloadDataConfig = preloadDataConfig
             self.sseConfiguration = sseConfiguration
         }
@@ -602,9 +650,10 @@ extension DeleteFHIRDatastoreInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteFHIRDatastoreInput: Swift.Equatable {
     /// The AWS-generated ID for the Data Store to be deleted.
+    /// This member is required.
     public var datastoreId: Swift.String?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil
     )
     {
@@ -621,48 +670,32 @@ extension DeleteFHIRDatastoreInputBody: Swift.Decodable {
         case datastoreId = "DatastoreId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
     }
 }
 
-extension DeleteFHIRDatastoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFHIRDatastoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
@@ -692,7 +725,7 @@ public struct DeleteFHIRDatastoreOutputResponse: Swift.Equatable {
     /// This member is required.
     public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
-    public init (
+    public init(
         datastoreArn: Swift.String? = nil,
         datastoreEndpoint: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
@@ -721,7 +754,7 @@ extension DeleteFHIRDatastoreOutputResponseBody: Swift.Decodable {
         case datastoreStatus = "DatastoreStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -754,10 +787,11 @@ extension DescribeFHIRDatastoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeFHIRDatastoreInput: Swift.Equatable {
-    /// The AWS-generated Data Store id. This is part of the ‘CreateFHIRDatastore’ output.
+    /// The AWS-generated Data Store ID.
+    /// This member is required.
     public var datastoreId: Swift.String?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil
     )
     {
@@ -774,44 +808,30 @@ extension DescribeFHIRDatastoreInputBody: Swift.Decodable {
         case datastoreId = "DatastoreId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
     }
 }
 
-extension DescribeFHIRDatastoreOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFHIRDatastoreOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFHIRDatastoreOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreProperties = output.datastoreProperties
@@ -826,7 +846,7 @@ public struct DescribeFHIRDatastoreOutputResponse: Swift.Equatable {
     /// This member is required.
     public var datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
 
-    public init (
+    public init(
         datastoreProperties: HealthLakeClientTypes.DatastoreProperties? = nil
     )
     {
@@ -843,7 +863,7 @@ extension DescribeFHIRDatastoreOutputResponseBody: Swift.Decodable {
         case datastoreProperties = "DatastoreProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastorePropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.DatastoreProperties.self, forKey: .datastoreProperties)
         datastoreProperties = datastorePropertiesDecoded
@@ -881,7 +901,7 @@ public struct DescribeFHIRExportJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil
     )
@@ -902,7 +922,7 @@ extension DescribeFHIRExportJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -911,37 +931,23 @@ extension DescribeFHIRExportJobInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFHIRExportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFHIRExportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFHIRExportJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportJobProperties = output.exportJobProperties
@@ -956,7 +962,7 @@ public struct DescribeFHIRExportJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
 
-    public init (
+    public init(
         exportJobProperties: HealthLakeClientTypes.ExportJobProperties? = nil
     )
     {
@@ -973,7 +979,7 @@ extension DescribeFHIRExportJobOutputResponseBody: Swift.Decodable {
         case exportJobProperties = "ExportJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportJobPropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ExportJobProperties.self, forKey: .exportJobProperties)
         exportJobProperties = exportJobPropertiesDecoded
@@ -1011,7 +1017,7 @@ public struct DescribeFHIRImportJobInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil
     )
@@ -1032,7 +1038,7 @@ extension DescribeFHIRImportJobInputBody: Swift.Decodable {
         case jobId = "JobId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -1041,37 +1047,23 @@ extension DescribeFHIRImportJobInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFHIRImportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFHIRImportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFHIRImportJobOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importJobProperties = output.importJobProperties
@@ -1086,7 +1078,7 @@ public struct DescribeFHIRImportJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var importJobProperties: HealthLakeClientTypes.ImportJobProperties?
 
-    public init (
+    public init(
         importJobProperties: HealthLakeClientTypes.ImportJobProperties? = nil
     )
     {
@@ -1103,7 +1095,7 @@ extension DescribeFHIRImportJobOutputResponseBody: Swift.Decodable {
         case importJobProperties = "ImportJobProperties"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importJobPropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ImportJobProperties.self, forKey: .importJobProperties)
         importJobProperties = importJobPropertiesDecoded
@@ -1154,7 +1146,7 @@ extension HealthLakeClientTypes.ExportJobProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -1204,7 +1196,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var submitTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -1259,6 +1251,72 @@ extension HealthLakeClientTypes {
     }
 }
 
+extension HealthLakeClientTypes.IdentityProviderConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationStrategy = "AuthorizationStrategy"
+        case fineGrainedAuthorizationEnabled = "FineGrainedAuthorizationEnabled"
+        case idpLambdaArn = "IdpLambdaArn"
+        case metadata = "Metadata"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationStrategy = self.authorizationStrategy {
+            try encodeContainer.encode(authorizationStrategy.rawValue, forKey: .authorizationStrategy)
+        }
+        if fineGrainedAuthorizationEnabled != false {
+            try encodeContainer.encode(fineGrainedAuthorizationEnabled, forKey: .fineGrainedAuthorizationEnabled)
+        }
+        if let idpLambdaArn = self.idpLambdaArn {
+            try encodeContainer.encode(idpLambdaArn, forKey: .idpLambdaArn)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationStrategyDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.AuthorizationStrategy.self, forKey: .authorizationStrategy)
+        authorizationStrategy = authorizationStrategyDecoded
+        let fineGrainedAuthorizationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fineGrainedAuthorizationEnabled) ?? false
+        fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabledDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+        let idpLambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idpLambdaArn)
+        idpLambdaArn = idpLambdaArnDecoded
+    }
+}
+
+extension HealthLakeClientTypes {
+    /// The identity provider configuration that you gave when the Data Store was created.
+    public struct IdentityProviderConfiguration: Swift.Equatable {
+        /// The authorization strategy that you selected when you created the Data Store.
+        /// This member is required.
+        public var authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy?
+        /// If you enabled fine-grained authorization when you created the Data Store.
+        public var fineGrainedAuthorizationEnabled: Swift.Bool
+        /// The Amazon Resource Name (ARN) of the Lambda function that you want to use to decode the access token created by the authorization server.
+        public var idpLambdaArn: Swift.String?
+        /// The JSON metadata elements that you want to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see [Metadata](https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata) in SMART's App Launch specification. authorization_endpoint: The URL to the OAuth2 authorization endpoint. grant_types_supported: An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials. token_endpoint: The URL to the OAuth2 token endpoint. capabilities: An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported: An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods.
+        public var metadata: Swift.String?
+
+        public init(
+            authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy? = nil,
+            fineGrainedAuthorizationEnabled: Swift.Bool = false,
+            idpLambdaArn: Swift.String? = nil,
+            metadata: Swift.String? = nil
+        )
+        {
+            self.authorizationStrategy = authorizationStrategy
+            self.fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabled
+            self.idpLambdaArn = idpLambdaArn
+            self.metadata = metadata
+        }
+    }
+
+}
+
 extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataAccessRoleArn = "DataAccessRoleArn"
@@ -1307,7 +1365,7 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -1352,7 +1410,7 @@ extension HealthLakeClientTypes {
         public var jobName: Swift.String?
         /// The output data configuration that was supplied when the export job was created.
         public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
-        /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, FAILED.
+        /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
         /// This member is required.
         public var jobStatus: HealthLakeClientTypes.JobStatus?
         /// An explanation of any errors that may have occurred during the FHIR import job.
@@ -1361,7 +1419,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var submitTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -1405,7 +1463,7 @@ extension HealthLakeClientTypes.InputDataConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let s3uriDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .s3uri)
         if let s3uri = s3uriDecoded {
@@ -1427,37 +1485,41 @@ extension HealthLakeClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Unknown error occurs in the service.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1470,7 +1532,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1479,6 +1541,10 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension HealthLakeClientTypes {
     public enum JobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelCompleted
+        case cancelFailed
+        case cancelInProgress
+        case cancelSubmitted
         case completed
         case completedWithErrors
         case failed
@@ -1488,6 +1554,10 @@ extension HealthLakeClientTypes {
 
         public static var allCases: [JobStatus] {
             return [
+                .cancelCompleted,
+                .cancelFailed,
+                .cancelInProgress,
+                .cancelSubmitted,
                 .completed,
                 .completedWithErrors,
                 .failed,
@@ -1502,6 +1572,10 @@ extension HealthLakeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cancelCompleted: return "CANCEL_COMPLETED"
+            case .cancelFailed: return "CANCEL_FAILED"
+            case .cancelInProgress: return "CANCEL_IN_PROGRESS"
+            case .cancelSubmitted: return "CANCEL_SUBMITTED"
             case .completed: return "COMPLETED"
             case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
             case .failed: return "FAILED"
@@ -1534,7 +1608,7 @@ extension HealthLakeClientTypes.KmsEncryptionConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cmkTypeDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.CmkType.self, forKey: .cmkType)
         cmkType = cmkTypeDecoded
@@ -1552,7 +1626,7 @@ extension HealthLakeClientTypes {
         /// The KMS encryption key id/alias used to encrypt the Data Store contents at rest.
         public var kmsKeyId: Swift.String?
 
-        public init (
+        public init(
             cmkType: HealthLakeClientTypes.CmkType? = nil,
             kmsKeyId: Swift.String? = nil
         )
@@ -1599,7 +1673,7 @@ public struct ListFHIRDatastoresInput: Swift.Equatable {
     /// Fetches the next page of Data Stores when results are paginated.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filter: HealthLakeClientTypes.DatastoreFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -1624,7 +1698,7 @@ extension ListFHIRDatastoresInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.DatastoreFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -1635,35 +1709,22 @@ extension ListFHIRDatastoresInputBody: Swift.Decodable {
     }
 }
 
-extension ListFHIRDatastoresOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFHIRDatastoresOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFHIRDatastoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFHIRDatastoresOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFHIRDatastoresOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFHIRDatastoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastorePropertiesList = output.datastorePropertiesList
@@ -1682,7 +1743,7 @@ public struct ListFHIRDatastoresOutputResponse: Swift.Equatable {
     /// Pagination token that can be used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1703,7 +1764,7 @@ extension ListFHIRDatastoresOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastorePropertiesListContainer = try containerValues.decodeIfPresent([HealthLakeClientTypes.DatastoreProperties?].self, forKey: .datastorePropertiesList)
         var datastorePropertiesListDecoded0:[HealthLakeClientTypes.DatastoreProperties]? = nil
@@ -1781,7 +1842,7 @@ public struct ListFHIRExportJobsInput: Swift.Equatable {
     /// This parameter limits the response to FHIR export jobs submitted before a user specified date.
     public var submittedBefore: ClientRuntime.Date?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil,
@@ -1822,7 +1883,7 @@ extension ListFHIRExportJobsInputBody: Swift.Decodable {
         case submittedBefore = "SubmittedBefore"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -1841,39 +1902,24 @@ extension ListFHIRExportJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFHIRExportJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFHIRExportJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFHIRExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFHIRExportJobsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFHIRExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFHIRExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportJobPropertiesList = output.exportJobPropertiesList
@@ -1892,7 +1938,7 @@ public struct ListFHIRExportJobsOutputResponse: Swift.Equatable {
     /// A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1913,7 +1959,7 @@ extension ListFHIRExportJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportJobPropertiesListContainer = try containerValues.decodeIfPresent([HealthLakeClientTypes.ExportJobProperties?].self, forKey: .exportJobPropertiesList)
         var exportJobPropertiesListDecoded0:[HealthLakeClientTypes.ExportJobProperties]? = nil
@@ -1991,7 +2037,7 @@ public struct ListFHIRImportJobsInput: Swift.Equatable {
     /// This parameter limits the response to FHIR import jobs submitted before a user specified date.
     public var submittedBefore: ClientRuntime.Date?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil,
@@ -2032,7 +2078,7 @@ extension ListFHIRImportJobsInputBody: Swift.Decodable {
         case submittedBefore = "SubmittedBefore"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
@@ -2051,39 +2097,24 @@ extension ListFHIRImportJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFHIRImportJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFHIRImportJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFHIRImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFHIRImportJobsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFHIRImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFHIRImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importJobPropertiesList = output.importJobPropertiesList
@@ -2102,7 +2133,7 @@ public struct ListFHIRImportJobsOutputResponse: Swift.Equatable {
     /// A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2123,7 +2154,7 @@ extension ListFHIRImportJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importJobPropertiesListContainer = try containerValues.decodeIfPresent([HealthLakeClientTypes.ImportJobProperties?].self, forKey: .importJobPropertiesList)
         var importJobPropertiesListDecoded0:[HealthLakeClientTypes.ImportJobProperties]? = nil
@@ -2165,7 +2196,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -2182,40 +2213,28 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -2229,7 +2248,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// Returns a list of tags associated with a Data Store.
     public var tags: [HealthLakeClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [HealthLakeClientTypes.Tag]? = nil
     )
     {
@@ -2246,7 +2265,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([HealthLakeClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[HealthLakeClientTypes.Tag]? = nil
@@ -2278,7 +2297,7 @@ extension HealthLakeClientTypes.OutputDataConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let s3configurationDecoded = try values.decodeIfPresent(HealthLakeClientTypes.S3Configuration.self, forKey: .s3configuration)
         if let s3configuration = s3configurationDecoded {
@@ -2311,7 +2330,7 @@ extension HealthLakeClientTypes.PreloadDataConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let preloadDataTypeDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.PreloadDataType.self, forKey: .preloadDataType)
         preloadDataType = preloadDataTypeDecoded
@@ -2325,7 +2344,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var preloadDataType: HealthLakeClientTypes.PreloadDataType?
 
-        public init (
+        public init(
             preloadDataType: HealthLakeClientTypes.PreloadDataType? = nil
         )
         {
@@ -2365,37 +2384,41 @@ extension HealthLakeClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested Data Store was not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2408,7 +2431,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2431,7 +2454,7 @@ extension HealthLakeClientTypes.S3Configuration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
         s3Uri = s3UriDecoded
@@ -2450,7 +2473,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var s3Uri: Swift.String?
 
-        public init (
+        public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         )
@@ -2474,7 +2497,7 @@ extension HealthLakeClientTypes.SseConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kmsEncryptionConfigDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.KmsEncryptionConfig.self, forKey: .kmsEncryptionConfig)
         kmsEncryptionConfig = kmsEncryptionConfigDecoded
@@ -2488,7 +2511,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var kmsEncryptionConfig: HealthLakeClientTypes.KmsEncryptionConfig?
 
-        public init (
+        public init(
             kmsEncryptionConfig: HealthLakeClientTypes.KmsEncryptionConfig? = nil
         )
         {
@@ -2549,7 +2572,7 @@ public struct StartFHIRExportJobInput: Swift.Equatable {
     /// This member is required.
     public var outputDataConfig: HealthLakeClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
@@ -2582,7 +2605,7 @@ extension StartFHIRExportJobInputBody: Swift.Decodable {
         case outputDataConfig = "OutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
         jobName = jobNameDecoded
@@ -2597,39 +2620,24 @@ extension StartFHIRExportJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartFHIRExportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartFHIRExportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartFHIRExportJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
@@ -2653,7 +2661,7 @@ public struct StartFHIRExportJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil
@@ -2678,7 +2686,7 @@ extension StartFHIRExportJobOutputResponseBody: Swift.Decodable {
         case jobStatus = "JobStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -2747,7 +2755,7 @@ public struct StartFHIRImportJobInput: Swift.Equatable {
     /// This member is required.
     public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
@@ -2784,7 +2792,7 @@ extension StartFHIRImportJobInputBody: Swift.Decodable {
         case jobOutputDataConfig = "JobOutputDataConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
         jobName = jobNameDecoded
@@ -2801,39 +2809,24 @@ extension StartFHIRImportJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartFHIRImportJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartFHIRImportJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartFHIRImportJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
@@ -2857,7 +2850,7 @@ public struct StartFHIRImportJobOutputResponse: Swift.Equatable {
     /// This member is required.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
 
-    public init (
+    public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil
@@ -2882,7 +2875,7 @@ extension StartFHIRImportJobOutputResponseBody: Swift.Decodable {
         case jobStatus = "JobStatus"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
@@ -2909,7 +2902,7 @@ extension HealthLakeClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -2924,11 +2917,11 @@ extension HealthLakeClientTypes {
         /// The key portion of a tag. Tag keys are case sensitive.
         /// This member is required.
         public var key: Swift.String?
-        /// The value portion of tag. Tag values are case sensitive.
+        /// The value portion of a tag. Tag values are case sensitive.
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -2974,7 +2967,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [HealthLakeClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [HealthLakeClientTypes.Tag]? = nil
     )
@@ -2995,7 +2988,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -3013,72 +3006,64 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user has exceeded their maximum number of allowed calls to the given API.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3091,7 +3076,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3132,7 +3117,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -3153,7 +3138,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -3171,72 +3156,64 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user input parameter was invalid.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3249,7 +3226,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

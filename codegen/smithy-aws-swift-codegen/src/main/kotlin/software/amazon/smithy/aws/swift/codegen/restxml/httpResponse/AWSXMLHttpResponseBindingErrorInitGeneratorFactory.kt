@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.restxml.httpResponse.AWSXMLHttpResponseTraitWithoutPayload
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -40,13 +41,13 @@ class AWSXMLHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFactory {
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
-        errorShapeName: String,
+        errorShape: Shape,
         writer: SwiftWriter
     ): HttpResponseBindingRenderable {
         return HttpResponseTraitPayload(
             ctx,
             responseBindings,
-            errorShapeName,
+            errorShape,
             writer,
             AWSXMLHttpResponseTraitWithoutHttpPayloadFactory()
         )
@@ -57,9 +58,9 @@ class AWSXMLHttpResponseTraitWithoutHttpPayloadFactory : HttpResponseTraitWithou
     override fun construct(
         ctx: ProtocolGenerator.GenerationContext,
         responseBindings: List<HttpBindingDescriptor>,
-        outputShapeName: String,
+        outputShape: Shape,
         writer: SwiftWriter
     ): HttpResponseBindingRenderable {
-        return AWSXMLHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShapeName, writer)
+        return AWSXMLHttpResponseTraitWithoutPayload(ctx, responseBindings, outputShape, writer)
     }
 }

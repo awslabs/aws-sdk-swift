@@ -45,7 +45,7 @@ public struct AddApplicationCloudWatchLoggingOptionInput: Swift.Equatable {
     /// The version ID of the Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using [DescribeApplication]. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
     public var currentApplicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         cloudWatchLoggingOption: KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOption? = nil,
         conditionalToken: Swift.String? = nil,
@@ -74,7 +74,7 @@ extension AddApplicationCloudWatchLoggingOptionInputBody: Swift.Decodable {
         case currentApplicationVersionId = "CurrentApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -87,41 +87,25 @@ extension AddApplicationCloudWatchLoggingOptionInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationCloudWatchLoggingOptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationCloudWatchLoggingOptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationCloudWatchLoggingOptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationCloudWatchLoggingOptionOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationCloudWatchLoggingOptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationCloudWatchLoggingOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -143,7 +127,7 @@ public struct AddApplicationCloudWatchLoggingOptionOutputResponse: Swift.Equatab
     /// The descriptions of the current CloudWatch logging options for the Kinesis Data Analytics application.
     public var cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]? = nil
@@ -168,7 +152,7 @@ extension AddApplicationCloudWatchLoggingOptionOutputResponseBody: Swift.Decodab
         case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -226,7 +210,7 @@ public struct AddApplicationInputInput: Swift.Equatable {
     /// This member is required.
     public var input: KinesisAnalyticsV2ClientTypes.Input?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         input: KinesisAnalyticsV2ClientTypes.Input? = nil
@@ -251,7 +235,7 @@ extension AddApplicationInputInputBody: Swift.Decodable {
         case input = "Input"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -262,41 +246,25 @@ extension AddApplicationInputInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationInputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationInputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CodeValidationException" : self = .codeValidationException(try CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationInputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeValidationException": return try await CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationInputOutputError: Swift.Error, Swift.Equatable {
-    case codeValidationException(CodeValidationException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationInputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -318,7 +286,7 @@ public struct AddApplicationInputOutputResponse: Swift.Equatable {
     /// Describes the application input configuration.
     public var inputDescriptions: [KinesisAnalyticsV2ClientTypes.InputDescription]?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         inputDescriptions: [KinesisAnalyticsV2ClientTypes.InputDescription]? = nil
@@ -343,7 +311,7 @@ extension AddApplicationInputOutputResponseBody: Swift.Decodable {
         case inputDescriptions = "InputDescriptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -408,7 +376,7 @@ public struct AddApplicationInputProcessingConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var inputProcessingConfiguration: KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil,
@@ -437,7 +405,7 @@ extension AddApplicationInputProcessingConfigurationInputBody: Swift.Decodable {
         case inputProcessingConfiguration = "InputProcessingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -450,39 +418,24 @@ extension AddApplicationInputProcessingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationInputProcessingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationInputProcessingConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationInputProcessingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationInputProcessingConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationInputProcessingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationInputProcessingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -508,7 +461,7 @@ public struct AddApplicationInputProcessingConfigurationOutputResponse: Swift.Eq
     /// The description of the preprocessor that executes on records in this input before the application's code is run.
     public var inputProcessingConfigurationDescription: KinesisAnalyticsV2ClientTypes.InputProcessingConfigurationDescription?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil,
@@ -537,7 +490,7 @@ extension AddApplicationInputProcessingConfigurationOutputResponseBody: Swift.De
         case inputProcessingConfigurationDescription = "InputProcessingConfigurationDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -588,7 +541,7 @@ public struct AddApplicationOutputInput: Swift.Equatable {
     /// This member is required.
     public var output: KinesisAnalyticsV2ClientTypes.Output?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         output: KinesisAnalyticsV2ClientTypes.Output? = nil
@@ -613,7 +566,7 @@ extension AddApplicationOutputInputBody: Swift.Decodable {
         case output = "Output"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -624,39 +577,24 @@ extension AddApplicationOutputInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationOutputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationOutputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationOutputOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationOutputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -678,7 +616,7 @@ public struct AddApplicationOutputOutputResponse: Swift.Equatable {
     /// Describes the application output configuration. For more information, see [Configuring Application Output](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html).
     public var outputDescriptions: [KinesisAnalyticsV2ClientTypes.OutputDescription]?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         outputDescriptions: [KinesisAnalyticsV2ClientTypes.OutputDescription]? = nil
@@ -703,7 +641,7 @@ extension AddApplicationOutputOutputResponseBody: Swift.Decodable {
         case outputDescriptions = "OutputDescriptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -761,7 +699,7 @@ public struct AddApplicationReferenceDataSourceInput: Swift.Equatable {
     /// This member is required.
     public var referenceDataSource: KinesisAnalyticsV2ClientTypes.ReferenceDataSource?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         referenceDataSource: KinesisAnalyticsV2ClientTypes.ReferenceDataSource? = nil
@@ -786,7 +724,7 @@ extension AddApplicationReferenceDataSourceInputBody: Swift.Decodable {
         case referenceDataSource = "ReferenceDataSource"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -797,39 +735,24 @@ extension AddApplicationReferenceDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationReferenceDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationReferenceDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationReferenceDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationReferenceDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationReferenceDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationReferenceDataSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -851,7 +774,7 @@ public struct AddApplicationReferenceDataSourceOutputResponse: Swift.Equatable {
     /// Describes reference data sources configured for the application.
     public var referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]? = nil
@@ -876,7 +799,7 @@ extension AddApplicationReferenceDataSourceOutputResponseBody: Swift.Decodable {
         case referenceDataSourceDescriptions = "ReferenceDataSourceDescriptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -939,7 +862,7 @@ public struct AddApplicationVpcConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var vpcConfiguration: KinesisAnalyticsV2ClientTypes.VpcConfiguration?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
@@ -968,7 +891,7 @@ extension AddApplicationVpcConfigurationInputBody: Swift.Decodable {
         case vpcConfiguration = "VpcConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -981,39 +904,24 @@ extension AddApplicationVpcConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension AddApplicationVpcConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AddApplicationVpcConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AddApplicationVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AddApplicationVpcConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AddApplicationVpcConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AddApplicationVpcConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -1035,7 +943,7 @@ public struct AddApplicationVpcConfigurationOutputResponse: Swift.Equatable {
     /// The parameters of the new VPC configuration.
     public var vpcConfigurationDescription: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         vpcConfigurationDescription: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription? = nil
@@ -1060,7 +968,7 @@ extension AddApplicationVpcConfigurationOutputResponseBody: Swift.Decodable {
         case vpcConfigurationDescription = "VpcConfigurationDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -1087,7 +995,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeContentDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CodeContent.self, forKey: .codeContent)
         codeContent = codeContentDecoded
@@ -1105,7 +1013,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType?
 
-        public init (
+        public init(
             codeContent: KinesisAnalyticsV2ClientTypes.CodeContent? = nil,
             codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil
         )
@@ -1133,7 +1041,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeContentTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CodeContentType.self, forKey: .codeContentType)
         codeContentType = codeContentTypeDecoded
@@ -1151,7 +1059,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType?
 
-        public init (
+        public init(
             codeContentDescription: KinesisAnalyticsV2ClientTypes.CodeContentDescription? = nil,
             codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil
         )
@@ -1179,7 +1087,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeContentTypeUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CodeContentType.self, forKey: .codeContentTypeUpdate)
         codeContentTypeUpdate = codeContentTypeUpdateDecoded
@@ -1196,7 +1104,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes updates to the code content of an application.
         public var codeContentUpdate: KinesisAnalyticsV2ClientTypes.CodeContentUpdate?
 
-        public init (
+        public init(
             codeContentTypeUpdate: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil,
             codeContentUpdate: KinesisAnalyticsV2ClientTypes.CodeContentUpdate? = nil
         )
@@ -1247,7 +1155,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sqlApplicationConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration.self, forKey: .sqlApplicationConfiguration)
         sqlApplicationConfiguration = sqlApplicationConfigurationDecoded
@@ -1293,7 +1201,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
         public var zeppelinApplicationConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration?
 
-        public init (
+        public init(
             applicationCodeConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration? = nil,
             applicationSnapshotConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration? = nil,
             environmentProperties: KinesisAnalyticsV2ClientTypes.EnvironmentProperties? = nil,
@@ -1358,7 +1266,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sqlApplicationConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationDescription.self, forKey: .sqlApplicationConfigurationDescription)
         sqlApplicationConfigurationDescription = sqlApplicationConfigurationDescriptionDecoded
@@ -1408,7 +1316,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
         public var zeppelinApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescription?
 
-        public init (
+        public init(
             applicationCodeConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription? = nil,
             applicationSnapshotConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription? = nil,
             environmentPropertyDescriptions: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions? = nil,
@@ -1471,7 +1379,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sqlApplicationConfigurationUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate.self, forKey: .sqlApplicationConfigurationUpdate)
         sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdateDecoded
@@ -1517,7 +1425,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Updates to the configuration of a Kinesis Data Analytics Studio notebook.
         public var zeppelinApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate?
 
-        public init (
+        public init(
             applicationCodeConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate? = nil,
             applicationSnapshotConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate? = nil,
             environmentPropertyUpdates: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates? = nil,
@@ -1618,7 +1526,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -1709,7 +1617,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Specifies the IAM role that the application uses to access external resources.
         public var serviceExecutionRole: Swift.String?
 
-        public init (
+        public init(
             applicationARN: Swift.String? = nil,
             applicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription? = nil,
             applicationDescription: Swift.String? = nil,
@@ -1767,7 +1675,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescr
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationMaintenanceWindowStartTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationMaintenanceWindowStartTime)
         applicationMaintenanceWindowStartTime = applicationMaintenanceWindowStartTimeDecoded
@@ -1786,7 +1694,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var applicationMaintenanceWindowStartTime: Swift.String?
 
-        public init (
+        public init(
             applicationMaintenanceWindowEndTime: Swift.String? = nil,
             applicationMaintenanceWindowStartTime: Swift.String? = nil
         )
@@ -1810,7 +1718,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationUpdat
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationMaintenanceWindowStartTimeUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationMaintenanceWindowStartTimeUpdate)
         applicationMaintenanceWindowStartTimeUpdate = applicationMaintenanceWindowStartTimeUpdateDecoded
@@ -1824,7 +1732,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var applicationMaintenanceWindowStartTimeUpdate: Swift.String?
 
-        public init (
+        public init(
             applicationMaintenanceWindowStartTimeUpdate: Swift.String? = nil
         )
         {
@@ -1882,7 +1790,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationRestoreTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationRestoreType.self, forKey: .applicationRestoreType)
         applicationRestoreType = applicationRestoreTypeDecoded
@@ -1900,7 +1808,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType.
         public var snapshotName: Swift.String?
 
-        public init (
+        public init(
             applicationRestoreType: KinesisAnalyticsV2ClientTypes.ApplicationRestoreType? = nil,
             snapshotName: Swift.String? = nil
         )
@@ -1959,7 +1867,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .snapshotsEnabled)
         snapshotsEnabled = snapshotsEnabledDecoded
@@ -1973,7 +1881,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
-        public init (
+        public init(
             snapshotsEnabled: Swift.Bool? = nil
         )
         {
@@ -1995,7 +1903,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescript
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .snapshotsEnabled)
         snapshotsEnabled = snapshotsEnabledDecoded
@@ -2009,7 +1917,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
-        public init (
+        public init(
             snapshotsEnabled: Swift.Bool? = nil
         )
         {
@@ -2031,7 +1939,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotsEnabledUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .snapshotsEnabledUpdate)
         snapshotsEnabledUpdate = snapshotsEnabledUpdateDecoded
@@ -2045,7 +1953,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var snapshotsEnabledUpdate: Swift.Bool?
 
-        public init (
+        public init(
             snapshotsEnabledUpdate: Swift.Bool? = nil
         )
         {
@@ -2146,7 +2054,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -2184,7 +2092,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
 
-        public init (
+        public init(
             applicationARN: Swift.String? = nil,
             applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode? = nil,
             applicationName: Swift.String? = nil,
@@ -2220,7 +2128,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationVersionIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .applicationVersionId)
         applicationVersionId = applicationVersionIdDecoded
@@ -2239,7 +2147,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var applicationVersionId: Swift.Int?
 
-        public init (
+        public init(
             applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus? = nil,
             applicationVersionId: Swift.Int? = nil
         )
@@ -2299,7 +2207,7 @@ extension KinesisAnalyticsV2ClientTypes.CSVMappingParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordRowDelimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordRowDelimiter)
         recordRowDelimiter = recordRowDelimiterDecoded
@@ -2319,7 +2227,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var recordRowDelimiter: Swift.String?
 
-        public init (
+        public init(
             recordColumnDelimiter: Swift.String? = nil,
             recordRowDelimiter: Swift.String? = nil
         )
@@ -2343,7 +2251,7 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let glueDataCatalogConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration.self, forKey: .glueDataCatalogConfiguration)
         glueDataCatalogConfiguration = glueDataCatalogConfigurationDecoded
@@ -2357,7 +2265,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var glueDataCatalogConfiguration: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration?
 
-        public init (
+        public init(
             glueDataCatalogConfiguration: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration? = nil
         )
         {
@@ -2379,7 +2287,7 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfigurationDescription: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let glueDataCatalogConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription.self, forKey: .glueDataCatalogConfigurationDescription)
         glueDataCatalogConfigurationDescription = glueDataCatalogConfigurationDescriptionDecoded
@@ -2393,7 +2301,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var glueDataCatalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription?
 
-        public init (
+        public init(
             glueDataCatalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription? = nil
         )
         {
@@ -2415,7 +2323,7 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfigurationUpdate: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let glueDataCatalogConfigurationUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate.self, forKey: .glueDataCatalogConfigurationUpdate)
         glueDataCatalogConfigurationUpdate = glueDataCatalogConfigurationUpdateDecoded
@@ -2429,7 +2337,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var glueDataCatalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate?
 
-        public init (
+        public init(
             glueDataCatalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate? = nil
         )
         {
@@ -2463,7 +2371,7 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -2495,7 +2403,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see [ Tuning Checkpointing](https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/large_state_tuning.html#tuning-checkpointing) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public var minPauseBetweenCheckpoints: Swift.Int?
 
-        public init (
+        public init(
             checkpointInterval: Swift.Int? = nil,
             checkpointingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
@@ -2535,7 +2443,7 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -2566,7 +2474,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public var minPauseBetweenCheckpoints: Swift.Int?
 
-        public init (
+        public init(
             checkpointInterval: Swift.Int? = nil,
             checkpointingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
@@ -2606,7 +2514,7 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationTypeUpdate)
         configurationTypeUpdate = configurationTypeUpdateDecoded
@@ -2637,7 +2545,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes updates to the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public var minPauseBetweenCheckpointsUpdate: Swift.Int?
 
-        public init (
+        public init(
             checkpointIntervalUpdate: Swift.Int? = nil,
             checkpointingEnabledUpdate: Swift.Bool? = nil,
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
@@ -2665,7 +2573,7 @@ extension KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOption: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logStreamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamARN)
         logStreamARN = logStreamARNDecoded
@@ -2679,7 +2587,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var logStreamARN: Swift.String?
 
-        public init (
+        public init(
             logStreamARN: Swift.String? = nil
         )
         {
@@ -2709,7 +2617,7 @@ extension KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLoggingOptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLoggingOptionId)
         cloudWatchLoggingOptionId = cloudWatchLoggingOptionIdDecoded
@@ -2731,7 +2639,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The IAM ARN of the role to use to send application messages. Provided for backward compatibility. Applications created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLoggingOptionId: Swift.String? = nil,
             logStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
@@ -2761,7 +2669,7 @@ extension KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionUpdate: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudWatchLoggingOptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudWatchLoggingOptionId)
         cloudWatchLoggingOptionId = cloudWatchLoggingOptionIdDecoded
@@ -2779,7 +2687,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
         public var logStreamARNUpdate: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLoggingOptionId: Swift.String? = nil,
             logStreamARNUpdate: Swift.String? = nil
         )
@@ -2811,7 +2719,7 @@ extension KinesisAnalyticsV2ClientTypes.CodeContent: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textContentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textContent)
         textContent = textContentDecoded
@@ -2832,7 +2740,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The zip-format code for a Flink-based Kinesis Data Analytics application.
         public var zipFileContent: ClientRuntime.Data?
 
-        public init (
+        public init(
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil,
             textContent: Swift.String? = nil,
             zipFileContent: ClientRuntime.Data? = nil
@@ -2870,7 +2778,7 @@ extension KinesisAnalyticsV2ClientTypes.CodeContentDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textContentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textContent)
         textContent = textContentDecoded
@@ -2895,7 +2803,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The text-format code
         public var textContent: Swift.String?
 
-        public init (
+        public init(
             codeMD5: Swift.String? = nil,
             codeSize: Swift.Int? = nil,
             s3ApplicationCodeLocationDescription: KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription? = nil,
@@ -2963,7 +2871,7 @@ extension KinesisAnalyticsV2ClientTypes.CodeContentUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textContentUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textContentUpdate)
         textContentUpdate = textContentUpdateDecoded
@@ -2984,7 +2892,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes an update to the zipped code for an application.
         public var zipFileContentUpdate: ClientRuntime.Data?
 
-        public init (
+        public init(
             s3ContentLocationUpdate: KinesisAnalyticsV2ClientTypes.S3ContentLocationUpdate? = nil,
             textContentUpdate: Swift.String? = nil,
             zipFileContentUpdate: ClientRuntime.Data? = nil
@@ -2999,37 +2907,41 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 extension CodeValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CodeValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user-provided application code (query) is not valid. This can be a simple syntax error.
-public struct CodeValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CodeValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3042,7 +2954,7 @@ extension CodeValidationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3050,37 +2962,41 @@ extension CodeValidationExceptionBody: Swift.Decodable {
 }
 
 extension ConcurrentModificationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
-public struct ConcurrentModificationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3093,7 +3009,7 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3206,7 +3122,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     public var tags: [KinesisAnalyticsV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         applicationConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationConfiguration? = nil,
         applicationDescription: Swift.String? = nil,
         applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode? = nil,
@@ -3251,7 +3167,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3290,45 +3206,27 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CodeValidationException" : self = .codeValidationException(try CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeValidationException": return try await CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case codeValidationException(CodeValidationException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case tooManyTagsException(TooManyTagsException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationDetail = output.applicationDetail
@@ -3343,7 +3241,7 @@ public struct CreateApplicationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
-    public init (
+    public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     )
     {
@@ -3360,7 +3258,7 @@ extension CreateApplicationOutputResponseBody: Swift.Decodable {
         case applicationDetail = "ApplicationDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDetailDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationDetail.self, forKey: .applicationDetail)
         applicationDetail = applicationDetailDecoded
@@ -3404,7 +3302,7 @@ public struct CreateApplicationPresignedUrlInput: Swift.Equatable {
     /// This member is required.
     public var urlType: KinesisAnalyticsV2ClientTypes.UrlType?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         urlType: KinesisAnalyticsV2ClientTypes.UrlType? = nil
@@ -3429,7 +3327,7 @@ extension CreateApplicationPresignedUrlInputBody: Swift.Decodable {
         case urlType = "UrlType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3440,35 +3338,22 @@ extension CreateApplicationPresignedUrlInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationPresignedUrlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateApplicationPresignedUrlOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationPresignedUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateApplicationPresignedUrlOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationPresignedUrlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateApplicationPresignedUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorizedUrl = output.authorizedUrl
@@ -3482,7 +3367,7 @@ public struct CreateApplicationPresignedUrlOutputResponse: Swift.Equatable {
     /// The URL of the extension.
     public var authorizedUrl: Swift.String?
 
-    public init (
+    public init(
         authorizedUrl: Swift.String? = nil
     )
     {
@@ -3499,7 +3384,7 @@ extension CreateApplicationPresignedUrlOutputResponseBody: Swift.Decodable {
         case authorizedUrl = "AuthorizedUrl"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authorizedUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizedUrl)
         authorizedUrl = authorizedUrlDecoded
@@ -3537,7 +3422,7 @@ public struct CreateApplicationSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var snapshotName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         snapshotName: Swift.String? = nil
     )
@@ -3558,7 +3443,7 @@ extension CreateApplicationSnapshotInputBody: Swift.Decodable {
         case snapshotName = "SnapshotName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3567,48 +3452,31 @@ extension CreateApplicationSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateApplicationSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateApplicationSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateApplicationSnapshotOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration: Swift.Codable {
@@ -3631,7 +3499,7 @@ extension KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let artifactTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ArtifactType.self, forKey: .artifactType)
         artifactType = artifactTypeDecoded
@@ -3653,7 +3521,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// For a Kinesis Data Analytics application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public var s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation?
 
-        public init (
+        public init(
             artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType? = nil,
             mavenReference: KinesisAnalyticsV2ClientTypes.MavenReference? = nil,
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil
@@ -3687,7 +3555,7 @@ extension KinesisAnalyticsV2ClientTypes.CustomArtifactConfigurationDescription: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let artifactTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ArtifactType.self, forKey: .artifactType)
         artifactType = artifactTypeDecoded
@@ -3708,7 +3576,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// For a Kinesis Data Analytics application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public var s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentLocation?
 
-        public init (
+        public init(
             artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType? = nil,
             mavenReferenceDescription: KinesisAnalyticsV2ClientTypes.MavenReference? = nil,
             s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil
@@ -3765,7 +3633,7 @@ public struct DeleteApplicationCloudWatchLoggingOptionInput: Swift.Equatable {
     /// The version ID of the application. You must provide the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application version ID using [DescribeApplication]. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
     public var currentApplicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         cloudWatchLoggingOptionId: Swift.String? = nil,
         conditionalToken: Swift.String? = nil,
@@ -3794,7 +3662,7 @@ extension DeleteApplicationCloudWatchLoggingOptionInputBody: Swift.Decodable {
         case currentApplicationVersionId = "CurrentApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3807,41 +3675,25 @@ extension DeleteApplicationCloudWatchLoggingOptionInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationCloudWatchLoggingOptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationCloudWatchLoggingOptionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationCloudWatchLoggingOptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationCloudWatchLoggingOptionOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationCloudWatchLoggingOptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteApplicationCloudWatchLoggingOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -3863,7 +3715,7 @@ public struct DeleteApplicationCloudWatchLoggingOptionOutputResponse: Swift.Equa
     /// The descriptions of the remaining CloudWatch logging options for the application.
     public var cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]? = nil
@@ -3888,7 +3740,7 @@ extension DeleteApplicationCloudWatchLoggingOptionOutputResponseBody: Swift.Deco
         case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -3939,7 +3791,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     /// This member is required.
     public var createTimestamp: ClientRuntime.Date?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         createTimestamp: ClientRuntime.Date? = nil
     )
@@ -3960,7 +3812,7 @@ extension DeleteApplicationInputBody: Swift.Decodable {
         case createTimestamp = "CreateTimestamp"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4007,7 +3859,7 @@ public struct DeleteApplicationInputProcessingConfigurationInput: Swift.Equatabl
     /// This member is required.
     public var inputId: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil
@@ -4032,7 +3884,7 @@ extension DeleteApplicationInputProcessingConfigurationInputBody: Swift.Decodabl
         case inputId = "InputId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4043,39 +3895,24 @@ extension DeleteApplicationInputProcessingConfigurationInputBody: Swift.Decodabl
     }
 }
 
-extension DeleteApplicationInputProcessingConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationInputProcessingConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationInputProcessingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationInputProcessingConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationInputProcessingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteApplicationInputProcessingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -4093,7 +3930,7 @@ public struct DeleteApplicationInputProcessingConfigurationOutputResponse: Swift
     /// The current application version ID.
     public var applicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
     )
@@ -4114,7 +3951,7 @@ extension DeleteApplicationInputProcessingConfigurationOutputResponseBody: Swift
         case applicationVersionId = "ApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -4123,36 +3960,20 @@ extension DeleteApplicationInputProcessingConfigurationOutputResponseBody: Swift
     }
 }
 
-extension DeleteApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public enum DeleteApplicationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DeleteApplicationOutputInput: Swift.Encodable {
@@ -4193,7 +4014,7 @@ public struct DeleteApplicationOutputInput: Swift.Equatable {
     /// This member is required.
     public var outputId: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         outputId: Swift.String? = nil
@@ -4218,7 +4039,7 @@ extension DeleteApplicationOutputInputBody: Swift.Decodable {
         case outputId = "OutputId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4229,39 +4050,24 @@ extension DeleteApplicationOutputInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationOutputOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationOutputOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationOutputOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationOutputOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteApplicationOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -4279,7 +4085,7 @@ public struct DeleteApplicationOutputOutputResponse: Swift.Equatable {
     /// The current application version ID.
     public var applicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
     )
@@ -4300,7 +4106,7 @@ extension DeleteApplicationOutputOutputResponseBody: Swift.Decodable {
         case applicationVersionId = "ApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -4310,13 +4116,13 @@ extension DeleteApplicationOutputOutputResponseBody: Swift.Decodable {
 }
 
 extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteApplicationReferenceDataSourceInput: Swift.Encodable {
@@ -4357,7 +4163,7 @@ public struct DeleteApplicationReferenceDataSourceInput: Swift.Equatable {
     /// This member is required.
     public var referenceId: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         referenceId: Swift.String? = nil
@@ -4382,7 +4188,7 @@ extension DeleteApplicationReferenceDataSourceInputBody: Swift.Decodable {
         case referenceId = "ReferenceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4393,39 +4199,24 @@ extension DeleteApplicationReferenceDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationReferenceDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationReferenceDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationReferenceDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationReferenceDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationReferenceDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteApplicationReferenceDataSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -4443,7 +4234,7 @@ public struct DeleteApplicationReferenceDataSourceOutputResponse: Swift.Equatabl
     /// The updated version ID of the application.
     public var applicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
     )
@@ -4464,7 +4255,7 @@ extension DeleteApplicationReferenceDataSourceOutputResponseBody: Swift.Decodabl
         case applicationVersionId = "ApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -4511,7 +4302,7 @@ public struct DeleteApplicationSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var snapshotName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         snapshotCreationTimestamp: ClientRuntime.Date? = nil,
         snapshotName: Swift.String? = nil
@@ -4536,7 +4327,7 @@ extension DeleteApplicationSnapshotInputBody: Swift.Decodable {
         case snapshotName = "SnapshotName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4547,46 +4338,30 @@ extension DeleteApplicationSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteApplicationSnapshotOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteApplicationVpcConfigurationInput: Swift.Encodable {
@@ -4632,7 +4407,7 @@ public struct DeleteApplicationVpcConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var vpcConfigurationId: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
@@ -4661,7 +4436,7 @@ extension DeleteApplicationVpcConfigurationInputBody: Swift.Decodable {
         case vpcConfigurationId = "VpcConfigurationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4674,39 +4449,24 @@ extension DeleteApplicationVpcConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationVpcConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteApplicationVpcConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteApplicationVpcConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationVpcConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteApplicationVpcConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -4724,7 +4484,7 @@ public struct DeleteApplicationVpcConfigurationOutputResponse: Swift.Equatable {
     /// The updated version ID of the application.
     public var applicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
     )
@@ -4745,7 +4505,7 @@ extension DeleteApplicationVpcConfigurationOutputResponseBody: Swift.Decodable {
         case applicationVersionId = "ApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -4766,7 +4526,7 @@ extension KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ContentLocationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.S3ContentBaseLocation.self, forKey: .s3ContentLocation)
         s3ContentLocation = s3ContentLocationDecoded
@@ -4780,7 +4540,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocation?
 
-        public init (
+        public init(
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocation? = nil
         )
         {
@@ -4802,7 +4562,7 @@ extension KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationDescript
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ContentLocationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription.self, forKey: .s3ContentLocationDescription)
         s3ContentLocationDescription = s3ContentLocationDescriptionDecoded
@@ -4816,7 +4576,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription?
 
-        public init (
+        public init(
             s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription? = nil
         )
         {
@@ -4838,7 +4598,7 @@ extension KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationUpdate: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ContentLocationUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationUpdate.self, forKey: .s3ContentLocationUpdate)
         s3ContentLocationUpdate = s3ContentLocationUpdateDecoded
@@ -4851,7 +4611,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Updates to the location that holds the data required to specify an Amazon Data Analytics application.
         public var s3ContentLocationUpdate: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationUpdate?
 
-        public init (
+        public init(
             s3ContentLocationUpdate: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationUpdate? = nil
         )
         {
@@ -4891,7 +4651,7 @@ public struct DescribeApplicationInput: Swift.Equatable {
     /// Displays verbose information about a Kinesis Data Analytics application, including the application's job plan.
     public var includeAdditionalDetails: Swift.Bool?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         includeAdditionalDetails: Swift.Bool? = nil
     )
@@ -4912,7 +4672,7 @@ extension DescribeApplicationInputBody: Swift.Decodable {
         case includeAdditionalDetails = "IncludeAdditionalDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4921,35 +4681,22 @@ extension DescribeApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeApplicationOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationDetail = output.applicationDetail
@@ -4964,7 +4711,7 @@ public struct DescribeApplicationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
-    public init (
+    public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     )
     {
@@ -4981,7 +4728,7 @@ extension DescribeApplicationOutputResponseBody: Swift.Decodable {
         case applicationDetail = "ApplicationDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDetailDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationDetail.self, forKey: .applicationDetail)
         applicationDetail = applicationDetailDecoded
@@ -5019,7 +4766,7 @@ public struct DescribeApplicationSnapshotInput: Swift.Equatable {
     /// This member is required.
     public var snapshotName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         snapshotName: Swift.String? = nil
     )
@@ -5040,7 +4787,7 @@ extension DescribeApplicationSnapshotInputBody: Swift.Decodable {
         case snapshotName = "SnapshotName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -5049,35 +4796,22 @@ extension DescribeApplicationSnapshotInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeApplicationSnapshotOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeApplicationSnapshotOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeApplicationSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeApplicationSnapshotOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeApplicationSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeApplicationSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotDetails = output.snapshotDetails
@@ -5092,7 +4826,7 @@ public struct DescribeApplicationSnapshotOutputResponse: Swift.Equatable {
     /// This member is required.
     public var snapshotDetails: KinesisAnalyticsV2ClientTypes.SnapshotDetails?
 
-    public init (
+    public init(
         snapshotDetails: KinesisAnalyticsV2ClientTypes.SnapshotDetails? = nil
     )
     {
@@ -5109,7 +4843,7 @@ extension DescribeApplicationSnapshotOutputResponseBody: Swift.Decodable {
         case snapshotDetails = "SnapshotDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotDetailsDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.SnapshotDetails.self, forKey: .snapshotDetails)
         snapshotDetails = snapshotDetailsDecoded
@@ -5147,7 +4881,7 @@ public struct DescribeApplicationVersionInput: Swift.Equatable {
     /// This member is required.
     public var applicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
     )
@@ -5168,7 +4902,7 @@ extension DescribeApplicationVersionInputBody: Swift.Decodable {
         case applicationVersionId = "ApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -5177,35 +4911,22 @@ extension DescribeApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeApplicationVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeApplicationVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeApplicationVersionOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersionDetail = output.applicationVersionDetail
@@ -5219,7 +4940,7 @@ public struct DescribeApplicationVersionOutputResponse: Swift.Equatable {
     /// Describes the application, including the application Amazon Resource Name (ARN), status, latest version, and input and output configurations.
     public var applicationVersionDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
-    public init (
+    public init(
         applicationVersionDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     )
     {
@@ -5236,7 +4957,7 @@ extension DescribeApplicationVersionOutputResponseBody: Swift.Decodable {
         case applicationVersionDetail = "ApplicationVersionDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationVersionDetailDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationDetail.self, forKey: .applicationVersionDetail)
         applicationVersionDetail = applicationVersionDetailDecoded
@@ -5255,7 +4976,7 @@ extension KinesisAnalyticsV2ClientTypes.DestinationSchema: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordFormatTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RecordFormatType.self, forKey: .recordFormatType)
         recordFormatType = recordFormatTypeDecoded
@@ -5269,7 +4990,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType?
 
-        public init (
+        public init(
             recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType? = nil
         )
         {
@@ -5327,7 +5048,7 @@ public struct DiscoverInputSchemaInput: Swift.Equatable {
     /// This member is required.
     public var serviceExecutionRole: Swift.String?
 
-    public init (
+    public init(
         inputProcessingConfiguration: KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration? = nil,
         inputStartingPositionConfiguration: KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration? = nil,
         resourceARN: Swift.String? = nil,
@@ -5360,7 +5081,7 @@ extension DiscoverInputSchemaInputBody: Swift.Decodable {
         case serviceExecutionRole = "ServiceExecutionRole"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -5375,41 +5096,25 @@ extension DiscoverInputSchemaInputBody: Swift.Decodable {
     }
 }
 
-extension DiscoverInputSchemaOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DiscoverInputSchemaOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceProvisionedThroughputExceededException" : self = .resourceProvisionedThroughputExceededException(try ResourceProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnableToDetectSchemaException" : self = .unableToDetectSchemaException(try UnableToDetectSchemaException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DiscoverInputSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceProvisionedThroughputExceededException": return try await ResourceProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToDetectSchemaException": return try await UnableToDetectSchemaException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DiscoverInputSchemaOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceProvisionedThroughputExceededException(ResourceProvisionedThroughputExceededException)
-    case serviceUnavailableException(ServiceUnavailableException)
-    case unableToDetectSchemaException(UnableToDetectSchemaException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DiscoverInputSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DiscoverInputSchemaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputSchema = output.inputSchema
@@ -5435,7 +5140,7 @@ public struct DiscoverInputSchemaOutputResponse: Swift.Equatable {
     /// The raw stream data that was sampled to infer the schema.
     public var rawInputRecords: [Swift.String]?
 
-    public init (
+    public init(
         inputSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
         parsedInputRecords: [[Swift.String]]? = nil,
         processedInputRecords: [Swift.String]? = nil,
@@ -5464,7 +5169,7 @@ extension DiscoverInputSchemaOutputResponseBody: Swift.Decodable {
         case rawInputRecords = "RawInputRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputSchemaDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.SourceSchema.self, forKey: .inputSchema)
         inputSchema = inputSchemaDecoded
@@ -5528,7 +5233,7 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyGroupsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.PropertyGroup?].self, forKey: .propertyGroups)
         var propertyGroupsDecoded0:[KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
@@ -5551,7 +5256,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]?
 
-        public init (
+        public init(
             propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
         )
         {
@@ -5576,7 +5281,7 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyGroupDescriptionsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.PropertyGroup?].self, forKey: .propertyGroupDescriptions)
         var propertyGroupDescriptionsDecoded0:[KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
@@ -5598,7 +5303,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the execution property groups.
         public var propertyGroupDescriptions: [KinesisAnalyticsV2ClientTypes.PropertyGroup]?
 
-        public init (
+        public init(
             propertyGroupDescriptions: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
         )
         {
@@ -5623,7 +5328,7 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyGroupsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.PropertyGroup?].self, forKey: .propertyGroups)
         var propertyGroupsDecoded0:[KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
@@ -5646,7 +5351,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]?
 
-        public init (
+        public init(
             propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
         )
         {
@@ -5676,7 +5381,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfiguration: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkpointConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CheckpointConfiguration.self, forKey: .checkpointConfiguration)
         checkpointConfiguration = checkpointConfigurationDecoded
@@ -5697,7 +5402,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes parameters for how an application executes multiple tasks simultaneously.
         public var parallelismConfiguration: KinesisAnalyticsV2ClientTypes.ParallelismConfiguration?
 
-        public init (
+        public init(
             checkpointConfiguration: KinesisAnalyticsV2ClientTypes.CheckpointConfiguration? = nil,
             monitoringConfiguration: KinesisAnalyticsV2ClientTypes.MonitoringConfiguration? = nil,
             parallelismConfiguration: KinesisAnalyticsV2ClientTypes.ParallelismConfiguration? = nil
@@ -5735,7 +5440,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationDescription
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkpointConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription.self, forKey: .checkpointConfigurationDescription)
         checkpointConfigurationDescription = checkpointConfigurationDescriptionDecoded
@@ -5760,7 +5465,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes parameters for how an application executes multiple tasks simultaneously.
         public var parallelismConfigurationDescription: KinesisAnalyticsV2ClientTypes.ParallelismConfigurationDescription?
 
-        public init (
+        public init(
             checkpointConfigurationDescription: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription? = nil,
             jobPlanDescription: Swift.String? = nil,
             monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationDescription? = nil,
@@ -5796,7 +5501,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationUpdate: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let checkpointConfigurationUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate.self, forKey: .checkpointConfigurationUpdate)
         checkpointConfigurationUpdate = checkpointConfigurationUpdateDecoded
@@ -5817,7 +5522,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes updates to the parameters for how an application executes multiple tasks simultaneously.
         public var parallelismConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ParallelismConfigurationUpdate?
 
-        public init (
+        public init(
             checkpointConfigurationUpdate: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate? = nil,
             monitoringConfigurationUpdate: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationUpdate? = nil,
             parallelismConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ParallelismConfigurationUpdate? = nil
@@ -5843,7 +5548,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allowNonRestoredStateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowNonRestoredState)
         allowNonRestoredState = allowNonRestoredStateDecoded
@@ -5856,7 +5561,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/savepoints.html#allowing-non-restored-state) in the [Apache Flink documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public var allowNonRestoredState: Swift.Bool?
 
-        public init (
+        public init(
             allowNonRestoredState: Swift.Bool? = nil
         )
         {
@@ -5878,7 +5583,7 @@ extension KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseARN)
         databaseARN = databaseARNDecoded
@@ -5892,7 +5597,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var databaseARN: Swift.String?
 
-        public init (
+        public init(
             databaseARN: Swift.String? = nil
         )
         {
@@ -5914,7 +5619,7 @@ extension KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseARN)
         databaseARN = databaseARNDecoded
@@ -5928,7 +5633,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var databaseARN: Swift.String?
 
-        public init (
+        public init(
             databaseARN: Swift.String? = nil
         )
         {
@@ -5950,7 +5655,7 @@ extension KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseARNUpdate)
         databaseARNUpdate = databaseARNUpdateDecoded
@@ -5964,7 +5669,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var databaseARNUpdate: Swift.String?
 
-        public init (
+        public init(
             databaseARNUpdate: Swift.String? = nil
         )
         {
@@ -6006,7 +5711,7 @@ extension KinesisAnalyticsV2ClientTypes.Input: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namePrefix)
         namePrefix = namePrefixDecoded
@@ -6041,7 +5746,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var namePrefix: Swift.String?
 
-        public init (
+        public init(
             inputParallelism: KinesisAnalyticsV2ClientTypes.InputParallelism? = nil,
             inputProcessingConfiguration: KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration? = nil,
             inputSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
@@ -6108,7 +5813,7 @@ extension KinesisAnalyticsV2ClientTypes.InputDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputId)
         inputId = inputIdDecoded
@@ -6162,7 +5867,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The in-application name prefix.
         public var namePrefix: Swift.String?
 
-        public init (
+        public init(
             inAppStreamNames: [Swift.String]? = nil,
             inputId: Swift.String? = nil,
             inputParallelism: KinesisAnalyticsV2ClientTypes.InputParallelism? = nil,
@@ -6200,7 +5905,7 @@ extension KinesisAnalyticsV2ClientTypes.InputLambdaProcessor: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6214,7 +5919,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -6240,7 +5945,7 @@ extension KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6258,7 +5963,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that is used to access the Amazon Lambda function. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -6282,7 +5987,7 @@ extension KinesisAnalyticsV2ClientTypes.InputLambdaProcessorUpdate: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -6296,7 +6001,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -6318,7 +6023,7 @@ extension KinesisAnalyticsV2ClientTypes.InputParallelism: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
         count = countDecoded
@@ -6331,7 +6036,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The number of in-application streams to create.
         public var count: Swift.Int?
 
-        public init (
+        public init(
             count: Swift.Int? = nil
         )
         {
@@ -6353,7 +6058,7 @@ extension KinesisAnalyticsV2ClientTypes.InputParallelismUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countUpdateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .countUpdate)
         countUpdate = countUpdateDecoded
@@ -6367,7 +6072,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var countUpdate: Swift.Int?
 
-        public init (
+        public init(
             countUpdate: Swift.Int? = nil
         )
         {
@@ -6389,7 +6094,7 @@ extension KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputLambdaProcessorDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.InputLambdaProcessor.self, forKey: .inputLambdaProcessor)
         inputLambdaProcessor = inputLambdaProcessorDecoded
@@ -6403,7 +6108,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var inputLambdaProcessor: KinesisAnalyticsV2ClientTypes.InputLambdaProcessor?
 
-        public init (
+        public init(
             inputLambdaProcessor: KinesisAnalyticsV2ClientTypes.InputLambdaProcessor? = nil
         )
         {
@@ -6425,7 +6130,7 @@ extension KinesisAnalyticsV2ClientTypes.InputProcessingConfigurationDescription:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputLambdaProcessorDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription.self, forKey: .inputLambdaProcessorDescription)
         inputLambdaProcessorDescription = inputLambdaProcessorDescriptionDecoded
@@ -6438,7 +6143,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Provides configuration information about the associated [InputLambdaProcessorDescription]
         public var inputLambdaProcessorDescription: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription?
 
-        public init (
+        public init(
             inputLambdaProcessorDescription: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription? = nil
         )
         {
@@ -6460,7 +6165,7 @@ extension KinesisAnalyticsV2ClientTypes.InputProcessingConfigurationUpdate: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputLambdaProcessorUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.InputLambdaProcessorUpdate.self, forKey: .inputLambdaProcessorUpdate)
         inputLambdaProcessorUpdate = inputLambdaProcessorUpdateDecoded
@@ -6474,7 +6179,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var inputLambdaProcessorUpdate: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorUpdate?
 
-        public init (
+        public init(
             inputLambdaProcessorUpdate: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorUpdate? = nil
         )
         {
@@ -6507,7 +6212,7 @@ extension KinesisAnalyticsV2ClientTypes.InputSchemaUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordFormatUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RecordFormat.self, forKey: .recordFormatUpdate)
         recordFormatUpdate = recordFormatUpdateDecoded
@@ -6537,7 +6242,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Specifies the format of the records on the streaming source.
         public var recordFormatUpdate: KinesisAnalyticsV2ClientTypes.RecordFormat?
 
-        public init (
+        public init(
             recordColumnUpdates: [KinesisAnalyticsV2ClientTypes.RecordColumn]? = nil,
             recordEncodingUpdate: Swift.String? = nil,
             recordFormatUpdate: KinesisAnalyticsV2ClientTypes.RecordFormat? = nil
@@ -6598,7 +6303,7 @@ extension KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputStartingPositionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.InputStartingPosition.self, forKey: .inputStartingPosition)
         inputStartingPosition = inputStartingPositionDecoded
@@ -6617,7 +6322,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// * LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
         public var inputStartingPosition: KinesisAnalyticsV2ClientTypes.InputStartingPosition?
 
-        public init (
+        public init(
             inputStartingPosition: KinesisAnalyticsV2ClientTypes.InputStartingPosition? = nil
         )
         {
@@ -6663,7 +6368,7 @@ extension KinesisAnalyticsV2ClientTypes.InputUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputId)
         inputId = inputIdDecoded
@@ -6701,7 +6406,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The name prefix for in-application streams that Kinesis Data Analytics creates for the specific streaming source.
         public var namePrefixUpdate: Swift.String?
 
-        public init (
+        public init(
             inputId: Swift.String? = nil,
             inputParallelismUpdate: KinesisAnalyticsV2ClientTypes.InputParallelismUpdate? = nil,
             inputProcessingConfigurationUpdate: KinesisAnalyticsV2ClientTypes.InputProcessingConfigurationUpdate? = nil,
@@ -6724,37 +6429,41 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 extension InvalidApplicationConfigurationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidApplicationConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user-provided application configuration is not valid.
-public struct InvalidApplicationConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidApplicationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidApplicationConfigurationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6767,7 +6476,7 @@ extension InvalidApplicationConfigurationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6775,37 +6484,41 @@ extension InvalidApplicationConfigurationExceptionBody: Swift.Decodable {
 }
 
 extension InvalidArgumentException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified input parameter value is not valid.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidArgumentException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6818,7 +6531,7 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6826,37 +6539,41 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request JSON is not valid for the operation.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6869,7 +6586,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6888,7 +6605,7 @@ extension KinesisAnalyticsV2ClientTypes.JSONMappingParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordRowPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordRowPath)
         recordRowPath = recordRowPathDecoded
@@ -6902,7 +6619,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var recordRowPath: Swift.String?
 
-        public init (
+        public init(
             recordRowPath: Swift.String? = nil
         )
         {
@@ -6924,7 +6641,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6938,7 +6655,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -6964,7 +6681,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputDescription: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6982,7 +6699,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics assumes to access the stream. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -7006,7 +6723,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputUpdate: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -7020,7 +6737,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -7042,7 +6759,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7056,7 +6773,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -7082,7 +6799,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputDescription: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7100,7 +6817,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -7124,7 +6841,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputUpdate: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -7138,7 +6855,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -7160,7 +6877,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsInput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7174,7 +6891,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -7200,7 +6917,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsInputDescription: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7218,7 +6935,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -7242,7 +6959,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsInputUpdate: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -7256,7 +6973,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -7278,7 +6995,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7292,7 +7009,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -7318,7 +7035,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputDescription: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7336,7 +7053,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -7360,7 +7077,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputUpdate: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -7374,7 +7091,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -7396,7 +7113,7 @@ extension KinesisAnalyticsV2ClientTypes.LambdaOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7410,7 +7127,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil
         )
         {
@@ -7436,7 +7153,7 @@ extension KinesisAnalyticsV2ClientTypes.LambdaOutputDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -7454,7 +7171,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to write to the destination function. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -7478,7 +7195,7 @@ extension KinesisAnalyticsV2ClientTypes.LambdaOutputUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARNUpdate)
         resourceARNUpdate = resourceARNUpdateDecoded
@@ -7492,7 +7209,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var resourceARNUpdate: Swift.String?
 
-        public init (
+        public init(
             resourceARNUpdate: Swift.String? = nil
         )
         {
@@ -7503,37 +7220,41 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of allowed resources has been exceeded.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7546,7 +7267,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7589,7 +7310,7 @@ public struct ListApplicationSnapshotsInput: Swift.Equatable {
     /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7614,7 +7335,7 @@ extension ListApplicationSnapshotsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -7625,33 +7346,21 @@ extension ListApplicationSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-extension ListApplicationSnapshotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListApplicationSnapshotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListApplicationSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListApplicationSnapshotsOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListApplicationSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListApplicationSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7669,7 +7378,7 @@ public struct ListApplicationSnapshotsOutputResponse: Swift.Equatable {
     /// A collection of objects containing information about the application snapshots.
     public var snapshotSummaries: [KinesisAnalyticsV2ClientTypes.SnapshotDetails]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         snapshotSummaries: [KinesisAnalyticsV2ClientTypes.SnapshotDetails]? = nil
     )
@@ -7690,7 +7399,7 @@ extension ListApplicationSnapshotsOutputResponseBody: Swift.Decodable {
         case snapshotSummaries = "SnapshotSummaries"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotSummariesContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.SnapshotDetails?].self, forKey: .snapshotSummaries)
         var snapshotSummariesDecoded0:[KinesisAnalyticsV2ClientTypes.SnapshotDetails]? = nil
@@ -7744,7 +7453,7 @@ public struct ListApplicationVersionsInput: Swift.Equatable {
     /// If a previous invocation of this operation returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see [Using the Amazon Command Line Interface's Pagination Options](https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7769,7 +7478,7 @@ extension ListApplicationVersionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -7780,35 +7489,22 @@ extension ListApplicationVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListApplicationVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListApplicationVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListApplicationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListApplicationVersionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListApplicationVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListApplicationVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersionSummaries = output.applicationVersionSummaries
@@ -7826,7 +7522,7 @@ public struct ListApplicationVersionsOutputResponse: Swift.Equatable {
     /// The pagination token for the next set of results, or null if there are no additional results. To retrieve the next set of items, pass this token into a subsequent invocation of this operation. For more information about pagination, see [Using the Amazon Command Line Interface's Pagination Options](https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationVersionSummaries: [KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7847,7 +7543,7 @@ extension ListApplicationVersionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationVersionSummariesContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary?].self, forKey: .applicationVersionSummaries)
         var applicationVersionSummariesDecoded0:[KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary]? = nil
@@ -7894,7 +7590,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see [Using the Amazon Command Line Interface's Pagination Options](https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7915,7 +7611,7 @@ extension ListApplicationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
@@ -7924,31 +7620,20 @@ extension ListApplicationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListApplicationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListApplicationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationSummaries = output.applicationSummaries
@@ -7967,7 +7652,7 @@ public struct ListApplicationsOutputResponse: Swift.Equatable {
     /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see [Using the Amazon Command Line Interface's Pagination Options](https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationSummaries: [KinesisAnalyticsV2ClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7988,7 +7673,7 @@ extension ListApplicationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationSummariesContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.ApplicationSummary?].self, forKey: .applicationSummaries)
         var applicationSummariesDecoded0:[KinesisAnalyticsV2ClientTypes.ApplicationSummary]? = nil
@@ -8030,7 +7715,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -8047,42 +7732,29 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -8096,7 +7768,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The key-value tags assigned to the application.
     public var tags: [KinesisAnalyticsV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
     )
     {
@@ -8113,7 +7785,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[KinesisAnalyticsV2ClientTypes.Tag]? = nil
@@ -8183,7 +7855,7 @@ extension KinesisAnalyticsV2ClientTypes.MappingParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jsonMappingParametersDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.JSONMappingParameters.self, forKey: .jsonMappingParameters)
         jsonMappingParameters = jsonMappingParametersDecoded
@@ -8200,7 +7872,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Provides additional mapping information when JSON is the record format on the streaming source.
         public var jsonMappingParameters: KinesisAnalyticsV2ClientTypes.JSONMappingParameters?
 
-        public init (
+        public init(
             csvMappingParameters: KinesisAnalyticsV2ClientTypes.CSVMappingParameters? = nil,
             jsonMappingParameters: KinesisAnalyticsV2ClientTypes.JSONMappingParameters? = nil
         )
@@ -8232,7 +7904,7 @@ extension KinesisAnalyticsV2ClientTypes.MavenReference: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -8256,7 +7928,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             artifactId: Swift.String? = nil,
             groupId: Swift.String? = nil,
             version: Swift.String? = nil
@@ -8328,7 +8000,7 @@ extension KinesisAnalyticsV2ClientTypes.MonitoringConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -8350,7 +8022,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public var metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel?
 
-        public init (
+        public init(
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
@@ -8384,7 +8056,7 @@ extension KinesisAnalyticsV2ClientTypes.MonitoringConfigurationDescription: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -8405,7 +8077,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the granularity of the CloudWatch Logs for an application.
         public var metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel?
 
-        public init (
+        public init(
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
@@ -8439,7 +8111,7 @@ extension KinesisAnalyticsV2ClientTypes.MonitoringConfigurationUpdate: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationTypeUpdate)
         configurationTypeUpdate = configurationTypeUpdateDecoded
@@ -8460,7 +8132,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes updates to the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public var metricsLevelUpdate: KinesisAnalyticsV2ClientTypes.MetricsLevel?
 
-        public init (
+        public init(
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevelUpdate: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
@@ -8502,7 +8174,7 @@ extension KinesisAnalyticsV2ClientTypes.Output: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8533,7 +8205,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             destinationSchema: KinesisAnalyticsV2ClientTypes.DestinationSchema? = nil,
             kinesisFirehoseOutput: KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutput? = nil,
             kinesisStreamsOutput: KinesisAnalyticsV2ClientTypes.KinesisStreamsOutput? = nil,
@@ -8583,7 +8255,7 @@ extension KinesisAnalyticsV2ClientTypes.OutputDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputId)
         outputId = outputIdDecoded
@@ -8616,7 +8288,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// A unique identifier for the output configuration.
         public var outputId: Swift.String?
 
-        public init (
+        public init(
             destinationSchema: KinesisAnalyticsV2ClientTypes.DestinationSchema? = nil,
             kinesisFirehoseOutputDescription: KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputDescription? = nil,
             kinesisStreamsOutputDescription: KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputDescription? = nil,
@@ -8668,7 +8340,7 @@ extension KinesisAnalyticsV2ClientTypes.OutputUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputId)
         outputId = outputIdDecoded
@@ -8702,7 +8374,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var outputId: Swift.String?
 
-        public init (
+        public init(
             destinationSchemaUpdate: KinesisAnalyticsV2ClientTypes.DestinationSchema? = nil,
             kinesisFirehoseOutputUpdate: KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputUpdate? = nil,
             kinesisStreamsOutputUpdate: KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputUpdate? = nil,
@@ -8746,7 +8418,7 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfiguration: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -8772,7 +8444,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see [Amazon Kinesis Data Analytics Pricing](http://aws.amazon.com/kinesis/data-analytics/pricing/).
         public var parallelismPerKPU: Swift.Int?
 
-        public init (
+        public init(
             autoScalingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             parallelism: Swift.Int? = nil,
@@ -8816,7 +8488,7 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfigurationDescription: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationType)
         configurationType = configurationTypeDecoded
@@ -8845,7 +8517,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
         public var parallelismPerKPU: Swift.Int?
 
-        public init (
+        public init(
             autoScalingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             currentParallelism: Swift.Int? = nil,
@@ -8887,7 +8559,7 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfigurationUpdate: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationTypeUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ConfigurationType.self, forKey: .configurationTypeUpdate)
         configurationTypeUpdate = configurationTypeUpdateDecoded
@@ -8912,7 +8584,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes updates to the initial number of parallel tasks an application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service will reduce CurrentParallelism down to the Parallelism setting.
         public var parallelismUpdate: Swift.Int?
 
-        public init (
+        public init(
             autoScalingEnabledUpdate: Swift.Bool? = nil,
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             parallelismPerKPUUpdate: Swift.Int? = nil,
@@ -8947,7 +8619,7 @@ extension KinesisAnalyticsV2ClientTypes.PropertyGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let propertyGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyGroupId)
         propertyGroupId = propertyGroupIdDecoded
@@ -8975,7 +8647,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var propertyMap: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             propertyGroupId: Swift.String? = nil,
             propertyMap: [Swift.String:Swift.String]? = nil
         )
@@ -9007,7 +8679,7 @@ extension KinesisAnalyticsV2ClientTypes.RecordColumn: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9030,7 +8702,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var sqlType: Swift.String?
 
-        public init (
+        public init(
             mapping: Swift.String? = nil,
             name: Swift.String? = nil,
             sqlType: Swift.String? = nil
@@ -9060,7 +8732,7 @@ extension KinesisAnalyticsV2ClientTypes.RecordFormat: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordFormatTypeDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RecordFormatType.self, forKey: .recordFormatType)
         recordFormatType = recordFormatTypeDecoded
@@ -9078,7 +8750,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType?
 
-        public init (
+        public init(
             mappingParameters: KinesisAnalyticsV2ClientTypes.MappingParameters? = nil,
             recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType? = nil
         )
@@ -9142,7 +8814,7 @@ extension KinesisAnalyticsV2ClientTypes.ReferenceDataSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -9165,7 +8837,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             referenceSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSource: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSource? = nil,
             tableName: Swift.String? = nil
@@ -9203,7 +8875,7 @@ extension KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let referenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceId)
         referenceId = referenceIdDecoded
@@ -9231,7 +8903,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             referenceId: Swift.String? = nil,
             referenceSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSourceDescription: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription? = nil,
@@ -9271,7 +8943,7 @@ extension KinesisAnalyticsV2ClientTypes.ReferenceDataSourceUpdate: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let referenceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .referenceId)
         referenceId = referenceIdDecoded
@@ -9297,7 +8969,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The in-application table name that is created by this update.
         public var tableNameUpdate: Swift.String?
 
-        public init (
+        public init(
             referenceId: Swift.String? = nil,
             referenceSchemaUpdate: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSourceUpdate: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceUpdate? = nil,
@@ -9314,37 +8986,41 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 extension ResourceInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The application is not available for this operation.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9357,7 +9033,7 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9365,37 +9041,41 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Specified application can't be found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9408,7 +9088,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9416,37 +9096,41 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ResourceProvisionedThroughputExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceProvisionedThroughputExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Discovery failed to get a record from the streaming source because of the Kinesis Streams ProvisionedThroughputExceededException. For more information, see [GetRecords](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html) in the Amazon Kinesis Streams API Reference.
-public struct ResourceProvisionedThroughputExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceProvisionedThroughputExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9459,7 +9143,7 @@ extension ResourceProvisionedThroughputExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9497,7 +9181,7 @@ public struct RollbackApplicationInput: Swift.Equatable {
     /// This member is required.
     public var currentApplicationVersionId: Swift.Int?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil
     )
@@ -9518,7 +9202,7 @@ extension RollbackApplicationInputBody: Swift.Decodable {
         case currentApplicationVersionId = "CurrentApplicationVersionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -9527,41 +9211,25 @@ extension RollbackApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension RollbackApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RollbackApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RollbackApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RollbackApplicationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RollbackApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RollbackApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationDetail = output.applicationDetail
@@ -9576,7 +9244,7 @@ public struct RollbackApplicationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
-    public init (
+    public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     )
     {
@@ -9593,7 +9261,7 @@ extension RollbackApplicationOutputResponseBody: Swift.Decodable {
         case applicationDetail = "ApplicationDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDetailDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationDetail.self, forKey: .applicationDetail)
         applicationDetail = applicationDetailDecoded
@@ -9623,7 +9291,7 @@ extension KinesisAnalyticsV2ClientTypes.RunConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flinkRunConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration.self, forKey: .flinkRunConfiguration)
         flinkRunConfiguration = flinkRunConfigurationDecoded
@@ -9653,7 +9321,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the starting parameters for a SQL-based Kinesis Data Analytics application application.
         public var sqlRunConfigurations: [KinesisAnalyticsV2ClientTypes.SqlRunConfiguration]?
 
-        public init (
+        public init(
             applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil,
             sqlRunConfigurations: [KinesisAnalyticsV2ClientTypes.SqlRunConfiguration]? = nil
@@ -9683,7 +9351,7 @@ extension KinesisAnalyticsV2ClientTypes.RunConfigurationDescription: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationRestoreConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration.self, forKey: .applicationRestoreConfigurationDescription)
         applicationRestoreConfigurationDescription = applicationRestoreConfigurationDescriptionDecoded
@@ -9700,7 +9368,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
         public var flinkRunConfigurationDescription: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration?
 
-        public init (
+        public init(
             applicationRestoreConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfigurationDescription: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil
         )
@@ -9728,7 +9396,7 @@ extension KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flinkRunConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration.self, forKey: .flinkRunConfiguration)
         flinkRunConfiguration = flinkRunConfigurationDecoded
@@ -9745,7 +9413,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
         public var flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration?
 
-        public init (
+        public init(
             applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil
         )
@@ -9827,7 +9495,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -9850,7 +9518,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The version of the object containing the application code.
         public var objectVersion: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
@@ -9880,7 +9548,7 @@ extension KinesisAnalyticsV2ClientTypes.S3Configuration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -9899,7 +9567,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var fileKey: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil
         )
@@ -9927,7 +9595,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentBaseLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -9945,7 +9613,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var bucketARN: Swift.String?
 
-        public init (
+        public init(
             basePath: Swift.String? = nil,
             bucketARN: Swift.String? = nil
         )
@@ -9973,7 +9641,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -9991,7 +9659,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var bucketARN: Swift.String?
 
-        public init (
+        public init(
             basePath: Swift.String? = nil,
             bucketARN: Swift.String? = nil
         )
@@ -10019,7 +9687,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationUpdate: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARNUpdate)
         bucketARNUpdate = bucketARNUpdateDecoded
@@ -10036,7 +9704,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The updated Amazon Resource Name (ARN) of the S3 bucket.
         public var bucketARNUpdate: Swift.String?
 
-        public init (
+        public init(
             basePathUpdate: Swift.String? = nil,
             bucketARNUpdate: Swift.String? = nil
         )
@@ -10068,7 +9736,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentLocation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -10091,7 +9759,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The version of the object containing the application code.
         public var objectVersion: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
@@ -10125,7 +9793,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentLocationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARNUpdate)
         bucketARNUpdate = bucketARNUpdateDecoded
@@ -10146,7 +9814,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The new version of the object containing the application code.
         public var objectVersionUpdate: Swift.String?
 
-        public init (
+        public init(
             bucketARNUpdate: Swift.String? = nil,
             fileKeyUpdate: Swift.String? = nil,
             objectVersionUpdate: Swift.String? = nil
@@ -10176,7 +9844,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ReferenceDataSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -10193,7 +9861,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The object key name containing the reference data.
         public var fileKey: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil
         )
@@ -10225,7 +9893,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARN)
         bucketARN = bucketARNDecoded
@@ -10248,7 +9916,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table. Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public var referenceRoleARN: Swift.String?
 
-        public init (
+        public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             referenceRoleARN: Swift.String? = nil
@@ -10278,7 +9946,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceUpdate: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketARNUpdateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketARNUpdate)
         bucketARNUpdate = bucketARNUpdateDecoded
@@ -10295,7 +9963,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The object key name.
         public var fileKeyUpdate: Swift.String?
 
-        public init (
+        public init(
             bucketARNUpdate: Swift.String? = nil,
             fileKeyUpdate: Swift.String? = nil
         )
@@ -10308,37 +9976,41 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 extension ServiceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service cannot complete the request.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10351,7 +10023,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10382,7 +10054,7 @@ extension KinesisAnalyticsV2ClientTypes.SnapshotDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotName)
         snapshotName = snapshotNameDecoded
@@ -10410,7 +10082,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
 
-        public init (
+        public init(
             applicationVersionId: Swift.Int? = nil,
             snapshotCreationTimestamp: ClientRuntime.Date? = nil,
             snapshotName: Swift.String? = nil,
@@ -10487,7 +10159,7 @@ extension KinesisAnalyticsV2ClientTypes.SourceSchema: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordFormatDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RecordFormat.self, forKey: .recordFormat)
         recordFormat = recordFormatDecoded
@@ -10519,7 +10191,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var recordFormat: KinesisAnalyticsV2ClientTypes.RecordFormat?
 
-        public init (
+        public init(
             recordColumns: [KinesisAnalyticsV2ClientTypes.RecordColumn]? = nil,
             recordEncoding: Swift.String? = nil,
             recordFormat: KinesisAnalyticsV2ClientTypes.RecordFormat? = nil
@@ -10562,7 +10234,7 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.Input?].self, forKey: .inputs)
         var inputsDecoded0:[KinesisAnalyticsV2ClientTypes.Input]? = nil
@@ -10610,7 +10282,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The array of [ReferenceDataSource] objects describing the reference data sources used by the application.
         public var referenceDataSources: [KinesisAnalyticsV2ClientTypes.ReferenceDataSource]?
 
-        public init (
+        public init(
             inputs: [KinesisAnalyticsV2ClientTypes.Input]? = nil,
             outputs: [KinesisAnalyticsV2ClientTypes.Output]? = nil,
             referenceDataSources: [KinesisAnalyticsV2ClientTypes.ReferenceDataSource]? = nil
@@ -10653,7 +10325,7 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationDescription: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputDescriptionsContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.InputDescription?].self, forKey: .inputDescriptions)
         var inputDescriptionsDecoded0:[KinesisAnalyticsV2ClientTypes.InputDescription]? = nil
@@ -10701,7 +10373,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The array of [ReferenceDataSourceDescription] objects describing the reference data sources used by the application.
         public var referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]?
 
-        public init (
+        public init(
             inputDescriptions: [KinesisAnalyticsV2ClientTypes.InputDescription]? = nil,
             outputDescriptions: [KinesisAnalyticsV2ClientTypes.OutputDescription]? = nil,
             referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]? = nil
@@ -10744,7 +10416,7 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputUpdatesContainer = try containerValues.decodeIfPresent([KinesisAnalyticsV2ClientTypes.InputUpdate?].self, forKey: .inputUpdates)
         var inputUpdatesDecoded0:[KinesisAnalyticsV2ClientTypes.InputUpdate]? = nil
@@ -10792,7 +10464,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The array of [ReferenceDataSourceUpdate] objects describing the new reference data sources used by the application.
         public var referenceDataSourceUpdates: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceUpdate]?
 
-        public init (
+        public init(
             inputUpdates: [KinesisAnalyticsV2ClientTypes.InputUpdate]? = nil,
             outputUpdates: [KinesisAnalyticsV2ClientTypes.OutputUpdate]? = nil,
             referenceDataSourceUpdates: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceUpdate]? = nil
@@ -10822,7 +10494,7 @@ extension KinesisAnalyticsV2ClientTypes.SqlRunConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inputIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputId)
         inputId = inputIdDecoded
@@ -10841,7 +10513,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var inputStartingPositionConfiguration: KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration?
 
-        public init (
+        public init(
             inputId: Swift.String? = nil,
             inputStartingPositionConfiguration: KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration? = nil
         )
@@ -10883,7 +10555,7 @@ public struct StartApplicationInput: Swift.Equatable {
     /// Identifies the run configuration (start parameters) of a Kinesis Data Analytics application.
     public var runConfiguration: KinesisAnalyticsV2ClientTypes.RunConfiguration?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         runConfiguration: KinesisAnalyticsV2ClientTypes.RunConfiguration? = nil
     )
@@ -10904,7 +10576,7 @@ extension StartApplicationInputBody: Swift.Decodable {
         case runConfiguration = "RunConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -10913,44 +10585,29 @@ extension StartApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension StartApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartApplicationOutputError: Swift.Error, Swift.Equatable {
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StartApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension StopApplicationInput: Swift.Encodable {
@@ -10983,7 +10640,7 @@ public struct StopApplicationInput: Swift.Equatable {
     /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
     public var force: Swift.Bool?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         force: Swift.Bool? = nil
     )
@@ -11004,7 +10661,7 @@ extension StopApplicationInputBody: Swift.Decodable {
         case force = "Force"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -11013,46 +10670,30 @@ extension StopApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension StopApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopApplicationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KinesisAnalyticsV2ClientTypes.Tag: Swift.Codable {
@@ -11071,7 +10712,7 @@ extension KinesisAnalyticsV2ClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -11089,7 +10730,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The value of the key-value tag. The value is optional.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -11135,7 +10776,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [KinesisAnalyticsV2ClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
     )
@@ -11156,7 +10797,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -11174,78 +10815,67 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11258,7 +10888,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11266,49 +10896,53 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
 }
 
 extension UnableToDetectSchemaException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnableToDetectSchemaExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.processedInputRecords = output.processedInputRecords
-            self.rawInputRecords = output.rawInputRecords
+            self.properties.message = output.message
+            self.properties.processedInputRecords = output.processedInputRecords
+            self.properties.rawInputRecords = output.rawInputRecords
         } else {
-            self.message = nil
-            self.processedInputRecords = nil
-            self.rawInputRecords = nil
+            self.properties.message = nil
+            self.properties.processedInputRecords = nil
+            self.properties.rawInputRecords = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The data format is not valid. Kinesis Data Analytics cannot detect the schema for the given streaming source.
-public struct UnableToDetectSchemaException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
-    /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
-    public var processedInputRecords: [Swift.String]?
-    /// Raw stream data that was sampled to infer the schema.
-    public var rawInputRecords: [Swift.String]?
+public struct UnableToDetectSchemaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
+        public internal(set) var processedInputRecords: [Swift.String]? = nil
+        /// Raw stream data that was sampled to infer the schema.
+        public internal(set) var rawInputRecords: [Swift.String]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToDetectSchemaException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         processedInputRecords: [Swift.String]? = nil,
         rawInputRecords: [Swift.String]? = nil
     )
     {
-        self.message = message
-        self.processedInputRecords = processedInputRecords
-        self.rawInputRecords = rawInputRecords
+        self.properties.message = message
+        self.properties.processedInputRecords = processedInputRecords
+        self.properties.rawInputRecords = rawInputRecords
     }
 }
 
@@ -11325,7 +10959,7 @@ extension UnableToDetectSchemaExceptionBody: Swift.Decodable {
         case rawInputRecords = "RawInputRecords"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11355,37 +10989,41 @@ extension UnableToDetectSchemaExceptionBody: Swift.Decodable {
 }
 
 extension UnsupportedOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11398,7 +11036,7 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11439,7 +11077,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -11460,7 +11098,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -11478,44 +11116,29 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateApplicationInput: Swift.Encodable {
@@ -11581,7 +11204,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     /// Describes updates to the service execution role.
     public var serviceExecutionRoleUpdate: Swift.String?
 
-    public init (
+    public init(
         applicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate? = nil,
         applicationName: Swift.String? = nil,
         cloudWatchLoggingOptionUpdates: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionUpdate]? = nil,
@@ -11622,7 +11245,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case serviceExecutionRoleUpdate = "ServiceExecutionRoleUpdate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -11681,7 +11304,7 @@ public struct UpdateApplicationMaintenanceConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var applicationName: Swift.String?
 
-    public init (
+    public init(
         applicationMaintenanceConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationUpdate? = nil,
         applicationName: Swift.String? = nil
     )
@@ -11702,7 +11325,7 @@ extension UpdateApplicationMaintenanceConfigurationInputBody: Swift.Decodable {
         case applicationName = "ApplicationName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -11711,39 +11334,24 @@ extension UpdateApplicationMaintenanceConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateApplicationMaintenanceConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateApplicationMaintenanceConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationMaintenanceConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateApplicationMaintenanceConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationMaintenanceConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateApplicationMaintenanceConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationARN = output.applicationARN
@@ -11761,7 +11369,7 @@ public struct UpdateApplicationMaintenanceConfigurationOutputResponse: Swift.Equ
     /// The application maintenance configuration description after the update.
     public var applicationMaintenanceConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription?
 
-    public init (
+    public init(
         applicationARN: Swift.String? = nil,
         applicationMaintenanceConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription? = nil
     )
@@ -11782,7 +11390,7 @@ extension UpdateApplicationMaintenanceConfigurationOutputResponseBody: Swift.Dec
         case applicationMaintenanceConfigurationDescription = "ApplicationMaintenanceConfigurationDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationARN)
         applicationARN = applicationARNDecoded
@@ -11791,45 +11399,27 @@ extension UpdateApplicationMaintenanceConfigurationOutputResponseBody: Swift.Dec
     }
 }
 
-extension UpdateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CodeValidationException" : self = .codeValidationException(try CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidApplicationConfigurationException" : self = .invalidApplicationConfigurationException(try InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeValidationException": return try await CodeValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApplicationConfigurationException": return try await InvalidApplicationConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case codeValidationException(CodeValidationException)
-    case concurrentModificationException(ConcurrentModificationException)
-    case invalidApplicationConfigurationException(InvalidApplicationConfigurationException)
-    case invalidArgumentException(InvalidArgumentException)
-    case invalidRequestException(InvalidRequestException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationDetail = output.applicationDetail
@@ -11844,7 +11434,7 @@ public struct UpdateApplicationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
-    public init (
+    public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     )
     {
@@ -11861,7 +11451,7 @@ extension UpdateApplicationOutputResponseBody: Swift.Decodable {
         case applicationDetail = "ApplicationDetail"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationDetailDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ApplicationDetail.self, forKey: .applicationDetail)
         applicationDetail = applicationDetailDecoded
@@ -11922,7 +11512,7 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
         var subnetIdsDecoded0:[Swift.String]? = nil
@@ -11959,7 +11549,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
@@ -12001,7 +11591,7 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConfigurationId)
         vpcConfigurationId = vpcConfigurationIdDecoded
@@ -12048,7 +11638,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcConfigurationId: Swift.String? = nil,
@@ -12090,7 +11680,7 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfigurationUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vpcConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcConfigurationId)
         vpcConfigurationId = vpcConfigurationIdDecoded
@@ -12130,7 +11720,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var vpcConfigurationId: Swift.String?
 
-        public init (
+        public init(
             securityGroupIdUpdates: [Swift.String]? = nil,
             subnetIdUpdates: [Swift.String]? = nil,
             vpcConfigurationId: Swift.String? = nil
@@ -12171,7 +11761,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitoringConfigurationDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration.self, forKey: .monitoringConfiguration)
         monitoringConfiguration = monitoringConfigurationDecoded
@@ -12205,7 +11795,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
         public var monitoringConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration?
 
-        public init (
+        public init(
             catalogConfiguration: KinesisAnalyticsV2ClientTypes.CatalogConfiguration? = nil,
             customArtifactsConfiguration: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]? = nil,
             deployAsApplicationConfiguration: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfiguration? = nil,
@@ -12248,7 +11838,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescript
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitoringConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescription.self, forKey: .monitoringConfigurationDescription)
         monitoringConfigurationDescription = monitoringConfigurationDescriptionDecoded
@@ -12283,7 +11873,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescription?
 
-        public init (
+        public init(
             catalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.CatalogConfigurationDescription? = nil,
             customArtifactsConfigurationDescription: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfigurationDescription]? = nil,
             deployAsApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationDescription? = nil,
@@ -12326,7 +11916,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate: 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitoringConfigurationUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate.self, forKey: .monitoringConfigurationUpdate)
         monitoringConfigurationUpdate = monitoringConfigurationUpdateDecoded
@@ -12360,7 +11950,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Updates to the monitoring configuration of a Kinesis Data Analytics Studio notebook.
         public var monitoringConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate?
 
-        public init (
+        public init(
             catalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.CatalogConfigurationUpdate? = nil,
             customArtifactsConfigurationUpdate: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]? = nil,
             deployAsApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationUpdate? = nil,
@@ -12388,7 +11978,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logLevelDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.LogLevel.self, forKey: .logLevel)
         logLevel = logLevelDecoded
@@ -12402,7 +11992,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var logLevel: KinesisAnalyticsV2ClientTypes.LogLevel?
 
-        public init (
+        public init(
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
         )
         {
@@ -12424,7 +12014,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescripti
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logLevelDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.LogLevel.self, forKey: .logLevel)
         logLevel = logLevelDecoded
@@ -12437,7 +12027,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the verbosity of the CloudWatch Logs for an application.
         public var logLevel: KinesisAnalyticsV2ClientTypes.LogLevel?
 
-        public init (
+        public init(
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
         )
         {
@@ -12459,7 +12049,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logLevelUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.LogLevel.self, forKey: .logLevelUpdate)
         logLevelUpdate = logLevelUpdateDecoded
@@ -12473,7 +12063,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// This member is required.
         public var logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel?
 
-        public init (
+        public init(
             logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
         )
         {

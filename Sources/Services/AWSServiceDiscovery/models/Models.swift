@@ -47,7 +47,7 @@ public struct CreateHttpNamespaceInput: Swift.Equatable {
     /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
 
-    public init (
+    public init(
         creatorRequestId: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -76,7 +76,7 @@ extension CreateHttpNamespaceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -98,39 +98,24 @@ extension CreateHttpNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateHttpNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateHttpNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateHttpNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceAlreadyExists": return try await NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case resourceLimitExceeded(ResourceLimitExceeded)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateHttpNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateHttpNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -144,7 +129,7 @@ public struct CreateHttpNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -161,7 +146,7 @@ extension CreateHttpNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -226,7 +211,7 @@ public struct CreatePrivateDnsNamespaceInput: Swift.Equatable {
     /// This member is required.
     public var vpc: Swift.String?
 
-    public init (
+    public init(
         creatorRequestId: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -263,7 +248,7 @@ extension CreatePrivateDnsNamespaceInputBody: Swift.Decodable {
         case vpc = "Vpc"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -289,39 +274,24 @@ extension CreatePrivateDnsNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePrivateDnsNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePrivateDnsNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePrivateDnsNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceAlreadyExists": return try await NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case resourceLimitExceeded(ResourceLimitExceeded)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePrivateDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePrivateDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -335,7 +305,7 @@ public struct CreatePrivateDnsNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -352,7 +322,7 @@ extension CreatePrivateDnsNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -410,7 +380,7 @@ public struct CreatePublicDnsNamespaceInput: Swift.Equatable {
     /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
 
-    public init (
+    public init(
         creatorRequestId: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -443,7 +413,7 @@ extension CreatePublicDnsNamespaceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -467,39 +437,24 @@ extension CreatePublicDnsNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePublicDnsNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreatePublicDnsNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePublicDnsNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceAlreadyExists": return try await NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case resourceLimitExceeded(ResourceLimitExceeded)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePublicDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePublicDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -513,7 +468,7 @@ public struct CreatePublicDnsNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -530,7 +485,7 @@ extension CreatePublicDnsNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -619,7 +574,7 @@ public struct CreateServiceInput: Swift.Equatable {
     /// If present, specifies that the service instances are only discoverable using the DiscoverInstances API operation. No DNS records is registered for the service instances. The only valid value is HTTP.
     public var type: ServiceDiscoveryClientTypes.ServiceTypeOption?
 
-    public init (
+    public init(
         creatorRequestId: Swift.String? = nil,
         description: Swift.String? = nil,
         dnsConfig: ServiceDiscoveryClientTypes.DnsConfig? = nil,
@@ -668,7 +623,7 @@ extension CreateServiceInputBody: Swift.Decodable {
         case type = "Type"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -700,39 +655,24 @@ extension CreateServiceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateServiceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateServiceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceAlreadyExists" : self = .serviceAlreadyExists(try ServiceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceAlreadyExists": return try await ServiceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateServiceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case resourceLimitExceeded(ResourceLimitExceeded)
-    case serviceAlreadyExists(ServiceAlreadyExists)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
@@ -746,7 +686,7 @@ public struct CreateServiceOutputResponse: Swift.Equatable {
     /// A complex type that contains information about the new service.
     public var service: ServiceDiscoveryClientTypes.Service?
 
-    public init (
+    public init(
         service: ServiceDiscoveryClientTypes.Service? = nil
     )
     {
@@ -763,7 +703,7 @@ extension CreateServiceOutputResponseBody: Swift.Decodable {
         case service = "Service"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
@@ -771,37 +711,41 @@ extension CreateServiceOutputResponseBody: Swift.Decodable {
 }
 
 extension CustomHealthNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CustomHealthNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The health check for the instance that's specified by ServiceId and InstanceId isn't a custom health check.
-public struct CustomHealthNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct CustomHealthNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CustomHealthNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -814,7 +758,7 @@ extension CustomHealthNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -877,7 +821,7 @@ public struct DeleteNamespaceInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -894,44 +838,30 @@ extension DeleteNamespaceInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension DeleteNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case resourceInUse(ResourceInUse)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -945,7 +875,7 @@ public struct DeleteNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -962,7 +892,7 @@ extension DeleteNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -993,7 +923,7 @@ public struct DeleteServiceInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -1010,47 +940,34 @@ extension DeleteServiceInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension DeleteServiceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteServiceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteServiceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case resourceInUse(ResourceInUse)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteServiceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeregisterInstanceInput: Swift.Encodable {
@@ -1084,7 +1001,7 @@ public struct DeregisterInstanceInput: Swift.Equatable {
     /// This member is required.
     public var serviceId: Swift.String?
 
-    public init (
+    public init(
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil
     )
@@ -1105,7 +1022,7 @@ extension DeregisterInstanceInputBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -1114,39 +1031,24 @@ extension DeregisterInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension DeregisterInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeregisterInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeregisterInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotFound": return try await InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeregisterInstanceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case instanceNotFound(InstanceNotFound)
-    case invalidInput(InvalidInput)
-    case resourceInUse(ResourceInUse)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeregisterInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeregisterInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -1160,7 +1062,7 @@ public struct DeregisterInstanceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -1177,7 +1079,7 @@ extension DeregisterInstanceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -1245,7 +1147,7 @@ public struct DiscoverInstancesInput: Swift.Equatable {
     /// This member is required.
     public var serviceName: Swift.String?
 
-    public init (
+    public init(
         healthStatus: ServiceDiscoveryClientTypes.HealthStatusFilter? = nil,
         maxResults: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
@@ -1282,7 +1184,7 @@ extension DiscoverInstancesInputBody: Swift.Decodable {
         case serviceName = "ServiceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
         namespaceName = namespaceNameDecoded
@@ -1317,37 +1219,23 @@ extension DiscoverInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension DiscoverInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DiscoverInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DiscoverInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DiscoverInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DiscoverInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DiscoverInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
@@ -1361,7 +1249,7 @@ public struct DiscoverInstancesOutputResponse: Swift.Equatable {
     /// A complex type that contains one HttpInstanceSummary for each registered instance.
     public var instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]?
 
-    public init (
+    public init(
         instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]? = nil
     )
     {
@@ -1378,7 +1266,7 @@ extension DiscoverInstancesOutputResponseBody: Swift.Decodable {
         case instances = "Instances"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instancesContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.HttpInstanceSummary?].self, forKey: .instances)
         var instancesDecoded0:[ServiceDiscoveryClientTypes.HttpInstanceSummary]? = nil
@@ -1417,7 +1305,7 @@ extension ServiceDiscoveryClientTypes.DnsConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceId)
         namespaceId = namespaceIdDecoded
@@ -1449,7 +1337,7 @@ extension ServiceDiscoveryClientTypes {
         /// The routing policy that you want to apply to all Route 53 DNS records that Cloud Map creates when you register an instance and specify this service. If you want to use this service to register instances that create alias records, specify WEIGHTED for the routing policy. You can specify the following values: MULTIVALUE If you define a health check for the service and the health check is healthy, Route 53 returns the applicable value for up to eight instances. For example, suppose that the service includes configurations for one A record and a health check. You use the service to register 10 instances. Route 53 responds to DNS queries with IP addresses for up to eight healthy instances. If fewer than eight instances are healthy, Route 53 responds to every DNS query with the IP addresses for all of the healthy instances. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the values for up to eight instances. For more information about the multivalue routing policy, see [Multivalue Answer Routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-multivalue) in the Route 53 Developer Guide. WEIGHTED Route 53 returns the applicable value from one randomly selected instance from among the instances that you registered using the same service. Currently, all records have the same weight, so you can't route more or less traffic to any instances. For example, suppose that the service includes configurations for one A record and a health check. You use the service to register 10 instances. Route 53 responds to DNS queries with the IP address for one randomly selected instance from among the healthy instances. If no instances are healthy, Route 53 responds to DNS queries as if all of the instances were healthy. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the applicable value for one randomly selected instance. For more information about the weighted routing policy, see [Weighted Routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted) in the Route 53 Developer Guide.
         public var routingPolicy: ServiceDiscoveryClientTypes.RoutingPolicy?
 
-        public init (
+        public init(
             dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]? = nil,
             namespaceId: Swift.String? = nil,
             routingPolicy: ServiceDiscoveryClientTypes.RoutingPolicy? = nil
@@ -1478,7 +1366,7 @@ extension ServiceDiscoveryClientTypes.DnsConfigChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsRecordsContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.DnsRecord?].self, forKey: .dnsRecords)
         var dnsRecordsDecoded0:[ServiceDiscoveryClientTypes.DnsRecord]? = nil
@@ -1501,7 +1389,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]?
 
-        public init (
+        public init(
             dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]? = nil
         )
         {
@@ -1527,7 +1415,7 @@ extension ServiceDiscoveryClientTypes.DnsProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -1544,7 +1432,7 @@ extension ServiceDiscoveryClientTypes {
         /// Start of Authority (SOA) record for the hosted zone.
         public var soa: ServiceDiscoveryClientTypes.SOA?
 
-        public init (
+        public init(
             hostedZoneId: Swift.String? = nil,
             soa: ServiceDiscoveryClientTypes.SOA? = nil
         )
@@ -1572,7 +1460,7 @@ extension ServiceDiscoveryClientTypes.DnsRecord: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.RecordType.self, forKey: .type)
         type = typeDecoded
@@ -1635,7 +1523,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var type: ServiceDiscoveryClientTypes.RecordType?
 
-        public init (
+        public init(
             ttl: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.RecordType? = nil
         )
@@ -1648,43 +1536,47 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension DuplicateRequest {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
-            self.duplicateOperationId = output.duplicateOperationId
-            self.message = output.message
+            self.properties.duplicateOperationId = output.duplicateOperationId
+            self.properties.message = output.message
         } else {
-            self.duplicateOperationId = nil
-            self.message = nil
+            self.properties.duplicateOperationId = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation is already in progress.
-public struct DuplicateRequest: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The ID of the operation that's already in progress.
-    public var duplicateOperationId: Swift.String?
-    public var message: Swift.String?
+public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The ID of the operation that's already in progress.
+        public internal(set) var duplicateOperationId: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateRequest" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         duplicateOperationId: Swift.String? = nil,
         message: Swift.String? = nil
     )
     {
-        self.duplicateOperationId = duplicateOperationId
-        self.message = message
+        self.properties.duplicateOperationId = duplicateOperationId
+        self.properties.message = message
     }
 }
 
@@ -1699,7 +1591,7 @@ extension DuplicateRequestBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1777,7 +1669,7 @@ public struct GetInstanceInput: Swift.Equatable {
     /// This member is required.
     public var serviceId: Swift.String?
 
-    public init (
+    public init(
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil
     )
@@ -1798,7 +1690,7 @@ extension GetInstanceInputBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -1807,35 +1699,22 @@ extension GetInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension GetInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceNotFound": return try await InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetInstanceOutputError: Swift.Error, Swift.Equatable {
-    case instanceNotFound(InstanceNotFound)
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instance = output.instance
@@ -1849,7 +1728,7 @@ public struct GetInstanceOutputResponse: Swift.Equatable {
     /// A complex type that contains information about a specified instance.
     public var instance: ServiceDiscoveryClientTypes.Instance?
 
-    public init (
+    public init(
         instance: ServiceDiscoveryClientTypes.Instance? = nil
     )
     {
@@ -1866,7 +1745,7 @@ extension GetInstanceOutputResponseBody: Swift.Decodable {
         case instance = "Instance"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.Instance.self, forKey: .instance)
         instance = instanceDecoded
@@ -1918,7 +1797,7 @@ public struct GetInstancesHealthStatusInput: Swift.Equatable {
     /// This member is required.
     public var serviceId: Swift.String?
 
-    public init (
+    public init(
         instances: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -1947,7 +1826,7 @@ extension GetInstancesHealthStatusInputBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -1969,35 +1848,22 @@ extension GetInstancesHealthStatusInputBody: Swift.Decodable {
     }
 }
 
-extension GetInstancesHealthStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetInstancesHealthStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetInstancesHealthStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InstanceNotFound": return try await InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetInstancesHealthStatusOutputError: Swift.Error, Swift.Equatable {
-    case instanceNotFound(InstanceNotFound)
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetInstancesHealthStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetInstancesHealthStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -2015,7 +1881,7 @@ public struct GetInstancesHealthStatusOutputResponse: Swift.Equatable {
     /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
     public var status: [Swift.String:ServiceDiscoveryClientTypes.HealthStatus]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         status: [Swift.String:ServiceDiscoveryClientTypes.HealthStatus]? = nil
     )
@@ -2036,7 +1902,7 @@ extension GetInstancesHealthStatusOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusContainer = try containerValues.decodeIfPresent([Swift.String: ServiceDiscoveryClientTypes.HealthStatus?].self, forKey: .status)
         var statusDecoded0: [Swift.String:ServiceDiscoveryClientTypes.HealthStatus]? = nil
@@ -2078,7 +1944,7 @@ public struct GetNamespaceInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -2095,40 +1961,28 @@ extension GetNamespaceInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension GetNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.namespace = output.namespace
@@ -2142,7 +1996,7 @@ public struct GetNamespaceOutputResponse: Swift.Equatable {
     /// A complex type that contains information about the specified namespace.
     public var namespace: ServiceDiscoveryClientTypes.Namespace?
 
-    public init (
+    public init(
         namespace: ServiceDiscoveryClientTypes.Namespace? = nil
     )
     {
@@ -2159,7 +2013,7 @@ extension GetNamespaceOutputResponseBody: Swift.Decodable {
         case namespace = "Namespace"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.Namespace.self, forKey: .namespace)
         namespace = namespaceDecoded
@@ -2190,7 +2044,7 @@ public struct GetOperationInput: Swift.Equatable {
     /// This member is required.
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -2207,40 +2061,28 @@ extension GetOperationInputBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
     }
 }
 
-extension GetOperationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetOperationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationNotFound" : self = .operationNotFound(try OperationNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotFound": return try await OperationNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetOperationOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case operationNotFound(OperationNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operation = output.operation
@@ -2254,7 +2096,7 @@ public struct GetOperationOutputResponse: Swift.Equatable {
     /// A complex type that contains information about the operation.
     public var operation: ServiceDiscoveryClientTypes.Operation?
 
-    public init (
+    public init(
         operation: ServiceDiscoveryClientTypes.Operation? = nil
     )
     {
@@ -2271,7 +2113,7 @@ extension GetOperationOutputResponseBody: Swift.Decodable {
         case operation = "Operation"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.Operation.self, forKey: .operation)
         operation = operationDecoded
@@ -2302,7 +2144,7 @@ public struct GetServiceInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -2319,40 +2161,28 @@ extension GetServiceInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension GetServiceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetServiceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetServiceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
@@ -2366,7 +2196,7 @@ public struct GetServiceOutputResponse: Swift.Equatable {
     /// A complex type that contains information about the service.
     public var service: ServiceDiscoveryClientTypes.Service?
 
-    public init (
+    public init(
         service: ServiceDiscoveryClientTypes.Service? = nil
     )
     {
@@ -2383,7 +2213,7 @@ extension GetServiceOutputResponseBody: Swift.Decodable {
         case service = "Service"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
@@ -2410,7 +2240,7 @@ extension ServiceDiscoveryClientTypes.HealthCheckConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.HealthCheckType.self, forKey: .type)
         type = typeDecoded
@@ -2448,7 +2278,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var type: ServiceDiscoveryClientTypes.HealthCheckType?
 
-        public init (
+        public init(
             failureThreshold: Swift.Int? = nil,
             resourcePath: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.HealthCheckType? = nil
@@ -2474,7 +2304,7 @@ extension ServiceDiscoveryClientTypes.HealthCheckCustomConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failureThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failureThreshold)
         failureThreshold = failureThresholdDecoded
@@ -2509,7 +2339,7 @@ extension ServiceDiscoveryClientTypes {
         @available(*, deprecated, message: "Configurable FailureThreshold of HealthCheckCustomConfig is deprecated.  It will always have value 1.")
         public var failureThreshold: Swift.Int?
 
-        public init (
+        public init(
             failureThreshold: Swift.Int? = nil
         )
         {
@@ -2658,7 +2488,7 @@ extension ServiceDiscoveryClientTypes.HttpInstanceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -2696,7 +2526,7 @@ extension ServiceDiscoveryClientTypes {
         /// The name of the service that you specified when you registered the instance.
         public var serviceName: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             healthStatus: ServiceDiscoveryClientTypes.HealthStatus? = nil,
             instanceId: Swift.String? = nil,
@@ -2726,7 +2556,7 @@ extension ServiceDiscoveryClientTypes.HttpNamespaceChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -2740,7 +2570,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var description: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil
         )
         {
@@ -2762,7 +2592,7 @@ extension ServiceDiscoveryClientTypes.HttpProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let httpNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpName)
         httpName = httpNameDecoded
@@ -2775,7 +2605,7 @@ extension ServiceDiscoveryClientTypes {
         /// The name of an HTTP namespace.
         public var httpName: Swift.String?
 
-        public init (
+        public init(
             httpName: Swift.String? = nil
         )
         {
@@ -2808,7 +2638,7 @@ extension ServiceDiscoveryClientTypes.Instance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2867,7 +2697,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             creatorRequestId: Swift.String? = nil,
             id: Swift.String? = nil
@@ -2882,37 +2712,41 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension InstanceNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InstanceNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
-public struct InstanceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2925,7 +2759,7 @@ extension InstanceNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2951,7 +2785,7 @@ extension ServiceDiscoveryClientTypes.InstanceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2984,7 +2818,7 @@ extension ServiceDiscoveryClientTypes {
         /// The ID for an instance that you created by using a specified service.
         public var id: Swift.String?
 
-        public init (
+        public init(
             attributes: [Swift.String:Swift.String]? = nil,
             id: Swift.String? = nil
         )
@@ -2997,37 +2831,41 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension InvalidInput {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidInputBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-public struct InvalidInput: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInput" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3040,7 +2878,7 @@ extension InvalidInputBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3083,7 +2921,7 @@ public struct ListInstancesInput: Swift.Equatable {
     /// This member is required.
     public var serviceId: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceId: Swift.String? = nil
@@ -3108,7 +2946,7 @@ extension ListInstancesInputBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -3119,33 +2957,21 @@ extension ListInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension ListInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
@@ -3163,7 +2989,7 @@ public struct ListInstancesOutputResponse: Swift.Equatable {
     /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         instances: [ServiceDiscoveryClientTypes.InstanceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3184,7 +3010,7 @@ extension ListInstancesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instancesContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.InstanceSummary?].self, forKey: .instances)
         var instancesDecoded0:[ServiceDiscoveryClientTypes.InstanceSummary]? = nil
@@ -3240,7 +3066,7 @@ public struct ListNamespacesInput: Swift.Equatable {
     /// For the first ListNamespaces request, omit this value. If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ServiceDiscoveryClientTypes.NamespaceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3265,7 +3091,7 @@ extension ListNamespacesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3285,31 +3111,20 @@ extension ListNamespacesInputBody: Swift.Decodable {
     }
 }
 
-extension ListNamespacesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListNamespacesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListNamespacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListNamespacesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListNamespacesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListNamespacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.namespaces = output.namespaces
@@ -3327,7 +3142,7 @@ public struct ListNamespacesOutputResponse: Swift.Equatable {
     /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         namespaces: [ServiceDiscoveryClientTypes.NamespaceSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -3348,7 +3163,7 @@ extension ListNamespacesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespacesContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.NamespaceSummary?].self, forKey: .namespaces)
         var namespacesDecoded0:[ServiceDiscoveryClientTypes.NamespaceSummary]? = nil
@@ -3404,7 +3219,7 @@ public struct ListOperationsInput: Swift.Equatable {
     /// For the first ListOperations request, omit this value. If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ServiceDiscoveryClientTypes.OperationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3429,7 +3244,7 @@ extension ListOperationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3449,31 +3264,20 @@ extension ListOperationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListOperationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListOperationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -3491,7 +3295,7 @@ public struct ListOperationsOutputResponse: Swift.Equatable {
     /// Summary information about the operations that match the specified criteria.
     public var operations: [ServiceDiscoveryClientTypes.OperationSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         operations: [ServiceDiscoveryClientTypes.OperationSummary]? = nil
     )
@@ -3512,7 +3316,7 @@ extension ListOperationsOutputResponseBody: Swift.Decodable {
         case operations = "Operations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationsContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.OperationSummary?].self, forKey: .operations)
         var operationsDecoded0:[ServiceDiscoveryClientTypes.OperationSummary]? = nil
@@ -3568,7 +3372,7 @@ public struct ListServicesInput: Swift.Equatable {
     /// For the first ListServices request, omit this value. If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ServiceDiscoveryClientTypes.ServiceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -3593,7 +3397,7 @@ extension ListServicesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3613,31 +3417,20 @@ extension ListServicesInputBody: Swift.Decodable {
     }
 }
 
-extension ListServicesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListServicesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListServicesOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -3655,7 +3448,7 @@ public struct ListServicesOutputResponse: Swift.Equatable {
     /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
     public var services: [ServiceDiscoveryClientTypes.ServiceSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         services: [ServiceDiscoveryClientTypes.ServiceSummary]? = nil
     )
@@ -3676,7 +3469,7 @@ extension ListServicesOutputResponseBody: Swift.Decodable {
         case services = "Services"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let servicesContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.ServiceSummary?].self, forKey: .services)
         var servicesDecoded0:[ServiceDiscoveryClientTypes.ServiceSummary]? = nil
@@ -3718,7 +3511,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -3735,40 +3528,28 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -3782,7 +3563,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags that are assigned to the resource.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
     )
     {
@@ -3799,7 +3580,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([ServiceDiscoveryClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[ServiceDiscoveryClientTypes.Tag]? = nil
@@ -3859,7 +3640,7 @@ extension ServiceDiscoveryClientTypes.Namespace: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -3904,7 +3685,7 @@ extension ServiceDiscoveryClientTypes {
         /// The type of the namespace. The methods for discovering instances depends on the value that you specify: HTTP Instances can be discovered only programmatically, using the Cloud Map DiscoverInstances API. DNS_PUBLIC Instances can be discovered using public DNS queries and using the DiscoverInstances API. DNS_PRIVATE Instances can be discovered using DNS queries in VPCs and using the DiscoverInstances API.
         public var type: ServiceDiscoveryClientTypes.NamespaceType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createDate: ClientRuntime.Date? = nil,
             creatorRequestId: Swift.String? = nil,
@@ -3931,49 +3712,53 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension NamespaceAlreadyExists {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NamespaceAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
-            self.creatorRequestId = output.creatorRequestId
-            self.message = output.message
-            self.namespaceId = output.namespaceId
+            self.properties.creatorRequestId = output.creatorRequestId
+            self.properties.message = output.message
+            self.properties.namespaceId = output.namespaceId
         } else {
-            self.creatorRequestId = nil
-            self.message = nil
-            self.namespaceId = nil
+            self.properties.creatorRequestId = nil
+            self.properties.message = nil
+            self.properties.namespaceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The namespace that you're trying to create already exists.
-public struct NamespaceAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The CreatorRequestId that was used to create the namespace.
-    public var creatorRequestId: Swift.String?
-    public var message: Swift.String?
-    /// The ID of the existing namespace.
-    public var namespaceId: Swift.String?
+public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The CreatorRequestId that was used to create the namespace.
+        public internal(set) var creatorRequestId: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the existing namespace.
+        public internal(set) var namespaceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NamespaceAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
         namespaceId: Swift.String? = nil
     )
     {
-        self.creatorRequestId = creatorRequestId
-        self.message = message
-        self.namespaceId = namespaceId
+        self.properties.creatorRequestId = creatorRequestId
+        self.properties.message = message
+        self.properties.namespaceId = namespaceId
     }
 }
 
@@ -3990,7 +3775,7 @@ extension NamespaceAlreadyExistsBody: Swift.Decodable {
         case namespaceId = "NamespaceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4024,7 +3809,7 @@ extension ServiceDiscoveryClientTypes.NamespaceFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.NamespaceFilterName.self, forKey: .name)
         name = nameDecoded
@@ -4072,7 +3857,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.NamespaceFilterName? = nil,
             values: [Swift.String]? = nil
@@ -4122,37 +3907,41 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension NamespaceNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NamespaceNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No namespace exists with the specified ID.
-public struct NamespaceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NamespaceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4165,7 +3954,7 @@ extension NamespaceNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4188,7 +3977,7 @@ extension ServiceDiscoveryClientTypes.NamespaceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsPropertiesDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.DnsProperties.self, forKey: .dnsProperties)
         dnsProperties = dnsPropertiesDecoded
@@ -4205,7 +3994,7 @@ extension ServiceDiscoveryClientTypes {
         /// A complex type that contains the name of an HTTP namespace.
         public var httpProperties: ServiceDiscoveryClientTypes.HttpProperties?
 
-        public init (
+        public init(
             dnsProperties: ServiceDiscoveryClientTypes.DnsProperties? = nil,
             httpProperties: ServiceDiscoveryClientTypes.HttpProperties? = nil
         )
@@ -4257,7 +4046,7 @@ extension ServiceDiscoveryClientTypes.NamespaceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4298,7 +4087,7 @@ extension ServiceDiscoveryClientTypes {
         /// The type of the namespace, either public or private.
         public var type: ServiceDiscoveryClientTypes.NamespaceType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createDate: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
@@ -4400,7 +4189,7 @@ extension ServiceDiscoveryClientTypes.Operation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4464,7 +4253,7 @@ extension ServiceDiscoveryClientTypes {
         /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var updateDate: ClientRuntime.Date?
 
-        public init (
+        public init(
             createDate: ClientRuntime.Date? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
@@ -4511,7 +4300,7 @@ extension ServiceDiscoveryClientTypes.OperationFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.OperationFilterName.self, forKey: .name)
         name = nameDecoded
@@ -4569,7 +4358,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.OperationFilterName? = nil,
             values: [Swift.String]? = nil
@@ -4625,37 +4414,41 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension OperationNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: OperationNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No operation exists with the specified ID.
-public struct OperationNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct OperationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -4668,7 +4461,7 @@ extension OperationNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -4729,7 +4522,7 @@ extension ServiceDiscoveryClientTypes.OperationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4754,7 +4547,7 @@ extension ServiceDiscoveryClientTypes {
         /// * FAIL: The operation failed. For the failure reason, see ErrorMessage.
         public var status: ServiceDiscoveryClientTypes.OperationStatus?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             status: ServiceDiscoveryClientTypes.OperationStatus? = nil
         )
@@ -4861,7 +4654,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -4878,7 +4671,7 @@ extension ServiceDiscoveryClientTypes {
         /// Properties to be updated in the private DNS namespace.
         public var properties: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange? = nil
         )
@@ -4902,7 +4695,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsPropertiesDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable.self, forKey: .dnsProperties)
         dnsProperties = dnsPropertiesDecoded
@@ -4916,7 +4709,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable?
 
-        public init (
+        public init(
             dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable? = nil
         )
         {
@@ -4938,7 +4731,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsPropertiesDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange.self, forKey: .dnsProperties)
         dnsProperties = dnsPropertiesDecoded
@@ -4952,7 +4745,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange?
 
-        public init (
+        public init(
             dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange? = nil
         )
         {
@@ -4974,7 +4767,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let soaDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.SOA.self, forKey: .soa)
         soa = soaDecoded
@@ -4988,7 +4781,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOA?
 
-        public init (
+        public init(
             soa: ServiceDiscoveryClientTypes.SOA? = nil
         )
         {
@@ -5010,7 +4803,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let soaDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.SOAChange.self, forKey: .soa)
         soa = soaDecoded
@@ -5024,7 +4817,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOAChange?
 
-        public init (
+        public init(
             soa: ServiceDiscoveryClientTypes.SOAChange? = nil
         )
         {
@@ -5050,7 +4843,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -5067,7 +4860,7 @@ extension ServiceDiscoveryClientTypes {
         /// Properties to be updated in the public DNS namespace.
         public var properties: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange? = nil
         )
@@ -5091,7 +4884,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsPropertiesDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable.self, forKey: .dnsProperties)
         dnsProperties = dnsPropertiesDecoded
@@ -5105,7 +4898,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable?
 
-        public init (
+        public init(
             dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable? = nil
         )
         {
@@ -5127,7 +4920,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dnsPropertiesDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange.self, forKey: .dnsProperties)
         dnsProperties = dnsPropertiesDecoded
@@ -5141,7 +4934,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange?
 
-        public init (
+        public init(
             dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange? = nil
         )
         {
@@ -5163,7 +4956,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let soaDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.SOA.self, forKey: .soa)
         soa = soaDecoded
@@ -5177,7 +4970,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOA?
 
-        public init (
+        public init(
             soa: ServiceDiscoveryClientTypes.SOA? = nil
         )
         {
@@ -5199,7 +4992,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let soaDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.SOAChange.self, forKey: .soa)
         soa = soaDecoded
@@ -5213,7 +5006,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOAChange?
 
-        public init (
+        public init(
             soa: ServiceDiscoveryClientTypes.SOAChange? = nil
         )
         {
@@ -5339,7 +5132,7 @@ public struct RegisterInstanceInput: Swift.Equatable {
     /// This member is required.
     public var serviceId: Swift.String?
 
-    public init (
+    public init(
         attributes: [Swift.String:Swift.String]? = nil,
         creatorRequestId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
@@ -5368,7 +5161,7 @@ extension RegisterInstanceInputBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -5390,39 +5183,24 @@ extension RegisterInstanceInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterInstanceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceeded": return try await ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterInstanceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case resourceInUse(ResourceInUse)
-    case resourceLimitExceeded(ResourceLimitExceeded)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -5436,7 +5214,7 @@ public struct RegisterInstanceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -5453,7 +5231,7 @@ extension RegisterInstanceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -5461,37 +5239,41 @@ extension RegisterInstanceOutputResponseBody: Swift.Decodable {
 }
 
 extension RequestLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RequestLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
-public struct RequestLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5504,7 +5286,7 @@ extension RequestLimitExceededBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5512,37 +5294,41 @@ extension RequestLimitExceededBody: Swift.Decodable {
 }
 
 extension ResourceInUse {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-public struct ResourceInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5555,7 +5341,7 @@ extension ResourceInUseBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5563,37 +5349,41 @@ extension ResourceInUseBody: Swift.Decodable {
 }
 
 extension ResourceLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource can't be created because you've reached the quota on the number of resources.
-public struct ResourceLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5606,7 +5396,7 @@ extension ResourceLimitExceededBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5614,37 +5404,41 @@ extension ResourceLimitExceededBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation can't be completed because the resource was not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -5657,7 +5451,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -5708,7 +5502,7 @@ extension ServiceDiscoveryClientTypes.SOA: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
         ttl = ttlDecoded
@@ -5722,7 +5516,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var ttl: Swift.Int?
 
-        public init (
+        public init(
             ttl: Swift.Int? = nil
         )
         {
@@ -5744,7 +5538,7 @@ extension ServiceDiscoveryClientTypes.SOAChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
         ttl = ttlDecoded
@@ -5758,7 +5552,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var ttl: Swift.Int?
 
-        public init (
+        public init(
             ttl: Swift.Int? = nil
         )
         {
@@ -5824,7 +5618,7 @@ extension ServiceDiscoveryClientTypes.Service: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5881,7 +5675,7 @@ extension ServiceDiscoveryClientTypes {
         /// Describes the systems that can be used to discover the service instances. DNS_HTTP The service instances can be discovered using either DNS queries or the DiscoverInstances API operation. HTTP The service instances can only be discovered using the DiscoverInstances API operation. DNS Reserved.
         public var type: ServiceDiscoveryClientTypes.ServiceType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createDate: ClientRuntime.Date? = nil,
             creatorRequestId: Swift.String? = nil,
@@ -5914,49 +5708,53 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceAlreadyExists {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
-            self.creatorRequestId = output.creatorRequestId
-            self.message = output.message
-            self.serviceId = output.serviceId
+            self.properties.creatorRequestId = output.creatorRequestId
+            self.properties.message = output.message
+            self.properties.serviceId = output.serviceId
         } else {
-            self.creatorRequestId = nil
-            self.message = nil
-            self.serviceId = nil
+            self.properties.creatorRequestId = nil
+            self.properties.message = nil
+            self.properties.serviceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service can't be created because a service with the same name already exists.
-public struct ServiceAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The CreatorRequestId that was used to create the service.
-    public var creatorRequestId: Swift.String?
-    public var message: Swift.String?
-    /// The ID of the existing service.
-    public var serviceId: Swift.String?
+public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The CreatorRequestId that was used to create the service.
+        public internal(set) var creatorRequestId: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the existing service.
+        public internal(set) var serviceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
         serviceId: Swift.String? = nil
     )
     {
-        self.creatorRequestId = creatorRequestId
-        self.message = message
-        self.serviceId = serviceId
+        self.properties.creatorRequestId = creatorRequestId
+        self.properties.message = message
+        self.properties.serviceId = serviceId
     }
 }
 
@@ -5973,7 +5771,7 @@ extension ServiceAlreadyExistsBody: Swift.Decodable {
         case serviceId = "ServiceId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6004,7 +5802,7 @@ extension ServiceDiscoveryClientTypes.ServiceChange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -6025,7 +5823,7 @@ extension ServiceDiscoveryClientTypes {
         /// Public DNS and HTTP namespaces only. Settings for an optional health check. If you specify settings for a health check, Cloud Map associates the health check with the records that you specify in DnsConfig.
         public var healthCheckConfig: ServiceDiscoveryClientTypes.HealthCheckConfig?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             dnsConfig: ServiceDiscoveryClientTypes.DnsConfigChange? = nil,
             healthCheckConfig: ServiceDiscoveryClientTypes.HealthCheckConfig? = nil
@@ -6062,7 +5860,7 @@ extension ServiceDiscoveryClientTypes.ServiceFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(ServiceDiscoveryClientTypes.ServiceFilterName.self, forKey: .name)
         name = nameDecoded
@@ -6096,7 +5894,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             condition: ServiceDiscoveryClientTypes.FilterCondition? = nil,
             name: ServiceDiscoveryClientTypes.ServiceFilterName? = nil,
             values: [Swift.String]? = nil
@@ -6140,37 +5938,41 @@ extension ServiceDiscoveryClientTypes {
 }
 
 extension ServiceNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// No service exists with the specified ID.
-public struct ServiceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6183,7 +5985,7 @@ extension ServiceNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6238,7 +6040,7 @@ extension ServiceDiscoveryClientTypes.ServiceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6294,7 +6096,7 @@ extension ServiceDiscoveryClientTypes {
         /// Describes the systems that can be used to discover the service instances. DNS_HTTP The service instances can be discovered using either DNS queries or the DiscoverInstances API operation. HTTP The service instances can only be discovered using the DiscoverInstances API operation. DNS Reserved.
         public var type: ServiceDiscoveryClientTypes.ServiceType?
 
-        public init (
+        public init(
             arn: Swift.String? = nil,
             createDate: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
@@ -6402,7 +6204,7 @@ extension ServiceDiscoveryClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -6421,7 +6223,7 @@ extension ServiceDiscoveryClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -6467,7 +6269,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [ServiceDiscoveryClientTypes.Tag]? = nil
     )
@@ -6488,7 +6290,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6506,80 +6308,71 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceName = output.resourceName
+            self.properties.message = output.message
+            self.properties.resourceName = output.resourceName
         } else {
-            self.message = nil
-            self.resourceName = nil
+            self.properties.message = nil
+            self.properties.resourceName = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
-    /// The name of the resource.
-    public var resourceName: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The name of the resource.
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceName = resourceName
+        self.properties.message = message
+        self.properties.resourceName = resourceName
     }
 }
 
@@ -6594,7 +6387,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case resourceName = "ResourceName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6637,7 +6430,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -6658,7 +6451,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -6676,38 +6469,26 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case invalidInput(InvalidInput)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateHttpNamespaceInput: Swift.Encodable {
@@ -6747,7 +6528,7 @@ public struct UpdateHttpNamespaceInput: Swift.Equatable {
     /// A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     public var updaterRequestId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.HttpNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
@@ -6772,7 +6553,7 @@ extension UpdateHttpNamespaceInputBody: Swift.Decodable {
         case updaterRequestId = "UpdaterRequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -6783,37 +6564,23 @@ extension UpdateHttpNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateHttpNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateHttpNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateHttpNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case resourceInUse(ResourceInUse)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateHttpNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateHttpNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -6827,7 +6594,7 @@ public struct UpdateHttpNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -6844,7 +6611,7 @@ extension UpdateHttpNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -6889,7 +6656,7 @@ public struct UpdateInstanceCustomHealthStatusInput: Swift.Equatable {
     /// This member is required.
     public var status: ServiceDiscoveryClientTypes.CustomHealthStatus?
 
-    public init (
+    public init(
         instanceId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         status: ServiceDiscoveryClientTypes.CustomHealthStatus? = nil
@@ -6914,7 +6681,7 @@ extension UpdateInstanceCustomHealthStatusInputBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceId)
         serviceId = serviceIdDecoded
@@ -6925,42 +6692,28 @@ extension UpdateInstanceCustomHealthStatusInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateInstanceCustomHealthStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateInstanceCustomHealthStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CustomHealthNotFound" : self = .customHealthNotFound(try CustomHealthNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateInstanceCustomHealthStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CustomHealthNotFound": return try await CustomHealthNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InstanceNotFound": return try await InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateInstanceCustomHealthStatusOutputError: Swift.Error, Swift.Equatable {
-    case customHealthNotFound(CustomHealthNotFound)
-    case instanceNotFound(InstanceNotFound)
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateInstanceCustomHealthStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateInstanceCustomHealthStatusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdatePrivateDnsNamespaceInput: Swift.Encodable {
@@ -7000,7 +6753,7 @@ public struct UpdatePrivateDnsNamespaceInput: Swift.Equatable {
     /// A unique string that identifies the request and that allows failed UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     public var updaterRequestId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
@@ -7025,7 +6778,7 @@ extension UpdatePrivateDnsNamespaceInputBody: Swift.Decodable {
         case updaterRequestId = "UpdaterRequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7036,37 +6789,23 @@ extension UpdatePrivateDnsNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdatePrivateDnsNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdatePrivateDnsNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdatePrivateDnsNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case resourceInUse(ResourceInUse)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdatePrivateDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdatePrivateDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7080,7 +6819,7 @@ public struct UpdatePrivateDnsNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7097,7 +6836,7 @@ extension UpdatePrivateDnsNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7141,7 +6880,7 @@ public struct UpdatePublicDnsNamespaceInput: Swift.Equatable {
     /// A unique string that identifies the request and that allows failed UpdatePublicDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     public var updaterRequestId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         namespace: ServiceDiscoveryClientTypes.PublicDnsNamespaceChange? = nil,
         updaterRequestId: Swift.String? = nil
@@ -7166,7 +6905,7 @@ extension UpdatePublicDnsNamespaceInputBody: Swift.Decodable {
         case updaterRequestId = "UpdaterRequestId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7177,37 +6916,23 @@ extension UpdatePublicDnsNamespaceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdatePublicDnsNamespaceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdatePublicDnsNamespaceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdatePublicDnsNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUse": return try await ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case namespaceNotFound(NamespaceNotFound)
-    case resourceInUse(ResourceInUse)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdatePublicDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdatePublicDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7221,7 +6946,7 @@ public struct UpdatePublicDnsNamespaceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7238,7 +6963,7 @@ extension UpdatePublicDnsNamespaceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -7276,7 +7001,7 @@ public struct UpdateServiceInput: Swift.Equatable {
     /// This member is required.
     public var service: ServiceDiscoveryClientTypes.ServiceChange?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         service: ServiceDiscoveryClientTypes.ServiceChange? = nil
     )
@@ -7297,7 +7022,7 @@ extension UpdateServiceInputBody: Swift.Decodable {
         case service = "Service"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7306,35 +7031,22 @@ extension UpdateServiceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateServiceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateServiceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateRequest": return try await DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateServiceOutputError: Swift.Error, Swift.Equatable {
-    case duplicateRequest(DuplicateRequest)
-    case invalidInput(InvalidInput)
-    case serviceNotFound(ServiceNotFound)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
@@ -7348,7 +7060,7 @@ public struct UpdateServiceOutputResponse: Swift.Equatable {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
-    public init (
+    public init(
         operationId: Swift.String? = nil
     )
     {
@@ -7365,7 +7077,7 @@ extension UpdateServiceOutputResponseBody: Swift.Decodable {
         case operationId = "OperationId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded

@@ -14,7 +14,7 @@ extension KendraClientTypes.AccessControlConfigurationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -28,7 +28,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -50,7 +50,7 @@ extension KendraClientTypes.AccessControlListConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPath)
         keyPath = keyPathDecoded
@@ -63,7 +63,7 @@ extension KendraClientTypes {
         /// Path to the Amazon S3 bucket that contains the ACL files.
         public var keyPath: Swift.String?
 
-        public init (
+        public init(
             keyPath: Swift.String? = nil
         )
         {
@@ -74,37 +74,41 @@ extension KendraClientTypes {
 }
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You don't have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -117,7 +121,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -136,7 +140,7 @@ extension KendraClientTypes.AclConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allowedGroupsColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedGroupsColumnName)
         allowedGroupsColumnName = allowedGroupsColumnNameDecoded
@@ -150,7 +154,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var allowedGroupsColumnName: Swift.String?
 
-        public init (
+        public init(
             allowedGroupsColumnName: Swift.String? = nil
         )
         {
@@ -180,7 +184,7 @@ extension KendraClientTypes.AdditionalResultAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -204,7 +208,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var valueType: KendraClientTypes.AdditionalResultAttributeValueType?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: KendraClientTypes.AdditionalResultAttributeValue? = nil,
             valueType: KendraClientTypes.AdditionalResultAttributeValueType? = nil
@@ -230,7 +234,7 @@ extension KendraClientTypes.AdditionalResultAttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textWithHighlightsValueDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TextWithHighlights.self, forKey: .textWithHighlightsValue)
         textWithHighlightsValue = textWithHighlightsValueDecoded
@@ -243,7 +247,7 @@ extension KendraClientTypes {
         /// The text associated with the attribute and information about the highlight to apply to the text.
         public var textWithHighlightsValue: KendraClientTypes.TextWithHighlights?
 
-        public init (
+        public init(
             textWithHighlightsValue: KendraClientTypes.TextWithHighlights? = nil
         )
         {
@@ -360,7 +364,7 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let siteUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .siteUrl)
         siteUrl = siteUrlDecoded
@@ -483,7 +487,7 @@ extension KendraClientTypes {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Alfresco wikis to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Alfresco fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Alfresco data source field names must exist in your Alfresco custom metadata.
         public var wikiFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             blogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             crawlComments: Swift.Bool = false,
             crawlSystemFolders: Swift.Bool = false,
@@ -593,7 +597,7 @@ public struct AssociateEntitiesToExperienceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         entityList: [KendraClientTypes.EntityConfiguration]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
@@ -618,7 +622,7 @@ extension AssociateEntitiesToExperienceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -638,41 +642,25 @@ extension AssociateEntitiesToExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateEntitiesToExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateEntitiesToExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistException" : self = .resourceAlreadyExistException(try ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateEntitiesToExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistException": return try await ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateEntitiesToExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceAlreadyExistException(ResourceAlreadyExistException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateEntitiesToExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateEntitiesToExperienceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEntityList = output.failedEntityList
@@ -686,7 +674,7 @@ public struct AssociateEntitiesToExperienceOutputResponse: Swift.Equatable {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly configure with your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
-    public init (
+    public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
     )
     {
@@ -703,7 +691,7 @@ extension AssociateEntitiesToExperienceOutputResponseBody: Swift.Decodable {
         case failedEntityList = "FailedEntityList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedEntityListContainer = try containerValues.decodeIfPresent([KendraClientTypes.FailedEntity?].self, forKey: .failedEntityList)
         var failedEntityListDecoded0:[KendraClientTypes.FailedEntity]? = nil
@@ -760,7 +748,7 @@ public struct AssociatePersonasToEntitiesInput: Swift.Equatable {
     /// This member is required.
     public var personas: [KendraClientTypes.EntityPersonaConfiguration]?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         personas: [KendraClientTypes.EntityPersonaConfiguration]? = nil
@@ -785,7 +773,7 @@ extension AssociatePersonasToEntitiesInputBody: Swift.Decodable {
         case personas = "Personas"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -805,41 +793,25 @@ extension AssociatePersonasToEntitiesInputBody: Swift.Decodable {
     }
 }
 
-extension AssociatePersonasToEntitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociatePersonasToEntitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistException" : self = .resourceAlreadyExistException(try ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociatePersonasToEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistException": return try await ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociatePersonasToEntitiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceAlreadyExistException(ResourceAlreadyExistException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociatePersonasToEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociatePersonasToEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEntityList = output.failedEntityList
@@ -853,7 +825,7 @@ public struct AssociatePersonasToEntitiesOutputResponse: Swift.Equatable {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly configure with your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
-    public init (
+    public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
     )
     {
@@ -870,7 +842,7 @@ extension AssociatePersonasToEntitiesOutputResponseBody: Swift.Decodable {
         case failedEntityList = "FailedEntityList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedEntityListContainer = try containerValues.decodeIfPresent([KendraClientTypes.FailedEntity?].self, forKey: .failedEntityList)
         var failedEntityListDecoded0:[KendraClientTypes.FailedEntity]? = nil
@@ -940,7 +912,7 @@ extension KendraClientTypes.AttributeFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let andAllFiltersContainer = try containerValues.decodeIfPresent([KendraClientTypes.AttributeFilter?].self, forKey: .andAllFilters)
         var andAllFiltersDecoded0:[KendraClientTypes.AttributeFilter]? = nil
@@ -1012,7 +984,7 @@ extension KendraClientTypes {
         /// Performs a logical OR operation on all supplied filters.
         public var orAllFilters: [KendraClientTypes.AttributeFilter]?
 
-        public init (
+        public init(
             andAllFilters: [KendraClientTypes.AttributeFilter]? = nil,
             containsAll: KendraClientTypes.DocumentAttribute? = nil,
             containsAny: KendraClientTypes.DocumentAttribute? = nil,
@@ -1040,6 +1012,241 @@ extension KendraClientTypes {
 
 }
 
+extension KendraClientTypes.AttributeSuggestionsDescribeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsMode = "AttributeSuggestionsMode"
+        case suggestableConfigList = "SuggestableConfigList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsMode = self.attributeSuggestionsMode {
+            try encodeContainer.encode(attributeSuggestionsMode.rawValue, forKey: .attributeSuggestionsMode)
+        }
+        if let suggestableConfigList = suggestableConfigList {
+            var suggestableConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestableConfigList)
+            for suggestableconfig0 in suggestableConfigList {
+                try suggestableConfigListContainer.encode(suggestableconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestableConfigListContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestableConfig?].self, forKey: .suggestableConfigList)
+        var suggestableConfigListDecoded0:[KendraClientTypes.SuggestableConfig]? = nil
+        if let suggestableConfigListContainer = suggestableConfigListContainer {
+            suggestableConfigListDecoded0 = [KendraClientTypes.SuggestableConfig]()
+            for structure0 in suggestableConfigListContainer {
+                if let structure0 = structure0 {
+                    suggestableConfigListDecoded0?.append(structure0)
+                }
+            }
+        }
+        suggestableConfigList = suggestableConfigListDecoded0
+        let attributeSuggestionsModeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsMode.self, forKey: .attributeSuggestionsMode)
+        attributeSuggestionsMode = attributeSuggestionsModeDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Gets information on the configuration of document fields/attributes that you want to base query suggestions on. To change your configuration, use [AttributeSuggestionsUpdateConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html) and then call [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html).
+    public struct AttributeSuggestionsDescribeConfig: Swift.Equatable {
+        /// The mode is set to either ACTIVE or INACTIVE. If the Mode for query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
+        public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
+        /// The list of fields/attributes that you want to set as suggestible for query suggestions.
+        public var suggestableConfigList: [KendraClientTypes.SuggestableConfig]?
+
+        public init(
+            attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
+            suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
+        )
+        {
+            self.attributeSuggestionsMode = attributeSuggestionsMode
+            self.suggestableConfigList = suggestableConfigList
+        }
+    }
+
+}
+
+extension KendraClientTypes.AttributeSuggestionsGetConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalResponseAttributes = "AdditionalResponseAttributes"
+        case attributeFilter = "AttributeFilter"
+        case suggestionAttributes = "SuggestionAttributes"
+        case userContext = "UserContext"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalResponseAttributes = additionalResponseAttributes {
+            var additionalResponseAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalResponseAttributes)
+            for documentattributekey0 in additionalResponseAttributes {
+                try additionalResponseAttributesContainer.encode(documentattributekey0)
+            }
+        }
+        if let attributeFilter = self.attributeFilter {
+            try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let suggestionAttributes = suggestionAttributes {
+            var suggestionAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionAttributes)
+            for documentattributekey0 in suggestionAttributes {
+                try suggestionAttributesContainer.encode(documentattributekey0)
+            }
+        }
+        if let userContext = self.userContext {
+            try encodeContainer.encode(userContext, forKey: .userContext)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestionAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .suggestionAttributes)
+        var suggestionAttributesDecoded0:[Swift.String]? = nil
+        if let suggestionAttributesContainer = suggestionAttributesContainer {
+            suggestionAttributesDecoded0 = [Swift.String]()
+            for string0 in suggestionAttributesContainer {
+                if let string0 = string0 {
+                    suggestionAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        suggestionAttributes = suggestionAttributesDecoded0
+        let additionalResponseAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .additionalResponseAttributes)
+        var additionalResponseAttributesDecoded0:[Swift.String]? = nil
+        if let additionalResponseAttributesContainer = additionalResponseAttributesContainer {
+            additionalResponseAttributesDecoded0 = [Swift.String]()
+            for string0 in additionalResponseAttributesContainer {
+                if let string0 = string0 {
+                    additionalResponseAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        additionalResponseAttributes = additionalResponseAttributesDecoded0
+        let attributeFilterDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeFilter.self, forKey: .attributeFilter)
+        attributeFilter = attributeFilterDecoded
+        let userContextDecoded = try containerValues.decodeIfPresent(KendraClientTypes.UserContext.self, forKey: .userContext)
+        userContext = userContextDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides the configuration information for the document fields/attributes that you want to base query suggestions on.
+    public struct AttributeSuggestionsGetConfig: Swift.Equatable {
+        /// The list of additional document field/attribute keys or field names to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
+        public var additionalResponseAttributes: [Swift.String]?
+        /// Filters the search results based on document fields/attributes.
+        public var attributeFilter: KendraClientTypes.AttributeFilter?
+        /// The list of document field/attribute keys or field names to use for query suggestions. If the content within any of the fields match what your user starts typing as their query, then the field content is returned as a query suggestion.
+        public var suggestionAttributes: [Swift.String]?
+        /// Applies user context filtering so that only users who are given access to certain documents see these document in their search results.
+        public var userContext: KendraClientTypes.UserContext?
+
+        public init(
+            additionalResponseAttributes: [Swift.String]? = nil,
+            attributeFilter: KendraClientTypes.AttributeFilter? = nil,
+            suggestionAttributes: [Swift.String]? = nil,
+            userContext: KendraClientTypes.UserContext? = nil
+        )
+        {
+            self.additionalResponseAttributes = additionalResponseAttributes
+            self.attributeFilter = attributeFilter
+            self.suggestionAttributes = suggestionAttributes
+            self.userContext = userContext
+        }
+    }
+
+}
+
+extension KendraClientTypes {
+    public enum AttributeSuggestionsMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeSuggestionsMode] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttributeSuggestionsMode(rawValue: rawValue) ?? AttributeSuggestionsMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KendraClientTypes.AttributeSuggestionsUpdateConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsMode = "AttributeSuggestionsMode"
+        case suggestableConfigList = "SuggestableConfigList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsMode = self.attributeSuggestionsMode {
+            try encodeContainer.encode(attributeSuggestionsMode.rawValue, forKey: .attributeSuggestionsMode)
+        }
+        if let suggestableConfigList = suggestableConfigList {
+            var suggestableConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestableConfigList)
+            for suggestableconfig0 in suggestableConfigList {
+                try suggestableConfigListContainer.encode(suggestableconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let suggestableConfigListContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestableConfig?].self, forKey: .suggestableConfigList)
+        var suggestableConfigListDecoded0:[KendraClientTypes.SuggestableConfig]? = nil
+        if let suggestableConfigListContainer = suggestableConfigListContainer {
+            suggestableConfigListDecoded0 = [KendraClientTypes.SuggestableConfig]()
+            for structure0 in suggestableConfigListContainer {
+                if let structure0 = structure0 {
+                    suggestableConfigListDecoded0?.append(structure0)
+                }
+            }
+        }
+        suggestableConfigList = suggestableConfigListDecoded0
+        let attributeSuggestionsModeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsMode.self, forKey: .attributeSuggestionsMode)
+        attributeSuggestionsMode = attributeSuggestionsModeDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Updates the configuration information for the document fields/attributes that you want to base query suggestions on. To deactivate using documents fields for query suggestions, set the mode to INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If you set to QUERY, then Amazon Kendra uses the query history to base suggestions on. If you set to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the contents of document fields to base suggestions on.
+    public struct AttributeSuggestionsUpdateConfig: Swift.Equatable {
+        /// You can set the mode to ACTIVE or INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If Mode to use query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
+        public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
+        /// The list of fields/attributes that you want to set as suggestible for query suggestions.
+        public var suggestableConfigList: [KendraClientTypes.SuggestableConfig]?
+
+        public init(
+            attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode? = nil,
+            suggestableConfigList: [KendraClientTypes.SuggestableConfig]? = nil
+        )
+        {
+            self.attributeSuggestionsMode = attributeSuggestionsMode
+            self.suggestableConfigList = suggestableConfigList
+        }
+    }
+
+}
+
 extension KendraClientTypes.AuthenticationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case basicAuthentication = "BasicAuthentication"
@@ -1055,7 +1262,7 @@ extension KendraClientTypes.AuthenticationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let basicAuthenticationContainer = try containerValues.decodeIfPresent([KendraClientTypes.BasicAuthenticationConfiguration?].self, forKey: .basicAuthentication)
         var basicAuthenticationDecoded0:[KendraClientTypes.BasicAuthenticationConfiguration]? = nil
@@ -1077,7 +1284,7 @@ extension KendraClientTypes {
         /// The list of configuration information that's required to connect to and crawl a website host using basic authentication credentials. The list includes the name and port number of the website host.
         public var basicAuthentication: [KendraClientTypes.BasicAuthenticationConfiguration]?
 
-        public init (
+        public init(
             basicAuthentication: [KendraClientTypes.BasicAuthenticationConfiguration]? = nil
         )
         {
@@ -1107,7 +1314,7 @@ extension KendraClientTypes.BasicAuthenticationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
@@ -1131,7 +1338,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var port: Swift.Int?
 
-        public init (
+        public init(
             credentials: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
@@ -1185,7 +1392,7 @@ public struct BatchDeleteDocumentInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         dataSourceSyncJobMetricTarget: KendraClientTypes.DataSourceSyncJobMetricTarget? = nil,
         documentIdList: [Swift.String]? = nil,
         indexId: Swift.String? = nil
@@ -1210,7 +1417,7 @@ extension BatchDeleteDocumentInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -1230,41 +1437,25 @@ extension BatchDeleteDocumentInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDeleteDocumentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchDeleteDocumentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDeleteDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchDeleteDocumentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDeleteDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDeleteDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedDocuments = output.failedDocuments
@@ -1278,7 +1469,7 @@ public struct BatchDeleteDocumentOutputResponse: Swift.Equatable {
     /// A list of documents that could not be removed from the index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
     public var failedDocuments: [KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]?
 
-    public init (
+    public init(
         failedDocuments: [KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]? = nil
     )
     {
@@ -1295,7 +1486,7 @@ extension BatchDeleteDocumentOutputResponseBody: Swift.Decodable {
         case failedDocuments = "FailedDocuments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.BatchDeleteDocumentResponseFailedDocument?].self, forKey: .failedDocuments)
         var failedDocumentsDecoded0:[KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]? = nil
@@ -1331,7 +1522,7 @@ extension KendraClientTypes.BatchDeleteDocumentResponseFailedDocument: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1352,7 +1543,7 @@ extension KendraClientTypes {
         /// The identifier of the document that couldn't be removed from the index.
         public var id: Swift.String?
 
-        public init (
+        public init(
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
@@ -1386,7 +1577,7 @@ extension KendraClientTypes.BatchDeleteFeaturedResultsSetError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -1410,7 +1601,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var id: Swift.String?
 
-        public init (
+        public init(
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
@@ -1458,7 +1649,7 @@ public struct BatchDeleteFeaturedResultsSetInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         featuredResultsSetIds: [Swift.String]? = nil,
         indexId: Swift.String? = nil
     )
@@ -1479,7 +1670,7 @@ extension BatchDeleteFeaturedResultsSetInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -1497,39 +1688,24 @@ extension BatchDeleteFeaturedResultsSetInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDeleteFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchDeleteFeaturedResultsSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDeleteFeaturedResultsSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchDeleteFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDeleteFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDeleteFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -1544,7 +1720,7 @@ public struct BatchDeleteFeaturedResultsSetOutputResponse: Swift.Equatable {
     /// This member is required.
     public var errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]?
 
-    public init (
+    public init(
         errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]? = nil
     )
     {
@@ -1561,7 +1737,7 @@ extension BatchDeleteFeaturedResultsSetOutputResponseBody: Swift.Decodable {
         case errors = "Errors"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorsContainer = try containerValues.decodeIfPresent([KendraClientTypes.BatchDeleteFeaturedResultsSetError?].self, forKey: .errors)
         var errorsDecoded0:[KendraClientTypes.BatchDeleteFeaturedResultsSetError]? = nil
@@ -1611,7 +1787,7 @@ public struct BatchGetDocumentStatusInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         documentInfoList: [KendraClientTypes.DocumentInfo]? = nil,
         indexId: Swift.String? = nil
     )
@@ -1632,7 +1808,7 @@ extension BatchGetDocumentStatusInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -1650,41 +1826,25 @@ extension BatchGetDocumentStatusInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetDocumentStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetDocumentStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetDocumentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetDocumentStatusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetDocumentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetDocumentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.documentStatusList = output.documentStatusList
@@ -1702,7 +1862,7 @@ public struct BatchGetDocumentStatusOutputResponse: Swift.Equatable {
     /// A list of documents that Amazon Kendra couldn't get the status for. The list includes the ID of the document and the reason that the status couldn't be found.
     public var errors: [KendraClientTypes.BatchGetDocumentStatusResponseError]?
 
-    public init (
+    public init(
         documentStatusList: [KendraClientTypes.Status]? = nil,
         errors: [KendraClientTypes.BatchGetDocumentStatusResponseError]? = nil
     )
@@ -1723,7 +1883,7 @@ extension BatchGetDocumentStatusOutputResponseBody: Swift.Decodable {
         case errors = "Errors"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorsContainer = try containerValues.decodeIfPresent([KendraClientTypes.BatchGetDocumentStatusResponseError?].self, forKey: .errors)
         var errorsDecoded0:[KendraClientTypes.BatchGetDocumentStatusResponseError]? = nil
@@ -1770,7 +1930,7 @@ extension KendraClientTypes.BatchGetDocumentStatusResponseError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
         documentId = documentIdDecoded
@@ -1791,7 +1951,7 @@ extension KendraClientTypes {
         /// States that the API could not get the status of a document. This could be because the request is not valid or there is a system error.
         public var errorMessage: Swift.String?
 
-        public init (
+        public init(
             documentId: Swift.String? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
@@ -1858,7 +2018,7 @@ public struct BatchPutDocumentInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
-    public init (
+    public init(
         customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration? = nil,
         documents: [KendraClientTypes.Document]? = nil,
         indexId: Swift.String? = nil,
@@ -1887,7 +2047,7 @@ extension BatchPutDocumentInputBody: Swift.Decodable {
         case roleArn = "RoleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -1909,43 +2069,26 @@ extension BatchPutDocumentInputBody: Swift.Decodable {
     }
 }
 
-extension BatchPutDocumentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchPutDocumentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchPutDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchPutDocumentOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchPutDocumentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchPutDocumentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedDocuments = output.failedDocuments
@@ -1959,7 +2102,7 @@ public struct BatchPutDocumentOutputResponse: Swift.Equatable {
     /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see [Monitoring Amazon Kendra with Amazon CloudWatch Logs](https://docs.aws.amazon.com/kendra/latest/dg/cloudwatch-logs.html)
     public var failedDocuments: [KendraClientTypes.BatchPutDocumentResponseFailedDocument]?
 
-    public init (
+    public init(
         failedDocuments: [KendraClientTypes.BatchPutDocumentResponseFailedDocument]? = nil
     )
     {
@@ -1976,7 +2119,7 @@ extension BatchPutDocumentOutputResponseBody: Swift.Decodable {
         case failedDocuments = "FailedDocuments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.BatchPutDocumentResponseFailedDocument?].self, forKey: .failedDocuments)
         var failedDocumentsDecoded0:[KendraClientTypes.BatchPutDocumentResponseFailedDocument]? = nil
@@ -2012,7 +2155,7 @@ extension KendraClientTypes.BatchPutDocumentResponseFailedDocument: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -2033,7 +2176,7 @@ extension KendraClientTypes {
         /// The identifier of the document.
         public var id: Swift.String?
 
-        public init (
+        public init(
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
@@ -2125,7 +2268,7 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enterpriseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enterpriseId)
         enterpriseId = enterpriseIdDecoded
@@ -2255,7 +2398,7 @@ extension KendraClientTypes {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Box web links to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Box fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Box field names must exist in your Box custom metadata.
         public var webLinkFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             commentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             crawlComments: Swift.Bool = false,
             crawlTasks: Swift.Bool = false,
@@ -2305,7 +2448,7 @@ extension KendraClientTypes.CapacityUnitsConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storageCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageCapacityUnits)
         storageCapacityUnits = storageCapacityUnitsDecoded
@@ -2324,7 +2467,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var storageCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             queryCapacityUnits: Swift.Int? = nil,
             storageCapacityUnits: Swift.Int? = nil
         )
@@ -2360,7 +2503,7 @@ public struct ClearQuerySuggestionsInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil
     )
     {
@@ -2377,53 +2520,37 @@ extension ClearQuerySuggestionsInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
     }
 }
 
-extension ClearQuerySuggestionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ClearQuerySuggestionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ClearQuerySuggestionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ClearQuerySuggestionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ClearQuerySuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ClearQuerySuggestionsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KendraClientTypes.ClickFeedback: Swift.Codable {
@@ -2442,7 +2569,7 @@ extension KendraClientTypes.ClickFeedback: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
         resultId = resultIdDecoded
@@ -2461,7 +2588,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var resultId: Swift.String?
 
-        public init (
+        public init(
             clickTime: ClientRuntime.Date? = nil,
             resultId: Swift.String? = nil
         )
@@ -2507,7 +2634,7 @@ extension KendraClientTypes.ColumnConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentIdColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdColumnName)
         documentIdColumnName = documentIdColumnNameDecoded
@@ -2557,7 +2684,7 @@ extension KendraClientTypes {
         /// An array of objects that map database column names to the corresponding fields in an index. You must first create the fields in the index using the UpdateIndex API.
         public var fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             changeDetectingColumns: [Swift.String]? = nil,
             documentDataColumnName: Swift.String? = nil,
             documentIdColumnName: Swift.String? = nil,
@@ -2635,37 +2762,41 @@ extension KendraClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A conflict occurred with the request. Please fix any inconsistences with your resources and try again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2678,7 +2809,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2705,7 +2836,7 @@ extension KendraClientTypes.ConflictingItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryText)
         queryText = queryTextDecoded
@@ -2726,7 +2857,7 @@ extension KendraClientTypes {
         /// The name for the set of featured results that the conflicting query belongs to.
         public var setName: Swift.String?
 
-        public init (
+        public init(
             queryText: Swift.String? = nil,
             setId: Swift.String? = nil,
             setName: Swift.String? = nil
@@ -2759,7 +2890,7 @@ extension KendraClientTypes.ConfluenceAttachmentConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let crawlAttachmentsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crawlAttachments) ?? false
         crawlAttachments = crawlAttachmentsDecoded
@@ -2785,7 +2916,7 @@ extension KendraClientTypes {
         /// TRUE to index attachments of pages and blogs in Confluence.
         public var crawlAttachments: Swift.Bool
 
-        public init (
+        public init(
             attachmentFieldMappings: [KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping]? = nil,
             crawlAttachments: Swift.Bool = false
         )
@@ -2876,7 +3007,7 @@ extension KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceFieldNameDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ConfluenceAttachmentFieldName.self, forKey: .dataSourceFieldName)
         dataSourceFieldName = dataSourceFieldNameDecoded
@@ -2897,7 +3028,7 @@ extension KendraClientTypes {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public var indexFieldName: Swift.String?
 
-        public init (
+        public init(
             dataSourceFieldName: KendraClientTypes.ConfluenceAttachmentFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
@@ -2958,7 +3089,7 @@ extension KendraClientTypes.ConfluenceBlogConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blogFieldMappingsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ConfluenceBlogToIndexFieldMapping?].self, forKey: .blogFieldMappings)
         var blogFieldMappingsDecoded0:[KendraClientTypes.ConfluenceBlogToIndexFieldMapping]? = nil
@@ -2980,7 +3111,7 @@ extension KendraClientTypes {
         /// Maps attributes or field names of Confluence blogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the BlogFieldMappings parameter, you must specify at least one field mapping.
         public var blogFieldMappings: [KendraClientTypes.ConfluenceBlogToIndexFieldMapping]?
 
-        public init (
+        public init(
             blogFieldMappings: [KendraClientTypes.ConfluenceBlogToIndexFieldMapping]? = nil
         )
         {
@@ -3063,7 +3194,7 @@ extension KendraClientTypes.ConfluenceBlogToIndexFieldMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceFieldNameDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ConfluenceBlogFieldName.self, forKey: .dataSourceFieldName)
         dataSourceFieldName = dataSourceFieldNameDecoded
@@ -3084,7 +3215,7 @@ extension KendraClientTypes {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public var indexFieldName: Swift.String?
 
-        public init (
+        public init(
             dataSourceFieldName: KendraClientTypes.ConfluenceBlogFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
@@ -3160,7 +3291,7 @@ extension KendraClientTypes.ConfluenceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverUrl)
         serverUrl = serverUrlDecoded
@@ -3238,7 +3369,7 @@ extension KendraClientTypes {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Confluence. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             attachmentConfiguration: KendraClientTypes.ConfluenceAttachmentConfiguration? = nil,
             authenticationType: KendraClientTypes.ConfluenceAuthenticationType? = nil,
             blogConfiguration: KendraClientTypes.ConfluenceBlogConfiguration? = nil,
@@ -3285,7 +3416,7 @@ extension KendraClientTypes.ConfluencePageConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pageFieldMappingsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ConfluencePageToIndexFieldMapping?].self, forKey: .pageFieldMappings)
         var pageFieldMappingsDecoded0:[KendraClientTypes.ConfluencePageToIndexFieldMapping]? = nil
@@ -3307,7 +3438,7 @@ extension KendraClientTypes {
         /// Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the PageFieldMappings parameter, you must specify at least one field mapping.
         public var pageFieldMappings: [KendraClientTypes.ConfluencePageToIndexFieldMapping]?
 
-        public init (
+        public init(
             pageFieldMappings: [KendraClientTypes.ConfluencePageToIndexFieldMapping]? = nil
         )
         {
@@ -3399,7 +3530,7 @@ extension KendraClientTypes.ConfluencePageToIndexFieldMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceFieldNameDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ConfluencePageFieldName.self, forKey: .dataSourceFieldName)
         dataSourceFieldName = dataSourceFieldNameDecoded
@@ -3420,7 +3551,7 @@ extension KendraClientTypes {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public var indexFieldName: Swift.String?
 
-        public init (
+        public init(
             dataSourceFieldName: KendraClientTypes.ConfluencePageFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
@@ -3471,7 +3602,7 @@ extension KendraClientTypes.ConfluenceSpaceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let crawlPersonalSpacesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crawlPersonalSpaces) ?? false
         crawlPersonalSpaces = crawlPersonalSpacesDecoded
@@ -3527,7 +3658,7 @@ extension KendraClientTypes {
         /// Maps attributes or field names of Confluence spaces to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the SpaceFieldMappings parameter, you must specify at least one field mapping.
         public var spaceFieldMappings: [KendraClientTypes.ConfluenceSpaceToIndexFieldMapping]?
 
-        public init (
+        public init(
             crawlArchivedSpaces: Swift.Bool = false,
             crawlPersonalSpaces: Swift.Bool = false,
             excludeSpaces: [Swift.String]? = nil,
@@ -3603,7 +3734,7 @@ extension KendraClientTypes.ConfluenceSpaceToIndexFieldMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceFieldNameDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ConfluenceSpaceFieldName.self, forKey: .dataSourceFieldName)
         dataSourceFieldName = dataSourceFieldNameDecoded
@@ -3624,7 +3755,7 @@ extension KendraClientTypes {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public var indexFieldName: Swift.String?
 
-        public init (
+        public init(
             dataSourceFieldName: KendraClientTypes.ConfluenceSpaceFieldName? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
@@ -3698,7 +3829,7 @@ extension KendraClientTypes.ConnectionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseHostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseHost)
         databaseHost = databaseHostDecoded
@@ -3732,7 +3863,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             databaseHost: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             databasePort: Swift.Int? = nil,
@@ -3776,7 +3907,7 @@ extension KendraClientTypes.ContentSourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dataSourceIds)
         var dataSourceIdsDecoded0:[Swift.String]? = nil
@@ -3815,7 +3946,7 @@ extension KendraClientTypes {
         /// The identifier of the FAQs that you want to use for your Amazon Kendra experience.
         public var faqIds: [Swift.String]?
 
-        public init (
+        public init(
             dataSourceIds: [Swift.String]? = nil,
             directPutContent: Swift.Bool = false,
             faqIds: [Swift.String]? = nil
@@ -3915,7 +4046,7 @@ extension KendraClientTypes.Correction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffset)
         beginOffset = beginOffsetDecoded
@@ -3940,7 +4071,7 @@ extension KendraClientTypes {
         /// The string or text of a misspelled word in a query.
         public var term: Swift.String?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             correctedTerm: Swift.String? = nil,
             endOffset: Swift.Int? = nil,
@@ -4017,7 +4148,7 @@ public struct CreateAccessControlConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         accessControlList: [KendraClientTypes.Principal]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -4054,7 +4185,7 @@ extension CreateAccessControlConfigurationInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -4089,43 +4220,26 @@ extension CreateAccessControlConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAccessControlConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateAccessControlConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAccessControlConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateAccessControlConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAccessControlConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateAccessControlConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -4140,7 +4254,7 @@ public struct CreateAccessControlConfigurationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -4157,7 +4271,7 @@ extension CreateAccessControlConfigurationOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4259,7 +4373,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
     /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
     public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         configuration: KendraClientTypes.DataSourceConfiguration? = nil,
         customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration? = nil,
@@ -4320,7 +4434,7 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         case vpcConfiguration = "VpcConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4358,45 +4472,27 @@ extension CreateDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistException" : self = .resourceAlreadyExistException(try ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistException": return try await ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceAlreadyExistException(ResourceAlreadyExistException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateDataSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -4411,7 +4507,7 @@ public struct CreateDataSourceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -4428,7 +4524,7 @@ extension CreateDataSourceOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4490,7 +4586,7 @@ public struct CreateExperienceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of an IAM role with permission to access Query API, GetQuerySuggestions API, and other required APIs. The role also must include permission to access IAM Identity Center (successor to Single Sign-On) that stores your user and group information. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         configuration: KendraClientTypes.ExperienceConfiguration? = nil,
         description: Swift.String? = nil,
@@ -4527,7 +4623,7 @@ extension CreateExperienceInputBody: Swift.Decodable {
         case roleArn = "RoleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4544,43 +4640,26 @@ extension CreateExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension CreateExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateExperienceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -4595,7 +4674,7 @@ public struct CreateExperienceOutputResponse: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -4612,7 +4691,7 @@ extension CreateExperienceOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4697,7 +4776,7 @@ public struct CreateFaqInput: Swift.Equatable {
     /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         fileFormat: KendraClientTypes.FaqFileFormat? = nil,
@@ -4746,7 +4825,7 @@ extension CreateFaqInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -4778,43 +4857,26 @@ extension CreateFaqInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFaqOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFaqOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFaqOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFaqOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFaqOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFaqOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -4828,7 +4890,7 @@ public struct CreateFaqOutputResponse: Swift.Equatable {
     /// The identifier of the FAQ.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -4845,7 +4907,7 @@ extension CreateFaqOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -4928,7 +4990,7 @@ public struct CreateFeaturedResultsSetInput: Swift.Equatable {
     /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
@@ -4973,7 +5035,7 @@ extension CreateFeaturedResultsSetInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -5021,43 +5083,26 @@ extension CreateFeaturedResultsSetInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFeaturedResultsSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FeaturedResultsConflictException" : self = .featuredResultsConflictException(try FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FeaturedResultsConflictException": return try await FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case featuredResultsConflictException(FeaturedResultsConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.featuredResultsSet = output.featuredResultsSet
@@ -5071,7 +5116,7 @@ public struct CreateFeaturedResultsSetOutputResponse: Swift.Equatable {
     /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was created, and more.
     public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 
-    public init (
+    public init(
         featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
     )
     {
@@ -5088,7 +5133,7 @@ extension CreateFeaturedResultsSetOutputResponseBody: Swift.Decodable {
         case featuredResultsSet = "FeaturedResultsSet"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSet.self, forKey: .featuredResultsSet)
         featuredResultsSet = featuredResultsSetDecoded
@@ -5180,7 +5225,7 @@ public struct CreateIndexInput: Swift.Equatable {
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         edition: KendraClientTypes.IndexEdition? = nil,
@@ -5233,7 +5278,7 @@ extension CreateIndexInputBody: Swift.Decodable {
         case userTokenConfigurations = "UserTokenConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -5276,43 +5321,26 @@ extension CreateIndexInputBody: Swift.Decodable {
     }
 }
 
-extension CreateIndexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateIndexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceAlreadyExistException" : self = .resourceAlreadyExistException(try ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistException": return try await ResourceAlreadyExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateIndexOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceAlreadyExistException(ResourceAlreadyExistException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateIndexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -5326,7 +5354,7 @@ public struct CreateIndexOutputResponse: Swift.Equatable {
     /// The identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -5343,7 +5371,7 @@ extension CreateIndexOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5416,7 +5444,7 @@ public struct CreateQuerySuggestionsBlockListInput: Swift.Equatable {
     /// A list of key-value pairs that identify or categorize the block list. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         indexId: Swift.String? = nil,
@@ -5457,7 +5485,7 @@ extension CreateQuerySuggestionsBlockListInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -5485,43 +5513,26 @@ extension CreateQuerySuggestionsBlockListInputBody: Swift.Decodable {
     }
 }
 
-extension CreateQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateQuerySuggestionsBlockListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateQuerySuggestionsBlockListOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateQuerySuggestionsBlockListOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -5535,7 +5546,7 @@ public struct CreateQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
     /// The identifier of the block list.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -5552,7 +5563,7 @@ extension CreateQuerySuggestionsBlockListOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5625,7 +5636,7 @@ public struct CreateThesaurusInput: Swift.Equatable {
     /// A list of key-value pairs that identify or categorize the thesaurus. You can also use tags to help control access to the thesaurus. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         indexId: Swift.String? = nil,
@@ -5666,7 +5677,7 @@ extension CreateThesaurusInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -5694,43 +5705,26 @@ extension CreateThesaurusInputBody: Swift.Decodable {
     }
 }
 
-extension CreateThesaurusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateThesaurusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateThesaurusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateThesaurusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateThesaurusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
@@ -5744,7 +5738,7 @@ public struct CreateThesaurusOutputResponse: Swift.Equatable {
     /// The identifier of the thesaurus.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -5761,7 +5755,7 @@ extension CreateThesaurusOutputResponseBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -5795,7 +5789,7 @@ extension KendraClientTypes.CustomDocumentEnrichmentConfiguration: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inlineConfigurationsContainer = try containerValues.decodeIfPresent([KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration?].self, forKey: .inlineConfigurations)
         var inlineConfigurationsDecoded0:[KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration]? = nil
@@ -5829,7 +5823,7 @@ extension KendraClientTypes {
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
         public var roleArn: Swift.String?
 
-        public init (
+        public init(
             inlineConfigurations: [KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration]? = nil,
             postExtractionHookConfiguration: KendraClientTypes.HookConfiguration? = nil,
             preExtractionHookConfiguration: KendraClientTypes.HookConfiguration? = nil,
@@ -5925,7 +5919,7 @@ extension KendraClientTypes.DataSourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.S3DataSourceConfiguration.self, forKey: .s3Configuration)
         s3Configuration = s3ConfigurationDecoded
@@ -6006,7 +6000,7 @@ extension KendraClientTypes {
         /// Provides the configuration information to connect to Amazon WorkDocs as your data source.
         public var workDocsConfiguration: KendraClientTypes.WorkDocsConfiguration?
 
-        public init (
+        public init(
             alfrescoConfiguration: KendraClientTypes.AlfrescoConfiguration? = nil,
             boxConfiguration: KendraClientTypes.BoxConfiguration? = nil,
             confluenceConfiguration: KendraClientTypes.ConfluenceConfiguration? = nil,
@@ -6066,7 +6060,7 @@ extension KendraClientTypes.DataSourceGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -6085,7 +6079,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var groupId: Swift.String?
 
-        public init (
+        public init(
             dataSourceId: Swift.String? = nil,
             groupId: Swift.String? = nil
         )
@@ -6174,7 +6168,7 @@ extension KendraClientTypes.DataSourceSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6211,7 +6205,7 @@ extension KendraClientTypes {
         /// The Unix timestamp when the data source connector was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             languageCode: Swift.String? = nil,
@@ -6273,7 +6267,7 @@ extension KendraClientTypes.DataSourceSyncJob: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionId)
         executionId = executionIdDecoded
@@ -6314,7 +6308,7 @@ extension KendraClientTypes {
         /// The execution status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is set to FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public var status: KendraClientTypes.DataSourceSyncJobStatus?
 
-        public init (
+        public init(
             dataSourceErrorCode: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
@@ -6354,7 +6348,7 @@ extension KendraClientTypes.DataSourceSyncJobMetricTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSourceId)
         dataSourceId = dataSourceIdDecoded
@@ -6372,7 +6366,7 @@ extension KendraClientTypes {
         /// The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are indexed/deleted at the index level without sync job metrics included.
         public var dataSourceSyncJobId: Swift.String?
 
-        public init (
+        public init(
             dataSourceId: Swift.String? = nil,
             dataSourceSyncJobId: Swift.String? = nil
         )
@@ -6412,7 +6406,7 @@ extension KendraClientTypes.DataSourceSyncJobMetrics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentsAddedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentsAdded)
         documentsAdded = documentsAddedDecoded
@@ -6441,7 +6435,7 @@ extension KendraClientTypes {
         /// The current number of documents crawled by the current sync job in the data source.
         public var documentsScanned: Swift.String?
 
-        public init (
+        public init(
             documentsAdded: Swift.String? = nil,
             documentsDeleted: Swift.String? = nil,
             documentsFailed: Swift.String? = nil,
@@ -6526,7 +6520,7 @@ extension KendraClientTypes.DataSourceToIndexFieldMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSourceFieldName)
         dataSourceFieldName = dataSourceFieldNameDecoded
@@ -6549,7 +6543,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var indexFieldName: Swift.String?
 
-        public init (
+        public init(
             dataSourceFieldName: Swift.String? = nil,
             dateFieldFormat: Swift.String? = nil,
             indexFieldName: Swift.String? = nil
@@ -6668,7 +6662,7 @@ extension KendraClientTypes.DataSourceVpcConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
         var subnetIdsDecoded0:[Swift.String]? = nil
@@ -6705,7 +6699,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
@@ -6749,7 +6743,7 @@ extension KendraClientTypes.DatabaseConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseEngineTypeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DatabaseEngineType.self, forKey: .databaseEngineType)
         databaseEngineType = databaseEngineTypeDecoded
@@ -6785,7 +6779,7 @@ extension KendraClientTypes {
         /// Provides the configuration information to connect to an Amazon VPC.
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             aclConfiguration: KendraClientTypes.AclConfiguration? = nil,
             columnConfiguration: KendraClientTypes.ColumnConfiguration? = nil,
             connectionConfiguration: KendraClientTypes.ConnectionConfiguration? = nil,
@@ -6874,7 +6868,7 @@ public struct DeleteAccessControlConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -6895,7 +6889,7 @@ extension DeleteAccessControlConfigurationInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -6904,46 +6898,30 @@ extension DeleteAccessControlConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteAccessControlConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteAccessControlConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAccessControlConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteAccessControlConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAccessControlConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAccessControlConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteDataSourceInput: Swift.Encodable {
@@ -6977,7 +6955,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -6998,7 +6976,7 @@ extension DeleteDataSourceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7007,46 +6985,30 @@ extension DeleteDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteDataSourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteExperienceInput: Swift.Encodable {
@@ -7080,7 +7042,7 @@ public struct DeleteExperienceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7101,7 +7063,7 @@ extension DeleteExperienceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7110,46 +7072,30 @@ extension DeleteExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteExperienceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteFaqInput: Swift.Encodable {
@@ -7183,7 +7129,7 @@ public struct DeleteFaqInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7204,7 +7150,7 @@ extension DeleteFaqInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7213,46 +7159,30 @@ extension DeleteFaqInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteFaqOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFaqOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFaqOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFaqOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFaqOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteFaqOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteIndexInput: Swift.Encodable {
@@ -7279,7 +7209,7 @@ public struct DeleteIndexInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -7296,53 +7226,37 @@ extension DeleteIndexInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension DeleteIndexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteIndexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteIndexOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteIndexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteIndexOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePrincipalMappingInput: Swift.Encodable {
@@ -7388,7 +7302,7 @@ public struct DeletePrincipalMappingInput: Swift.Equatable {
     /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest DELETE action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest members list doesn't get overwritten by earlier DELETE actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
     public var orderingId: Swift.Int?
 
-    public init (
+    public init(
         dataSourceId: Swift.String? = nil,
         groupId: Swift.String? = nil,
         indexId: Swift.String? = nil,
@@ -7417,7 +7331,7 @@ extension DeletePrincipalMappingInputBody: Swift.Decodable {
         case orderingId = "OrderingId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -7430,46 +7344,30 @@ extension DeletePrincipalMappingInputBody: Swift.Decodable {
     }
 }
 
-extension DeletePrincipalMappingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeletePrincipalMappingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePrincipalMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeletePrincipalMappingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePrincipalMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeletePrincipalMappingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteQuerySuggestionsBlockListInput: Swift.Encodable {
@@ -7503,7 +7401,7 @@ public struct DeleteQuerySuggestionsBlockListInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7524,7 +7422,7 @@ extension DeleteQuerySuggestionsBlockListInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -7533,46 +7431,30 @@ extension DeleteQuerySuggestionsBlockListInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteQuerySuggestionsBlockListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteQuerySuggestionsBlockListOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteThesaurusInput: Swift.Encodable {
@@ -7606,7 +7488,7 @@ public struct DeleteThesaurusInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7627,7 +7509,7 @@ extension DeleteThesaurusInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7636,46 +7518,30 @@ extension DeleteThesaurusInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteThesaurusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteThesaurusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteThesaurusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteThesaurusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteThesaurusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAccessControlConfigurationInput: Swift.Encodable {
@@ -7709,7 +7575,7 @@ public struct DescribeAccessControlConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7730,7 +7596,7 @@ extension DescribeAccessControlConfigurationInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -7739,39 +7605,24 @@ extension DescribeAccessControlConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAccessControlConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeAccessControlConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccessControlConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeAccessControlConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccessControlConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccessControlConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessControlList = output.accessControlList
@@ -7802,7 +7653,7 @@ public struct DescribeAccessControlConfigurationOutputResponse: Swift.Equatable 
     /// This member is required.
     public var name: Swift.String?
 
-    public init (
+    public init(
         accessControlList: [KendraClientTypes.Principal]? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
@@ -7835,7 +7686,7 @@ extension DescribeAccessControlConfigurationOutputResponseBody: Swift.Decodable 
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7899,7 +7750,7 @@ public struct DescribeDataSourceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -7920,7 +7771,7 @@ extension DescribeDataSourceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -7929,39 +7780,24 @@ extension DescribeDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDataSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -8031,7 +7867,7 @@ public struct DescribeDataSourceOutputResponse: Swift.Equatable {
     /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
     public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-    public init (
+    public init(
         configuration: KendraClientTypes.DataSourceConfiguration? = nil,
         createdAt: ClientRuntime.Date? = nil,
         customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration? = nil,
@@ -8104,7 +7940,7 @@ extension DescribeDataSourceOutputResponseBody: Swift.Decodable {
         case vpcConfiguration = "VpcConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8170,7 +8006,7 @@ public struct DescribeExperienceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -8191,7 +8027,7 @@ extension DescribeExperienceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8200,39 +8036,24 @@ extension DescribeExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeExperienceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
@@ -8286,7 +8107,7 @@ public struct DescribeExperienceOutputResponse: Swift.Equatable {
     /// The Unix timestamp when your Amazon Kendra experience was last updated.
     public var updatedAt: ClientRuntime.Date?
 
-    public init (
+    public init(
         configuration: KendraClientTypes.ExperienceConfiguration? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
@@ -8343,7 +8164,7 @@ extension DescribeExperienceOutputResponseBody: Swift.Decodable {
         case updatedAt = "UpdatedAt"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8410,7 +8231,7 @@ public struct DescribeFaqInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -8431,7 +8252,7 @@ extension DescribeFaqInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8440,39 +8261,24 @@ extension DescribeFaqInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFaqOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFaqOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFaqOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFaqOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFaqOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFaqOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
@@ -8530,7 +8336,7 @@ public struct DescribeFaqOutputResponse: Swift.Equatable {
     /// The Unix timestamp when the FAQ was last updated.
     public var updatedAt: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
@@ -8591,7 +8397,7 @@ extension DescribeFaqOutputResponseBody: Swift.Decodable {
         case updatedAt = "UpdatedAt"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8651,7 +8457,7 @@ public struct DescribeFeaturedResultsSetInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         featuredResultsSetId: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -8672,7 +8478,7 @@ extension DescribeFeaturedResultsSetInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -8681,39 +8487,24 @@ extension DescribeFeaturedResultsSetInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFeaturedResultsSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFeaturedResultsSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTimestamp = output.creationTimestamp
@@ -8759,7 +8550,7 @@ public struct DescribeFeaturedResultsSetOutputResponse: Swift.Equatable {
     /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
     public var status: KendraClientTypes.FeaturedResultsSetStatus?
 
-    public init (
+    public init(
         creationTimestamp: Swift.Int? = nil,
         description: Swift.String? = nil,
         featuredDocumentsMissing: [KendraClientTypes.FeaturedDocumentMissing]? = nil,
@@ -8808,7 +8599,7 @@ extension DescribeFeaturedResultsSetOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
         featuredResultsSetId = featuredResultsSetIdDecoded
@@ -8882,7 +8673,7 @@ public struct DescribeIndexInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil
     )
     {
@@ -8899,46 +8690,31 @@ extension DescribeIndexInputBody: Swift.Decodable {
         case id = "Id"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
     }
 }
 
-extension DescribeIndexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeIndexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeIndexOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeIndexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacityUnits = output.capacityUnits
@@ -9012,7 +8788,7 @@ public struct DescribeIndexOutputResponse: Swift.Equatable {
     /// The user token configuration for the Amazon Kendra index.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
 
-    public init (
+    public init(
         capacityUnits: KendraClientTypes.CapacityUnitsConfiguration? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
@@ -9089,7 +8865,7 @@ extension DescribeIndexOutputResponseBody: Swift.Decodable {
         case userTokenConfigurations = "UserTokenConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9181,7 +8957,7 @@ public struct DescribePrincipalMappingInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         dataSourceId: Swift.String? = nil,
         groupId: Swift.String? = nil,
         indexId: Swift.String? = nil
@@ -9206,7 +8982,7 @@ extension DescribePrincipalMappingInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -9217,39 +8993,24 @@ extension DescribePrincipalMappingInputBody: Swift.Decodable {
     }
 }
 
-extension DescribePrincipalMappingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribePrincipalMappingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePrincipalMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribePrincipalMappingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePrincipalMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePrincipalMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataSourceId = output.dataSourceId
@@ -9285,7 +9046,7 @@ public struct DescribePrincipalMappingOutputResponse: Swift.Equatable {
     /// Shows the identifier of the index to see information on the processing of PUT and DELETE actions for mapping users to their groups.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         dataSourceId: Swift.String? = nil,
         groupId: Swift.String? = nil,
         groupOrderingIdSummaries: [KendraClientTypes.GroupOrderingIdSummary]? = nil,
@@ -9314,7 +9075,7 @@ extension DescribePrincipalMappingOutputResponseBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -9367,7 +9128,7 @@ public struct DescribeQuerySuggestionsBlockListInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -9388,7 +9149,7 @@ extension DescribeQuerySuggestionsBlockListInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -9397,39 +9158,24 @@ extension DescribeQuerySuggestionsBlockListInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeQuerySuggestionsBlockListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeQuerySuggestionsBlockListOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeQuerySuggestionsBlockListOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
@@ -9487,7 +9233,7 @@ public struct DescribeQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
     /// The Unix timestamp when a block list for query suggestions was last updated.
     public var updatedAt: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
@@ -9548,7 +9294,7 @@ extension DescribeQuerySuggestionsBlockListOutputResponseBody: Swift.Decodable {
         case updatedAt = "UpdatedAt"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -9601,7 +9347,7 @@ public struct DescribeQuerySuggestionsConfigInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil
     )
     {
@@ -9618,48 +9364,34 @@ extension DescribeQuerySuggestionsConfigInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
     }
 }
 
-extension DescribeQuerySuggestionsConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeQuerySuggestionsConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeQuerySuggestionsConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeQuerySuggestionsConfigOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeQuerySuggestionsConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.attributeSuggestionsConfig = output.attributeSuggestionsConfig
             self.includeQueriesWithoutUserInformation = output.includeQueriesWithoutUserInformation
             self.lastClearTime = output.lastClearTime
             self.lastSuggestionsBuildTime = output.lastSuggestionsBuildTime
@@ -9670,6 +9402,7 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
             self.status = output.status
             self.totalSuggestionsCount = output.totalSuggestionsCount
         } else {
+            self.attributeSuggestionsConfig = nil
             self.includeQueriesWithoutUserInformation = nil
             self.lastClearTime = nil
             self.lastSuggestionsBuildTime = nil
@@ -9684,11 +9417,13 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig?
     /// TRUE to use all queries, otherwise use only queries that include user information to generate the query suggestions.
     public var includeQueriesWithoutUserInformation: Swift.Bool?
     /// The Unix timestamp when query suggestions for an index was last cleared. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. Amazon Kendra only considers re-occurences of a query from the time you cleared suggestions.
     public var lastClearTime: ClientRuntime.Date?
-    /// The Unix timestamp when query suggestions for an index was last updated.
+    /// The Unix timestamp when query suggestions for an index was last updated. Amazon Kendra automatically updates suggestions every 24 hours, after you change a setting or after you apply a [block list](https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist).
     public var lastSuggestionsBuildTime: ClientRuntime.Date?
     /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users.
     public var minimumNumberOfQueryingUsers: Swift.Int?
@@ -9700,10 +9435,11 @@ public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
     public var queryLogLookBackWindowInDays: Swift.Int?
     /// Whether the status of query suggestions settings is currently ACTIVE or UPDATING. Active means the current settings apply and Updating means your changed settings are in the process of applying.
     public var status: KendraClientTypes.QuerySuggestionsStatus?
-    /// The current total count of query suggestions for an index. This count can change when you update your query suggestions settings, if you filter out certain queries from suggestions using a block list, and as the query log accumulates more queries for Amazon Kendra to learn from.
+    /// The current total count of query suggestions for an index. This count can change when you update your query suggestions settings, if you filter out certain queries from suggestions using a block list, and as the query log accumulates more queries for Amazon Kendra to learn from. If the count is much lower than you expected, it could be because Amazon Kendra needs more queries in the query history to learn from or your current query suggestions settings are too strict.
     public var totalSuggestionsCount: Swift.Int?
 
-    public init (
+    public init(
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig? = nil,
         includeQueriesWithoutUserInformation: Swift.Bool? = nil,
         lastClearTime: ClientRuntime.Date? = nil,
         lastSuggestionsBuildTime: ClientRuntime.Date? = nil,
@@ -9715,6 +9451,7 @@ public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
         totalSuggestionsCount: Swift.Int? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.lastClearTime = lastClearTime
         self.lastSuggestionsBuildTime = lastSuggestionsBuildTime
@@ -9737,10 +9474,12 @@ struct DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Equatable {
     let lastSuggestionsBuildTime: ClientRuntime.Date?
     let lastClearTime: ClientRuntime.Date?
     let totalSuggestionsCount: Swift.Int?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig?
 }
 
 extension DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case lastClearTime = "LastClearTime"
         case lastSuggestionsBuildTime = "LastSuggestionsBuildTime"
@@ -9752,7 +9491,7 @@ extension DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Decodable {
         case totalSuggestionsCount = "TotalSuggestionsCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.Mode.self, forKey: .mode)
         mode = modeDecoded
@@ -9772,6 +9511,8 @@ extension DescribeQuerySuggestionsConfigOutputResponseBody: Swift.Decodable {
         lastClearTime = lastClearTimeDecoded
         let totalSuggestionsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSuggestionsCount)
         totalSuggestionsCount = totalSuggestionsCountDecoded
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsDescribeConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 
@@ -9806,7 +9547,7 @@ public struct DescribeThesaurusInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -9827,7 +9568,7 @@ extension DescribeThesaurusInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -9836,39 +9577,24 @@ extension DescribeThesaurusInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeThesaurusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeThesaurusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeThesaurusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeThesaurusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeThesaurusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
@@ -9930,7 +9656,7 @@ public struct DescribeThesaurusOutputResponse: Swift.Equatable {
     /// The Unix timestamp when the thesaurus was last updated.
     public var updatedAt: ClientRuntime.Date?
 
-    public init (
+    public init(
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
@@ -9995,7 +9721,7 @@ extension DescribeThesaurusOutputResponseBody: Swift.Decodable {
         case updatedAt = "UpdatedAt"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -10067,7 +9793,7 @@ public struct DisassociateEntitiesFromExperienceInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         entityList: [KendraClientTypes.EntityConfiguration]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
@@ -10092,7 +9818,7 @@ extension DisassociateEntitiesFromExperienceInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -10112,39 +9838,24 @@ extension DisassociateEntitiesFromExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociateEntitiesFromExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateEntitiesFromExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateEntitiesFromExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateEntitiesFromExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateEntitiesFromExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateEntitiesFromExperienceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEntityList = output.failedEntityList
@@ -10158,7 +9869,7 @@ public struct DisassociateEntitiesFromExperienceOutputResponse: Swift.Equatable 
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly remove access to your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
-    public init (
+    public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
     )
     {
@@ -10175,7 +9886,7 @@ extension DisassociateEntitiesFromExperienceOutputResponseBody: Swift.Decodable 
         case failedEntityList = "FailedEntityList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedEntityListContainer = try containerValues.decodeIfPresent([KendraClientTypes.FailedEntity?].self, forKey: .failedEntityList)
         var failedEntityListDecoded0:[KendraClientTypes.FailedEntity]? = nil
@@ -10232,7 +9943,7 @@ public struct DisassociatePersonasFromEntitiesInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         entityIds: [Swift.String]? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
@@ -10257,7 +9968,7 @@ extension DisassociatePersonasFromEntitiesInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -10277,39 +9988,24 @@ extension DisassociatePersonasFromEntitiesInputBody: Swift.Decodable {
     }
 }
 
-extension DisassociatePersonasFromEntitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociatePersonasFromEntitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociatePersonasFromEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociatePersonasFromEntitiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociatePersonasFromEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociatePersonasFromEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedEntityList = output.failedEntityList
@@ -10323,7 +10019,7 @@ public struct DisassociatePersonasFromEntitiesOutputResponse: Swift.Equatable {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly remove access to your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
-    public init (
+    public init(
         failedEntityList: [KendraClientTypes.FailedEntity]? = nil
     )
     {
@@ -10340,7 +10036,7 @@ extension DisassociatePersonasFromEntitiesOutputResponseBody: Swift.Decodable {
         case failedEntityList = "FailedEntityList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failedEntityListContainer = try containerValues.decodeIfPresent([KendraClientTypes.FailedEntity?].self, forKey: .failedEntityList)
         var failedEntityListDecoded0:[KendraClientTypes.FailedEntity]? = nil
@@ -10409,7 +10105,7 @@ extension KendraClientTypes.Document: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -10482,7 +10178,7 @@ extension KendraClientTypes {
         /// The title of the document.
         public var title: Swift.String?
 
-        public init (
+        public init(
             accessControlConfigurationId: Swift.String? = nil,
             accessControlList: [KendraClientTypes.Principal]? = nil,
             attributes: [KendraClientTypes.DocumentAttribute]? = nil,
@@ -10524,7 +10220,7 @@ extension KendraClientTypes.DocumentAttribute: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -10543,7 +10239,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var value: KendraClientTypes.DocumentAttributeValue?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: KendraClientTypes.DocumentAttributeValue? = nil
         )
@@ -10575,7 +10271,7 @@ extension KendraClientTypes.DocumentAttributeCondition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conditionDocumentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionDocumentAttributeKey)
         conditionDocumentAttributeKey = conditionDocumentAttributeKeyDecoded
@@ -10598,7 +10294,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var `operator`: KendraClientTypes.ConditionOperator?
 
-        public init (
+        public init(
             conditionDocumentAttributeKey: Swift.String? = nil,
             conditionOnValue: KendraClientTypes.DocumentAttributeValue? = nil,
             `operator`: KendraClientTypes.ConditionOperator? = nil
@@ -10632,7 +10328,7 @@ extension KendraClientTypes.DocumentAttributeTarget: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDocumentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDocumentAttributeKey)
         targetDocumentAttributeKey = targetDocumentAttributeKeyDecoded
@@ -10653,7 +10349,7 @@ extension KendraClientTypes {
         /// TRUE to delete the existing target value for your specified target attribute key. You cannot create a target value and set this to TRUE. To create a target value (TargetDocumentAttributeValue), set this to FALSE.
         public var targetDocumentAttributeValueDeletion: Swift.Bool
 
-        public init (
+        public init(
             targetDocumentAttributeKey: Swift.String? = nil,
             targetDocumentAttributeValue: KendraClientTypes.DocumentAttributeValue? = nil,
             targetDocumentAttributeValueDeletion: Swift.Bool = false
@@ -10694,7 +10390,7 @@ extension KendraClientTypes.DocumentAttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
         stringValue = stringValueDecoded
@@ -10728,7 +10424,7 @@ extension KendraClientTypes {
         /// A string, such as "department".
         public var stringValue: Swift.String?
 
-        public init (
+        public init(
             dateValue: ClientRuntime.Date? = nil,
             longValue: Swift.Int? = nil,
             stringListValue: [Swift.String]? = nil,
@@ -10767,7 +10463,7 @@ extension KendraClientTypes.DocumentAttributeValueCountPair: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentAttributeValueDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DocumentAttributeValue.self, forKey: .documentAttributeValue)
         documentAttributeValue = documentAttributeValueDecoded
@@ -10797,7 +10493,7 @@ extension KendraClientTypes {
         /// Contains the results of a document attribute that is a nested facet. A FacetResult contains the counts for each facet nested within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. The counts for documents that belong to "Frontend" and "Backend" within "Engineering" are returned for a query.
         public var facetResults: [KendraClientTypes.FacetResult]?
 
-        public init (
+        public init(
             count: Swift.Int? = nil,
             documentAttributeValue: KendraClientTypes.DocumentAttributeValue? = nil,
             facetResults: [KendraClientTypes.FacetResult]? = nil
@@ -10868,7 +10564,7 @@ extension KendraClientTypes.DocumentInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
         documentId = documentIdDecoded
@@ -10910,7 +10606,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var documentId: Swift.String?
 
-        public init (
+        public init(
             attributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentId: Swift.String? = nil
         )
@@ -10946,7 +10642,7 @@ extension KendraClientTypes.DocumentMetadataConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10973,7 +10669,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var type: KendraClientTypes.DocumentAttributeValueType?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             relevance: KendraClientTypes.Relevance? = nil,
             search: KendraClientTypes.Search? = nil,
@@ -11005,7 +10701,7 @@ extension KendraClientTypes.DocumentRelevanceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11024,7 +10720,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var relevance: KendraClientTypes.Relevance?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             relevance: KendraClientTypes.Relevance? = nil
         )
@@ -11092,7 +10788,7 @@ extension KendraClientTypes.DocumentsMetadataConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Prefix)
         s3Prefix = s3PrefixDecoded
@@ -11105,7 +10801,7 @@ extension KendraClientTypes {
         /// A prefix used to filter metadata configuration files in the Amazon Web Services S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public var s3Prefix: Swift.String?
 
-        public init (
+        public init(
             s3Prefix: Swift.String? = nil
         )
         {
@@ -11160,7 +10856,7 @@ extension KendraClientTypes.EntityConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
@@ -11179,7 +10875,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var entityType: KendraClientTypes.EntityType?
 
-        public init (
+        public init(
             entityId: Swift.String? = nil,
             entityType: KendraClientTypes.EntityType? = nil
         )
@@ -11219,7 +10915,7 @@ extension KendraClientTypes.EntityDisplayData: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
         userName = userNameDecoded
@@ -11253,7 +10949,7 @@ extension KendraClientTypes {
         /// The name of the user.
         public var userName: Swift.String?
 
-        public init (
+        public init(
             firstName: Swift.String? = nil,
             groupName: Swift.String? = nil,
             identifiedUserName: Swift.String? = nil,
@@ -11287,7 +10983,7 @@ extension KendraClientTypes.EntityPersonaConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
@@ -11306,7 +11002,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var persona: KendraClientTypes.Persona?
 
-        public init (
+        public init(
             entityId: Swift.String? = nil,
             persona: KendraClientTypes.Persona? = nil
         )
@@ -11398,7 +11094,7 @@ extension KendraClientTypes.ExperienceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentSourceConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ContentSourceConfiguration.self, forKey: .contentSourceConfiguration)
         contentSourceConfiguration = contentSourceConfigurationDecoded
@@ -11415,7 +11111,7 @@ extension KendraClientTypes {
         /// The IAM Identity Center field name that contains the identifiers of your users, such as their emails.
         public var userIdentityConfiguration: KendraClientTypes.UserIdentityConfiguration?
 
-        public init (
+        public init(
             contentSourceConfiguration: KendraClientTypes.ContentSourceConfiguration? = nil,
             userIdentityConfiguration: KendraClientTypes.UserIdentityConfiguration? = nil
         )
@@ -11443,7 +11139,7 @@ extension KendraClientTypes.ExperienceEndpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointTypeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.EndpointType.self, forKey: .endpointType)
         endpointType = endpointTypeDecoded
@@ -11460,7 +11156,7 @@ extension KendraClientTypes {
         /// The type of endpoint for your Amazon Kendra experience. The type currently available is HOME, which is a unique and fully hosted URL to the home page of your Amazon Kendra experience.
         public var endpointType: KendraClientTypes.EndpointType?
 
-        public init (
+        public init(
             endpoint: Swift.String? = nil,
             endpointType: KendraClientTypes.EndpointType? = nil
         )
@@ -11492,7 +11188,7 @@ extension KendraClientTypes.ExperienceEntitiesSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
@@ -11513,7 +11209,7 @@ extension KendraClientTypes {
         /// Shows the type as User or Group.
         public var entityType: KendraClientTypes.EntityType?
 
-        public init (
+        public init(
             displayData: KendraClientTypes.EntityDisplayData? = nil,
             entityId: Swift.String? = nil,
             entityType: KendraClientTypes.EntityType? = nil
@@ -11596,7 +11292,7 @@ extension KendraClientTypes.ExperiencesSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -11634,7 +11330,7 @@ extension KendraClientTypes {
         /// The processing status of your Amazon Kendra experience.
         public var status: KendraClientTypes.ExperienceStatus?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             endpoints: [KendraClientTypes.ExperienceEndpoint]? = nil,
             id: Swift.String? = nil,
@@ -11675,7 +11371,7 @@ extension KendraClientTypes.Facet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentAttributeKey)
         documentAttributeKey = documentAttributeKeyDecoded
@@ -11705,7 +11401,7 @@ extension KendraClientTypes {
         /// Maximum number of facet values per facet. The default is 10. You can use this to limit the number of facet values to less than 10. If you want to increase the default, contact [Support](http://aws.amazon.com/contact-us/).
         public var maxResults: Swift.Int
 
-        public init (
+        public init(
             documentAttributeKey: Swift.String? = nil,
             facets: [KendraClientTypes.Facet]? = nil,
             maxResults: Swift.Int = 0
@@ -11742,7 +11438,7 @@ extension KendraClientTypes.FacetResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentAttributeKey)
         documentAttributeKey = documentAttributeKeyDecoded
@@ -11772,7 +11468,7 @@ extension KendraClientTypes {
         /// The data type of the facet value. This is the same as the type defined for the index field when it was created.
         public var documentAttributeValueType: KendraClientTypes.DocumentAttributeValueType?
 
-        public init (
+        public init(
             documentAttributeKey: Swift.String? = nil,
             documentAttributeValueCountPairs: [KendraClientTypes.DocumentAttributeValueCountPair]? = nil,
             documentAttributeValueType: KendraClientTypes.DocumentAttributeValueType? = nil
@@ -11802,7 +11498,7 @@ extension KendraClientTypes.FailedEntity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
@@ -11819,7 +11515,7 @@ extension KendraClientTypes {
         /// The reason the user or group in your IAM Identity Center identity source failed to properly configure with your Amazon Kendra experience.
         public var errorMessage: Swift.String?
 
-        public init (
+        public init(
             entityId: Swift.String? = nil,
             errorMessage: Swift.String? = nil
         )
@@ -11878,7 +11574,7 @@ extension KendraClientTypes.FaqStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexedQuestionAnswersCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexedQuestionAnswersCount) ?? 0
         indexedQuestionAnswersCount = indexedQuestionAnswersCountDecoded
@@ -11892,7 +11588,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var indexedQuestionAnswersCount: Swift.Int
 
-        public init (
+        public init(
             indexedQuestionAnswersCount: Swift.Int = 0
         )
         {
@@ -11979,7 +11675,7 @@ extension KendraClientTypes.FaqSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12016,7 +11712,7 @@ extension KendraClientTypes {
         /// The Unix timestamp when the FAQ was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             fileFormat: KendraClientTypes.FaqFileFormat? = nil,
             id: Swift.String? = nil,
@@ -12050,7 +11746,7 @@ extension KendraClientTypes.FeaturedDocument: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12063,7 +11759,7 @@ extension KendraClientTypes {
         /// The identifier of the document to feature in the search results. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -12085,7 +11781,7 @@ extension KendraClientTypes.FeaturedDocumentMissing: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12098,7 +11794,7 @@ extension KendraClientTypes {
         /// The identifier of the document that doesn't exist but you have specified as a featured document.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -12128,7 +11824,7 @@ extension KendraClientTypes.FeaturedDocumentWithMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12149,7 +11845,7 @@ extension KendraClientTypes {
         /// The source URI location of the featured document.
         public var uri: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
             title: Swift.String? = nil,
             uri: Swift.String? = nil
@@ -12164,44 +11860,48 @@ extension KendraClientTypes {
 }
 
 extension FeaturedResultsConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: FeaturedResultsConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.conflictingItems = output.conflictingItems
-            self.message = output.message
+            self.properties.conflictingItems = output.conflictingItems
+            self.properties.message = output.message
         } else {
-            self.conflictingItems = nil
-            self.message = nil
+            self.properties.conflictingItems = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error message with a list of conflicting queries used across different sets of featured results. This occurred with the request for a new featured results set. Check that the queries you specified for featured results are unique per featured results set for each index.
-public struct FeaturedResultsConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A list of the conflicting queries, including the query text, the name for the featured results set, and the identifier of the featured results set.
-    public var conflictingItems: [KendraClientTypes.ConflictingItem]?
-    /// An explanation for the conflicting queries.
-    public var message: Swift.String?
+public struct FeaturedResultsConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A list of the conflicting queries, including the query text, the name for the featured results set, and the identifier of the featured results set.
+        public internal(set) var conflictingItems: [KendraClientTypes.ConflictingItem]? = nil
+        /// An explanation for the conflicting queries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeaturedResultsConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         conflictingItems: [KendraClientTypes.ConflictingItem]? = nil,
         message: Swift.String? = nil
     )
     {
-        self.conflictingItems = conflictingItems
-        self.message = message
+        self.properties.conflictingItems = conflictingItems
+        self.properties.message = message
     }
 }
 
@@ -12216,7 +11916,7 @@ extension FeaturedResultsConflictExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12284,7 +11984,7 @@ extension KendraClientTypes.FeaturedResultsItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12347,7 +12047,7 @@ extension KendraClientTypes {
         /// The type of document within the featured result response. For example, a response could include a question-answer type that's relevant to the query.
         public var type: KendraClientTypes.QueryResultType?
 
-        public init (
+        public init(
             additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]? = nil,
             documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentExcerpt: KendraClientTypes.TextWithHighlights? = nil,
@@ -12419,7 +12119,7 @@ extension KendraClientTypes.FeaturedResultsSet: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
         featuredResultsSetId = featuredResultsSetIdDecoded
@@ -12478,7 +12178,7 @@ extension KendraClientTypes {
         /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
         public var status: KendraClientTypes.FeaturedResultsSetStatus?
 
-        public init (
+        public init(
             creationTimestamp: Swift.Int? = nil,
             description: Swift.String? = nil,
             featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
@@ -12562,7 +12262,7 @@ extension KendraClientTypes.FeaturedResultsSetSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
         featuredResultsSetId = featuredResultsSetIdDecoded
@@ -12591,7 +12291,7 @@ extension KendraClientTypes {
         /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
         public var status: KendraClientTypes.FeaturedResultsSetStatus?
 
-        public init (
+        public init(
             creationTimestamp: Swift.Int? = nil,
             featuredResultsSetId: Swift.String? = nil,
             featuredResultsSetName: Swift.String? = nil,
@@ -12654,7 +12354,7 @@ extension KendraClientTypes.FsxConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemId)
         fileSystemId = fileSystemIdDecoded
@@ -12725,7 +12425,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             exclusionPatterns: [Swift.String]? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             fileSystemId: Swift.String? = nil,
@@ -12778,13 +12478,18 @@ extension KendraClientTypes {
 
 extension GetQuerySuggestionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case indexId = "IndexId"
         case maxSuggestionsCount = "MaxSuggestionsCount"
         case queryText = "QueryText"
+        case suggestionTypes = "SuggestionTypes"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsConfig = self.attributeSuggestionsConfig {
+            try encodeContainer.encode(attributeSuggestionsConfig, forKey: .attributeSuggestionsConfig)
+        }
         if let indexId = self.indexId {
             try encodeContainer.encode(indexId, forKey: .indexId)
         }
@@ -12793,6 +12498,12 @@ extension GetQuerySuggestionsInput: Swift.Encodable {
         }
         if let queryText = self.queryText {
             try encodeContainer.encode(queryText, forKey: .queryText)
+        }
+        if let suggestionTypes = suggestionTypes {
+            var suggestionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionTypes)
+            for suggestiontype0 in suggestionTypes {
+                try suggestionTypesContainer.encode(suggestiontype0.rawValue)
+            }
         }
     }
 }
@@ -12804,6 +12515,8 @@ extension GetQuerySuggestionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetQuerySuggestionsInput: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig?
     /// The identifier of the index you want to get query suggestions from.
     /// This member is required.
     public var indexId: Swift.String?
@@ -12812,16 +12525,22 @@ public struct GetQuerySuggestionsInput: Swift.Equatable {
     /// The text of a user's query to generate query suggestions. A query is suggested if the query prefix matches what a user starts to type as their query. Amazon Kendra does not show any suggestions if a user types fewer than two characters or more than 60 characters. A query must also have at least one search result and contain at least one word of more than four characters.
     /// This member is required.
     public var queryText: Swift.String?
+    /// The suggestions type to base query suggestions on. The suggestion types are query history or document fields/attributes. You can set one type or the other. If you set query history as your suggestions type, Amazon Kendra suggests queries relevant to your users based on popular queries in the query history. If you set document fields/attributes as your suggestions type, Amazon Kendra suggests queries relevant to your users based on the contents of document fields.
+    public var suggestionTypes: [KendraClientTypes.SuggestionType]?
 
-    public init (
+    public init(
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig? = nil,
         indexId: Swift.String? = nil,
         maxSuggestionsCount: Swift.Int? = nil,
-        queryText: Swift.String? = nil
+        queryText: Swift.String? = nil,
+        suggestionTypes: [KendraClientTypes.SuggestionType]? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.indexId = indexId
         self.maxSuggestionsCount = maxSuggestionsCount
         self.queryText = queryText
+        self.suggestionTypes = suggestionTypes
     }
 }
 
@@ -12829,16 +12548,20 @@ struct GetQuerySuggestionsInputBody: Swift.Equatable {
     let indexId: Swift.String?
     let queryText: Swift.String?
     let maxSuggestionsCount: Swift.Int?
+    let suggestionTypes: [KendraClientTypes.SuggestionType]?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig?
 }
 
 extension GetQuerySuggestionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case indexId = "IndexId"
         case maxSuggestionsCount = "MaxSuggestionsCount"
         case queryText = "QueryText"
+        case suggestionTypes = "SuggestionTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -12846,46 +12569,42 @@ extension GetQuerySuggestionsInputBody: Swift.Decodable {
         queryText = queryTextDecoded
         let maxSuggestionsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSuggestionsCount)
         maxSuggestionsCount = maxSuggestionsCountDecoded
+        let suggestionTypesContainer = try containerValues.decodeIfPresent([KendraClientTypes.SuggestionType?].self, forKey: .suggestionTypes)
+        var suggestionTypesDecoded0:[KendraClientTypes.SuggestionType]? = nil
+        if let suggestionTypesContainer = suggestionTypesContainer {
+            suggestionTypesDecoded0 = [KendraClientTypes.SuggestionType]()
+            for enum0 in suggestionTypesContainer {
+                if let enum0 = enum0 {
+                    suggestionTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        suggestionTypes = suggestionTypesDecoded0
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsGetConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 
-extension GetQuerySuggestionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetQuerySuggestionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetQuerySuggestionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetQuerySuggestionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetQuerySuggestionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQuerySuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.querySuggestionsId = output.querySuggestionsId
@@ -12903,7 +12622,7 @@ public struct GetQuerySuggestionsOutputResponse: Swift.Equatable {
     /// A list of query suggestions for an index.
     public var suggestions: [KendraClientTypes.Suggestion]?
 
-    public init (
+    public init(
         querySuggestionsId: Swift.String? = nil,
         suggestions: [KendraClientTypes.Suggestion]? = nil
     )
@@ -12924,7 +12643,7 @@ extension GetQuerySuggestionsOutputResponseBody: Swift.Decodable {
         case suggestions = "Suggestions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let querySuggestionsIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .querySuggestionsId)
         querySuggestionsId = querySuggestionsIdDecoded
@@ -13004,7 +12723,7 @@ public struct GetSnapshotsInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of search metrics data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         interval: KendraClientTypes.Interval? = nil,
         maxResults: Swift.Int? = nil,
@@ -13037,7 +12756,7 @@ extension GetSnapshotsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -13052,37 +12771,23 @@ extension GetSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-extension GetSnapshotsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetSnapshotsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetSnapshotsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case invalidRequestException(InvalidRequestException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -13108,7 +12813,7 @@ public struct GetSnapshotsOutputResponse: Swift.Equatable {
     /// The column headers for the search metrics data.
     public var snapshotsDataHeader: [Swift.String]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         snapShotTimeFilter: KendraClientTypes.TimeRange? = nil,
         snapshotsData: [[Swift.String]]? = nil,
@@ -13137,7 +12842,7 @@ extension GetSnapshotsOutputResponseBody: Swift.Decodable {
         case snapshotsDataHeader = "SnapshotsDataHeader"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapShotTimeFilterDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TimeRange.self, forKey: .snapShotTimeFilter)
         snapShotTimeFilter = snapShotTimeFilterDecoded
@@ -13318,7 +13023,7 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let saaSConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SaaSConfiguration.self, forKey: .saaSConfiguration)
         saaSConfiguration = saaSConfigurationDecoded
@@ -13553,7 +13258,7 @@ extension KendraClientTypes {
         /// Configuration information of an Amazon Virtual Private Cloud to connect to your GitHub. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             exclusionFileNamePatterns: [Swift.String]? = nil,
             exclusionFileTypePatterns: [Swift.String]? = nil,
             exclusionFolderNamePatterns: [Swift.String]? = nil,
@@ -13641,7 +13346,7 @@ extension KendraClientTypes.GitHubDocumentCrawlProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let crawlRepositoryDocumentsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crawlRepositoryDocuments) ?? false
         crawlRepositoryDocuments = crawlRepositoryDocumentsDecoded
@@ -13678,7 +13383,7 @@ extension KendraClientTypes {
         /// TRUE to index all files with a repository.
         public var crawlRepositoryDocuments: Swift.Bool
 
-        public init (
+        public init(
             crawlIssue: Swift.Bool = false,
             crawlIssueComment: Swift.Bool = false,
             crawlIssueCommentAttachment: Swift.Bool = false,
@@ -13754,7 +13459,7 @@ extension KendraClientTypes.GoogleDriveConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
         secretArn = secretArnDecoded
@@ -13846,7 +13551,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var secretArn: Swift.String?
 
-        public init (
+        public init(
             excludeMimeTypes: [Swift.String]? = nil,
             excludeSharedDrives: [Swift.String]? = nil,
             excludeUserAccounts: [Swift.String]? = nil,
@@ -13894,7 +13599,7 @@ extension KendraClientTypes.GroupMembers: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let memberGroupsContainer = try containerValues.decodeIfPresent([KendraClientTypes.MemberGroup?].self, forKey: .memberGroups)
         var memberGroupsDecoded0:[KendraClientTypes.MemberGroup]? = nil
@@ -13933,7 +13638,7 @@ extension KendraClientTypes {
         /// If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000. You can download this [example S3 file](https://docs.aws.amazon.com/kendra/latest/dg/samples/group_members.zip) that uses the correct format for listing group members. Note, dataSourceId is optional. The value of type for a group is always GROUP and for a user it is always USER.
         public var s3PathforGroupMembers: KendraClientTypes.S3Path?
 
-        public init (
+        public init(
             memberGroups: [KendraClientTypes.MemberGroup]? = nil,
             memberUsers: [KendraClientTypes.MemberUser]? = nil,
             s3PathforGroupMembers: KendraClientTypes.S3Path? = nil
@@ -13975,7 +13680,7 @@ extension KendraClientTypes.GroupOrderingIdSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.PrincipalMappingStatus.self, forKey: .status)
         status = statusDecoded
@@ -14004,7 +13709,7 @@ extension KendraClientTypes {
         /// The current processing status of actions for mapping users to their groups. The status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
         public var status: KendraClientTypes.PrincipalMappingStatus?
 
-        public init (
+        public init(
             failureReason: Swift.String? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             orderingId: Swift.Int? = nil,
@@ -14038,7 +13743,7 @@ extension KendraClientTypes.GroupSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -14055,7 +13760,7 @@ extension KendraClientTypes {
         /// The timestamp identifier used for the latest PUT or DELETE action.
         public var orderingId: Swift.Int?
 
-        public init (
+        public init(
             groupId: Swift.String? = nil,
             orderingId: Swift.Int? = nil
         )
@@ -14082,7 +13787,7 @@ extension KendraClientTypes.HierarchicalPrincipal: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let principalListContainer = try containerValues.decodeIfPresent([KendraClientTypes.Principal?].self, forKey: .principalList)
         var principalListDecoded0:[KendraClientTypes.Principal]? = nil
@@ -14105,7 +13810,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var principalList: [KendraClientTypes.Principal]?
 
-        public init (
+        public init(
             principalList: [KendraClientTypes.Principal]? = nil
         )
         {
@@ -14139,7 +13844,7 @@ extension KendraClientTypes.Highlight: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffset)
         beginOffset = beginOffsetDecoded
@@ -14166,7 +13871,7 @@ extension KendraClientTypes {
         /// The highlight type.
         public var type: KendraClientTypes.HighlightType?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil,
             topAnswer: Swift.Bool = false,
@@ -14234,7 +13939,7 @@ extension KendraClientTypes.HookConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let invocationConditionDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DocumentAttributeCondition.self, forKey: .invocationCondition)
         invocationCondition = invocationConditionDecoded
@@ -14257,7 +13962,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var s3Bucket: Swift.String?
 
-        public init (
+        public init(
             invocationCondition: KendraClientTypes.DocumentAttributeCondition? = nil,
             lambdaArn: Swift.String? = nil,
             s3Bucket: Swift.String? = nil
@@ -14303,7 +14008,7 @@ extension KendraClientTypes.IndexConfigurationSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14339,7 +14044,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             edition: KendraClientTypes.IndexEdition? = nil,
             id: Swift.String? = nil,
@@ -14407,7 +14112,7 @@ extension KendraClientTypes.IndexStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let faqStatisticsDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FaqStatistics.self, forKey: .faqStatistics)
         faqStatistics = faqStatisticsDecoded
@@ -14426,7 +14131,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var textDocumentStatistics: KendraClientTypes.TextDocumentStatistics?
 
-        public init (
+        public init(
             faqStatistics: KendraClientTypes.FaqStatistics? = nil,
             textDocumentStatistics: KendraClientTypes.TextDocumentStatistics? = nil
         )
@@ -14502,7 +14207,7 @@ extension KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conditionDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DocumentAttributeCondition.self, forKey: .condition)
         condition = conditionDecoded
@@ -14523,7 +14228,7 @@ extension KendraClientTypes {
         /// Configuration of the target document attribute or metadata field when ingesting documents into Amazon Kendra. You can also include a value.
         public var target: KendraClientTypes.DocumentAttributeTarget?
 
-        public init (
+        public init(
             condition: KendraClientTypes.DocumentAttributeCondition? = nil,
             documentContentDeletion: Swift.Bool = false,
             target: KendraClientTypes.DocumentAttributeTarget? = nil
@@ -14538,37 +14243,41 @@ extension KendraClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14581,7 +14290,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14633,37 +14342,41 @@ extension KendraClientTypes {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input to the request is not valid. Please provide the correct input and try again.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14676,7 +14389,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14819,7 +14532,7 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jiraAccountUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraAccountUrl)
         jiraAccountUrl = jiraAccountUrlDecoded
@@ -14993,7 +14706,7 @@ extension KendraClientTypes {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira work logs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Jira data source field names must exist in your Jira custom metadata.
         public var workLogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             attachmentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             commentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             exclusionPatterns: [Swift.String]? = nil,
@@ -15047,7 +14760,7 @@ extension KendraClientTypes.JsonTokenTypeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userNameAttributeFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userNameAttributeField)
         userNameAttributeField = userNameAttributeFieldDecoded
@@ -15066,7 +14779,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var userNameAttributeField: Swift.String?
 
-        public init (
+        public init(
             groupAttributeField: Swift.String? = nil,
             userNameAttributeField: Swift.String? = nil
         )
@@ -15114,7 +14827,7 @@ extension KendraClientTypes.JwtTokenTypeConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyLocationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.KeyLocation.self, forKey: .keyLocation)
         keyLocation = keyLocationDecoded
@@ -15152,7 +14865,7 @@ extension KendraClientTypes {
         /// The user name attribute field.
         public var userNameAttributeField: Swift.String?
 
-        public init (
+        public init(
             claimRegex: Swift.String? = nil,
             groupAttributeField: Swift.String? = nil,
             issuer: Swift.String? = nil,
@@ -15242,7 +14955,7 @@ public struct ListAccessControlConfigurationsInput: Swift.Equatable {
     /// If the previous response was incomplete (because there's more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of access control configurations.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -15267,7 +14980,7 @@ extension ListAccessControlConfigurationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -15278,39 +14991,24 @@ extension ListAccessControlConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAccessControlConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAccessControlConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAccessControlConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAccessControlConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAccessControlConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAccessControlConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessControlConfigurations = output.accessControlConfigurations
@@ -15329,7 +15027,7 @@ public struct ListAccessControlConfigurationsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in the subsequent request to retrieve the next set of access control configurations.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accessControlConfigurations: [KendraClientTypes.AccessControlConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -15350,7 +15048,7 @@ extension ListAccessControlConfigurationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15423,7 +15121,7 @@ public struct ListDataSourceSyncJobsInput: Swift.Equatable {
     /// Only returns synchronization jobs with the Status field equal to the specified status.
     public var statusFilter: KendraClientTypes.DataSourceSyncJobStatus?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -15460,7 +15158,7 @@ extension ListDataSourceSyncJobsInputBody: Swift.Decodable {
         case statusFilter = "StatusFilter"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -15477,41 +15175,25 @@ extension ListDataSourceSyncJobsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDataSourceSyncJobsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDataSourceSyncJobsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDataSourceSyncJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDataSourceSyncJobsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDataSourceSyncJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDataSourceSyncJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.history = output.history
@@ -15529,7 +15211,7 @@ public struct ListDataSourceSyncJobsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of jobs.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         history: [KendraClientTypes.DataSourceSyncJob]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -15550,7 +15232,7 @@ extension ListDataSourceSyncJobsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let historyContainer = try containerValues.decodeIfPresent([KendraClientTypes.DataSourceSyncJob?].self, forKey: .history)
         var historyDecoded0:[KendraClientTypes.DataSourceSyncJob]? = nil
@@ -15604,7 +15286,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of data source connectors.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -15629,7 +15311,7 @@ extension ListDataSourcesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -15640,39 +15322,24 @@ extension ListDataSourcesInputBody: Swift.Decodable {
     }
 }
 
-extension ListDataSourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDataSourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDataSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDataSourcesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDataSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDataSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15690,7 +15357,7 @@ public struct ListDataSourcesOutputResponse: Swift.Equatable {
     /// An array of summary information for one or more data source connector.
     public var summaryItems: [KendraClientTypes.DataSourceSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.DataSourceSummary]? = nil
     )
@@ -15711,7 +15378,7 @@ extension ListDataSourcesOutputResponseBody: Swift.Decodable {
         case summaryItems = "SummaryItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.DataSourceSummary?].self, forKey: .summaryItems)
         var summaryItemsDecoded0:[KendraClientTypes.DataSourceSummary]? = nil
@@ -15772,7 +15439,7 @@ public struct ListEntityPersonasInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of users or groups.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -15801,7 +15468,7 @@ extension ListEntityPersonasInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -15814,39 +15481,24 @@ extension ListEntityPersonasInputBody: Swift.Decodable {
     }
 }
 
-extension ListEntityPersonasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListEntityPersonasOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListEntityPersonasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListEntityPersonasOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListEntityPersonasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEntityPersonasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -15864,7 +15516,7 @@ public struct ListEntityPersonasOutputResponse: Swift.Equatable {
     /// An array of summary information for one or more users or groups.
     public var summaryItems: [KendraClientTypes.PersonasSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.PersonasSummary]? = nil
     )
@@ -15885,7 +15537,7 @@ extension ListEntityPersonasOutputResponseBody: Swift.Decodable {
         case summaryItems = "SummaryItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.PersonasSummary?].self, forKey: .summaryItems)
         var summaryItemsDecoded0:[KendraClientTypes.PersonasSummary]? = nil
@@ -15940,7 +15592,7 @@ public struct ListExperienceEntitiesInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of users or groups.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -15965,7 +15617,7 @@ extension ListExperienceEntitiesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -15976,39 +15628,24 @@ extension ListExperienceEntitiesInputBody: Swift.Decodable {
     }
 }
 
-extension ListExperienceEntitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListExperienceEntitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListExperienceEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListExperienceEntitiesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListExperienceEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListExperienceEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -16026,7 +15663,7 @@ public struct ListExperienceEntitiesOutputResponse: Swift.Equatable {
     /// An array of summary information for one or more users or groups.
     public var summaryItems: [KendraClientTypes.ExperienceEntitiesSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.ExperienceEntitiesSummary]? = nil
     )
@@ -16047,7 +15684,7 @@ extension ListExperienceEntitiesOutputResponseBody: Swift.Decodable {
         case summaryItems = "SummaryItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ExperienceEntitiesSummary?].self, forKey: .summaryItems)
         var summaryItemsDecoded0:[KendraClientTypes.ExperienceEntitiesSummary]? = nil
@@ -16101,7 +15738,7 @@ public struct ListExperiencesInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Kendra experiences.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -16126,7 +15763,7 @@ extension ListExperiencesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -16137,39 +15774,24 @@ extension ListExperiencesInputBody: Swift.Decodable {
     }
 }
 
-extension ListExperiencesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListExperiencesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListExperiencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListExperiencesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListExperiencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListExperiencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -16187,7 +15809,7 @@ public struct ListExperiencesOutputResponse: Swift.Equatable {
     /// An array of summary information for one or more Amazon Kendra experiences.
     public var summaryItems: [KendraClientTypes.ExperiencesSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraClientTypes.ExperiencesSummary]? = nil
     )
@@ -16208,7 +15830,7 @@ extension ListExperiencesOutputResponseBody: Swift.Decodable {
         case summaryItems = "SummaryItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let summaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ExperiencesSummary?].self, forKey: .summaryItems)
         var summaryItemsDecoded0:[KendraClientTypes.ExperiencesSummary]? = nil
@@ -16262,7 +15884,7 @@ public struct ListFaqsInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of FAQs.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -16287,7 +15909,7 @@ extension ListFaqsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -16298,39 +15920,24 @@ extension ListFaqsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFaqsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFaqsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFaqsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFaqsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFaqsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFaqsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.faqSummaryItems = output.faqSummaryItems
@@ -16348,7 +15955,7 @@ public struct ListFaqsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of FAQs.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         faqSummaryItems: [KendraClientTypes.FaqSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -16369,7 +15976,7 @@ extension ListFaqsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -16423,7 +16030,7 @@ public struct ListFeaturedResultsSetsInput: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of featured results sets.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -16448,7 +16055,7 @@ extension ListFeaturedResultsSetsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -16459,39 +16066,24 @@ extension ListFeaturedResultsSetsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFeaturedResultsSetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFeaturedResultsSetsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFeaturedResultsSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFeaturedResultsSetsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFeaturedResultsSetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFeaturedResultsSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.featuredResultsSetSummaryItems = output.featuredResultsSetSummaryItems
@@ -16509,7 +16101,7 @@ public struct ListFeaturedResultsSetsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns a pagination token in the response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -16530,7 +16122,7 @@ extension ListFeaturedResultsSetsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetSummaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedResultsSetSummary?].self, forKey: .featuredResultsSetSummaryItems)
         var featuredResultsSetSummaryItemsDecoded0:[KendraClientTypes.FeaturedResultsSetSummary]? = nil
@@ -16597,7 +16189,7 @@ public struct ListGroupsOlderThanOrderingIdInput: Swift.Equatable {
     /// This member is required.
     public var orderingId: Swift.Int?
 
-    public init (
+    public init(
         dataSourceId: Swift.String? = nil,
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -16630,7 +16222,7 @@ extension ListGroupsOlderThanOrderingIdInputBody: Swift.Decodable {
         case orderingId = "OrderingId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -16645,41 +16237,25 @@ extension ListGroupsOlderThanOrderingIdInputBody: Swift.Decodable {
     }
 }
 
-extension ListGroupsOlderThanOrderingIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGroupsOlderThanOrderingIdOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGroupsOlderThanOrderingIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGroupsOlderThanOrderingIdOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGroupsOlderThanOrderingIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGroupsOlderThanOrderingIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groupsSummaries = output.groupsSummaries
@@ -16697,7 +16273,7 @@ public struct ListGroupsOlderThanOrderingIdOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         groupsSummaries: [KendraClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -16718,7 +16294,7 @@ extension ListGroupsOlderThanOrderingIdOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupsSummariesContainer = try containerValues.decodeIfPresent([KendraClientTypes.GroupSummary?].self, forKey: .groupsSummaries)
         var groupsSummariesDecoded0:[KendraClientTypes.GroupSummary]? = nil
@@ -16765,7 +16341,7 @@ public struct ListIndicesInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -16786,7 +16362,7 @@ extension ListIndicesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -16795,37 +16371,23 @@ extension ListIndicesInputBody: Swift.Decodable {
     }
 }
 
-extension ListIndicesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListIndicesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListIndicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListIndicesOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListIndicesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListIndicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexConfigurationSummaryItems = output.indexConfigurationSummaryItems
@@ -16843,7 +16405,7 @@ public struct ListIndicesOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of indexes.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexConfigurationSummaryItems: [KendraClientTypes.IndexConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -16864,7 +16426,7 @@ extension ListIndicesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexConfigurationSummaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.IndexConfigurationSummary?].self, forKey: .indexConfigurationSummaryItems)
         var indexConfigurationSummaryItemsDecoded0:[KendraClientTypes.IndexConfigurationSummary]? = nil
@@ -16918,7 +16480,7 @@ public struct ListQuerySuggestionsBlockListsInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of block lists (BlockListSummaryItems).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -16943,7 +16505,7 @@ extension ListQuerySuggestionsBlockListsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -16954,39 +16516,24 @@ extension ListQuerySuggestionsBlockListsInputBody: Swift.Decodable {
     }
 }
 
-extension ListQuerySuggestionsBlockListsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListQuerySuggestionsBlockListsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListQuerySuggestionsBlockListsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListQuerySuggestionsBlockListsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListQuerySuggestionsBlockListsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListQuerySuggestionsBlockListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blockListSummaryItems = output.blockListSummaryItems
@@ -17004,7 +16551,7 @@ public struct ListQuerySuggestionsBlockListsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of block lists.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         blockListSummaryItems: [KendraClientTypes.QuerySuggestionsBlockListSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -17025,7 +16572,7 @@ extension ListQuerySuggestionsBlockListsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blockListSummaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.QuerySuggestionsBlockListSummary?].self, forKey: .blockListSummaryItems)
         var blockListSummaryItemsDecoded0:[KendraClientTypes.QuerySuggestionsBlockListSummary]? = nil
@@ -17067,7 +16614,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceARN: Swift.String?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil
     )
     {
@@ -17084,46 +16631,31 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceARN = "ResourceARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -17137,7 +16669,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of tags associated with the index, FAQ, or data source.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [KendraClientTypes.Tag]? = nil
     )
     {
@@ -17154,7 +16686,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([KendraClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[KendraClientTypes.Tag]? = nil
@@ -17206,7 +16738,7 @@ public struct ListThesauriInput: Swift.Equatable {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -17231,7 +16763,7 @@ extension ListThesauriInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -17242,39 +16774,24 @@ extension ListThesauriInputBody: Swift.Decodable {
     }
 }
 
-extension ListThesauriOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListThesauriOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListThesauriOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListThesauriOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListThesauriOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListThesauriOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -17292,7 +16809,7 @@ public struct ListThesauriOutputResponse: Swift.Equatable {
     /// An array of summary information for a thesaurus or multiple thesauri.
     public var thesaurusSummaryItems: [KendraClientTypes.ThesaurusSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         thesaurusSummaryItems: [KendraClientTypes.ThesaurusSummary]? = nil
     )
@@ -17313,7 +16830,7 @@ extension ListThesauriOutputResponseBody: Swift.Decodable {
         case thesaurusSummaryItems = "ThesaurusSummaryItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -17347,7 +16864,7 @@ extension KendraClientTypes.MemberGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
@@ -17365,7 +16882,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var groupId: Swift.String?
 
-        public init (
+        public init(
             dataSourceId: Swift.String? = nil,
             groupId: Swift.String? = nil
         )
@@ -17389,7 +16906,7 @@ extension KendraClientTypes.MemberUser: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -17403,7 +16920,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var userId: Swift.String?
 
-        public init (
+        public init(
             userId: Swift.String? = nil
         )
         {
@@ -17509,7 +17026,7 @@ extension KendraClientTypes.OnPremiseConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostUrl)
         hostUrl = hostUrlDecoded
@@ -17533,7 +17050,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var sslCertificateS3Path: KendraClientTypes.S3Path?
 
-        public init (
+        public init(
             hostUrl: Swift.String? = nil,
             organizationName: Swift.String? = nil,
             sslCertificateS3Path: KendraClientTypes.S3Path? = nil
@@ -17592,7 +17109,7 @@ extension KendraClientTypes.OneDriveConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tenantDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDomain)
         tenantDomain = tenantDomainDecoded
@@ -17659,7 +17176,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var tenantDomain: Swift.String?
 
-        public init (
+        public init(
             disableLocalGroups: Swift.Bool = false,
             exclusionPatterns: [Swift.String]? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
@@ -17700,7 +17217,7 @@ extension KendraClientTypes.OneDriveUsers: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oneDriveUserListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oneDriveUserList)
         var oneDriveUserListDecoded0:[Swift.String]? = nil
@@ -17726,7 +17243,7 @@ extension KendraClientTypes {
         /// The S3 bucket location of a file containing a list of users whose documents should be indexed.
         public var oneDriveUserS3Path: KendraClientTypes.S3Path?
 
-        public init (
+        public init(
             oneDriveUserList: [Swift.String]? = nil,
             oneDriveUserS3Path: KendraClientTypes.S3Path? = nil
         )
@@ -17826,7 +17343,7 @@ extension KendraClientTypes.PersonasSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
         entityId = entityIdDecoded
@@ -17851,7 +17368,7 @@ extension KendraClientTypes {
         /// The Unix timestamp when the summary information was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             entityId: Swift.String? = nil,
             persona: KendraClientTypes.Persona? = nil,
@@ -17891,7 +17408,7 @@ extension KendraClientTypes.Principal: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -17919,7 +17436,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var type: KendraClientTypes.PrincipalType?
 
-        public init (
+        public init(
             access: KendraClientTypes.ReadAccessType? = nil,
             dataSourceId: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -18028,7 +17545,7 @@ extension KendraClientTypes.ProxyConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
@@ -18051,7 +17568,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var port: Swift.Int?
 
-        public init (
+        public init(
             credentials: Swift.String? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil
@@ -18121,7 +17638,7 @@ public struct PutPrincipalMappingInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds).
     public var roleArn: Swift.String?
 
-    public init (
+    public init(
         dataSourceId: Swift.String? = nil,
         groupId: Swift.String? = nil,
         groupMembers: KendraClientTypes.GroupMembers? = nil,
@@ -18158,7 +17675,7 @@ extension PutPrincipalMappingInputBody: Swift.Decodable {
         case roleArn = "RoleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -18175,48 +17692,31 @@ extension PutPrincipalMappingInputBody: Swift.Decodable {
     }
 }
 
-extension PutPrincipalMappingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutPrincipalMappingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutPrincipalMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutPrincipalMappingOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutPrincipalMappingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutPrincipalMappingOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KendraClientTypes {
@@ -18356,7 +17856,7 @@ public struct QueryInput: Swift.Equatable {
     /// Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
     public var visitorId: Swift.String?
 
-    public init (
+    public init(
         attributeFilter: KendraClientTypes.AttributeFilter? = nil,
         documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]? = nil,
         facets: [KendraClientTypes.Facet]? = nil,
@@ -18421,7 +17921,7 @@ extension QueryInputBody: Swift.Decodable {
         case visitorId = "VisitorId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -18479,43 +17979,26 @@ extension QueryInputBody: Swift.Decodable {
     }
 }
 
-extension QueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension QueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum QueryOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: QueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.facetResults = output.facetResults
@@ -18553,7 +18036,7 @@ public struct QueryOutputResponse: Swift.Equatable {
     /// A list of warning codes and their messages on problems with your query. Amazon Kendra currently only supports one type of warning, which is a warning on invalid syntax used in the query. For examples of invalid query syntax, see [Searching with advanced query syntax](https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax).
     public var warnings: [KendraClientTypes.Warning]?
 
-    public init (
+    public init(
         facetResults: [KendraClientTypes.FacetResult]? = nil,
         featuredResultsItems: [KendraClientTypes.FeaturedResultsItem]? = nil,
         queryId: Swift.String? = nil,
@@ -18594,7 +18077,7 @@ extension QueryOutputResponseBody: Swift.Decodable {
         case warnings = "Warnings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
         queryId = queryIdDecoded
@@ -18752,7 +18235,7 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -18827,7 +18310,7 @@ extension KendraClientTypes {
         /// The type of document within the response. For example, a response could include a question-answer that's relevant to the query.
         public var type: KendraClientTypes.QueryResultType?
 
-        public init (
+        public init(
             additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]? = nil,
             documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentExcerpt: KendraClientTypes.TextWithHighlights? = nil,
@@ -18970,7 +18453,7 @@ extension KendraClientTypes.QuerySuggestionsBlockListSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -19003,7 +18486,7 @@ extension KendraClientTypes {
         /// The Unix timestamp when the block list was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             itemCount: Swift.Int? = nil,
@@ -19129,7 +18612,7 @@ extension KendraClientTypes.QuipConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
         domain = domainDecoded
@@ -19244,7 +18727,7 @@ extension KendraClientTypes {
         /// Configuration information for an Amazon Virtual Private Cloud (VPC) to connect to your Quip. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             attachmentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
             crawlAttachments: Swift.Bool = false,
             crawlChatRooms: Swift.Bool = false,
@@ -19339,7 +18822,7 @@ extension KendraClientTypes.Relevance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let freshnessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .freshness)
         freshness = freshnessDecoded
@@ -19377,7 +18860,7 @@ extension KendraClientTypes {
         /// A list of values that should be given a different boost when they appear in the result list. For example, if you are boosting a field called "department," query terms that match the department field are boosted in the result. However, you can add entries from the department field to boost documents with those values higher. For example, you can add entries to the map with names of departments. If you add "HR",5 and "Legal",3 those departments are given special attention when they appear in the metadata of a document. When those terms appear they are given the specified importance instead of the regular importance for the boost.
         public var valueImportanceMap: [Swift.String:Swift.Int]?
 
-        public init (
+        public init(
             duration: Swift.String? = nil,
             freshness: Swift.Bool? = nil,
             importance: Swift.Int? = nil,
@@ -19411,7 +18894,7 @@ extension KendraClientTypes.RelevanceFeedback: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resultIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultId)
         resultId = resultIdDecoded
@@ -19430,7 +18913,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var resultId: Swift.String?
 
-        public init (
+        public init(
             relevanceValue: KendraClientTypes.RelevanceType? = nil,
             resultId: Swift.String? = nil
         )
@@ -19475,37 +18958,41 @@ extension KendraClientTypes {
 }
 
 extension ResourceAlreadyExistException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceAlreadyExistExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource you want to use already exists. Please check you have provided the correct resource and try again.
-public struct ResourceAlreadyExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceAlreadyExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19518,7 +19005,7 @@ extension ResourceAlreadyExistExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19526,37 +19013,41 @@ extension ResourceAlreadyExistExceptionBody: Swift.Decodable {
 }
 
 extension ResourceInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource you want to use is currently in use. Please check you have provided the correct resource and try again.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19569,7 +19060,7 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19577,37 +19068,41 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19620,7 +19115,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19628,37 +19123,41 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension ResourceUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource you want to use isn't available. Please check you have provided the correct resource and try again.
-public struct ResourceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19671,7 +19170,7 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19719,7 +19218,7 @@ extension KendraClientTypes.S3DataSourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -19792,7 +19291,7 @@ extension KendraClientTypes {
         /// A list of S3 prefixes for the documents that should be included in the index.
         public var inclusionPrefixes: [Swift.String]?
 
-        public init (
+        public init(
             accessControlListConfiguration: KendraClientTypes.AccessControlListConfiguration? = nil,
             bucketName: Swift.String? = nil,
             documentsMetadataConfiguration: KendraClientTypes.DocumentsMetadataConfiguration? = nil,
@@ -19828,7 +19327,7 @@ extension KendraClientTypes.S3Path: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
         bucket = bucketDecoded
@@ -19847,7 +19346,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var key: Swift.String?
 
-        public init (
+        public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
         )
@@ -19875,7 +19374,7 @@ extension KendraClientTypes.SaaSConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationName)
         organizationName = organizationNameDecoded
@@ -19894,7 +19393,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var organizationName: Swift.String?
 
-        public init (
+        public init(
             hostUrl: Swift.String? = nil,
             organizationName: Swift.String? = nil
         )
@@ -19936,7 +19435,7 @@ extension KendraClientTypes.SalesforceChatterFeedConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentDataFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentDataFieldName)
         documentDataFieldName = documentDataFieldNameDecoded
@@ -19980,7 +19479,7 @@ extension KendraClientTypes {
         /// Filters the documents in the feed based on status of the user. When you specify ACTIVE_USERS only documents from users who have an active account are indexed. When you specify STANDARD_USER only documents for Salesforce standard users are documented. You can specify both.
         public var includeFilterTypes: [KendraClientTypes.SalesforceChatterFeedIncludeFilterType]?
 
-        public init (
+        public init(
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
@@ -20081,7 +19580,7 @@ extension KendraClientTypes.SalesforceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverUrl)
         serverUrl = serverUrlDecoded
@@ -20167,7 +19666,7 @@ extension KendraClientTypes {
         /// Configuration of the Salesforce standard objects that Amazon Kendra indexes.
         public var standardObjectConfigurations: [KendraClientTypes.SalesforceStandardObjectConfiguration]?
 
-        public init (
+        public init(
             chatterFeedConfiguration: KendraClientTypes.SalesforceChatterFeedConfiguration? = nil,
             crawlAttachments: Swift.Bool = false,
             excludeAttachmentFilePatterns: [Swift.String]? = nil,
@@ -20220,7 +19719,7 @@ extension KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration: S
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -20256,7 +19755,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
@@ -20298,7 +19797,7 @@ extension KendraClientTypes.SalesforceKnowledgeArticleConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let includedStatesContainer = try containerValues.decodeIfPresent([KendraClientTypes.SalesforceKnowledgeArticleState?].self, forKey: .includedStates)
         var includedStatesDecoded0:[KendraClientTypes.SalesforceKnowledgeArticleState]? = nil
@@ -20338,7 +19837,7 @@ extension KendraClientTypes {
         /// Configuration information for standard Salesforce knowledge articles.
         public var standardKnowledgeArticleTypeConfiguration: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration?
 
-        public init (
+        public init(
             customKnowledgeArticleTypeConfigurations: [KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration]? = nil,
             includedStates: [KendraClientTypes.SalesforceKnowledgeArticleState]? = nil,
             standardKnowledgeArticleTypeConfiguration: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration? = nil
@@ -20410,7 +19909,7 @@ extension KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentDataFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentDataFieldName)
         documentDataFieldName = documentDataFieldNameDecoded
@@ -20441,7 +19940,7 @@ extension KendraClientTypes {
         /// Maps attributes or field names of the knowledge article to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Salesforce fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Salesforce data source field names must exist in your Salesforce custom metadata.
         public var fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
@@ -20474,7 +19973,7 @@ extension KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentTitleFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentTitleFieldName)
         documentTitleFieldName = documentTitleFieldNameDecoded
@@ -20500,7 +19999,7 @@ extension KendraClientTypes {
         /// One or more objects that map fields in attachments to Amazon Kendra index fields.
         public var fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
 
-        public init (
+        public init(
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil
         )
@@ -20539,7 +20038,7 @@ extension KendraClientTypes.SalesforceStandardObjectConfiguration: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SalesforceStandardObjectName.self, forKey: .name)
         name = nameDecoded
@@ -20575,7 +20074,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var name: KendraClientTypes.SalesforceStandardObjectName?
 
-        public init (
+        public init(
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,
@@ -20680,7 +20179,7 @@ extension KendraClientTypes.ScoreAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scoreConfidenceDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ScoreConfidence.self, forKey: .scoreConfidence)
         scoreConfidence = scoreConfidenceDecoded
@@ -20693,7 +20192,7 @@ extension KendraClientTypes {
         /// A relative ranking for how well the response matches the query.
         public var scoreConfidence: KendraClientTypes.ScoreConfidence?
 
-        public init (
+        public init(
             scoreConfidence: KendraClientTypes.ScoreConfidence? = nil
         )
         {
@@ -20769,7 +20268,7 @@ extension KendraClientTypes.Search: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let facetableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .facetable) ?? false
         facetable = facetableDecoded
@@ -20794,7 +20293,7 @@ extension KendraClientTypes {
         /// Determines whether the field can be used to sort the results of a query. If you specify sorting on a field that does not have Sortable set to true, Amazon Kendra returns an exception. The default is false.
         public var sortable: Swift.Bool
 
-        public init (
+        public init(
             displayable: Swift.Bool = false,
             facetable: Swift.Bool = false,
             searchable: Swift.Bool = false,
@@ -20829,7 +20328,7 @@ extension KendraClientTypes.SeedUrlConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let seedUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .seedUrls)
         var seedUrlsDecoded0:[Swift.String]? = nil
@@ -20865,7 +20364,7 @@ extension KendraClientTypes {
         /// The default mode is set to HOST_ONLY.
         public var webCrawlerMode: KendraClientTypes.WebCrawlerMode?
 
-        public init (
+        public init(
             seedUrls: [Swift.String]? = nil,
             webCrawlerMode: KendraClientTypes.WebCrawlerMode? = nil
         )
@@ -20889,7 +20388,7 @@ extension KendraClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -20907,7 +20406,7 @@ extension KendraClientTypes {
         /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys.
         public var kmsKeyId: Swift.String?
 
-        public init (
+        public init(
             kmsKeyId: Swift.String? = nil
         )
         {
@@ -21013,7 +20512,7 @@ extension KendraClientTypes.ServiceNowConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostUrl)
         hostUrl = hostUrlDecoded
@@ -21049,7 +20548,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var serviceNowBuildVersion: KendraClientTypes.ServiceNowBuildVersionType?
 
-        public init (
+        public init(
             authenticationType: KendraClientTypes.ServiceNowAuthenticationType? = nil,
             hostUrl: Swift.String? = nil,
             knowledgeArticleConfiguration: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration? = nil,
@@ -21114,7 +20613,7 @@ extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let crawlAttachmentsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crawlAttachments) ?? false
         crawlAttachments = crawlAttachmentsDecoded
@@ -21179,7 +20678,7 @@ extension KendraClientTypes {
         /// A list of regular expression patterns to include certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
         public var includeAttachmentFilePatterns: [Swift.String]?
 
-        public init (
+        public init(
             crawlAttachments: Swift.Bool = false,
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
@@ -21242,7 +20741,7 @@ extension KendraClientTypes.ServiceNowServiceCatalogConfiguration: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let crawlAttachmentsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crawlAttachments) ?? false
         crawlAttachments = crawlAttachmentsDecoded
@@ -21303,7 +20802,7 @@ extension KendraClientTypes {
         /// A list of regular expression patterns to include certain attachments of catalogs in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the file name of the attachment.
         public var includeAttachmentFilePatterns: [Swift.String]?
 
-        public init (
+        public init(
             crawlAttachments: Swift.Bool = false,
             documentDataFieldName: Swift.String? = nil,
             documentTitleFieldName: Swift.String? = nil,
@@ -21324,37 +20823,41 @@ extension KendraClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -21367,7 +20870,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -21450,7 +20953,7 @@ extension KendraClientTypes.SharePointConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sharePointVersionDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SharePointVersion.self, forKey: .sharePointVersion)
         sharePointVersion = sharePointVersionDecoded
@@ -21554,7 +21057,7 @@ extension KendraClientTypes {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Microsoft SharePoint. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             authenticationType: KendraClientTypes.SharePointOnlineAuthenticationType? = nil,
             crawlAttachments: Swift.Bool = false,
             disableLocalGroups: Swift.Bool = false,
@@ -21675,7 +21178,7 @@ extension KendraClientTypes.SiteMapsConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let siteMapsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .siteMaps)
         var siteMapsDecoded0:[Swift.String]? = nil
@@ -21698,7 +21201,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var siteMaps: [Swift.String]?
 
-        public init (
+        public init(
             siteMaps: [Swift.String]? = nil
         )
         {
@@ -21790,7 +21293,7 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let teamIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .teamId)
         teamId = teamIdDecoded
@@ -21915,7 +21418,7 @@ extension KendraClientTypes {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Slack. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-        public init (
+        public init(
             crawlBotMessage: Swift.Bool = false,
             excludeArchived: Swift.Bool = false,
             exclusionPatterns: [Swift.String]? = nil,
@@ -22037,7 +21540,7 @@ extension KendraClientTypes.SortingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentAttributeKey)
         documentAttributeKey = documentAttributeKeyDecoded
@@ -22077,13 +21580,92 @@ extension KendraClientTypes {
         /// This member is required.
         public var sortOrder: KendraClientTypes.SortOrder?
 
-        public init (
+        public init(
             documentAttributeKey: Swift.String? = nil,
             sortOrder: KendraClientTypes.SortOrder? = nil
         )
         {
             self.documentAttributeKey = documentAttributeKey
             self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension KendraClientTypes.SourceDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case documentId = "DocumentId"
+        case suggestionAttributes = "SuggestionAttributes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalAttributes = additionalAttributes {
+            var additionalAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAttributes)
+            for documentattribute0 in additionalAttributes {
+                try additionalAttributesContainer.encode(documentattribute0)
+            }
+        }
+        if let documentId = self.documentId {
+            try encodeContainer.encode(documentId, forKey: .documentId)
+        }
+        if let suggestionAttributes = suggestionAttributes {
+            var suggestionAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestionAttributes)
+            for documentattributekey0 in suggestionAttributes {
+                try suggestionAttributesContainer.encode(documentattributekey0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
+        documentId = documentIdDecoded
+        let suggestionAttributesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .suggestionAttributes)
+        var suggestionAttributesDecoded0:[Swift.String]? = nil
+        if let suggestionAttributesContainer = suggestionAttributesContainer {
+            suggestionAttributesDecoded0 = [Swift.String]()
+            for string0 in suggestionAttributesContainer {
+                if let string0 = string0 {
+                    suggestionAttributesDecoded0?.append(string0)
+                }
+            }
+        }
+        suggestionAttributes = suggestionAttributesDecoded0
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentAttribute?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0:[KendraClientTypes.DocumentAttribute]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [KendraClientTypes.DocumentAttribute]()
+            for structure0 in additionalAttributesContainer {
+                if let structure0 = structure0 {
+                    additionalAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// The document ID and its fields/attributes that are used for a query suggestion, if document fields set to use for query suggestions.
+    public struct SourceDocument: Swift.Equatable {
+        /// The additional fields/attributes to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
+        public var additionalAttributes: [KendraClientTypes.DocumentAttribute]?
+        /// The identifier of the document used for a query suggestion.
+        public var documentId: Swift.String?
+        /// The document fields/attributes used for a query suggestion.
+        public var suggestionAttributes: [Swift.String]?
+
+        public init(
+            additionalAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
+            documentId: Swift.String? = nil,
+            suggestionAttributes: [Swift.String]? = nil
+        )
+        {
+            self.additionalAttributes = additionalAttributes
+            self.documentId = documentId
+            self.suggestionAttributes = suggestionAttributes
         }
     }
 
@@ -22108,7 +21690,7 @@ extension KendraClientTypes.SpellCorrectedQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let suggestedQueryTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .suggestedQueryText)
         suggestedQueryText = suggestedQueryTextDecoded
@@ -22134,7 +21716,7 @@ extension KendraClientTypes {
         /// The query with the suggested spell corrections.
         public var suggestedQueryText: Swift.String?
 
-        public init (
+        public init(
             corrections: [KendraClientTypes.Correction]? = nil,
             suggestedQueryText: Swift.String? = nil
         )
@@ -22158,7 +21740,7 @@ extension KendraClientTypes.SpellCorrectionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let includeQuerySpellCheckSuggestionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeQuerySpellCheckSuggestions) ?? false
         includeQuerySpellCheckSuggestions = includeQuerySpellCheckSuggestionsDecoded
@@ -22172,7 +21754,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var includeQuerySpellCheckSuggestions: Swift.Bool
 
-        public init (
+        public init(
             includeQuerySpellCheckSuggestions: Swift.Bool = false
         )
         {
@@ -22194,7 +21776,7 @@ extension KendraClientTypes.SqlConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryIdentifiersEnclosingOptionDecoded = try containerValues.decodeIfPresent(KendraClientTypes.QueryIdentifiersEnclosingOption.self, forKey: .queryIdentifiersEnclosingOption)
         queryIdentifiersEnclosingOption = queryIdentifiersEnclosingOptionDecoded
@@ -22207,7 +21789,7 @@ extension KendraClientTypes {
         /// Determines whether Amazon Kendra encloses SQL identifiers for tables and column names in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you set this field to DOUBLE_QUOTES.
         public var queryIdentifiersEnclosingOption: KendraClientTypes.QueryIdentifiersEnclosingOption?
 
-        public init (
+        public init(
             queryIdentifiersEnclosingOption: KendraClientTypes.QueryIdentifiersEnclosingOption? = nil
         )
         {
@@ -22248,7 +21830,7 @@ public struct StartDataSourceSyncJobInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -22269,7 +21851,7 @@ extension StartDataSourceSyncJobInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -22278,43 +21860,26 @@ extension StartDataSourceSyncJobInputBody: Swift.Decodable {
     }
 }
 
-extension StartDataSourceSyncJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartDataSourceSyncJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartDataSourceSyncJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartDataSourceSyncJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartDataSourceSyncJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartDataSourceSyncJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionId = output.executionId
@@ -22328,7 +21893,7 @@ public struct StartDataSourceSyncJobOutputResponse: Swift.Equatable {
     /// Identifies a particular synchronization job.
     public var executionId: Swift.String?
 
-    public init (
+    public init(
         executionId: Swift.String? = nil
     )
     {
@@ -22345,7 +21910,7 @@ extension StartDataSourceSyncJobOutputResponseBody: Swift.Decodable {
         case executionId = "ExecutionId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionId)
         executionId = executionIdDecoded
@@ -22376,7 +21941,7 @@ extension KendraClientTypes.Status: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
         documentId = documentIdDecoded
@@ -22401,7 +21966,7 @@ extension KendraClientTypes {
         /// Provides detailed information about why the document couldn't be indexed. Use this information to correct the error before you resubmit the document for indexing.
         public var failureReason: Swift.String?
 
-        public init (
+        public init(
             documentId: Swift.String? = nil,
             documentStatus: KendraClientTypes.DocumentStatus? = nil,
             failureCode: Swift.String? = nil,
@@ -22448,7 +22013,7 @@ public struct StopDataSourceSyncJobInput: Swift.Equatable {
     /// This member is required.
     public var indexId: Swift.String?
 
-    public init (
+    public init(
         id: Swift.String? = nil,
         indexId: Swift.String? = nil
     )
@@ -22469,7 +22034,7 @@ extension StopDataSourceSyncJobInputBody: Swift.Decodable {
         case indexId = "IndexId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -22478,44 +22043,29 @@ extension StopDataSourceSyncJobInputBody: Swift.Decodable {
     }
 }
 
-extension StopDataSourceSyncJobOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopDataSourceSyncJobOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopDataSourceSyncJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopDataSourceSyncJobOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopDataSourceSyncJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct StopDataSourceSyncJobOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SubmitFeedbackInput: Swift.Encodable {
@@ -22567,7 +22117,7 @@ public struct SubmitFeedbackInput: Swift.Equatable {
     /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search.
     public var relevanceFeedbackItems: [KendraClientTypes.RelevanceFeedback]?
 
-    public init (
+    public init(
         clickFeedbackItems: [KendraClientTypes.ClickFeedback]? = nil,
         indexId: Swift.String? = nil,
         queryId: Swift.String? = nil,
@@ -22596,7 +22146,7 @@ extension SubmitFeedbackInputBody: Swift.Decodable {
         case relevanceFeedbackItems = "RelevanceFeedbackItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -22627,51 +22177,81 @@ extension SubmitFeedbackInputBody: Swift.Decodable {
     }
 }
 
-extension SubmitFeedbackOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension SubmitFeedbackOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SubmitFeedbackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum SubmitFeedbackOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SubmitFeedbackOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SubmitFeedbackOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension KendraClientTypes.SuggestableConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case suggestable = "Suggestable"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let suggestable = self.suggestable {
+            try encodeContainer.encode(suggestable, forKey: .suggestable)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let suggestableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suggestable)
+        suggestable = suggestableDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides the configuration information for a document field/attribute that you want to base query suggestions on.
+    public struct SuggestableConfig: Swift.Equatable {
+        /// The name of the document field/attribute.
+        public var attributeName: Swift.String?
+        /// TRUE means the document field/attribute is suggestible, so the contents within the field can be used for query suggestions.
+        public var suggestable: Swift.Bool?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            suggestable: Swift.Bool? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.suggestable = suggestable
+        }
+    }
+
 }
 
 extension KendraClientTypes.Suggestion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
+        case sourceDocuments = "SourceDocuments"
         case value = "Value"
     }
 
@@ -22680,17 +22260,34 @@ extension KendraClientTypes.Suggestion: Swift.Codable {
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
+        if let sourceDocuments = sourceDocuments {
+            var sourceDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDocuments)
+            for sourcedocument0 in sourceDocuments {
+                try sourceDocumentsContainer.encode(sourcedocument0)
+            }
+        }
         if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
         let valueDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SuggestionValue.self, forKey: .value)
         value = valueDecoded
+        let sourceDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.SourceDocument?].self, forKey: .sourceDocuments)
+        var sourceDocumentsDecoded0:[KendraClientTypes.SourceDocument]? = nil
+        if let sourceDocumentsContainer = sourceDocumentsContainer {
+            sourceDocumentsDecoded0 = [KendraClientTypes.SourceDocument]()
+            for structure0 in sourceDocumentsContainer {
+                if let structure0 = structure0 {
+                    sourceDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceDocuments = sourceDocumentsDecoded0
     }
 }
 
@@ -22699,15 +22296,19 @@ extension KendraClientTypes {
     public struct Suggestion: Swift.Equatable {
         /// The UUID (universally unique identifier) of a single query suggestion.
         public var id: Swift.String?
+        /// The list of document IDs and their fields/attributes that are used for a single query suggestion, if document fields set to use for query suggestions.
+        public var sourceDocuments: [KendraClientTypes.SourceDocument]?
         /// The value for the UUID (universally unique identifier) of a single query suggestion. The value is the text string of a suggestion.
         public var value: KendraClientTypes.SuggestionValue?
 
-        public init (
+        public init(
             id: Swift.String? = nil,
+            sourceDocuments: [KendraClientTypes.SourceDocument]? = nil,
             value: KendraClientTypes.SuggestionValue? = nil
         )
         {
             self.id = id
+            self.sourceDocuments = sourceDocuments
             self.value = value
         }
     }
@@ -22730,7 +22331,7 @@ extension KendraClientTypes.SuggestionHighlight: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffset)
         beginOffset = beginOffsetDecoded
@@ -22747,7 +22348,7 @@ extension KendraClientTypes {
         /// The zero-based location in the response string where the highlight ends.
         public var endOffset: Swift.Int?
 
-        public init (
+        public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil
         )
@@ -22778,7 +22379,7 @@ extension KendraClientTypes.SuggestionTextWithHighlights: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -22804,7 +22405,7 @@ extension KendraClientTypes {
         /// The query suggestion text to display to the user.
         public var text: Swift.String?
 
-        public init (
+        public init(
             highlights: [KendraClientTypes.SuggestionHighlight]? = nil,
             text: Swift.String? = nil
         )
@@ -22814,6 +22415,38 @@ extension KendraClientTypes {
         }
     }
 
+}
+
+extension KendraClientTypes {
+    public enum SuggestionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case documentAttributes
+        case query
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuggestionType] {
+            return [
+                .documentAttributes,
+                .query,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .documentAttributes: return "DOCUMENT_ATTRIBUTES"
+            case .query: return "QUERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SuggestionType(rawValue: rawValue) ?? SuggestionType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension KendraClientTypes.SuggestionValue: Swift.Codable {
@@ -22828,7 +22461,7 @@ extension KendraClientTypes.SuggestionValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SuggestionTextWithHighlights.self, forKey: .text)
         text = textDecoded
@@ -22841,7 +22474,7 @@ extension KendraClientTypes {
         /// The SuggestionTextWithHighlights structure that contains the query suggestion text and highlights.
         public var text: KendraClientTypes.SuggestionTextWithHighlights?
 
-        public init (
+        public init(
             text: KendraClientTypes.SuggestionTextWithHighlights? = nil
         )
         {
@@ -22875,7 +22508,7 @@ extension KendraClientTypes.TableCell: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -22900,7 +22533,7 @@ extension KendraClientTypes {
         /// The actual value or content within a table cell. A table cell could contain a date value of a year, or a string value of text, for example.
         public var value: Swift.String?
 
-        public init (
+        public init(
             header: Swift.Bool = false,
             highlighted: Swift.Bool = false,
             topAnswer: Swift.Bool = false,
@@ -22935,7 +22568,7 @@ extension KendraClientTypes.TableExcerpt: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rowsContainer = try containerValues.decodeIfPresent([KendraClientTypes.TableRow?].self, forKey: .rows)
         var rowsDecoded0:[KendraClientTypes.TableRow]? = nil
@@ -22961,7 +22594,7 @@ extension KendraClientTypes {
         /// A count of the number of rows in the original table within the document.
         public var totalNumberOfRows: Swift.Int?
 
-        public init (
+        public init(
             rows: [KendraClientTypes.TableRow]? = nil,
             totalNumberOfRows: Swift.Int? = nil
         )
@@ -22988,7 +22621,7 @@ extension KendraClientTypes.TableRow: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cellsContainer = try containerValues.decodeIfPresent([KendraClientTypes.TableCell?].self, forKey: .cells)
         var cellsDecoded0:[KendraClientTypes.TableCell]? = nil
@@ -23010,7 +22643,7 @@ extension KendraClientTypes {
         /// A list of table cells in a row.
         public var cells: [KendraClientTypes.TableCell]?
 
-        public init (
+        public init(
             cells: [KendraClientTypes.TableCell]? = nil
         )
         {
@@ -23036,7 +22669,7 @@ extension KendraClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -23055,7 +22688,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -23101,7 +22734,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [KendraClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tags: [KendraClientTypes.Tag]? = nil
     )
@@ -23122,7 +22755,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -23140,44 +22773,29 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KendraClientTypes.TemplateConfiguration: Swift.Codable {
@@ -23192,7 +22810,7 @@ extension KendraClientTypes.TemplateConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .template)
         template = templateDecoded
@@ -23205,7 +22823,7 @@ extension KendraClientTypes {
         /// The template schema used for the data source, where templates schemas are supported. See [Data source template schemas](https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html).
         public var template: ClientRuntime.Document?
 
-        public init (
+        public init(
             template: ClientRuntime.Document? = nil
         )
         {
@@ -23231,7 +22849,7 @@ extension KendraClientTypes.TextDocumentStatistics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexedTextDocumentsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexedTextDocumentsCount) ?? 0
         indexedTextDocumentsCount = indexedTextDocumentsCountDecoded
@@ -23250,7 +22868,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var indexedTextDocumentsCount: Swift.Int
 
-        public init (
+        public init(
             indexedTextBytes: Swift.Int = 0,
             indexedTextDocumentsCount: Swift.Int = 0
         )
@@ -23281,7 +22899,7 @@ extension KendraClientTypes.TextWithHighlights: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -23307,7 +22925,7 @@ extension KendraClientTypes {
         /// The text to display to the user.
         public var text: Swift.String?
 
-        public init (
+        public init(
             highlights: [KendraClientTypes.Highlight]? = nil,
             text: Swift.String? = nil
         )
@@ -23391,7 +23009,7 @@ extension KendraClientTypes.ThesaurusSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -23420,7 +23038,7 @@ extension KendraClientTypes {
         /// The Unix timestamp when the thesaurus was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -23439,37 +23057,41 @@ extension KendraClientTypes {
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request was denied due to request throttling. Please reduce the number of requests and try again.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -23482,7 +23104,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -23505,7 +23127,7 @@ extension KendraClientTypes.TimeRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -23522,7 +23144,7 @@ extension KendraClientTypes {
         /// The Unix timestamp for the beginning of the time range.
         public var startTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             endTime: ClientRuntime.Date? = nil,
             startTime: ClientRuntime.Date? = nil
         )
@@ -23600,7 +23222,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -23621,7 +23243,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -23639,44 +23261,29 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceUnavailableException(ResourceUnavailableException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateAccessControlConfigurationInput: Swift.Encodable {
@@ -23740,7 +23347,7 @@ public struct UpdateAccessControlConfigurationInput: Swift.Equatable {
     /// A new name for the access control configuration.
     public var name: Swift.String?
 
-    public init (
+    public init(
         accessControlList: [KendraClientTypes.Principal]? = nil,
         description: Swift.String? = nil,
         hierarchicalAccessControlList: [KendraClientTypes.HierarchicalPrincipal]? = nil,
@@ -23777,7 +23384,7 @@ extension UpdateAccessControlConfigurationInputBody: Swift.Decodable {
         case name = "Name"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -23812,48 +23419,31 @@ extension UpdateAccessControlConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAccessControlConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateAccessControlConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAccessControlConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateAccessControlConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAccessControlConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateAccessControlConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateDataSourceInput: Swift.Encodable {
@@ -23935,7 +23525,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
     public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
 
-    public init (
+    public init(
         configuration: KendraClientTypes.DataSourceConfiguration? = nil,
         customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration? = nil,
         description: Swift.String? = nil,
@@ -23988,7 +23578,7 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         case vpcConfiguration = "VpcConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -24013,46 +23603,30 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDataSourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateDataSourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateDataSourceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateDataSourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateExperienceInput: Swift.Encodable {
@@ -24110,7 +23684,7 @@ public struct UpdateExperienceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
-    public init (
+    public init(
         configuration: KendraClientTypes.ExperienceConfiguration? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -24147,7 +23721,7 @@ extension UpdateExperienceInputBody: Swift.Decodable {
         case roleArn = "RoleArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -24164,46 +23738,30 @@ extension UpdateExperienceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateExperienceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateExperienceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateExperienceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateExperienceOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateExperienceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateFeaturedResultsSetInput: Swift.Encodable {
@@ -24260,7 +23818,7 @@ public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
     public var description: Swift.String?
     /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
     public var featuredDocuments: [KendraClientTypes.FeaturedDocument]?
-    /// The identifier of the index used for featuring results.
+    /// The identifier of the set of featured results that you want to update.
     /// This member is required.
     public var featuredResultsSetId: Swift.String?
     /// A new name for the set of featured results.
@@ -24273,7 +23831,7 @@ public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
     /// You can set the status to ACTIVE or INACTIVE. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
     public var status: KendraClientTypes.FeaturedResultsSetStatus?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
         featuredResultsSetId: Swift.String? = nil,
@@ -24314,7 +23872,7 @@ extension UpdateFeaturedResultsSetInputBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -24351,41 +23909,25 @@ extension UpdateFeaturedResultsSetInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateFeaturedResultsSetOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "FeaturedResultsConflictException" : self = .featuredResultsConflictException(try FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FeaturedResultsConflictException": return try await FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case featuredResultsConflictException(FeaturedResultsConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.featuredResultsSet = output.featuredResultsSet
@@ -24399,7 +23941,7 @@ public struct UpdateFeaturedResultsSetOutputResponse: Swift.Equatable {
     /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was last updated, and more.
     public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 
-    public init (
+    public init(
         featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
     )
     {
@@ -24416,7 +23958,7 @@ extension UpdateFeaturedResultsSetOutputResponseBody: Swift.Decodable {
         case featuredResultsSet = "FeaturedResultsSet"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredResultsSetDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSet.self, forKey: .featuredResultsSet)
         featuredResultsSet = featuredResultsSetDecoded
@@ -24501,7 +24043,7 @@ public struct UpdateIndexInput: Swift.Equatable {
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
 
-    public init (
+    public init(
         capacityUnits: KendraClientTypes.CapacityUnitsConfiguration? = nil,
         description: Swift.String? = nil,
         documentMetadataConfigurationUpdates: [KendraClientTypes.DocumentMetadataConfiguration]? = nil,
@@ -24550,7 +24092,7 @@ extension UpdateIndexInputBody: Swift.Decodable {
         case userTokenConfigurations = "UserTokenConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -24591,48 +24133,31 @@ extension UpdateIndexInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateIndexOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateIndexOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateIndexOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateIndexOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateIndexOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateQuerySuggestionsBlockListInput: Swift.Encodable {
@@ -24690,7 +24215,7 @@ public struct UpdateQuerySuggestionsBlockListInput: Swift.Equatable {
     /// The S3 path where your block list text file sits in S3. If you update your block list and provide the same path to the block list text file in S3, then Amazon Kendra reloads the file to refresh the block list. Amazon Kendra does not automatically refresh your block list. You need to call the UpdateQuerySuggestionsBlockList API to refresh you block list. If you update your block list, then Amazon Kendra asynchronously refreshes all query suggestions with the latest content in the S3 file. This means changes might not take effect immediately.
     public var sourceS3Path: KendraClientTypes.S3Path?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
@@ -24727,7 +24252,7 @@ extension UpdateQuerySuggestionsBlockListInputBody: Swift.Decodable {
         case sourceS3Path = "SourceS3Path"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -24744,50 +24269,35 @@ extension UpdateQuerySuggestionsBlockListInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateQuerySuggestionsBlockListOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateQuerySuggestionsBlockListOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateQuerySuggestionsBlockListOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateQuerySuggestionsConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case indexId = "IndexId"
         case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
@@ -24798,6 +24308,9 @@ extension UpdateQuerySuggestionsConfigInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeSuggestionsConfig = self.attributeSuggestionsConfig {
+            try encodeContainer.encode(attributeSuggestionsConfig, forKey: .attributeSuggestionsConfig)
+        }
         if let includeQueriesWithoutUserInformation = self.includeQueriesWithoutUserInformation {
             try encodeContainer.encode(includeQueriesWithoutUserInformation, forKey: .includeQueriesWithoutUserInformation)
         }
@@ -24826,6 +24339,8 @@ extension UpdateQuerySuggestionsConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
+    /// Configuration information for the document fields/attributes that you want to base query suggestions on.
+    public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig?
     /// TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only include queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE, Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from all queries.
     public var includeQueriesWithoutUserInformation: Swift.Bool?
     /// The identifier of the index with query suggestions you want to update.
@@ -24840,7 +24355,8 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
     /// How recent your queries are in your query log time window. The time window is the number of days from current day to past days. By default, Amazon Kendra sets this to 180.
     public var queryLogLookBackWindowInDays: Swift.Int?
 
-    public init (
+    public init(
+        attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig? = nil,
         includeQueriesWithoutUserInformation: Swift.Bool? = nil,
         indexId: Swift.String? = nil,
         minimumNumberOfQueryingUsers: Swift.Int? = nil,
@@ -24849,6 +24365,7 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
         queryLogLookBackWindowInDays: Swift.Int? = nil
     )
     {
+        self.attributeSuggestionsConfig = attributeSuggestionsConfig
         self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
         self.indexId = indexId
         self.minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsers
@@ -24865,10 +24382,12 @@ struct UpdateQuerySuggestionsConfigInputBody: Swift.Equatable {
     let includeQueriesWithoutUserInformation: Swift.Bool?
     let minimumNumberOfQueryingUsers: Swift.Int?
     let minimumQueryCount: Swift.Int?
+    let attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig?
 }
 
 extension UpdateQuerySuggestionsConfigInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeSuggestionsConfig = "AttributeSuggestionsConfig"
         case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
         case indexId = "IndexId"
         case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
@@ -24877,7 +24396,7 @@ extension UpdateQuerySuggestionsConfigInputBody: Swift.Decodable {
         case queryLogLookBackWindowInDays = "QueryLogLookBackWindowInDays"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
@@ -24891,49 +24410,35 @@ extension UpdateQuerySuggestionsConfigInputBody: Swift.Decodable {
         minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsersDecoded
         let minimumQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumQueryCount)
         minimumQueryCount = minimumQueryCountDecoded
+        let attributeSuggestionsConfigDecoded = try containerValues.decodeIfPresent(KendraClientTypes.AttributeSuggestionsUpdateConfig.self, forKey: .attributeSuggestionsConfig)
+        attributeSuggestionsConfig = attributeSuggestionsConfigDecoded
     }
 }
 
-extension UpdateQuerySuggestionsConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateQuerySuggestionsConfigOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateQuerySuggestionsConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateQuerySuggestionsConfigOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateQuerySuggestionsConfigOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateThesaurusInput: Swift.Encodable {
@@ -24991,7 +24496,7 @@ public struct UpdateThesaurusInput: Swift.Equatable {
     /// Information required to find a specific file in an Amazon S3 bucket.
     public var sourceS3Path: KendraClientTypes.S3Path?
 
-    public init (
+    public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         indexId: Swift.String? = nil,
@@ -25028,7 +24533,7 @@ extension UpdateThesaurusInputBody: Swift.Decodable {
         case sourceS3Path = "SourceS3Path"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -25045,46 +24550,30 @@ extension UpdateThesaurusInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateThesaurusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateThesaurusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateThesaurusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateThesaurusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateThesaurusOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension KendraClientTypes.Urls: Swift.Codable {
@@ -25103,7 +24592,7 @@ extension KendraClientTypes.Urls: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let seedUrlConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SeedUrlConfiguration.self, forKey: .seedUrlConfiguration)
         seedUrlConfiguration = seedUrlConfigurationDecoded
@@ -25120,7 +24609,7 @@ extension KendraClientTypes {
         /// Configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
         public var siteMapsConfiguration: KendraClientTypes.SiteMapsConfiguration?
 
-        public init (
+        public init(
             seedUrlConfiguration: KendraClientTypes.SeedUrlConfiguration? = nil,
             siteMapsConfiguration: KendraClientTypes.SiteMapsConfiguration? = nil
         )
@@ -25162,7 +24651,7 @@ extension KendraClientTypes.UserContext: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .token)
         token = tokenDecoded
@@ -25212,7 +24701,7 @@ extension KendraClientTypes {
         /// The identifier of the user you want to filter search results based on their access to documents.
         public var userId: Swift.String?
 
-        public init (
+        public init(
             dataSourceGroups: [KendraClientTypes.DataSourceGroup]? = nil,
             groups: [Swift.String]? = nil,
             token: Swift.String? = nil,
@@ -25272,7 +24761,7 @@ extension KendraClientTypes.UserGroupResolutionConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userGroupResolutionModeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.UserGroupResolutionMode.self, forKey: .userGroupResolutionMode)
         userGroupResolutionMode = userGroupResolutionModeDecoded
@@ -25286,7 +24775,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode?
 
-        public init (
+        public init(
             userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode? = nil
         )
         {
@@ -25340,7 +24829,7 @@ extension KendraClientTypes.UserIdentityConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityAttributeName)
         identityAttributeName = identityAttributeNameDecoded
@@ -25353,7 +24842,7 @@ extension KendraClientTypes {
         /// The IAM Identity Center field name that contains the identifiers of your users, such as their emails. This is used for [user context filtering](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html) and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center with Amazon Kendra. You must include your users and groups in your Access Control List when you ingest documents into your index. For more information, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html).
         public var identityAttributeName: Swift.String?
 
-        public init (
+        public init(
             identityAttributeName: Swift.String? = nil
         )
         {
@@ -25379,7 +24868,7 @@ extension KendraClientTypes.UserTokenConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jwtTokenTypeConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.JwtTokenTypeConfiguration.self, forKey: .jwtTokenTypeConfiguration)
         jwtTokenTypeConfiguration = jwtTokenTypeConfigurationDecoded
@@ -25396,7 +24885,7 @@ extension KendraClientTypes {
         /// Information about the JWT token type configuration.
         public var jwtTokenTypeConfiguration: KendraClientTypes.JwtTokenTypeConfiguration?
 
-        public init (
+        public init(
             jsonTokenTypeConfiguration: KendraClientTypes.JsonTokenTypeConfiguration? = nil,
             jwtTokenTypeConfiguration: KendraClientTypes.JwtTokenTypeConfiguration? = nil
         )
@@ -25409,37 +24898,41 @@ extension KendraClientTypes {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -25452,7 +24945,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -25475,7 +24968,7 @@ extension KendraClientTypes.Warning: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -25492,7 +24985,7 @@ extension KendraClientTypes {
         /// The message that explains the problem with the query.
         public var message: Swift.String?
 
-        public init (
+        public init(
             code: KendraClientTypes.WarningCode? = nil,
             message: Swift.String? = nil
         )
@@ -25583,7 +25076,7 @@ extension KendraClientTypes.WebCrawlerConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlsDecoded = try containerValues.decodeIfPresent(KendraClientTypes.Urls.self, forKey: .urls)
         urls = urlsDecoded
@@ -25647,7 +25140,7 @@ extension KendraClientTypes {
         /// This member is required.
         public var urls: KendraClientTypes.Urls?
 
-        public init (
+        public init(
             authenticationConfiguration: KendraClientTypes.AuthenticationConfiguration? = nil,
             crawlDepth: Swift.Int? = nil,
             maxContentSizePerPageInMegaBytes: Swift.Float? = nil,
@@ -25749,7 +25242,7 @@ extension KendraClientTypes.WorkDocsConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
         organizationId = organizationIdDecoded
@@ -25810,7 +25303,7 @@ extension KendraClientTypes {
         /// TRUE to use the Amazon WorkDocs change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents in Amazon WorkDocs.
         public var useChangeLog: Swift.Bool
 
-        public init (
+        public init(
             crawlComments: Swift.Bool = false,
             exclusionPatterns: [Swift.String]? = nil,
             fieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]? = nil,

@@ -24,7 +24,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeChangeSetInput, result: Result<DescribeChangeSetOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeChangeSetInput, DescribeChangeSetOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -122,7 +122,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -160,7 +160,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -276,7 +276,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -374,7 +374,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -448,7 +448,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -522,7 +522,7 @@ extension CloudFormationClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ValidationError"
+                return (error as? ServiceError)?.typeName == "ValidationError"
             }),
         ]
         return try WaiterConfiguration<DescribeStacksInput, DescribeStacksOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)

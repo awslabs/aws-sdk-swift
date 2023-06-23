@@ -18,7 +18,7 @@ extension PIClientTypes.DataPoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
         timestamp = timestampDecoded
@@ -37,7 +37,7 @@ extension PIClientTypes {
         /// This member is required.
         public var value: Swift.Double?
 
-        public init (
+        public init(
             timestamp: ClientRuntime.Date? = nil,
             value: Swift.Double? = nil
         )
@@ -178,7 +178,7 @@ public struct DescribeDimensionKeysInput: Swift.Equatable {
     /// This member is required.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         additionalMetrics: [Swift.String]? = nil,
         endTime: ClientRuntime.Date? = nil,
         filter: [Swift.String:Swift.String]? = nil,
@@ -239,7 +239,7 @@ extension DescribeDimensionKeysInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -286,35 +286,22 @@ extension DescribeDimensionKeysInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDimensionKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeDimensionKeysOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeDimensionKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeDimensionKeysOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeDimensionKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
@@ -344,7 +331,7 @@ public struct DescribeDimensionKeysOutputResponse: Swift.Equatable {
     /// If PartitionBy was present in the request, PartitionKeys contains the breakdown of dimension keys by the specified partitions.
     public var partitionKeys: [PIClientTypes.ResponsePartitionKey]?
 
-    public init (
+    public init(
         alignedEndTime: ClientRuntime.Date? = nil,
         alignedStartTime: ClientRuntime.Date? = nil,
         keys: [PIClientTypes.DimensionKeyDescription]? = nil,
@@ -377,7 +364,7 @@ extension DescribeDimensionKeysOutputResponseBody: Swift.Decodable {
         case partitionKeys = "PartitionKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alignedStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .alignedStartTime)
         alignedStartTime = alignedStartTimeDecoded
@@ -457,7 +444,7 @@ extension PIClientTypes.DimensionDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -470,7 +457,7 @@ extension PIClientTypes {
         /// The identifier of a dimension.
         public var identifier: Swift.String?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil
         )
         {
@@ -503,7 +490,7 @@ extension PIClientTypes.DimensionGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
@@ -667,7 +654,7 @@ extension PIClientTypes {
         /// The maximum number of items to fetch for this dimension group.
         public var limit: Swift.Int?
 
-        public init (
+        public init(
             dimensions: [Swift.String]? = nil,
             group: Swift.String? = nil,
             limit: Swift.Int? = nil
@@ -700,7 +687,7 @@ extension PIClientTypes.DimensionGroupDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
         group = groupDecoded
@@ -726,7 +713,7 @@ extension PIClientTypes {
         /// The name of the dimension group.
         public var group: Swift.String?
 
-        public init (
+        public init(
             dimensions: [PIClientTypes.DimensionDetail]? = nil,
             group: Swift.String? = nil
         )
@@ -771,7 +758,7 @@ extension PIClientTypes.DimensionKeyDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dimensions)
         var dimensionsDecoded0: [Swift.String:Swift.String]? = nil
@@ -823,7 +810,7 @@ extension PIClientTypes {
         /// The aggregated metric value for the dimensions, over the requested time range.
         public var total: Swift.Double?
 
-        public init (
+        public init(
             additionalMetrics: [Swift.String:Swift.Double]? = nil,
             dimensions: [Swift.String:Swift.String]? = nil,
             partitions: [Swift.Double]? = nil,
@@ -859,7 +846,7 @@ extension PIClientTypes.DimensionKeyDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
@@ -894,7 +881,7 @@ extension PIClientTypes {
         /// * db.sql.statement (Amazon RDS and Aurora)
         public var value: Swift.String?
 
-        public init (
+        public init(
             dimension: Swift.String? = nil,
             status: PIClientTypes.DetailStatus? = nil,
             value: Swift.String? = nil
@@ -920,7 +907,7 @@ extension PIClientTypes.FeatureMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(PIClientTypes.FeatureStatus.self, forKey: .status)
         status = statusDecoded
@@ -945,7 +932,7 @@ extension PIClientTypes {
         /// * UNKNOWN - The feature status couldn't be determined.
         public var status: PIClientTypes.FeatureStatus?
 
-        public init (
+        public init(
             status: PIClientTypes.FeatureStatus? = nil
         )
         {
@@ -1065,7 +1052,7 @@ public struct GetDimensionKeyDetailsInput: Swift.Equatable {
     /// This member is required.
     public var serviceType: PIClientTypes.ServiceType?
 
-    public init (
+    public init(
         group: Swift.String? = nil,
         groupIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
@@ -1098,7 +1085,7 @@ extension GetDimensionKeyDetailsInputBody: Swift.Decodable {
         case serviceType = "ServiceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -1122,35 +1109,22 @@ extension GetDimensionKeyDetailsInputBody: Swift.Decodable {
     }
 }
 
-extension GetDimensionKeyDetailsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDimensionKeyDetailsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDimensionKeyDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDimensionKeyDetailsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDimensionKeyDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensions = output.dimensions
@@ -1164,7 +1138,7 @@ public struct GetDimensionKeyDetailsOutputResponse: Swift.Equatable {
     /// The details for the requested dimensions.
     public var dimensions: [PIClientTypes.DimensionKeyDetail]?
 
-    public init (
+    public init(
         dimensions: [PIClientTypes.DimensionKeyDetail]? = nil
     )
     {
@@ -1181,7 +1155,7 @@ extension GetDimensionKeyDetailsOutputResponseBody: Swift.Decodable {
         case dimensions = "Dimensions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionsContainer = try containerValues.decodeIfPresent([PIClientTypes.DimensionKeyDetail?].self, forKey: .dimensions)
         var dimensionsDecoded0:[PIClientTypes.DimensionKeyDetail]? = nil
@@ -1228,7 +1202,7 @@ public struct GetResourceMetadataInput: Swift.Equatable {
     /// This member is required.
     public var serviceType: PIClientTypes.ServiceType?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
     )
@@ -1249,7 +1223,7 @@ extension GetResourceMetadataInputBody: Swift.Decodable {
         case serviceType = "ServiceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -1258,35 +1232,22 @@ extension GetResourceMetadataInputBody: Swift.Decodable {
     }
 }
 
-extension GetResourceMetadataOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourceMetadataOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourceMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourceMetadataOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.features = output.features
@@ -1304,7 +1265,7 @@ public struct GetResourceMetadataOutputResponse: Swift.Equatable {
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     public var identifier: Swift.String?
 
-    public init (
+    public init(
         features: [Swift.String:PIClientTypes.FeatureMetadata]? = nil,
         identifier: Swift.String? = nil
     )
@@ -1325,7 +1286,7 @@ extension GetResourceMetadataOutputResponseBody: Swift.Decodable {
         case identifier = "Identifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -1439,7 +1400,7 @@ public struct GetResourceMetricsInput: Swift.Equatable {
     /// This member is required.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         endTime: ClientRuntime.Date? = nil,
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -1488,7 +1449,7 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -1520,35 +1481,22 @@ extension GetResourceMetricsInputBody: Swift.Decodable {
     }
 }
 
-extension GetResourceMetricsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetResourceMetricsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetResourceMetricsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
@@ -1578,7 +1526,7 @@ public struct GetResourceMetricsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         alignedEndTime: ClientRuntime.Date? = nil,
         alignedStartTime: ClientRuntime.Date? = nil,
         identifier: Swift.String? = nil,
@@ -1611,7 +1559,7 @@ extension GetResourceMetricsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alignedStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .alignedStartTime)
         alignedStartTime = alignedStartTimeDecoded
@@ -1636,37 +1584,41 @@ extension GetResourceMetricsOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalServiceError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServiceErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request failed due to an unknown error.
-public struct InternalServiceError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1679,7 +1631,7 @@ extension InternalServiceErrorBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1687,37 +1639,41 @@ extension InternalServiceErrorBody: Swift.Decodable {
 }
 
 extension InvalidArgumentException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One of the arguments provided is invalid for this request.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidArgumentException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1730,7 +1686,7 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1790,7 +1746,7 @@ public struct ListAvailableResourceDimensionsInput: Swift.Equatable {
     /// This member is required.
     public var serviceType: PIClientTypes.ServiceType?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [Swift.String]? = nil,
@@ -1823,7 +1779,7 @@ extension ListAvailableResourceDimensionsInputBody: Swift.Decodable {
         case serviceType = "ServiceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -1847,35 +1803,22 @@ extension ListAvailableResourceDimensionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAvailableResourceDimensionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableResourceDimensionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableResourceDimensionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableResourceDimensionsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableResourceDimensionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricDimensions = output.metricDimensions
@@ -1893,7 +1836,7 @@ public struct ListAvailableResourceDimensionsOutputResponse: Swift.Equatable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         metricDimensions: [PIClientTypes.MetricDimensionGroups]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1914,7 +1857,7 @@ extension ListAvailableResourceDimensionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDimensionsContainer = try containerValues.decodeIfPresent([PIClientTypes.MetricDimensionGroups?].self, forKey: .metricDimensions)
         var metricDimensionsDecoded0:[PIClientTypes.MetricDimensionGroups]? = nil
@@ -1993,7 +1936,7 @@ public struct ListAvailableResourceMetricsInput: Swift.Equatable {
     /// This member is required.
     public var serviceType: PIClientTypes.ServiceType?
 
-    public init (
+    public init(
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         metricTypes: [Swift.String]? = nil,
@@ -2026,7 +1969,7 @@ extension ListAvailableResourceMetricsInputBody: Swift.Decodable {
         case serviceType = "ServiceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceTypeDecoded = try containerValues.decodeIfPresent(PIClientTypes.ServiceType.self, forKey: .serviceType)
         serviceType = serviceTypeDecoded
@@ -2050,35 +1993,22 @@ extension ListAvailableResourceMetricsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAvailableResourceMetricsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAvailableResourceMetricsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableResourceMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAvailableResourceMetricsOutputError: Swift.Error, Swift.Equatable {
-    case internalServiceError(InternalServiceError)
-    case invalidArgumentException(InvalidArgumentException)
-    case notAuthorizedException(NotAuthorizedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
@@ -2096,7 +2026,7 @@ public struct ListAvailableResourceMetricsOutputResponse: Swift.Equatable {
     /// A pagination token that indicates the response didn’t return all available records because MaxRecords was specified in the previous request. To get the remaining records, specify NextToken in a separate request with this value.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         metrics: [PIClientTypes.ResponseResourceMetric]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2117,7 +2047,7 @@ extension ListAvailableResourceMetricsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricsContainer = try containerValues.decodeIfPresent([PIClientTypes.ResponseResourceMetric?].self, forKey: .metrics)
         var metricsDecoded0:[PIClientTypes.ResponseResourceMetric]? = nil
@@ -2154,7 +2084,7 @@ extension PIClientTypes.MetricDimensionGroups: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -2180,7 +2110,7 @@ extension PIClientTypes {
         /// The metric type to which the dimension information belongs.
         public var metric: Swift.String?
 
-        public init (
+        public init(
             groups: [PIClientTypes.DimensionGroupDetail]? = nil,
             metric: Swift.String? = nil
         )
@@ -2211,7 +2141,7 @@ extension PIClientTypes.MetricKeyDataPoints: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(PIClientTypes.ResponseResourceMetricKey.self, forKey: .key)
         key = keyDecoded
@@ -2237,7 +2167,7 @@ extension PIClientTypes {
         /// The dimensions to which the data points apply.
         public var key: PIClientTypes.ResponseResourceMetricKey?
 
-        public init (
+        public init(
             dataPoints: [PIClientTypes.DataPoint]? = nil,
             key: PIClientTypes.ResponseResourceMetricKey? = nil
         )
@@ -2272,7 +2202,7 @@ extension PIClientTypes.MetricQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -2316,7 +2246,7 @@ extension PIClientTypes {
         /// This member is required.
         public var metric: Swift.String?
 
-        public init (
+        public init(
             filter: [Swift.String:Swift.String]? = nil,
             groupBy: PIClientTypes.DimensionGroup? = nil,
             metric: Swift.String? = nil
@@ -2331,37 +2261,41 @@ extension PIClientTypes {
 }
 
 extension NotAuthorizedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: NotAuthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The user is not authorized to perform this request.
-public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotAuthorizedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2374,7 +2308,7 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2428,7 +2362,7 @@ extension PIClientTypes.ResponsePartitionKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dimensionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dimensions)
         var dimensionsDecoded0: [Swift.String:Swift.String]? = nil
@@ -2451,7 +2385,7 @@ extension PIClientTypes {
         /// This member is required.
         public var dimensions: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             dimensions: [Swift.String:Swift.String]? = nil
         )
         {
@@ -2481,7 +2415,7 @@ extension PIClientTypes.ResponseResourceMetric: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -2502,7 +2436,7 @@ extension PIClientTypes {
         /// The unit of the metric.
         public var unit: Swift.String?
 
-        public init (
+        public init(
             description: Swift.String? = nil,
             metric: Swift.String? = nil,
             unit: Swift.String? = nil
@@ -2535,7 +2469,7 @@ extension PIClientTypes.ResponseResourceMetricKey: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -2571,7 +2505,7 @@ extension PIClientTypes {
         /// This member is required.
         public var metric: Swift.String?
 
-        public init (
+        public init(
             dimensions: [Swift.String:Swift.String]? = nil,
             metric: Swift.String? = nil
         )

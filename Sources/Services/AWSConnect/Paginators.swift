@@ -201,6 +201,37 @@ extension PaginatorSequence where Input == ListBotsInput, Output == ListBotsOutp
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListContactEvaluationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactEvaluationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactEvaluationsOutputResponse`
+    public func listContactEvaluationsPaginated(input: ListContactEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListContactEvaluationsInput, ListContactEvaluationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListContactEvaluationsInput, ListContactEvaluationsOutputResponse>(input: input, inputKey: \ListContactEvaluationsInput.nextToken, outputKey: \ListContactEvaluationsOutputResponse.nextToken, paginationFunction: self.listContactEvaluations(input:))
+    }
+}
+
+extension ListContactEvaluationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContactEvaluationsInput {
+        return ListContactEvaluationsInput(
+            contactId: self.contactId,
+            instanceId: self.instanceId,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListContactEvaluationsInput, Output == ListContactEvaluationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listContactEvaluationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.EvaluationSummary]`
+    /// - Returns: `[ConnectClientTypes.EvaluationSummary]`
+    public func evaluationSummaryList() async throws -> [ConnectClientTypes.EvaluationSummary] {
+        return try await self.asyncCompactMap { item in item.evaluationSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListContactFlowModulesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -326,6 +357,69 @@ extension PaginatorSequence where Input == ListDefaultVocabulariesInput, Output 
     /// - Returns: `[ConnectClientTypes.DefaultVocabulary]`
     public func defaultVocabularyList() async throws -> [ConnectClientTypes.DefaultVocabulary] {
         return try await self.asyncCompactMap { item in item.defaultVocabularyList }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[ListEvaluationFormsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEvaluationFormsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEvaluationFormsOutputResponse`
+    public func listEvaluationFormsPaginated(input: ListEvaluationFormsInput) -> ClientRuntime.PaginatorSequence<ListEvaluationFormsInput, ListEvaluationFormsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListEvaluationFormsInput, ListEvaluationFormsOutputResponse>(input: input, inputKey: \ListEvaluationFormsInput.nextToken, outputKey: \ListEvaluationFormsOutputResponse.nextToken, paginationFunction: self.listEvaluationForms(input:))
+    }
+}
+
+extension ListEvaluationFormsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEvaluationFormsInput {
+        return ListEvaluationFormsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListEvaluationFormsInput, Output == ListEvaluationFormsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEvaluationFormsPaginated`
+    /// to access the nested member `[ConnectClientTypes.EvaluationFormSummary]`
+    /// - Returns: `[ConnectClientTypes.EvaluationFormSummary]`
+    public func evaluationFormSummaryList() async throws -> [ConnectClientTypes.EvaluationFormSummary] {
+        return try await self.asyncCompactMap { item in item.evaluationFormSummaryList }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[ListEvaluationFormVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEvaluationFormVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEvaluationFormVersionsOutputResponse`
+    public func listEvaluationFormVersionsPaginated(input: ListEvaluationFormVersionsInput) -> ClientRuntime.PaginatorSequence<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutputResponse>(input: input, inputKey: \ListEvaluationFormVersionsInput.nextToken, outputKey: \ListEvaluationFormVersionsOutputResponse.nextToken, paginationFunction: self.listEvaluationFormVersions(input:))
+    }
+}
+
+extension ListEvaluationFormVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEvaluationFormVersionsInput {
+        return ListEvaluationFormVersionsInput(
+            evaluationFormId: self.evaluationFormId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListEvaluationFormVersionsInput, Output == ListEvaluationFormVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEvaluationFormVersionsPaginated`
+    /// to access the nested member `[ConnectClientTypes.EvaluationFormVersionSummary]`
+    /// - Returns: `[ConnectClientTypes.EvaluationFormVersionSummary]`
+    public func evaluationFormVersionSummaryList() async throws -> [ConnectClientTypes.EvaluationFormVersionSummary] {
+        return try await self.asyncCompactMap { item in item.evaluationFormVersionSummaryList }
     }
 }
 extension ConnectClient {
@@ -1123,6 +1217,72 @@ extension PaginatorSequence where Input == SearchAvailablePhoneNumbersInput, Out
     }
 }
 extension ConnectClient {
+    /// Paginate over `[SearchHoursOfOperationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchHoursOfOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchHoursOfOperationsOutputResponse`
+    public func searchHoursOfOperationsPaginated(input: SearchHoursOfOperationsInput) -> ClientRuntime.PaginatorSequence<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutputResponse>(input: input, inputKey: \SearchHoursOfOperationsInput.nextToken, outputKey: \SearchHoursOfOperationsOutputResponse.nextToken, paginationFunction: self.searchHoursOfOperations(input:))
+    }
+}
+
+extension SearchHoursOfOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchHoursOfOperationsInput {
+        return SearchHoursOfOperationsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where Input == SearchHoursOfOperationsInput, Output == SearchHoursOfOperationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchHoursOfOperationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.HoursOfOperation]`
+    /// - Returns: `[ConnectClientTypes.HoursOfOperation]`
+    public func hoursOfOperations() async throws -> [ConnectClientTypes.HoursOfOperation] {
+        return try await self.asyncCompactMap { item in item.hoursOfOperations }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchPromptsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchPromptsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchPromptsOutputResponse`
+    public func searchPromptsPaginated(input: SearchPromptsInput) -> ClientRuntime.PaginatorSequence<SearchPromptsInput, SearchPromptsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchPromptsInput, SearchPromptsOutputResponse>(input: input, inputKey: \SearchPromptsInput.nextToken, outputKey: \SearchPromptsOutputResponse.nextToken, paginationFunction: self.searchPrompts(input:))
+    }
+}
+
+extension SearchPromptsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchPromptsInput {
+        return SearchPromptsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where Input == SearchPromptsInput, Output == SearchPromptsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchPromptsPaginated`
+    /// to access the nested member `[ConnectClientTypes.Prompt]`
+    /// - Returns: `[ConnectClientTypes.Prompt]`
+    public func prompts() async throws -> [ConnectClientTypes.Prompt] {
+        return try await self.asyncCompactMap { item in item.prompts }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[SearchQueuesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1153,6 +1313,39 @@ extension PaginatorSequence where Input == SearchQueuesInput, Output == SearchQu
     /// - Returns: `[ConnectClientTypes.Queue]`
     public func queues() async throws -> [ConnectClientTypes.Queue] {
         return try await self.asyncCompactMap { item in item.queues }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchQuickConnectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchQuickConnectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchQuickConnectsOutputResponse`
+    public func searchQuickConnectsPaginated(input: SearchQuickConnectsInput) -> ClientRuntime.PaginatorSequence<SearchQuickConnectsInput, SearchQuickConnectsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchQuickConnectsInput, SearchQuickConnectsOutputResponse>(input: input, inputKey: \SearchQuickConnectsInput.nextToken, outputKey: \SearchQuickConnectsOutputResponse.nextToken, paginationFunction: self.searchQuickConnects(input:))
+    }
+}
+
+extension SearchQuickConnectsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchQuickConnectsInput {
+        return SearchQuickConnectsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where Input == SearchQuickConnectsInput, Output == SearchQuickConnectsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchQuickConnectsPaginated`
+    /// to access the nested member `[ConnectClientTypes.QuickConnect]`
+    /// - Returns: `[ConnectClientTypes.QuickConnect]`
+    public func quickConnects() async throws -> [ConnectClientTypes.QuickConnect] {
+        return try await self.asyncCompactMap { item in item.quickConnects }
     }
 }
 extension ConnectClient {

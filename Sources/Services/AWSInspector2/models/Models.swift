@@ -3,38 +3,42 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -47,7 +51,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -74,7 +78,7 @@ extension Inspector2ClientTypes.Account: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -98,7 +102,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var status: Inspector2ClientTypes.Status?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             resourceStatus: Inspector2ClientTypes.ResourceStatus? = nil,
             status: Inspector2ClientTypes.Status? = nil
@@ -136,7 +140,7 @@ extension Inspector2ClientTypes.AccountAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let findingTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AggregationFindingType.self, forKey: .findingType)
         findingType = findingTypeDecoded
@@ -161,7 +165,7 @@ extension Inspector2ClientTypes {
         /// The sort order (ascending or descending).
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             findingType: Inspector2ClientTypes.AggregationFindingType? = nil,
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.AccountSortBy? = nil,
@@ -193,7 +197,7 @@ extension Inspector2ClientTypes.AccountAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -210,7 +214,7 @@ extension Inspector2ClientTypes {
         /// The number of findings by severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         )
@@ -277,7 +281,7 @@ extension Inspector2ClientTypes.AccountState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -301,7 +305,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var state: Inspector2ClientTypes.State?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             resourceState: Inspector2ClientTypes.ResourceState? = nil,
             state: Inspector2ClientTypes.State? = nil
@@ -393,7 +397,7 @@ extension Inspector2ClientTypes.AggregationRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let accountaggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.AccountAggregation.self, forKey: .accountaggregation)
         if let accountaggregation = accountaggregationDecoded {
@@ -565,7 +569,7 @@ extension Inspector2ClientTypes.AggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let accountaggregationDecoded = try values.decodeIfPresent(Inspector2ClientTypes.AccountAggregationResponse.self, forKey: .accountaggregation)
         if let accountaggregation = accountaggregationDecoded {
@@ -738,7 +742,7 @@ extension Inspector2ClientTypes.AmiAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amisContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .amis)
         var amisDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -768,7 +772,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             amis: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.AmiSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
@@ -806,7 +810,7 @@ extension Inspector2ClientTypes.AmiAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amiDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ami)
         ami = amiDecoded
@@ -832,7 +836,7 @@ extension Inspector2ClientTypes {
         /// An object that contains the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             affectedInstances: Swift.Int? = nil,
             ami: Swift.String? = nil,
@@ -942,7 +946,7 @@ public struct AssociateMemberInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -959,44 +963,30 @@ extension AssociateMemberInputBody: Swift.Decodable {
         case accountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
     }
 }
 
-extension AssociateMemberOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension AssociateMemberOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum AssociateMemberOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateMemberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AssociateMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
@@ -1011,7 +1001,7 @@ public struct AssociateMemberOutputResponse: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -1028,11 +1018,100 @@ extension AssociateMemberOutputResponseBody: Swift.Decodable {
         case accountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
     }
+}
+
+extension Inspector2ClientTypes.AtigData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firstSeen
+        case lastSeen
+        case targets
+        case ttps
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstSeen = self.firstSeen {
+            try encodeContainer.encodeTimestamp(firstSeen, format: .epochSeconds, forKey: .firstSeen)
+        }
+        if let lastSeen = self.lastSeen {
+            try encodeContainer.encodeTimestamp(lastSeen, format: .epochSeconds, forKey: .lastSeen)
+        }
+        if let targets = targets {
+            var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
+            }
+        }
+        if let ttps = ttps {
+            var ttpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ttps)
+            for ttp0 in ttps {
+                try ttpsContainer.encode(ttp0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firstSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .firstSeen)
+        firstSeen = firstSeenDecoded
+        let lastSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSeen)
+        lastSeen = lastSeenDecoded
+        let targetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targets)
+        var targetsDecoded0:[Swift.String]? = nil
+        if let targetsContainer = targetsContainer {
+            targetsDecoded0 = [Swift.String]()
+            for string0 in targetsContainer {
+                if let string0 = string0 {
+                    targetsDecoded0?.append(string0)
+                }
+            }
+        }
+        targets = targetsDecoded0
+        let ttpsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ttps)
+        var ttpsDecoded0:[Swift.String]? = nil
+        if let ttpsContainer = ttpsContainer {
+            ttpsDecoded0 = [Swift.String]()
+            for string0 in ttpsContainer {
+                if let string0 = string0 {
+                    ttpsDecoded0?.append(string0)
+                }
+            }
+        }
+        ttps = ttpsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Amazon Web Services Threat Intel Group (ATIG) details for a specific vulnerability.
+    public struct AtigData: Swift.Equatable {
+        /// The date and time this vulnerability was first observed.
+        public var firstSeen: ClientRuntime.Date?
+        /// The date and time this vulnerability was last observed.
+        public var lastSeen: ClientRuntime.Date?
+        /// The commercial sectors this vulnerability targets.
+        public var targets: [Swift.String]?
+        /// The [MITRE ATT&CK](https://attack.mitre.org/) tactics, techniques, and procedures (TTPs) associated with vulnerability.
+        public var ttps: [Swift.String]?
+
+        public init(
+            firstSeen: ClientRuntime.Date? = nil,
+            lastSeen: ClientRuntime.Date? = nil,
+            targets: [Swift.String]? = nil,
+            ttps: [Swift.String]? = nil
+        )
+        {
+            self.firstSeen = firstSeen
+            self.lastSeen = lastSeen
+            self.targets = targets
+            self.ttps = ttps
+        }
+    }
+
 }
 
 extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
@@ -1055,7 +1134,7 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2Decoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ec2)
         ec2 = ec2Decoded
@@ -1075,10 +1154,10 @@ extension Inspector2ClientTypes {
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ecr: Swift.Bool?
-        /// Represents whether AWS Lambda scans are automatically enabled for new members of your Amazon Inspector organization.
+        /// Represents whether AWS Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
         public var lambda: Swift.Bool?
 
-        public init (
+        public init(
             ec2: Swift.Bool? = nil,
             ecr: Swift.Bool? = nil,
             lambda: Swift.Bool? = nil
@@ -1146,7 +1225,7 @@ extension Inspector2ClientTypes.AwsEc2InstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -1213,7 +1292,7 @@ extension Inspector2ClientTypes {
         /// The VPC ID of the Amazon EC2 instance.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             iamInstanceProfileArn: Swift.String? = nil,
             imageId: Swift.String? = nil,
             ipV4Addresses: [Swift.String]? = nil,
@@ -1292,7 +1371,7 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .resourceIds)
         var resourceIdsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -1374,7 +1453,7 @@ extension Inspector2ClientTypes {
         /// The sort order (ascending or descending).
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             architectures: [Inspector2ClientTypes.StringFilter]? = nil,
             imageShas: [Inspector2ClientTypes.StringFilter]? = nil,
             imageTags: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -1435,7 +1514,7 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -1482,7 +1561,7 @@ extension Inspector2ClientTypes {
         /// The number of finding by severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             architecture: Swift.String? = nil,
             imageSha: Swift.String? = nil,
@@ -1547,7 +1626,7 @@ extension Inspector2ClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
         repositoryName = repositoryNameDecoded
@@ -1600,7 +1679,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var repositoryName: Swift.String?
 
-        public init (
+        public init(
             architecture: Swift.String? = nil,
             author: Swift.String? = nil,
             imageHash: Swift.String? = nil,
@@ -1713,7 +1792,7 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
         functionName = functionNameDecoded
@@ -1785,7 +1864,7 @@ extension Inspector2ClientTypes {
         /// The AWS Lambda function's networking configuration.
         public var vpcConfig: Inspector2ClientTypes.LambdaVpcConfig?
 
-        public init (
+        public init(
             architectures: [Inspector2ClientTypes.Architecture]? = nil,
             codeSha256: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
@@ -1814,38 +1893,42 @@ extension Inspector2ClientTypes {
 }
 
 extension BadRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more tags submitted as part of the request is not valid.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1858,7 +1941,7 @@ extension BadRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1891,7 +1974,7 @@ public struct BatchGetAccountStatusInput: Swift.Equatable {
     /// The 12-digit Amazon Web Services account IDs of the accounts to retrieve Amazon Inspector status for.
     public var accountIds: [Swift.String]?
 
-    public init (
+    public init(
         accountIds: [Swift.String]? = nil
     )
     {
@@ -1908,7 +1991,7 @@ extension BatchGetAccountStatusInputBody: Swift.Decodable {
         case accountIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
         var accountIdsDecoded0:[Swift.String]? = nil
@@ -1924,39 +2007,24 @@ extension BatchGetAccountStatusInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetAccountStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetAccountStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetAccountStatusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetAccountStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
@@ -1975,7 +2043,7 @@ public struct BatchGetAccountStatusOutputResponse: Swift.Equatable {
     /// An array of objects detailing any accounts that failed to enable Amazon Inspector and why.
     public var failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 
-    public init (
+    public init(
         accounts: [Inspector2ClientTypes.AccountState]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
     )
@@ -1996,7 +2064,7 @@ extension BatchGetAccountStatusOutputResponseBody: Swift.Decodable {
         case failedAccounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.AccountState?].self, forKey: .accounts)
         var accountsDecoded0:[Inspector2ClientTypes.AccountState]? = nil
@@ -2050,7 +2118,7 @@ public struct BatchGetFreeTrialInfoInput: Swift.Equatable {
     /// This member is required.
     public var accountIds: [Swift.String]?
 
-    public init (
+    public init(
         accountIds: [Swift.String]? = nil
     )
     {
@@ -2067,7 +2135,7 @@ extension BatchGetFreeTrialInfoInputBody: Swift.Decodable {
         case accountIds
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
         var accountIdsDecoded0:[Swift.String]? = nil
@@ -2083,37 +2151,23 @@ extension BatchGetFreeTrialInfoInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetFreeTrialInfoOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetFreeTrialInfoOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetFreeTrialInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetFreeTrialInfoOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetFreeTrialInfoOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetFreeTrialInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
@@ -2133,7 +2187,7 @@ public struct BatchGetFreeTrialInfoOutputResponse: Swift.Equatable {
     /// This member is required.
     public var failedAccounts: [Inspector2ClientTypes.FreeTrialInfoError]?
 
-    public init (
+    public init(
         accounts: [Inspector2ClientTypes.FreeTrialAccountInfo]? = nil,
         failedAccounts: [Inspector2ClientTypes.FreeTrialInfoError]? = nil
     )
@@ -2154,7 +2208,7 @@ extension BatchGetFreeTrialInfoOutputResponseBody: Swift.Decodable {
         case failedAccounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FreeTrialAccountInfo?].self, forKey: .accounts)
         var accountsDecoded0:[Inspector2ClientTypes.FreeTrialAccountInfo]? = nil
@@ -2178,6 +2232,289 @@ extension BatchGetFreeTrialInfoOutputResponseBody: Swift.Decodable {
             }
         }
         failedAccounts = failedAccountsDecoded0
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionstatus/member/batch/get"
+    }
+}
+
+public struct BatchGetMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+    /// The unique identifiers for the Amazon Web Services accounts to retrieve Amazon Inspector deep inspection activation status for.
+    public var accountIds: [Swift.String]?
+
+    public init(
+        accountIds: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+    }
+}
+
+struct BatchGetMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+    let accountIds: [Swift.String]?
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+public enum BatchGetMemberEc2DeepInspectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetMemberEc2DeepInspectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountIds = output.accountIds
+            self.failedAccountIds = output.failedAccountIds
+        } else {
+            self.accountIds = nil
+            self.failedAccountIds = nil
+        }
+    }
+}
+
+public struct BatchGetMemberEc2DeepInspectionStatusOutputResponse: Swift.Equatable {
+    /// An array of objects that provide details on the activation status of Amazon Inspector deep inspection for each of the requested accounts.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    /// An array of objects that provide details on any accounts that failed to activate Amazon Inspector deep inspection and why.
+    public var failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+
+    public init(
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
+        failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.failedAccountIds = failedAccountIds
+    }
+}
+
+struct BatchGetMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+}
+
+extension BatchGetMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case failedAccountIds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let failedAccountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState?].self, forKey: .failedAccountIds)
+        var failedAccountIdsDecoded0:[Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+        if let failedAccountIdsContainer = failedAccountIdsContainer {
+            failedAccountIdsDecoded0 = [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in failedAccountIdsContainer {
+                if let structure0 = structure0 {
+                    failedAccountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedAccountIds = failedAccountIdsDecoded0
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for memberaccountec2deepinspectionstatus0 in accountIds {
+                try accountIdsContainer.encode(memberaccountec2deepinspectionstatus0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionstatus/member/batch/update"
+    }
+}
+
+public struct BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+    /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for.
+    /// This member is required.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
+
+    public init(
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]? = nil
+    )
+    {
+        self.accountIds = accountIds
+    }
+}
+
+struct BatchUpdateMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+public enum BatchUpdateMemberEc2DeepInspectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountIds = output.accountIds
+            self.failedAccountIds = output.failedAccountIds
+        } else {
+            self.accountIds = nil
+            self.failedAccountIds = nil
+        }
+    }
+}
+
+public struct BatchUpdateMemberEc2DeepInspectionStatusOutputResponse: Swift.Equatable {
+    /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status was successfully changed for.
+    public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status could not be successfully changed for.
+    public var failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+
+    public init(
+        accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
+        failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.failedAccountIds = failedAccountIds
+    }
+}
+
+struct BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Equatable {
+    let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
+    let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
+}
+
+extension BatchUpdateMemberEc2DeepInspectionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case failedAccountIds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in accountIdsContainer {
+                if let structure0 = structure0 {
+                    accountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let failedAccountIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState?].self, forKey: .failedAccountIds)
+        var failedAccountIdsDecoded0:[Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
+        if let failedAccountIdsContainer = failedAccountIdsContainer {
+            failedAccountIdsDecoded0 = [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]()
+            for structure0 in failedAccountIdsContainer {
+                if let structure0 = structure0 {
+                    failedAccountIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedAccountIds = failedAccountIdsDecoded0
     }
 }
 
@@ -2205,7 +2542,7 @@ public struct CancelFindingsReportInput: Swift.Equatable {
     /// This member is required.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         reportId: Swift.String? = nil
     )
     {
@@ -2222,46 +2559,31 @@ extension CancelFindingsReportInputBody: Swift.Decodable {
         case reportId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
     }
 }
 
-extension CancelFindingsReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CancelFindingsReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelFindingsReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CancelFindingsReportOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelFindingsReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelFindingsReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportId = output.reportId
@@ -2276,7 +2598,7 @@ public struct CancelFindingsReportOutputResponse: Swift.Equatable {
     /// This member is required.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         reportId: Swift.String? = nil
     )
     {
@@ -2293,60 +2615,119 @@ extension CancelFindingsReportOutputResponseBody: Swift.Decodable {
         case reportId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
     }
 }
 
+extension Inspector2ClientTypes.CisaData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case dateAdded
+        case dateDue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let dateAdded = self.dateAdded {
+            try encodeContainer.encodeTimestamp(dateAdded, format: .epochSeconds, forKey: .dateAdded)
+        }
+        if let dateDue = self.dateDue {
+            try encodeContainer.encodeTimestamp(dateDue, format: .epochSeconds, forKey: .dateDue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dateAddedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateAdded)
+        dateAdded = dateAddedDecoded
+        let dateDueDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateDue)
+        dateDue = dateDueDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
+    public struct CisaData: Swift.Equatable {
+        /// The remediation action recommended by CISA for this vulnerability.
+        public var action: Swift.String?
+        /// The date and time CISA added this vulnerability to their catalogue.
+        public var dateAdded: ClientRuntime.Date?
+        /// The date and time CISA expects a fix to have been provided vulnerability.
+        public var dateDue: ClientRuntime.Date?
+
+        public init(
+            action: Swift.String? = nil,
+            dateAdded: ClientRuntime.Date? = nil,
+            dateDue: ClientRuntime.Date? = nil
+        )
+        {
+            self.action = action
+            self.dateAdded = dateAdded
+            self.dateDue = dateDue
+        }
+    }
+
+}
+
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
-            self.resourceType = output.resourceType
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
+            self.properties.resourceType = output.resourceType
         } else {
-            self.message = nil
-            self.resourceId = nil
-            self.resourceType = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
+            self.properties.resourceType = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A conflict occurred.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// The ID of the conflicting resource.
-    /// This member is required.
-    public var resourceId: Swift.String?
-    /// The type of the conflicting resource.
-    /// This member is required.
-    public var resourceType: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the conflicting resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the conflicting resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
-        self.resourceType = resourceType
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -2363,7 +2744,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case resourceType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2390,7 +2771,7 @@ extension Inspector2ClientTypes.Counts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
@@ -2407,13 +2788,58 @@ extension Inspector2ClientTypes {
         /// The key associated with this group
         public var groupKey: Inspector2ClientTypes.GroupKey?
 
-        public init (
+        public init(
             count: Swift.Int = 0,
             groupKey: Inspector2ClientTypes.GroupKey? = nil
         )
         {
             self.count = count
             self.groupKey = groupKey
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CoverageDateFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endInclusive
+        case startInclusive
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endInclusive = self.endInclusive {
+            try encodeContainer.encodeTimestamp(endInclusive, format: .epochSeconds, forKey: .endInclusive)
+        }
+        if let startInclusive = self.startInclusive {
+            try encodeContainer.encodeTimestamp(startInclusive, format: .epochSeconds, forKey: .startInclusive)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startInclusive)
+        startInclusive = startInclusiveDecoded
+        let endInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endInclusive)
+        endInclusive = endInclusiveDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains details of a coverage date filter.
+    public struct CoverageDateFilter: Swift.Equatable {
+        /// A timestamp representing the end of the time period to filter results by.
+        public var endInclusive: ClientRuntime.Date?
+        /// A timestamp representing the start of the time period to filter results by.
+        public var startInclusive: ClientRuntime.Date?
+
+        public init(
+            endInclusive: ClientRuntime.Date? = nil,
+            startInclusive: ClientRuntime.Date? = nil
+        )
+        {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
         }
     }
 
@@ -2428,6 +2854,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         case lambdaFunctionName
         case lambdaFunctionRuntime
         case lambdaFunctionTags
+        case lastScannedAt
         case resourceId
         case resourceType
         case scanStatusCode
@@ -2479,6 +2906,12 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
                 try lambdaFunctionTagsContainer.encode(coveragemapfilter0)
             }
         }
+        if let lastScannedAt = lastScannedAt {
+            var lastScannedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastScannedAt)
+            for coveragedatefilter0 in lastScannedAt {
+                try lastScannedAtContainer.encode(coveragedatefilter0)
+            }
+        }
         if let resourceId = resourceId {
             var resourceIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceId)
             for coveragestringfilter0 in resourceId {
@@ -2511,7 +2944,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scanStatusCodeContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageStringFilter?].self, forKey: .scanStatusCode)
         var scanStatusCodeDecoded0:[Inspector2ClientTypes.CoverageStringFilter]? = nil
@@ -2645,6 +3078,17 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             }
         }
         lambdaFunctionRuntime = lambdaFunctionRuntimeDecoded0
+        let lastScannedAtContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageDateFilter?].self, forKey: .lastScannedAt)
+        var lastScannedAtDecoded0:[Inspector2ClientTypes.CoverageDateFilter]? = nil
+        if let lastScannedAtContainer = lastScannedAtContainer {
+            lastScannedAtDecoded0 = [Inspector2ClientTypes.CoverageDateFilter]()
+            for structure0 in lastScannedAtContainer {
+                if let structure0 = structure0 {
+                    lastScannedAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        lastScannedAt = lastScannedAtDecoded0
     }
 }
 
@@ -2665,9 +3109,11 @@ extension Inspector2ClientTypes {
         public var lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]?
         /// Returns coverage statistics for AWS Lambda functions filtered by tag.
         public var lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
+        /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
+        public var lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION or AWS_ECR_REPOSITORY.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -2676,7 +3122,7 @@ extension Inspector2ClientTypes {
         /// An array of Amazon Inspector scan types to return coverage statistics for.
         public var scanType: [Inspector2ClientTypes.CoverageStringFilter]?
 
-        public init (
+        public init(
             accountId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -2684,6 +3130,7 @@ extension Inspector2ClientTypes {
             lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
+            lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
             resourceId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -2698,6 +3145,7 @@ extension Inspector2ClientTypes {
             self.lambdaFunctionName = lambdaFunctionName
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanStatusCode = scanStatusCode
@@ -2757,7 +3205,7 @@ extension Inspector2ClientTypes.CoverageMapFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CoverageMapComparison.self, forKey: .comparison)
         comparison = comparisonDecoded
@@ -2780,7 +3228,7 @@ extension Inspector2ClientTypes {
         /// The tag value associated with the coverage map filter.
         public var value: Swift.String?
 
-        public init (
+        public init(
             comparison: Inspector2ClientTypes.CoverageMapComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
@@ -2880,7 +3328,7 @@ extension Inspector2ClientTypes.CoverageStringFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CoverageStringComparison.self, forKey: .comparison)
         comparison = comparisonDecoded
@@ -2899,7 +3347,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             comparison: Inspector2ClientTypes.CoverageStringComparison? = nil,
             value: Swift.String? = nil
         )
@@ -2914,6 +3362,7 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
+        case lastScannedAt
         case resourceId
         case resourceMetadata
         case resourceType
@@ -2925,6 +3374,9 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let lastScannedAt = self.lastScannedAt {
+            try encodeContainer.encodeTimestamp(lastScannedAt, format: .epochSeconds, forKey: .lastScannedAt)
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -2943,7 +3395,7 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CoverageResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
@@ -2957,6 +3409,8 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         scanStatus = scanStatusDecoded
         let resourceMetadataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceScanMetadata.self, forKey: .resourceMetadata)
         resourceMetadata = resourceMetadataDecoded
+        let lastScannedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastScannedAt)
+        lastScannedAt = lastScannedAtDecoded
     }
 }
 
@@ -2966,6 +3420,8 @@ extension Inspector2ClientTypes {
         /// The Amazon Web Services account ID of the covered resource.
         /// This member is required.
         public var accountId: Swift.String?
+        /// The date and time the resource was last checked for vulnerabilities.
+        public var lastScannedAt: ClientRuntime.Date?
         /// The ID of the covered resource.
         /// This member is required.
         public var resourceId: Swift.String?
@@ -2980,8 +3436,9 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var scanType: Inspector2ClientTypes.ScanType?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
+            lastScannedAt: ClientRuntime.Date? = nil,
             resourceId: Swift.String? = nil,
             resourceMetadata: Inspector2ClientTypes.ResourceScanMetadata? = nil,
             resourceType: Inspector2ClientTypes.CoverageResourceType? = nil,
@@ -2990,6 +3447,7 @@ extension Inspector2ClientTypes {
         )
         {
             self.accountId = accountId
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
@@ -3059,7 +3517,7 @@ public struct CreateFilterInput: Swift.Equatable {
     /// A list of tags for the filter.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         action: Inspector2ClientTypes.FilterAction? = nil,
         description: Swift.String? = nil,
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
@@ -3096,7 +3554,7 @@ extension CreateFilterInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
@@ -3122,41 +3580,25 @@ extension CreateFilterInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFilterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFilterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFilterOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case badRequestException(BadRequestException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -3171,7 +3613,7 @@ public struct CreateFilterOutputResponse: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -3188,7 +3630,7 @@ extension CreateFilterOutputResponseBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3232,7 +3674,7 @@ public struct CreateFindingsReportInput: Swift.Equatable {
     /// This member is required.
     public var s3Destination: Inspector2ClientTypes.Destination?
 
-    public init (
+    public init(
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
         reportFormat: Inspector2ClientTypes.ReportFormat? = nil,
         s3Destination: Inspector2ClientTypes.Destination? = nil
@@ -3257,7 +3699,7 @@ extension CreateFindingsReportInputBody: Swift.Decodable {
         case s3Destination
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FilterCriteria.self, forKey: .filterCriteria)
         filterCriteria = filterCriteriaDecoded
@@ -3268,39 +3710,24 @@ extension CreateFindingsReportInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFindingsReportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFindingsReportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFindingsReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFindingsReportOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFindingsReportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFindingsReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportId = output.reportId
@@ -3314,7 +3741,7 @@ public struct CreateFindingsReportOutputResponse: Swift.Equatable {
     /// The ID of the report.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         reportId: Swift.String? = nil
     )
     {
@@ -3331,7 +3758,7 @@ extension CreateFindingsReportOutputResponseBody: Swift.Decodable {
         case reportId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
@@ -3367,6 +3794,96 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.Cvss2: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseScore
+        case scoringVector
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if baseScore != 0.0 {
+            try encodeContainer.encode(baseScore, forKey: .baseScore)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore) ?? 0.0
+        baseScore = baseScoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Common Vulnerability Scoring System (CVSS) version 2 details for the vulnerability.
+    public struct Cvss2: Swift.Equatable {
+        /// The CVSS v2 base score for the vulnerability.
+        public var baseScore: Swift.Double
+        /// The scoring vector associated with the CVSS v2 score.
+        public var scoringVector: Swift.String?
+
+        public init(
+            baseScore: Swift.Double = 0.0,
+            scoringVector: Swift.String? = nil
+        )
+        {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.Cvss3: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseScore
+        case scoringVector
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if baseScore != 0.0 {
+            try encodeContainer.encode(baseScore, forKey: .baseScore)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore) ?? 0.0
+        baseScore = baseScoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The Common Vulnerability Scoring System (CVSS) version 3 details for the vulnerability.
+    public struct Cvss3: Swift.Equatable {
+        /// The CVSS v3 base score for the vulnerability.
+        public var baseScore: Swift.Double
+        /// The scoring vector associated with the CVSS v3 score.
+        public var scoringVector: Swift.String?
+
+        public init(
+            baseScore: Swift.Double = 0.0,
+            scoringVector: Swift.String? = nil
+        )
+        {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.CvssScore: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseScore
@@ -3391,7 +3908,7 @@ extension Inspector2ClientTypes.CvssScore: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore)
         baseScore = baseScoreDecoded
@@ -3420,7 +3937,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             baseScore: Swift.Double? = nil,
             scoringVector: Swift.String? = nil,
             source: Swift.String? = nil,
@@ -3452,7 +3969,7 @@ extension Inspector2ClientTypes.CvssScoreAdjustment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -3471,7 +3988,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var reason: Swift.String?
 
-        public init (
+        public init(
             metric: Swift.String? = nil,
             reason: Swift.String? = nil
         )
@@ -3518,7 +4035,7 @@ extension Inspector2ClientTypes.CvssScoreDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scoreSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoreSource)
         scoreSource = scoreSourceDecoded
@@ -3564,7 +4081,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             adjustments: [Inspector2ClientTypes.CvssScoreAdjustment]? = nil,
             cvssSource: Swift.String? = nil,
             score: Swift.Double? = nil,
@@ -3600,7 +4117,7 @@ extension Inspector2ClientTypes.DateFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startInclusiveDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startInclusive)
         startInclusive = startInclusiveDecoded
@@ -3617,7 +4134,7 @@ extension Inspector2ClientTypes {
         /// A timestamp representing the start of the time period filtered on.
         public var startInclusive: ClientRuntime.Date?
 
-        public init (
+        public init(
             endInclusive: ClientRuntime.Date? = nil,
             startInclusive: ClientRuntime.Date? = nil
         )
@@ -3645,7 +4162,7 @@ extension Inspector2ClientTypes.DelegatedAdmin: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -3662,7 +4179,7 @@ extension Inspector2ClientTypes {
         /// The status of the Amazon Inspector delegated administrator.
         public var relationshipStatus: Inspector2ClientTypes.RelationshipStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             relationshipStatus: Inspector2ClientTypes.RelationshipStatus? = nil
         )
@@ -3690,7 +4207,7 @@ extension Inspector2ClientTypes.DelegatedAdminAccount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -3707,7 +4224,7 @@ extension Inspector2ClientTypes {
         /// The status of the Amazon Inspector delegated administrator.
         public var status: Inspector2ClientTypes.DelegatedAdminStatus?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             status: Inspector2ClientTypes.DelegatedAdminStatus? = nil
         )
@@ -3775,7 +4292,7 @@ public struct DeleteFilterInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -3792,46 +4309,31 @@ extension DeleteFilterInputBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
 }
 
-extension DeleteFilterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFilterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFilterOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFilterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -3846,7 +4348,7 @@ public struct DeleteFilterOutputResponse: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -3863,7 +4365,7 @@ extension DeleteFilterOutputResponseBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3878,7 +4380,7 @@ extension DescribeOrganizationConfigurationInput: ClientRuntime.URLPathProvider 
 
 public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
@@ -3886,41 +4388,27 @@ struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
 
 extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeOrganizationConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeOrganizationConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoEnable = output.autoEnable
@@ -3938,7 +4426,7 @@ public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     /// Represents whether your organization has reached the maximum Amazon Web Services account limit for Amazon Inspector.
     public var maxAccountLimitReached: Swift.Bool?
 
-    public init (
+    public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil,
         maxAccountLimitReached: Swift.Bool? = nil
     )
@@ -3959,7 +4447,7 @@ extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
         case maxAccountLimitReached
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoEnableDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AutoEnable.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
@@ -3988,7 +4476,7 @@ extension Inspector2ClientTypes.Destination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -4005,13 +4493,13 @@ extension Inspector2ClientTypes {
         /// The name of the Amazon S3 bucket to export findings to.
         /// This member is required.
         public var bucketName: Swift.String?
-        /// The prefix of the KMS key used to export findings.
+        /// The prefix of the Amazon S3 bucket used to export findings.
         public var keyPrefix: Swift.String?
         /// The ARN of the KMS key used to encrypt data when exporting findings.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
@@ -4049,7 +4537,7 @@ public struct DisableDelegatedAdminAccountInput: Swift.Equatable {
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
 
-    public init (
+    public init(
         delegatedAdminAccountId: Swift.String? = nil
     )
     {
@@ -4066,48 +4554,32 @@ extension DisableDelegatedAdminAccountInputBody: Swift.Decodable {
         case delegatedAdminAccountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delegatedAdminAccountId)
         delegatedAdminAccountId = delegatedAdminAccountIdDecoded
     }
 }
 
-extension DisableDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableDelegatedAdminAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableDelegatedAdminAccountOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableDelegatedAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisableDelegatedAdminAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegatedAdminAccountId = output.delegatedAdminAccountId
@@ -4122,7 +4594,7 @@ public struct DisableDelegatedAdminAccountOutputResponse: Swift.Equatable {
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
 
-    public init (
+    public init(
         delegatedAdminAccountId: Swift.String? = nil
     )
     {
@@ -4139,7 +4611,7 @@ extension DisableDelegatedAdminAccountOutputResponseBody: Swift.Decodable {
         case delegatedAdminAccountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delegatedAdminAccountId)
         delegatedAdminAccountId = delegatedAdminAccountIdDecoded
@@ -4181,7 +4653,7 @@ public struct DisableInput: Swift.Equatable {
     /// The resource scan types you want to disable.
     public var resourceTypes: [Inspector2ClientTypes.ResourceScanType]?
 
-    public init (
+    public init(
         accountIds: [Swift.String]? = nil,
         resourceTypes: [Inspector2ClientTypes.ResourceScanType]? = nil
     )
@@ -4202,7 +4674,7 @@ extension DisableInputBody: Swift.Decodable {
         case resourceTypes
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
         var accountIdsDecoded0:[Swift.String]? = nil
@@ -4229,39 +4701,24 @@ extension DisableInputBody: Swift.Decodable {
     }
 }
 
-extension DisableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
@@ -4280,7 +4737,7 @@ public struct DisableOutputResponse: Swift.Equatable {
     /// Information on any accounts for which Amazon Inspector scans could not be disabled. Details are provided for each account.
     public var failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 
-    public init (
+    public init(
         accounts: [Inspector2ClientTypes.Account]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
     )
@@ -4301,7 +4758,7 @@ extension DisableOutputResponseBody: Swift.Decodable {
         case failedAccounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Account?].self, forKey: .accounts)
         var accountsDecoded0:[Inspector2ClientTypes.Account]? = nil
@@ -4352,7 +4809,7 @@ public struct DisassociateMemberInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -4369,44 +4826,30 @@ extension DisassociateMemberInputBody: Swift.Decodable {
         case accountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
     }
 }
 
-extension DisassociateMemberOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisassociateMemberOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisassociateMemberOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateMemberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisassociateMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
@@ -4421,7 +4864,7 @@ public struct DisassociateMemberOutputResponse: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -4438,10 +4881,48 @@ extension DisassociateMemberOutputResponseBody: Swift.Decodable {
         case accountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum Ec2DeepInspectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case deactivated
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2DeepInspectionStatus] {
+            return [
+                .activated,
+                .deactivated,
+                .failed,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .deactivated: return "DEACTIVATED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Ec2DeepInspectionStatus(rawValue: rawValue) ?? Ec2DeepInspectionStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -4489,7 +4970,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amisContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .amis)
         var amisDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -4558,7 +5039,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             amis: [Inspector2ClientTypes.StringFilter]? = nil,
             instanceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             instanceTags: [Inspector2ClientTypes.MapFilter]? = nil,
@@ -4617,7 +5098,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -4664,7 +5145,7 @@ extension Inspector2ClientTypes {
         /// An object that contains the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             ami: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -4747,7 +5228,7 @@ extension Inspector2ClientTypes.Ec2Metadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -4777,7 +5258,7 @@ extension Inspector2ClientTypes {
         /// The tags attached to the instance.
         public var tags: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             amiId: Swift.String? = nil,
             platform: Inspector2ClientTypes.Ec2Platform? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -4838,7 +5319,7 @@ extension Inspector2ClientTypes.EcrConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rescanDurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrRescanDuration.self, forKey: .rescanDuration)
         rescanDuration = rescanDurationDecoded
@@ -4852,7 +5333,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var rescanDuration: Inspector2ClientTypes.EcrRescanDuration?
 
-        public init (
+        public init(
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil
         )
         {
@@ -4874,7 +5355,7 @@ extension Inspector2ClientTypes.EcrConfigurationState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rescanDurationStateDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrRescanDurationState.self, forKey: .rescanDurationState)
         rescanDurationState = rescanDurationStateDecoded
@@ -4887,7 +5368,7 @@ extension Inspector2ClientTypes {
         /// An object that contains details about the state of the ECR automated re-scan setting.
         public var rescanDurationState: Inspector2ClientTypes.EcrRescanDurationState?
 
-        public init (
+        public init(
             rescanDurationState: Inspector2ClientTypes.EcrRescanDurationState? = nil
         )
         {
@@ -4912,7 +5393,7 @@ extension Inspector2ClientTypes.EcrContainerImageMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tags)
         var tagsDecoded0:[Swift.String]? = nil
@@ -4934,7 +5415,7 @@ extension Inspector2ClientTypes {
         /// Tags associated with the Amazon ECR image metadata.
         public var tags: [Swift.String]?
 
-        public init (
+        public init(
             tags: [Swift.String]? = nil
         )
         {
@@ -4960,7 +5441,7 @@ extension Inspector2ClientTypes.EcrRepositoryMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -4977,7 +5458,7 @@ extension Inspector2ClientTypes {
         /// The frequency of scans.
         public var scanFrequency: Inspector2ClientTypes.EcrScanFrequency?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             scanFrequency: Inspector2ClientTypes.EcrScanFrequency? = nil
         )
@@ -5044,7 +5525,7 @@ extension Inspector2ClientTypes.EcrRescanDurationState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rescanDurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrRescanDuration.self, forKey: .rescanDuration)
         rescanDuration = rescanDurationDecoded
@@ -5065,7 +5546,7 @@ extension Inspector2ClientTypes {
         /// A timestamp representing when the last time the ECR scan duration setting was changed.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil,
             status: Inspector2ClientTypes.EcrRescanDurationStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
@@ -5179,7 +5660,7 @@ public struct EnableDelegatedAdminAccountInput: Swift.Equatable {
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         delegatedAdminAccountId: Swift.String? = nil
     )
@@ -5200,7 +5681,7 @@ extension EnableDelegatedAdminAccountInputBody: Swift.Decodable {
         case delegatedAdminAccountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delegatedAdminAccountId)
         delegatedAdminAccountId = delegatedAdminAccountIdDecoded
@@ -5209,41 +5690,25 @@ extension EnableDelegatedAdminAccountInputBody: Swift.Decodable {
     }
 }
 
-extension EnableDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EnableDelegatedAdminAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EnableDelegatedAdminAccountOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableDelegatedAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EnableDelegatedAdminAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegatedAdminAccountId = output.delegatedAdminAccountId
@@ -5258,7 +5723,7 @@ public struct EnableDelegatedAdminAccountOutputResponse: Swift.Equatable {
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
 
-    public init (
+    public init(
         delegatedAdminAccountId: Swift.String? = nil
     )
     {
@@ -5275,7 +5740,7 @@ extension EnableDelegatedAdminAccountOutputResponseBody: Swift.Decodable {
         case delegatedAdminAccountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delegatedAdminAccountId)
         delegatedAdminAccountId = delegatedAdminAccountIdDecoded
@@ -5324,7 +5789,7 @@ public struct EnableInput: Swift.Equatable {
     /// This member is required.
     public var resourceTypes: [Inspector2ClientTypes.ResourceScanType]?
 
-    public init (
+    public init(
         accountIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         resourceTypes: [Inspector2ClientTypes.ResourceScanType]? = nil
@@ -5349,7 +5814,7 @@ extension EnableInputBody: Swift.Decodable {
         case resourceTypes
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
         var accountIdsDecoded0:[Swift.String]? = nil
@@ -5378,39 +5843,24 @@ extension EnableInputBody: Swift.Decodable {
     }
 }
 
-extension EnableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EnableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EnableOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EnableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accounts = output.accounts
@@ -5429,7 +5879,7 @@ public struct EnableOutputResponse: Swift.Equatable {
     /// Information on any accounts for which Amazon Inspector scans could not be enabled. Details are provided for each account.
     public var failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 
-    public init (
+    public init(
         accounts: [Inspector2ClientTypes.Account]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
     )
@@ -5450,7 +5900,7 @@ extension EnableOutputResponseBody: Swift.Decodable {
         case failedAccounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Account?].self, forKey: .accounts)
         var accountsDecoded0:[Inspector2ClientTypes.Account]? = nil
@@ -5475,6 +5925,41 @@ extension EnableOutputResponseBody: Swift.Decodable {
         }
         failedAccounts = failedAccountsDecoded0
     }
+}
+
+extension Inspector2ClientTypes.Epss: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if score != 0.0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
+        score = scoreDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details about the Exploit Prediction Scoring System (EPSS) score.
+    public struct Epss: Swift.Equatable {
+        /// The Exploit Prediction Scoring System (EPSS) score.
+        public var score: Swift.Double
+
+        public init(
+            score: Swift.Double = 0.0
+        )
+        {
+            self.score = score
+        }
+    }
+
 }
 
 extension Inspector2ClientTypes {
@@ -5577,6 +6062,51 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.ExploitObserved: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firstSeen
+        case lastSeen
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstSeen = self.firstSeen {
+            try encodeContainer.encodeTimestamp(firstSeen, format: .epochSeconds, forKey: .firstSeen)
+        }
+        if let lastSeen = self.lastSeen {
+            try encodeContainer.encodeTimestamp(lastSeen, format: .epochSeconds, forKey: .lastSeen)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSeen)
+        lastSeen = lastSeenDecoded
+        let firstSeenDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .firstSeen)
+        firstSeen = firstSeenDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains information on when this exploit was observed.
+    public struct ExploitObserved: Swift.Equatable {
+        /// The date an time when the exploit was first seen.
+        public var firstSeen: ClientRuntime.Date?
+        /// The date an time when the exploit was last seen.
+        public var lastSeen: ClientRuntime.Date?
+
+        public init(
+            firstSeen: ClientRuntime.Date? = nil,
+            lastSeen: ClientRuntime.Date? = nil
+        )
+        {
+            self.firstSeen = firstSeen
+            self.lastSeen = lastSeen
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.ExploitabilityDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastKnownExploitAt
@@ -5589,7 +6119,7 @@ extension Inspector2ClientTypes.ExploitabilityDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastKnownExploitAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastKnownExploitAt)
         lastKnownExploitAt = lastKnownExploitAtDecoded
@@ -5602,7 +6132,7 @@ extension Inspector2ClientTypes {
         /// The date and time of the last exploit associated with a finding discovered in your environment.
         public var lastKnownExploitAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             lastKnownExploitAt: ClientRuntime.Date? = nil
         )
         {
@@ -5678,7 +6208,7 @@ extension Inspector2ClientTypes.FailedAccount: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -5710,7 +6240,7 @@ extension Inspector2ClientTypes {
         /// The status of Amazon Inspector for the account.
         public var status: Inspector2ClientTypes.Status?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             errorCode: Inspector2ClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
@@ -5723,6 +6253,62 @@ extension Inspector2ClientTypes {
             self.errorMessage = errorMessage
             self.resourceStatus = resourceStatus
             self.status = status
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case ec2ScanStatus
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let ec2ScanStatus = self.ec2ScanStatus {
+            try encodeContainer.encode(ec2ScanStatus.rawValue, forKey: .ec2ScanStatus)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let ec2ScanStatusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .ec2ScanStatus)
+        ec2ScanStatus = ec2ScanStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about a member account in your organization that failed to activate Amazon Inspector deep inspection.
+    public struct FailedMemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member that failed to activate Amazon Inspector deep inspection.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The status of EC2 scanning in the account that failed to activate Amazon Inspector deep inspection.
+        public var ec2ScanStatus: Inspector2ClientTypes.Status?
+        /// The error message explaining why the account failed to activate Amazon Inspector deep inspection.
+        public var errorMessage: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            ec2ScanStatus: Inspector2ClientTypes.Status? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.ec2ScanStatus = ec2ScanStatus
+            self.errorMessage = errorMessage
         }
     }
 
@@ -5779,7 +6365,7 @@ extension Inspector2ClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -5844,7 +6430,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             action: Inspector2ClientTypes.FilterAction? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
@@ -6178,7 +6764,7 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let findingArnContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .findingArn)
         var findingArnDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -6681,7 +7267,7 @@ extension Inspector2ClientTypes {
         /// Details on the vulnerable packages used to filter findings.
         public var vulnerablePackages: [Inspector2ClientTypes.PackageFilter]?
 
-        public init (
+        public init(
             awsAccountId: [Inspector2ClientTypes.StringFilter]? = nil,
             componentId: [Inspector2ClientTypes.StringFilter]? = nil,
             componentType: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -6852,7 +7438,7 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
         findingArn = findingArnDecoded
@@ -6956,7 +7542,7 @@ extension Inspector2ClientTypes {
         /// The date and time the finding was last updated at.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             awsAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
             exploitAvailable: Inspector2ClientTypes.ExploitAvailable? = nil,
@@ -7093,7 +7679,7 @@ extension Inspector2ClientTypes.FindingTypeAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let findingTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AggregationFindingType.self, forKey: .findingType)
         findingType = findingTypeDecoded
@@ -7118,7 +7704,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             findingType: Inspector2ClientTypes.AggregationFindingType? = nil,
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.FindingTypeSortBy? = nil,
@@ -7150,7 +7736,7 @@ extension Inspector2ClientTypes.FindingTypeAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -7167,7 +7753,7 @@ extension Inspector2ClientTypes {
         /// The value to sort results by.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
         )
@@ -7268,7 +7854,7 @@ extension Inspector2ClientTypes.FreeTrialAccountInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -7296,7 +7882,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var freeTrialInfo: [Inspector2ClientTypes.FreeTrialInfo]?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             freeTrialInfo: [Inspector2ClientTypes.FreeTrialInfo]? = nil
         )
@@ -7332,7 +7918,7 @@ extension Inspector2ClientTypes.FreeTrialInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FreeTrialType.self, forKey: .type)
         type = typeDecoded
@@ -7361,7 +7947,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var type: Inspector2ClientTypes.FreeTrialType?
 
-        public init (
+        public init(
             end: ClientRuntime.Date? = nil,
             start: ClientRuntime.Date? = nil,
             status: Inspector2ClientTypes.FreeTrialStatus? = nil,
@@ -7397,7 +7983,7 @@ extension Inspector2ClientTypes.FreeTrialInfoError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -7421,7 +8007,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var message: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             code: Inspector2ClientTypes.FreeTrialInfoErrorCode? = nil,
             message: Swift.String? = nil
@@ -7542,7 +8128,7 @@ extension GetConfigurationInput: ClientRuntime.URLPathProvider {
 
 public struct GetConfigurationInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetConfigurationInputBody: Swift.Equatable {
@@ -7550,39 +8136,26 @@ struct GetConfigurationInputBody: Swift.Equatable {
 
 extension GetConfigurationInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ecrConfiguration = output.ecrConfiguration
@@ -7596,7 +8169,7 @@ public struct GetConfigurationOutputResponse: Swift.Equatable {
     /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState?
 
-    public init (
+    public init(
         ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState? = nil
     )
     {
@@ -7613,7 +8186,7 @@ extension GetConfigurationOutputResponseBody: Swift.Decodable {
         case ecrConfiguration
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ecrConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrConfigurationState.self, forKey: .ecrConfiguration)
         ecrConfiguration = ecrConfigurationDecoded
@@ -7628,7 +8201,7 @@ extension GetDelegatedAdminAccountInput: ClientRuntime.URLPathProvider {
 
 public struct GetDelegatedAdminAccountInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct GetDelegatedAdminAccountInputBody: Swift.Equatable {
@@ -7636,43 +8209,28 @@ struct GetDelegatedAdminAccountInputBody: Swift.Equatable {
 
 extension GetDelegatedAdminAccountInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetDelegatedAdminAccountOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetDelegatedAdminAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetDelegatedAdminAccountOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetDelegatedAdminAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDelegatedAdminAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegatedAdmin = output.delegatedAdmin
@@ -7686,7 +8244,7 @@ public struct GetDelegatedAdminAccountOutputResponse: Swift.Equatable {
     /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
     public var delegatedAdmin: Inspector2ClientTypes.DelegatedAdmin?
 
-    public init (
+    public init(
         delegatedAdmin: Inspector2ClientTypes.DelegatedAdmin? = nil
     )
     {
@@ -7703,10 +8261,132 @@ extension GetDelegatedAdminAccountOutputResponseBody: Swift.Decodable {
         case delegatedAdmin
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.DelegatedAdmin.self, forKey: .delegatedAdmin)
         delegatedAdmin = delegatedAdminDecoded
+    }
+}
+
+extension GetEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/get"
+    }
+}
+
+public struct GetEc2DeepInspectionConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEc2DeepInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorMessage = output.errorMessage
+            self.orgPackagePaths = output.orgPackagePaths
+            self.packagePaths = output.packagePaths
+            self.status = output.status
+        } else {
+            self.errorMessage = nil
+            self.orgPackagePaths = nil
+            self.packagePaths = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// An error message explaining why Amazon Inspector deep inspection configurations could not be retrieved for your account.
+    public var errorMessage: Swift.String?
+    /// The Amazon Inspector deep inspection custom paths for your organization.
+    public var orgPackagePaths: [Swift.String]?
+    /// The Amazon Inspector deep inspection custom paths for your account.
+    public var packagePaths: [Swift.String]?
+    /// The activation status of Amazon Inspector deep inspection in your account.
+    public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        orgPackagePaths: [Swift.String]? = nil,
+        packagePaths: [Swift.String]? = nil,
+        status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.orgPackagePaths = orgPackagePaths
+        self.packagePaths = packagePaths
+        self.status = status
+    }
+}
+
+struct GetEc2DeepInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let packagePaths: [Swift.String]?
+    let orgPackagePaths: [Swift.String]?
+    let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+    let errorMessage: Swift.String?
+}
+
+extension GetEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case orgPackagePaths
+        case packagePaths
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
     }
 }
 
@@ -7733,7 +8413,7 @@ public struct GetFindingsReportStatusInput: Swift.Equatable {
     /// The ID of the report to retrieve the status of.
     public var reportId: Swift.String?
 
-    public init (
+    public init(
         reportId: Swift.String? = nil
     )
     {
@@ -7750,46 +8430,31 @@ extension GetFindingsReportStatusInputBody: Swift.Decodable {
         case reportId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
     }
 }
 
-extension GetFindingsReportStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetFindingsReportStatusOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetFindingsReportStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetFindingsReportStatusOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetFindingsReportStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetFindingsReportStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destination = output.destination
@@ -7823,7 +8488,7 @@ public struct GetFindingsReportStatusOutputResponse: Swift.Equatable {
     /// The status of the report.
     public var status: Inspector2ClientTypes.ExternalReportStatus?
 
-    public init (
+    public init(
         destination: Inspector2ClientTypes.Destination? = nil,
         errorCode: Inspector2ClientTypes.ReportingErrorCode? = nil,
         errorMessage: Swift.String? = nil,
@@ -7860,7 +8525,7 @@ extension GetFindingsReportStatusOutputResponseBody: Swift.Decodable {
         case status
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reportIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reportId)
         reportId = reportIdDecoded
@@ -7901,7 +8566,7 @@ public struct GetMemberInput: Swift.Equatable {
     /// This member is required.
     public var accountId: Swift.String?
 
-    public init (
+    public init(
         accountId: Swift.String? = nil
     )
     {
@@ -7918,46 +8583,31 @@ extension GetMemberInputBody: Swift.Decodable {
         case accountId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
     }
 }
 
-extension GetMemberOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetMemberOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetMemberOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetMemberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.member = output.member
@@ -7971,7 +8621,7 @@ public struct GetMemberOutputResponse: Swift.Equatable {
     /// Details of the retrieved member account.
     public var member: Inspector2ClientTypes.Member?
 
-    public init (
+    public init(
         member: Inspector2ClientTypes.Member? = nil
     )
     {
@@ -7988,7 +8638,7 @@ extension GetMemberOutputResponseBody: Swift.Decodable {
         case member
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let memberDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Member.self, forKey: .member)
         member = memberDecoded
@@ -8073,7 +8723,7 @@ extension Inspector2ClientTypes.ImageLayerAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoriesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .repositories)
         var repositoriesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -8129,7 +8779,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             layerHashes: [Inspector2ClientTypes.StringFilter]? = nil,
             repositories: [Inspector2ClientTypes.StringFilter]? = nil,
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -8175,7 +8825,7 @@ extension Inspector2ClientTypes.ImageLayerAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repository)
         repository = repositoryDecoded
@@ -8208,7 +8858,7 @@ extension Inspector2ClientTypes {
         /// An object that represents the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             layerHash: Swift.String? = nil,
             repository: Swift.String? = nil,
@@ -8273,7 +8923,7 @@ extension Inspector2ClientTypes.InspectorScoreDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adjustedCvssDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CvssScoreDetails.self, forKey: .adjustedCvss)
         adjustedCvss = adjustedCvssDecoded
@@ -8286,7 +8936,7 @@ extension Inspector2ClientTypes {
         /// An object that contains details about the CVSS score given to a finding.
         public var adjustedCvss: Inspector2ClientTypes.CvssScoreDetails?
 
-        public init (
+        public init(
             adjustedCvss: Inspector2ClientTypes.CvssScoreDetails? = nil
         )
         {
@@ -8297,47 +8947,51 @@ extension Inspector2ClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            self.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+            self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         } else {
-            self.retryAfterSeconds = nil
+            self.properties.retryAfterSeconds = nil
         }
-        if let data = try httpResponse.body.toData(),
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request has failed due to an internal failure of the Amazon Inspector service.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = true
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// This member is required.
-    public var message: Swift.String?
-    /// The number of seconds to wait before retrying the request.
-    public var retryAfterSeconds: Swift.Int?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The number of seconds to wait before retrying the request.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
     )
     {
-        self.message = message
-        self.retryAfterSeconds = retryAfterSeconds
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
@@ -8350,7 +9004,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8401,7 +9055,7 @@ extension Inspector2ClientTypes.LambdaFunctionAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .resourceIds)
         var resourceIdsDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -8470,7 +9124,7 @@ extension Inspector2ClientTypes {
         /// The order to use for sorting the results.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             functionNames: [Inspector2ClientTypes.StringFilter]? = nil,
             functionTags: [Inspector2ClientTypes.MapFilter]? = nil,
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -8529,7 +9183,7 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -8576,7 +9230,7 @@ extension Inspector2ClientTypes {
         /// An object that contains the counts of aggregated finding per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             functionName: Swift.String? = nil,
             lambdaTags: [Swift.String:Swift.String]? = nil,
@@ -8628,7 +9282,7 @@ extension Inspector2ClientTypes.LambdaFunctionMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .functionTags)
         var functionTagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -8671,7 +9325,7 @@ extension Inspector2ClientTypes {
         /// An AWS Lambda function's runtime.
         public var runtime: Inspector2ClientTypes.Runtime?
 
-        public init (
+        public init(
             functionName: Swift.String? = nil,
             functionTags: [Swift.String:Swift.String]? = nil,
             layers: [Swift.String]? = nil,
@@ -8759,7 +9413,7 @@ extension Inspector2ClientTypes.LambdaLayerAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionNamesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .functionNames)
         var functionNamesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -8815,7 +9469,7 @@ extension Inspector2ClientTypes {
         /// The order to use for sorting the results.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             functionNames: [Inspector2ClientTypes.StringFilter]? = nil,
             layerArns: [Inspector2ClientTypes.StringFilter]? = nil,
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -8861,7 +9515,7 @@ extension Inspector2ClientTypes.LambdaLayerAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionName)
         functionName = functionNameDecoded
@@ -8894,7 +9548,7 @@ extension Inspector2ClientTypes {
         /// An object that contains the counts of aggregated finding per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             functionName: Swift.String? = nil,
             layerArn: Swift.String? = nil,
@@ -8973,7 +9627,7 @@ extension Inspector2ClientTypes.LambdaVpcConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
         var subnetIdsDecoded0:[Swift.String]? = nil
@@ -9012,7 +9666,7 @@ extension Inspector2ClientTypes {
         /// The ID of the VPC.
         public var vpcId: Swift.String?
 
-        public init (
+        public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
@@ -9061,7 +9715,7 @@ public struct ListAccountPermissionsInput: Swift.Equatable {
     /// The service scan type to check permissions for.
     public var service: Inspector2ClientTypes.Service?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         service: Inspector2ClientTypes.Service? = nil
@@ -9086,7 +9740,7 @@ extension ListAccountPermissionsInputBody: Swift.Decodable {
         case service
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
@@ -9097,37 +9751,23 @@ extension ListAccountPermissionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListAccountPermissionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListAccountPermissionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAccountPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListAccountPermissionsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAccountPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAccountPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -9146,7 +9786,7 @@ public struct ListAccountPermissionsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var permissions: [Inspector2ClientTypes.Permission]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         permissions: [Inspector2ClientTypes.Permission]? = nil
     )
@@ -9167,7 +9807,7 @@ extension ListAccountPermissionsOutputResponseBody: Swift.Decodable {
         case permissions
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let permissionsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Permission?].self, forKey: .permissions)
         var permissionsDecoded0:[Inspector2ClientTypes.Permission]? = nil
@@ -9220,7 +9860,7 @@ public struct ListCoverageInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -9245,7 +9885,7 @@ extension ListCoverageInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -9256,35 +9896,22 @@ extension ListCoverageInputBody: Swift.Decodable {
     }
 }
 
-extension ListCoverageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCoverageOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCoverageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCoverageOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coveredResources = output.coveredResources
@@ -9302,7 +9929,7 @@ public struct ListCoverageOutputResponse: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         coveredResources: [Inspector2ClientTypes.CoveredResource]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9323,7 +9950,7 @@ extension ListCoverageOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -9376,7 +10003,7 @@ public struct ListCoverageStatisticsInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria? = nil,
         groupBy: Inspector2ClientTypes.GroupKey? = nil,
         nextToken: Swift.String? = nil
@@ -9401,7 +10028,7 @@ extension ListCoverageStatisticsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CoverageFilterCriteria.self, forKey: .filterCriteria)
         filterCriteria = filterCriteriaDecoded
@@ -9412,35 +10039,22 @@ extension ListCoverageStatisticsInputBody: Swift.Decodable {
     }
 }
 
-extension ListCoverageStatisticsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListCoverageStatisticsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListCoverageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListCoverageStatisticsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListCoverageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListCoverageStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.countsByGroup = output.countsByGroup
@@ -9463,7 +10077,7 @@ public struct ListCoverageStatisticsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var totalCounts: Swift.Int?
 
-    public init (
+    public init(
         countsByGroup: [Inspector2ClientTypes.Counts]? = nil,
         nextToken: Swift.String? = nil,
         totalCounts: Swift.Int? = nil
@@ -9488,7 +10102,7 @@ extension ListCoverageStatisticsOutputResponseBody: Swift.Decodable {
         case totalCounts
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let countsByGroupContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Counts?].self, forKey: .countsByGroup)
         var countsByGroupDecoded0:[Inspector2ClientTypes.Counts]? = nil
@@ -9537,7 +10151,7 @@ public struct ListDelegatedAdminAccountsInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9558,7 +10172,7 @@ extension ListDelegatedAdminAccountsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -9567,37 +10181,23 @@ extension ListDelegatedAdminAccountsInputBody: Swift.Decodable {
     }
 }
 
-extension ListDelegatedAdminAccountsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListDelegatedAdminAccountsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListDelegatedAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListDelegatedAdminAccountsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListDelegatedAdminAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListDelegatedAdminAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegatedAdminAccounts = output.delegatedAdminAccounts
@@ -9615,7 +10215,7 @@ public struct ListDelegatedAdminAccountsOutputResponse: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         delegatedAdminAccounts: [Inspector2ClientTypes.DelegatedAdminAccount]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9636,7 +10236,7 @@ extension ListDelegatedAdminAccountsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delegatedAdminAccountsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.DelegatedAdminAccount?].self, forKey: .delegatedAdminAccounts)
         var delegatedAdminAccountsDecoded0:[Inspector2ClientTypes.DelegatedAdminAccount]? = nil
@@ -9698,7 +10298,7 @@ public struct ListFiltersInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         action: Inspector2ClientTypes.FilterAction? = nil,
         arns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -9727,7 +10327,7 @@ extension ListFiltersInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .arns)
         var arnsDecoded0:[Swift.String]? = nil
@@ -9749,37 +10349,23 @@ extension ListFiltersInputBody: Swift.Decodable {
     }
 }
 
-extension ListFiltersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFiltersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFiltersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFiltersOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFiltersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFiltersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.filters = output.filters
@@ -9798,7 +10384,7 @@ public struct ListFiltersOutputResponse: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [Inspector2ClientTypes.Filter]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -9819,7 +10405,7 @@ extension ListFiltersOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Filter?].self, forKey: .filters)
         var filtersDecoded0:[Inspector2ClientTypes.Filter]? = nil
@@ -9888,7 +10474,7 @@ public struct ListFindingAggregationsInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accountIds: [Inspector2ClientTypes.StringFilter]? = nil,
         aggregationRequest: Inspector2ClientTypes.AggregationRequest? = nil,
         aggregationType: Inspector2ClientTypes.AggregationType? = nil,
@@ -9921,7 +10507,7 @@ extension ListFindingAggregationsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AggregationType.self, forKey: .aggregationType)
         aggregationType = aggregationTypeDecoded
@@ -9945,35 +10531,22 @@ extension ListFindingAggregationsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFindingAggregationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFindingAggregationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFindingAggregationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFindingAggregationsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFindingAggregationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFindingAggregationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregationType = output.aggregationType
@@ -9996,7 +10569,7 @@ public struct ListFindingAggregationsOutputResponse: Swift.Equatable {
     /// Objects that contain the results of an aggregation operation.
     public var responses: [Inspector2ClientTypes.AggregationResponse]?
 
-    public init (
+    public init(
         aggregationType: Inspector2ClientTypes.AggregationType? = nil,
         nextToken: Swift.String? = nil,
         responses: [Inspector2ClientTypes.AggregationResponse]? = nil
@@ -10021,7 +10594,7 @@ extension ListFindingAggregationsOutputResponseBody: Swift.Decodable {
         case responses
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationTypeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AggregationType.self, forKey: .aggregationType)
         aggregationType = aggregationTypeDecoded
@@ -10082,7 +10655,7 @@ public struct ListFindingsInput: Swift.Equatable {
     /// Details on the sort criteria to apply to your finding results.
     public var sortCriteria: Inspector2ClientTypes.SortCriteria?
 
-    public init (
+    public init(
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10111,7 +10684,7 @@ extension ListFindingsInputBody: Swift.Decodable {
         case sortCriteria
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -10124,35 +10697,22 @@ extension ListFindingsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFindingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFindingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFindingsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFindingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.findings = output.findings
@@ -10170,7 +10730,7 @@ public struct ListFindingsOutputResponse: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         findings: [Inspector2ClientTypes.Finding]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10191,7 +10751,7 @@ extension ListFindingsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10244,7 +10804,7 @@ public struct ListMembersInput: Swift.Equatable {
     /// Specifies whether to list only currently associated members if True or to list all members within the organization if False.
     public var onlyAssociated: Swift.Bool?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.Bool? = nil
@@ -10269,7 +10829,7 @@ extension ListMembersInputBody: Swift.Decodable {
         case onlyAssociated
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onlyAssociatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAssociated)
         onlyAssociated = onlyAssociatedDecoded
@@ -10280,37 +10840,23 @@ extension ListMembersInputBody: Swift.Decodable {
     }
 }
 
-extension ListMembersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListMembersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListMembersOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListMembersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
@@ -10328,7 +10874,7 @@ public struct ListMembersOutputResponse: Swift.Equatable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         members: [Inspector2ClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -10349,7 +10895,7 @@ extension ListMembersOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let membersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Member?].self, forKey: .members)
         var membersDecoded0:[Inspector2ClientTypes.Member]? = nil
@@ -10381,7 +10927,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -10394,41 +10940,27 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -10442,7 +10974,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -10459,7 +10991,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -10513,7 +11045,7 @@ public struct ListUsageTotalsInput: Swift.Equatable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         accountIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -10538,7 +11070,7 @@ extension ListUsageTotalsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -10558,37 +11090,23 @@ extension ListUsageTotalsInputBody: Swift.Decodable {
     }
 }
 
-extension ListUsageTotalsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListUsageTotalsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListUsageTotalsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListUsageTotalsOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListUsageTotalsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListUsageTotalsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -10606,7 +11124,7 @@ public struct ListUsageTotalsOutputResponse: Swift.Equatable {
     /// An object with details on the total usage for the requested account.
     public var totals: [Inspector2ClientTypes.UsageTotal]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         totals: [Inspector2ClientTypes.UsageTotal]? = nil
     )
@@ -10627,7 +11145,7 @@ extension ListUsageTotalsOutputResponseBody: Swift.Decodable {
         case totals
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10694,7 +11212,7 @@ extension Inspector2ClientTypes.MapFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.MapComparison.self, forKey: .comparison)
         comparison = comparisonDecoded
@@ -10717,7 +11235,7 @@ extension Inspector2ClientTypes {
         /// The tag value used in the filter.
         public var value: Swift.String?
 
-        public init (
+        public init(
             comparison: Inspector2ClientTypes.MapComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
@@ -10755,7 +11273,7 @@ extension Inspector2ClientTypes.Member: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -10780,7 +11298,7 @@ extension Inspector2ClientTypes {
         /// A timestamp showing when the status of this member was last updated.
         public var updatedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             delegatedAdminAccountId: Swift.String? = nil,
             relationshipStatus: Inspector2ClientTypes.RelationshipStatus? = nil,
@@ -10791,6 +11309,109 @@ extension Inspector2ClientTypes {
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.relationshipStatus = relationshipStatus
             self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case activateDeepInspection
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let activateDeepInspection = self.activateDeepInspection {
+            try encodeContainer.encode(activateDeepInspection, forKey: .activateDeepInspection)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let activateDeepInspectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activateDeepInspection)
+        activateDeepInspection = activateDeepInspectionDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about the status of Amazon Inspector deep inspection for a member account in your organization.
+    public struct MemberAccountEc2DeepInspectionStatus: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// Whether Amazon Inspector deep inspection is active in the account. If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active.
+        /// This member is required.
+        public var activateDeepInspection: Swift.Bool?
+
+        public init(
+            accountId: Swift.String? = nil,
+            activateDeepInspection: Swift.Bool? = nil
+        )
+        {
+            self.accountId = accountId
+            self.activateDeepInspection = activateDeepInspection
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case errorMessage
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// An object that contains details about the state of Amazon Inspector deep inspection for a member account.
+    public struct MemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+        /// The unique identifier for the Amazon Web Services account of the organization member
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The error message explaining why the account failed to activate Amazon Inspector deep inspection.
+        public var errorMessage: Swift.String?
+        /// The state of Amazon Inspector deep inspection in the member account.
+        public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.errorMessage = errorMessage
+            self.status = status
         }
     }
 
@@ -10811,7 +11432,7 @@ extension Inspector2ClientTypes.NetworkPath: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stepsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Step?].self, forKey: .steps)
         var stepsDecoded0:[Inspector2ClientTypes.Step]? = nil
@@ -10833,7 +11454,7 @@ extension Inspector2ClientTypes {
         /// The details on the steps in the network path.
         public var steps: [Inspector2ClientTypes.Step]?
 
-        public init (
+        public init(
             steps: [Inspector2ClientTypes.Step]? = nil
         )
         {
@@ -10895,7 +11516,7 @@ extension Inspector2ClientTypes.NetworkReachabilityDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let openPortRangeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.PortRange.self, forKey: .openPortRange)
         openPortRange = openPortRangeDecoded
@@ -10919,7 +11540,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var `protocol`: Inspector2ClientTypes.NetworkProtocol?
 
-        public init (
+        public init(
             networkPath: Inspector2ClientTypes.NetworkPath? = nil,
             openPortRange: Inspector2ClientTypes.PortRange? = nil,
             `protocol`: Inspector2ClientTypes.NetworkProtocol? = nil
@@ -10949,7 +11570,7 @@ extension Inspector2ClientTypes.NumberFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let upperInclusiveDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .upperInclusive)
         upperInclusive = upperInclusiveDecoded
@@ -10966,7 +11587,7 @@ extension Inspector2ClientTypes {
         /// The highest number to be included in the filter.
         public var upperInclusive: Swift.Double?
 
-        public init (
+        public init(
             lowerInclusive: Swift.Double? = nil,
             upperInclusive: Swift.Double? = nil
         )
@@ -11039,7 +11660,7 @@ extension Inspector2ClientTypes.PackageAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageNamesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .packageNames)
         var packageNamesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -11069,7 +11690,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             packageNames: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.PackageSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
@@ -11103,7 +11724,7 @@ extension Inspector2ClientTypes.PackageAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageName)
         packageName = packageNameDecoded
@@ -11125,7 +11746,7 @@ extension Inspector2ClientTypes {
         /// An object that contains the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             packageName: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
@@ -11175,7 +11796,7 @@ extension Inspector2ClientTypes.PackageFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StringFilter.self, forKey: .name)
         name = nameDecoded
@@ -11212,7 +11833,7 @@ extension Inspector2ClientTypes {
         /// The package version to filter on.
         public var version: Inspector2ClientTypes.StringFilter?
 
-        public init (
+        public init(
             architecture: Inspector2ClientTypes.StringFilter? = nil,
             epoch: Inspector2ClientTypes.NumberFilter? = nil,
             name: Inspector2ClientTypes.StringFilter? = nil,
@@ -11239,6 +11860,7 @@ extension Inspector2ClientTypes {
         case bundler
         case cargo
         case composer
+        case gemspec
         case gobinary
         case gomod
         case jar
@@ -11259,6 +11881,7 @@ extension Inspector2ClientTypes {
                 .bundler,
                 .cargo,
                 .composer,
+                .gemspec,
                 .gobinary,
                 .gomod,
                 .jar,
@@ -11284,6 +11907,7 @@ extension Inspector2ClientTypes {
             case .bundler: return "BUNDLER"
             case .cargo: return "CARGO"
             case .composer: return "COMPOSER"
+            case .gemspec: return "GEMSPEC"
             case .gobinary: return "GOBINARY"
             case .gomod: return "GOMOD"
             case .jar: return "JAR"
@@ -11435,7 +12059,7 @@ extension Inspector2ClientTypes.PackageVulnerabilityDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vulnerabilityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vulnerabilityId)
         vulnerabilityId = vulnerabilityIdDecoded
@@ -11522,7 +12146,7 @@ extension Inspector2ClientTypes {
         /// The packages impacted by this vulnerability.
         public var vulnerablePackages: [Inspector2ClientTypes.VulnerablePackage]?
 
-        public init (
+        public init(
             cvss: [Inspector2ClientTypes.CvssScore]? = nil,
             referenceUrls: [Swift.String]? = nil,
             relatedVulnerabilities: [Swift.String]? = nil,
@@ -11566,7 +12190,7 @@ extension Inspector2ClientTypes.Permission: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
@@ -11585,7 +12209,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var service: Inspector2ClientTypes.Service?
 
-        public init (
+        public init(
             operation: Inspector2ClientTypes.Operation? = nil,
             service: Inspector2ClientTypes.Service? = nil
         )
@@ -11613,7 +12237,7 @@ extension Inspector2ClientTypes.PortRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .begin)
         begin = beginDecoded
@@ -11632,7 +12256,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var end: Swift.Int?
 
-        public init (
+        public init(
             begin: Swift.Int? = nil,
             end: Swift.Int? = nil
         )
@@ -11660,7 +12284,7 @@ extension Inspector2ClientTypes.PortRangeFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let beginInclusiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginInclusive)
         beginInclusive = beginInclusiveDecoded
@@ -11677,7 +12301,7 @@ extension Inspector2ClientTypes {
         /// The port number the port range ends at.
         public var endInclusive: Swift.Int?
 
-        public init (
+        public init(
             beginInclusive: Swift.Int? = nil,
             endInclusive: Swift.Int? = nil
         )
@@ -11705,7 +12329,7 @@ extension Inspector2ClientTypes.Recommendation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
         text = textDecoded
@@ -11722,7 +12346,7 @@ extension Inspector2ClientTypes {
         /// The URL address to the CVE remediation recommendations.
         public var url: Swift.String?
 
-        public init (
+        public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
         )
@@ -11808,7 +12432,7 @@ extension Inspector2ClientTypes.Remediation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recommendationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Recommendation.self, forKey: .recommendation)
         recommendation = recommendationDecoded
@@ -11821,7 +12445,7 @@ extension Inspector2ClientTypes {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public var recommendation: Inspector2ClientTypes.Recommendation?
 
-        public init (
+        public init(
             recommendation: Inspector2ClientTypes.Recommendation? = nil
         )
         {
@@ -11930,7 +12554,7 @@ extension Inspector2ClientTypes.RepositoryAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoriesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .repositories)
         var repositoriesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -11960,7 +12584,7 @@ extension Inspector2ClientTypes {
         /// The order to sort results by.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             repositories: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.RepositorySortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
@@ -11998,7 +12622,7 @@ extension Inspector2ClientTypes.RepositoryAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let repositoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repository)
         repository = repositoryDecoded
@@ -12024,7 +12648,7 @@ extension Inspector2ClientTypes {
         /// An object that represent the count of matched findings per severity.
         public var severityCounts: Inspector2ClientTypes.SeverityCounts?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             affectedImages: Swift.Int? = nil,
             repository: Swift.String? = nil,
@@ -12113,7 +12737,7 @@ extension Inspector2ClientTypes.Resource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ResourceType.self, forKey: .type)
         type = typeDecoded
@@ -12157,7 +12781,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var type: Inspector2ClientTypes.ResourceType?
 
-        public init (
+        public init(
             details: Inspector2ClientTypes.ResourceDetails? = nil,
             id: Swift.String? = nil,
             partition: Swift.String? = nil,
@@ -12197,7 +12821,7 @@ extension Inspector2ClientTypes.ResourceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let awsEc2InstanceDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AwsEc2InstanceDetails.self, forKey: .awsEc2Instance)
         awsEc2Instance = awsEc2InstanceDecoded
@@ -12218,7 +12842,7 @@ extension Inspector2ClientTypes {
         /// A summary of the information about an AWS Lambda function affected by a finding.
         public var awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails?
 
-        public init (
+        public init(
             awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails? = nil,
             awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil,
             awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil
@@ -12233,38 +12857,42 @@ extension Inspector2ClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation tried to access an invalid resource. Make sure the resource is specified correctly.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12277,7 +12905,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12308,7 +12936,7 @@ extension Inspector2ClientTypes.ResourceScanMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ecrRepositoryDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrRepositoryMetadata.self, forKey: .ecrRepository)
         ecrRepository = ecrRepositoryDecoded
@@ -12333,7 +12961,7 @@ extension Inspector2ClientTypes {
         /// An object that contains metadata details for an AWS Lambda function.
         public var lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata?
 
-        public init (
+        public init(
             ec2: Inspector2ClientTypes.Ec2Metadata? = nil,
             ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata? = nil,
             ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil,
@@ -12404,7 +13032,7 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.State.self, forKey: .ec2)
         ec2 = ec2Decoded
@@ -12427,7 +13055,7 @@ extension Inspector2ClientTypes {
         /// An object that described the state of Amazon Inspector scans for an account.
         public var lambda: Inspector2ClientTypes.State?
 
-        public init (
+        public init(
             ec2: Inspector2ClientTypes.State? = nil,
             ecr: Inspector2ClientTypes.State? = nil,
             lambda: Inspector2ClientTypes.State? = nil
@@ -12461,7 +13089,7 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ec2Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .ec2)
         ec2 = ec2Decoded
@@ -12481,10 +13109,10 @@ extension Inspector2ClientTypes {
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
         /// This member is required.
         public var ecr: Inspector2ClientTypes.Status?
-        /// The status of Amazon Inspector scanning for AWS Lambda function resources.
+        /// The status of Amazon Inspector scanning for AWS Lambda function.
         public var lambda: Inspector2ClientTypes.Status?
 
-        public init (
+        public init(
             ec2: Inspector2ClientTypes.Status? = nil,
             ecr: Inspector2ClientTypes.Status? = nil,
             lambda: Inspector2ClientTypes.Status? = nil
@@ -12617,7 +13245,7 @@ extension Inspector2ClientTypes.ScanStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusCodeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ScanStatusCode.self, forKey: .statusCode)
         statusCode = statusCodeDecoded
@@ -12636,7 +13264,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var statusCode: Inspector2ClientTypes.ScanStatusCode?
 
-        public init (
+        public init(
             reason: Inspector2ClientTypes.ScanStatusReason? = nil,
             statusCode: Inspector2ClientTypes.ScanStatusCode? = nil
         )
@@ -12683,6 +13311,10 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
     public enum ScanStatusReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accessDenied
+        case deepInspectionCollectionTimeLimitExceeded
+        case deepInspectionDailySsmInventoryLimitExceeded
+        case deepInspectionNoInventory
+        case deepInspectionPackageCollectionLimitExceeded
         case ec2InstanceStopped
         case excludedByTag
         case imageSizeExceeded
@@ -12698,6 +13330,8 @@ extension Inspector2ClientTypes {
         case staleInventory
         case successful
         case unmanagedEc2Instance
+        case unsupportedConfigFile
+        case unsupportedMediaType
         case unsupportedOs
         case unsupportedRuntime
         case sdkUnknown(Swift.String)
@@ -12705,6 +13339,10 @@ extension Inspector2ClientTypes {
         public static var allCases: [ScanStatusReason] {
             return [
                 .accessDenied,
+                .deepInspectionCollectionTimeLimitExceeded,
+                .deepInspectionDailySsmInventoryLimitExceeded,
+                .deepInspectionNoInventory,
+                .deepInspectionPackageCollectionLimitExceeded,
                 .ec2InstanceStopped,
                 .excludedByTag,
                 .imageSizeExceeded,
@@ -12720,6 +13358,8 @@ extension Inspector2ClientTypes {
                 .staleInventory,
                 .successful,
                 .unmanagedEc2Instance,
+                .unsupportedConfigFile,
+                .unsupportedMediaType,
                 .unsupportedOs,
                 .unsupportedRuntime,
                 .sdkUnknown("")
@@ -12732,6 +13372,10 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .deepInspectionCollectionTimeLimitExceeded: return "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
+            case .deepInspectionDailySsmInventoryLimitExceeded: return "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
+            case .deepInspectionNoInventory: return "DEEP_INSPECTION_NO_INVENTORY"
+            case .deepInspectionPackageCollectionLimitExceeded: return "DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED"
             case .ec2InstanceStopped: return "EC2_INSTANCE_STOPPED"
             case .excludedByTag: return "EXCLUDED_BY_TAG"
             case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
@@ -12747,6 +13391,8 @@ extension Inspector2ClientTypes {
             case .staleInventory: return "STALE_INVENTORY"
             case .successful: return "SUCCESSFUL"
             case .unmanagedEc2Instance: return "UNMANAGED_EC2_INSTANCE"
+            case .unsupportedConfigFile: return "UNSUPPORTED_CONFIG_FILE"
+            case .unsupportedMediaType: return "UNSUPPORTED_MEDIA_TYPE"
             case .unsupportedOs: return "UNSUPPORTED_OS"
             case .unsupportedRuntime: return "UNSUPPORTED_RUNTIME"
             case let .sdkUnknown(s): return s
@@ -12792,6 +13438,188 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vulnerabilityIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vulnerabilityIds = vulnerabilityIds {
+            var vulnerabilityIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilityIds)
+            for vulnid0 in vulnerabilityIds {
+                try vulnerabilityIdsContainer.encode(vulnid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilityIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vulnerabilityIds)
+        var vulnerabilityIdsDecoded0:[Swift.String]? = nil
+        if let vulnerabilityIdsContainer = vulnerabilityIdsContainer {
+            vulnerabilityIdsDecoded0 = [Swift.String]()
+            for string0 in vulnerabilityIdsContainer {
+                if let string0 = string0 {
+                    vulnerabilityIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        vulnerabilityIds = vulnerabilityIdsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details on the criteria used to define the filter for a vulnerability search.
+    public struct SearchVulnerabilitiesFilterCriteria: Swift.Equatable {
+        /// The IDs for specific vulnerabilities.
+        /// This member is required.
+        public var vulnerabilityIds: [Swift.String]?
+
+        public init(
+            vulnerabilityIds: [Swift.String]? = nil
+        )
+        {
+            self.vulnerabilityIds = vulnerabilityIds
+        }
+    }
+
+}
+
+extension SearchVulnerabilitiesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension SearchVulnerabilitiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/vulnerabilities/search"
+    }
+}
+
+public struct SearchVulnerabilitiesInput: Swift.Equatable {
+    /// The criteria used to filter the results of a vulnerability search.
+    /// This member is required.
+    public var filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.nextToken = nextToken
+    }
+}
+
+struct SearchVulnerabilitiesInputBody: Swift.Equatable {
+    let filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
+    let nextToken: Swift.String?
+}
+
+extension SearchVulnerabilitiesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum SearchVulnerabilitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchVulnerabilitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchVulnerabilitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.vulnerabilities = output.vulnerabilities
+        } else {
+            self.nextToken = nil
+            self.vulnerabilities = nil
+        }
+    }
+}
+
+public struct SearchVulnerabilitiesOutputResponse: Swift.Equatable {
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
+    /// Details about the listed vulnerability.
+    /// This member is required.
+    public var vulnerabilities: [Inspector2ClientTypes.Vulnerability]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        vulnerabilities: [Inspector2ClientTypes.Vulnerability]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.vulnerabilities = vulnerabilities
+    }
+}
+
+struct SearchVulnerabilitiesOutputResponseBody: Swift.Equatable {
+    let vulnerabilities: [Inspector2ClientTypes.Vulnerability]?
+    let nextToken: Swift.String?
+}
+
+extension SearchVulnerabilitiesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case vulnerabilities
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilitiesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Vulnerability?].self, forKey: .vulnerabilities)
+        var vulnerabilitiesDecoded0:[Inspector2ClientTypes.Vulnerability]? = nil
+        if let vulnerabilitiesContainer = vulnerabilitiesContainer {
+            vulnerabilitiesDecoded0 = [Inspector2ClientTypes.Vulnerability]()
+            for structure0 in vulnerabilitiesContainer {
+                if let structure0 = structure0 {
+                    vulnerabilitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        vulnerabilities = vulnerabilitiesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension Inspector2ClientTypes {
     public enum Service: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ec2
@@ -12828,45 +13656,49 @@ extension Inspector2ClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
-            self.resourceId = output.resourceId
+            self.properties.message = output.message
+            self.properties.resourceId = output.resourceId
         } else {
-            self.message = nil
-            self.resourceId = nil
+            self.properties.message = nil
+            self.properties.resourceId = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// The ID of the resource that exceeds a service quota.
-    /// This member is required.
-    public var resourceId: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource that exceeds a service quota.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
     {
-        self.message = message
-        self.resourceId = resourceId
+        self.properties.message = message
+        self.properties.resourceId = resourceId
     }
 }
 
@@ -12881,7 +13713,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case resourceId
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12958,7 +13790,7 @@ extension Inspector2ClientTypes.SeverityCounts: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let allDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .all)
         all = allDecoded
@@ -12983,7 +13815,7 @@ extension Inspector2ClientTypes {
         /// The total count of medium severity findings.
         public var medium: Swift.Int?
 
-        public init (
+        public init(
             all: Swift.Int? = nil,
             critical: Swift.Int? = nil,
             high: Swift.Int? = nil,
@@ -13015,7 +13847,7 @@ extension Inspector2ClientTypes.SortCriteria: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.SortField.self, forKey: .field)
         field = fieldDecoded
@@ -13034,7 +13866,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var sortOrder: Inspector2ClientTypes.SortOrder?
 
-        public init (
+        public init(
             field: Inspector2ClientTypes.SortField? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
         )
@@ -13172,7 +14004,7 @@ extension Inspector2ClientTypes.State: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Status.self, forKey: .status)
         status = statusDecoded
@@ -13196,7 +14028,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var status: Inspector2ClientTypes.Status?
 
-        public init (
+        public init(
             errorCode: Inspector2ClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             status: Inspector2ClientTypes.Status? = nil
@@ -13270,7 +14102,7 @@ extension Inspector2ClientTypes.Step: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let componentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentId)
         componentId = componentIdDecoded
@@ -13289,7 +14121,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var componentType: Swift.String?
 
-        public init (
+        public init(
             componentId: Swift.String? = nil,
             componentType: Swift.String? = nil
         )
@@ -13352,7 +14184,7 @@ extension Inspector2ClientTypes.StringFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StringComparison.self, forKey: .comparison)
         comparison = comparisonDecoded
@@ -13371,7 +14203,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             comparison: Inspector2ClientTypes.StringComparison? = nil,
             value: Swift.String? = nil
         )
@@ -13416,7 +14248,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -13435,7 +14267,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -13451,88 +14283,77 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case badRequestException(BadRequestException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            self.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+            self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         } else {
-            self.retryAfterSeconds = nil
+            self.properties.retryAfterSeconds = nil
         }
-        if let data = try httpResponse.body.toData(),
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = true
-    public var _isThrottling: Swift.Bool = true
-    public var _type: ClientRuntime.ErrorType = .client
-    /// This member is required.
-    public var message: Swift.String?
-    /// The number of seconds to wait before retrying the request.
-    public var retryAfterSeconds: Swift.Int?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The number of seconds to wait before retrying the request.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
     )
     {
-        self.message = message
-        self.retryAfterSeconds = retryAfterSeconds
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
@@ -13545,7 +14366,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13586,7 +14407,7 @@ extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let titlesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.StringFilter?].self, forKey: .titles)
         var titlesDecoded0:[Inspector2ClientTypes.StringFilter]? = nil
@@ -13633,7 +14454,7 @@ extension Inspector2ClientTypes {
         /// The vulnerability IDs of the findings.
         public var vulnerabilityIds: [Inspector2ClientTypes.StringFilter]?
 
-        public init (
+        public init(
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.TitleSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil,
@@ -13675,7 +14496,7 @@ extension Inspector2ClientTypes.TitleAggregationResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
         title = titleDecoded
@@ -13701,7 +14522,7 @@ extension Inspector2ClientTypes {
         /// The vulnerability ID of the finding.
         public var vulnerabilityId: Swift.String?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil,
             title: Swift.String? = nil,
@@ -13758,7 +14579,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -13786,7 +14607,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -13801,46 +14622,32 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateConfigurationInput: Swift.Encodable {
@@ -13867,7 +14674,7 @@ public struct UpdateConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
 
-    public init (
+    public init(
         ecrConfiguration: Inspector2ClientTypes.EcrConfiguration? = nil
     )
     {
@@ -13884,49 +14691,208 @@ extension UpdateConfigurationInputBody: Swift.Decodable {
         case ecrConfiguration
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ecrConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrConfiguration.self, forKey: .ecrConfiguration)
         ecrConfiguration = ecrConfigurationDecoded
     }
 }
 
-extension UpdateConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
+}
+
+extension UpdateEc2DeepInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateDeepInspection
+        case packagePaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activateDeepInspection = self.activateDeepInspection {
+            try encodeContainer.encode(activateDeepInspection, forKey: .activateDeepInspection)
+        }
+        if let packagePaths = packagePaths {
+            var packagePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packagePaths)
+            for path0 in packagePaths {
+                try packagePathsContainer.encode(path0)
+            }
+        }
+    }
+}
+
+extension UpdateEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/update"
+    }
+}
+
+public struct UpdateEc2DeepInspectionConfigurationInput: Swift.Equatable {
+    /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administrator for the organization can deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
+    public var activateDeepInspection: Swift.Bool?
+    /// The Amazon Inspector deep inspection custom paths you are adding for your account.
+    public var packagePaths: [Swift.String]?
+
+    public init(
+        activateDeepInspection: Swift.Bool? = nil,
+        packagePaths: [Swift.String]? = nil
+    )
+    {
+        self.activateDeepInspection = activateDeepInspection
+        self.packagePaths = packagePaths
+    }
+}
+
+struct UpdateEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+    let activateDeepInspection: Swift.Bool?
+    let packagePaths: [Swift.String]?
+}
+
+extension UpdateEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activateDeepInspection
+        case packagePaths
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activateDeepInspectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activateDeepInspection)
+        activateDeepInspection = activateDeepInspectionDecoded
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+    }
+}
+
+public enum UpdateEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEc2DeepInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errorMessage = output.errorMessage
+            self.orgPackagePaths = output.orgPackagePaths
+            self.packagePaths = output.packagePaths
+            self.status = output.status
+        } else {
+            self.errorMessage = nil
+            self.orgPackagePaths = nil
+            self.packagePaths = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct UpdateEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// An error message explaining why new Amazon Inspector deep inspection custom paths could not be added.
+    public var errorMessage: Swift.String?
+    /// The current Amazon Inspector deep inspection custom paths for the organization.
+    public var orgPackagePaths: [Swift.String]?
+    /// The current Amazon Inspector deep inspection custom paths for your account.
+    public var packagePaths: [Swift.String]?
+    /// The status of Amazon Inspector deep inspection in your account.
+    public var status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        orgPackagePaths: [Swift.String]? = nil,
+        packagePaths: [Swift.String]? = nil,
+        status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.orgPackagePaths = orgPackagePaths
+        self.packagePaths = packagePaths
+        self.status = status
+    }
+}
+
+struct UpdateEc2DeepInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let packagePaths: [Swift.String]?
+    let orgPackagePaths: [Swift.String]?
+    let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
+    let errorMessage: Swift.String?
+}
+
+extension UpdateEc2DeepInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case orgPackagePaths
+        case packagePaths
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .packagePaths)
+        var packagePathsDecoded0:[Swift.String]? = nil
+        if let packagePathsContainer = packagePathsContainer {
+            packagePathsDecoded0 = [Swift.String]()
+            for string0 in packagePathsContainer {
+                if let string0 = string0 {
+                    packagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        packagePaths = packagePathsDecoded0
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2DeepInspectionStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
 }
 
 extension UpdateFilterInput: Swift.Encodable {
@@ -13983,7 +14949,7 @@ public struct UpdateFilterInput: Swift.Equatable {
     /// The reason the filter was updated.
     public var reason: Swift.String?
 
-    public init (
+    public init(
         action: Inspector2ClientTypes.FilterAction? = nil,
         description: Swift.String? = nil,
         filterArn: Swift.String? = nil,
@@ -14020,7 +14986,7 @@ extension UpdateFilterInputBody: Swift.Decodable {
         case reason
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
@@ -14037,39 +15003,24 @@ extension UpdateFilterInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateFilterOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateFilterOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateFilterOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateFilterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateFilterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
@@ -14084,7 +15035,7 @@ public struct UpdateFilterOutputResponse: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
 
-    public init (
+    public init(
         arn: Swift.String? = nil
     )
     {
@@ -14101,11 +15052,95 @@ extension UpdateFilterOutputResponseBody: Swift.Decodable {
         case arn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orgPackagePaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let orgPackagePaths = orgPackagePaths {
+            var orgPackagePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orgPackagePaths)
+            for path0 in orgPackagePaths {
+                try orgPackagePathsContainer.encode(path0)
+            }
+        }
+    }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ec2deepinspectionconfiguration/org/update"
+    }
+}
+
+public struct UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Equatable {
+    /// The Amazon Inspector deep inspection custom paths you are adding for your organization.
+    /// This member is required.
+    public var orgPackagePaths: [Swift.String]?
+
+    public init(
+        orgPackagePaths: [Swift.String]? = nil
+    )
+    {
+        self.orgPackagePaths = orgPackagePaths
+    }
+}
+
+struct UpdateOrgEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+    let orgPackagePaths: [Swift.String]?
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case orgPackagePaths
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orgPackagePathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .orgPackagePaths)
+        var orgPackagePathsDecoded0:[Swift.String]? = nil
+        if let orgPackagePathsContainer = orgPackagePathsContainer {
+            orgPackagePathsDecoded0 = [Swift.String]()
+            for string0 in orgPackagePathsContainer {
+                if let string0 = string0 {
+                    orgPackagePathsDecoded0?.append(string0)
+                }
+            }
+        }
+        orgPackagePaths = orgPackagePathsDecoded0
+    }
+}
+
+public enum UpdateOrgEc2DeepInspectionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateOrgEc2DeepInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateOrgEc2DeepInspectionConfigurationOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension UpdateOrganizationConfigurationInput: Swift.Encodable {
@@ -14132,7 +15167,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var autoEnable: Inspector2ClientTypes.AutoEnable?
 
-    public init (
+    public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil
     )
     {
@@ -14149,44 +15184,30 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
         case autoEnable
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoEnableDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AutoEnable.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
     }
 }
 
-extension UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateOrganizationConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateOrganizationConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateOrganizationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoEnable = output.autoEnable
@@ -14201,7 +15222,7 @@ public struct UpdateOrganizationConfigurationOutputResponse: Swift.Equatable {
     /// This member is required.
     public var autoEnable: Inspector2ClientTypes.AutoEnable?
 
-    public init (
+    public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil
     )
     {
@@ -14218,7 +15239,7 @@ extension UpdateOrganizationConfigurationOutputResponseBody: Swift.Decodable {
         case autoEnable
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoEnableDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AutoEnable.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
@@ -14249,7 +15270,7 @@ extension Inspector2ClientTypes.Usage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.UsageType.self, forKey: .type)
         type = typeDecoded
@@ -14274,7 +15295,7 @@ extension Inspector2ClientTypes {
         /// The type scan.
         public var type: Inspector2ClientTypes.UsageType?
 
-        public init (
+        public init(
             currency: Inspector2ClientTypes.Currency? = nil,
             estimatedMonthlyCost: Swift.Double = 0.0,
             total: Swift.Double = 0.0,
@@ -14309,7 +15330,7 @@ extension Inspector2ClientTypes.UsageTotal: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
@@ -14335,7 +15356,7 @@ extension Inspector2ClientTypes {
         /// An object representing the total usage for an account.
         public var usage: [Inspector2ClientTypes.Usage]?
 
-        public init (
+        public init(
             accountId: Swift.String? = nil,
             usage: [Inspector2ClientTypes.Usage]? = nil
         )
@@ -14386,51 +15407,55 @@ extension Inspector2ClientTypes {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.fields = output.fields
-            self.message = output.message
-            self.reason = output.reason
+            self.properties.fields = output.fields
+            self.properties.message = output.message
+            self.properties.reason = output.reason
         } else {
-            self.fields = nil
-            self.message = nil
-            self.reason = nil
+            self.properties.fields = nil
+            self.properties.message = nil
+            self.properties.reason = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request has failed validation due to missing required fields or having invalid inputs.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The fields that failed validation.
-    public var fields: [Inspector2ClientTypes.ValidationExceptionField]?
-    /// This member is required.
-    public var message: Swift.String?
-    /// The reason for the validation failure.
-    /// This member is required.
-    public var reason: Inspector2ClientTypes.ValidationExceptionReason?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The fields that failed validation.
+        public internal(set) var fields: [Inspector2ClientTypes.ValidationExceptionField]? = nil
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the validation failure.
+        /// This member is required.
+        public internal(set) var reason: Inspector2ClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         fields: [Inspector2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: Inspector2ClientTypes.ValidationExceptionReason? = nil
     )
     {
-        self.fields = fields
-        self.message = message
-        self.reason = reason
+        self.properties.fields = fields
+        self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -14447,7 +15472,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case reason
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14483,7 +15508,7 @@ extension Inspector2ClientTypes.ValidationExceptionField: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14502,7 +15527,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
         )
@@ -14545,6 +15570,279 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.Vulnerability: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case atigData
+        case cisaData
+        case cvss2
+        case cvss3
+        case cwes
+        case description
+        case detectionPlatforms
+        case epss
+        case exploitObserved
+        case id
+        case referenceUrls
+        case relatedVulnerabilities
+        case source
+        case sourceUrl
+        case vendorCreatedAt
+        case vendorSeverity
+        case vendorUpdatedAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let atigData = self.atigData {
+            try encodeContainer.encode(atigData, forKey: .atigData)
+        }
+        if let cisaData = self.cisaData {
+            try encodeContainer.encode(cisaData, forKey: .cisaData)
+        }
+        if let cvss2 = self.cvss2 {
+            try encodeContainer.encode(cvss2, forKey: .cvss2)
+        }
+        if let cvss3 = self.cvss3 {
+            try encodeContainer.encode(cvss3, forKey: .cvss3)
+        }
+        if let cwes = cwes {
+            var cwesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cwes)
+            for cwe0 in cwes {
+                try cwesContainer.encode(cwe0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let detectionPlatforms = detectionPlatforms {
+            var detectionPlatformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectionPlatforms)
+            for nonemptystring0 in detectionPlatforms {
+                try detectionPlatformsContainer.encode(nonemptystring0)
+            }
+        }
+        if let epss = self.epss {
+            try encodeContainer.encode(epss, forKey: .epss)
+        }
+        if let exploitObserved = self.exploitObserved {
+            try encodeContainer.encode(exploitObserved, forKey: .exploitObserved)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let referenceUrls = referenceUrls {
+            var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
+            for vulnerabilityreferenceurl0 in referenceUrls {
+                try referenceUrlsContainer.encode(vulnerabilityreferenceurl0)
+            }
+        }
+        if let relatedVulnerabilities = relatedVulnerabilities {
+            var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
+            for relatedvulnerability0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(relatedvulnerability0)
+            }
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+        if let sourceUrl = self.sourceUrl {
+            try encodeContainer.encode(sourceUrl, forKey: .sourceUrl)
+        }
+        if let vendorCreatedAt = self.vendorCreatedAt {
+            try encodeContainer.encodeTimestamp(vendorCreatedAt, format: .epochSeconds, forKey: .vendorCreatedAt)
+        }
+        if let vendorSeverity = self.vendorSeverity {
+            try encodeContainer.encode(vendorSeverity, forKey: .vendorSeverity)
+        }
+        if let vendorUpdatedAt = self.vendorUpdatedAt {
+            try encodeContainer.encodeTimestamp(vendorUpdatedAt, format: .epochSeconds, forKey: .vendorUpdatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let cwesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cwes)
+        var cwesDecoded0:[Swift.String]? = nil
+        if let cwesContainer = cwesContainer {
+            cwesDecoded0 = [Swift.String]()
+            for string0 in cwesContainer {
+                if let string0 = string0 {
+                    cwesDecoded0?.append(string0)
+                }
+            }
+        }
+        cwes = cwesDecoded0
+        let cisaDataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisaData.self, forKey: .cisaData)
+        cisaData = cisaDataDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.VulnerabilitySource.self, forKey: .source)
+        source = sourceDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let atigDataDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.AtigData.self, forKey: .atigData)
+        atigData = atigDataDecoded
+        let vendorSeverityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorSeverity)
+        vendorSeverity = vendorSeverityDecoded
+        let cvss3Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Cvss3.self, forKey: .cvss3)
+        cvss3 = cvss3Decoded
+        let relatedVulnerabilitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedVulnerabilities)
+        var relatedVulnerabilitiesDecoded0:[Swift.String]? = nil
+        if let relatedVulnerabilitiesContainer = relatedVulnerabilitiesContainer {
+            relatedVulnerabilitiesDecoded0 = [Swift.String]()
+            for string0 in relatedVulnerabilitiesContainer {
+                if let string0 = string0 {
+                    relatedVulnerabilitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedVulnerabilities = relatedVulnerabilitiesDecoded0
+        let cvss2Decoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Cvss2.self, forKey: .cvss2)
+        cvss2 = cvss2Decoded
+        let vendorCreatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorCreatedAt)
+        vendorCreatedAt = vendorCreatedAtDecoded
+        let vendorUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorUpdatedAt)
+        vendorUpdatedAt = vendorUpdatedAtDecoded
+        let sourceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceUrl)
+        sourceUrl = sourceUrlDecoded
+        let referenceUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referenceUrls)
+        var referenceUrlsDecoded0:[Swift.String]? = nil
+        if let referenceUrlsContainer = referenceUrlsContainer {
+            referenceUrlsDecoded0 = [Swift.String]()
+            for string0 in referenceUrlsContainer {
+                if let string0 = string0 {
+                    referenceUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        referenceUrls = referenceUrlsDecoded0
+        let exploitObservedDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ExploitObserved.self, forKey: .exploitObserved)
+        exploitObserved = exploitObservedDecoded
+        let detectionPlatformsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .detectionPlatforms)
+        var detectionPlatformsDecoded0:[Swift.String]? = nil
+        if let detectionPlatformsContainer = detectionPlatformsContainer {
+            detectionPlatformsDecoded0 = [Swift.String]()
+            for string0 in detectionPlatformsContainer {
+                if let string0 = string0 {
+                    detectionPlatformsDecoded0?.append(string0)
+                }
+            }
+        }
+        detectionPlatforms = detectionPlatformsDecoded0
+        let epssDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Epss.self, forKey: .epss)
+        epss = epssDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Contains details about a specific vulnerability Amazon Inspector can detect.
+    public struct Vulnerability: Swift.Equatable {
+        /// An object that contains information about the Amazon Web Services Threat Intel Group (ATIG) details for the vulnerability.
+        public var atigData: Inspector2ClientTypes.AtigData?
+        /// An object that contains the Cybersecurity and Infrastructure Security Agency (CISA) details for the vulnerability.
+        public var cisaData: Inspector2ClientTypes.CisaData?
+        /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 2 details for the vulnerability.
+        public var cvss2: Inspector2ClientTypes.Cvss2?
+        /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 3 details for the vulnerability.
+        public var cvss3: Inspector2ClientTypes.Cvss3?
+        /// The Common Weakness Enumeration (CWE) associated with the vulnerability.
+        public var cwes: [Swift.String]?
+        /// A description of the vulnerability.
+        public var description: Swift.String?
+        /// Platforms that the vulnerability can be detected on.
+        public var detectionPlatforms: [Swift.String]?
+        /// An object that contains the Exploit Prediction Scoring System (EPSS) score.
+        public var epss: Inspector2ClientTypes.Epss?
+        /// An object that contains details on when the exploit was observed.
+        public var exploitObserved: Inspector2ClientTypes.ExploitObserved?
+        /// The ID for the specific vulnerability.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Links to various resources with more information on this vulnerability.
+        public var referenceUrls: [Swift.String]?
+        /// A list of related vulnerabilities.
+        public var relatedVulnerabilities: [Swift.String]?
+        /// The source of the vulnerability information.
+        public var source: Inspector2ClientTypes.VulnerabilitySource?
+        /// A link to the official source material for this vulnerability.
+        public var sourceUrl: Swift.String?
+        /// The date and time when the vendor created this vulnerability.
+        public var vendorCreatedAt: ClientRuntime.Date?
+        /// The severity assigned by the vendor.
+        public var vendorSeverity: Swift.String?
+        /// The date and time when the vendor last updated this vulnerability.
+        public var vendorUpdatedAt: ClientRuntime.Date?
+
+        public init(
+            atigData: Inspector2ClientTypes.AtigData? = nil,
+            cisaData: Inspector2ClientTypes.CisaData? = nil,
+            cvss2: Inspector2ClientTypes.Cvss2? = nil,
+            cvss3: Inspector2ClientTypes.Cvss3? = nil,
+            cwes: [Swift.String]? = nil,
+            description: Swift.String? = nil,
+            detectionPlatforms: [Swift.String]? = nil,
+            epss: Inspector2ClientTypes.Epss? = nil,
+            exploitObserved: Inspector2ClientTypes.ExploitObserved? = nil,
+            id: Swift.String? = nil,
+            referenceUrls: [Swift.String]? = nil,
+            relatedVulnerabilities: [Swift.String]? = nil,
+            source: Inspector2ClientTypes.VulnerabilitySource? = nil,
+            sourceUrl: Swift.String? = nil,
+            vendorCreatedAt: ClientRuntime.Date? = nil,
+            vendorSeverity: Swift.String? = nil,
+            vendorUpdatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.atigData = atigData
+            self.cisaData = cisaData
+            self.cvss2 = cvss2
+            self.cvss3 = cvss3
+            self.cwes = cwes
+            self.description = description
+            self.detectionPlatforms = detectionPlatforms
+            self.epss = epss
+            self.exploitObserved = exploitObserved
+            self.id = id
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+            self.source = source
+            self.sourceUrl = sourceUrl
+            self.vendorCreatedAt = vendorCreatedAt
+            self.vendorSeverity = vendorSeverity
+            self.vendorUpdatedAt = vendorUpdatedAt
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum VulnerabilitySource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nvd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VulnerabilitySource] {
+            return [
+                .nvd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nvd: return "NVD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VulnerabilitySource(rawValue: rawValue) ?? VulnerabilitySource.sdkUnknown(rawValue)
         }
     }
 }
@@ -14601,7 +15899,7 @@ extension Inspector2ClientTypes.VulnerablePackage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -14656,7 +15954,7 @@ extension Inspector2ClientTypes {
         /// This member is required.
         public var version: Swift.String?
 
-        public init (
+        public init(
             arch: Swift.String? = nil,
             epoch: Swift.Int = 0,
             filePath: Swift.String? = nil,

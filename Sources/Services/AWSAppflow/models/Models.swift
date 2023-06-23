@@ -3,37 +3,41 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessDeniedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// AppFlow/Requester has invalid or missing permissions.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,7 +50,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -69,7 +73,7 @@ extension AppflowClientTypes.AggregationConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aggregationTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AggregationType.self, forKey: .aggregationType)
         aggregationType = aggregationTypeDecoded
@@ -86,7 +90,7 @@ extension AppflowClientTypes {
         /// The desired file size, in MB, for each output file that Amazon AppFlow writes to the flow destination. For each file, Amazon AppFlow attempts to achieve the size that you specify. The actual file sizes might differ from this target based on the number and size of the records that each file contains.
         public var targetFileSize: Swift.Int?
 
-        public init (
+        public init(
             aggregationType: AppflowClientTypes.AggregationType? = nil,
             targetFileSize: Swift.Int? = nil
         )
@@ -175,7 +179,7 @@ extension AppflowClientTypes.AmplitudeConnectorProfileCredentials: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
@@ -199,7 +203,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var secretKey: Swift.String?
 
-        public init (
+        public init(
             apiKey: Swift.String? = nil,
             secretKey: Swift.String? = nil
         )
@@ -218,7 +222,7 @@ extension AppflowClientTypes.AmplitudeConnectorProfileProperties: Swift.Codable 
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -226,7 +230,7 @@ extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Amplitude.
     public struct AmplitudeConnectorProfileProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -238,7 +242,7 @@ extension AppflowClientTypes.AmplitudeMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -246,7 +250,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Amplitude.
     public struct AmplitudeMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -263,7 +267,7 @@ extension AppflowClientTypes.AmplitudeSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -277,7 +281,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -303,7 +307,7 @@ extension AppflowClientTypes.ApiKeyCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
@@ -326,7 +330,7 @@ extension AppflowClientTypes {
         /// The API secret key required for API key authentication.
         public var apiSecretKey: Swift.String?
 
-        public init (
+        public init(
             apiKey: Swift.String? = nil,
             apiSecretKey: Swift.String? = nil
         )
@@ -373,7 +377,7 @@ extension AppflowClientTypes.AuthParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -415,7 +419,7 @@ extension AppflowClientTypes {
         /// Label used for authentication parameter.
         public var label: Swift.String?
 
-        public init (
+        public init(
             connectorSuppliedValues: [Swift.String]? = nil,
             description: Swift.String? = nil,
             isRequired: Swift.Bool = false,
@@ -470,7 +474,7 @@ extension AppflowClientTypes.AuthenticationConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isBasicAuthSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isBasicAuthSupported) ?? false
         isBasicAuthSupported = isBasicAuthSupportedDecoded
@@ -512,7 +516,7 @@ extension AppflowClientTypes {
         /// Contains the default values required for OAuth 2.0 authentication.
         public var oAuth2Defaults: AppflowClientTypes.OAuth2Defaults?
 
-        public init (
+        public init(
             customAuthConfigs: [AppflowClientTypes.CustomAuthConfig]? = nil,
             isApiKeyAuthSupported: Swift.Bool = false,
             isBasicAuthSupported: Swift.Bool = false,
@@ -586,7 +590,7 @@ extension AppflowClientTypes.BasicAuthCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -610,7 +614,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
@@ -620,6 +624,142 @@ extension AppflowClientTypes {
         }
     }
 
+}
+
+extension CancelFlowExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionIds
+        case flowName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionIds = executionIds {
+            var executionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .executionIds)
+            for executionid0 in executionIds {
+                try executionIdsContainer.encode(executionid0)
+            }
+        }
+        if let flowName = self.flowName {
+            try encodeContainer.encode(flowName, forKey: .flowName)
+        }
+    }
+}
+
+extension CancelFlowExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/cancel-flow-executions"
+    }
+}
+
+public struct CancelFlowExecutionsInput: Swift.Equatable {
+    /// The ID of each active run to cancel. These runs must belong to the flow you specify in your request. If you omit this parameter, your request ends all active runs that belong to the flow.
+    public var executionIds: [Swift.String]?
+    /// The name of a flow with active runs that you want to cancel.
+    /// This member is required.
+    public var flowName: Swift.String?
+
+    public init(
+        executionIds: [Swift.String]? = nil,
+        flowName: Swift.String? = nil
+    )
+    {
+        self.executionIds = executionIds
+        self.flowName = flowName
+    }
+}
+
+struct CancelFlowExecutionsInputBody: Swift.Equatable {
+    let flowName: Swift.String?
+    let executionIds: [Swift.String]?
+}
+
+extension CancelFlowExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionIds
+        case flowName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
+        flowName = flowNameDecoded
+        let executionIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .executionIds)
+        var executionIdsDecoded0:[Swift.String]? = nil
+        if let executionIdsContainer = executionIdsContainer {
+            executionIdsDecoded0 = [Swift.String]()
+            for string0 in executionIdsContainer {
+                if let string0 = string0 {
+                    executionIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        executionIds = executionIdsDecoded0
+    }
+}
+
+public enum CancelFlowExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CancelFlowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelFlowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.invalidExecutions = output.invalidExecutions
+        } else {
+            self.invalidExecutions = nil
+        }
+    }
+}
+
+public struct CancelFlowExecutionsOutputResponse: Swift.Equatable {
+    /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be ineligible for canceling because they haven't started yet or have already completed.
+    public var invalidExecutions: [Swift.String]?
+
+    public init(
+        invalidExecutions: [Swift.String]? = nil
+    )
+    {
+        self.invalidExecutions = invalidExecutions
+    }
+}
+
+struct CancelFlowExecutionsOutputResponseBody: Swift.Equatable {
+    let invalidExecutions: [Swift.String]?
+}
+
+extension CancelFlowExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invalidExecutions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let invalidExecutionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .invalidExecutions)
+        var invalidExecutionsDecoded0:[Swift.String]? = nil
+        if let invalidExecutionsContainer = invalidExecutionsContainer {
+            invalidExecutionsDecoded0 = [Swift.String]()
+            for string0 in invalidExecutionsContainer {
+                if let string0 = string0 {
+                    invalidExecutionsDecoded0?.append(string0)
+                }
+            }
+        }
+        invalidExecutions = invalidExecutionsDecoded0
+    }
 }
 
 extension AppflowClientTypes {
@@ -652,37 +792,41 @@ extension AppflowClientTypes {
 }
 
 extension ConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -695,7 +839,7 @@ extension ConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -735,37 +879,41 @@ extension AppflowClientTypes {
 }
 
 extension ConnectorAuthenticationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConnectorAuthenticationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred when authenticating with the connector endpoint.
-public struct ConnectorAuthenticationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConnectorAuthenticationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConnectorAuthenticationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -778,7 +926,7 @@ extension ConnectorAuthenticationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -808,6 +956,8 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         case registeredAt
         case registeredBy
         case supportedApiVersions
+        case supportedDataTransferApis
+        case supportedDataTransferTypes
         case supportedDestinationConnectors
         case supportedOperators
         case supportedSchedulingFrequencies
@@ -889,6 +1039,18 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
                 try supportedApiVersionsContainer.encode(supportedapiversion0)
             }
         }
+        if let supportedDataTransferApis = supportedDataTransferApis {
+            var supportedDataTransferApisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferApis)
+            for datatransferapi0 in supportedDataTransferApis {
+                try supportedDataTransferApisContainer.encode(datatransferapi0)
+            }
+        }
+        if let supportedDataTransferTypes = supportedDataTransferTypes {
+            var supportedDataTransferTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferTypes)
+            for supporteddatatransfertype0 in supportedDataTransferTypes {
+                try supportedDataTransferTypesContainer.encode(supporteddatatransfertype0.rawValue)
+            }
+        }
         if let supportedDestinationConnectors = supportedDestinationConnectors {
             var supportedDestinationConnectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDestinationConnectors)
             for connectortype0 in supportedDestinationConnectors {
@@ -921,7 +1083,7 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let canUseAsSourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .canUseAsSource) ?? false
         canUseAsSource = canUseAsSourceDecoded
@@ -1047,6 +1209,28 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         registeredAt = registeredAtDecoded
         let registeredByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .registeredBy)
         registeredBy = registeredByDecoded
+        let supportedDataTransferTypesContainer = try containerValues.decodeIfPresent([AppflowClientTypes.SupportedDataTransferType?].self, forKey: .supportedDataTransferTypes)
+        var supportedDataTransferTypesDecoded0:[AppflowClientTypes.SupportedDataTransferType]? = nil
+        if let supportedDataTransferTypesContainer = supportedDataTransferTypesContainer {
+            supportedDataTransferTypesDecoded0 = [AppflowClientTypes.SupportedDataTransferType]()
+            for enum0 in supportedDataTransferTypesContainer {
+                if let enum0 = enum0 {
+                    supportedDataTransferTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        supportedDataTransferTypes = supportedDataTransferTypesDecoded0
+        let supportedDataTransferApisContainer = try containerValues.decodeIfPresent([AppflowClientTypes.DataTransferApi?].self, forKey: .supportedDataTransferApis)
+        var supportedDataTransferApisDecoded0:[AppflowClientTypes.DataTransferApi]? = nil
+        if let supportedDataTransferApisContainer = supportedDataTransferApisContainer {
+            supportedDataTransferApisDecoded0 = [AppflowClientTypes.DataTransferApi]()
+            for structure0 in supportedDataTransferApisContainer {
+                if let structure0 = structure0 {
+                    supportedDataTransferApisDecoded0?.append(structure0)
+                }
+            }
+        }
+        supportedDataTransferApis = supportedDataTransferApisDecoded0
     }
 }
 
@@ -1095,6 +1279,10 @@ extension AppflowClientTypes {
         public var registeredBy: Swift.String?
         /// A list of API versions that are supported by the connector.
         public var supportedApiVersions: [Swift.String]?
+        /// The APIs of the connector application that Amazon AppFlow can use to transfer your data.
+        public var supportedDataTransferApis: [AppflowClientTypes.DataTransferApi]?
+        /// The data transfer types that the connector supports. RECORD Structured records. FILE Files or binary data.
+        public var supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]?
         /// Lists the connectors that are available for use as destinations.
         public var supportedDestinationConnectors: [AppflowClientTypes.ConnectorType]?
         /// A list of operators supported by the connector.
@@ -1106,7 +1294,7 @@ extension AppflowClientTypes {
         /// A list of write operations supported by the connector.
         public var supportedWriteOperations: [AppflowClientTypes.WriteOperationType]?
 
-        public init (
+        public init(
             authenticationConfig: AppflowClientTypes.AuthenticationConfig? = nil,
             canUseAsDestination: Swift.Bool = false,
             canUseAsSource: Swift.Bool = false,
@@ -1128,6 +1316,8 @@ extension AppflowClientTypes {
             registeredAt: ClientRuntime.Date? = nil,
             registeredBy: Swift.String? = nil,
             supportedApiVersions: [Swift.String]? = nil,
+            supportedDataTransferApis: [AppflowClientTypes.DataTransferApi]? = nil,
+            supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]? = nil,
             supportedDestinationConnectors: [AppflowClientTypes.ConnectorType]? = nil,
             supportedOperators: [AppflowClientTypes.Operators]? = nil,
             supportedSchedulingFrequencies: [AppflowClientTypes.ScheduleFrequencyType]? = nil,
@@ -1156,6 +1346,8 @@ extension AppflowClientTypes {
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
             self.supportedApiVersions = supportedApiVersions
+            self.supportedDataTransferApis = supportedDataTransferApis
+            self.supportedDataTransferTypes = supportedDataTransferTypes
             self.supportedDestinationConnectors = supportedDestinationConnectors
             self.supportedOperators = supportedOperators
             self.supportedSchedulingFrequencies = supportedSchedulingFrequencies
@@ -1179,6 +1371,7 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
         case connectorVersion
         case registeredAt
         case registeredBy
+        case supportedDataTransferTypes
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1219,9 +1412,15 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
         if let registeredBy = self.registeredBy {
             try encodeContainer.encode(registeredBy, forKey: .registeredBy)
         }
+        if let supportedDataTransferTypes = supportedDataTransferTypes {
+            var supportedDataTransferTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDataTransferTypes)
+            for supporteddatatransfertype0 in supportedDataTransferTypes {
+                try supportedDataTransferTypesContainer.encode(supporteddatatransfertype0.rawValue)
+            }
+        }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorDescription)
         connectorDescription = connectorDescriptionDecoded
@@ -1254,6 +1453,17 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
             }
         }
         connectorModes = connectorModesDecoded0
+        let supportedDataTransferTypesContainer = try containerValues.decodeIfPresent([AppflowClientTypes.SupportedDataTransferType?].self, forKey: .supportedDataTransferTypes)
+        var supportedDataTransferTypesDecoded0:[AppflowClientTypes.SupportedDataTransferType]? = nil
+        if let supportedDataTransferTypesContainer = supportedDataTransferTypesContainer {
+            supportedDataTransferTypesDecoded0 = [AppflowClientTypes.SupportedDataTransferType]()
+            for enum0 in supportedDataTransferTypesContainer {
+                if let enum0 = enum0 {
+                    supportedDataTransferTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        supportedDataTransferTypes = supportedDataTransferTypesDecoded0
     }
 }
 
@@ -1282,8 +1492,10 @@ extension AppflowClientTypes {
         public var registeredAt: ClientRuntime.Date?
         /// The user who registered the connector.
         public var registeredBy: Swift.String?
+        /// The data transfer types that the connector supports. RECORD Structured records. FILE Files or binary data.
+        public var supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]?
 
-        public init (
+        public init(
             applicationType: Swift.String? = nil,
             connectorDescription: Swift.String? = nil,
             connectorLabel: Swift.String? = nil,
@@ -1294,7 +1506,8 @@ extension AppflowClientTypes {
             connectorType: AppflowClientTypes.ConnectorType? = nil,
             connectorVersion: Swift.String? = nil,
             registeredAt: ClientRuntime.Date? = nil,
-            registeredBy: Swift.String? = nil
+            registeredBy: Swift.String? = nil,
+            supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]? = nil
         )
         {
             self.applicationType = applicationType
@@ -1308,6 +1521,7 @@ extension AppflowClientTypes {
             self.connectorVersion = connectorVersion
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
+            self.supportedDataTransferTypes = supportedDataTransferTypes
         }
     }
 
@@ -1333,7 +1547,7 @@ extension AppflowClientTypes.ConnectorEntity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -1355,7 +1569,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var name: Swift.String?
 
-        public init (
+        public init(
             hasNestedEntities: Swift.Bool = false,
             label: Swift.String? = nil,
             name: Swift.String? = nil
@@ -1424,7 +1638,7 @@ extension AppflowClientTypes.ConnectorEntityField: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -1487,7 +1701,7 @@ extension AppflowClientTypes {
         /// Contains details regarding the supported FieldType, including the corresponding filterOperators and supportedValues.
         public var supportedFieldTypeDetails: AppflowClientTypes.SupportedFieldTypeDetails?
 
-        public init (
+        public init(
             customProperties: [Swift.String:Swift.String]? = nil,
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -1613,7 +1827,7 @@ extension AppflowClientTypes.ConnectorMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplitudeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AmplitudeMetadata.self, forKey: .amplitude)
         amplitude = amplitudeDecoded
@@ -1710,7 +1924,7 @@ extension AppflowClientTypes {
         /// The connector metadata specific to Zendesk.
         public var zendesk: AppflowClientTypes.ZendeskMetadata?
 
-        public init (
+        public init(
             amplitude: AppflowClientTypes.AmplitudeMetadata? = nil,
             customerProfiles: AppflowClientTypes.CustomerProfilesMetadata? = nil,
             datadog: AppflowClientTypes.DatadogMetadata? = nil,
@@ -1778,7 +1992,7 @@ extension AppflowClientTypes.ConnectorOAuthRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authCode)
         authCode = authCodeDecoded
@@ -1795,7 +2009,7 @@ extension AppflowClientTypes {
         /// The URL to which the authentication server redirects the browser after authorization has been granted.
         public var redirectUri: Swift.String?
 
-        public init (
+        public init(
             authCode: Swift.String? = nil,
             redirectUri: Swift.String? = nil
         )
@@ -1883,7 +2097,7 @@ extension AppflowClientTypes.ConnectorOperator: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplitudeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AmplitudeConnectorOperator.self, forKey: .amplitude)
         amplitude = amplitudeDecoded
@@ -1960,7 +2174,7 @@ extension AppflowClientTypes {
         /// The operation to be performed on the provided Zendesk source fields.
         public var zendesk: AppflowClientTypes.ZendeskConnectorOperator?
 
-        public init (
+        public init(
             amplitude: AppflowClientTypes.AmplitudeConnectorOperator? = nil,
             customConnector: AppflowClientTypes.Operator? = nil,
             datadog: AppflowClientTypes.DatadogConnectorOperator? = nil,
@@ -2050,7 +2264,7 @@ extension AppflowClientTypes.ConnectorProfile: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileArn)
         connectorProfileArn = connectorProfileArnDecoded
@@ -2099,7 +2313,7 @@ extension AppflowClientTypes {
         /// Specifies the private connection provisioning state.
         public var privateConnectionProvisioningState: AppflowClientTypes.PrivateConnectionProvisioningState?
 
-        public init (
+        public init(
             connectionMode: AppflowClientTypes.ConnectionMode? = nil,
             connectorLabel: Swift.String? = nil,
             connectorProfileArn: Swift.String? = nil,
@@ -2143,7 +2357,7 @@ extension AppflowClientTypes.ConnectorProfileConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfilePropertiesDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProfileProperties.self, forKey: .connectorProfileProperties)
         connectorProfileProperties = connectorProfilePropertiesDecoded
@@ -2161,7 +2375,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var connectorProfileProperties: AppflowClientTypes.ConnectorProfileProperties?
 
-        public init (
+        public init(
             connectorProfileCredentials: AppflowClientTypes.ConnectorProfileCredentials? = nil,
             connectorProfileProperties: AppflowClientTypes.ConnectorProfileProperties? = nil
         )
@@ -2257,7 +2471,7 @@ extension AppflowClientTypes.ConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplitudeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AmplitudeConnectorProfileCredentials.self, forKey: .amplitude)
         amplitude = amplitudeDecoded
@@ -2342,7 +2556,7 @@ extension AppflowClientTypes {
         /// The connector-specific credentials required when using Zendesk.
         public var zendesk: AppflowClientTypes.ZendeskConnectorProfileCredentials?
 
-        public init (
+        public init(
             amplitude: AppflowClientTypes.AmplitudeConnectorProfileCredentials? = nil,
             customConnector: AppflowClientTypes.CustomConnectorProfileCredentials? = nil,
             datadog: AppflowClientTypes.DatadogConnectorProfileCredentials? = nil,
@@ -2472,7 +2686,7 @@ extension AppflowClientTypes.ConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplitudeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AmplitudeConnectorProfileProperties.self, forKey: .amplitude)
         amplitude = amplitudeDecoded
@@ -2557,7 +2771,7 @@ extension AppflowClientTypes {
         /// The connector-specific properties required by Zendesk.
         public var zendesk: AppflowClientTypes.ZendeskConnectorProfileProperties?
 
-        public init (
+        public init(
             amplitude: AppflowClientTypes.AmplitudeConnectorProfileProperties? = nil,
             customConnector: AppflowClientTypes.CustomConnectorProfileProperties? = nil,
             datadog: AppflowClientTypes.DatadogConnectorProfileProperties? = nil,
@@ -2615,7 +2829,7 @@ extension AppflowClientTypes.ConnectorProvisioningConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lambdaDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.LambdaConnectorProvisioningConfig.self, forKey: .lambda)
         lambda = lambdaDecoded
@@ -2628,7 +2842,7 @@ extension AppflowClientTypes {
         /// Contains information about the configuration of the lambda which is being registered as the connector.
         public var lambda: AppflowClientTypes.LambdaConnectorProvisioningConfig?
 
-        public init (
+        public init(
             lambda: AppflowClientTypes.LambdaConnectorProvisioningConfig? = nil
         )
         {
@@ -2707,7 +2921,7 @@ extension AppflowClientTypes.ConnectorRuntimeSetting: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -2753,7 +2967,7 @@ extension AppflowClientTypes {
         /// Indicates the scope of the connector runtime setting.
         public var scope: Swift.String?
 
-        public init (
+        public init(
             connectorSuppliedValueOptions: [Swift.String]? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -2776,37 +2990,41 @@ extension AppflowClientTypes {
 }
 
 extension ConnectorServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConnectorServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred when retrieving data from the connector endpoint.
-public struct ConnectorServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ConnectorServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConnectorServerException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2819,7 +3037,7 @@ extension ConnectorServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2987,7 +3205,7 @@ public struct CreateConnectorProfileInput: Swift.Equatable {
     /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
     public var kmsArn: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         connectionMode: AppflowClientTypes.ConnectionMode? = nil,
         connectorLabel: Swift.String? = nil,
@@ -3028,7 +3246,7 @@ extension CreateConnectorProfileInputBody: Swift.Decodable {
         case kmsArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
         connectorProfileName = connectorProfileNameDecoded
@@ -3047,39 +3265,24 @@ extension CreateConnectorProfileInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConnectorProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateConnectorProfileOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConnectorProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateConnectorProfileOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case internalServerException(InternalServerException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConnectorProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateConnectorProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileArn = output.connectorProfileArn
@@ -3093,7 +3296,7 @@ public struct CreateConnectorProfileOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the connector profile.
     public var connectorProfileArn: Swift.String?
 
-    public init (
+    public init(
         connectorProfileArn: Swift.String? = nil
     )
     {
@@ -3110,7 +3313,7 @@ extension CreateConnectorProfileOutputResponseBody: Swift.Decodable {
         case connectorProfileArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileArn)
         connectorProfileArn = connectorProfileArnDecoded
@@ -3208,7 +3411,7 @@ public struct CreateFlowInput: Swift.Equatable {
     /// This member is required.
     public var triggerConfig: AppflowClientTypes.TriggerConfig?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
@@ -3261,7 +3464,7 @@ extension CreateFlowInputBody: Swift.Decodable {
         case triggerConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
@@ -3313,43 +3516,26 @@ extension CreateFlowInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateFlowOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
@@ -3367,7 +3553,7 @@ public struct CreateFlowOutputResponse: Swift.Equatable {
     /// Indicates the current status of the flow.
     public var flowStatus: AppflowClientTypes.FlowStatus?
 
-    public init (
+    public init(
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
     )
@@ -3388,7 +3574,7 @@ extension CreateFlowOutputResponseBody: Swift.Decodable {
         case flowStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -3416,7 +3602,7 @@ extension AppflowClientTypes.CustomAuthConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customAuthenticationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customAuthenticationType)
         customAuthenticationType = customAuthenticationTypeDecoded
@@ -3442,7 +3628,7 @@ extension AppflowClientTypes {
         /// The authentication type that the custom connector uses.
         public var customAuthenticationType: Swift.String?
 
-        public init (
+        public init(
             authParameters: [AppflowClientTypes.AuthParameter]? = nil,
             customAuthenticationType: Swift.String? = nil
         )
@@ -3473,7 +3659,7 @@ extension AppflowClientTypes.CustomAuthCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let customAuthenticationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customAuthenticationType)
         customAuthenticationType = customAuthenticationTypeDecoded
@@ -3500,7 +3686,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var customAuthenticationType: Swift.String?
 
-        public init (
+        public init(
             credentialsMap: [Swift.String:Swift.String]? = nil,
             customAuthenticationType: Swift.String? = nil
         )
@@ -3546,7 +3732,7 @@ extension AppflowClientTypes.CustomConnectorDestinationProperties: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityName)
         entityName = entityNameDecoded
@@ -3594,7 +3780,7 @@ extension AppflowClientTypes {
         /// Specifies the type of write operation to be performed in the custom connector when it's used as destination.
         public var writeOperationType: AppflowClientTypes.WriteOperationType?
 
-        public init (
+        public init(
             customProperties: [Swift.String:Swift.String]? = nil,
             entityName: Swift.String? = nil,
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
@@ -3640,7 +3826,7 @@ extension AppflowClientTypes.CustomConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
@@ -3670,7 +3856,7 @@ extension AppflowClientTypes {
         /// The OAuth 2.0 credentials required for the authentication of the user.
         public var oauth2: AppflowClientTypes.OAuth2Credentials?
 
-        public init (
+        public init(
             apiKey: AppflowClientTypes.ApiKeyCredentials? = nil,
             authenticationType: AppflowClientTypes.AuthenticationType? = nil,
             basic: AppflowClientTypes.BasicAuthCredentials? = nil,
@@ -3707,7 +3893,7 @@ extension AppflowClientTypes.CustomConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let profilePropertiesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .profileProperties)
         var profilePropertiesDecoded0: [Swift.String:Swift.String]? = nil
@@ -3733,7 +3919,7 @@ extension AppflowClientTypes {
         /// A map of properties that are required to create a profile for the custom connector.
         public var profileProperties: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             oAuth2Properties: AppflowClientTypes.OAuth2Properties? = nil,
             profileProperties: [Swift.String:Swift.String]? = nil
         )
@@ -3748,6 +3934,7 @@ extension AppflowClientTypes {
 extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customProperties
+        case dataTransferApi
         case entityName
     }
 
@@ -3759,12 +3946,15 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
                 try customPropertiesContainer.encode(customProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let dataTransferApi = self.dataTransferApi {
+            try encodeContainer.encode(dataTransferApi, forKey: .dataTransferApi)
+        }
         if let entityName = self.entityName {
             try encodeContainer.encode(entityName, forKey: .entityName)
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let entityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityName)
         entityName = entityNameDecoded
@@ -3779,6 +3969,8 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
             }
         }
         customProperties = customPropertiesDecoded0
+        let dataTransferApiDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.DataTransferApi.self, forKey: .dataTransferApi)
+        dataTransferApi = dataTransferApiDecoded
     }
 }
 
@@ -3787,16 +3979,20 @@ extension AppflowClientTypes {
     public struct CustomConnectorSourceProperties: Swift.Equatable {
         /// Custom properties that are required to use the custom connector as a source.
         public var customProperties: [Swift.String:Swift.String]?
+        /// The API of the connector application that Amazon AppFlow uses to transfer your data.
+        public var dataTransferApi: AppflowClientTypes.DataTransferApi?
         /// The entity specified in the custom connector as a source in the flow.
         /// This member is required.
         public var entityName: Swift.String?
 
-        public init (
+        public init(
             customProperties: [Swift.String:Swift.String]? = nil,
+            dataTransferApi: AppflowClientTypes.DataTransferApi? = nil,
             entityName: Swift.String? = nil
         )
         {
             self.customProperties = customProperties
+            self.dataTransferApi = dataTransferApi
             self.entityName = entityName
         }
     }
@@ -3819,7 +4015,7 @@ extension AppflowClientTypes.CustomerProfilesDestinationProperties: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
@@ -3837,7 +4033,7 @@ extension AppflowClientTypes {
         /// The object specified in the Amazon Connect Customer Profiles flow destination.
         public var objectTypeName: Swift.String?
 
-        public init (
+        public init(
             domainName: Swift.String? = nil,
             objectTypeName: Swift.String? = nil
         )
@@ -3856,7 +4052,7 @@ extension AppflowClientTypes.CustomerProfilesMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -3864,7 +4060,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Amazon Connect Customer Profiles.
     public struct CustomerProfilesMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -3897,6 +4093,86 @@ extension AppflowClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DataPullMode(rawValue: rawValue) ?? DataPullMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppflowClientTypes.DataTransferApi: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.DataTransferApiType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// The API of the connector application that Amazon AppFlow uses to transfer your data.
+    public struct DataTransferApi: Swift.Equatable {
+        /// The name of the connector application API.
+        public var name: Swift.String?
+        /// You can specify one of the following types: AUTOMATIC The default. Optimizes a flow for datasets that fluctuate in size from small to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC API type based on the amount of data that the run transfers. SYNC A synchronous API. This type of API optimizes a flow for small to medium-sized datasets. ASYNC An asynchronous API. This type of API optimizes a flow for large datasets.
+        public var type: AppflowClientTypes.DataTransferApiType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: AppflowClientTypes.DataTransferApiType? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension AppflowClientTypes {
+    public enum DataTransferApiType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case async
+        case automatic
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataTransferApiType] {
+            return [
+                .async,
+                .automatic,
+                .sync,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .async: return "ASYNC"
+            case .automatic: return "AUTOMATIC"
+            case .sync: return "SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataTransferApiType(rawValue: rawValue) ?? DataTransferApiType.sdkUnknown(rawValue)
         }
     }
 }
@@ -3988,7 +4264,7 @@ extension AppflowClientTypes.DatadogConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
@@ -4012,7 +4288,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var applicationKey: Swift.String?
 
-        public init (
+        public init(
             apiKey: Swift.String? = nil,
             applicationKey: Swift.String? = nil
         )
@@ -4036,7 +4312,7 @@ extension AppflowClientTypes.DatadogConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -4050,7 +4326,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -4067,7 +4343,7 @@ extension AppflowClientTypes.DatadogMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -4075,7 +4351,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Datadog.
     public struct DatadogMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -4092,7 +4368,7 @@ extension AppflowClientTypes.DatadogSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -4106,7 +4382,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -4146,7 +4422,7 @@ public struct DeleteConnectorProfileInput: Swift.Equatable {
     /// Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
     public var forceDelete: Swift.Bool?
 
-    public init (
+    public init(
         connectorProfileName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
     )
@@ -4167,7 +4443,7 @@ extension DeleteConnectorProfileInputBody: Swift.Decodable {
         case forceDelete
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
         connectorProfileName = connectorProfileNameDecoded
@@ -4176,40 +4452,27 @@ extension DeleteConnectorProfileInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteConnectorProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteConnectorProfileOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConnectorProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteConnectorProfileOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConnectorProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConnectorProfileOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteFlowInput: Swift.Encodable {
@@ -4242,7 +4505,7 @@ public struct DeleteFlowInput: Swift.Equatable {
     /// Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
     public var forceDelete: Swift.Bool?
 
-    public init (
+    public init(
         flowName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
     )
@@ -4263,7 +4526,7 @@ extension DeleteFlowInputBody: Swift.Decodable {
         case forceDelete
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
@@ -4272,40 +4535,27 @@ extension DeleteFlowInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteFlowOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteFlowOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeConnectorEntityInput: Swift.Encodable {
@@ -4350,7 +4600,7 @@ public struct DescribeConnectorEntityInput: Swift.Equatable {
     /// The type of connector application, such as Salesforce, Amplitude, and so on.
     public var connectorType: AppflowClientTypes.ConnectorType?
 
-    public init (
+    public init(
         apiVersion: Swift.String? = nil,
         connectorEntityName: Swift.String? = nil,
         connectorProfileName: Swift.String? = nil,
@@ -4379,7 +4629,7 @@ extension DescribeConnectorEntityInputBody: Swift.Decodable {
         case connectorType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorEntityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorEntityName)
         connectorEntityName = connectorEntityNameDecoded
@@ -4392,39 +4642,24 @@ extension DescribeConnectorEntityInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectorEntityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectorEntityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectorEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectorEntityOutputError: Swift.Error, Swift.Equatable {
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectorEntityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectorEntityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorEntityFields = output.connectorEntityFields
@@ -4439,7 +4674,7 @@ public struct DescribeConnectorEntityOutputResponse: Swift.Equatable {
     /// This member is required.
     public var connectorEntityFields: [AppflowClientTypes.ConnectorEntityField]?
 
-    public init (
+    public init(
         connectorEntityFields: [AppflowClientTypes.ConnectorEntityField]? = nil
     )
     {
@@ -4456,7 +4691,7 @@ extension DescribeConnectorEntityOutputResponseBody: Swift.Decodable {
         case connectorEntityFields
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorEntityFieldsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.ConnectorEntityField?].self, forKey: .connectorEntityFields)
         var connectorEntityFieldsDecoded0:[AppflowClientTypes.ConnectorEntityField]? = nil
@@ -4502,7 +4737,7 @@ public struct DescribeConnectorInput: Swift.Equatable {
     /// This member is required.
     public var connectorType: AppflowClientTypes.ConnectorType?
 
-    public init (
+    public init(
         connectorLabel: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil
     )
@@ -4523,7 +4758,7 @@ extension DescribeConnectorInputBody: Swift.Decodable {
         case connectorType
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorType.self, forKey: .connectorType)
         connectorType = connectorTypeDecoded
@@ -4532,35 +4767,22 @@ extension DescribeConnectorInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectorOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorConfiguration = output.connectorConfiguration
@@ -4574,7 +4796,7 @@ public struct DescribeConnectorOutputResponse: Swift.Equatable {
     /// Configuration info of all the connectors that the user requested.
     public var connectorConfiguration: AppflowClientTypes.ConnectorConfiguration?
 
-    public init (
+    public init(
         connectorConfiguration: AppflowClientTypes.ConnectorConfiguration? = nil
     )
     {
@@ -4591,7 +4813,7 @@ extension DescribeConnectorOutputResponseBody: Swift.Decodable {
         case connectorConfiguration
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorConfigurationDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorConfiguration.self, forKey: .connectorConfiguration)
         connectorConfiguration = connectorConfigurationDecoded
@@ -4648,7 +4870,7 @@ public struct DescribeConnectorProfilesInput: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectorLabel: Swift.String? = nil,
         connectorProfileNames: [Swift.String]? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil,
@@ -4681,7 +4903,7 @@ extension DescribeConnectorProfilesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .connectorProfileNames)
         var connectorProfileNamesDecoded0:[Swift.String]? = nil
@@ -4705,33 +4927,21 @@ extension DescribeConnectorProfilesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectorProfilesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectorProfilesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectorProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectorProfilesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectorProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectorProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileDetails = output.connectorProfileDetails
@@ -4749,7 +4959,7 @@ public struct DescribeConnectorProfilesOutputResponse: Swift.Equatable {
     /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectorProfileDetails: [AppflowClientTypes.ConnectorProfile]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4770,7 +4980,7 @@ extension DescribeConnectorProfilesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileDetailsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.ConnectorProfile?].self, forKey: .connectorProfileDetails)
         var connectorProfileDetailsDecoded0:[AppflowClientTypes.ConnectorProfile]? = nil
@@ -4826,7 +5036,7 @@ public struct DescribeConnectorsInput: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectorTypes: [AppflowClientTypes.ConnectorType]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -4851,7 +5061,7 @@ extension DescribeConnectorsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorTypesContainer = try containerValues.decodeIfPresent([AppflowClientTypes.ConnectorType?].self, forKey: .connectorTypes)
         var connectorTypesDecoded0:[AppflowClientTypes.ConnectorType]? = nil
@@ -4871,33 +5081,21 @@ extension DescribeConnectorsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConnectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeConnectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeConnectorsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorConfigurations = output.connectorConfigurations
@@ -4919,7 +5117,7 @@ public struct DescribeConnectorsOutputResponse: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectorConfigurations: [Swift.String:AppflowClientTypes.ConnectorConfiguration]? = nil,
         connectors: [AppflowClientTypes.ConnectorDetail]? = nil,
         nextToken: Swift.String? = nil
@@ -4944,7 +5142,7 @@ extension DescribeConnectorsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorConfigurationsContainer = try containerValues.decodeIfPresent([Swift.String: AppflowClientTypes.ConnectorConfiguration?].self, forKey: .connectorConfigurations)
         var connectorConfigurationsDecoded0: [Swift.String:AppflowClientTypes.ConnectorConfiguration]? = nil
@@ -5009,7 +5207,7 @@ public struct DescribeFlowExecutionRecordsInput: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         flowName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5034,7 +5232,7 @@ extension DescribeFlowExecutionRecordsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
@@ -5045,35 +5243,22 @@ extension DescribeFlowExecutionRecordsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeFlowExecutionRecordsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFlowExecutionRecordsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFlowExecutionRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFlowExecutionRecordsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFlowExecutionRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFlowExecutionRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowExecutions = output.flowExecutions
@@ -5091,7 +5276,7 @@ public struct DescribeFlowExecutionRecordsOutputResponse: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         flowExecutions: [AppflowClientTypes.ExecutionRecord]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5112,7 +5297,7 @@ extension DescribeFlowExecutionRecordsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowExecutionsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.ExecutionRecord?].self, forKey: .flowExecutions)
         var flowExecutionsDecoded0:[AppflowClientTypes.ExecutionRecord]? = nil
@@ -5154,7 +5339,7 @@ public struct DescribeFlowInput: Swift.Equatable {
     /// This member is required.
     public var flowName: Swift.String?
 
-    public init (
+    public init(
         flowName: Swift.String? = nil
     )
     {
@@ -5171,40 +5356,28 @@ extension DescribeFlowInputBody: Swift.Decodable {
         case flowName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
     }
 }
 
-extension DescribeFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeFlowOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
@@ -5296,7 +5469,7 @@ public struct DescribeFlowOutputResponse: Swift.Equatable {
     /// The trigger settings that determine how and when the flow runs.
     public var triggerConfig: AppflowClientTypes.TriggerConfig?
 
-    public init (
+    public init(
         createdAt: ClientRuntime.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -5385,7 +5558,7 @@ extension DescribeFlowOutputResponseBody: Swift.Decodable {
         case triggerConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -5524,7 +5697,7 @@ extension AppflowClientTypes.DestinationConnectorProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let redshiftDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.RedshiftDestinationProperties.self, forKey: .redshift)
         redshift = redshiftDecoded
@@ -5585,7 +5758,7 @@ extension AppflowClientTypes {
         /// The properties required to query Zendesk.
         public var zendesk: AppflowClientTypes.ZendeskDestinationProperties?
 
-        public init (
+        public init(
             customConnector: AppflowClientTypes.CustomConnectorDestinationProperties? = nil,
             customerProfiles: AppflowClientTypes.CustomerProfilesDestinationProperties? = nil,
             eventBridge: AppflowClientTypes.EventBridgeDestinationProperties? = nil,
@@ -5654,7 +5827,7 @@ extension AppflowClientTypes.DestinationFieldProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isCreatableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isCreatable) ?? false
         isCreatable = isCreatableDecoded
@@ -5696,7 +5869,7 @@ extension AppflowClientTypes {
         /// A list of supported write operations. For each write operation listed, this field can be used in idFieldNames when that write operation is present as a destination option.
         public var supportedWriteOperations: [AppflowClientTypes.WriteOperationType]?
 
-        public init (
+        public init(
             isCreatable: Swift.Bool = false,
             isDefaultedOnCreate: Swift.Bool = false,
             isNullable: Swift.Bool = false,
@@ -5740,7 +5913,7 @@ extension AppflowClientTypes.DestinationFlowConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorType.self, forKey: .connectorType)
         connectorType = connectorTypeDecoded
@@ -5767,7 +5940,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var destinationConnectorProperties: AppflowClientTypes.DestinationConnectorProperties?
 
-        public init (
+        public init(
             apiVersion: Swift.String? = nil,
             connectorProfileName: Swift.String? = nil,
             connectorType: AppflowClientTypes.ConnectorType? = nil,
@@ -5866,7 +6039,7 @@ extension AppflowClientTypes.DynatraceConnectorProfileCredentials: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiToken)
         apiToken = apiTokenDecoded
@@ -5880,7 +6053,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var apiToken: Swift.String?
 
-        public init (
+        public init(
             apiToken: Swift.String? = nil
         )
         {
@@ -5902,7 +6075,7 @@ extension AppflowClientTypes.DynatraceConnectorProfileProperties: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -5916,7 +6089,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -5933,7 +6106,7 @@ extension AppflowClientTypes.DynatraceMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -5941,7 +6114,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Dynatrace.
     public struct DynatraceMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -5958,7 +6131,7 @@ extension AppflowClientTypes.DynatraceSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -5972,7 +6145,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -6002,7 +6175,7 @@ extension AppflowClientTypes.ErrorHandlingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let failOnFirstDestinationErrorDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .failOnFirstDestinationError) ?? false
         failOnFirstDestinationError = failOnFirstDestinationErrorDecoded
@@ -6023,7 +6196,7 @@ extension AppflowClientTypes {
         /// Specifies if the flow should fail after the first instance of a failure when attempting to place data in the destination.
         public var failOnFirstDestinationError: Swift.Bool
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             failOnFirstDestinationError: Swift.Bool = false
@@ -6053,7 +6226,7 @@ extension AppflowClientTypes.ErrorInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let putFailuresCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .putFailuresCount)
         putFailuresCount = putFailuresCountDecoded
@@ -6070,7 +6243,7 @@ extension AppflowClientTypes {
         /// Specifies the failure count for the attempted flow.
         public var putFailuresCount: Swift.Int?
 
-        public init (
+        public init(
             executionMessage: Swift.String? = nil,
             putFailuresCount: Swift.Int? = nil
         )
@@ -6098,7 +6271,7 @@ extension AppflowClientTypes.EventBridgeDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -6116,7 +6289,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
         )
@@ -6135,7 +6308,7 @@ extension AppflowClientTypes.EventBridgeMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -6143,7 +6316,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Amazon EventBridge.
     public struct EventBridgeMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -6168,7 +6341,7 @@ extension AppflowClientTypes.ExecutionDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mostRecentExecutionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mostRecentExecutionMessage)
         mostRecentExecutionMessage = mostRecentExecutionMessageDecoded
@@ -6189,7 +6362,7 @@ extension AppflowClientTypes {
         /// Specifies the time of the most recent flow run.
         public var mostRecentExecutionTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             mostRecentExecutionMessage: Swift.String? = nil,
             mostRecentExecutionStatus: AppflowClientTypes.ExecutionStatus? = nil,
             mostRecentExecutionTime: ClientRuntime.Date? = nil
@@ -6246,7 +6419,7 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let executionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionId)
         executionId = executionIdDecoded
@@ -6296,7 +6469,7 @@ extension AppflowClientTypes {
         /// Specifies the start time of the flow run.
         public var startedAt: ClientRuntime.Date?
 
-        public init (
+        public init(
             dataPullEndTime: ClientRuntime.Date? = nil,
             dataPullStartTime: ClientRuntime.Date? = nil,
             executionId: Swift.String? = nil,
@@ -6344,7 +6517,7 @@ extension AppflowClientTypes.ExecutionResult: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorInfoDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ErrorInfo.self, forKey: .errorInfo)
         errorInfo = errorInfoDecoded
@@ -6369,7 +6542,7 @@ extension AppflowClientTypes {
         /// The number of records processed in the flow run.
         public var recordsProcessed: Swift.Int?
 
-        public init (
+        public init(
             bytesProcessed: Swift.Int? = nil,
             bytesWritten: Swift.Int? = nil,
             errorInfo: AppflowClientTypes.ErrorInfo? = nil,
@@ -6387,6 +6560,8 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes {
     public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case cancelstarted
         case error
         case inprogress
         case successful
@@ -6394,6 +6569,8 @@ extension AppflowClientTypes {
 
         public static var allCases: [ExecutionStatus] {
             return [
+                .canceled,
+                .cancelstarted,
                 .error,
                 .inprogress,
                 .successful,
@@ -6406,6 +6583,8 @@ extension AppflowClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .canceled: return "Canceled"
+            case .cancelstarted: return "CancelStarted"
             case .error: return "Error"
             case .inprogress: return "InProgress"
             case .successful: return "Successful"
@@ -6462,7 +6641,7 @@ extension AppflowClientTypes.FieldTypeDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldType)
         fieldType = fieldTypeDecoded
@@ -6519,7 +6698,7 @@ extension AppflowClientTypes {
         /// The regular expression pattern for the field name.
         public var valueRegexPattern: Swift.String?
 
-        public init (
+        public init(
             fieldLengthRange: AppflowClientTypes.Range? = nil,
             fieldType: Swift.String? = nil,
             fieldValueRange: AppflowClientTypes.Range? = nil,
@@ -6647,7 +6826,7 @@ extension AppflowClientTypes.FlowDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -6725,7 +6904,7 @@ extension AppflowClientTypes {
         /// Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
         public var triggerType: AppflowClientTypes.TriggerType?
 
-        public init (
+        public init(
             createdAt: ClientRuntime.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -6827,7 +7006,7 @@ extension AppflowClientTypes.GlueDataCatalogConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
@@ -6851,7 +7030,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var tablePrefix: Swift.String?
 
-        public init (
+        public init(
             databaseName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             tablePrefix: Swift.String? = nil
@@ -6925,7 +7104,7 @@ extension AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -6961,7 +7140,7 @@ extension AppflowClientTypes {
         /// The credentials used to acquire new access tokens. This is required only for OAuth2 access tokens, and is not required for OAuth1 access tokens.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -6986,7 +7165,7 @@ extension AppflowClientTypes.GoogleAnalyticsConnectorProfileProperties: Swift.Co
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -6994,7 +7173,7 @@ extension AppflowClientTypes {
     /// The connector-specific profile properties required by Google Analytics.
     public struct GoogleAnalyticsConnectorProfileProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -7014,7 +7193,7 @@ extension AppflowClientTypes.GoogleAnalyticsMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oAuthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oAuthScopes)
         var oAuthScopesDecoded0:[Swift.String]? = nil
@@ -7036,7 +7215,7 @@ extension AppflowClientTypes {
         /// The desired authorization scope for the Google Analytics account.
         public var oAuthScopes: [Swift.String]?
 
-        public init (
+        public init(
             oAuthScopes: [Swift.String]? = nil
         )
         {
@@ -7058,7 +7237,7 @@ extension AppflowClientTypes.GoogleAnalyticsSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -7072,7 +7251,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -7102,7 +7281,7 @@ extension AppflowClientTypes.HoneycodeConnectorProfileCredentials: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
         accessToken = accessTokenDecoded
@@ -7128,7 +7307,7 @@ extension AppflowClientTypes {
         /// The credentials used to acquire new access tokens.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
@@ -7149,7 +7328,7 @@ extension AppflowClientTypes.HoneycodeConnectorProfileProperties: Swift.Codable 
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -7157,7 +7336,7 @@ extension AppflowClientTypes {
     /// The connector-specific properties required when using Amazon Honeycode.
     public struct HoneycodeConnectorProfileProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -7178,7 +7357,7 @@ extension AppflowClientTypes.HoneycodeDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -7196,7 +7375,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
         )
@@ -7223,7 +7402,7 @@ extension AppflowClientTypes.HoneycodeMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oAuthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oAuthScopes)
         var oAuthScopesDecoded0:[Swift.String]? = nil
@@ -7245,7 +7424,7 @@ extension AppflowClientTypes {
         /// The desired authorization scope for the Amazon Honeycode account.
         public var oAuthScopes: [Swift.String]?
 
-        public init (
+        public init(
             oAuthScopes: [Swift.String]? = nil
         )
         {
@@ -7267,7 +7446,7 @@ extension AppflowClientTypes.IncrementalPullConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datetimeTypeFieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datetimeTypeFieldName)
         datetimeTypeFieldName = datetimeTypeFieldNameDecoded
@@ -7280,7 +7459,7 @@ extension AppflowClientTypes {
         /// A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public var datetimeTypeFieldName: Swift.String?
 
-        public init (
+        public init(
             datetimeTypeFieldName: Swift.String? = nil
         )
         {
@@ -7385,7 +7564,7 @@ extension AppflowClientTypes.InforNexusConnectorProfileCredentials: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessKeyId)
         accessKeyId = accessKeyIdDecoded
@@ -7419,7 +7598,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var userId: Swift.String?
 
-        public init (
+        public init(
             accessKeyId: Swift.String? = nil,
             datakey: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
@@ -7447,7 +7626,7 @@ extension AppflowClientTypes.InforNexusConnectorProfileProperties: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -7461,7 +7640,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -7478,7 +7657,7 @@ extension AppflowClientTypes.InforNexusMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -7486,7 +7665,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Infor Nexus.
     public struct InforNexusMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -7503,7 +7682,7 @@ extension AppflowClientTypes.InforNexusSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -7517,7 +7696,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -7528,37 +7707,41 @@ extension AppflowClientTypes {
 }
 
 extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal service error occurred during the processing of your request. Try again later.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7571,7 +7754,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7590,7 +7773,7 @@ extension AppflowClientTypes.LambdaConnectorProvisioningConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaArn)
         lambdaArn = lambdaArnDecoded
@@ -7604,7 +7787,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var lambdaArn: Swift.String?
 
-        public init (
+        public init(
             lambdaArn: Swift.String? = nil
         )
         {
@@ -7667,7 +7850,7 @@ public struct ListConnectorEntitiesInput: Swift.Equatable {
     /// A token that was provided by your prior ListConnectorEntities operation if the response was too big for the page size. You specify this token to get the next page of results in paginated response.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         apiVersion: Swift.String? = nil,
         connectorProfileName: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil,
@@ -7704,7 +7887,7 @@ extension ListConnectorEntitiesInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
         connectorProfileName = connectorProfileNameDecoded
@@ -7721,39 +7904,24 @@ extension ListConnectorEntitiesInputBody: Swift.Decodable {
     }
 }
 
-extension ListConnectorEntitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListConnectorEntitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListConnectorEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListConnectorEntitiesOutputError: Swift.Error, Swift.Equatable {
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListConnectorEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListConnectorEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorEntityMap = output.connectorEntityMap
@@ -7772,7 +7940,7 @@ public struct ListConnectorEntitiesOutputResponse: Swift.Equatable {
     /// A token that you specify in your next ListConnectorEntities operation to get the next page of results in paginated response. The ListConnectorEntities operation provides this token if the response is too big for the page size.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectorEntityMap: [Swift.String:[AppflowClientTypes.ConnectorEntity]]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7793,7 +7961,7 @@ extension ListConnectorEntitiesOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorEntityMapContainer = try containerValues.decodeIfPresent([Swift.String: [AppflowClientTypes.ConnectorEntity?]?].self, forKey: .connectorEntityMap)
         var connectorEntityMapDecoded0: [Swift.String:[AppflowClientTypes.ConnectorEntity]]? = nil
@@ -7847,7 +8015,7 @@ public struct ListConnectorsInput: Swift.Equatable {
     /// The pagination token for the next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7868,7 +8036,7 @@ extension ListConnectorsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -7877,33 +8045,21 @@ extension ListConnectorsInputBody: Swift.Decodable {
     }
 }
 
-extension ListConnectorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListConnectorsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListConnectorsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectors = output.connectors
@@ -7921,7 +8077,7 @@ public struct ListConnectorsOutputResponse: Swift.Equatable {
     /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         connectors: [AppflowClientTypes.ConnectorDetail]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -7942,7 +8098,7 @@ extension ListConnectorsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.ConnectorDetail?].self, forKey: .connectors)
         var connectorsDecoded0:[AppflowClientTypes.ConnectorDetail]? = nil
@@ -7989,7 +8145,7 @@ public struct ListFlowsInput: Swift.Equatable {
     /// The pagination token for next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8010,7 +8166,7 @@ extension ListFlowsInputBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -8019,33 +8175,21 @@ extension ListFlowsInputBody: Swift.Decodable {
     }
 }
 
-extension ListFlowsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListFlowsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListFlowsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flows = output.flows
@@ -8063,7 +8207,7 @@ public struct ListFlowsOutputResponse: Swift.Equatable {
     /// The pagination token for next page of data.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         flows: [AppflowClientTypes.FlowDefinition]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -8084,7 +8228,7 @@ extension ListFlowsOutputResponseBody: Swift.Decodable {
         case nextToken
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowsContainer = try containerValues.decodeIfPresent([AppflowClientTypes.FlowDefinition?].self, forKey: .flows)
         var flowsDecoded0:[AppflowClientTypes.FlowDefinition]? = nil
@@ -8116,7 +8260,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -8129,39 +8273,26 @@ struct ListTagsForResourceInputBody: Swift.Equatable {
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
@@ -8175,7 +8306,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// The tags used to organize, track, or control access for your flow.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -8192,7 +8323,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -8215,7 +8346,7 @@ extension AppflowClientTypes.LookoutMetricsDestinationProperties: Swift.Codable 
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -8223,7 +8354,7 @@ extension AppflowClientTypes {
     /// The properties that are applied when Amazon Lookout for Metrics is used as a destination.
     public struct LookoutMetricsDestinationProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -8326,7 +8457,7 @@ extension AppflowClientTypes.MarketoConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -8358,7 +8489,7 @@ extension AppflowClientTypes {
         /// The OAuth requirement needed to request security tokens from the connector endpoint.
         public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -8386,7 +8517,7 @@ extension AppflowClientTypes.MarketoConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -8400,7 +8531,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -8426,7 +8557,7 @@ extension AppflowClientTypes.MarketoDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -8444,7 +8575,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
         )
@@ -8463,7 +8594,7 @@ extension AppflowClientTypes.MarketoMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -8471,7 +8602,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Marketo.
     public struct MarketoMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -8488,7 +8619,7 @@ extension AppflowClientTypes.MarketoSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -8502,7 +8633,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -8524,7 +8655,7 @@ extension AppflowClientTypes.MetadataCatalogConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let glueDataCatalogDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.GlueDataCatalogConfig.self, forKey: .glueDataCatalog)
         glueDataCatalog = glueDataCatalogDecoded
@@ -8537,7 +8668,7 @@ extension AppflowClientTypes {
         /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog.
         public var glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig?
 
-        public init (
+        public init(
             glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig? = nil
         )
         {
@@ -8571,7 +8702,7 @@ extension AppflowClientTypes.MetadataCatalogDetail: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let catalogTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.CatalogType.self, forKey: .catalogType)
         catalogType = catalogTypeDecoded
@@ -8596,7 +8727,7 @@ extension AppflowClientTypes {
         /// Describes the status of the attempt from Amazon AppFlow to register the metadata table with the metadata catalog. Amazon AppFlow creates or updates this table for the associated flow run.
         public var tableRegistrationOutput: AppflowClientTypes.RegistrationOutput?
 
-        public init (
+        public init(
             catalogType: AppflowClientTypes.CatalogType? = nil,
             partitionRegistrationOutput: AppflowClientTypes.RegistrationOutput? = nil,
             tableName: Swift.String? = nil,
@@ -8640,7 +8771,7 @@ extension AppflowClientTypes.OAuth2Credentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -8674,7 +8805,7 @@ extension AppflowClientTypes {
         /// The refresh token used to refresh an expired access token.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -8731,7 +8862,7 @@ extension AppflowClientTypes.OAuth2CustomParameter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -8777,7 +8908,7 @@ extension AppflowClientTypes {
         /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
         public var type: AppflowClientTypes.OAuth2CustomPropType?
 
-        public init (
+        public init(
             connectorSuppliedValues: [Swift.String]? = nil,
             description: Swift.String? = nil,
             isRequired: Swift.Bool = false,
@@ -8874,7 +9005,7 @@ extension AppflowClientTypes.OAuth2Defaults: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oauthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oauthScopes)
         var oauthScopesDecoded0:[Swift.String]? = nil
@@ -8948,7 +9079,7 @@ extension AppflowClientTypes {
         /// Token URLs that can be used for OAuth 2.0 authentication.
         public var tokenUrls: [Swift.String]?
 
-        public init (
+        public init(
             authCodeUrls: [Swift.String]? = nil,
             oauth2CustomProperties: [AppflowClientTypes.OAuth2CustomParameter]? = nil,
             oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]? = nil,
@@ -8970,12 +9101,14 @@ extension AppflowClientTypes {
     public enum OAuth2GrantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case authorizationCode
         case clientCredentials
+        case jwtBearer
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OAuth2GrantType] {
             return [
                 .authorizationCode,
                 .clientCredentials,
+                .jwtBearer,
                 .sdkUnknown("")
             ]
         }
@@ -8987,6 +9120,7 @@ extension AppflowClientTypes {
             switch self {
             case .authorizationCode: return "AUTHORIZATION_CODE"
             case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .jwtBearer: return "JWT_BEARER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9021,7 +9155,7 @@ extension AppflowClientTypes.OAuth2Properties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenUrl)
         tokenUrl = tokenUrlDecoded
@@ -9053,7 +9187,7 @@ extension AppflowClientTypes {
         /// Associates your token URL with a map of properties that you define. Use this parameter to provide any additional details that the connector requires to authenticate your request.
         public var tokenUrlCustomProperties: [Swift.String:Swift.String]?
 
-        public init (
+        public init(
             oAuth2GrantType: AppflowClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlCustomProperties: [Swift.String:Swift.String]? = nil
@@ -9095,7 +9229,7 @@ extension AppflowClientTypes.OAuthCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -9131,7 +9265,7 @@ extension AppflowClientTypes {
         /// The refresh token used to refresh expired access token.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -9172,7 +9306,7 @@ extension AppflowClientTypes.OAuthProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenUrl)
         tokenUrl = tokenUrlDecoded
@@ -9205,7 +9339,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var tokenUrl: Swift.String?
 
-        public init (
+        public init(
             authCodeUrl: Swift.String? = nil,
             oAuthScopes: [Swift.String]? = nil,
             tokenUrl: Swift.String? = nil
@@ -9566,7 +9700,7 @@ extension AppflowClientTypes.PardotConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
         accessToken = accessTokenDecoded
@@ -9596,7 +9730,7 @@ extension AppflowClientTypes {
         /// The credentials used to acquire new access tokens.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientCredentialsArn: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
@@ -9632,7 +9766,7 @@ extension AppflowClientTypes.PardotConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -9653,7 +9787,7 @@ extension AppflowClientTypes {
         /// Indicates whether the connector profile applies to a sandbox or production environment.
         public var isSandboxEnvironment: Swift.Bool
 
-        public init (
+        public init(
             businessUnitId: Swift.String? = nil,
             instanceUrl: Swift.String? = nil,
             isSandboxEnvironment: Swift.Bool = false
@@ -9674,7 +9808,7 @@ extension AppflowClientTypes.PardotMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -9682,7 +9816,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Salesforce Pardot.
     public struct PardotMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -9699,7 +9833,7 @@ extension AppflowClientTypes.PardotSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -9713,7 +9847,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -9778,7 +9912,7 @@ extension AppflowClientTypes.PrefixConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let prefixTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PrefixType.self, forKey: .prefixType)
         prefixType = prefixTypeDecoded
@@ -9814,7 +9948,7 @@ extension AppflowClientTypes {
         /// Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public var prefixType: AppflowClientTypes.PrefixType?
 
-        public init (
+        public init(
             pathPrefixHierarchy: [AppflowClientTypes.PathPrefix]? = nil,
             prefixFormat: AppflowClientTypes.PrefixFormat? = nil,
             prefixType: AppflowClientTypes.PrefixType? = nil
@@ -9965,7 +10099,7 @@ extension AppflowClientTypes.PrivateConnectionProvisioningState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PrivateConnectionProvisioningStatus.self, forKey: .status)
         status = statusDecoded
@@ -9986,7 +10120,7 @@ extension AppflowClientTypes {
         /// Specifies the private connection provisioning status.
         public var status: AppflowClientTypes.PrivateConnectionProvisioningStatus?
 
-        public init (
+        public init(
             failureCause: AppflowClientTypes.PrivateConnectionProvisioningFailureCause? = nil,
             failureMessage: Swift.String? = nil,
             status: AppflowClientTypes.PrivateConnectionProvisioningStatus? = nil
@@ -10051,7 +10185,7 @@ extension AppflowClientTypes.Range: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maximumDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maximum) ?? 0.0
         maximum = maximumDecoded
@@ -10068,7 +10202,7 @@ extension AppflowClientTypes {
         /// Minimum value supported by the field.
         public var minimum: Swift.Double
 
-        public init (
+        public init(
             maximum: Swift.Double = 0.0,
             minimum: Swift.Double = 0.0
         )
@@ -10096,7 +10230,7 @@ extension AppflowClientTypes.RedshiftConnectorProfileCredentials: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -10118,7 +10252,7 @@ extension AppflowClientTypes {
         /// The name of the user.
         public var username: Swift.String?
 
-        public init (
+        public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
@@ -10174,7 +10308,7 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let databaseUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseUrl)
         databaseUrl = databaseUrlDecoded
@@ -10221,7 +10355,7 @@ extension AppflowClientTypes {
         /// The name of an Amazon Redshift workgroup.
         public var workgroupName: Swift.String?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             clusterIdentifier: Swift.String? = nil,
@@ -10271,7 +10405,7 @@ extension AppflowClientTypes.RedshiftDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -10298,7 +10432,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             bucketPrefix: Swift.String? = nil,
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             intermediateBucketName: Swift.String? = nil,
@@ -10321,7 +10455,7 @@ extension AppflowClientTypes.RedshiftMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -10329,7 +10463,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Amazon Redshift.
     public struct RedshiftMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -10381,7 +10515,7 @@ public struct RegisterConnectorInput: Swift.Equatable {
     /// A description about the connector that's being registered.
     public var description: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         connectorLabel: Swift.String? = nil,
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
@@ -10414,7 +10548,7 @@ extension RegisterConnectorInputBody: Swift.Decodable {
         case description
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorLabel)
         connectorLabel = connectorLabelDecoded
@@ -10429,47 +10563,28 @@ extension RegisterConnectorInputBody: Swift.Decodable {
     }
 }
 
-extension RegisterConnectorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RegisterConnectorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RegisterConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RegisterConnectorOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RegisterConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RegisterConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorArn = output.connectorArn
@@ -10483,7 +10598,7 @@ public struct RegisterConnectorOutputResponse: Swift.Equatable {
     /// The ARN of the connector being registered.
     public var connectorArn: Swift.String?
 
-    public init (
+    public init(
         connectorArn: Swift.String? = nil
     )
     {
@@ -10500,7 +10615,7 @@ extension RegisterConnectorOutputResponseBody: Swift.Decodable {
         case connectorArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorArn)
         connectorArn = connectorArnDecoded
@@ -10527,7 +10642,7 @@ extension AppflowClientTypes.RegistrationOutput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10548,7 +10663,7 @@ extension AppflowClientTypes {
         /// Indicates the status of the registration attempt from Amazon AppFlow.
         public var status: AppflowClientTypes.ExecutionStatus?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             result: Swift.String? = nil,
             status: AppflowClientTypes.ExecutionStatus? = nil
@@ -10562,38 +10677,161 @@ extension AppflowClientTypes {
 
 }
 
+extension ResetConnectorMetadataCacheInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiVersion
+        case connectorEntityName
+        case connectorProfileName
+        case connectorType
+        case entitiesPath
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiVersion = self.apiVersion {
+            try encodeContainer.encode(apiVersion, forKey: .apiVersion)
+        }
+        if let connectorEntityName = self.connectorEntityName {
+            try encodeContainer.encode(connectorEntityName, forKey: .connectorEntityName)
+        }
+        if let connectorProfileName = self.connectorProfileName {
+            try encodeContainer.encode(connectorProfileName, forKey: .connectorProfileName)
+        }
+        if let connectorType = self.connectorType {
+            try encodeContainer.encode(connectorType.rawValue, forKey: .connectorType)
+        }
+        if let entitiesPath = self.entitiesPath {
+            try encodeContainer.encode(entitiesPath, forKey: .entitiesPath)
+        }
+    }
+}
+
+extension ResetConnectorMetadataCacheInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reset-connector-metadata-cache"
+    }
+}
+
+public struct ResetConnectorMetadataCacheInput: Swift.Equatable {
+    /// The API version that you specified in the connector profile that you’re resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action.
+    public var apiVersion: Swift.String?
+    /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
+    public var connectorEntityName: Swift.String?
+    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
+    public var connectorProfileName: Swift.String?
+    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
+    public var connectorType: AppflowClientTypes.ConnectorType?
+    /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
+    public var entitiesPath: Swift.String?
+
+    public init(
+        apiVersion: Swift.String? = nil,
+        connectorEntityName: Swift.String? = nil,
+        connectorProfileName: Swift.String? = nil,
+        connectorType: AppflowClientTypes.ConnectorType? = nil,
+        entitiesPath: Swift.String? = nil
+    )
+    {
+        self.apiVersion = apiVersion
+        self.connectorEntityName = connectorEntityName
+        self.connectorProfileName = connectorProfileName
+        self.connectorType = connectorType
+        self.entitiesPath = entitiesPath
+    }
+}
+
+struct ResetConnectorMetadataCacheInputBody: Swift.Equatable {
+    let connectorProfileName: Swift.String?
+    let connectorType: AppflowClientTypes.ConnectorType?
+    let connectorEntityName: Swift.String?
+    let entitiesPath: Swift.String?
+    let apiVersion: Swift.String?
+}
+
+extension ResetConnectorMetadataCacheInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiVersion
+        case connectorEntityName
+        case connectorProfileName
+        case connectorType
+        case entitiesPath
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
+        connectorProfileName = connectorProfileNameDecoded
+        let connectorTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorType.self, forKey: .connectorType)
+        connectorType = connectorTypeDecoded
+        let connectorEntityNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorEntityName)
+        connectorEntityName = connectorEntityNameDecoded
+        let entitiesPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entitiesPath)
+        entitiesPath = entitiesPathDecoded
+        let apiVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiVersion)
+        apiVersion = apiVersionDecoded
+    }
+}
+
+public enum ResetConnectorMetadataCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ResetConnectorMetadataCacheOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ResetConnectorMetadataCacheOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The resource specified in the request (such as the source or destination connector profile) is not found.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10606,7 +10844,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10719,7 +10957,7 @@ extension AppflowClientTypes.S3DestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -10741,7 +10979,7 @@ extension AppflowClientTypes {
         /// The configuration that determines how Amazon AppFlow should format the flow output data when Amazon S3 is used as the destination.
         public var s3OutputFormatConfig: AppflowClientTypes.S3OutputFormatConfig?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3OutputFormatConfig: AppflowClientTypes.S3OutputFormatConfig? = nil
@@ -10799,7 +11037,7 @@ extension AppflowClientTypes.S3InputFormatConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3InputFileTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.S3InputFileType.self, forKey: .s3InputFileType)
         s3InputFileType = s3InputFileTypeDecoded
@@ -10812,7 +11050,7 @@ extension AppflowClientTypes {
         /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
         public var s3InputFileType: AppflowClientTypes.S3InputFileType?
 
-        public init (
+        public init(
             s3InputFileType: AppflowClientTypes.S3InputFileType? = nil
         )
         {
@@ -10829,7 +11067,7 @@ extension AppflowClientTypes.S3Metadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -10837,7 +11075,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Amazon S3.
     public struct S3Metadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -10866,7 +11104,7 @@ extension AppflowClientTypes.S3OutputFormatConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.FileType.self, forKey: .fileType)
         fileType = fileTypeDecoded
@@ -10895,7 +11133,7 @@ extension AppflowClientTypes {
         /// * false: Amazon AppFlow converts all of the source data into strings when it writes to Amazon S3. For example, an integer of 1 in your source data becomes the string "1" in the output.
         public var preserveSourceDataTyping: Swift.Bool?
 
-        public init (
+        public init(
             aggregationConfig: AppflowClientTypes.AggregationConfig? = nil,
             fileType: AppflowClientTypes.FileType? = nil,
             prefixConfig: AppflowClientTypes.PrefixConfig? = nil,
@@ -10931,7 +11169,7 @@ extension AppflowClientTypes.S3SourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -10953,7 +11191,7 @@ extension AppflowClientTypes {
         /// When you use Amazon S3 as the source, the configuration format that you provide the flow input data.
         public var s3InputFormatConfig: AppflowClientTypes.S3InputFormatConfig?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3InputFormatConfig: AppflowClientTypes.S3InputFormatConfig? = nil
@@ -11072,7 +11310,7 @@ extension AppflowClientTypes.SAPODataConnectorProfileCredentials: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let basicAuthCredentialsDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.BasicAuthCredentials.self, forKey: .basicAuthCredentials)
         basicAuthCredentials = basicAuthCredentialsDecoded
@@ -11089,7 +11327,7 @@ extension AppflowClientTypes {
         /// The SAPOData OAuth type authentication credentials.
         public var oAuthCredentials: AppflowClientTypes.OAuthCredentials?
 
-        public init (
+        public init(
             basicAuthCredentials: AppflowClientTypes.BasicAuthCredentials? = nil,
             oAuthCredentials: AppflowClientTypes.OAuthCredentials? = nil
         )
@@ -11137,7 +11375,7 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationHostUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationHostUrl)
         applicationHostUrl = applicationHostUrlDecoded
@@ -11178,7 +11416,7 @@ extension AppflowClientTypes {
         /// The SAPOData Private Link service name to be used for private data transfers.
         public var privateLinkServiceName: Swift.String?
 
-        public init (
+        public init(
             applicationHostUrl: Swift.String? = nil,
             applicationServicePath: Swift.String? = nil,
             clientNumber: Swift.String? = nil,
@@ -11231,7 +11469,7 @@ extension AppflowClientTypes.SAPODataDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectPath)
         objectPath = objectPathDecoded
@@ -11270,7 +11508,7 @@ extension AppflowClientTypes {
         /// The possible write operations in the destination connector. When this value is not provided, this defaults to the INSERT operation.
         public var writeOperationType: AppflowClientTypes.WriteOperationType?
 
-        public init (
+        public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             idFieldNames: [Swift.String]? = nil,
             objectPath: Swift.String? = nil,
@@ -11295,7 +11533,7 @@ extension AppflowClientTypes.SAPODataMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -11303,7 +11541,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to SAPOData.
     public struct SAPODataMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -11320,7 +11558,7 @@ extension AppflowClientTypes.SAPODataSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectPath)
         objectPath = objectPathDecoded
@@ -11333,7 +11571,7 @@ extension AppflowClientTypes {
         /// The object path specified in the SAPOData flow source.
         public var objectPath: Swift.String?
 
-        public init (
+        public init(
             objectPath: Swift.String? = nil
         )
         {
@@ -11436,6 +11674,8 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
         case clientCredentialsArn
+        case jwtToken
+        case oAuth2GrantType
         case oAuthRequest
         case refreshToken
     }
@@ -11448,6 +11688,12 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
         if let clientCredentialsArn = self.clientCredentialsArn {
             try encodeContainer.encode(clientCredentialsArn, forKey: .clientCredentialsArn)
         }
+        if let jwtToken = self.jwtToken {
+            try encodeContainer.encode(jwtToken, forKey: .jwtToken)
+        }
+        if let oAuth2GrantType = self.oAuth2GrantType {
+            try encodeContainer.encode(oAuth2GrantType.rawValue, forKey: .oAuth2GrantType)
+        }
         if let oAuthRequest = self.oAuthRequest {
             try encodeContainer.encode(oAuthRequest, forKey: .oAuthRequest)
         }
@@ -11456,7 +11702,7 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
         accessToken = accessTokenDecoded
@@ -11466,12 +11712,16 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Codabl
         oAuthRequest = oAuthRequestDecoded
         let clientCredentialsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientCredentialsArn)
         clientCredentialsArn = clientCredentialsArnDecoded
+        let oAuth2GrantTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.OAuth2GrantType.self, forKey: .oAuth2GrantType)
+        oAuth2GrantType = oAuth2GrantTypeDecoded
+        let jwtTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jwtToken)
+        jwtToken = jwtTokenDecoded
     }
 }
 
 extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SalesforceConnectorProfileCredentials(oAuthRequest: \(Swift.String(describing: oAuthRequest)), refreshToken: \(Swift.String(describing: refreshToken)), accessToken: \"CONTENT_REDACTED\", clientCredentialsArn: \"CONTENT_REDACTED\")"}
+        "SalesforceConnectorProfileCredentials(oAuth2GrantType: \(Swift.String(describing: oAuth2GrantType)), oAuthRequest: \(Swift.String(describing: oAuthRequest)), refreshToken: \(Swift.String(describing: refreshToken)), accessToken: \"CONTENT_REDACTED\", clientCredentialsArn: \"CONTENT_REDACTED\", jwtToken: \"CONTENT_REDACTED\")"}
 }
 
 extension AppflowClientTypes {
@@ -11481,20 +11731,28 @@ extension AppflowClientTypes {
         public var accessToken: Swift.String?
         /// The secret manager ARN, which contains the client ID and client secret of the connected app.
         public var clientCredentialsArn: Swift.String?
+        /// A JSON web token (JWT) that authorizes Amazon AppFlow to access your Salesforce records.
+        public var jwtToken: Swift.String?
+        /// Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it requests an access token from Salesforce. Amazon AppFlow requires an access token each time it attempts to access your Salesforce records. You can specify one of the following values: AUTHORIZATION_CODE Amazon AppFlow passes an authorization code when it requests the access token from Salesforce. Amazon AppFlow receives the authorization code from Salesforce after you log in to your Salesforce account and authorize Amazon AppFlow to access your records. CLIENT_CREDENTIALS Amazon AppFlow passes client credentials (a client ID and client secret) when it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account. JWT_BEARER Amazon AppFlow passes a JSON web token (JWT) when it requests the access token from Salesforce. You provide the JWT to Amazon AppFlow when you define the connection to your Salesforce account. When you use this grant type, you don't need to log in to your Salesforce account to authorize Amazon AppFlow to access your records.
+        public var oAuth2GrantType: AppflowClientTypes.OAuth2GrantType?
         /// The OAuth requirement needed to request security tokens from the connector endpoint.
         public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
         /// The credentials used to acquire new access tokens.
         public var refreshToken: Swift.String?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientCredentialsArn: Swift.String? = nil,
+            jwtToken: Swift.String? = nil,
+            oAuth2GrantType: AppflowClientTypes.OAuth2GrantType? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
         )
         {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
+            self.jwtToken = jwtToken
+            self.oAuth2GrantType = oAuth2GrantType
             self.oAuthRequest = oAuthRequest
             self.refreshToken = refreshToken
         }
@@ -11522,7 +11780,7 @@ extension AppflowClientTypes.SalesforceConnectorProfileProperties: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -11561,7 +11819,7 @@ extension AppflowClientTypes {
         /// * Calls to transfer your Salesforce records as part of a flow run.
         public var usePrivateLinkForMetadataAndAuthorization: Swift.Bool
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil,
             isSandboxEnvironment: Swift.Bool = false,
             usePrivateLinkForMetadataAndAuthorization: Swift.Bool = false
@@ -11641,7 +11899,7 @@ extension AppflowClientTypes.SalesforceDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -11680,7 +11938,7 @@ extension AppflowClientTypes {
         /// This specifies the type of write operation to be performed in Salesforce. When the value is UPSERT, then idFieldNames is required.
         public var writeOperationType: AppflowClientTypes.WriteOperationType?
 
-        public init (
+        public init(
             dataTransferApi: AppflowClientTypes.SalesforceDataTransferApi? = nil,
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             idFieldNames: [Swift.String]? = nil,
@@ -11702,6 +11960,7 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataTransferApis
         case oAuthScopes
+        case oauth2GrantTypesSupported
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11718,9 +11977,15 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
                 try oAuthScopesContainer.encode(oauthscope0)
             }
         }
+        if let oauth2GrantTypesSupported = oauth2GrantTypesSupported {
+            var oauth2GrantTypesSupportedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oauth2GrantTypesSupported)
+            for oauth2granttype0 in oauth2GrantTypesSupported {
+                try oauth2GrantTypesSupportedContainer.encode(oauth2granttype0.rawValue)
+            }
+        }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oAuthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oAuthScopes)
         var oAuthScopesDecoded0:[Swift.String]? = nil
@@ -11744,6 +12009,17 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
             }
         }
         dataTransferApis = dataTransferApisDecoded0
+        let oauth2GrantTypesSupportedContainer = try containerValues.decodeIfPresent([AppflowClientTypes.OAuth2GrantType?].self, forKey: .oauth2GrantTypesSupported)
+        var oauth2GrantTypesSupportedDecoded0:[AppflowClientTypes.OAuth2GrantType]? = nil
+        if let oauth2GrantTypesSupportedContainer = oauth2GrantTypesSupportedContainer {
+            oauth2GrantTypesSupportedDecoded0 = [AppflowClientTypes.OAuth2GrantType]()
+            for enum0 in oauth2GrantTypesSupportedContainer {
+                if let enum0 = enum0 {
+                    oauth2GrantTypesSupportedDecoded0?.append(enum0)
+                }
+            }
+        }
+        oauth2GrantTypesSupported = oauth2GrantTypesSupportedDecoded0
     }
 }
 
@@ -11754,14 +12030,18 @@ extension AppflowClientTypes {
         public var dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]?
         /// The desired authorization scope for the Salesforce account.
         public var oAuthScopes: [Swift.String]?
+        /// The OAuth 2.0 grant types that Amazon AppFlow can use when it requests an access token from Salesforce. Amazon AppFlow requires an access token each time it attempts to access your Salesforce records. AUTHORIZATION_CODE Amazon AppFlow passes an authorization code when it requests the access token from Salesforce. Amazon AppFlow receives the authorization code from Salesforce after you log in to your Salesforce account and authorize Amazon AppFlow to access your records. CLIENT_CREDENTIALS Amazon AppFlow passes client credentials (a client ID and client secret) when it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account. JWT_BEARER Amazon AppFlow passes a JSON web token (JWT) when it requests the access token from Salesforce. You provide the JWT to Amazon AppFlow when you define the connection to your Salesforce account. When you use this grant type, you don't need to log in to your Salesforce account to authorize Amazon AppFlow to access your records.
+        public var oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]?
 
-        public init (
+        public init(
             dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]? = nil,
-            oAuthScopes: [Swift.String]? = nil
+            oAuthScopes: [Swift.String]? = nil,
+            oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]? = nil
         )
         {
             self.dataTransferApis = dataTransferApis
             self.oAuthScopes = oAuthScopes
+            self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
         }
     }
 
@@ -11791,7 +12071,7 @@ extension AppflowClientTypes.SalesforceSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -11817,7 +12097,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             dataTransferApi: AppflowClientTypes.SalesforceDataTransferApi? = nil,
             enableDynamicFieldUpdate: Swift.Bool = false,
             includeDeletedRecords: Swift.Bool = false,
@@ -11917,7 +12197,7 @@ extension AppflowClientTypes.ScheduledTriggerProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
         scheduleExpression = scheduleExpressionDecoded
@@ -11959,7 +12239,7 @@ extension AppflowClientTypes {
         /// Specifies the time zone used when referring to the dates and times of a scheduled flow, such as America/New_York. This time zone is only a descriptive label. It doesn't affect how Amazon AppFlow interprets the timestamps that you specify to schedule the flow. If you want to schedule a flow by using times in a particular time zone, indicate the time zone as a UTC offset in your timestamps. For example, the UTC offsets for the America/New_York timezone are -04:00 EDT and -05:00 EST.
         public var timezone: Swift.String?
 
-        public init (
+        public init(
             dataPullMode: AppflowClientTypes.DataPullMode? = nil,
             firstExecutionFrom: ClientRuntime.Date? = nil,
             flowErrorDeactivationThreshold: Swift.Int? = nil,
@@ -12088,7 +12368,7 @@ extension AppflowClientTypes.ServiceNowConnectorProfileCredentials: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -12112,7 +12392,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
@@ -12136,7 +12416,7 @@ extension AppflowClientTypes.ServiceNowConnectorProfileProperties: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -12150,7 +12430,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -12167,7 +12447,7 @@ extension AppflowClientTypes.ServiceNowMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12175,7 +12455,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to ServiceNow.
     public struct ServiceNowMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12192,7 +12472,7 @@ extension AppflowClientTypes.ServiceNowSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -12206,7 +12486,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -12217,37 +12497,41 @@ extension AppflowClientTypes {
 }
 
 extension ServiceQuotaExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request would cause a service quota (such as the number of flows) to be exceeded.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12260,7 +12544,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12347,7 +12631,7 @@ extension AppflowClientTypes.SingularConnectorProfileCredentials: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
         apiKey = apiKeyDecoded
@@ -12366,7 +12650,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var apiKey: Swift.String?
 
-        public init (
+        public init(
             apiKey: Swift.String? = nil
         )
         {
@@ -12383,7 +12667,7 @@ extension AppflowClientTypes.SingularConnectorProfileProperties: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12391,7 +12675,7 @@ extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Singular.
     public struct SingularConnectorProfileProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12403,7 +12687,7 @@ extension AppflowClientTypes.SingularMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12411,7 +12695,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Singular.
     public struct SingularMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -12428,7 +12712,7 @@ extension AppflowClientTypes.SingularSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -12442,7 +12726,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -12559,7 +12843,7 @@ extension AppflowClientTypes.SlackConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -12591,7 +12875,7 @@ extension AppflowClientTypes {
         /// The OAuth requirement needed to request security tokens from the connector endpoint.
         public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -12619,7 +12903,7 @@ extension AppflowClientTypes.SlackConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -12633,7 +12917,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -12658,7 +12942,7 @@ extension AppflowClientTypes.SlackMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oAuthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oAuthScopes)
         var oAuthScopesDecoded0:[Swift.String]? = nil
@@ -12680,7 +12964,7 @@ extension AppflowClientTypes {
         /// The desired authorization scope for the Slack account.
         public var oAuthScopes: [Swift.String]?
 
-        public init (
+        public init(
             oAuthScopes: [Swift.String]? = nil
         )
         {
@@ -12702,7 +12986,7 @@ extension AppflowClientTypes.SlackSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -12716,7 +13000,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -12742,7 +13026,7 @@ extension AppflowClientTypes.SnowflakeConnectorProfileCredentials: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -12766,7 +13050,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
@@ -12814,7 +13098,7 @@ extension AppflowClientTypes.SnowflakeConnectorProfileProperties: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let warehouseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .warehouse)
         warehouse = warehouseDecoded
@@ -12854,7 +13138,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var warehouse: Swift.String?
 
-        public init (
+        public init(
             accountName: Swift.String? = nil,
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
@@ -12900,7 +13184,7 @@ extension AppflowClientTypes.SnowflakeDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -12927,7 +13211,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             bucketPrefix: Swift.String? = nil,
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             intermediateBucketName: Swift.String? = nil,
@@ -12958,7 +13242,7 @@ extension AppflowClientTypes.SnowflakeMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let supportedRegionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .supportedRegions)
         var supportedRegionsDecoded0:[Swift.String]? = nil
@@ -12980,7 +13264,7 @@ extension AppflowClientTypes {
         /// Specifies the supported Amazon Web Services Regions when using Snowflake.
         public var supportedRegions: [Swift.String]?
 
-        public init (
+        public init(
             supportedRegions: [Swift.String]? = nil
         )
         {
@@ -13066,7 +13350,7 @@ extension AppflowClientTypes.SourceConnectorProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let amplitudeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.AmplitudeSourceProperties.self, forKey: .amplitude)
         amplitude = amplitudeDecoded
@@ -13143,7 +13427,7 @@ extension AppflowClientTypes {
         /// Specifies the information that is required for querying Zendesk.
         public var zendesk: AppflowClientTypes.ZendeskSourceProperties?
 
-        public init (
+        public init(
             amplitude: AppflowClientTypes.AmplitudeSourceProperties? = nil,
             customConnector: AppflowClientTypes.CustomConnectorSourceProperties? = nil,
             datadog: AppflowClientTypes.DatadogSourceProperties? = nil,
@@ -13205,7 +13489,7 @@ extension AppflowClientTypes.SourceFieldProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let isRetrievableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRetrievable) ?? false
         isRetrievable = isRetrievableDecoded
@@ -13226,7 +13510,7 @@ extension AppflowClientTypes {
         /// Indicates if this timestamp field can be used for incremental queries.
         public var isTimestampFieldForIncrementalQueries: Swift.Bool
 
-        public init (
+        public init(
             isQueryable: Swift.Bool = false,
             isRetrievable: Swift.Bool = false,
             isTimestampFieldForIncrementalQueries: Swift.Bool = false
@@ -13268,7 +13552,7 @@ extension AppflowClientTypes.SourceFlowConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorType.self, forKey: .connectorType)
         connectorType = connectorTypeDecoded
@@ -13299,7 +13583,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var sourceConnectorProperties: AppflowClientTypes.SourceConnectorProperties?
 
-        public init (
+        public init(
             apiVersion: Swift.String? = nil,
             connectorProfileName: Swift.String? = nil,
             connectorType: AppflowClientTypes.ConnectorType? = nil,
@@ -13347,7 +13631,7 @@ public struct StartFlowInput: Swift.Equatable {
     /// This member is required.
     public var flowName: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         flowName: Swift.String? = nil
     )
@@ -13368,7 +13652,7 @@ extension StartFlowInputBody: Swift.Decodable {
         case flowName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
@@ -13377,37 +13661,23 @@ extension StartFlowInputBody: Swift.Decodable {
     }
 }
 
-extension StartFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StartFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StartFlowOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionId = output.executionId
@@ -13429,7 +13699,7 @@ public struct StartFlowOutputResponse: Swift.Equatable {
     /// Indicates the current status of the flow.
     public var flowStatus: AppflowClientTypes.FlowStatus?
 
-    public init (
+    public init(
         executionId: Swift.String? = nil,
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
@@ -13454,7 +13724,7 @@ extension StartFlowOutputResponseBody: Swift.Decodable {
         case flowStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -13489,7 +13759,7 @@ public struct StopFlowInput: Swift.Equatable {
     /// This member is required.
     public var flowName: Swift.String?
 
-    public init (
+    public init(
         flowName: Swift.String? = nil
     )
     {
@@ -13506,44 +13776,30 @@ extension StopFlowInputBody: Swift.Decodable {
         case flowName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
     }
 }
 
-extension StopFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension StopFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StopFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum StopFlowOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unsupportedOperationException(UnsupportedOperationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StopFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StopFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
@@ -13561,7 +13817,7 @@ public struct StopFlowOutputResponse: Swift.Equatable {
     /// Indicates the current status of the flow.
     public var flowStatus: AppflowClientTypes.FlowStatus?
 
-    public init (
+    public init(
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
     )
@@ -13582,7 +13838,7 @@ extension StopFlowOutputResponseBody: Swift.Decodable {
         case flowStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
         flowArn = flowArnDecoded
@@ -13607,7 +13863,7 @@ extension AppflowClientTypes.SuccessResponseHandlingConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketPrefix)
         bucketPrefix = bucketPrefixDecoded
@@ -13624,7 +13880,7 @@ extension AppflowClientTypes {
         /// The Amazon S3 bucket prefix.
         public var bucketPrefix: Swift.String?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil
         )
@@ -13634,6 +13890,38 @@ extension AppflowClientTypes {
         }
     }
 
+}
+
+extension AppflowClientTypes {
+    public enum SupportedDataTransferType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case file
+        case record
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedDataTransferType] {
+            return [
+                .file,
+                .record,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .file: return "FILE"
+            case .record: return "RECORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SupportedDataTransferType(rawValue: rawValue) ?? SupportedDataTransferType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AppflowClientTypes.SupportedFieldTypeDetails: Swift.Codable {
@@ -13648,7 +13936,7 @@ extension AppflowClientTypes.SupportedFieldTypeDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let v1Decoded = try containerValues.decodeIfPresent(AppflowClientTypes.FieldTypeDetails.self, forKey: .v1)
         v1 = v1Decoded
@@ -13662,7 +13950,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var v1: AppflowClientTypes.FieldTypeDetails?
 
-        public init (
+        public init(
             v1: AppflowClientTypes.FieldTypeDetails? = nil
         )
         {
@@ -13705,7 +13993,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -13724,7 +14012,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -13740,40 +14028,27 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AppflowClientTypes.Task: Swift.Codable {
@@ -13810,7 +14085,7 @@ extension AppflowClientTypes.Task: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceFieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sourceFields)
         var sourceFieldsDecoded0:[Swift.String]? = nil
@@ -13859,7 +14134,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var taskType: AppflowClientTypes.TaskType?
 
-        public init (
+        public init(
             connectorOperator: AppflowClientTypes.ConnectorOperator? = nil,
             destinationField: Swift.String? = nil,
             sourceFields: [Swift.String]? = nil,
@@ -13934,37 +14209,41 @@ extension AppflowClientTypes {
 }
 
 extension ThrottlingException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// API calls have exceeded the maximum allowed API request rate per account and per Region.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13977,7 +14256,7 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14064,7 +14343,7 @@ extension AppflowClientTypes.TrendmicroConnectorProfileCredentials: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let apiSecretKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiSecretKey)
         apiSecretKey = apiSecretKeyDecoded
@@ -14083,7 +14362,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var apiSecretKey: Swift.String?
 
-        public init (
+        public init(
             apiSecretKey: Swift.String? = nil
         )
         {
@@ -14100,7 +14379,7 @@ extension AppflowClientTypes.TrendmicroConnectorProfileProperties: Swift.Codable
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -14108,7 +14387,7 @@ extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Trend Micro.
     public struct TrendmicroConnectorProfileProperties: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -14120,7 +14399,7 @@ extension AppflowClientTypes.TrendmicroMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -14128,7 +14407,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Trend Micro.
     public struct TrendmicroMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -14145,7 +14424,7 @@ extension AppflowClientTypes.TrendmicroSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -14159,7 +14438,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {
@@ -14185,7 +14464,7 @@ extension AppflowClientTypes.TriggerConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let triggerTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.TriggerType.self, forKey: .triggerType)
         triggerType = triggerTypeDecoded
@@ -14203,7 +14482,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var triggerType: AppflowClientTypes.TriggerType?
 
-        public init (
+        public init(
             triggerProperties: AppflowClientTypes.TriggerProperties? = nil,
             triggerType: AppflowClientTypes.TriggerType? = nil
         )
@@ -14227,7 +14506,7 @@ extension AppflowClientTypes.TriggerProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ScheduledTriggerProperties.self, forKey: .scheduled)
         scheduled = scheduledDecoded
@@ -14240,7 +14519,7 @@ extension AppflowClientTypes {
         /// Specifies the configuration details of a schedule-triggered flow as defined by the user.
         public var scheduled: AppflowClientTypes.ScheduledTriggerProperties?
 
-        public init (
+        public init(
             scheduled: AppflowClientTypes.ScheduledTriggerProperties? = nil
         )
         {
@@ -14315,7 +14594,7 @@ public struct UnregisterConnectorInput: Swift.Equatable {
     /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
     public var forceDelete: Swift.Bool?
 
-    public init (
+    public init(
         connectorLabel: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
     )
@@ -14336,7 +14615,7 @@ extension UnregisterConnectorInputBody: Swift.Decodable {
         case forceDelete
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorLabel)
         connectorLabel = connectorLabelDecoded
@@ -14345,74 +14624,65 @@ extension UnregisterConnectorInputBody: Swift.Decodable {
     }
 }
 
-extension UnregisterConnectorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UnregisterConnectorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UnregisterConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UnregisterConnectorOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UnregisterConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UnregisterConnectorOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UnsupportedOperationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The requested operation is not supported for the current flow.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14425,7 +14695,7 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14438,7 +14708,7 @@ extension UntagResourceInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let tagKeys = tagKeys else {
                 let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             tagKeys.forEach { queryItemValue in
                 let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
@@ -14466,7 +14736,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -14481,44 +14751,31 @@ struct UntagResourceInputBody: Swift.Equatable {
 
 extension UntagResourceInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension UpdateConnectorProfileInput: Swift.Encodable {
@@ -14565,7 +14822,7 @@ public struct UpdateConnectorProfileInput: Swift.Equatable {
     /// This member is required.
     public var connectorProfileName: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         connectionMode: AppflowClientTypes.ConnectionMode? = nil,
         connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig? = nil,
@@ -14594,7 +14851,7 @@ extension UpdateConnectorProfileInputBody: Swift.Decodable {
         case connectorProfileName
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
         connectorProfileName = connectorProfileNameDecoded
@@ -14607,39 +14864,24 @@ extension UpdateConnectorProfileInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConnectorProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConnectorProfileOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConnectorProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConnectorProfileOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConnectorProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateConnectorProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorProfileArn = output.connectorProfileArn
@@ -14653,7 +14895,7 @@ public struct UpdateConnectorProfileOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the connector profile.
     public var connectorProfileArn: Swift.String?
 
-    public init (
+    public init(
         connectorProfileArn: Swift.String? = nil
     )
     {
@@ -14670,7 +14912,7 @@ extension UpdateConnectorProfileOutputResponseBody: Swift.Decodable {
         case connectorProfileArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileArn)
         connectorProfileArn = connectorProfileArnDecoded
@@ -14719,7 +14961,7 @@ public struct UpdateConnectorRegistrationInput: Swift.Equatable {
     /// A description about the update that you're applying to the connector.
     public var description: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         connectorLabel: Swift.String? = nil,
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
@@ -14748,7 +14990,7 @@ extension UpdateConnectorRegistrationInputBody: Swift.Decodable {
         case description
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorLabel)
         connectorLabel = connectorLabelDecoded
@@ -14761,47 +15003,28 @@ extension UpdateConnectorRegistrationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConnectorRegistrationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateConnectorRegistrationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConnectorRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateConnectorRegistrationOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case throttlingException(ThrottlingException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConnectorRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateConnectorRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectorArn = output.connectorArn
@@ -14815,7 +15038,7 @@ public struct UpdateConnectorRegistrationOutputResponse: Swift.Equatable {
     /// The ARN of the connector being updated.
     public var connectorArn: Swift.String?
 
-    public init (
+    public init(
         connectorArn: Swift.String? = nil
     )
     {
@@ -14832,7 +15055,7 @@ extension UpdateConnectorRegistrationOutputResponseBody: Swift.Decodable {
         case connectorArn
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorArn)
         connectorArn = connectorArnDecoded
@@ -14915,7 +15138,7 @@ public struct UpdateFlowInput: Swift.Equatable {
     /// This member is required.
     public var triggerConfig: AppflowClientTypes.TriggerConfig?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
@@ -14960,7 +15183,7 @@ extension UpdateFlowInputBody: Swift.Decodable {
         case triggerConfig
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
@@ -14999,43 +15222,26 @@ extension UpdateFlowInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateFlowOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateFlowOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorAuthenticationException" : self = .connectorAuthenticationException(try ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ConnectorServerException" : self = .connectorServerException(try ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateFlowOutputError: Swift.Error, Swift.Equatable {
-    case conflictException(ConflictException)
-    case connectorAuthenticationException(ConnectorAuthenticationException)
-    case connectorServerException(ConnectorServerException)
-    case internalServerException(InternalServerException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case serviceQuotaExceededException(ServiceQuotaExceededException)
-    case validationException(ValidationException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateFlowOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.flowStatus = output.flowStatus
@@ -15049,7 +15255,7 @@ public struct UpdateFlowOutputResponse: Swift.Equatable {
     /// Indicates the current status of the flow.
     public var flowStatus: AppflowClientTypes.FlowStatus?
 
-    public init (
+    public init(
         flowStatus: AppflowClientTypes.FlowStatus? = nil
     )
     {
@@ -15066,7 +15272,7 @@ extension UpdateFlowOutputResponseBody: Swift.Decodable {
         case flowStatus
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowStatusDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.FlowStatus.self, forKey: .flowStatus)
         flowStatus = flowStatusDecoded
@@ -15093,7 +15299,7 @@ extension AppflowClientTypes.UpsolverDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -15116,7 +15322,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var s3OutputFormatConfig: AppflowClientTypes.UpsolverS3OutputFormatConfig?
 
-        public init (
+        public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3OutputFormatConfig: AppflowClientTypes.UpsolverS3OutputFormatConfig? = nil
@@ -15137,7 +15343,7 @@ extension AppflowClientTypes.UpsolverMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -15145,7 +15351,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Upsolver.
     public struct UpsolverMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -15170,7 +15376,7 @@ extension AppflowClientTypes.UpsolverS3OutputFormatConfig: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileTypeDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.FileType.self, forKey: .fileType)
         fileType = fileTypeDecoded
@@ -15192,7 +15398,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var prefixConfig: AppflowClientTypes.PrefixConfig?
 
-        public init (
+        public init(
             aggregationConfig: AppflowClientTypes.AggregationConfig? = nil,
             fileType: AppflowClientTypes.FileType? = nil,
             prefixConfig: AppflowClientTypes.PrefixConfig? = nil
@@ -15207,37 +15413,41 @@ extension AppflowClientTypes {
 }
 
 extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request has invalid or missing parameters.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15250,7 +15460,7 @@ extension ValidationExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15362,7 +15572,7 @@ extension AppflowClientTypes.VeevaConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
@@ -15386,7 +15596,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var username: Swift.String?
 
-        public init (
+        public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
@@ -15410,7 +15620,7 @@ extension AppflowClientTypes.VeevaConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -15424,7 +15634,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -15441,7 +15651,7 @@ extension AppflowClientTypes.VeevaMetadata: Swift.Codable {
         try container.encode([String:String]())
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -15449,7 +15659,7 @@ extension AppflowClientTypes {
     /// The connector metadata specific to Veeva.
     public struct VeevaMetadata: Swift.Equatable {
 
-        public init () { }
+        public init() { }
     }
 
 }
@@ -15482,7 +15692,7 @@ extension AppflowClientTypes.VeevaSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -15512,7 +15722,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             documentType: Swift.String? = nil,
             includeAllVersions: Swift.Bool = false,
             includeRenditions: Swift.Bool = false,
@@ -15661,7 +15871,7 @@ extension AppflowClientTypes.ZendeskConnectorProfileCredentials: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
         clientId = clientIdDecoded
@@ -15693,7 +15903,7 @@ extension AppflowClientTypes {
         /// The OAuth requirement needed to request security tokens from the connector endpoint.
         public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
 
-        public init (
+        public init(
             accessToken: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
@@ -15721,7 +15931,7 @@ extension AppflowClientTypes.ZendeskConnectorProfileProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
         instanceUrl = instanceUrlDecoded
@@ -15735,7 +15945,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var instanceUrl: Swift.String?
 
-        public init (
+        public init(
             instanceUrl: Swift.String? = nil
         )
         {
@@ -15772,7 +15982,7 @@ extension AppflowClientTypes.ZendeskDestinationProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -15807,7 +16017,7 @@ extension AppflowClientTypes {
         /// The possible write operations in the destination connector. When this value is not provided, this defaults to the INSERT operation.
         public var writeOperationType: AppflowClientTypes.WriteOperationType?
 
-        public init (
+        public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             idFieldNames: [Swift.String]? = nil,
             object: Swift.String? = nil,
@@ -15838,7 +16048,7 @@ extension AppflowClientTypes.ZendeskMetadata: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let oAuthScopesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .oAuthScopes)
         var oAuthScopesDecoded0:[Swift.String]? = nil
@@ -15860,7 +16070,7 @@ extension AppflowClientTypes {
         /// The desired authorization scope for the Zendesk account.
         public var oAuthScopes: [Swift.String]?
 
-        public init (
+        public init(
             oAuthScopes: [Swift.String]? = nil
         )
         {
@@ -15882,7 +16092,7 @@ extension AppflowClientTypes.ZendeskSourceProperties: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
@@ -15896,7 +16106,7 @@ extension AppflowClientTypes {
         /// This member is required.
         public var object: Swift.String?
 
-        public init (
+        public init(
             object: Swift.String? = nil
         )
         {

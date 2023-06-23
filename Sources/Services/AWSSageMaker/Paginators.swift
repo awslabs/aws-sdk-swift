@@ -996,6 +996,8 @@ extension ListInferenceRecommendationsJobsInput: ClientRuntime.PaginateToken {
             lastModifiedTimeAfter: self.lastModifiedTimeAfter,
             lastModifiedTimeBefore: self.lastModifiedTimeBefore,
             maxResults: self.maxResults,
+            modelNameEquals: self.modelNameEquals,
+            modelPackageVersionArnEquals: self.modelPackageVersionArnEquals,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,

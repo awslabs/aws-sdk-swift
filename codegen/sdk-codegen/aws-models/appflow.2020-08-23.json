@@ -499,6 +499,75 @@
                 "smithy.api#pattern": "^\\S+$"
             }
         },
+        "com.amazonaws.appflow#CancelFlowExecutions": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.appflow#CancelFlowExecutionsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.appflow#CancelFlowExecutionsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.appflow#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Cancels active runs for a flow.</p>\n         <p>You can cancel all of the active runs for a flow, or you can cancel specific runs by\n      providing their IDs.</p>\n         <p>You can cancel a flow run only when the run is in progress. You can't cancel a run that\n      has already completed or failed. You also can't cancel a run that's scheduled to occur but\n      hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the\n        <code>StopFlow</code> action.</p>\n         <p>You cannot resume a run after you cancel it.</p>\n         <p>When you send your request, the status for each run becomes <code>CancelStarted</code>.\n      When the cancellation completes, the status becomes <code>Canceled</code>.</p>\n         <note>\n            <p>When you cancel a run, you still incur charges for any data that the run already\n        processed before the cancellation. If the run had already written some data to the flow\n        destination, then that data remains in the destination. If you configured the flow to use a\n        batch API (such as the Salesforce Bulk API 2.0), then the run will finish reading or writing\n        its entire batch of data after the cancellation. For these operations, the data processing\n        charges for Amazon AppFlow apply. For the pricing information, see <a href=\"http://aws.amazon.com/appflow/pricing/\">Amazon AppFlow pricing</a>.</p>\n         </note>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/cancel-flow-executions",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.appflow#CancelFlowExecutionsRequest": {
+            "type": "structure",
+            "members": {
+                "flowName": {
+                    "target": "com.amazonaws.appflow#FlowName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of a flow with active runs that you want to cancel.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "executionIds": {
+                    "target": "com.amazonaws.appflow#ExecutionIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of each active run to cancel. These runs must belong to the flow you specify in\n      your request.</p>\n         <p>If you omit this parameter, your request ends all active runs that belong to the\n      flow.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.appflow#CancelFlowExecutionsResponse": {
+            "type": "structure",
+            "members": {
+                "invalidExecutions": {
+                    "target": "com.amazonaws.appflow#ExecutionIds",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be ineligible\n      for canceling because they haven't started yet or have already completed.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.appflow#CatalogType": {
             "type": "enum",
             "members": {
@@ -777,6 +846,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Information about who registered the connector.</p>"
                     }
+                },
+                "supportedDataTransferTypes": {
+                    "target": "com.amazonaws.appflow#SupportedDataTransferTypeList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The data transfer types that the connector supports.</p>\n         <dl>\n            <dt>RECORD</dt>\n            <dd>\n               <p>Structured records.</p>\n            </dd>\n            <dt>FILE</dt>\n            <dd>\n               <p>Files or binary data.</p>\n            </dd>\n         </dl>"
+                    }
+                },
+                "supportedDataTransferApis": {
+                    "target": "com.amazonaws.appflow#SupportedDataTransferApis",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The APIs of the connector application that Amazon AppFlow can use to transfer your\n      data.</p>"
+                    }
                 }
             },
             "traits": {
@@ -869,6 +950,12 @@
                     "target": "com.amazonaws.appflow#ConnectorModeList",
                     "traits": {
                         "smithy.api#documentation": "<p>The connection mode that the connector supports.</p>"
+                    }
+                },
+                "supportedDataTransferTypes": {
+                    "target": "com.amazonaws.appflow#SupportedDataTransferTypeList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The data transfer types that the connector supports.</p>\n         <dl>\n            <dt>RECORD</dt>\n            <dd>\n               <p>Structured records.</p>\n            </dd>\n            <dt>FILE</dt>\n            <dd>\n               <p>Files or binary data.</p>\n            </dd>\n         </dl>"
                     }
                 }
             },
@@ -2202,7 +2289,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>CreateFlow</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>CreateFlow</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>CreateFlow</code> request completes only once. You choose the value to pass. For\n      example, if you don't receive a response from your request, you can safely retry the request\n      with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>CreateFlow</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }
@@ -2445,6 +2532,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Custom properties that are required to use the custom connector as a source.</p>"
                     }
+                },
+                "dataTransferApi": {
+                    "target": "com.amazonaws.appflow#DataTransferApi",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The API of the connector application that Amazon AppFlow uses to transfer your\n      data.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2539,6 +2632,59 @@
                         "smithy.api#enumValue": "Complete"
                     }
                 }
+            }
+        },
+        "com.amazonaws.appflow#DataTransferApi": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.appflow#DataTransferApiTypeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the connector application API.</p>"
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.appflow#DataTransferApiType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>You can specify one of the following types:</p>\n         <dl>\n            <dt>AUTOMATIC</dt>\n            <dd>\n               <p>The default. Optimizes a flow for datasets that fluctuate in size from small to\n            large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC API type\n            based on the amount of data that the run transfers.</p>\n            </dd>\n            <dt>SYNC</dt>\n            <dd>\n               <p>A synchronous API. This type of API optimizes a flow for small to medium-sized\n            datasets.</p>\n            </dd>\n            <dt>ASYNC</dt>\n            <dd>\n               <p>An asynchronous API. This type of API optimizes a flow for large datasets.</p>\n            </dd>\n         </dl>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The API of the connector application that Amazon AppFlow uses to transfer your\n      data.</p>"
+            }
+        },
+        "com.amazonaws.appflow#DataTransferApiType": {
+            "type": "enum",
+            "members": {
+                "SYNC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SYNC"
+                    }
+                },
+                "ASYNC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ASYNC"
+                    }
+                },
+                "AUTOMATIC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AUTOMATIC"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.appflow#DataTransferApiTypeName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[\\w/-]+$"
             }
         },
         "com.amazonaws.appflow#DatabaseName": {
@@ -3905,6 +4051,18 @@
                 "smithy.api#pattern": "^\\S+$"
             }
         },
+        "com.amazonaws.appflow#ExecutionIds": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.appflow#ExecutionId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 100
+                }
+            }
+        },
         "com.amazonaws.appflow#ExecutionMessage": {
             "type": "string",
             "traits": {
@@ -4022,6 +4180,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Error"
+                    }
+                },
+                "CANCELSTARTED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CancelStarted"
+                    }
+                },
+                "CANCELED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Canceled"
                     }
                 }
             }
@@ -4764,6 +4934,17 @@
         },
         "com.amazonaws.appflow#JavaBoolean": {
             "type": "boolean"
+        },
+        "com.amazonaws.appflow#JwtToken": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 8000
+                },
+                "smithy.api#pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_\\-\\+\\/=]*)$",
+                "smithy.api#sensitive": {}
+            }
         },
         "com.amazonaws.appflow#KMSArn": {
             "type": "string",
@@ -5588,6 +5769,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "AUTHORIZATION_CODE"
+                    }
+                },
+                "JWT_BEARER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "JWT_BEARER"
                     }
                 }
             }
@@ -6804,7 +6991,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>RegisterConnector</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>RegisterConnector</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>RegisterConnector</code> request completes only once. You choose the value to pass.\n      For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>RegisterConnector</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }
@@ -6861,6 +7048,82 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Describes the status of an attempt from Amazon AppFlow to register a resource.</p>\n         <p>When you run a flow that you've configured to use a metadata catalog, Amazon AppFlow\n      registers a metadata table and data partitions with that catalog. This operation provides the\n      status of that registration attempt. The operation also indicates how many related resources\n        Amazon AppFlow created or updated.</p>"
+            }
+        },
+        "com.amazonaws.appflow#ResetConnectorMetadataCache": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.appflow#ResetConnectorMetadataCacheRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.appflow#ResetConnectorMetadataCacheResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.appflow#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Resets metadata about your connector entities that Amazon AppFlow stored in its\n      cache. Use this action when you want Amazon AppFlow to return the latest information\n      about the data that you have in a source application.</p>\n         <p>Amazon AppFlow returns metadata about your entities when you use the\n      ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to\n      the source application. Amazon AppFlow automatically resets the cache once every hour,\n      but you can use this action when you want to get the latest metadata right away.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/reset-connector-metadata-cache",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.appflow#ResetConnectorMetadataCacheRequest": {
+            "type": "structure",
+            "members": {
+                "connectorProfileName": {
+                    "target": "com.amazonaws.appflow#ConnectorProfileName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the connector profile that you want to reset cached metadata for.</p>\n         <p>You can omit this parameter if you're resetting the cache for any of the following\n      connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this\n      parameter in your request.</p>"
+                    }
+                },
+                "connectorType": {
+                    "target": "com.amazonaws.appflow#ConnectorType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of connector to reset cached metadata for.</p>\n         <p>You must include this parameter in your request if you're resetting the cache for any of\n      the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics,\n        Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you\n      can omit this parameter from your request. </p>"
+                    }
+                },
+                "connectorEntityName": {
+                    "target": "com.amazonaws.appflow#EntityName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use this parameter if you want to reset cached metadata about the details for an\n      individual entity.</p>\n         <p>If you don't include this parameter in your request, Amazon AppFlow only resets\n      cached metadata about entity names, not entity details.</p>"
+                    }
+                },
+                "entitiesPath": {
+                    "target": "com.amazonaws.appflow#EntitiesPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use this parameter only if you’re resetting the cached metadata about a nested entity.\n      Only some connectors support nested entities. A nested entity is one that has another entity\n      as a parent. To use this parameter, specify the name of the parent entity.</p>\n         <p>To look up the parent-child relationship of entities, you can send a ListConnectorEntities\n      request that omits the entitiesPath parameter. Amazon AppFlow will return a list of\n      top-level entities. For each one, it indicates whether the entity has nested entities. Then,\n      in a subsequent ListConnectorEntities request, you can specify a parent entity name for the\n      entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that\n      parent.</p>"
+                    }
+                },
+                "apiVersion": {
+                    "target": "com.amazonaws.appflow#ApiVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The API version that you specified in the connector profile that you’re resetting cached\n      metadata for. You must use this parameter only if the connector supports multiple API versions\n      or if the connector type is CustomConnector.</p>\n         <p>To look up how many versions a connector supports, use the DescribeConnectors action. In\n      the response, find the value that Amazon AppFlow returns for the connectorVersion\n      parameter.</p>\n         <p>To look up the connector type, use the DescribeConnectorProfiles action. In the response,\n      find the value that Amazon AppFlow returns for the connectorType parameter.</p>\n         <p>To look up the API version that you specified in a connector profile, use the\n      DescribeConnectorProfiles action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.appflow#ResetConnectorMetadataCacheResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.appflow#ResourceNotFoundException": {
@@ -7540,6 +7803,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The secret manager ARN, which contains the client ID and client secret of the connected\n      app. </p>"
                     }
+                },
+                "oAuth2GrantType": {
+                    "target": "com.amazonaws.appflow#OAuth2GrantType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the OAuth 2.0 grant type that Amazon AppFlow uses when it requests an\n      access token from Salesforce. Amazon AppFlow requires an access token each time it\n      attempts to access your Salesforce records.</p>\n         <p>You can specify one of the following values:</p>\n         <dl>\n            <dt>AUTHORIZATION_CODE</dt>\n            <dd>\n               <p>Amazon AppFlow passes an authorization code when it requests the access token\n            from Salesforce. Amazon AppFlow receives the authorization code from Salesforce\n            after you log in to your Salesforce account and authorize Amazon AppFlow to access\n            your records.</p>\n            </dd>\n            <dt>CLIENT_CREDENTIALS</dt>\n            <dd>\n               <p>Amazon AppFlow passes client credentials (a client ID and client secret) when\n            it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account.</p>\n            </dd>\n            <dt>JWT_BEARER</dt>\n            <dd>\n               <p>Amazon AppFlow passes a JSON web token (JWT) when it requests the access token\n            from Salesforce. You provide the JWT to Amazon AppFlow when you define the\n            connection to your Salesforce account. When you use this grant type, you don't need to\n            log in to your Salesforce account to authorize Amazon AppFlow to access your\n            records.</p>\n            </dd>\n         </dl>"
+                    }
+                },
+                "jwtToken": {
+                    "target": "com.amazonaws.appflow#JwtToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A JSON web token (JWT) that authorizes Amazon AppFlow to access your Salesforce\n      records.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7656,6 +7931,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Salesforce APIs that you can have Amazon AppFlow use when your flows transfers\n      data to or from Salesforce.</p>"
                     }
+                },
+                "oauth2GrantTypesSupported": {
+                    "target": "com.amazonaws.appflow#OAuth2GrantTypeSupportedList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The OAuth 2.0 grant types that Amazon AppFlow can use when it requests an access\n      token from Salesforce. Amazon AppFlow requires an access token each time it attempts to\n      access your Salesforce records.</p>\n         <dl>\n            <dt>AUTHORIZATION_CODE</dt>\n            <dd>\n               <p>Amazon AppFlow passes an authorization code when it requests the access token\n            from Salesforce. Amazon AppFlow receives the authorization code from Salesforce\n            after you log in to your Salesforce account and authorize Amazon AppFlow to access\n            your records.</p>\n            </dd>\n            <dt>CLIENT_CREDENTIALS</dt>\n            <dd>\n               <p>Amazon AppFlow passes client credentials (a client ID and client secret) when\n            it requests the access token from Salesforce. You provide these credentials to Amazon AppFlow when you define the connection to your Salesforce account.</p>\n            </dd>\n            <dt>JWT_BEARER</dt>\n            <dd>\n               <p>Amazon AppFlow passes a JSON web token (JWT) when it requests the access token\n            from Salesforce. You provide the JWT to Amazon AppFlow when you define the\n            connection to your Salesforce account. When you use this grant type, you don't need to\n            log in to your Salesforce account to authorize Amazon AppFlow to access your\n            records.</p>\n            </dd>\n         </dl>"
+                    }
                 }
             },
             "traits": {
@@ -7702,6 +7983,9 @@
             "version": "2020-08-23",
             "operations": [
                 {
+                    "target": "com.amazonaws.appflow#CancelFlowExecutions"
+                },
+                {
                     "target": "com.amazonaws.appflow#CreateConnectorProfile"
                 },
                 {
@@ -7745,6 +8029,9 @@
                 },
                 {
                     "target": "com.amazonaws.appflow#RegisterConnector"
+                },
+                {
+                    "target": "com.amazonaws.appflow#ResetConnectorMetadataCache"
                 },
                 {
                     "target": "com.amazonaws.appflow#StartFlow"
@@ -9672,7 +9959,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>StartFlow</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs for\n      flows that run on a schedule or based on an event. However, the error doesn't occur for flows\n      that run on demand. You set the conditions that initiate your flow for the\n        <code>triggerConfig</code> parameter.</p>\n         <p>If you use a different value for <code>clientToken</code>, Amazon AppFlow considers\n      it a new call to <code>StartFlow</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>StartFlow</code> request completes only once. You choose the value to pass. For\n      example, if you don't receive a response from your request, you can safely retry the request\n      with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs for\n      flows that run on a schedule or based on an event. However, the error doesn't occur for flows\n      that run on demand. You set the conditions that initiate your flow for the\n        <code>triggerConfig</code> parameter.</p>\n         <p>If you use a different value for <code>clientToken</code>, Amazon AppFlow considers\n      it a new call to <code>StartFlow</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }
@@ -9817,6 +10104,35 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.appflow#SupportedApiVersion"
+            }
+        },
+        "com.amazonaws.appflow#SupportedDataTransferApis": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.appflow#DataTransferApi"
+            }
+        },
+        "com.amazonaws.appflow#SupportedDataTransferType": {
+            "type": "enum",
+            "members": {
+                "RECORD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RECORD"
+                    }
+                },
+                "FILE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FILE"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.appflow#SupportedDataTransferTypeList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.appflow#SupportedDataTransferType"
             }
         },
         "com.amazonaws.appflow#SupportedFieldTypeDetails": {
@@ -10518,7 +10834,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>UpdateConnectorProfile</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateConnectorProfile</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>UpdateConnectorProfile</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateConnectorProfile</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }
@@ -10609,7 +10925,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>UpdateConnectorRegistration</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateConnectorRegistration</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>UpdateConnectorRegistration</code> request completes only once. You choose the value\n      to pass. For example, if you don't receive a response from your request, you can safely retry\n      the request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateConnectorRegistration</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }
@@ -10724,7 +11040,7 @@
                 "clientToken": {
                     "target": "com.amazonaws.appflow#ClientToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n      <code>UpdateFlow</code> request completes only once. You choose the value to\n      pass. For example, if you don't receive a response from your request, you can safely retry the\n      request with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateFlow</code>. The token is active for 8 hours.</p>",
+                        "smithy.api#documentation": "<p>The <code>clientToken</code> parameter is an idempotency token. It ensures that your\n        <code>UpdateFlow</code> request completes only once. You choose the value to pass. For\n      example, if you don't receive a response from your request, you can safely retry the request\n      with the same <code>clientToken</code> parameter value.</p>\n         <p>If you omit a <code>clientToken</code> value, the Amazon Web Services SDK that you are\n      using inserts a value for you. This way, the SDK can safely retry requests multiple times\n      after a network error. You must provide your own value for other use cases.</p>\n         <p>If you specify input parameters that differ from your first request, an error occurs. If\n      you use a different value for <code>clientToken</code>, Amazon AppFlow considers it a new\n      call to <code>UpdateFlow</code>. The token is active for 8 hours.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 }

@@ -22,7 +22,7 @@ extension DynamoDBClientTypes.ArchivalSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let archivalDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .archivalDateTime)
         archivalDateTime = archivalDateTimeDecoded
@@ -45,7 +45,7 @@ extension DynamoDBClientTypes {
         /// * INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.
         public var archivalReason: Swift.String?
 
-        public init (
+        public init(
             archivalBackupArn: Swift.String? = nil,
             archivalDateTime: ClientRuntime.Date? = nil,
             archivalReason: Swift.String? = nil
@@ -110,7 +110,7 @@ extension DynamoDBClientTypes.AttributeDefinition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
         attributeName = attributeNameDecoded
@@ -135,7 +135,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var attributeType: DynamoDBClientTypes.ScalarAttributeType?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             attributeType: DynamoDBClientTypes.ScalarAttributeType? = nil
         )
@@ -205,7 +205,7 @@ extension DynamoDBClientTypes.AttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let sDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .s)
         if let s = sDecoded {
@@ -350,7 +350,7 @@ extension DynamoDBClientTypes.AttributeValueUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.AttributeValue.self, forKey: .value)
         value = valueDecoded
@@ -389,7 +389,7 @@ extension DynamoDBClientTypes {
         /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see [Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes) in the Amazon DynamoDB Developer Guide.
         public var value: DynamoDBClientTypes.AttributeValue?
 
-        public init (
+        public init(
             action: DynamoDBClientTypes.AttributeAction? = nil,
             value: DynamoDBClientTypes.AttributeValue? = nil
         )
@@ -417,7 +417,7 @@ extension DynamoDBClientTypes.AutoScalingPolicyDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
         policyName = policyNameDecoded
@@ -434,7 +434,7 @@ extension DynamoDBClientTypes {
         /// Represents a target tracking scaling policy configuration.
         public var targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
 
-        public init (
+        public init(
             policyName: Swift.String? = nil,
             targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationDescription? = nil
         )
@@ -462,7 +462,7 @@ extension DynamoDBClientTypes.AutoScalingPolicyUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
         policyName = policyNameDecoded
@@ -480,7 +480,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate?
 
-        public init (
+        public init(
             policyName: Swift.String? = nil,
             targetTrackingScalingPolicyConfiguration: DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfigurationUpdate? = nil
         )
@@ -523,7 +523,7 @@ extension DynamoDBClientTypes.AutoScalingSettingsDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minimumUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumUnits)
         minimumUnits = minimumUnitsDecoded
@@ -561,7 +561,7 @@ extension DynamoDBClientTypes {
         /// Information about the scaling policies.
         public var scalingPolicies: [DynamoDBClientTypes.AutoScalingPolicyDescription]?
 
-        public init (
+        public init(
             autoScalingDisabled: Swift.Bool? = nil,
             autoScalingRoleArn: Swift.String? = nil,
             maximumUnits: Swift.Int? = nil,
@@ -607,7 +607,7 @@ extension DynamoDBClientTypes.AutoScalingSettingsUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minimumUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumUnits)
         minimumUnits = minimumUnitsDecoded
@@ -636,7 +636,7 @@ extension DynamoDBClientTypes {
         /// The scaling policy to apply for scaling target global table or global secondary index capacity units.
         public var scalingPolicyUpdate: DynamoDBClientTypes.AutoScalingPolicyUpdate?
 
-        public init (
+        public init(
             autoScalingDisabled: Swift.Bool? = nil,
             autoScalingRoleArn: Swift.String? = nil,
             maximumUnits: Swift.Int? = nil,
@@ -678,7 +678,7 @@ extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfiguratio
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let disableScaleInDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableScaleIn)
         disableScaleIn = disableScaleInDecoded
@@ -704,7 +704,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var targetValue: Swift.Double?
 
-        public init (
+        public init(
             disableScaleIn: Swift.Bool? = nil,
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
@@ -744,7 +744,7 @@ extension DynamoDBClientTypes.AutoScalingTargetTrackingScalingPolicyConfiguratio
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let disableScaleInDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableScaleIn)
         disableScaleIn = disableScaleInDecoded
@@ -770,7 +770,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var targetValue: Swift.Double?
 
-        public init (
+        public init(
             disableScaleIn: Swift.Bool? = nil,
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
@@ -806,7 +806,7 @@ extension DynamoDBClientTypes.BackupDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupDetailsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDetails.self, forKey: .backupDetails)
         backupDetails = backupDetailsDecoded
@@ -827,7 +827,7 @@ extension DynamoDBClientTypes {
         /// Contains the details of the features enabled on the table when the backup was created. For example, LSIs, GSIs, streams, TTL.
         public var sourceTableFeatureDetails: DynamoDBClientTypes.SourceTableFeatureDetails?
 
-        public init (
+        public init(
             backupDetails: DynamoDBClientTypes.BackupDetails? = nil,
             sourceTableDetails: DynamoDBClientTypes.SourceTableDetails? = nil,
             sourceTableFeatureDetails: DynamoDBClientTypes.SourceTableFeatureDetails? = nil
@@ -877,7 +877,7 @@ extension DynamoDBClientTypes.BackupDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupArn)
         backupArn = backupArnDecoded
@@ -925,7 +925,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var backupType: DynamoDBClientTypes.BackupType?
 
-        public init (
+        public init(
             backupArn: Swift.String? = nil,
             backupCreationDateTime: ClientRuntime.Date? = nil,
             backupExpiryDateTime: ClientRuntime.Date? = nil,
@@ -948,37 +948,41 @@ extension DynamoDBClientTypes {
 }
 
 extension BackupInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BackupInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There is another ongoing conflicting backup control plane operation on the table. The backup is either being created, deleted or restored to a table.
-public struct BackupInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct BackupInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BackupInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -991,7 +995,7 @@ extension BackupInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -999,37 +1003,41 @@ extension BackupInUseExceptionBody: Swift.Decodable {
 }
 
 extension BackupNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BackupNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Backup not found for the given BackupARN.
-public struct BackupNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct BackupNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BackupNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1042,7 +1050,7 @@ extension BackupNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1132,7 +1140,7 @@ extension DynamoDBClientTypes.BackupSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -1187,7 +1195,7 @@ extension DynamoDBClientTypes {
         /// Name of the table.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             backupArn: Swift.String? = nil,
             backupCreationDateTime: ClientRuntime.Date? = nil,
             backupExpiryDateTime: ClientRuntime.Date? = nil,
@@ -1327,7 +1335,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     /// This member is required.
     public var statements: [DynamoDBClientTypes.BatchStatementRequest]?
 
-    public init (
+    public init(
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         statements: [DynamoDBClientTypes.BatchStatementRequest]? = nil
     )
@@ -1348,7 +1356,7 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
         case statements = "Statements"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.BatchStatementRequest?].self, forKey: .statements)
         var statementsDecoded0:[DynamoDBClientTypes.BatchStatementRequest]? = nil
@@ -1366,33 +1374,21 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-extension BatchExecuteStatementOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchExecuteStatementOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchExecuteStatementOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -1410,7 +1406,7 @@ public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
     /// The response to each PartiQL statement in the batch.
     public var responses: [DynamoDBClientTypes.BatchStatementResponse]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.BatchStatementResponse]? = nil
     )
@@ -1431,7 +1427,7 @@ extension BatchExecuteStatementOutputResponseBody: Swift.Decodable {
         case responses = "Responses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responsesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.BatchStatementResponse?].self, forKey: .responses)
         var responsesDecoded0:[DynamoDBClientTypes.BatchStatementResponse]? = nil
@@ -1532,7 +1528,7 @@ public struct BatchGetItemInput: Swift.Equatable {
     /// * NONE - No ConsumedCapacity details are included in the response.
     public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
 
-    public init (
+    public init(
         requestItems: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil
     )
@@ -1553,7 +1549,7 @@ extension BatchGetItemInputBody: Swift.Decodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.KeysAndAttributes?].self, forKey: .requestItems)
         var requestItemsDecoded0: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
@@ -1571,39 +1567,24 @@ extension BatchGetItemInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetItemOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -1639,7 +1620,7 @@ public struct BatchGetItemOutputResponse: Swift.Equatable {
     /// If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
     public var unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]? = nil,
         unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
@@ -1664,7 +1645,7 @@ extension BatchGetItemOutputResponseBody: Swift.Decodable {
         case unprocessedKeys = "UnprocessedKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responsesContainer = try containerValues.decodeIfPresent([Swift.String: [[Swift.String: DynamoDBClientTypes.AttributeValue?]?]?].self, forKey: .responses)
         var responsesDecoded0: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]? = nil
@@ -1734,7 +1715,7 @@ extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BatchStatementErrorCodeEnum.self, forKey: .code)
         code = codeDecoded
@@ -1751,7 +1732,7 @@ extension DynamoDBClientTypes {
         /// The error message associated with the PartiQL batch response.
         public var message: Swift.String?
 
-        public init (
+        public init(
             code: DynamoDBClientTypes.BatchStatementErrorCodeEnum? = nil,
             message: Swift.String? = nil
         )
@@ -1845,7 +1826,7 @@ extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statement)
         statement = statementDecoded
@@ -1876,7 +1857,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var statement: Swift.String?
 
-        public init (
+        public init(
             consistentRead: Swift.Bool? = nil,
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
             statement: Swift.String? = nil
@@ -1913,7 +1894,7 @@ extension DynamoDBClientTypes.BatchStatementResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BatchStatementError.self, forKey: .error)
         error = errorDecoded
@@ -1943,7 +1924,7 @@ extension DynamoDBClientTypes {
         /// The table name associated with a failed PartiQL batch statement.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             error: DynamoDBClientTypes.BatchStatementError? = nil,
             item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
             tableName: Swift.String? = nil
@@ -2017,7 +1998,7 @@ public struct BatchWriteItemInput: Swift.Equatable {
     /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
     public var returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
 
-    public init (
+    public init(
         requestItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil
@@ -2042,7 +2023,7 @@ extension BatchWriteItemInputBody: Swift.Decodable {
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.WriteRequest?]?].self, forKey: .requestItems)
         var requestItemsDecoded0: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
@@ -2069,41 +2050,25 @@ extension BatchWriteItemInputBody: Swift.Decodable {
     }
 }
 
-extension BatchWriteItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchWriteItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ItemCollectionSizeLimitExceededException" : self = .itemCollectionSizeLimitExceededException(try ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchWriteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ItemCollectionSizeLimitExceededException": return try await ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchWriteItemOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case itemCollectionSizeLimitExceededException(ItemCollectionSizeLimitExceededException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchWriteItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchWriteItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -2151,7 +2116,7 @@ public struct BatchWriteItemOutputResponse: Swift.Equatable {
     /// If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
     public var unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil,
         unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
@@ -2176,7 +2141,7 @@ extension BatchWriteItemOutputResponseBody: Swift.Decodable {
         case unprocessedItems = "UnprocessedItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let unprocessedItemsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.WriteRequest?]?].self, forKey: .unprocessedItems)
         var unprocessedItemsDecoded0: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
@@ -2276,7 +2241,7 @@ extension DynamoDBClientTypes.BillingModeSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let billingModeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BillingMode.self, forKey: .billingMode)
         billingMode = billingModeDecoded
@@ -2297,7 +2262,7 @@ extension DynamoDBClientTypes {
         /// Represents the time when PAY_PER_REQUEST was last set as the read/write capacity mode.
         public var lastUpdateToPayPerRequestDateTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             lastUpdateToPayPerRequestDateTime: ClientRuntime.Date? = nil
         )
@@ -2332,7 +2297,7 @@ extension DynamoDBClientTypes.CancellationReason: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
         var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -2362,7 +2327,7 @@ extension DynamoDBClientTypes {
         /// Cancellation reason message description.
         public var message: Swift.String?
 
-        public init (
+        public init(
             code: Swift.String? = nil,
             item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
             message: Swift.String? = nil
@@ -2396,7 +2361,7 @@ extension DynamoDBClientTypes.Capacity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .readCapacityUnits)
         readCapacityUnits = readCapacityUnitsDecoded
@@ -2417,7 +2382,7 @@ extension DynamoDBClientTypes {
         /// The total number of write capacity units consumed on a table or an index.
         public var writeCapacityUnits: Swift.Double?
 
-        public init (
+        public init(
             capacityUnits: Swift.Double? = nil,
             readCapacityUnits: Swift.Double? = nil,
             writeCapacityUnits: Swift.Double? = nil
@@ -2515,7 +2480,7 @@ extension DynamoDBClientTypes.Condition: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeValueListContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeValue?].self, forKey: .attributeValueList)
         var attributeValueListDecoded0:[DynamoDBClientTypes.AttributeValue]? = nil
@@ -2575,7 +2540,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var comparisonOperator: DynamoDBClientTypes.ComparisonOperator?
 
-        public init (
+        public init(
             attributeValueList: [DynamoDBClientTypes.AttributeValue]? = nil,
             comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil
         )
@@ -2628,7 +2593,7 @@ extension DynamoDBClientTypes.ConditionCheck: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
         var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -2691,7 +2656,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             conditionExpression: Swift.String? = nil,
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
             expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
@@ -2712,38 +2677,42 @@ extension DynamoDBClientTypes {
 }
 
 extension ConditionalCheckFailedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A condition specified in the operation could not be evaluated.
-public struct ConditionalCheckFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The conditional request failed.
-    public var message: Swift.String?
+public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The conditional request failed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalCheckFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -2756,7 +2725,7 @@ extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -2837,7 +2806,7 @@ extension DynamoDBClientTypes.ConsumedCapacity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -2892,7 +2861,7 @@ extension DynamoDBClientTypes {
         /// The total number of write capacity units consumed by the operation.
         public var writeCapacityUnits: Swift.Double?
 
-        public init (
+        public init(
             capacityUnits: Swift.Double? = nil,
             globalSecondaryIndexes: [Swift.String:DynamoDBClientTypes.Capacity]? = nil,
             localSecondaryIndexes: [Swift.String:DynamoDBClientTypes.Capacity]? = nil,
@@ -2930,7 +2899,7 @@ extension DynamoDBClientTypes.ContinuousBackupsDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousBackupsStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContinuousBackupsStatus.self, forKey: .continuousBackupsStatus)
         continuousBackupsStatus = continuousBackupsStatusDecoded
@@ -2948,7 +2917,7 @@ extension DynamoDBClientTypes {
         /// The description of the point in time recovery settings applied to the table.
         public var pointInTimeRecoveryDescription: DynamoDBClientTypes.PointInTimeRecoveryDescription?
 
-        public init (
+        public init(
             continuousBackupsStatus: DynamoDBClientTypes.ContinuousBackupsStatus? = nil,
             pointInTimeRecoveryDescription: DynamoDBClientTypes.PointInTimeRecoveryDescription? = nil
         )
@@ -2993,37 +2962,41 @@ extension DynamoDBClientTypes {
 }
 
 extension ContinuousBackupsUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ContinuousBackupsUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Backups have not yet been enabled for this table.
-public struct ContinuousBackupsUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ContinuousBackupsUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ContinuousBackupsUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -3036,7 +3009,7 @@ extension ContinuousBackupsUnavailableExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -3136,7 +3109,7 @@ extension DynamoDBClientTypes.ContributorInsightsSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -3157,7 +3130,7 @@ extension DynamoDBClientTypes {
         /// Name of the table associated with the summary.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
             indexName: Swift.String? = nil,
             tableName: Swift.String? = nil
@@ -3202,7 +3175,7 @@ public struct CreateBackupInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         backupName: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
@@ -3223,7 +3196,7 @@ extension CreateBackupInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -3232,43 +3205,26 @@ extension CreateBackupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateBackupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BackupInUseException" : self = .backupInUseException(try BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ContinuousBackupsUnavailableException" : self = .continuousBackupsUnavailableException(try ContinuousBackupsUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableInUseException" : self = .tableInUseException(try TableInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupInUseException": return try await BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ContinuousBackupsUnavailableException": return try await ContinuousBackupsUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableInUseException": return try await TableInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateBackupOutputError: Swift.Error, Swift.Equatable {
-    case backupInUseException(BackupInUseException)
-    case continuousBackupsUnavailableException(ContinuousBackupsUnavailableException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case tableInUseException(TableInUseException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDetails = output.backupDetails
@@ -3282,7 +3238,7 @@ public struct CreateBackupOutputResponse: Swift.Equatable {
     /// Contains the details of the backup created for the table.
     public var backupDetails: DynamoDBClientTypes.BackupDetails?
 
-    public init (
+    public init(
         backupDetails: DynamoDBClientTypes.BackupDetails? = nil
     )
     {
@@ -3299,7 +3255,7 @@ extension CreateBackupOutputResponseBody: Swift.Decodable {
         case backupDetails = "BackupDetails"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupDetailsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDetails.self, forKey: .backupDetails)
         backupDetails = backupDetailsDecoded
@@ -3333,7 +3289,7 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -3370,7 +3326,7 @@ extension DynamoDBClientTypes {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
@@ -3420,7 +3376,7 @@ public struct CreateGlobalTableInput: Swift.Equatable {
     /// This member is required.
     public var replicationGroup: [DynamoDBClientTypes.Replica]?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil,
         replicationGroup: [DynamoDBClientTypes.Replica]? = nil
     )
@@ -3441,7 +3397,7 @@ extension CreateGlobalTableInputBody: Swift.Decodable {
         case replicationGroup = "ReplicationGroup"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -3459,39 +3415,24 @@ extension CreateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGlobalTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateGlobalTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalTableAlreadyExistsException" : self = .globalTableAlreadyExistsException(try GlobalTableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GlobalTableAlreadyExistsException": return try await GlobalTableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateGlobalTableOutputError: Swift.Error, Swift.Equatable {
-    case globalTableAlreadyExistsException(GlobalTableAlreadyExistsException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
@@ -3505,7 +3446,7 @@ public struct CreateGlobalTableOutputResponse: Swift.Equatable {
     /// Contains the details of the global table.
     public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
-    public init (
+    public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
@@ -3522,7 +3463,7 @@ extension CreateGlobalTableOutputResponseBody: Swift.Decodable {
         case globalTableDescription = "GlobalTableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.GlobalTableDescription.self, forKey: .globalTableDescription)
         globalTableDescription = globalTableDescriptionDecoded
@@ -3541,7 +3482,7 @@ extension DynamoDBClientTypes.CreateReplicaAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -3555,7 +3496,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var regionName: Swift.String?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil
         )
         {
@@ -3596,7 +3537,7 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -3635,7 +3576,7 @@ extension DynamoDBClientTypes {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public var tableClassOverride: DynamoDBClientTypes.TableClass?
 
-        public init (
+        public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
@@ -3834,7 +3775,7 @@ public struct CreateTableInput: Swift.Equatable {
     /// A list of key-value pairs to label the table. For more information, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
     public var tags: [DynamoDBClientTypes.Tag]?
 
-    public init (
+    public init(
         attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
@@ -3895,7 +3836,7 @@ extension CreateTableInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeDefinitionsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeDefinition?].self, forKey: .attributeDefinitions)
         var attributeDefinitionsDecoded0:[DynamoDBClientTypes.AttributeDefinition]? = nil
@@ -3969,37 +3910,23 @@ extension CreateTableInputBody: Swift.Decodable {
     }
 }
 
-extension CreateTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension CreateTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum CreateTableOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
@@ -4014,7 +3941,7 @@ public struct CreateTableOutputResponse: Swift.Equatable {
     /// Represents the properties of the table.
     public var tableDescription: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -4031,7 +3958,7 @@ extension CreateTableOutputResponseBody: Swift.Decodable {
         case tableDescription = "TableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .tableDescription)
         tableDescription = tableDescriptionDecoded
@@ -4057,7 +3984,7 @@ extension DynamoDBClientTypes.CsvOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
         delimiter = delimiterDecoded
@@ -4083,7 +4010,7 @@ extension DynamoDBClientTypes {
         /// List of the headers used to specify a common header for all source CSV files being imported. If this field is specified then the first line of each CSV file is treated as data instead of the header. If this field is not specified the the first line of each CSV file is treated as the header.
         public var headerList: [Swift.String]?
 
-        public init (
+        public init(
             delimiter: Swift.String? = nil,
             headerList: [Swift.String]? = nil
         )
@@ -4136,7 +4063,7 @@ extension DynamoDBClientTypes.Delete: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
         var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -4198,7 +4125,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             conditionExpression: Swift.String? = nil,
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
             expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
@@ -4242,7 +4169,7 @@ public struct DeleteBackupInput: Swift.Equatable {
     /// This member is required.
     public var backupArn: Swift.String?
 
-    public init (
+    public init(
         backupArn: Swift.String? = nil
     )
     {
@@ -4259,46 +4186,31 @@ extension DeleteBackupInputBody: Swift.Decodable {
         case backupArn = "BackupArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupArn)
         backupArn = backupArnDecoded
     }
 }
 
-extension DeleteBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteBackupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BackupInUseException" : self = .backupInUseException(try BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BackupNotFoundException" : self = .backupNotFoundException(try BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupInUseException": return try await BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupNotFoundException": return try await BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteBackupOutputError: Swift.Error, Swift.Equatable {
-    case backupInUseException(BackupInUseException)
-    case backupNotFoundException(BackupNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDescription = output.backupDescription
@@ -4312,7 +4224,7 @@ public struct DeleteBackupOutputResponse: Swift.Equatable {
     /// Contains the description of the backup created for the table.
     public var backupDescription: DynamoDBClientTypes.BackupDescription?
 
-    public init (
+    public init(
         backupDescription: DynamoDBClientTypes.BackupDescription? = nil
     )
     {
@@ -4329,7 +4241,7 @@ extension DeleteBackupOutputResponseBody: Swift.Decodable {
         case backupDescription = "BackupDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDescription.self, forKey: .backupDescription)
         backupDescription = backupDescriptionDecoded
@@ -4348,7 +4260,7 @@ extension DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -4362,7 +4274,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var indexName: Swift.String?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil
         )
         {
@@ -4510,7 +4422,7 @@ public struct DeleteItemInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         conditionExpression: Swift.String? = nil,
         conditionalOperator: DynamoDBClientTypes.ConditionalOperator? = nil,
         expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil,
@@ -4563,7 +4475,7 @@ extension DeleteItemInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -4624,45 +4536,27 @@ extension DeleteItemInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConditionalCheckFailedException" : self = .conditionalCheckFailedException(try ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ItemCollectionSizeLimitExceededException" : self = .itemCollectionSizeLimitExceededException(try ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionConflictException" : self = .transactionConflictException(try TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConditionalCheckFailedException": return try await ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ItemCollectionSizeLimitExceededException": return try await ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteItemOutputError: Swift.Error, Swift.Equatable {
-    case conditionalCheckFailedException(ConditionalCheckFailedException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case itemCollectionSizeLimitExceededException(ItemCollectionSizeLimitExceededException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionConflictException(TransactionConflictException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
@@ -4689,7 +4583,7 @@ public struct DeleteItemOutputResponse: Swift.Equatable {
     /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
     public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
 
-    public init (
+    public init(
         attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
@@ -4714,7 +4608,7 @@ extension DeleteItemOutputResponseBody: Swift.Decodable {
         case itemCollectionMetrics = "ItemCollectionMetrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -4746,7 +4640,7 @@ extension DynamoDBClientTypes.DeleteReplicaAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -4760,7 +4654,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var regionName: Swift.String?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil
         )
         {
@@ -4782,7 +4676,7 @@ extension DynamoDBClientTypes.DeleteReplicationGroupMemberAction: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -4796,7 +4690,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var regionName: Swift.String?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil
         )
         {
@@ -4821,7 +4715,7 @@ extension DynamoDBClientTypes.DeleteRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
         var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -4844,7 +4738,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
 
-        public init (
+        public init(
             key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
         )
         {
@@ -4879,7 +4773,7 @@ public struct DeleteTableInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -4896,46 +4790,31 @@ extension DeleteTableInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DeleteTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteTableOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
@@ -4950,7 +4829,7 @@ public struct DeleteTableOutputResponse: Swift.Equatable {
     /// Represents the properties of a table.
     public var tableDescription: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -4967,7 +4846,7 @@ extension DeleteTableOutputResponseBody: Swift.Decodable {
         case tableDescription = "TableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .tableDescription)
         tableDescription = tableDescriptionDecoded
@@ -4998,7 +4877,7 @@ public struct DescribeBackupInput: Swift.Equatable {
     /// This member is required.
     public var backupArn: Swift.String?
 
-    public init (
+    public init(
         backupArn: Swift.String? = nil
     )
     {
@@ -5015,42 +4894,29 @@ extension DescribeBackupInputBody: Swift.Decodable {
         case backupArn = "BackupArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupArn)
         backupArn = backupArnDecoded
     }
 }
 
-extension DescribeBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeBackupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BackupNotFoundException" : self = .backupNotFoundException(try BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupNotFoundException": return try await BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeBackupOutputError: Swift.Error, Swift.Equatable {
-    case backupNotFoundException(BackupNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupDescription = output.backupDescription
@@ -5064,7 +4930,7 @@ public struct DescribeBackupOutputResponse: Swift.Equatable {
     /// Contains the description of the backup created for the table.
     public var backupDescription: DynamoDBClientTypes.BackupDescription?
 
-    public init (
+    public init(
         backupDescription: DynamoDBClientTypes.BackupDescription? = nil
     )
     {
@@ -5081,7 +4947,7 @@ extension DescribeBackupOutputResponseBody: Swift.Decodable {
         case backupDescription = "BackupDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDescription.self, forKey: .backupDescription)
         backupDescription = backupDescriptionDecoded
@@ -5112,7 +4978,7 @@ public struct DescribeContinuousBackupsInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -5129,42 +4995,29 @@ extension DescribeContinuousBackupsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DescribeContinuousBackupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeContinuousBackupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeContinuousBackupsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeContinuousBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeContinuousBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuousBackupsDescription = output.continuousBackupsDescription
@@ -5178,7 +5031,7 @@ public struct DescribeContinuousBackupsOutputResponse: Swift.Equatable {
     /// Represents the continuous backups and point in time recovery settings on the table.
     public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
 
-    public init (
+    public init(
         continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
     )
     {
@@ -5195,7 +5048,7 @@ extension DescribeContinuousBackupsOutputResponseBody: Swift.Decodable {
         case continuousBackupsDescription = "ContinuousBackupsDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousBackupsDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContinuousBackupsDescription.self, forKey: .continuousBackupsDescription)
         continuousBackupsDescription = continuousBackupsDescriptionDecoded
@@ -5232,7 +5085,7 @@ public struct DescribeContributorInsightsInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
@@ -5253,7 +5106,7 @@ extension DescribeContributorInsightsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -5262,33 +5115,21 @@ extension DescribeContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeContributorInsightsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeContributorInsightsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsRuleList = output.contributorInsightsRuleList
@@ -5330,7 +5171,7 @@ public struct DescribeContributorInsightsOutputResponse: Swift.Equatable {
     /// The name of the table being described.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         contributorInsightsRuleList: [Swift.String]? = nil,
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         failureException: DynamoDBClientTypes.FailureException? = nil,
@@ -5367,7 +5208,7 @@ extension DescribeContributorInsightsOutputResponseBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -5409,7 +5250,7 @@ extension DescribeEndpointsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeEndpointsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeEndpointsInputBody: Swift.Equatable {
@@ -5417,33 +5258,23 @@ struct DescribeEndpointsInputBody: Swift.Equatable {
 
 extension DescribeEndpointsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeEndpointsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeEndpointsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeEndpointsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpoints = output.endpoints
@@ -5458,7 +5289,7 @@ public struct DescribeEndpointsOutputResponse: Swift.Equatable {
     /// This member is required.
     public var endpoints: [DynamoDBClientTypes.Endpoint]?
 
-    public init (
+    public init(
         endpoints: [DynamoDBClientTypes.Endpoint]? = nil
     )
     {
@@ -5475,7 +5306,7 @@ extension DescribeEndpointsOutputResponseBody: Swift.Decodable {
         case endpoints = "Endpoints"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Endpoint?].self, forKey: .endpoints)
         var endpointsDecoded0:[DynamoDBClientTypes.Endpoint]? = nil
@@ -5515,7 +5346,7 @@ public struct DescribeExportInput: Swift.Equatable {
     /// This member is required.
     public var exportArn: Swift.String?
 
-    public init (
+    public init(
         exportArn: Swift.String? = nil
     )
     {
@@ -5532,42 +5363,29 @@ extension DescribeExportInputBody: Swift.Decodable {
         case exportArn = "ExportArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportArn)
         exportArn = exportArnDecoded
     }
 }
 
-extension DescribeExportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeExportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ExportNotFoundException" : self = .exportNotFoundException(try ExportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExportNotFoundException": return try await ExportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeExportOutputError: Swift.Error, Swift.Equatable {
-    case exportNotFoundException(ExportNotFoundException)
-    case internalServerError(InternalServerError)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeExportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportDescription = output.exportDescription
@@ -5581,7 +5399,7 @@ public struct DescribeExportOutputResponse: Swift.Equatable {
     /// Represents the properties of the export.
     public var exportDescription: DynamoDBClientTypes.ExportDescription?
 
-    public init (
+    public init(
         exportDescription: DynamoDBClientTypes.ExportDescription? = nil
     )
     {
@@ -5598,7 +5416,7 @@ extension DescribeExportOutputResponseBody: Swift.Decodable {
         case exportDescription = "ExportDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportDescription.self, forKey: .exportDescription)
         exportDescription = exportDescriptionDecoded
@@ -5629,7 +5447,7 @@ public struct DescribeGlobalTableInput: Swift.Equatable {
     /// This member is required.
     public var globalTableName: Swift.String?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil
     )
     {
@@ -5646,42 +5464,29 @@ extension DescribeGlobalTableInputBody: Swift.Decodable {
         case globalTableName = "GlobalTableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
     }
 }
 
-extension DescribeGlobalTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeGlobalTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalTableNotFoundException" : self = .globalTableNotFoundException(try GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GlobalTableNotFoundException": return try await GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeGlobalTableOutputError: Swift.Error, Swift.Equatable {
-    case globalTableNotFoundException(GlobalTableNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
@@ -5695,7 +5500,7 @@ public struct DescribeGlobalTableOutputResponse: Swift.Equatable {
     /// Contains the details of the global table.
     public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
-    public init (
+    public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
@@ -5712,7 +5517,7 @@ extension DescribeGlobalTableOutputResponseBody: Swift.Decodable {
         case globalTableDescription = "GlobalTableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.GlobalTableDescription.self, forKey: .globalTableDescription)
         globalTableDescription = globalTableDescriptionDecoded
@@ -5743,7 +5548,7 @@ public struct DescribeGlobalTableSettingsInput: Swift.Equatable {
     /// This member is required.
     public var globalTableName: Swift.String?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil
     )
     {
@@ -5760,42 +5565,29 @@ extension DescribeGlobalTableSettingsInputBody: Swift.Decodable {
         case globalTableName = "GlobalTableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
     }
 }
 
-extension DescribeGlobalTableSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeGlobalTableSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalTableNotFoundException" : self = .globalTableNotFoundException(try GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GlobalTableNotFoundException": return try await GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeGlobalTableSettingsOutputError: Swift.Error, Swift.Equatable {
-    case globalTableNotFoundException(GlobalTableNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeGlobalTableSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeGlobalTableSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableName = output.globalTableName
@@ -5813,7 +5605,7 @@ public struct DescribeGlobalTableSettingsOutputResponse: Swift.Equatable {
     /// The Region-specific settings for the global table.
     public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil,
         replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
     )
@@ -5834,7 +5626,7 @@ extension DescribeGlobalTableSettingsOutputResponseBody: Swift.Decodable {
         case replicaSettings = "ReplicaSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -5876,7 +5668,7 @@ public struct DescribeImportInput: Swift.Equatable {
     /// This member is required.
     public var importArn: Swift.String?
 
-    public init (
+    public init(
         importArn: Swift.String? = nil
     )
     {
@@ -5893,38 +5685,27 @@ extension DescribeImportInputBody: Swift.Decodable {
         case importArn = "ImportArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importArn)
         importArn = importArnDecoded
     }
 }
 
-extension DescribeImportOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeImportOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ImportNotFoundException" : self = .importNotFoundException(try ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportNotFoundException": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeImportOutputError: Swift.Error, Swift.Equatable {
-    case importNotFoundException(ImportNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeImportOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importTableDescription = output.importTableDescription
@@ -5939,7 +5720,7 @@ public struct DescribeImportOutputResponse: Swift.Equatable {
     /// This member is required.
     public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
 
-    public init (
+    public init(
         importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
     )
     {
@@ -5956,7 +5737,7 @@ extension DescribeImportOutputResponseBody: Swift.Decodable {
         case importTableDescription = "ImportTableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ImportTableDescription.self, forKey: .importTableDescription)
         importTableDescription = importTableDescriptionDecoded
@@ -5987,7 +5768,7 @@ public struct DescribeKinesisStreamingDestinationInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -6004,42 +5785,29 @@ extension DescribeKinesisStreamingDestinationInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DescribeKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeKinesisStreamingDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeKinesisStreamingDestinationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.kinesisDataStreamDestinations = output.kinesisDataStreamDestinations
@@ -6057,7 +5825,7 @@ public struct DescribeKinesisStreamingDestinationOutputResponse: Swift.Equatable
     /// The name of the table being described.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]? = nil,
         tableName: Swift.String? = nil
     )
@@ -6078,7 +5846,7 @@ extension DescribeKinesisStreamingDestinationOutputResponseBody: Swift.Decodable
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -6113,7 +5881,7 @@ extension DescribeLimitsInput: ClientRuntime.URLPathProvider {
 /// Represents the input of a DescribeLimits operation. Has no content.
 public struct DescribeLimitsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 struct DescribeLimitsInputBody: Swift.Equatable {
@@ -6121,37 +5889,25 @@ struct DescribeLimitsInputBody: Swift.Equatable {
 
 extension DescribeLimitsInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DescribeLimitsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeLimitsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeLimitsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountMaxReadCapacityUnits = output.accountMaxReadCapacityUnits
@@ -6178,7 +5934,7 @@ public struct DescribeLimitsOutputResponse: Swift.Equatable {
     /// The maximum write capacity units that your account allows you to provision for a new table that you are creating in this Region, including the write capacity units provisioned for its global secondary indexes (GSIs).
     public var tableMaxWriteCapacityUnits: Swift.Int?
 
-    public init (
+    public init(
         accountMaxReadCapacityUnits: Swift.Int? = nil,
         accountMaxWriteCapacityUnits: Swift.Int? = nil,
         tableMaxReadCapacityUnits: Swift.Int? = nil,
@@ -6207,7 +5963,7 @@ extension DescribeLimitsOutputResponseBody: Swift.Decodable {
         case tableMaxWriteCapacityUnits = "TableMaxWriteCapacityUnits"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accountMaxReadCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accountMaxReadCapacityUnits)
         accountMaxReadCapacityUnits = accountMaxReadCapacityUnitsDecoded
@@ -6245,7 +6001,7 @@ public struct DescribeTableInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -6262,56 +6018,29 @@ extension DescribeTableInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DescribeTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DescribeTableOutputError: WaiterTypedError {
-
-    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
-    /// error has no known type.
-    public var waiterErrorType: String? {
-        switch self {
-        case .internalServerError: return "InternalServerError"
-        case .invalidEndpointException: return "InvalidEndpointException"
-        case .resourceNotFoundException: return "ResourceNotFoundException"
-        case .unknown(let error): return error.waiterErrorType
-        }
-    }
-}
-
-public enum DescribeTableOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
 }
 
 extension DescribeTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.table = output.table
@@ -6326,7 +6055,7 @@ public struct DescribeTableOutputResponse: Swift.Equatable {
     /// The properties of the table.
     public var table: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         table: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -6343,7 +6072,7 @@ extension DescribeTableOutputResponseBody: Swift.Decodable {
         case table = "Table"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .table)
         table = tableDecoded
@@ -6374,7 +6103,7 @@ public struct DescribeTableReplicaAutoScalingInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -6391,40 +6120,28 @@ extension DescribeTableReplicaAutoScalingInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DescribeTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTableReplicaAutoScalingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTableReplicaAutoScalingOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTableReplicaAutoScalingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTableReplicaAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableAutoScalingDescription = output.tableAutoScalingDescription
@@ -6438,7 +6155,7 @@ public struct DescribeTableReplicaAutoScalingOutputResponse: Swift.Equatable {
     /// Represents the auto scaling properties of the table.
     public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
 
-    public init (
+    public init(
         tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
     )
     {
@@ -6455,7 +6172,7 @@ extension DescribeTableReplicaAutoScalingOutputResponseBody: Swift.Decodable {
         case tableAutoScalingDescription = "TableAutoScalingDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableAutoScalingDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableAutoScalingDescription.self, forKey: .tableAutoScalingDescription)
         tableAutoScalingDescription = tableAutoScalingDescriptionDecoded
@@ -6486,7 +6203,7 @@ public struct DescribeTimeToLiveInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil
     )
     {
@@ -6503,42 +6220,29 @@ extension DescribeTimeToLiveInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
     }
 }
 
-extension DescribeTimeToLiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeTimeToLiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeTimeToLiveOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTimeToLiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTimeToLiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.timeToLiveDescription = output.timeToLiveDescription
@@ -6552,7 +6256,7 @@ public struct DescribeTimeToLiveOutputResponse: Swift.Equatable {
     ///
     public var timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription?
 
-    public init (
+    public init(
         timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
     )
     {
@@ -6569,7 +6273,7 @@ extension DescribeTimeToLiveOutputResponseBody: Swift.Decodable {
         case timeToLiveDescription = "TimeToLiveDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeToLiveDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TimeToLiveDescription.self, forKey: .timeToLiveDescription)
         timeToLiveDescription = timeToLiveDescriptionDecoded
@@ -6648,7 +6352,7 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
@@ -6669,7 +6373,7 @@ extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -6678,39 +6382,24 @@ extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension DisableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DisableKinesisStreamingDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DisableKinesisStreamingDestinationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisableKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
@@ -6732,7 +6421,7 @@ public struct DisableKinesisStreamingDestinationOutputResponse: Swift.Equatable 
     /// The name of the table being modified.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
@@ -6757,7 +6446,7 @@ extension DisableKinesisStreamingDestinationOutputResponseBody: Swift.Decodable 
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -6769,37 +6458,41 @@ extension DisableKinesisStreamingDestinationOutputResponseBody: Swift.Decodable 
 }
 
 extension DuplicateItemException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DuplicateItemExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was an attempt to insert an item with the same primary key as an item that already exists in the DynamoDB table.
-public struct DuplicateItemException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct DuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DuplicateItemException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6812,7 +6505,7 @@ extension DuplicateItemExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6850,7 +6543,7 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
@@ -6871,7 +6564,7 @@ extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -6880,39 +6573,24 @@ extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension EnableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension EnableKinesisStreamingDestinationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum EnableKinesisStreamingDestinationOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableKinesisStreamingDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EnableKinesisStreamingDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
@@ -6934,7 +6612,7 @@ public struct EnableKinesisStreamingDestinationOutputResponse: Swift.Equatable {
     /// The name of the table being modified.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
@@ -6959,7 +6637,7 @@ extension EnableKinesisStreamingDestinationOutputResponseBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -6986,7 +6664,7 @@ extension DynamoDBClientTypes.Endpoint: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -7005,7 +6683,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var cachePeriodInMinutes: Swift.Int
 
-        public init (
+        public init(
             address: Swift.String? = nil,
             cachePeriodInMinutes: Swift.Int = 0
         )
@@ -7080,7 +6758,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     /// This member is required.
     public var statement: Swift.String?
 
-    public init (
+    public init(
         consistentRead: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -7117,7 +6795,7 @@ extension ExecuteStatementInputBody: Swift.Decodable {
         case statement = "Statement"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statement)
         statement = statementDecoded
@@ -7143,45 +6821,27 @@ extension ExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-extension ExecuteStatementOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExecuteStatementOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConditionalCheckFailedException" : self = .conditionalCheckFailedException(try ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "DuplicateItemException" : self = .duplicateItemException(try DuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ItemCollectionSizeLimitExceededException" : self = .itemCollectionSizeLimitExceededException(try ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionConflictException" : self = .transactionConflictException(try TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConditionalCheckFailedException": return try await ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateItemException": return try await DuplicateItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ItemCollectionSizeLimitExceededException": return try await ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExecuteStatementOutputError: Swift.Error, Swift.Equatable {
-    case conditionalCheckFailedException(ConditionalCheckFailedException)
-    case duplicateItemException(DuplicateItemException)
-    case internalServerError(InternalServerError)
-    case itemCollectionSizeLimitExceededException(ItemCollectionSizeLimitExceededException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionConflictException(TransactionConflictException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -7207,7 +6867,7 @@ public struct ExecuteStatementOutputResponse: Swift.Equatable {
     /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
         lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
@@ -7236,7 +6896,7 @@ extension ExecuteStatementOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemsContainer = try containerValues.decodeIfPresent([[Swift.String: DynamoDBClientTypes.AttributeValue?]?].self, forKey: .items)
         var itemsDecoded0:[[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil
@@ -7315,7 +6975,7 @@ public struct ExecuteTransactionInput: Swift.Equatable {
     /// This member is required.
     public var transactStatements: [DynamoDBClientTypes.ParameterizedStatement]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         transactStatements: [DynamoDBClientTypes.ParameterizedStatement]? = nil
@@ -7340,7 +7000,7 @@ extension ExecuteTransactionInputBody: Swift.Decodable {
         case transactStatements = "TransactStatements"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactStatementsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ParameterizedStatement?].self, forKey: .transactStatements)
         var transactStatementsDecoded0:[DynamoDBClientTypes.ParameterizedStatement]? = nil
@@ -7360,43 +7020,26 @@ extension ExecuteTransactionInputBody: Swift.Decodable {
     }
 }
 
-extension ExecuteTransactionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExecuteTransactionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "IdempotentParameterMismatchException" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionCanceledException" : self = .transactionCanceledException(try TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionInProgressException" : self = .transactionInProgressException(try TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExecuteTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionCanceledException": return try await TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExecuteTransactionOutputError: Swift.Error, Swift.Equatable {
-    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
-    case internalServerError(InternalServerError)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionCanceledException(TransactionCanceledException)
-    case transactionInProgressException(TransactionInProgressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExecuteTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExecuteTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -7414,7 +7057,7 @@ public struct ExecuteTransactionOutputResponse: Swift.Equatable {
     /// The response to a PartiQL transaction.
     public var responses: [DynamoDBClientTypes.ItemResponse]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.ItemResponse]? = nil
     )
@@ -7435,7 +7078,7 @@ extension ExecuteTransactionOutputResponseBody: Swift.Decodable {
         case responses = "Responses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responsesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ItemResponse?].self, forKey: .responses)
         var responsesDecoded0:[DynamoDBClientTypes.ItemResponse]? = nil
@@ -7489,7 +7132,7 @@ extension DynamoDBClientTypes.ExpectedAttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.AttributeValue.self, forKey: .value)
         value = valueDecoded
@@ -7567,7 +7210,7 @@ extension DynamoDBClientTypes {
         /// Represents the data for the expected attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see [Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes) in the Amazon DynamoDB Developer Guide.
         public var value: DynamoDBClientTypes.AttributeValue?
 
-        public init (
+        public init(
             attributeValueList: [DynamoDBClientTypes.AttributeValue]? = nil,
             comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil,
             exists: Swift.Bool? = nil,
@@ -7584,37 +7227,41 @@ extension DynamoDBClientTypes {
 }
 
 extension ExportConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExportConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was a conflict when writing to the specified S3 bucket.
-public struct ExportConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ExportConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExportConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7627,7 +7274,7 @@ extension ExportConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7718,7 +7365,7 @@ extension DynamoDBClientTypes.ExportDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportArn)
         exportArn = exportArnDecoded
@@ -7807,7 +7454,7 @@ extension DynamoDBClientTypes {
         /// Unique ID of the table that was exported.
         public var tableId: Swift.String?
 
-        public init (
+        public init(
             billedSizeBytes: Swift.Int? = nil,
             clientToken: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -7886,37 +7533,41 @@ extension DynamoDBClientTypes {
 }
 
 extension ExportNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExportNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified export was not found.
-public struct ExportNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ExportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExportNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -7929,7 +7580,7 @@ extension ExportNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -7987,7 +7638,7 @@ extension DynamoDBClientTypes.ExportSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportArn)
         exportArn = exportArnDecoded
@@ -8004,7 +7655,7 @@ extension DynamoDBClientTypes {
         /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
         public var exportStatus: DynamoDBClientTypes.ExportStatus?
 
-        public init (
+        public init(
             exportArn: Swift.String? = nil,
             exportStatus: DynamoDBClientTypes.ExportStatus? = nil
         )
@@ -8093,7 +7744,7 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
     /// This member is required.
     public var tableArn: Swift.String?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
         exportTime: ClientRuntime.Date? = nil,
@@ -8142,7 +7793,7 @@ extension ExportTableToPointInTimeInputBody: Swift.Decodable {
         case tableArn = "TableArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
         tableArn = tableArnDecoded
@@ -8165,41 +7816,25 @@ extension ExportTableToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-extension ExportTableToPointInTimeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ExportTableToPointInTimeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ExportConflictException" : self = .exportConflictException(try ExportConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidExportTimeException" : self = .invalidExportTimeException(try InvalidExportTimeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PointInTimeRecoveryUnavailableException" : self = .pointInTimeRecoveryUnavailableException(try PointInTimeRecoveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExportTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExportConflictException": return try await ExportConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidExportTimeException": return try await InvalidExportTimeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PointInTimeRecoveryUnavailableException": return try await PointInTimeRecoveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ExportTableToPointInTimeOutputError: Swift.Error, Swift.Equatable {
-    case exportConflictException(ExportConflictException)
-    case internalServerError(InternalServerError)
-    case invalidExportTimeException(InvalidExportTimeException)
-    case limitExceededException(LimitExceededException)
-    case pointInTimeRecoveryUnavailableException(PointInTimeRecoveryUnavailableException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExportTableToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExportTableToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportDescription = output.exportDescription
@@ -8213,7 +7848,7 @@ public struct ExportTableToPointInTimeOutputResponse: Swift.Equatable {
     /// Contains a description of the table export.
     public var exportDescription: DynamoDBClientTypes.ExportDescription?
 
-    public init (
+    public init(
         exportDescription: DynamoDBClientTypes.ExportDescription? = nil
     )
     {
@@ -8230,7 +7865,7 @@ extension ExportTableToPointInTimeOutputResponseBody: Swift.Decodable {
         case exportDescription = "ExportDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportDescription.self, forKey: .exportDescription)
         exportDescription = exportDescriptionDecoded
@@ -8253,7 +7888,7 @@ extension DynamoDBClientTypes.FailureException: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exceptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exceptionName)
         exceptionName = exceptionNameDecoded
@@ -8270,7 +7905,7 @@ extension DynamoDBClientTypes {
         /// Exception name.
         public var exceptionName: Swift.String?
 
-        public init (
+        public init(
             exceptionDescription: Swift.String? = nil,
             exceptionName: Swift.String? = nil
         )
@@ -8312,7 +7947,7 @@ extension DynamoDBClientTypes.Get: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
         var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -8357,7 +7992,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
             key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
             projectionExpression: Swift.String? = nil,
@@ -8474,7 +8109,7 @@ public struct GetItemInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         attributesToGet: [Swift.String]? = nil,
         consistentRead: Swift.Bool? = nil,
         expressionAttributeNames: [Swift.String:Swift.String]? = nil,
@@ -8515,7 +8150,7 @@ extension GetItemInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -8561,39 +8196,24 @@ extension GetItemInputBody: Swift.Decodable {
     }
 }
 
-extension GetItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetItemOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -8612,7 +8232,7 @@ public struct GetItemOutputResponse: Swift.Equatable {
     /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
     public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
 
-    public init (
+    public init(
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
     )
@@ -8633,7 +8253,7 @@ extension GetItemOutputResponseBody: Swift.Decodable {
         case item = "Item"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
         var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -8678,7 +8298,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -8722,7 +8342,7 @@ extension DynamoDBClientTypes {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
@@ -8754,7 +8374,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -8771,7 +8391,7 @@ extension DynamoDBClientTypes {
         /// Represents the auto scaling settings to be modified for a global table or global secondary index.
         public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
         )
@@ -8830,7 +8450,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -8899,7 +8519,7 @@ extension DynamoDBClientTypes {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription?
 
-        public init (
+        public init(
             backfilling: Swift.Bool? = nil,
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
@@ -8952,7 +8572,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -8993,7 +8613,7 @@ extension DynamoDBClientTypes {
         /// Represents the provisioned throughput settings for the specified global secondary index.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
@@ -9029,7 +8649,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let updateDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction.self, forKey: .update)
         update = updateDecoded
@@ -9066,7 +8686,7 @@ extension DynamoDBClientTypes {
         /// The name of an existing global secondary index, along with new provisioned throughput settings to be applied to that index.
         public var update: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction?
 
-        public init (
+        public init(
             create: DynamoDBClientTypes.CreateGlobalSecondaryIndexAction? = nil,
             delete: DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction? = nil,
             update: DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction? = nil
@@ -9099,7 +8719,7 @@ extension DynamoDBClientTypes.GlobalTable: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -9125,7 +8745,7 @@ extension DynamoDBClientTypes {
         /// The Regions where the global table has replicas.
         public var replicationGroup: [DynamoDBClientTypes.Replica]?
 
-        public init (
+        public init(
             globalTableName: Swift.String? = nil,
             replicationGroup: [DynamoDBClientTypes.Replica]? = nil
         )
@@ -9138,37 +8758,41 @@ extension DynamoDBClientTypes {
 }
 
 extension GlobalTableAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GlobalTableAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified global table already exists.
-public struct GlobalTableAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalTableAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalTableAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9181,7 +8805,7 @@ extension GlobalTableAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9219,7 +8843,7 @@ extension DynamoDBClientTypes.GlobalTableDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ReplicaDescription?].self, forKey: .replicationGroup)
         var replicationGroupDecoded0:[DynamoDBClientTypes.ReplicaDescription]? = nil
@@ -9265,7 +8889,7 @@ extension DynamoDBClientTypes {
         /// The Regions where the global table has replicas.
         public var replicationGroup: [DynamoDBClientTypes.ReplicaDescription]?
 
-        public init (
+        public init(
             creationDateTime: ClientRuntime.Date? = nil,
             globalTableArn: Swift.String? = nil,
             globalTableName: Swift.String? = nil,
@@ -9303,7 +8927,7 @@ extension DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate: Swi
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -9325,7 +8949,7 @@ extension DynamoDBClientTypes {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public var provisionedWriteCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil
@@ -9340,37 +8964,41 @@ extension DynamoDBClientTypes {
 }
 
 extension GlobalTableNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GlobalTableNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified global table does not exist.
-public struct GlobalTableNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct GlobalTableNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalTableNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9383,7 +9011,7 @@ extension GlobalTableNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9429,37 +9057,41 @@ extension DynamoDBClientTypes {
 }
 
 extension IdempotentParameterMismatchException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// DynamoDB rejected the request because you retried a request with a different payload but with an idempotent token that was already used.
-public struct IdempotentParameterMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotentParameterMismatchException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9472,7 +9104,7 @@ extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9480,37 +9112,41 @@ extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
 }
 
 extension ImportConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was a conflict when importing from the specified S3 source. This can occur when the current import conflicts with a previous import request that had the same client token.
-public struct ImportConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ImportConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ImportConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9523,7 +9159,7 @@ extension ImportConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9531,37 +9167,41 @@ extension ImportConflictExceptionBody: Swift.Decodable {
 }
 
 extension ImportNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified import was not found.
-public struct ImportNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ImportNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9574,7 +9214,7 @@ extension ImportNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9662,7 +9302,7 @@ extension DynamoDBClientTypes.ImportSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importArn)
         importArn = importArnDecoded
@@ -9703,7 +9343,7 @@ extension DynamoDBClientTypes {
         /// The Amazon Resource Number (ARN) of the table being imported into.
         public var tableArn: Swift.String?
 
-        public init (
+        public init(
             cloudWatchLogGroupArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             importArn: Swift.String? = nil,
@@ -9811,7 +9451,7 @@ extension DynamoDBClientTypes.ImportTableDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importArn)
         importArn = importArnDecoded
@@ -9896,7 +9536,7 @@ extension DynamoDBClientTypes {
         /// The table id corresponding to the table created by import table process.
         public var tableId: Swift.String?
 
-        public init (
+        public init(
             clientToken: Swift.String? = nil,
             cloudWatchLogGroupArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -9998,7 +9638,7 @@ public struct ImportTableInput: Swift.Equatable {
     /// This member is required.
     public var tableCreationParameters: DynamoDBClientTypes.TableCreationParameters?
 
-    public init (
+    public init(
         clientToken: Swift.String? = nil,
         inputCompressionType: DynamoDBClientTypes.InputCompressionType? = nil,
         inputFormat: DynamoDBClientTypes.InputFormat? = nil,
@@ -10035,7 +9675,7 @@ extension ImportTableInputBody: Swift.Decodable {
         case tableCreationParameters = "TableCreationParameters"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -10052,35 +9692,22 @@ extension ImportTableInputBody: Swift.Decodable {
     }
 }
 
-extension ImportTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ImportTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ImportConflictException" : self = .importConflictException(try ImportConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ImportTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportConflictException": return try await ImportConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ImportTableOutputError: Swift.Error, Swift.Equatable {
-    case importConflictException(ImportConflictException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ImportTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ImportTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importTableDescription = output.importTableDescription
@@ -10095,7 +9722,7 @@ public struct ImportTableOutputResponse: Swift.Equatable {
     /// This member is required.
     public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
 
-    public init (
+    public init(
         importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
     )
     {
@@ -10112,7 +9739,7 @@ extension ImportTableOutputResponseBody: Swift.Decodable {
         case importTableDescription = "ImportTableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ImportTableDescription.self, forKey: .importTableDescription)
         importTableDescription = importTableDescriptionDecoded
@@ -10120,37 +9747,41 @@ extension ImportTableOutputResponseBody: Swift.Decodable {
 }
 
 extension IndexNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: IndexNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation tried to access a nonexistent index.
-public struct IndexNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct IndexNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IndexNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10163,7 +9794,7 @@ extension IndexNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10290,7 +9921,7 @@ extension DynamoDBClientTypes.InputFormatOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let csvDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CsvOptions.self, forKey: .csv)
         csv = csvDecoded
@@ -10303,7 +9934,7 @@ extension DynamoDBClientTypes {
         /// The options for imported source files in CSV format. The values are Delimiter and HeaderList.
         public var csv: DynamoDBClientTypes.CsvOptions?
 
-        public init (
+        public init(
             csv: DynamoDBClientTypes.CsvOptions? = nil
         )
         {
@@ -10314,38 +9945,42 @@ extension DynamoDBClientTypes {
 }
 
 extension InternalServerError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred on the server side.
-public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// The server encountered an internal error trying to fulfill the request.
-    public var message: Swift.String?
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The server encountered an internal error trying to fulfill the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10358,7 +9993,7 @@ extension InternalServerErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10366,36 +10001,40 @@ extension InternalServerErrorBody: Swift.Decodable {
 }
 
 extension InvalidEndpointException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidEndpointExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-public struct InvalidEndpointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEndpointException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10408,7 +10047,7 @@ extension InvalidEndpointExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10416,37 +10055,41 @@ extension InvalidEndpointExceptionBody: Swift.Decodable {
 }
 
 extension InvalidExportTimeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidExportTimeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified ExportTime is outside of the point in time recovery window.
-public struct InvalidExportTimeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidExportTimeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidExportTimeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10459,7 +10102,7 @@ extension InvalidExportTimeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10467,37 +10110,41 @@ extension InvalidExportTimeExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRestoreTimeException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InvalidRestoreTimeExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An invalid restore time was specified. RestoreDateTime must be between EarliestRestorableDateTime and LatestRestorableDateTime.
-public struct InvalidRestoreTimeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InvalidRestoreTimeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRestoreTimeException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10510,7 +10157,7 @@ extension InvalidRestoreTimeExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10539,7 +10186,7 @@ extension DynamoDBClientTypes.ItemCollectionMetrics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemCollectionKeyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .itemCollectionKey)
         var itemCollectionKeyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -10574,7 +10221,7 @@ extension DynamoDBClientTypes {
         /// An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public var sizeEstimateRangeGB: [Swift.Double]?
 
-        public init (
+        public init(
             itemCollectionKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
             sizeEstimateRangeGB: [Swift.Double]? = nil
         )
@@ -10587,38 +10234,42 @@ extension DynamoDBClientTypes {
 }
 
 extension ItemCollectionSizeLimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ItemCollectionSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
-public struct ItemCollectionSizeLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The total size of an item collection has exceeded the maximum limit of 10 gigabytes.
-    public var message: Swift.String?
+public struct ItemCollectionSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The total size of an item collection has exceeded the maximum limit of 10 gigabytes.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ItemCollectionSizeLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10631,7 +10282,7 @@ extension ItemCollectionSizeLimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10653,7 +10304,7 @@ extension DynamoDBClientTypes.ItemResponse: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
         var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -10675,7 +10326,7 @@ extension DynamoDBClientTypes {
         /// Map of attribute data consisting of the data type and attribute value.
         public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
 
-        public init (
+        public init(
             item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
         )
         {
@@ -10701,7 +10352,7 @@ extension DynamoDBClientTypes.KeySchemaElement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
         attributeName = attributeNameDecoded
@@ -10727,7 +10378,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var keyType: DynamoDBClientTypes.KeyType?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             keyType: DynamoDBClientTypes.KeyType? = nil
         )
@@ -10811,7 +10462,7 @@ extension DynamoDBClientTypes.KeysAndAttributes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keysContainer = try containerValues.decodeIfPresent([[Swift.String: DynamoDBClientTypes.AttributeValue?]?].self, forKey: .keys)
         var keysDecoded0:[[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil
@@ -10901,7 +10552,7 @@ extension DynamoDBClientTypes {
         /// A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the ProjectionExpression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see [Accessing Item Attributes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html) in the Amazon DynamoDB Developer Guide.
         public var projectionExpression: Swift.String?
 
-        public init (
+        public init(
             attributesToGet: [Swift.String]? = nil,
             consistentRead: Swift.Bool? = nil,
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
@@ -10939,7 +10590,7 @@ extension DynamoDBClientTypes.KinesisDataStreamDestination: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -10960,7 +10611,7 @@ extension DynamoDBClientTypes {
         /// The ARN for a specific Kinesis data stream.
         public var streamArn: Swift.String?
 
-        public init (
+        public init(
             destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
             destinationStatusDescription: Swift.String? = nil,
             streamArn: Swift.String? = nil
@@ -10975,38 +10626,42 @@ extension DynamoDBClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Too many operations for a given subscriber.
-    public var message: Swift.String?
+/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Too many operations for a given subscriber.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11019,7 +10674,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11085,7 +10740,7 @@ public struct ListBackupsInput: Swift.Equatable {
     /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive.
     public var timeRangeUpperBound: ClientRuntime.Date?
 
-    public init (
+    public init(
         backupType: DynamoDBClientTypes.BackupTypeFilter? = nil,
         exclusiveStartBackupArn: Swift.String? = nil,
         limit: Swift.Int? = nil,
@@ -11122,7 +10777,7 @@ extension ListBackupsInputBody: Swift.Decodable {
         case timeRangeUpperBound = "TimeRangeUpperBound"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -11139,33 +10794,21 @@ extension ListBackupsInputBody: Swift.Decodable {
     }
 }
 
-extension ListBackupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListBackupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListBackupsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupSummaries = output.backupSummaries
@@ -11183,7 +10826,7 @@ public struct ListBackupsOutputResponse: Swift.Equatable {
     /// The ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results. If LastEvaluatedBackupArn is empty, then the last page of results has been processed and there are no more results to be retrieved. If LastEvaluatedBackupArn is not empty, this may or may not indicate that there is more data to be returned. All results are guaranteed to have been returned if and only if no value for LastEvaluatedBackupArn is returned.
     public var lastEvaluatedBackupArn: Swift.String?
 
-    public init (
+    public init(
         backupSummaries: [DynamoDBClientTypes.BackupSummary]? = nil,
         lastEvaluatedBackupArn: Swift.String? = nil
     )
@@ -11204,7 +10847,7 @@ extension ListBackupsOutputResponseBody: Swift.Decodable {
         case lastEvaluatedBackupArn = "LastEvaluatedBackupArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupSummariesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.BackupSummary?].self, forKey: .backupSummaries)
         var backupSummariesDecoded0:[DynamoDBClientTypes.BackupSummary]? = nil
@@ -11257,7 +10900,7 @@ public struct ListContributorInsightsInput: Swift.Equatable {
     /// The name of the table.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
@@ -11282,7 +10925,7 @@ extension ListContributorInsightsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -11293,33 +10936,21 @@ extension ListContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-extension ListContributorInsightsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListContributorInsightsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListContributorInsightsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsSummaries = output.contributorInsightsSummaries
@@ -11337,7 +10968,7 @@ public struct ListContributorInsightsOutputResponse: Swift.Equatable {
     /// A token to go to the next page if there is one.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -11358,7 +10989,7 @@ extension ListContributorInsightsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contributorInsightsSummariesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ContributorInsightsSummary?].self, forKey: .contributorInsightsSummaries)
         var contributorInsightsSummariesDecoded0:[DynamoDBClientTypes.ContributorInsightsSummary]? = nil
@@ -11411,7 +11042,7 @@ public struct ListExportsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with the exported table.
     public var tableArn: Swift.String?
 
-    public init (
+    public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableArn: Swift.String? = nil
@@ -11436,7 +11067,7 @@ extension ListExportsInputBody: Swift.Decodable {
         case tableArn = "TableArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
         tableArn = tableArnDecoded
@@ -11447,33 +11078,21 @@ extension ListExportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListExportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListExportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListExportsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportSummaries = output.exportSummaries
@@ -11491,7 +11110,7 @@ public struct ListExportsOutputResponse: Swift.Equatable {
     /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListExports again, with NextToken set to this value.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         exportSummaries: [DynamoDBClientTypes.ExportSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -11512,7 +11131,7 @@ extension ListExportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportSummariesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ExportSummary?].self, forKey: .exportSummaries)
         var exportSummariesDecoded0:[DynamoDBClientTypes.ExportSummary]? = nil
@@ -11565,7 +11184,7 @@ public struct ListGlobalTablesInput: Swift.Equatable {
     /// Lists the global tables in a specific Region.
     public var regionName: Swift.String?
 
-    public init (
+    public init(
         exclusiveStartGlobalTableName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         regionName: Swift.String? = nil
@@ -11590,7 +11209,7 @@ extension ListGlobalTablesInputBody: Swift.Decodable {
         case regionName = "RegionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exclusiveStartGlobalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartGlobalTableName)
         exclusiveStartGlobalTableName = exclusiveStartGlobalTableNameDecoded
@@ -11601,33 +11220,21 @@ extension ListGlobalTablesInputBody: Swift.Decodable {
     }
 }
 
-extension ListGlobalTablesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListGlobalTablesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListGlobalTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListGlobalTablesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListGlobalTablesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListGlobalTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTables = output.globalTables
@@ -11645,7 +11252,7 @@ public struct ListGlobalTablesOutputResponse: Swift.Equatable {
     /// Last evaluated global table name.
     public var lastEvaluatedGlobalTableName: Swift.String?
 
-    public init (
+    public init(
         globalTables: [DynamoDBClientTypes.GlobalTable]? = nil,
         lastEvaluatedGlobalTableName: Swift.String? = nil
     )
@@ -11666,7 +11273,7 @@ extension ListGlobalTablesOutputResponseBody: Swift.Decodable {
         case lastEvaluatedGlobalTableName = "LastEvaluatedGlobalTableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTablesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.GlobalTable?].self, forKey: .globalTables)
         var globalTablesDecoded0:[DynamoDBClientTypes.GlobalTable]? = nil
@@ -11719,7 +11326,7 @@ public struct ListImportsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with the table that was imported to.
     public var tableArn: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         tableArn: Swift.String? = nil
@@ -11744,7 +11351,7 @@ extension ListImportsInputBody: Swift.Decodable {
         case tableArn = "TableArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
         tableArn = tableArnDecoded
@@ -11755,31 +11362,20 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListImportsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListImportsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededException(LimitExceededException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importSummaryList = output.importSummaryList
@@ -11797,7 +11393,7 @@ public struct ListImportsOutputResponse: Swift.Equatable {
     /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListImports again, with NextToken set to this value.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         importSummaryList: [DynamoDBClientTypes.ImportSummary]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -11818,7 +11414,7 @@ extension ListImportsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importSummaryListContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ImportSummary?].self, forKey: .importSummaryList)
         var importSummaryListDecoded0:[DynamoDBClientTypes.ImportSummary]? = nil
@@ -11866,7 +11462,7 @@ public struct ListTablesInput: Swift.Equatable {
     /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
     public var limit: Swift.Int?
 
-    public init (
+    public init(
         exclusiveStartTableName: Swift.String? = nil,
         limit: Swift.Int? = nil
     )
@@ -11887,7 +11483,7 @@ extension ListTablesInputBody: Swift.Decodable {
         case limit = "Limit"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exclusiveStartTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartTableName)
         exclusiveStartTableName = exclusiveStartTableNameDecoded
@@ -11896,33 +11492,21 @@ extension ListTablesInputBody: Swift.Decodable {
     }
 }
 
-extension ListTablesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTablesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTablesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTablesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTablesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastEvaluatedTableName = output.lastEvaluatedTableName
@@ -11941,7 +11525,7 @@ public struct ListTablesOutputResponse: Swift.Equatable {
     /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
     public var tableNames: [Swift.String]?
 
-    public init (
+    public init(
         lastEvaluatedTableName: Swift.String? = nil,
         tableNames: [Swift.String]? = nil
     )
@@ -11962,7 +11546,7 @@ extension ListTablesOutputResponseBody: Swift.Decodable {
         case tableNames = "TableNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tableNames)
         var tableNamesDecoded0:[Swift.String]? = nil
@@ -12010,7 +11594,7 @@ public struct ListTagsOfResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -12031,7 +11615,7 @@ extension ListTagsOfResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -12040,35 +11624,22 @@ extension ListTagsOfResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsOfResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListTagsOfResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsOfResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListTagsOfResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsOfResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsOfResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -12086,7 +11657,7 @@ public struct ListTagsOfResourceOutputResponse: Swift.Equatable {
     /// The tags currently associated with the Amazon DynamoDB resource.
     public var tags: [DynamoDBClientTypes.Tag]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil
     )
@@ -12107,7 +11678,7 @@ extension ListTagsOfResourceOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[DynamoDBClientTypes.Tag]? = nil
@@ -12148,7 +11719,7 @@ extension DynamoDBClientTypes.LocalSecondaryIndex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -12188,7 +11759,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
@@ -12237,7 +11808,7 @@ extension DynamoDBClientTypes.LocalSecondaryIndexDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -12286,7 +11857,7 @@ extension DynamoDBClientTypes {
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public var projection: DynamoDBClientTypes.Projection?
 
-        public init (
+        public init(
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexSizeBytes: Swift.Int? = nil,
@@ -12329,7 +11900,7 @@ extension DynamoDBClientTypes.LocalSecondaryIndexInfo: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -12366,7 +11937,7 @@ extension DynamoDBClientTypes {
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public var projection: DynamoDBClientTypes.Projection?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
@@ -12399,7 +11970,7 @@ extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statement)
         statement = statementDecoded
@@ -12426,7 +11997,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var statement: Swift.String?
 
-        public init (
+        public init(
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
             statement: Swift.String? = nil
         )
@@ -12458,7 +12029,7 @@ extension DynamoDBClientTypes.PointInTimeRecoveryDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pointInTimeRecoveryStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.PointInTimeRecoveryStatus.self, forKey: .pointInTimeRecoveryStatus)
         pointInTimeRecoveryStatus = pointInTimeRecoveryStatusDecoded
@@ -12483,7 +12054,7 @@ extension DynamoDBClientTypes {
         /// * DISABLED - Point in time recovery is disabled.
         public var pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus?
 
-        public init (
+        public init(
             earliestRestorableDateTime: ClientRuntime.Date? = nil,
             latestRestorableDateTime: ClientRuntime.Date? = nil,
             pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus? = nil
@@ -12509,7 +12080,7 @@ extension DynamoDBClientTypes.PointInTimeRecoverySpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pointInTimeRecoveryEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .pointInTimeRecoveryEnabled)
         pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabledDecoded
@@ -12523,7 +12094,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var pointInTimeRecoveryEnabled: Swift.Bool?
 
-        public init (
+        public init(
             pointInTimeRecoveryEnabled: Swift.Bool? = nil
         )
         {
@@ -12566,37 +12137,41 @@ extension DynamoDBClientTypes {
 }
 
 extension PointInTimeRecoveryUnavailableException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PointInTimeRecoveryUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Point in time recovery has not yet been enabled for this source table.
-public struct PointInTimeRecoveryUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct PointInTimeRecoveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PointInTimeRecoveryUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12609,7 +12184,7 @@ extension PointInTimeRecoveryUnavailableExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12635,7 +12210,7 @@ extension DynamoDBClientTypes.Projection: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let projectionTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProjectionType.self, forKey: .projectionType)
         projectionType = projectionTypeDecoded
@@ -12667,7 +12242,7 @@ extension DynamoDBClientTypes {
         /// * ALL - All of the table attributes are projected into the index.
         public var projectionType: DynamoDBClientTypes.ProjectionType?
 
-        public init (
+        public init(
             nonKeyAttributes: [Swift.String]? = nil,
             projectionType: DynamoDBClientTypes.ProjectionType? = nil
         )
@@ -12730,7 +12305,7 @@ extension DynamoDBClientTypes.ProvisionedThroughput: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits)
         readCapacityUnits = readCapacityUnitsDecoded
@@ -12742,14 +12317,14 @@ extension DynamoDBClientTypes.ProvisionedThroughput: Swift.Codable {
 extension DynamoDBClientTypes {
     /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public struct ProvisionedThroughput: Swift.Equatable {
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         /// This member is required.
         public var readCapacityUnits: Swift.Int?
-        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         /// This member is required.
         public var writeCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             readCapacityUnits: Swift.Int? = nil,
             writeCapacityUnits: Swift.Int? = nil
         )
@@ -12789,7 +12364,7 @@ extension DynamoDBClientTypes.ProvisionedThroughputDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lastIncreaseDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastIncreaseDateTime)
         lastIncreaseDateTime = lastIncreaseDateTimeDecoded
@@ -12818,7 +12393,7 @@ extension DynamoDBClientTypes {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public var writeCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             lastDecreaseDateTime: ClientRuntime.Date? = nil,
             lastIncreaseDateTime: ClientRuntime.Date? = nil,
             numberOfDecreasesToday: Swift.Int? = nil,
@@ -12837,38 +12412,42 @@ extension DynamoDBClientTypes {
 }
 
 extension ProvisionedThroughputExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ProvisionedThroughputExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
-public struct ProvisionedThroughputExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// You exceeded your maximum allowed provisioned throughput.
-    public var message: Swift.String?
+public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// You exceeded your maximum allowed provisioned throughput.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ProvisionedThroughputExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12881,7 +12460,7 @@ extension ProvisionedThroughputExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12900,7 +12479,7 @@ extension DynamoDBClientTypes.ProvisionedThroughputOverride: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let readCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .readCapacityUnits)
         readCapacityUnits = readCapacityUnitsDecoded
@@ -12913,7 +12492,7 @@ extension DynamoDBClientTypes {
         /// Replica-specific read capacity units. If not specified, uses the source table's read capacity settings.
         public var readCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             readCapacityUnits: Swift.Int? = nil
         )
         {
@@ -12964,7 +12543,7 @@ extension DynamoDBClientTypes.Put: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
         var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -13026,7 +12605,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             conditionExpression: Swift.String? = nil,
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
             expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
@@ -13184,7 +12763,7 @@ public struct PutItemInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         conditionExpression: Swift.String? = nil,
         conditionalOperator: DynamoDBClientTypes.ConditionalOperator? = nil,
         expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil,
@@ -13237,7 +12816,7 @@ extension PutItemInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -13298,45 +12877,27 @@ extension PutItemInputBody: Swift.Decodable {
     }
 }
 
-extension PutItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConditionalCheckFailedException" : self = .conditionalCheckFailedException(try ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ItemCollectionSizeLimitExceededException" : self = .itemCollectionSizeLimitExceededException(try ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionConflictException" : self = .transactionConflictException(try TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConditionalCheckFailedException": return try await ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ItemCollectionSizeLimitExceededException": return try await ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutItemOutputError: Swift.Error, Swift.Equatable {
-    case conditionalCheckFailedException(ConditionalCheckFailedException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case itemCollectionSizeLimitExceededException(ItemCollectionSizeLimitExceededException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionConflictException(TransactionConflictException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
@@ -13363,7 +12924,7 @@ public struct PutItemOutputResponse: Swift.Equatable {
     /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
     public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
 
-    public init (
+    public init(
         attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
@@ -13388,7 +12949,7 @@ extension PutItemOutputResponseBody: Swift.Decodable {
         case itemCollectionMetrics = "ItemCollectionMetrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -13423,7 +12984,7 @@ extension DynamoDBClientTypes.PutRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
         var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -13446,7 +13007,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
 
-        public init (
+        public init(
             item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
         )
         {
@@ -13678,7 +13239,7 @@ public struct QueryInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         attributesToGet: [Swift.String]? = nil,
         conditionalOperator: DynamoDBClientTypes.ConditionalOperator? = nil,
         consistentRead: Swift.Bool? = nil,
@@ -13759,7 +13320,7 @@ extension QueryInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -13852,39 +13413,24 @@ extension QueryInputBody: Swift.Decodable {
     }
 }
 
-extension QueryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension QueryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum QueryOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: QueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -13915,7 +13461,7 @@ public struct QueryOutputResponse: Swift.Equatable {
     /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
     public var scannedCount: Swift.Int
 
-    public init (
+    public init(
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         count: Swift.Int = 0,
         items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
@@ -13948,7 +13494,7 @@ extension QueryOutputResponseBody: Swift.Decodable {
         case scannedCount = "ScannedCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemsContainer = try containerValues.decodeIfPresent([[Swift.String: DynamoDBClientTypes.AttributeValue?]?].self, forKey: .items)
         var itemsDecoded0:[[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil
@@ -14002,7 +13548,7 @@ extension DynamoDBClientTypes.Replica: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14015,7 +13561,7 @@ extension DynamoDBClientTypes {
         /// The Region where the replica needs to be created.
         public var regionName: Swift.String?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil
         )
         {
@@ -14026,37 +13572,41 @@ extension DynamoDBClientTypes {
 }
 
 extension ReplicaAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReplicaAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified replica is already part of the global table.
-public struct ReplicaAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicaAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicaAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14069,7 +13619,7 @@ extension ReplicaAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14107,7 +13657,7 @@ extension DynamoDBClientTypes.ReplicaAutoScalingDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14153,7 +13703,7 @@ extension DynamoDBClientTypes {
         /// * ACTIVE - The replica is ready for use.
         public var replicaStatus: DynamoDBClientTypes.ReplicaStatus?
 
-        public init (
+        public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription]? = nil,
             regionName: Swift.String? = nil,
             replicaProvisionedReadCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
@@ -14194,7 +13744,7 @@ extension DynamoDBClientTypes.ReplicaAutoScalingUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14225,7 +13775,7 @@ extension DynamoDBClientTypes {
         /// Represents the auto scaling settings to be modified for a global table or global secondary index.
         public var replicaProvisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil,
             replicaGlobalSecondaryIndexUpdates: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate]? = nil,
             replicaProvisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
@@ -14286,7 +13836,7 @@ extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14352,7 +13902,7 @@ extension DynamoDBClientTypes {
         /// Contains details of the table class.
         public var replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary?
 
-        public init (
+        public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
@@ -14394,7 +13944,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14412,7 +13962,7 @@ extension DynamoDBClientTypes {
         /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
         )
@@ -14448,7 +13998,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription:
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14481,7 +14031,7 @@ extension DynamoDBClientTypes {
         /// Represents the auto scaling settings for a global table or global secondary index.
         public var provisionedWriteCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
             provisionedReadCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
@@ -14513,7 +14063,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingUpdate: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14530,7 +14080,7 @@ extension DynamoDBClientTypes {
         /// Represents the auto scaling settings to be modified for a global table or global secondary index.
         public var provisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedReadCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
         )
@@ -14558,7 +14108,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14575,7 +14125,7 @@ extension DynamoDBClientTypes {
         /// If not described, uses the source table GSI's read capacity settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
         )
@@ -14619,7 +14169,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14661,7 +14211,7 @@ extension DynamoDBClientTypes {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public var provisionedWriteCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
             provisionedReadCapacityAutoScalingSettings: DynamoDBClientTypes.AutoScalingSettingsDescription? = nil,
@@ -14701,7 +14251,7 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -14723,7 +14273,7 @@ extension DynamoDBClientTypes {
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
         public var provisionedReadCapacityUnits: Swift.Int?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedReadCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
             provisionedReadCapacityUnits: Swift.Int? = nil
@@ -14738,37 +14288,41 @@ extension DynamoDBClientTypes {
 }
 
 extension ReplicaNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ReplicaNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified replica is no longer part of the global table.
-public struct ReplicaNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ReplicaNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicaNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -14781,7 +14335,7 @@ extension ReplicaNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14835,7 +14389,7 @@ extension DynamoDBClientTypes.ReplicaSettingsDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14898,7 +14452,7 @@ extension DynamoDBClientTypes {
         /// Contains details of the table class.
         public var replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil,
             replicaBillingModeSummary: DynamoDBClientTypes.BillingModeSummary? = nil,
             replicaGlobalSecondaryIndexSettings: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsDescription]? = nil,
@@ -14955,7 +14509,7 @@ extension DynamoDBClientTypes.ReplicaSettingsUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -14994,7 +14548,7 @@ extension DynamoDBClientTypes {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public var replicaTableClass: DynamoDBClientTypes.TableClass?
 
-        public init (
+        public init(
             regionName: Swift.String? = nil,
             replicaGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexSettingsUpdate]? = nil,
             replicaProvisionedReadCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
@@ -15075,7 +14629,7 @@ extension DynamoDBClientTypes.ReplicaUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CreateReplicaAction.self, forKey: .create)
         create = createDecoded
@@ -15098,7 +14652,7 @@ extension DynamoDBClientTypes {
         /// The name of the existing replica to be removed.
         public var delete: DynamoDBClientTypes.DeleteReplicaAction?
 
-        public init (
+        public init(
             create: DynamoDBClientTypes.CreateReplicaAction? = nil,
             delete: DynamoDBClientTypes.DeleteReplicaAction? = nil
         )
@@ -15130,7 +14684,7 @@ extension DynamoDBClientTypes.ReplicationGroupUpdate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CreateReplicationGroupMemberAction.self, forKey: .create)
         create = createDecoded
@@ -15160,7 +14714,7 @@ extension DynamoDBClientTypes {
         /// The parameters required for updating a replica for the table.
         public var update: DynamoDBClientTypes.UpdateReplicationGroupMemberAction?
 
-        public init (
+        public init(
             create: DynamoDBClientTypes.CreateReplicationGroupMemberAction? = nil,
             delete: DynamoDBClientTypes.DeleteReplicationGroupMemberAction? = nil,
             update: DynamoDBClientTypes.UpdateReplicationGroupMemberAction? = nil
@@ -15175,37 +14729,41 @@ extension DynamoDBClientTypes {
 }
 
 extension RequestLimitExceeded {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RequestLimitExceededBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
-public struct RequestLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15218,7 +14776,7 @@ extension RequestLimitExceededBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15226,38 +14784,42 @@ extension RequestLimitExceededBody: Swift.Decodable {
 }
 
 extension ResourceInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
-public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The resource which is being attempted to be changed is in use.
-    public var message: Swift.String?
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The resource which is being attempted to be changed is in use.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15270,7 +14832,7 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15278,38 +14840,42 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The resource which is being requested does not exist.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The resource which is being requested does not exist.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15322,7 +14888,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15353,7 +14919,7 @@ extension DynamoDBClientTypes.RestoreSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceBackupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceBackupArn)
         sourceBackupArn = sourceBackupArnDecoded
@@ -15380,7 +14946,7 @@ extension DynamoDBClientTypes {
         /// The ARN of the source table of the backup that is being restored.
         public var sourceTableArn: Swift.String?
 
-        public init (
+        public init(
             restoreDateTime: ClientRuntime.Date? = nil,
             restoreInProgress: Swift.Bool? = nil,
             sourceBackupArn: Swift.String? = nil,
@@ -15463,7 +15029,7 @@ public struct RestoreTableFromBackupInput: Swift.Equatable {
     /// This member is required.
     public var targetTableName: Swift.String?
 
-    public init (
+    public init(
         backupArn: Swift.String? = nil,
         billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
         globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
@@ -15504,7 +15070,7 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
         case targetTableName = "TargetTableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetTableName)
         targetTableName = targetTableNameDecoded
@@ -15541,43 +15107,26 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreTableFromBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RestoreTableFromBackupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "BackupInUseException" : self = .backupInUseException(try BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "BackupNotFoundException" : self = .backupNotFoundException(try BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableAlreadyExistsException" : self = .tableAlreadyExistsException(try TableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableInUseException" : self = .tableInUseException(try TableInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreTableFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupInUseException": return try await BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupNotFoundException": return try await BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableAlreadyExistsException": return try await TableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableInUseException": return try await TableInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RestoreTableFromBackupOutputError: Swift.Error, Swift.Equatable {
-    case backupInUseException(BackupInUseException)
-    case backupNotFoundException(BackupNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case tableAlreadyExistsException(TableAlreadyExistsException)
-    case tableInUseException(TableInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreTableFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RestoreTableFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
@@ -15591,7 +15140,7 @@ public struct RestoreTableFromBackupOutputResponse: Swift.Equatable {
     /// The description of the table created from an existing backup.
     public var tableDescription: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -15608,7 +15157,7 @@ extension RestoreTableFromBackupOutputResponseBody: Swift.Decodable {
         case tableDescription = "TableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .tableDescription)
         tableDescription = tableDescriptionDecoded
@@ -15699,7 +15248,7 @@ public struct RestoreTableToPointInTimeInput: Swift.Equatable {
     /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
     public var useLatestRestorableTime: Swift.Bool?
 
-    public init (
+    public init(
         billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
         globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
         localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
@@ -15752,7 +15301,7 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
         case useLatestRestorableTime = "UseLatestRestorableTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceTableArn)
         sourceTableArn = sourceTableArnDecoded
@@ -15795,45 +15344,27 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreTableToPointInTimeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension RestoreTableToPointInTimeOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRestoreTimeException" : self = .invalidRestoreTimeException(try InvalidRestoreTimeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PointInTimeRecoveryUnavailableException" : self = .pointInTimeRecoveryUnavailableException(try PointInTimeRecoveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableAlreadyExistsException" : self = .tableAlreadyExistsException(try TableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableInUseException" : self = .tableInUseException(try TableInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestoreTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRestoreTimeException": return try await InvalidRestoreTimeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PointInTimeRecoveryUnavailableException": return try await PointInTimeRecoveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableAlreadyExistsException": return try await TableAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableInUseException": return try await TableInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum RestoreTableToPointInTimeOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case invalidRestoreTimeException(InvalidRestoreTimeException)
-    case limitExceededException(LimitExceededException)
-    case pointInTimeRecoveryUnavailableException(PointInTimeRecoveryUnavailableException)
-    case tableAlreadyExistsException(TableAlreadyExistsException)
-    case tableInUseException(TableInUseException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestoreTableToPointInTimeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RestoreTableToPointInTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
@@ -15847,7 +15378,7 @@ public struct RestoreTableToPointInTimeOutputResponse: Swift.Equatable {
     /// Represents the properties of a table.
     public var tableDescription: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -15864,7 +15395,7 @@ extension RestoreTableToPointInTimeOutputResponseBody: Swift.Decodable {
         case tableDescription = "TableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .tableDescription)
         tableDescription = tableDescriptionDecoded
@@ -16038,7 +15569,7 @@ extension DynamoDBClientTypes.S3BucketSource: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
         s3BucketOwner = s3BucketOwnerDecoded
@@ -16060,7 +15591,7 @@ extension DynamoDBClientTypes {
         /// The key prefix shared by all S3 Objects that are being imported.
         public var s3KeyPrefix: Swift.String?
 
-        public init (
+        public init(
             s3Bucket: Swift.String? = nil,
             s3BucketOwner: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
@@ -16130,7 +15661,7 @@ extension DynamoDBClientTypes.SSEDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEStatus.self, forKey: .status)
         status = statusDecoded
@@ -16161,7 +15692,7 @@ extension DynamoDBClientTypes {
         /// * UPDATING - Server-side encryption is being updated.
         public var status: DynamoDBClientTypes.SSEStatus?
 
-        public init (
+        public init(
             inaccessibleEncryptionDateTime: ClientRuntime.Date? = nil,
             kmsMasterKeyArn: Swift.String? = nil,
             sseType: DynamoDBClientTypes.SSEType? = nil,
@@ -16197,7 +15728,7 @@ extension DynamoDBClientTypes.SSESpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -16220,7 +15751,7 @@ extension DynamoDBClientTypes {
         /// * KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
         public var sseType: DynamoDBClientTypes.SSEType?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             sseType: DynamoDBClientTypes.SSEType? = nil
@@ -16520,7 +16051,7 @@ public struct ScanInput: Swift.Equatable {
     /// For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4. The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel. If you specify TotalSegments, you must also specify Segment.
     public var totalSegments: Swift.Int?
 
-    public init (
+    public init(
         attributesToGet: [Swift.String]? = nil,
         conditionalOperator: DynamoDBClientTypes.ConditionalOperator? = nil,
         consistentRead: Swift.Bool? = nil,
@@ -16597,7 +16128,7 @@ extension ScanInputBody: Swift.Decodable {
         case totalSegments = "TotalSegments"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -16679,39 +16210,24 @@ extension ScanInputBody: Swift.Decodable {
     }
 }
 
-extension ScanOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ScanOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ScanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ScanOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ScanOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ScanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -16742,7 +16258,7 @@ public struct ScanOutputResponse: Swift.Equatable {
     /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
     public var scannedCount: Swift.Int
 
-    public init (
+    public init(
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         count: Swift.Int = 0,
         items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
@@ -16775,7 +16291,7 @@ extension ScanOutputResponseBody: Swift.Decodable {
         case scannedCount = "ScannedCount"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let itemsContainer = try containerValues.decodeIfPresent([[Swift.String: DynamoDBClientTypes.AttributeValue?]?].self, forKey: .items)
         var itemsDecoded0:[[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil
@@ -16902,7 +16418,7 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -16965,7 +16481,7 @@ extension DynamoDBClientTypes {
         /// Size of the table in bytes. Note that this is an approximate value.
         public var tableSizeBytes: Swift.Int?
 
-        public init (
+        public init(
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
@@ -17025,7 +16541,7 @@ extension DynamoDBClientTypes.SourceTableFeatureDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let localSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.LocalSecondaryIndexInfo?].self, forKey: .localSecondaryIndexes)
         var localSecondaryIndexesDecoded0:[DynamoDBClientTypes.LocalSecondaryIndexInfo]? = nil
@@ -17072,7 +16588,7 @@ extension DynamoDBClientTypes {
         /// Time to Live settings on the table when the backup was created.
         public var timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription?
 
-        public init (
+        public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexInfo]? = nil,
             localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexInfo]? = nil,
             sseDescription: DynamoDBClientTypes.SSEDescription? = nil,
@@ -17106,7 +16622,7 @@ extension DynamoDBClientTypes.StreamSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .streamEnabled)
         streamEnabled = streamEnabledDecoded
@@ -17132,7 +16648,7 @@ extension DynamoDBClientTypes {
         /// * NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
         public var streamViewType: DynamoDBClientTypes.StreamViewType?
 
-        public init (
+        public init(
             streamEnabled: Swift.Bool? = nil,
             streamViewType: DynamoDBClientTypes.StreamViewType? = nil
         )
@@ -17183,37 +16699,41 @@ extension DynamoDBClientTypes {
 }
 
 extension TableAlreadyExistsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TableAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A target table with the specified name already exists.
-public struct TableAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TableAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TableAlreadyExistsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17226,7 +16746,7 @@ extension TableAlreadyExistsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17256,7 +16776,7 @@ extension DynamoDBClientTypes.TableAutoScalingDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -17294,7 +16814,7 @@ extension DynamoDBClientTypes {
         /// * ACTIVE - The table is ready for use.
         public var tableStatus: DynamoDBClientTypes.TableStatus?
 
-        public init (
+        public init(
             replicas: [DynamoDBClientTypes.ReplicaAutoScalingDescription]? = nil,
             tableName: Swift.String? = nil,
             tableStatus: DynamoDBClientTypes.TableStatus? = nil
@@ -17356,7 +16876,7 @@ extension DynamoDBClientTypes.TableClassSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableClassDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableClass.self, forKey: .tableClass)
         tableClass = tableClassDecoded
@@ -17373,7 +16893,7 @@ extension DynamoDBClientTypes {
         /// The table class of the specified table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
         public var tableClass: DynamoDBClientTypes.TableClass?
 
-        public init (
+        public init(
             lastUpdateDateTime: ClientRuntime.Date? = nil,
             tableClass: DynamoDBClientTypes.TableClass? = nil
         )
@@ -17430,7 +16950,7 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -17497,7 +17017,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
@@ -17634,7 +17154,7 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeDefinitionsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeDefinition?].self, forKey: .attributeDefinitions)
         var attributeDefinitionsDecoded0:[DynamoDBClientTypes.AttributeDefinition]? = nil
@@ -17893,7 +17413,7 @@ extension DynamoDBClientTypes {
         /// * ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public var tableStatus: DynamoDBClientTypes.TableStatus?
 
-        public init (
+        public init(
             archivalSummary: DynamoDBClientTypes.ArchivalSummary? = nil,
             attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
             billingModeSummary: DynamoDBClientTypes.BillingModeSummary? = nil,
@@ -17948,37 +17468,41 @@ extension DynamoDBClientTypes {
 }
 
 extension TableInUseException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TableInUseExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A target table with the specified name is either being created or deleted.
-public struct TableInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TableInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TableInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -17991,7 +17515,7 @@ extension TableInUseExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -17999,37 +17523,41 @@ extension TableInUseExceptionBody: Swift.Decodable {
 }
 
 extension TableNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TableNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A source table with the name TableName does not currently exist within the subscriber's account or the subscriber is operating in the wrong Amazon Web Services Region.
-public struct TableNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TableNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TableNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -18042,7 +17570,7 @@ extension TableNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -18112,7 +17640,7 @@ extension DynamoDBClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -18131,7 +17659,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -18177,7 +17705,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tags: [DynamoDBClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil
     )
@@ -18198,7 +17726,7 @@ extension TagResourceInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -18216,44 +17744,29 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct TagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DynamoDBClientTypes.TimeToLiveDescription: Swift.Codable {
@@ -18272,7 +17785,7 @@ extension DynamoDBClientTypes.TimeToLiveDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeToLiveStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TimeToLiveStatus.self, forKey: .timeToLiveStatus)
         timeToLiveStatus = timeToLiveStatusDecoded
@@ -18289,7 +17802,7 @@ extension DynamoDBClientTypes {
         /// The TTL status for the table.
         public var timeToLiveStatus: DynamoDBClientTypes.TimeToLiveStatus?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             timeToLiveStatus: DynamoDBClientTypes.TimeToLiveStatus? = nil
         )
@@ -18317,7 +17830,7 @@ extension DynamoDBClientTypes.TimeToLiveSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -18336,7 +17849,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var enabled: Swift.Bool?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             enabled: Swift.Bool? = nil
         )
@@ -18398,7 +17911,7 @@ extension DynamoDBClientTypes.TransactGetItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let getDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Get.self, forKey: .get)
         `get` = getDecoded
@@ -18412,7 +17925,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var `get`: DynamoDBClientTypes.Get?
 
-        public init (
+        public init(
             `get`: DynamoDBClientTypes.Get? = nil
         )
         {
@@ -18455,7 +17968,7 @@ public struct TransactGetItemsInput: Swift.Equatable {
     /// This member is required.
     public var transactItems: [DynamoDBClientTypes.TransactGetItem]?
 
-    public init (
+    public init(
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         transactItems: [DynamoDBClientTypes.TransactGetItem]? = nil
     )
@@ -18476,7 +17989,7 @@ extension TransactGetItemsInputBody: Swift.Decodable {
         case transactItems = "TransactItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactItemsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.TransactGetItem?].self, forKey: .transactItems)
         var transactItemsDecoded0:[DynamoDBClientTypes.TransactGetItem]? = nil
@@ -18494,41 +18007,25 @@ extension TransactGetItemsInputBody: Swift.Decodable {
     }
 }
 
-extension TransactGetItemsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TransactGetItemsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionCanceledException" : self = .transactionCanceledException(try TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TransactGetItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionCanceledException": return try await TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TransactGetItemsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionCanceledException(TransactionCanceledException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TransactGetItemsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransactGetItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -18546,7 +18043,7 @@ public struct TransactGetItemsOutputResponse: Swift.Equatable {
     /// An ordered array of up to 100 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
     public var responses: [DynamoDBClientTypes.ItemResponse]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         responses: [DynamoDBClientTypes.ItemResponse]? = nil
     )
@@ -18567,7 +18064,7 @@ extension TransactGetItemsOutputResponseBody: Swift.Decodable {
         case responses = "Responses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let consumedCapacityContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ConsumedCapacity?].self, forKey: .consumedCapacity)
         var consumedCapacityDecoded0:[DynamoDBClientTypes.ConsumedCapacity]? = nil
@@ -18618,7 +18115,7 @@ extension DynamoDBClientTypes.TransactWriteItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conditionCheckDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionCheck.self, forKey: .conditionCheck)
         conditionCheck = conditionCheckDecoded
@@ -18643,7 +18140,7 @@ extension DynamoDBClientTypes {
         /// A request to perform an UpdateItem operation.
         public var update: DynamoDBClientTypes.Update?
 
-        public init (
+        public init(
             conditionCheck: DynamoDBClientTypes.ConditionCheck? = nil,
             delete: DynamoDBClientTypes.Delete? = nil,
             put: DynamoDBClientTypes.Put? = nil,
@@ -18710,7 +18207,7 @@ public struct TransactWriteItemsInput: Swift.Equatable {
     /// This member is required.
     public var transactItems: [DynamoDBClientTypes.TransactWriteItem]?
 
-    public init (
+    public init(
         clientRequestToken: Swift.String? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
@@ -18739,7 +18236,7 @@ extension TransactWriteItemsInputBody: Swift.Decodable {
         case transactItems = "TransactItems"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactItemsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.TransactWriteItem?].self, forKey: .transactItems)
         var transactItemsDecoded0:[DynamoDBClientTypes.TransactWriteItem]? = nil
@@ -18761,45 +18258,27 @@ extension TransactWriteItemsInputBody: Swift.Decodable {
     }
 }
 
-extension TransactWriteItemsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension TransactWriteItemsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "IdempotentParameterMismatchException" : self = .idempotentParameterMismatchException(try IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionCanceledException" : self = .transactionCanceledException(try TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionInProgressException" : self = .transactionInProgressException(try TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TransactWriteItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionCanceledException": return try await TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum TransactWriteItemsOutputError: Swift.Error, Swift.Equatable {
-    case idempotentParameterMismatchException(IdempotentParameterMismatchException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionCanceledException(TransactionCanceledException)
-    case transactionInProgressException(TransactionInProgressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TransactWriteItemsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransactWriteItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumedCapacity = output.consumedCapacity
@@ -18817,7 +18296,7 @@ public struct TransactWriteItemsOutputResponse: Swift.Equatable {
     /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
     public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
 
-    public init (
+    public init(
         consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
         itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
     )
@@ -18838,7 +18317,7 @@ extension TransactWriteItemsOutputResponseBody: Swift.Decodable {
         case itemCollectionMetrics = "ItemCollectionMetrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let consumedCapacityContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ConsumedCapacity?].self, forKey: .consumedCapacity)
         var consumedCapacityDecoded0:[DynamoDBClientTypes.ConsumedCapacity]? = nil
@@ -18873,20 +18352,19 @@ extension TransactWriteItemsOutputResponseBody: Swift.Decodable {
 }
 
 extension TransactionCanceledException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransactionCanceledExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.cancellationReasons = output.cancellationReasons
-            self.message = output.message
+            self.properties.cancellationReasons = output.cancellationReasons
+            self.properties.message = output.message
         } else {
-            self.cancellationReasons = nil
-            self.message = nil
+            self.properties.cancellationReasons = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -19011,25 +18489,30 @@ extension TransactionCanceledException {
 /// * The document path provided in the update expression is invalid for update.
 ///
 /// * The provided expression refers to an attribute that does not exist in the item.
-public struct TransactionCanceledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// A list of cancellation reasons.
-    public var cancellationReasons: [DynamoDBClientTypes.CancellationReason]?
-    public var message: Swift.String?
+public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// A list of cancellation reasons.
+        public internal(set) var cancellationReasons: [DynamoDBClientTypes.CancellationReason]? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TransactionCanceledException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         cancellationReasons: [DynamoDBClientTypes.CancellationReason]? = nil,
         message: Swift.String? = nil
     )
     {
-        self.cancellationReasons = cancellationReasons
-        self.message = message
+        self.properties.cancellationReasons = cancellationReasons
+        self.properties.message = message
     }
 }
 
@@ -19044,7 +18527,7 @@ extension TransactionCanceledExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19063,37 +18546,41 @@ extension TransactionCanceledExceptionBody: Swift.Decodable {
 }
 
 extension TransactionConflictException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransactionConflictExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Operation was rejected because there is an ongoing transaction for the item.
-public struct TransactionConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TransactionConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TransactionConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19106,7 +18593,7 @@ extension TransactionConflictExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19114,18 +18601,17 @@ extension TransactionConflictExceptionBody: Swift.Decodable {
 }
 
 extension TransactionInProgressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TransactionInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -19155,21 +18641,26 @@ extension TransactionInProgressException {
 /// * 4500-6500 third sleep/delay (500 * 2^2)
 ///
 /// * 6500-7500 fourth attempt (this can trigger inline recovery since 5 seconds have elapsed since the first attempt reached TC)
-public struct TransactionInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct TransactionInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TransactionInProgressException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -19182,7 +18673,7 @@ extension TransactionInProgressExceptionBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -19223,7 +18714,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
@@ -19244,7 +18735,7 @@ extension UntagResourceInputBody: Swift.Decodable {
         case tagKeys = "TagKeys"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -19262,44 +18753,29 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UntagResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DynamoDBClientTypes.Update: Swift.Codable {
@@ -19347,7 +18823,7 @@ extension DynamoDBClientTypes.Update: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
         var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -19414,7 +18890,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var updateExpression: Swift.String?
 
-        public init (
+        public init(
             conditionExpression: Swift.String? = nil,
             expressionAttributeNames: [Swift.String:Swift.String]? = nil,
             expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
@@ -19467,7 +18943,7 @@ public struct UpdateContinuousBackupsInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         pointInTimeRecoverySpecification: DynamoDBClientTypes.PointInTimeRecoverySpecification? = nil,
         tableName: Swift.String? = nil
     )
@@ -19488,7 +18964,7 @@ extension UpdateContinuousBackupsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -19497,37 +18973,23 @@ extension UpdateContinuousBackupsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateContinuousBackupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateContinuousBackupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ContinuousBackupsUnavailableException" : self = .continuousBackupsUnavailableException(try ContinuousBackupsUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ContinuousBackupsUnavailableException": return try await ContinuousBackupsUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateContinuousBackupsOutputError: Swift.Error, Swift.Equatable {
-    case continuousBackupsUnavailableException(ContinuousBackupsUnavailableException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateContinuousBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateContinuousBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuousBackupsDescription = output.continuousBackupsDescription
@@ -19541,7 +19003,7 @@ public struct UpdateContinuousBackupsOutputResponse: Swift.Equatable {
     /// Represents the continuous backups and point in time recovery settings on the table.
     public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
 
-    public init (
+    public init(
         continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
     )
     {
@@ -19558,7 +19020,7 @@ extension UpdateContinuousBackupsOutputResponseBody: Swift.Decodable {
         case continuousBackupsDescription = "ContinuousBackupsDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousBackupsDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContinuousBackupsDescription.self, forKey: .continuousBackupsDescription)
         continuousBackupsDescription = continuousBackupsDescriptionDecoded
@@ -19602,7 +19064,7 @@ public struct UpdateContributorInsightsInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
@@ -19627,7 +19089,7 @@ extension UpdateContributorInsightsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -19638,33 +19100,21 @@ extension UpdateContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateContributorInsightsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateContributorInsightsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateContributorInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateContributorInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contributorInsightsStatus = output.contributorInsightsStatus
@@ -19686,7 +19136,7 @@ public struct UpdateContributorInsightsOutputResponse: Swift.Equatable {
     /// The name of the table.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
@@ -19711,7 +19161,7 @@ extension UpdateContributorInsightsOutputResponseBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -19738,7 +19188,7 @@ extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
@@ -19757,7 +19207,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
 
-        public init (
+        public init(
             indexName: Swift.String? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
         )
@@ -19803,7 +19253,7 @@ public struct UpdateGlobalTableInput: Swift.Equatable {
     /// This member is required.
     public var replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]? = nil
     )
@@ -19824,7 +19274,7 @@ extension UpdateGlobalTableInputBody: Swift.Decodable {
         case replicaUpdates = "ReplicaUpdates"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -19842,41 +19292,25 @@ extension UpdateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGlobalTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGlobalTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalTableNotFoundException" : self = .globalTableNotFoundException(try GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicaAlreadyExistsException" : self = .replicaAlreadyExistsException(try ReplicaAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicaNotFoundException" : self = .replicaNotFoundException(try ReplicaNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TableNotFoundException" : self = .tableNotFoundException(try TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GlobalTableNotFoundException": return try await GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReplicaAlreadyExistsException": return try await ReplicaAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReplicaNotFoundException": return try await ReplicaNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGlobalTableOutputError: Swift.Error, Swift.Equatable {
-    case globalTableNotFoundException(GlobalTableNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case replicaAlreadyExistsException(ReplicaAlreadyExistsException)
-    case replicaNotFoundException(ReplicaNotFoundException)
-    case tableNotFoundException(TableNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGlobalTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGlobalTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableDescription = output.globalTableDescription
@@ -19890,7 +19324,7 @@ public struct UpdateGlobalTableOutputResponse: Swift.Equatable {
     /// Contains the details of the global table.
     public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
-    public init (
+    public init(
         globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
@@ -19907,7 +19341,7 @@ extension UpdateGlobalTableOutputResponseBody: Swift.Decodable {
         case globalTableDescription = "GlobalTableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.GlobalTableDescription.self, forKey: .globalTableDescription)
         globalTableDescription = globalTableDescriptionDecoded
@@ -19978,7 +19412,7 @@ public struct UpdateGlobalTableSettingsInput: Swift.Equatable {
     /// Represents the settings for a global table in a Region that will be modified.
     public var replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]?
 
-    public init (
+    public init(
         globalTableBillingMode: DynamoDBClientTypes.BillingMode? = nil,
         globalTableGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate]? = nil,
         globalTableName: Swift.String? = nil,
@@ -20015,7 +19449,7 @@ extension UpdateGlobalTableSettingsInputBody: Swift.Decodable {
         case replicaSettingsUpdate = "ReplicaSettingsUpdate"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -20050,43 +19484,26 @@ extension UpdateGlobalTableSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGlobalTableSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateGlobalTableSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "GlobalTableNotFoundException" : self = .globalTableNotFoundException(try GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "IndexNotFoundException" : self = .indexNotFoundException(try IndexNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ReplicaNotFoundException" : self = .replicaNotFoundException(try ReplicaNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "GlobalTableNotFoundException": return try await GlobalTableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IndexNotFoundException": return try await IndexNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReplicaNotFoundException": return try await ReplicaNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateGlobalTableSettingsOutputError: Swift.Error, Swift.Equatable {
-    case globalTableNotFoundException(GlobalTableNotFoundException)
-    case indexNotFoundException(IndexNotFoundException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case replicaNotFoundException(ReplicaNotFoundException)
-    case resourceInUseException(ResourceInUseException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateGlobalTableSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateGlobalTableSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalTableName = output.globalTableName
@@ -20104,7 +19521,7 @@ public struct UpdateGlobalTableSettingsOutputResponse: Swift.Equatable {
     /// The Region-specific settings for the global table.
     public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
 
-    public init (
+    public init(
         globalTableName: Swift.String? = nil,
         replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
     )
@@ -20125,7 +19542,7 @@ extension UpdateGlobalTableSettingsOutputResponseBody: Swift.Decodable {
         case replicaSettings = "ReplicaSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
         globalTableName = globalTableNameDecoded
@@ -20327,7 +19744,7 @@ public struct UpdateItemInput: Swift.Equatable {
     /// You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5 For more information on update expressions, see [Modifying Items and Attributes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html) in the Amazon DynamoDB Developer Guide.
     public var updateExpression: Swift.String?
 
-    public init (
+    public init(
         attributeUpdates: [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]? = nil,
         conditionExpression: Swift.String? = nil,
         conditionalOperator: DynamoDBClientTypes.ConditionalOperator? = nil,
@@ -20388,7 +19805,7 @@ extension UpdateItemInputBody: Swift.Decodable {
         case updateExpression = "UpdateExpression"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -20462,45 +19879,27 @@ extension UpdateItemInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateItemOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateItemOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ConditionalCheckFailedException" : self = .conditionalCheckFailedException(try ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ItemCollectionSizeLimitExceededException" : self = .itemCollectionSizeLimitExceededException(try ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TransactionConflictException" : self = .transactionConflictException(try TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConditionalCheckFailedException": return try await ConditionalCheckFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ItemCollectionSizeLimitExceededException": return try await ItemCollectionSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateItemOutputError: Swift.Error, Swift.Equatable {
-    case conditionalCheckFailedException(ConditionalCheckFailedException)
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case itemCollectionSizeLimitExceededException(ItemCollectionSizeLimitExceededException)
-    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
-    case requestLimitExceeded(RequestLimitExceeded)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case transactionConflictException(TransactionConflictException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateItemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
@@ -20527,7 +19926,7 @@ public struct UpdateItemOutputResponse: Swift.Equatable {
     /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
     public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
 
-    public init (
+    public init(
         attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
         consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
         itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
@@ -20552,7 +19951,7 @@ extension UpdateItemOutputResponseBody: Swift.Decodable {
         case itemCollectionMetrics = "ItemCollectionMetrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
@@ -20603,7 +20002,7 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
         regionName = regionNameDecoded
@@ -20642,7 +20041,7 @@ extension DynamoDBClientTypes {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public var tableClassOverride: DynamoDBClientTypes.TableClass?
 
-        public init (
+        public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
@@ -20761,7 +20160,7 @@ public struct UpdateTableInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
@@ -20814,7 +20213,7 @@ extension UpdateTableInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeDefinitionsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeDefinition?].self, forKey: .attributeDefinitions)
         var attributeDefinitionsDecoded0:[DynamoDBClientTypes.AttributeDefinition]? = nil
@@ -20866,39 +20265,24 @@ extension UpdateTableInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTableOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTableOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTableOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTableOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateTableOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableDescription = output.tableDescription
@@ -20913,7 +20297,7 @@ public struct UpdateTableOutputResponse: Swift.Equatable {
     /// Represents the properties of the table.
     public var tableDescription: DynamoDBClientTypes.TableDescription?
 
-    public init (
+    public init(
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
@@ -20930,7 +20314,7 @@ extension UpdateTableOutputResponseBody: Swift.Decodable {
         case tableDescription = "TableDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableDescription.self, forKey: .tableDescription)
         tableDescription = tableDescriptionDecoded
@@ -20985,7 +20369,7 @@ public struct UpdateTableReplicaAutoScalingInput: Swift.Equatable {
     /// This member is required.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]? = nil,
         provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]? = nil,
@@ -21014,7 +20398,7 @@ extension UpdateTableReplicaAutoScalingInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalSecondaryIndexUpdatesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate?].self, forKey: .globalSecondaryIndexUpdates)
         var globalSecondaryIndexUpdatesDecoded0:[DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]? = nil
@@ -21045,37 +20429,23 @@ extension UpdateTableReplicaAutoScalingInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTableReplicaAutoScalingOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTableReplicaAutoScalingOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTableReplicaAutoScalingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateTableReplicaAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tableAutoScalingDescription = output.tableAutoScalingDescription
@@ -21089,7 +20459,7 @@ public struct UpdateTableReplicaAutoScalingOutputResponse: Swift.Equatable {
     /// Returns information about the auto scaling settings of a table with replicas.
     public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
 
-    public init (
+    public init(
         tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
     )
     {
@@ -21106,7 +20476,7 @@ extension UpdateTableReplicaAutoScalingOutputResponseBody: Swift.Decodable {
         case tableAutoScalingDescription = "TableAutoScalingDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableAutoScalingDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableAutoScalingDescription.self, forKey: .tableAutoScalingDescription)
         tableAutoScalingDescription = tableAutoScalingDescriptionDecoded
@@ -21145,7 +20515,7 @@ public struct UpdateTimeToLiveInput: Swift.Equatable {
     /// This member is required.
     public var timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification?
 
-    public init (
+    public init(
         tableName: Swift.String? = nil,
         timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
     )
@@ -21166,7 +20536,7 @@ extension UpdateTimeToLiveInputBody: Swift.Decodable {
         case timeToLiveSpecification = "TimeToLiveSpecification"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -21175,39 +20545,24 @@ extension UpdateTimeToLiveInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTimeToLiveOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension UpdateTimeToLiveOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum UpdateTimeToLiveOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case invalidEndpointException(InvalidEndpointException)
-    case limitExceededException(LimitExceededException)
-    case resourceInUseException(ResourceInUseException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTimeToLiveOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateTimeToLiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.timeToLiveSpecification = output.timeToLiveSpecification
@@ -21221,7 +20576,7 @@ public struct UpdateTimeToLiveOutputResponse: Swift.Equatable {
     /// Represents the output of an UpdateTimeToLive operation.
     public var timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification?
 
-    public init (
+    public init(
         timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
     )
     {
@@ -21238,7 +20593,7 @@ extension UpdateTimeToLiveOutputResponseBody: Swift.Decodable {
         case timeToLiveSpecification = "TimeToLiveSpecification"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeToLiveSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TimeToLiveSpecification.self, forKey: .timeToLiveSpecification)
         timeToLiveSpecification = timeToLiveSpecificationDecoded
@@ -21261,7 +20616,7 @@ extension DynamoDBClientTypes.WriteRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let putRequestDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.PutRequest.self, forKey: .putRequest)
         putRequest = putRequestDecoded
@@ -21278,7 +20633,7 @@ extension DynamoDBClientTypes {
         /// A request to perform a PutItem operation.
         public var putRequest: DynamoDBClientTypes.PutRequest?
 
-        public init (
+        public init(
             deleteRequest: DynamoDBClientTypes.DeleteRequest? = nil,
             putRequest: DynamoDBClientTypes.PutRequest? = nil
         )

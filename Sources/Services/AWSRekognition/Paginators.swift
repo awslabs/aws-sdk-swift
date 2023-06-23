@@ -105,6 +105,7 @@ extension RekognitionClient {
 extension GetContentModerationInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetContentModerationInput {
         return GetContentModerationInput(
+            aggregateBy: self.aggregateBy,
             jobId: self.jobId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -361,8 +362,10 @@ extension ListFacesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFacesInput {
         return ListFacesInput(
             collectionId: self.collectionId,
+            faceIds: self.faceIds,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            userId: self.userId
         )}
 }
 
@@ -425,4 +428,35 @@ extension ListStreamProcessorsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+extension RekognitionClient {
+    /// Paginate over `[ListUsersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUsersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
+    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
+    }
+}
+
+extension ListUsersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUsersInput {
+        return ListUsersInput(
+            collectionId: self.collectionId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
+    /// to access the nested member `[RekognitionClientTypes.User]`
+    /// - Returns: `[RekognitionClientTypes.User]`
+    public func users() async throws -> [RekognitionClientTypes.User] {
+        return try await self.asyncCompactMap { item in item.users }
+    }
 }
