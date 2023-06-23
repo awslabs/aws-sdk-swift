@@ -107,7 +107,6 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         typealias RuntimeConfigType =
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
-        self.endpoint = endpoint
         self.credentialsProvider = credentialsProvider
         self.endpoint = endpoint
         self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
