@@ -7,6 +7,7 @@
 
 import Foundation
 import PackageDescription
+import struct ArgumentParser.ExitCode
 
 extension Process {
     /// A struct to create processes for executing git commands.
@@ -61,7 +62,7 @@ extension Process {
         /// Returns a process for executing `git log <a>..<b> --pretty=format:<format>`
         /// This is used returning the list of commits between two tags.
         func log(_ a: String, _ b: String, format: String) -> Process {
-            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format.wrappedInQuotes())"])
+            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format)"])
         }
     }
     
@@ -72,18 +73,26 @@ extension Process.Git {
     /// Returns true if the provided commits/branches/trees are different, otherwise returns false
     func diffHasChanges(_ a: String, _ b: String) throws -> Bool {
         let task = diff(a, b)
-        try _run(task)
-        return task.terminationStatus != 0
+        do {
+            try _run(task)
+        } catch let exitCode as ExitCode where exitCode.rawValue == 1 {
+            return true
+        }
+        return false
     }
     
     /// Returns true if the local working copy has unstaged or uncommitted changes, otherwise returns false.
     func hasLocalChanges() throws -> Bool {
         let updateIndexTask = updateIndex()
-        try _run(updateIndexTask)
+        try? _run(updateIndexTask)
         
-        let diffIndexTask = diffIndex()
-        try _run(diffIndexTask)
-        return diffIndexTask.terminationStatus != 0
+        do {
+            let diffIndexTask = diffIndex()
+            try _run(diffIndexTask)
+        } catch let exitCode as ExitCode where exitCode.rawValue == 1 {
+            return true
+        }
+        return false
     }
     
     func listOfCommitsBetween(_ a: String, _ b: String) throws -> [String] {
