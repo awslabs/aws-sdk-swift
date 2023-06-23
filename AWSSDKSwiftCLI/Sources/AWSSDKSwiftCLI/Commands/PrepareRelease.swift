@@ -176,6 +176,7 @@ struct PrepareRelease {
         let releaseNotes = ReleaseNotesBuilder(
             previousVersion: previousVersion,
             newVersion: newVersion,
+            repoType: repoType,
             commits: commits
         ).build()
         
