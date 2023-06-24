@@ -114,7 +114,7 @@ extension DocDBClientProtocol {
             }),
             .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "DBInstanceNotFound"
+                return (error as? ServiceError)?.typeName == "DBInstanceNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"

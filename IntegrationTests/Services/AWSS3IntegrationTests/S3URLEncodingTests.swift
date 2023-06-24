@@ -32,7 +32,7 @@ final class S3URLEncodingTests: S3XCTestCase {
         let config = try await S3Client.S3ClientConfiguration(region: region)
         for key in keys {
             let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key)
-            let presignedURLOrNil = try await input.presignURL(config: config, expiration: 600.0)
+            let presignedURLOrNil = try await input.presignURL(config: config, expiration: 30.0)
             let presignedURL = try XCTUnwrap(presignedURLOrNil)
             var urlRequest = URLRequest(url: presignedURL)
             urlRequest.httpMethod = "PUT"

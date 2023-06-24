@@ -3,37 +3,41 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AccessForbidden {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: AccessForbiddenBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You do not have permission to perform an action.
-public struct AccessForbidden: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessForbidden" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -46,7 +50,7 @@ extension AccessForbiddenBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -77,7 +81,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featureGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featureGroupName)
         featureGroupName = featureGroupNameDecoded
@@ -106,7 +110,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// This member is required.
         public var recordIdentifierValueAsString: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
@@ -148,7 +152,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featureGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featureGroupName)
         featureGroupName = featureGroupNameDecoded
@@ -189,7 +193,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// This member is required.
         public var recordIdentifiersValueAsString: [Swift.String]?
 
-        public init (
+        public init(
             featureGroupName: Swift.String? = nil,
             featureNames: [Swift.String]? = nil,
             recordIdentifiersValueAsString: [Swift.String]? = nil
@@ -230,7 +234,7 @@ public struct BatchGetRecordInput: Swift.Equatable {
     /// This member is required.
     public var identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]?
 
-    public init (
+    public init(
         identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
     )
     {
@@ -247,7 +251,7 @@ extension BatchGetRecordInputBody: Swift.Decodable {
         case identifiers = "Identifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifiersContainer = try containerValues.decodeIfPresent([SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier?].self, forKey: .identifiers)
         var identifiersDecoded0:[SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
@@ -263,37 +267,23 @@ extension BatchGetRecordInputBody: Swift.Decodable {
     }
 }
 
-extension BatchGetRecordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension BatchGetRecordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessForbidden" : self = .accessForbidden(try AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchGetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessForbidden": return try await AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum BatchGetRecordOutputError: Swift.Error, Swift.Equatable {
-    case accessForbidden(AccessForbidden)
-    case internalFailure(InternalFailure)
-    case serviceUnavailable(ServiceUnavailable)
-    case validationError(ValidationError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchGetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
@@ -318,7 +308,7 @@ public struct BatchGetRecordOutputResponse: Swift.Equatable {
     /// This member is required.
     public var unprocessedIdentifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]?
 
-    public init (
+    public init(
         errors: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError]? = nil,
         records: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail]? = nil,
         unprocessedIdentifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
@@ -343,7 +333,7 @@ extension BatchGetRecordOutputResponseBody: Swift.Decodable {
         case unprocessedIdentifiers = "UnprocessedIdentifiers"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordsContainer = try containerValues.decodeIfPresent([SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail?].self, forKey: .records)
         var recordsDecoded0:[SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail]? = nil
@@ -404,7 +394,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Sw
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featureGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featureGroupName)
         featureGroupName = featureGroupNameDecoded
@@ -437,7 +427,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// This member is required.
         public var recordIdentifierValueAsString: Swift.String?
 
-        public init (
+        public init(
             featureGroupName: Swift.String? = nil,
             record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
             recordIdentifierValueAsString: Swift.String? = nil
@@ -457,7 +447,7 @@ extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
                 let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
@@ -469,7 +459,7 @@ extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
             }
             guard let eventTime = eventTime else {
                 let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let eventTimeQueryItem = ClientRuntime.URLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
             items.append(eventTimeQueryItem)
@@ -506,7 +496,7 @@ public struct DeleteRecordInput: Swift.Equatable {
     /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
     public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 
-    public init (
+    public init(
         deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode? = nil,
         eventTime: Swift.String? = nil,
         featureGroupName: Swift.String? = nil,
@@ -527,46 +517,32 @@ struct DeleteRecordInputBody: Swift.Equatable {
 
 extension DeleteRecordInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension DeleteRecordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DeleteRecordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessForbidden" : self = .accessForbidden(try AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessForbidden": return try await AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DeleteRecordOutputError: Swift.Error, Swift.Equatable {
-    case accessForbidden(AccessForbidden)
-    case internalFailure(InternalFailure)
-    case serviceUnavailable(ServiceUnavailable)
-    case validationError(ValidationError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteRecordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteRecordOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SageMakerFeatureStoreRuntimeClientTypes {
@@ -617,7 +593,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featureNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featureName)
         featureName = featureNameDecoded
@@ -636,7 +612,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// This member is required.
         public var valueAsString: Swift.String?
 
-        public init (
+        public init(
             featureName: Swift.String? = nil,
             valueAsString: Swift.String? = nil
         )
@@ -654,7 +630,7 @@ extension GetRecordInput: ClientRuntime.QueryItemProvider {
             var items = [ClientRuntime.URLQueryItem]()
             guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
                 let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+                throw ClientRuntime.ClientError.unknownError(message)
             }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
@@ -688,7 +664,7 @@ public struct GetRecordInput: Swift.Equatable {
     /// This member is required.
     public var recordIdentifierValueAsString: Swift.String?
 
-    public init (
+    public init(
         featureGroupName: Swift.String? = nil,
         featureNames: [Swift.String]? = nil,
         recordIdentifierValueAsString: Swift.String? = nil
@@ -705,43 +681,28 @@ struct GetRecordInputBody: Swift.Equatable {
 
 extension GetRecordInputBody: Swift.Decodable {
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
-extension GetRecordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRecordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessForbidden" : self = .accessForbidden(try AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessForbidden": return try await AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRecordOutputError: Swift.Error, Swift.Equatable {
-    case accessForbidden(AccessForbidden)
-    case internalFailure(InternalFailure)
-    case resourceNotFound(ResourceNotFound)
-    case serviceUnavailable(ServiceUnavailable)
-    case validationError(ValidationError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.record = output.record
@@ -755,7 +716,7 @@ public struct GetRecordOutputResponse: Swift.Equatable {
     /// The record you requested. A list of FeatureValues.
     public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
 
-    public init (
+    public init(
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
     )
     {
@@ -772,7 +733,7 @@ extension GetRecordOutputResponseBody: Swift.Decodable {
         case record = "Record"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordContainer = try containerValues.decodeIfPresent([SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?].self, forKey: .record)
         var recordDecoded0:[SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
@@ -789,37 +750,41 @@ extension GetRecordOutputResponseBody: Swift.Decodable {
 }
 
 extension InternalFailure {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalFailureBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalFailure" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -832,7 +797,7 @@ extension InternalFailureBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -887,7 +852,7 @@ public struct PutRecordInput: Swift.Equatable {
     /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
     public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 
-    public init (
+    public init(
         featureGroupName: Swift.String? = nil,
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
         targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
@@ -910,7 +875,7 @@ extension PutRecordInputBody: Swift.Decodable {
         case targetStores = "TargetStores"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordContainer = try containerValues.decodeIfPresent([SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?].self, forKey: .record)
         var recordDecoded0:[SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
@@ -937,76 +902,66 @@ extension PutRecordInputBody: Swift.Decodable {
     }
 }
 
-extension PutRecordOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension PutRecordOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessForbidden" : self = .accessForbidden(try AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessForbidden": return try await AccessForbidden(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum PutRecordOutputError: Swift.Error, Swift.Equatable {
-    case accessForbidden(AccessForbidden)
-    case internalFailure(InternalFailure)
-    case serviceUnavailable(ServiceUnavailable)
-    case validationError(ValidationError)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutRecordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutRecordOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResourceNotFound {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A resource that is required to perform an action was not found.
-public struct ResourceNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1019,7 +974,7 @@ extension ResourceNotFoundBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1027,37 +982,41 @@ extension ResourceNotFoundBody: Swift.Decodable {
 }
 
 extension ServiceUnavailable {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ServiceUnavailableBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailable" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1070,7 +1029,7 @@ extension ServiceUnavailableBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1110,37 +1069,41 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 }
 
 extension ValidationError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidationErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// There was an error validating your request.
-public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationError" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1153,7 +1116,7 @@ extension ValidationErrorBody: Swift.Decodable {
         case message = "Message"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

@@ -10,15 +10,15 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension ComplexXMLError: AWSHttpServiceError {
-    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
+extension ComplexXMLError {
+    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
         if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
             self.header = headerHeaderValue
         } else {
             self.header = nil
         }
 
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
             self.nested = output.error.nested
             self.topLevel = output.error.topLevel
@@ -26,10 +26,8 @@ extension ComplexXMLError: AWSHttpServiceError {
             self.nested = nil
             self.topLevel = nil
         }
-
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }

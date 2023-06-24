@@ -32,7 +32,7 @@ extension SchemasClientProtocol {
             }),
             .init(state: .failure, matcher: { (input: DescribeCodeBindingInput, result: Result<DescribeCodeBindingOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFoundException"
+                return (error as? ServiceError)?.typeName == "NotFoundException"
             }),
         ]
         return try WaiterConfiguration<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse>(acceptors: acceptors, minDelay: 2.0, maxDelay: 120.0)

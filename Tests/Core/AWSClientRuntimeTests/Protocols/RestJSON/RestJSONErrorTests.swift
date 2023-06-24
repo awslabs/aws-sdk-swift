@@ -11,7 +11,7 @@ import XCTest
 class RestJSONErrorTests: HttpResponseTestBase {
     let host = "myapi.host.com"
 
-    func testRestJsonComplexError() {
+    func testRestJsonComplexError() async throws {
         guard let httpResponse = buildHttpResponse(
             code: 400,
             headers: [
@@ -29,17 +29,14 @@ class RestJSONErrorTests: HttpResponseTestBase {
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        guard let greetingWithErrorsError = try? GreetingWithErrorsError(httpResponse: httpResponse, decoder: decoder) else {
-            XCTFail("Failed to deserialize the error shape")
-            return
-        }
+        let greetingWithErrorsError = try await GreetingWithErrorsError.makeError(httpResponse: httpResponse, decoder: decoder)
 
-        if case .complexError(let actual) = greetingWithErrorsError {
+        if let actual = greetingWithErrorsError as? ComplexError {
             let expected = ComplexError(
                 header: "Header",
                 topLevel: "Top level"
             )
-            XCTAssertEqual(actual._statusCode, HttpStatusCode(rawValue: 400))
+            XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
             XCTAssertEqual(actual.header, expected.header)
             XCTAssertEqual(actual.topLevel, expected.topLevel)
         } else {
@@ -61,14 +58,11 @@ class RestJSONErrorTests: HttpResponseTestBase {
     }
 }
 
-public struct ComplexError: AWSHttpServiceError {
-    public var _isThrottling: Bool = false
-    public var _headers: Headers?
-    public var _message: String?
-    public var _requestID: String?
-    public var _retryable: Bool = true
-    public var _statusCode: HttpStatusCode?
-    public var _type: ErrorType = .client
+public struct ComplexError: AWSServiceError, HTTPError, Error {
+    public var typeName: String?
+    public var httpResponse = HttpResponse()
+    public var message: String?
+    public var requestID: String?
     public var header: String?
     public var topLevel: String?
 
@@ -98,7 +92,7 @@ extension ComplexErrorBody: Decodable {
 
 extension ComplexError {
 
-    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
+    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
         if let Header = httpResponse.headers.value(for: "X-Header") {
             self.header = Header
         } else {
@@ -113,29 +107,19 @@ extension ComplexError {
         } else {
             self.topLevel = nil
         }
-
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._message = message
+        self.httpResponse = httpResponse
+        self.message = message
+        self.requestID = requestID
     }
 }
 
-public enum GreetingWithErrorsError {
-    case complexError(ComplexError)
-    case unknown(UnknownAWSHttpServiceError)
-
-    public init(errorType: String?, httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) throws {
-        switch errorType {
-        case "ComplexError" : self = .complexError(try ComplexError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message))
+public enum GreetingWithErrorsError: HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
+        let errorDetails = try await RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch errorDetails.errorType {
+        case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+        default: return UnknownAWSHTTPServiceError(message: errorDetails.errorMessage, httpResponse: httpResponse)
         }
-    }
-}
-
-extension GreetingWithErrorsError: HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) throws {
-        let errorDetails = try RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
     }
 }

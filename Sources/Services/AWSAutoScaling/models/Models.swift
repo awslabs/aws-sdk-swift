@@ -18,7 +18,7 @@ extension AutoScalingClientTypes.AcceleratorCountRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -35,7 +35,7 @@ extension AutoScalingClientTypes {
         /// The minimum value.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -148,7 +148,7 @@ extension AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -165,7 +165,7 @@ extension AutoScalingClientTypes {
         /// The memory minimum in MiB.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -213,37 +213,40 @@ extension AutoScalingClientTypes {
 }
 
 extension ActiveInstanceRefreshNotFoundFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ActiveInstanceRefreshNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
-public struct ActiveInstanceRefreshNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ActiveInstanceRefreshNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -256,7 +259,7 @@ extension ActiveInstanceRefreshNotFoundFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -319,7 +322,7 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let activityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activityId)
         activityId = activityIdDecoded
@@ -381,7 +384,7 @@ extension AutoScalingClientTypes {
         /// A friendly, more verbose description of the activity status.
         public var statusMessage: Swift.String?
 
-        public init (
+        public init(
             activityId: Swift.String? = nil,
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
@@ -425,7 +428,7 @@ extension AutoScalingClientTypes.AdjustmentType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adjustmentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adjustmentType)
         adjustmentType = adjustmentTypeDecoded
@@ -438,7 +441,7 @@ extension AutoScalingClientTypes {
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public var adjustmentType: Swift.String?
 
-        public init (
+        public init(
             adjustmentType: Swift.String? = nil
         )
         {
@@ -464,7 +467,7 @@ extension AutoScalingClientTypes.Alarm: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alarmNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alarmName)
         alarmName = alarmNameDecoded
@@ -481,7 +484,7 @@ extension AutoScalingClientTypes {
         /// The name of the alarm.
         public var alarmName: Swift.String?
 
-        public init (
+        public init(
             alarmARN: Swift.String? = nil,
             alarmName: Swift.String? = nil
         )
@@ -494,38 +497,41 @@ extension AutoScalingClientTypes {
 }
 
 extension AlreadyExistsFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<AlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have an Auto Scaling group or launch configuration with this name.
-public struct AlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    ///
-    public var message: Swift.String?
+public struct AlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -538,7 +544,7 @@ extension AlreadyExistsFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -581,7 +587,7 @@ public struct AttachInstancesInput: Swift.Equatable {
     /// The IDs of the instances. You can specify up to 20 instances.
     public var instanceIds: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
     )
@@ -602,7 +608,7 @@ extension AttachInstancesInputBody: Swift.Decodable {
         case instanceIds = "InstanceIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -628,37 +634,25 @@ extension AttachInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension AttachInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AttachInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AttachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AttachInstancesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AttachInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AttachInstancesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AttachLoadBalancerTargetGroupsInput: Swift.Encodable {
@@ -698,7 +692,7 @@ public struct AttachLoadBalancerTargetGroupsInput: Swift.Equatable {
     /// This member is required.
     public var targetGroupARNs: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         targetGroupARNs: [Swift.String]? = nil
     )
@@ -719,7 +713,7 @@ extension AttachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
         case targetGroupARNs = "TargetGroupARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -745,37 +739,25 @@ extension AttachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension AttachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AttachLoadBalancerTargetGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AttachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AttachLoadBalancerTargetGroupsOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AttachLoadBalancerTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AttachLoadBalancerTargetGroupsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AttachLoadBalancersInput: Swift.Encodable {
@@ -815,7 +797,7 @@ public struct AttachLoadBalancersInput: Swift.Equatable {
     /// This member is required.
     public var loadBalancerNames: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         loadBalancerNames: [Swift.String]? = nil
     )
@@ -836,7 +818,7 @@ extension AttachLoadBalancersInputBody: Swift.Decodable {
         case loadBalancerNames = "LoadBalancerNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -862,37 +844,25 @@ extension AttachLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-extension AttachLoadBalancersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AttachLoadBalancersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AttachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AttachLoadBalancersOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AttachLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AttachLoadBalancersOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AttachTrafficSourcesInput: Swift.Encodable {
@@ -932,7 +902,7 @@ public struct AttachTrafficSourcesInput: Swift.Equatable {
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
     )
@@ -953,7 +923,7 @@ extension AttachTrafficSourcesInputBody: Swift.Decodable {
         case trafficSources = "TrafficSources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -979,37 +949,25 @@ extension AttachTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-extension AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AttachTrafficSourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AttachTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AttachTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AttachTrafficSourcesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
@@ -1237,7 +1195,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -1543,7 +1501,7 @@ extension AutoScalingClientTypes {
         /// The current size of the warm pool.
         public var warmPoolSize: Swift.Int?
 
-        public init (
+        public init(
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZones: [Swift.String]? = nil,
@@ -1667,7 +1625,7 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -1722,7 +1680,7 @@ extension AutoScalingClientTypes {
         /// The number of capacity units contributed by the instance based on its instance type. Valid Range: Minimum value of 1. Maximum value of 999.
         public var weightedCapacity: Swift.String?
 
-        public init (
+        public init(
             autoScalingGroupName: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
@@ -1801,7 +1759,7 @@ extension AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -1818,7 +1776,7 @@ extension AutoScalingClientTypes {
         /// The minimum value in Mbps.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -1867,7 +1825,7 @@ public struct BatchDeleteScheduledActionInput: Swift.Equatable {
     /// This member is required.
     public var scheduledActionNames: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledActionNames: [Swift.String]? = nil
     )
@@ -1888,7 +1846,7 @@ extension BatchDeleteScheduledActionInputBody: Swift.Decodable {
         case scheduledActionNames = "ScheduledActionNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -1914,30 +1872,19 @@ extension BatchDeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-extension BatchDeleteScheduledActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension BatchDeleteScheduledActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchDeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum BatchDeleteScheduledActionOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchDeleteScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchDeleteScheduledActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedScheduledActions = output.failedScheduledActions
@@ -1951,7 +1898,7 @@ public struct BatchDeleteScheduledActionOutputResponse: Swift.Equatable {
     /// The names of the scheduled actions that could not be deleted, including an error message.
     public var failedScheduledActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]?
 
-    public init (
+    public init(
         failedScheduledActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]? = nil
     )
     {
@@ -1968,7 +1915,7 @@ extension BatchDeleteScheduledActionOutputResponseBody: Swift.Decodable {
         case failedScheduledActions = "FailedScheduledActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("BatchDeleteScheduledActionResult"))
         if containerValues.contains(.failedScheduledActions) {
@@ -2030,7 +1977,7 @@ public struct BatchPutScheduledUpdateGroupActionInput: Swift.Equatable {
     /// This member is required.
     public var scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupActionRequest]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupActionRequest]? = nil
     )
@@ -2051,7 +1998,7 @@ extension BatchPutScheduledUpdateGroupActionInputBody: Swift.Decodable {
         case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -2077,34 +2024,21 @@ extension BatchPutScheduledUpdateGroupActionInputBody: Swift.Decodable {
     }
 }
 
-extension BatchPutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension BatchPutScheduledUpdateGroupActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum BatchPutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum BatchPutScheduledUpdateGroupActionOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsFault(AlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension BatchPutScheduledUpdateGroupActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchPutScheduledUpdateGroupActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedScheduledUpdateGroupActions = output.failedScheduledUpdateGroupActions
@@ -2118,7 +2052,7 @@ public struct BatchPutScheduledUpdateGroupActionOutputResponse: Swift.Equatable 
     /// The names of the scheduled actions that could not be created or updated, including an error message.
     public var failedScheduledUpdateGroupActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]?
 
-    public init (
+    public init(
         failedScheduledUpdateGroupActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]? = nil
     )
     {
@@ -2135,7 +2069,7 @@ extension BatchPutScheduledUpdateGroupActionOutputResponseBody: Swift.Decodable 
         case failedScheduledUpdateGroupActions = "FailedScheduledUpdateGroupActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("BatchPutScheduledUpdateGroupActionResult"))
         if containerValues.contains(.failedScheduledUpdateGroupActions) {
@@ -2184,7 +2118,7 @@ extension AutoScalingClientTypes.BlockDeviceMapping: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualName)
         virtualName = virtualNameDecoded
@@ -2210,7 +2144,7 @@ extension AutoScalingClientTypes {
         /// The name of the instance store volume (virtual device) to attach to an instance at launch. The name must be in the form ephemeralX where X is a number starting from zero (0), for example, ephemeral0.
         public var virtualName: Swift.String?
 
-        public init (
+        public init(
             deviceName: Swift.String? = nil,
             ebs: AutoScalingClientTypes.Ebs? = nil,
             noDevice: Swift.Bool? = nil,
@@ -2283,7 +2217,7 @@ public struct CancelInstanceRefreshInput: Swift.Equatable {
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil
     )
     {
@@ -2300,41 +2234,28 @@ extension CancelInstanceRefreshInputBody: Swift.Decodable {
         case autoScalingGroupName = "AutoScalingGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
     }
 }
 
-extension CancelInstanceRefreshOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CancelInstanceRefreshOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ActiveInstanceRefreshNotFound" : self = .activeInstanceRefreshNotFoundFault(try ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CancelInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ActiveInstanceRefreshNotFound": return try await ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CancelInstanceRefreshOutputError: Swift.Error, Swift.Equatable {
-    case activeInstanceRefreshNotFoundFault(ActiveInstanceRefreshNotFoundFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CancelInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CancelInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshId = output.instanceRefreshId
@@ -2348,7 +2269,7 @@ public struct CancelInstanceRefreshOutputResponse: Swift.Equatable {
     /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
     public var instanceRefreshId: Swift.String?
 
-    public init (
+    public init(
         instanceRefreshId: Swift.String? = nil
     )
     {
@@ -2365,7 +2286,7 @@ extension CancelInstanceRefreshOutputResponseBody: Swift.Decodable {
         case instanceRefreshId = "InstanceRefreshId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CancelInstanceRefreshResult"))
         let instanceRefreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRefreshId)
@@ -2407,7 +2328,7 @@ extension AutoScalingClientTypes.CapacityForecast: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.timestamps) {
             struct KeyVal0{struct member{}}
@@ -2460,7 +2381,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var values: [Swift.Double]?
 
-        public init (
+        public init(
             timestamps: [ClientRuntime.Date]? = nil,
             values: [Swift.Double]? = nil
         )
@@ -2516,7 +2437,7 @@ public struct CompleteLifecycleActionInput: Swift.Equatable {
     /// This member is required.
     public var lifecycleHookName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lifecycleActionResult: Swift.String? = nil,
@@ -2549,7 +2470,7 @@ extension CompleteLifecycleActionInputBody: Swift.Decodable {
         case lifecycleHookName = "LifecycleHookName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -2564,35 +2485,24 @@ extension CompleteLifecycleActionInputBody: Swift.Decodable {
     }
 }
 
-extension CompleteLifecycleActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CompleteLifecycleActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CompleteLifecycleActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CompleteLifecycleActionOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CompleteLifecycleActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CompleteLifecycleActionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes {
@@ -2847,7 +2757,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
     public var vpcZoneIdentifier: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -2968,7 +2878,7 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
         case vpcZoneIdentifier = "VPCZoneIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -3146,41 +3056,27 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateAutoScalingGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateAutoScalingGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateAutoScalingGroupOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsFault(AlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateAutoScalingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateAutoScalingGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateLaunchConfigurationInput: Swift.Encodable {
@@ -3322,7 +3218,7 @@ public struct CreateLaunchConfigurationInput: Swift.Equatable {
     /// The user data to make available to the launched EC2 instances. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) (Linux) and [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html) (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
     public var userData: Swift.String?
 
-    public init (
+    public init(
         associatePublicIpAddress: Swift.Bool? = nil,
         blockDeviceMappings: [AutoScalingClientTypes.BlockDeviceMapping]? = nil,
         classicLinkVPCId: Swift.String? = nil,
@@ -3411,7 +3307,7 @@ extension CreateLaunchConfigurationInputBody: Swift.Decodable {
         case userData = "UserData"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationName)
         launchConfigurationName = launchConfigurationNameDecoded
@@ -3505,39 +3401,26 @@ extension CreateLaunchConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateLaunchConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateLaunchConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateLaunchConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsFault(AlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateLaunchConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension CreateOrUpdateTagsInput: Swift.Encodable {
@@ -3571,7 +3454,7 @@ public struct CreateOrUpdateTagsInput: Swift.Equatable {
     /// This member is required.
     public var tags: [AutoScalingClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [AutoScalingClientTypes.Tag]? = nil
     )
     {
@@ -3588,7 +3471,7 @@ extension CreateOrUpdateTagsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.tags) {
             struct KeyVal0{struct member{}}
@@ -3612,41 +3495,27 @@ extension CreateOrUpdateTagsInputBody: Swift.Decodable {
     }
 }
 
-extension CreateOrUpdateTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateOrUpdateTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateOrUpdateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateOrUpdateTagsOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsFault(AlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateOrUpdateTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct CreateOrUpdateTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.CustomizedMetricSpecification: Swift.Codable {
@@ -3699,7 +3568,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
         metricName = metricNameDecoded
@@ -3773,7 +3642,7 @@ extension AutoScalingClientTypes {
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
 
-        public init (
+        public init(
             dimensions: [AutoScalingClientTypes.MetricDimension]? = nil,
             metricName: Swift.String? = nil,
             metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil,
@@ -3820,7 +3689,7 @@ public struct DeleteAutoScalingGroupInput: Swift.Equatable {
     /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This action also deletes any outstanding lifecycle actions associated with the group.
     public var forceDelete: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
     )
@@ -3841,7 +3710,7 @@ extension DeleteAutoScalingGroupInputBody: Swift.Decodable {
         case forceDelete = "ForceDelete"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -3850,39 +3719,26 @@ extension DeleteAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteAutoScalingGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteAutoScalingGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteAutoScalingGroupOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteAutoScalingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteAutoScalingGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteLaunchConfigurationInput: Swift.Encodable {
@@ -3907,7 +3763,7 @@ public struct DeleteLaunchConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var launchConfigurationName: Swift.String?
 
-    public init (
+    public init(
         launchConfigurationName: Swift.String? = nil
     )
     {
@@ -3924,44 +3780,32 @@ extension DeleteLaunchConfigurationInputBody: Swift.Decodable {
         case launchConfigurationName = "LaunchConfigurationName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationName)
         launchConfigurationName = launchConfigurationNameDecoded
     }
 }
 
-extension DeleteLaunchConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteLaunchConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteLaunchConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLaunchConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteLifecycleHookInput: Swift.Encodable {
@@ -3992,7 +3836,7 @@ public struct DeleteLifecycleHookInput: Swift.Equatable {
     /// This member is required.
     public var lifecycleHookName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         lifecycleHookName: Swift.String? = nil
     )
@@ -4013,7 +3857,7 @@ extension DeleteLifecycleHookInputBody: Swift.Decodable {
         case lifecycleHookName = "LifecycleHookName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -4022,35 +3866,24 @@ extension DeleteLifecycleHookInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteLifecycleHookOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteLifecycleHookOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteLifecycleHookOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteLifecycleHookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteLifecycleHookOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteNotificationConfigurationInput: Swift.Encodable {
@@ -4081,7 +3914,7 @@ public struct DeleteNotificationConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var topicARN: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         topicARN: Swift.String? = nil
     )
@@ -4102,7 +3935,7 @@ extension DeleteNotificationConfigurationInputBody: Swift.Decodable {
         case topicARN = "TopicARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -4111,35 +3944,24 @@ extension DeleteNotificationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteNotificationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteNotificationConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteNotificationConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteNotificationConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePolicyInput: Swift.Encodable {
@@ -4169,7 +3991,7 @@ public struct DeletePolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         policyName: Swift.String? = nil
     )
@@ -4190,7 +4012,7 @@ extension DeletePolicyInputBody: Swift.Decodable {
         case policyName = "PolicyName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -4199,37 +4021,25 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension DeletePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeletePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeletePolicyOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeletePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteScheduledActionInput: Swift.Encodable {
@@ -4260,7 +4070,7 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// This member is required.
     public var scheduledActionName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledActionName: Swift.String? = nil
     )
@@ -4281,7 +4091,7 @@ extension DeleteScheduledActionInputBody: Swift.Decodable {
         case scheduledActionName = "ScheduledActionName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -4290,35 +4100,24 @@ extension DeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteScheduledActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteScheduledActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteScheduledActionOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteScheduledActionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteTagsInput: Swift.Encodable {
@@ -4352,7 +4151,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     /// This member is required.
     public var tags: [AutoScalingClientTypes.Tag]?
 
-    public init (
+    public init(
         tags: [AutoScalingClientTypes.Tag]? = nil
     )
     {
@@ -4369,7 +4168,7 @@ extension DeleteTagsInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.tags) {
             struct KeyVal0{struct member{}}
@@ -4393,37 +4192,25 @@ extension DeleteTagsInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteTagsOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteTagsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteWarmPoolInput: Swift.Encodable {
@@ -4453,7 +4240,7 @@ public struct DeleteWarmPoolInput: Swift.Equatable {
     /// Specifies that the warm pool is to be deleted along with all of its associated instances, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
     public var forceDelete: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
     )
@@ -4474,7 +4261,7 @@ extension DeleteWarmPoolInputBody: Swift.Decodable {
         case forceDelete = "ForceDelete"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -4483,41 +4270,27 @@ extension DeleteWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteWarmPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteWarmPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteWarmPoolOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteWarmPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteWarmPoolOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DescribeAccountLimitsInput: Swift.Encodable {
@@ -4536,33 +4309,22 @@ extension DescribeAccountLimitsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeAccountLimitsInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAccountLimitsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAccountLimitsOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.maxNumberOfAutoScalingGroups = output.maxNumberOfAutoScalingGroups
@@ -4588,7 +4350,7 @@ public struct DescribeAccountLimitsOutputResponse: Swift.Equatable {
     /// The current number of launch configurations for your account.
     public var numberOfLaunchConfigurations: Swift.Int?
 
-    public init (
+    public init(
         maxNumberOfAutoScalingGroups: Swift.Int? = nil,
         maxNumberOfLaunchConfigurations: Swift.Int? = nil,
         numberOfAutoScalingGroups: Swift.Int? = nil,
@@ -4617,7 +4379,7 @@ extension DescribeAccountLimitsOutputResponseBody: Swift.Decodable {
         case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAccountLimitsResult"))
         let maxNumberOfAutoScalingGroupsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfAutoScalingGroups)
@@ -4647,33 +4409,22 @@ extension DescribeAdjustmentTypesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeAdjustmentTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeAdjustmentTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAdjustmentTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAdjustmentTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAdjustmentTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAdjustmentTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAdjustmentTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adjustmentTypes = output.adjustmentTypes
@@ -4687,7 +4438,7 @@ public struct DescribeAdjustmentTypesOutputResponse: Swift.Equatable {
     /// The policy adjustment types.
     public var adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]?
 
-    public init (
+    public init(
         adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]? = nil
     )
     {
@@ -4704,7 +4455,7 @@ extension DescribeAdjustmentTypesOutputResponseBody: Swift.Decodable {
         case adjustmentTypes = "AdjustmentTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAdjustmentTypesResult"))
         if containerValues.contains(.adjustmentTypes) {
@@ -4783,7 +4534,7 @@ public struct DescribeAutoScalingGroupsInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupNames: [Swift.String]? = nil,
         filters: [AutoScalingClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
@@ -4812,7 +4563,7 @@ extension DescribeAutoScalingGroupsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.autoScalingGroupNames) {
             struct KeyVal0{struct member{}}
@@ -4859,32 +4610,20 @@ extension DescribeAutoScalingGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAutoScalingGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAutoScalingGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAutoScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAutoScalingGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAutoScalingGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAutoScalingGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingGroups = output.autoScalingGroups
@@ -4903,7 +4642,7 @@ public struct DescribeAutoScalingGroupsOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroups: [AutoScalingClientTypes.AutoScalingGroup]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4924,7 +4663,7 @@ extension DescribeAutoScalingGroupsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAutoScalingGroupsResult"))
         if containerValues.contains(.autoScalingGroups) {
@@ -4991,7 +4730,7 @@ public struct DescribeAutoScalingInstancesInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         instanceIds: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5016,7 +4755,7 @@ extension DescribeAutoScalingInstancesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -5044,32 +4783,20 @@ extension DescribeAutoScalingInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeAutoScalingInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAutoScalingInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAutoScalingInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAutoScalingInstancesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAutoScalingInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAutoScalingInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingInstances = output.autoScalingInstances
@@ -5087,7 +4814,7 @@ public struct DescribeAutoScalingInstancesOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingInstances: [AutoScalingClientTypes.AutoScalingInstanceDetails]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5108,7 +4835,7 @@ extension DescribeAutoScalingInstancesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAutoScalingInstancesResult"))
         if containerValues.contains(.autoScalingInstances) {
@@ -5151,33 +4878,22 @@ extension DescribeAutoScalingNotificationTypesInput: ClientRuntime.URLPathProvid
 
 public struct DescribeAutoScalingNotificationTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeAutoScalingNotificationTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAutoScalingNotificationTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAutoScalingNotificationTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAutoScalingNotificationTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAutoScalingNotificationTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAutoScalingNotificationTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingNotificationTypes = output.autoScalingNotificationTypes
@@ -5191,7 +4907,7 @@ public struct DescribeAutoScalingNotificationTypesOutputResponse: Swift.Equatabl
     /// The notification types.
     public var autoScalingNotificationTypes: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingNotificationTypes: [Swift.String]? = nil
     )
     {
@@ -5208,7 +4924,7 @@ extension DescribeAutoScalingNotificationTypesOutputResponseBody: Swift.Decodabl
         case autoScalingNotificationTypes = "AutoScalingNotificationTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAutoScalingNotificationTypesResult"))
         if containerValues.contains(.autoScalingNotificationTypes) {
@@ -5279,7 +4995,7 @@ public struct DescribeInstanceRefreshesInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceRefreshIds: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
@@ -5308,7 +5024,7 @@ extension DescribeInstanceRefreshesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -5338,32 +5054,20 @@ extension DescribeInstanceRefreshesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeInstanceRefreshesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeInstanceRefreshesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInstanceRefreshesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeInstanceRefreshesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInstanceRefreshesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInstanceRefreshesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshes = output.instanceRefreshes
@@ -5381,7 +5085,7 @@ public struct DescribeInstanceRefreshesOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         instanceRefreshes: [AutoScalingClientTypes.InstanceRefresh]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5402,7 +5106,7 @@ extension DescribeInstanceRefreshesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeInstanceRefreshesResult"))
         if containerValues.contains(.instanceRefreshes) {
@@ -5469,7 +5173,7 @@ public struct DescribeLaunchConfigurationsInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         launchConfigurationNames: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5494,7 +5198,7 @@ extension DescribeLaunchConfigurationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.launchConfigurationNames) {
             struct KeyVal0{struct member{}}
@@ -5522,32 +5226,20 @@ extension DescribeLaunchConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLaunchConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeLaunchConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLaunchConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeLaunchConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLaunchConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLaunchConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchConfigurations = output.launchConfigurations
@@ -5566,7 +5258,7 @@ public struct DescribeLaunchConfigurationsOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         launchConfigurations: [AutoScalingClientTypes.LaunchConfiguration]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5587,7 +5279,7 @@ extension DescribeLaunchConfigurationsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLaunchConfigurationsResult"))
         if containerValues.contains(.launchConfigurations) {
@@ -5630,33 +5322,22 @@ extension DescribeLifecycleHookTypesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeLifecycleHookTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeLifecycleHookTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeLifecycleHookTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLifecycleHookTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeLifecycleHookTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLifecycleHookTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLifecycleHookTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycleHookTypes = output.lifecycleHookTypes
@@ -5670,7 +5351,7 @@ public struct DescribeLifecycleHookTypesOutputResponse: Swift.Equatable {
     /// The lifecycle hook types.
     public var lifecycleHookTypes: [Swift.String]?
 
-    public init (
+    public init(
         lifecycleHookTypes: [Swift.String]? = nil
     )
     {
@@ -5687,7 +5368,7 @@ extension DescribeLifecycleHookTypesOutputResponseBody: Swift.Decodable {
         case lifecycleHookTypes = "LifecycleHookTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLifecycleHookTypesResult"))
         if containerValues.contains(.lifecycleHookTypes) {
@@ -5748,7 +5429,7 @@ public struct DescribeLifecycleHooksInput: Swift.Equatable {
     /// The names of one or more lifecycle hooks. If you omit this property, all lifecycle hooks are described.
     public var lifecycleHookNames: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         lifecycleHookNames: [Swift.String]? = nil
     )
@@ -5769,7 +5450,7 @@ extension DescribeLifecycleHooksInputBody: Swift.Decodable {
         case lifecycleHookNames = "LifecycleHookNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -5795,30 +5476,19 @@ extension DescribeLifecycleHooksInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLifecycleHooksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeLifecycleHooksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLifecycleHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeLifecycleHooksOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLifecycleHooksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLifecycleHooksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycleHooks = output.lifecycleHooks
@@ -5832,7 +5502,7 @@ public struct DescribeLifecycleHooksOutputResponse: Swift.Equatable {
     /// The lifecycle hooks for the specified group.
     public var lifecycleHooks: [AutoScalingClientTypes.LifecycleHook]?
 
-    public init (
+    public init(
         lifecycleHooks: [AutoScalingClientTypes.LifecycleHook]? = nil
     )
     {
@@ -5849,7 +5519,7 @@ extension DescribeLifecycleHooksOutputResponseBody: Swift.Decodable {
         case lifecycleHooks = "LifecycleHooks"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLifecycleHooksResult"))
         if containerValues.contains(.lifecycleHooks) {
@@ -5906,7 +5576,7 @@ public struct DescribeLoadBalancerTargetGroupsInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5931,7 +5601,7 @@ extension DescribeLoadBalancerTargetGroupsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -5942,32 +5612,20 @@ extension DescribeLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeLoadBalancerTargetGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeLoadBalancerTargetGroupsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLoadBalancerTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLoadBalancerTargetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerTargetGroups = output.loadBalancerTargetGroups
@@ -5985,7 +5643,7 @@ public struct DescribeLoadBalancerTargetGroupsOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         loadBalancerTargetGroups: [AutoScalingClientTypes.LoadBalancerTargetGroupState]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6006,7 +5664,7 @@ extension DescribeLoadBalancerTargetGroupsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLoadBalancerTargetGroupsResult"))
         if containerValues.contains(.loadBalancerTargetGroups) {
@@ -6065,7 +5723,7 @@ public struct DescribeLoadBalancersInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -6090,7 +5748,7 @@ extension DescribeLoadBalancersInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -6101,32 +5759,20 @@ extension DescribeLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeLoadBalancersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeLoadBalancersOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancers = output.loadBalancers
@@ -6144,7 +5790,7 @@ public struct DescribeLoadBalancersOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         loadBalancers: [AutoScalingClientTypes.LoadBalancerState]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6165,7 +5811,7 @@ extension DescribeLoadBalancersOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLoadBalancersResult"))
         if containerValues.contains(.loadBalancers) {
@@ -6208,33 +5854,22 @@ extension DescribeMetricCollectionTypesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeMetricCollectionTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeMetricCollectionTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeMetricCollectionTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeMetricCollectionTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeMetricCollectionTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeMetricCollectionTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeMetricCollectionTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.granularities = output.granularities
@@ -6252,7 +5887,7 @@ public struct DescribeMetricCollectionTypesOutputResponse: Swift.Equatable {
     /// The metrics.
     public var metrics: [AutoScalingClientTypes.MetricCollectionType]?
 
-    public init (
+    public init(
         granularities: [AutoScalingClientTypes.MetricGranularityType]? = nil,
         metrics: [AutoScalingClientTypes.MetricCollectionType]? = nil
     )
@@ -6273,7 +5908,7 @@ extension DescribeMetricCollectionTypesOutputResponseBody: Swift.Decodable {
         case metrics = "Metrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeMetricCollectionTypesResult"))
         if containerValues.contains(.metrics) {
@@ -6357,7 +5992,7 @@ public struct DescribeNotificationConfigurationsInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupNames: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -6382,7 +6017,7 @@ extension DescribeNotificationConfigurationsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.autoScalingGroupNames) {
             struct KeyVal0{struct member{}}
@@ -6410,32 +6045,20 @@ extension DescribeNotificationConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeNotificationConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeNotificationConfigurationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeNotificationConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeNotificationConfigurationsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeNotificationConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeNotificationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6454,7 +6077,7 @@ public struct DescribeNotificationConfigurationsOutputResponse: Swift.Equatable 
     /// This member is required.
     public var notificationConfigurations: [AutoScalingClientTypes.NotificationConfiguration]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         notificationConfigurations: [AutoScalingClientTypes.NotificationConfiguration]? = nil
     )
@@ -6475,7 +6098,7 @@ extension DescribeNotificationConfigurationsOutputResponseBody: Swift.Decodable 
         case notificationConfigurations = "NotificationConfigurations"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeNotificationConfigurationsResult"))
         if containerValues.contains(.notificationConfigurations) {
@@ -6561,7 +6184,7 @@ public struct DescribePoliciesInput: Swift.Equatable {
     /// One or more policy types. The valid values are SimpleScaling, StepScaling, TargetTrackingScaling, and PredictiveScaling.
     public var policyTypes: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -6594,7 +6217,7 @@ extension DescribePoliciesInputBody: Swift.Decodable {
         case policyTypes = "PolicyTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -6643,34 +6266,21 @@ extension DescribePoliciesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribePoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribePoliciesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribePoliciesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -6688,7 +6298,7 @@ public struct DescribePoliciesOutputResponse: Swift.Equatable {
     /// The scaling policies.
     public var scalingPolicies: [AutoScalingClientTypes.ScalingPolicy]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         scalingPolicies: [AutoScalingClientTypes.ScalingPolicy]? = nil
     )
@@ -6709,7 +6319,7 @@ extension DescribePoliciesOutputResponseBody: Swift.Decodable {
         case scalingPolicies = "ScalingPolicies"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribePoliciesResult"))
         if containerValues.contains(.scalingPolicies) {
@@ -6786,7 +6396,7 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         activityIds: [Swift.String]? = nil,
         autoScalingGroupName: Swift.String? = nil,
         includeDeletedGroups: Swift.Bool? = nil,
@@ -6819,7 +6429,7 @@ extension DescribeScalingActivitiesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.activityIds) {
             struct KeyVal0{struct member{}}
@@ -6851,32 +6461,20 @@ extension DescribeScalingActivitiesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeScalingActivitiesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeScalingActivitiesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeScalingActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeScalingActivitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
@@ -6895,7 +6493,7 @@ public struct DescribeScalingActivitiesOutputResponse: Swift.Equatable {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         activities: [AutoScalingClientTypes.Activity]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6916,7 +6514,7 @@ extension DescribeScalingActivitiesOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeScalingActivitiesResult"))
         if containerValues.contains(.activities) {
@@ -6959,33 +6557,22 @@ extension DescribeScalingProcessTypesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeScalingProcessTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeScalingProcessTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeScalingProcessTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeScalingProcessTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeScalingProcessTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeScalingProcessTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeScalingProcessTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processes = output.processes
@@ -6999,7 +6586,7 @@ public struct DescribeScalingProcessTypesOutputResponse: Swift.Equatable {
     /// The names of the process types.
     public var processes: [AutoScalingClientTypes.ProcessType]?
 
-    public init (
+    public init(
         processes: [AutoScalingClientTypes.ProcessType]? = nil
     )
     {
@@ -7016,7 +6603,7 @@ extension DescribeScalingProcessTypesOutputResponseBody: Swift.Decodable {
         case processes = "Processes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeScalingProcessTypesResult"))
         if containerValues.contains(.processes) {
@@ -7096,7 +6683,7 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// The earliest scheduled start time to return. If scheduled action names are provided, this property is ignored.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         maxRecords: Swift.Int? = nil,
@@ -7133,7 +6720,7 @@ extension DescribeScheduledActionsInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -7167,32 +6754,20 @@ extension DescribeScheduledActionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeScheduledActionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeScheduledActionsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeScheduledActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7210,7 +6785,7 @@ public struct DescribeScheduledActionsOutputResponse: Swift.Equatable {
     /// The scheduled actions.
     public var scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupAction]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupAction]? = nil
     )
@@ -7231,7 +6806,7 @@ extension DescribeScheduledActionsOutputResponseBody: Swift.Decodable {
         case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeScheduledActionsResult"))
         if containerValues.contains(.scheduledUpdateGroupActions) {
@@ -7298,7 +6873,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [AutoScalingClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7323,7 +6898,7 @@ extension DescribeTagsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.filters) {
             struct KeyVal0{struct member{}}
@@ -7351,32 +6926,20 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeTagsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeTagsOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7394,7 +6957,7 @@ public struct DescribeTagsOutputResponse: Swift.Equatable {
     /// One or more tags.
     public var tags: [AutoScalingClientTypes.TagDescription]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         tags: [AutoScalingClientTypes.TagDescription]? = nil
     )
@@ -7415,7 +6978,7 @@ extension DescribeTagsOutputResponseBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTagsResult"))
         if containerValues.contains(.tags) {
@@ -7458,33 +7021,22 @@ extension DescribeTerminationPolicyTypesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeTerminationPolicyTypesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeTerminationPolicyTypesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeTerminationPolicyTypesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTerminationPolicyTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeTerminationPolicyTypesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTerminationPolicyTypesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTerminationPolicyTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.terminationPolicyTypes = output.terminationPolicyTypes
@@ -7498,7 +7050,7 @@ public struct DescribeTerminationPolicyTypesOutputResponse: Swift.Equatable {
     /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
     public var terminationPolicyTypes: [Swift.String]?
 
-    public init (
+    public init(
         terminationPolicyTypes: [Swift.String]? = nil
     )
     {
@@ -7515,7 +7067,7 @@ extension DescribeTerminationPolicyTypesOutputResponseBody: Swift.Decodable {
         case terminationPolicyTypes = "TerminationPolicyTypes"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTerminationPolicyTypesResult"))
         if containerValues.contains(.terminationPolicyTypes) {
@@ -7583,7 +7135,7 @@ public struct DescribeTrafficSourcesInput: Swift.Equatable {
     /// * vpc-lattice if the traffic source is VPC Lattice.
     public var trafficSourceType: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -7612,7 +7164,7 @@ extension DescribeTrafficSourcesInputBody: Swift.Decodable {
         case trafficSourceType = "TrafficSourceType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -7625,32 +7177,20 @@ extension DescribeTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeTrafficSourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeTrafficSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -7668,7 +7208,7 @@ public struct DescribeTrafficSourcesOutputResponse: Swift.Equatable {
     /// Information about the traffic sources.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceState]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceState]? = nil
     )
@@ -7689,7 +7229,7 @@ extension DescribeTrafficSourcesOutputResponseBody: Swift.Decodable {
         case trafficSources = "TrafficSources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTrafficSourcesResult"))
         if containerValues.contains(.trafficSources) {
@@ -7748,7 +7288,7 @@ public struct DescribeWarmPoolInput: Swift.Equatable {
     /// The token for the next set of instances to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -7773,7 +7313,7 @@ extension DescribeWarmPoolInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -7784,34 +7324,21 @@ extension DescribeWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeWarmPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeWarmPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeWarmPoolOutputError: Swift.Error, Swift.Equatable {
-    case invalidNextToken(InvalidNextToken)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeWarmPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeWarmPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
@@ -7833,7 +7360,7 @@ public struct DescribeWarmPoolOutputResponse: Swift.Equatable {
     /// The warm pool configuration details.
     public var warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration?
 
-    public init (
+    public init(
         instances: [AutoScalingClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil,
         warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration? = nil
@@ -7858,7 +7385,7 @@ extension DescribeWarmPoolOutputResponseBody: Swift.Decodable {
         case warmPoolConfiguration = "WarmPoolConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeWarmPoolResult"))
         let warmPoolConfigurationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.WarmPoolConfiguration.self, forKey: .warmPoolConfiguration)
@@ -7903,7 +7430,7 @@ extension AutoScalingClientTypes.DesiredConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchTemplateDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.LaunchTemplateSpecification.self, forKey: .launchTemplate)
         launchTemplate = launchTemplateDecoded
@@ -7920,7 +7447,7 @@ extension AutoScalingClientTypes {
         /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
 
-        public init (
+        public init(
             launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy? = nil
         )
@@ -7974,7 +7501,7 @@ public struct DetachInstancesInput: Swift.Equatable {
     /// This member is required.
     public var shouldDecrementDesiredCapacity: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
@@ -7999,7 +7526,7 @@ extension DetachInstancesInputBody: Swift.Decodable {
         case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -8027,30 +7554,19 @@ extension DetachInstancesInputBody: Swift.Decodable {
     }
 }
 
-extension DetachInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetachInstancesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetachInstancesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetachInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetachInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
@@ -8064,7 +7580,7 @@ public struct DetachInstancesOutputResponse: Swift.Equatable {
     /// The activities related to detaching the instances from the Auto Scaling group.
     public var activities: [AutoScalingClientTypes.Activity]?
 
-    public init (
+    public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
     )
     {
@@ -8081,7 +7597,7 @@ extension DetachInstancesOutputResponseBody: Swift.Decodable {
         case activities = "Activities"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DetachInstancesResult"))
         if containerValues.contains(.activities) {
@@ -8143,7 +7659,7 @@ public struct DetachLoadBalancerTargetGroupsInput: Swift.Equatable {
     /// This member is required.
     public var targetGroupARNs: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         targetGroupARNs: [Swift.String]? = nil
     )
@@ -8164,7 +7680,7 @@ extension DetachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
         case targetGroupARNs = "TargetGroupARNs"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -8190,35 +7706,24 @@ extension DetachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-extension DetachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetachLoadBalancerTargetGroupsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetachLoadBalancerTargetGroupsOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetachLoadBalancerTargetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DetachLoadBalancerTargetGroupsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DetachLoadBalancersInput: Swift.Encodable {
@@ -8258,7 +7763,7 @@ public struct DetachLoadBalancersInput: Swift.Equatable {
     /// This member is required.
     public var loadBalancerNames: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         loadBalancerNames: [Swift.String]? = nil
     )
@@ -8279,7 +7784,7 @@ extension DetachLoadBalancersInputBody: Swift.Decodable {
         case loadBalancerNames = "LoadBalancerNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -8305,35 +7810,24 @@ extension DetachLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-extension DetachLoadBalancersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetachLoadBalancersOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetachLoadBalancersOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetachLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DetachLoadBalancersOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DetachTrafficSourcesInput: Swift.Encodable {
@@ -8373,7 +7867,7 @@ public struct DetachTrafficSourcesInput: Swift.Equatable {
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
     )
@@ -8394,7 +7888,7 @@ extension DetachTrafficSourcesInputBody: Swift.Decodable {
         case trafficSources = "TrafficSources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -8420,35 +7914,24 @@ extension DetachTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-extension DetachTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DetachTrafficSourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DetachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DetachTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DetachTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DetachTrafficSourcesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DisableMetricsCollectionInput: Swift.Encodable {
@@ -8530,7 +8013,7 @@ public struct DisableMetricsCollectionInput: Swift.Equatable {
     /// If you omit this property, all metrics are disabled. For more information, see [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics) in the Amazon EC2 Auto Scaling User Guide.
     public var metrics: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         metrics: [Swift.String]? = nil
     )
@@ -8551,7 +8034,7 @@ extension DisableMetricsCollectionInputBody: Swift.Decodable {
         case metrics = "Metrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -8577,35 +8060,24 @@ extension DisableMetricsCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension DisableMetricsCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DisableMetricsCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DisableMetricsCollectionOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisableMetricsCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisableMetricsCollectionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.Ebs: Swift.Codable {
@@ -8644,7 +8116,7 @@ extension AutoScalingClientTypes.Ebs: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
@@ -8699,7 +8171,7 @@ extension AutoScalingClientTypes {
         /// The volume type. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html) in the Amazon EC2 User Guide for Linux Instances. Valid values: standard | io1 | gp2 | st1 | sc1 | gp3
         public var volumeType: Swift.String?
 
-        public init (
+        public init(
             deleteOnTermination: Swift.Bool? = nil,
             encrypted: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
@@ -8806,7 +8278,7 @@ public struct EnableMetricsCollectionInput: Swift.Equatable {
     /// If you specify Granularity and don't specify any metrics, all metrics are enabled. For more information, see [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics) in the Amazon EC2 Auto Scaling User Guide.
     public var metrics: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         granularity: Swift.String? = nil,
         metrics: [Swift.String]? = nil
@@ -8831,7 +8303,7 @@ extension EnableMetricsCollectionInputBody: Swift.Decodable {
         case metrics = "Metrics"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -8859,35 +8331,24 @@ extension EnableMetricsCollectionInputBody: Swift.Decodable {
     }
 }
 
-extension EnableMetricsCollectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension EnableMetricsCollectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum EnableMetricsCollectionOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnableMetricsCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct EnableMetricsCollectionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.EnabledMetric: Swift.Codable {
@@ -8906,7 +8367,7 @@ extension AutoScalingClientTypes.EnabledMetric: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -8966,7 +8427,7 @@ extension AutoScalingClientTypes {
         /// For more information, see [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics) in the Amazon EC2 Auto Scaling User Guide.
         public var metric: Swift.String?
 
-        public init (
+        public init(
             granularity: Swift.String? = nil,
             metric: Swift.String? = nil
         )
@@ -9020,7 +8481,7 @@ public struct EnterStandbyInput: Swift.Equatable {
     /// This member is required.
     public var shouldDecrementDesiredCapacity: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
@@ -9045,7 +8506,7 @@ extension EnterStandbyInputBody: Swift.Decodable {
         case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -9073,30 +8534,19 @@ extension EnterStandbyInputBody: Swift.Decodable {
     }
 }
 
-extension EnterStandbyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension EnterStandbyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum EnterStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum EnterStandbyOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension EnterStandbyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: EnterStandbyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
@@ -9110,7 +8560,7 @@ public struct EnterStandbyOutputResponse: Swift.Equatable {
     /// The activities related to moving instances into Standby mode.
     public var activities: [AutoScalingClientTypes.Activity]?
 
-    public init (
+    public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
     )
     {
@@ -9127,7 +8577,7 @@ extension EnterStandbyOutputResponseBody: Swift.Decodable {
         case activities = "Activities"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("EnterStandbyResult"))
         if containerValues.contains(.activities) {
@@ -9194,7 +8644,7 @@ public struct ExecutePolicyInput: Swift.Equatable {
     /// This member is required.
     public var policyName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         breachThreshold: Swift.Double? = nil,
         honorCooldown: Swift.Bool? = nil,
@@ -9227,7 +8677,7 @@ extension ExecutePolicyInputBody: Swift.Decodable {
         case policyName = "PolicyName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -9242,37 +8692,25 @@ extension ExecutePolicyInputBody: Swift.Decodable {
     }
 }
 
-extension ExecutePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ExecutePolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExecutePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ExecutePolicyOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExecutePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ExecutePolicyOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ExitStandbyInput: Swift.Encodable {
@@ -9311,7 +8749,7 @@ public struct ExitStandbyInput: Swift.Equatable {
     /// The IDs of the instances. You can specify up to 20 instances.
     public var instanceIds: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
     )
@@ -9332,7 +8770,7 @@ extension ExitStandbyInputBody: Swift.Decodable {
         case instanceIds = "InstanceIds"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -9358,30 +8796,19 @@ extension ExitStandbyInputBody: Swift.Decodable {
     }
 }
 
-extension ExitStandbyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ExitStandbyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ExitStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ExitStandbyOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ExitStandbyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExitStandbyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
@@ -9395,7 +8822,7 @@ public struct ExitStandbyOutputResponse: Swift.Equatable {
     /// The activities related to moving instances out of Standby mode.
     public var activities: [AutoScalingClientTypes.Activity]?
 
-    public init (
+    public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
     )
     {
@@ -9412,7 +8839,7 @@ extension ExitStandbyOutputResponseBody: Swift.Decodable {
         case activities = "Activities"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ExitStandbyResult"))
         if containerValues.contains(.activities) {
@@ -9457,7 +8884,7 @@ extension AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledActionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduledActionName)
         scheduledActionName = scheduledActionNameDecoded
@@ -9479,7 +8906,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var scheduledActionName: Swift.String?
 
-        public init (
+        public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil
@@ -9518,7 +8945,7 @@ extension AutoScalingClientTypes.Filter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9569,7 +8996,7 @@ extension AutoScalingClientTypes {
         /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. For example, specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development".
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
         )
@@ -9621,7 +9048,7 @@ public struct GetPredictiveScalingForecastInput: Swift.Equatable {
     /// This member is required.
     public var startTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         policyName: Swift.String? = nil,
@@ -9650,7 +9077,7 @@ extension GetPredictiveScalingForecastInputBody: Swift.Decodable {
         case startTime = "StartTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -9663,30 +9090,19 @@ extension GetPredictiveScalingForecastInputBody: Swift.Decodable {
     }
 }
 
-extension GetPredictiveScalingForecastOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension GetPredictiveScalingForecastOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetPredictiveScalingForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum GetPredictiveScalingForecastOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetPredictiveScalingForecastOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetPredictiveScalingForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacityForecast = output.capacityForecast
@@ -9711,7 +9127,7 @@ public struct GetPredictiveScalingForecastOutputResponse: Swift.Equatable {
     /// This member is required.
     public var updateTime: ClientRuntime.Date?
 
-    public init (
+    public init(
         capacityForecast: AutoScalingClientTypes.CapacityForecast? = nil,
         loadForecast: [AutoScalingClientTypes.LoadForecast]? = nil,
         updateTime: ClientRuntime.Date? = nil
@@ -9736,7 +9152,7 @@ extension GetPredictiveScalingForecastOutputResponseBody: Swift.Decodable {
         case updateTime = "UpdateTime"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetPredictiveScalingForecastResult"))
         if containerValues.contains(.loadForecast) {
@@ -9809,7 +9225,7 @@ extension AutoScalingClientTypes.Instance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -9859,7 +9275,7 @@ extension AutoScalingClientTypes {
         /// The number of capacity units contributed by the instance based on its instance type. Valid Range: Minimum value of 1. Maximum value of 999.
         public var weightedCapacity: Swift.String?
 
-        public init (
+        public init(
             availabilityZone: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -10001,7 +9417,7 @@ extension AutoScalingClientTypes.InstanceMetadataOptions: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let httpTokensDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceMetadataHttpTokensState.self, forKey: .httpTokens)
         httpTokens = httpTokensDecoded
@@ -10022,7 +9438,7 @@ extension AutoScalingClientTypes {
         /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
         public var httpTokens: AutoScalingClientTypes.InstanceMetadataHttpTokensState?
 
-        public init (
+        public init(
             httpEndpoint: AutoScalingClientTypes.InstanceMetadataEndpointState? = nil,
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: AutoScalingClientTypes.InstanceMetadataHttpTokensState? = nil
@@ -10048,7 +9464,7 @@ extension AutoScalingClientTypes.InstanceMonitoring: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -10061,7 +9477,7 @@ extension AutoScalingClientTypes {
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
 
-        public init (
+        public init(
             enabled: Swift.Bool? = nil
         )
         {
@@ -10127,7 +9543,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceRefreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRefreshId)
         instanceRefreshId = instanceRefreshIdDecoded
@@ -10202,7 +9618,7 @@ extension AutoScalingClientTypes {
         /// The explanation for the specific status assigned to this operation.
         public var statusReason: Swift.String?
 
-        public init (
+        public init(
             autoScalingGroupName: Swift.String? = nil,
             desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -10235,37 +9651,40 @@ extension AutoScalingClientTypes {
 }
 
 extension InstanceRefreshInProgressFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InstanceRefreshInProgressFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
-public struct InstanceRefreshInProgressFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceRefreshInProgress" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10278,7 +9697,7 @@ extension InstanceRefreshInProgressFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10301,7 +9720,7 @@ extension AutoScalingClientTypes.InstanceRefreshLivePoolProgress: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
@@ -10318,7 +9737,7 @@ extension AutoScalingClientTypes {
         /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public var percentageComplete: Swift.Int?
 
-        public init (
+        public init(
             instancesToUpdate: Swift.Int? = nil,
             percentageComplete: Swift.Int? = nil
         )
@@ -10346,7 +9765,7 @@ extension AutoScalingClientTypes.InstanceRefreshProgressDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let livePoolProgressDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceRefreshLivePoolProgress.self, forKey: .livePoolProgress)
         livePoolProgress = livePoolProgressDecoded
@@ -10363,7 +9782,7 @@ extension AutoScalingClientTypes {
         /// Reports progress on replacing instances that are in the warm pool.
         public var warmPoolProgress: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress?
 
-        public init (
+        public init(
             livePoolProgress: AutoScalingClientTypes.InstanceRefreshLivePoolProgress? = nil,
             warmPoolProgress: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress? = nil
         )
@@ -10444,7 +9863,7 @@ extension AutoScalingClientTypes.InstanceRefreshWarmPoolProgress: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let percentageCompleteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentageComplete)
         percentageComplete = percentageCompleteDecoded
@@ -10461,7 +9880,7 @@ extension AutoScalingClientTypes {
         /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public var percentageComplete: Swift.Int?
 
-        public init (
+        public init(
             instancesToUpdate: Swift.Int? = nil,
             percentageComplete: Swift.Int? = nil
         )
@@ -10645,7 +10064,7 @@ extension AutoScalingClientTypes.InstanceRequirements: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vCpuCountDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.VCpuCountRequest.self, forKey: .vCpuCount)
         vCpuCount = vCpuCountDecoded
@@ -10951,7 +10370,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var vCpuCount: AutoScalingClientTypes.VCpuCountRequest?
 
-        public init (
+        public init(
             acceleratorCount: AutoScalingClientTypes.AcceleratorCountRequest? = nil,
             acceleratorManufacturers: [AutoScalingClientTypes.AcceleratorManufacturer]? = nil,
             acceleratorNames: [AutoScalingClientTypes.AcceleratorName]? = nil,
@@ -11017,7 +10436,7 @@ extension AutoScalingClientTypes.InstanceReusePolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let reuseOnScaleInDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reuseOnScaleIn)
         reuseOnScaleIn = reuseOnScaleInDecoded
@@ -11030,7 +10449,7 @@ extension AutoScalingClientTypes {
         /// Specifies whether instances in the Auto Scaling group can be returned to the warm pool on scale in.
         public var reuseOnScaleIn: Swift.Bool?
 
-        public init (
+        public init(
             reuseOnScaleIn: Swift.Bool? = nil
         )
         {
@@ -11072,7 +10491,7 @@ extension AutoScalingClientTypes.InstancesDistribution: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let onDemandAllocationStrategyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onDemandAllocationStrategy)
         onDemandAllocationStrategy = onDemandAllocationStrategyDecoded
@@ -11105,7 +10524,7 @@ extension AutoScalingClientTypes {
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If your maximum price is lower than the Spot price for the instance types that you selected, your Spot Instances are not launched. We do not recommend specifying a maximum price because it can lead to increased interruptions. When Spot Instances launch, you pay the current Spot price. To remove a maximum price that you previously set, include the property but specify an empty string ("") for the value. If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify one. Valid Range: Minimum value of 0.001
         public var spotMaxPrice: Swift.String?
 
-        public init (
+        public init(
             onDemandAllocationStrategy: Swift.String? = nil,
             onDemandBaseCapacity: Swift.Int? = nil,
             onDemandPercentageAboveBaseCapacity: Swift.Int? = nil,
@@ -11126,38 +10545,41 @@ extension AutoScalingClientTypes {
 }
 
 extension InvalidNextToken {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNextTokenBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The NextToken value is not valid.
-public struct InvalidNextToken: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    ///
-    public var message: Swift.String?
+public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextToken" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11170,7 +10592,7 @@ extension InvalidNextTokenBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11178,37 +10600,40 @@ extension InvalidNextTokenBody: Swift.Decodable {
 }
 
 extension IrreversibleInstanceRefreshFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<IrreversibleInstanceRefreshFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The request failed because a desired configuration was not found or an incompatible launch template (uses a Systems Manager parameter instead of an AMI ID) or launch template version ($Latest or $Default) is present on the Auto Scaling group.
-public struct IrreversibleInstanceRefreshFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    public var message: Swift.String?
+public struct IrreversibleInstanceRefreshFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IrreversibleInstanceRefresh" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11221,7 +10646,7 @@ extension IrreversibleInstanceRefreshFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11343,7 +10768,7 @@ extension AutoScalingClientTypes.LaunchConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationName)
         launchConfigurationName = launchConfigurationNameDecoded
@@ -11487,7 +10912,7 @@ extension AutoScalingClientTypes {
         /// The user data to make available to the launched EC2 instances. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) (Linux) and [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html) (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public var userData: Swift.String?
 
-        public init (
+        public init(
             associatePublicIpAddress: Swift.Bool? = nil,
             blockDeviceMappings: [AutoScalingClientTypes.BlockDeviceMapping]? = nil,
             classicLinkVPCId: Swift.String? = nil,
@@ -11560,7 +10985,7 @@ extension AutoScalingClientTypes.LaunchTemplate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchTemplateSpecificationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.LaunchTemplateSpecification.self, forKey: .launchTemplateSpecification)
         launchTemplateSpecification = launchTemplateSpecificationDecoded
@@ -11594,7 +11019,7 @@ extension AutoScalingClientTypes {
         /// Any properties that you specify override the same properties in the launch template.
         public var overrides: [AutoScalingClientTypes.LaunchTemplateOverrides]?
 
-        public init (
+        public init(
             launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             overrides: [AutoScalingClientTypes.LaunchTemplateOverrides]? = nil
         )
@@ -11630,7 +11055,7 @@ extension AutoScalingClientTypes.LaunchTemplateOverrides: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
@@ -11662,7 +11087,7 @@ extension AutoScalingClientTypes {
         /// If you provide a list of instance types to use, you can specify the number of capacity units provided by each instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see [Configuring instance weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999. If you specify a value for WeightedCapacity for one instance type, you must specify a value for WeightedCapacity for all of them. Every Auto Scaling group has three size parameters (DesiredCapacity, MaxSize, and MinSize). Usually, you set these sizes based on a specific number of instances. However, if you configure a mixed instances policy that defines weights for the instance types, you must specify these sizes with the same units that you use for weighting instances.
         public var weightedCapacity: Swift.String?
 
-        public init (
+        public init(
             instanceRequirements: AutoScalingClientTypes.InstanceRequirements? = nil,
             instanceType: Swift.String? = nil,
             launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
@@ -11698,7 +11123,7 @@ extension AutoScalingClientTypes.LaunchTemplateSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchTemplateId)
         launchTemplateId = launchTemplateIdDecoded
@@ -11719,7 +11144,7 @@ extension AutoScalingClientTypes {
         /// The version number, $Latest, or $Default. To get the version number, use the Amazon EC2 [DescribeLaunchTemplateVersions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplateVersions.html) API operation. New launch template versions can be created using the Amazon EC2 [CreateLaunchTemplateVersion](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplateVersion.html) API. If the value is $Latest, Amazon EC2 Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Amazon EC2 Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
         public var version: Swift.String?
 
-        public init (
+        public init(
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
@@ -11777,7 +11202,7 @@ extension AutoScalingClientTypes.LifecycleHook: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -11822,7 +11247,7 @@ extension AutoScalingClientTypes {
         /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target (an Amazon SNS topic or an Amazon SQS queue).
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             autoScalingGroupName: Swift.String? = nil,
             defaultResult: Swift.String? = nil,
             globalTimeout: Swift.Int? = nil,
@@ -11884,7 +11309,7 @@ extension AutoScalingClientTypes.LifecycleHookSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -11927,7 +11352,7 @@ extension AutoScalingClientTypes {
         /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. For information about creating this role, see [Configure a notification target for a lifecycle hook](https://docs.aws.amazon.com/autoscaling/ec2/userguide/prepare-for-lifecycle-notifications.html#lifecycle-hook-notification-target) in the Amazon EC2 Auto Scaling User Guide. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue.
         public var roleARN: Swift.String?
 
-        public init (
+        public init(
             defaultResult: Swift.String? = nil,
             heartbeatTimeout: Swift.Int? = nil,
             lifecycleHookName: Swift.String? = nil,
@@ -12045,38 +11470,41 @@ extension AutoScalingClientTypes {
 }
 
 extension LimitExceededFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
-public struct LimitExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    ///
-    public var message: Swift.String?
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12089,7 +11517,7 @@ extension LimitExceededFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12112,7 +11540,7 @@ extension AutoScalingClientTypes.LoadBalancerState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
@@ -12139,7 +11567,7 @@ extension AutoScalingClientTypes {
         /// * Removed - All Auto Scaling instances are deregistered from the load balancer.
         public var state: Swift.String?
 
-        public init (
+        public init(
             loadBalancerName: Swift.String? = nil,
             state: Swift.String? = nil
         )
@@ -12167,7 +11595,7 @@ extension AutoScalingClientTypes.LoadBalancerTargetGroupState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerTargetGroupARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerTargetGroupARN)
         loadBalancerTargetGroupARN = loadBalancerTargetGroupARNDecoded
@@ -12194,7 +11622,7 @@ extension AutoScalingClientTypes {
         /// * Removed - All Auto Scaling instances are deregistered from the target group.
         public var state: Swift.String?
 
-        public init (
+        public init(
             loadBalancerTargetGroupARN: Swift.String? = nil,
             state: Swift.String? = nil
         )
@@ -12244,7 +11672,7 @@ extension AutoScalingClientTypes.LoadForecast: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.timestamps) {
             struct KeyVal0{struct member{}}
@@ -12302,7 +11730,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var values: [Swift.Double]?
 
-        public init (
+        public init(
             metricSpecification: AutoScalingClientTypes.PredictiveScalingMetricSpecification? = nil,
             timestamps: [ClientRuntime.Date]? = nil,
             values: [Swift.Double]? = nil
@@ -12399,7 +11827,7 @@ extension AutoScalingClientTypes.MemoryGiBPerVCpuRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
         min = minDecoded
@@ -12416,7 +11844,7 @@ extension AutoScalingClientTypes {
         /// The memory minimum in GiB.
         public var min: Swift.Double?
 
-        public init (
+        public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
         )
@@ -12444,7 +11872,7 @@ extension AutoScalingClientTypes.MemoryMiBRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -12462,7 +11890,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -12503,7 +11931,7 @@ extension AutoScalingClientTypes.Metric: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
@@ -12543,7 +11971,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var namespace: Swift.String?
 
-        public init (
+        public init(
             dimensions: [AutoScalingClientTypes.MetricDimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
@@ -12569,7 +11997,7 @@ extension AutoScalingClientTypes.MetricCollectionType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
         metric = metricDecoded
@@ -12622,7 +12050,7 @@ extension AutoScalingClientTypes {
         /// * GroupAndWarmPoolTotalCapacity
         public var metric: Swift.String?
 
-        public init (
+        public init(
             metric: Swift.String? = nil
         )
         {
@@ -12660,7 +12088,7 @@ extension AutoScalingClientTypes.MetricDataQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -12690,7 +12118,7 @@ extension AutoScalingClientTypes {
         /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public var returnData: Swift.Bool?
 
-        public init (
+        public init(
             expression: Swift.String? = nil,
             id: Swift.String? = nil,
             label: Swift.String? = nil,
@@ -12724,7 +12152,7 @@ extension AutoScalingClientTypes.MetricDimension: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -12743,7 +12171,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var value: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12767,7 +12195,7 @@ extension AutoScalingClientTypes.MetricGranularityType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let granularityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .granularity)
         granularity = granularityDecoded
@@ -12780,7 +12208,7 @@ extension AutoScalingClientTypes {
         /// The granularity. The only valid value is 1Minute.
         public var granularity: Swift.String?
 
-        public init (
+        public init(
             granularity: Swift.String? = nil
         )
         {
@@ -12810,7 +12238,7 @@ extension AutoScalingClientTypes.MetricStat: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.Metric.self, forKey: .metric)
         metric = metricDecoded
@@ -12833,7 +12261,7 @@ extension AutoScalingClientTypes {
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
 
-        public init (
+        public init(
             metric: AutoScalingClientTypes.Metric? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
@@ -12942,7 +12370,7 @@ extension AutoScalingClientTypes.MixedInstancesPolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let launchTemplateDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.LaunchTemplate.self, forKey: .launchTemplate)
         launchTemplate = launchTemplateDecoded
@@ -12959,7 +12387,7 @@ extension AutoScalingClientTypes {
         /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill On-Demand and Spot capacities.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplate?
 
-        public init (
+        public init(
             instancesDistribution: AutoScalingClientTypes.InstancesDistribution? = nil,
             launchTemplate: AutoScalingClientTypes.LaunchTemplate? = nil
         )
@@ -12987,7 +12415,7 @@ extension AutoScalingClientTypes.NetworkBandwidthGbpsRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
         min = minDecoded
@@ -13004,7 +12432,7 @@ extension AutoScalingClientTypes {
         /// The minimum amount of network bandwidth, in gigabits per second (Gbps).
         public var min: Swift.Double?
 
-        public init (
+        public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
         )
@@ -13032,7 +12460,7 @@ extension AutoScalingClientTypes.NetworkInterfaceCountRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -13049,7 +12477,7 @@ extension AutoScalingClientTypes {
         /// The minimum number of network interfaces.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -13081,7 +12509,7 @@ extension AutoScalingClientTypes.NotificationConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -13112,7 +12540,7 @@ extension AutoScalingClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
         public var topicARN: Swift.String?
 
-        public init (
+        public init(
             autoScalingGroupName: Swift.String? = nil,
             notificationType: Swift.String? = nil,
             topicARN: Swift.String? = nil
@@ -13218,7 +12646,7 @@ extension AutoScalingClientTypes.PredefinedMetricSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedMetricTypeDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.MetricType.self, forKey: .predefinedMetricType)
         predefinedMetricType = predefinedMetricTypeDecoded
@@ -13251,7 +12679,7 @@ extension AutoScalingClientTypes {
         /// To find the ARN for an Application Load Balancer, use the [DescribeLoadBalancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html) API operation. To find the ARN for the target group, use the [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
         public var resourceLabel: Swift.String?
 
-        public init (
+        public init(
             predefinedMetricType: AutoScalingClientTypes.MetricType? = nil,
             resourceLabel: Swift.String? = nil
         )
@@ -13338,7 +12766,7 @@ extension AutoScalingClientTypes.PredictiveScalingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.metricSpecifications) {
             struct KeyVal0{struct member{}}
@@ -13389,7 +12817,7 @@ extension AutoScalingClientTypes {
         /// The amount of time, in seconds, by which the instance launch time can be advanced. For example, the forecast says to add capacity at 10:00 AM, and you choose to pre-launch instances by 5 minutes. In that case, the instances will be launched at 9:55 AM. The intention is to give resources time to be provisioned. It can take a few minutes to launch an EC2 instance. The actual amount of time required depends on several factors, such as the size of the instance and whether there are startup scripts to complete. The value must be less than the forecast interval duration of 3600 seconds (60 minutes). Defaults to 300 seconds if not specified.
         public var schedulingBufferTime: Swift.Int?
 
-        public init (
+        public init(
             maxCapacityBreachBehavior: AutoScalingClientTypes.PredictiveScalingMaxCapacityBreachBehavior? = nil,
             maxCapacityBuffer: Swift.Int? = nil,
             metricSpecifications: [AutoScalingClientTypes.PredictiveScalingMetricSpecification]? = nil,
@@ -13428,7 +12856,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric: Swif
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.metricDataQueries) {
             struct KeyVal0{struct member{}}
@@ -13459,7 +12887,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
 
-        public init (
+        public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
         )
         {
@@ -13490,7 +12918,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.metricDataQueries) {
             struct KeyVal0{struct member{}}
@@ -13521,7 +12949,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
 
-        public init (
+        public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
         )
         {
@@ -13552,7 +12980,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.metricDataQueries) {
             struct KeyVal0{struct member{}}
@@ -13583,7 +13011,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
 
-        public init (
+        public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
         )
         {
@@ -13661,7 +13089,7 @@ extension AutoScalingClientTypes.PredictiveScalingMetricSpecification: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue)
         targetValue = targetValueDecoded
@@ -13712,7 +13140,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var targetValue: Swift.Double?
 
-        public init (
+        public init(
             customizedCapacityMetricSpecification: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric? = nil,
             customizedLoadMetricSpecification: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric? = nil,
             customizedScalingMetricSpecification: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric? = nil,
@@ -13782,7 +13210,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedMetricTypeDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.PredefinedLoadMetricType.self, forKey: .predefinedMetricType)
         predefinedMetricType = predefinedMetricTypeDecoded
@@ -13807,7 +13235,7 @@ extension AutoScalingClientTypes {
         /// To find the ARN for an Application Load Balancer, use the [DescribeLoadBalancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html) API operation. To find the ARN for the target group, use the [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
         public var resourceLabel: Swift.String?
 
-        public init (
+        public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedLoadMetricType? = nil,
             resourceLabel: Swift.String? = nil
         )
@@ -13835,7 +13263,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedMetricTypeDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.PredefinedMetricPairType.self, forKey: .predefinedMetricType)
         predefinedMetricType = predefinedMetricTypeDecoded
@@ -13860,7 +13288,7 @@ extension AutoScalingClientTypes {
         /// To find the ARN for an Application Load Balancer, use the [DescribeLoadBalancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html) API operation. To find the ARN for the target group, use the [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
         public var resourceLabel: Swift.String?
 
-        public init (
+        public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedMetricPairType? = nil,
             resourceLabel: Swift.String? = nil
         )
@@ -13888,7 +13316,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric: Swift
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedMetricTypeDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.PredefinedScalingMetricType.self, forKey: .predefinedMetricType)
         predefinedMetricType = predefinedMetricTypeDecoded
@@ -13913,7 +13341,7 @@ extension AutoScalingClientTypes {
         /// To find the ARN for an Application Load Balancer, use the [DescribeLoadBalancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html) API operation. To find the ARN for the target group, use the [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
         public var resourceLabel: Swift.String?
 
-        public init (
+        public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedScalingMetricType? = nil,
             resourceLabel: Swift.String? = nil
         )
@@ -13937,7 +13365,7 @@ extension AutoScalingClientTypes.ProcessType: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let processNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .processName)
         processName = processNameDecoded
@@ -13969,7 +13397,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var processName: Swift.String?
 
-        public init (
+        public init(
             processName: Swift.String? = nil
         )
         {
@@ -14044,7 +13472,7 @@ public struct PutLifecycleHookInput: Swift.Equatable {
     /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks.
     public var roleARN: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         defaultResult: Swift.String? = nil,
         heartbeatTimeout: Swift.Int? = nil,
@@ -14089,7 +13517,7 @@ extension PutLifecycleHookInputBody: Swift.Decodable {
         case roleARN = "RoleARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -14110,37 +13538,25 @@ extension PutLifecycleHookInputBody: Swift.Decodable {
     }
 }
 
-extension PutLifecycleHookOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PutLifecycleHookOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PutLifecycleHookOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutLifecycleHookOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutLifecycleHookOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutNotificationConfigurationInput: Swift.Encodable {
@@ -14186,7 +13602,7 @@ public struct PutNotificationConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var topicARN: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         notificationTypes: [Swift.String]? = nil,
         topicARN: Swift.String? = nil
@@ -14211,7 +13627,7 @@ extension PutNotificationConfigurationInputBody: Swift.Decodable {
         case topicARN = "TopicARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -14239,39 +13655,26 @@ extension PutNotificationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension PutNotificationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PutNotificationConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PutNotificationConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutNotificationConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutScalingPolicyInput: Swift.Encodable {
@@ -14391,7 +13794,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel property with the PredefinedMetricSpecification. For more information, see [TargetTrackingConfiguration](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_TargetTrackingConfiguration.html) in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
     public var targetTrackingConfiguration: AutoScalingClientTypes.TargetTrackingConfiguration?
 
-    public init (
+    public init(
         adjustmentType: Swift.String? = nil,
         autoScalingGroupName: Swift.String? = nil,
         cooldown: Swift.Int? = nil,
@@ -14460,7 +13863,7 @@ extension PutScalingPolicyInputBody: Swift.Decodable {
         case targetTrackingConfiguration = "TargetTrackingConfiguration"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -14510,34 +13913,21 @@ extension PutScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-extension PutScalingPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PutScalingPolicyOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PutScalingPolicyOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarms = output.alarms
@@ -14556,7 +13946,7 @@ public struct PutScalingPolicyOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the policy.
     public var policyARN: Swift.String?
 
-    public init (
+    public init(
         alarms: [AutoScalingClientTypes.Alarm]? = nil,
         policyARN: Swift.String? = nil
     )
@@ -14577,7 +13967,7 @@ extension PutScalingPolicyOutputResponseBody: Swift.Decodable {
         case policyARN = "PolicyARN"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PutScalingPolicyResult"))
         let policyARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyARN)
@@ -14672,7 +14062,7 @@ public struct PutScheduledUpdateGroupActionInput: Swift.Equatable {
     /// Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
     public var timeZone: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         desiredCapacity: Swift.Int? = nil,
         endTime: ClientRuntime.Date? = nil,
@@ -14725,7 +14115,7 @@ extension PutScheduledUpdateGroupActionInputBody: Swift.Decodable {
         case timeZone = "TimeZone"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -14750,39 +14140,26 @@ extension PutScheduledUpdateGroupActionInputBody: Swift.Decodable {
     }
 }
 
-extension PutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PutScheduledUpdateGroupActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PutScheduledUpdateGroupActionOutputError: Swift.Error, Swift.Equatable {
-    case alreadyExistsFault(AlreadyExistsFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutScheduledUpdateGroupActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutScheduledUpdateGroupActionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension PutWarmPoolInput: Swift.Encodable {
@@ -14827,7 +14204,7 @@ public struct PutWarmPoolInput: Swift.Equatable {
     /// Sets the instance state to transition to after the lifecycle actions are complete. Default is Stopped.
     public var poolState: AutoScalingClientTypes.WarmPoolState?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceReusePolicy: AutoScalingClientTypes.InstanceReusePolicy? = nil,
         maxGroupPreparedCapacity: Swift.Int? = nil,
@@ -14860,7 +14237,7 @@ extension PutWarmPoolInputBody: Swift.Decodable {
         case poolState = "PoolState"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -14875,37 +14252,25 @@ extension PutWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-extension PutWarmPoolOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension PutWarmPoolOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum PutWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum PutWarmPoolOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension PutWarmPoolOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct PutWarmPoolOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RecordLifecycleActionHeartbeatInput: Swift.Encodable {
@@ -14946,7 +14311,7 @@ public struct RecordLifecycleActionHeartbeatInput: Swift.Equatable {
     /// This member is required.
     public var lifecycleHookName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lifecycleActionToken: Swift.String? = nil,
@@ -14975,7 +14340,7 @@ extension RecordLifecycleActionHeartbeatInputBody: Swift.Decodable {
         case lifecycleHookName = "LifecycleHookName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lifecycleHookNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleHookName)
         lifecycleHookName = lifecycleHookNameDecoded
@@ -14988,35 +14353,24 @@ extension RecordLifecycleActionHeartbeatInputBody: Swift.Decodable {
     }
 }
 
-extension RecordLifecycleActionHeartbeatOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RecordLifecycleActionHeartbeatOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RecordLifecycleActionHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RecordLifecycleActionHeartbeatOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RecordLifecycleActionHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RecordLifecycleActionHeartbeatOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
@@ -15068,7 +14422,7 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minHealthyPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minHealthyPercentage)
         minHealthyPercentage = minHealthyPercentageDecoded
@@ -15132,7 +14486,7 @@ extension AutoScalingClientTypes {
         /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances in Standby state are found. The following lists the valid values: Terminate Amazon EC2 Auto Scaling terminates instances that are in Standby. Ignore Amazon EC2 Auto Scaling ignores instances that are in Standby and continues to replace instances that are in the InService state. Wait (default) Amazon EC2 Auto Scaling waits one hour for you to return the instances to service. Otherwise, the instance refresh will fail.
         public var standbyInstances: AutoScalingClientTypes.StandbyInstances?
 
-        public init (
+        public init(
             autoRollback: Swift.Bool? = nil,
             checkpointDelay: Swift.Int? = nil,
             checkpointPercentages: [Swift.Int]? = nil,
@@ -15186,38 +14540,41 @@ extension AutoScalingClientTypes {
 }
 
 extension ResourceContentionFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceContentionFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-public struct ResourceContentionFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    ///
-    public var message: Swift.String?
+public struct ResourceContentionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceContention" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15230,7 +14587,7 @@ extension ResourceContentionFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15238,38 +14595,41 @@ extension ResourceContentionFaultBody: Swift.Decodable {
 }
 
 extension ResourceInUseFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceInUseFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation can't be performed because the resource is in use.
-public struct ResourceInUseFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    ///
-    public var message: Swift.String?
+public struct ResourceInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUse" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15282,7 +14642,7 @@ extension ResourceInUseFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15346,7 +14706,7 @@ public struct ResumeProcessesInput: Swift.Equatable {
     /// If you omit this property, all processes are specified.
     public var scalingProcesses: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         scalingProcesses: [Swift.String]? = nil
     )
@@ -15367,7 +14727,7 @@ extension ResumeProcessesInputBody: Swift.Decodable {
         case scalingProcesses = "ScalingProcesses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -15393,37 +14753,25 @@ extension ResumeProcessesInputBody: Swift.Decodable {
     }
 }
 
-extension ResumeProcessesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ResumeProcessesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ResumeProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ResumeProcessesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ResumeProcessesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct ResumeProcessesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.RollbackDetails: Swift.Codable {
@@ -15454,7 +14802,7 @@ extension AutoScalingClientTypes.RollbackDetails: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rollbackReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rollbackReason)
         rollbackReason = rollbackReasonDecoded
@@ -15483,7 +14831,7 @@ extension AutoScalingClientTypes {
         /// The date and time at which the rollback began.
         public var rollbackStartTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             instancesToUpdateOnRollback: Swift.Int? = nil,
             percentageCompleteOnRollback: Swift.Int? = nil,
             progressDetailsOnRollback: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
@@ -15522,7 +14870,7 @@ public struct RollbackInstanceRefreshInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil
     )
     {
@@ -15539,43 +14887,29 @@ extension RollbackInstanceRefreshInputBody: Swift.Decodable {
         case autoScalingGroupName = "AutoScalingGroupName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
     }
 }
 
-extension RollbackInstanceRefreshOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RollbackInstanceRefreshOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ActiveInstanceRefreshNotFound" : self = .activeInstanceRefreshNotFoundFault(try ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "IrreversibleInstanceRefresh" : self = .irreversibleInstanceRefreshFault(try IrreversibleInstanceRefreshFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RollbackInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ActiveInstanceRefreshNotFound": return try await ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IrreversibleInstanceRefresh": return try await IrreversibleInstanceRefreshFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RollbackInstanceRefreshOutputError: Swift.Error, Swift.Equatable {
-    case activeInstanceRefreshNotFoundFault(ActiveInstanceRefreshNotFoundFault)
-    case irreversibleInstanceRefreshFault(IrreversibleInstanceRefreshFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RollbackInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RollbackInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshId = output.instanceRefreshId
@@ -15589,7 +14923,7 @@ public struct RollbackInstanceRefreshOutputResponse: Swift.Equatable {
     /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
     public var instanceRefreshId: Swift.String?
 
-    public init (
+    public init(
         instanceRefreshId: Swift.String? = nil
     )
     {
@@ -15606,7 +14940,7 @@ extension RollbackInstanceRefreshOutputResponseBody: Swift.Decodable {
         case instanceRefreshId = "InstanceRefreshId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RollbackInstanceRefreshResult"))
         let instanceRefreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRefreshId)
@@ -15650,38 +14984,41 @@ extension AutoScalingClientTypes {
 }
 
 extension ScalingActivityInProgressFault {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ScalingActivityInProgressFaultBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation can't be performed because there are scaling activities in progress.
-public struct ScalingActivityInProgressFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    ///
-    public var message: Swift.String?
+public struct ScalingActivityInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ScalingActivityInProgress" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -15694,7 +15031,7 @@ extension ScalingActivityInProgressFaultBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -15856,7 +15193,7 @@ extension AutoScalingClientTypes.ScalingPolicy: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -15975,7 +15312,7 @@ extension AutoScalingClientTypes {
         /// A target tracking scaling policy.
         public var targetTrackingConfiguration: AutoScalingClientTypes.TargetTrackingConfiguration?
 
-        public init (
+        public init(
             adjustmentType: Swift.String? = nil,
             alarms: [AutoScalingClientTypes.Alarm]? = nil,
             autoScalingGroupName: Swift.String? = nil,
@@ -16067,7 +15404,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -16120,7 +15457,7 @@ extension AutoScalingClientTypes {
         /// The time zone for the cron expression.
         public var timeZone: Swift.String?
 
-        public init (
+        public init(
             autoScalingGroupName: Swift.String? = nil,
             desiredCapacity: Swift.Int? = nil,
             endTime: ClientRuntime.Date? = nil,
@@ -16190,7 +15527,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Codabl
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduledActionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduledActionName)
         scheduledActionName = scheduledActionNameDecoded
@@ -16232,7 +15569,7 @@ extension AutoScalingClientTypes {
         /// Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
         public var timeZone: Swift.String?
 
-        public init (
+        public init(
             desiredCapacity: Swift.Int? = nil,
             endTime: ClientRuntime.Date? = nil,
             maxSize: Swift.Int? = nil,
@@ -16257,37 +15594,40 @@ extension AutoScalingClientTypes {
 }
 
 extension ServiceLinkedRoleFailure {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceLinkedRoleFailureBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The service-linked role is not yet ready for use.
-public struct ServiceLinkedRoleFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    public var message: Swift.String?
+public struct ServiceLinkedRoleFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceLinkedRoleFailure" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -16300,7 +15640,7 @@ extension ServiceLinkedRoleFailureBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -16340,7 +15680,7 @@ public struct SetDesiredCapacityInput: Swift.Equatable {
     /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling activities.
     public var honorCooldown: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         desiredCapacity: Swift.Int? = nil,
         honorCooldown: Swift.Bool? = nil
@@ -16365,7 +15705,7 @@ extension SetDesiredCapacityInputBody: Swift.Decodable {
         case honorCooldown = "HonorCooldown"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -16376,37 +15716,25 @@ extension SetDesiredCapacityInputBody: Swift.Decodable {
     }
 }
 
-extension SetDesiredCapacityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetDesiredCapacityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetDesiredCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetDesiredCapacityOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetDesiredCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetDesiredCapacityOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SetInstanceHealthInput: Swift.Encodable {
@@ -16442,7 +15770,7 @@ public struct SetInstanceHealthInput: Swift.Equatable {
     /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html) in the Amazon EC2 Auto Scaling API Reference.
     public var shouldRespectGracePeriod: Swift.Bool?
 
-    public init (
+    public init(
         healthStatus: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         shouldRespectGracePeriod: Swift.Bool? = nil
@@ -16467,7 +15795,7 @@ extension SetInstanceHealthInputBody: Swift.Decodable {
         case shouldRespectGracePeriod = "ShouldRespectGracePeriod"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -16478,35 +15806,24 @@ extension SetInstanceHealthInputBody: Swift.Decodable {
     }
 }
 
-extension SetInstanceHealthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetInstanceHealthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetInstanceHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetInstanceHealthOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetInstanceHealthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetInstanceHealthOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension SetInstanceProtectionInput: Swift.Encodable {
@@ -16552,7 +15869,7 @@ public struct SetInstanceProtectionInput: Swift.Equatable {
     /// This member is required.
     public var protectedFromScaleIn: Swift.Bool?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         protectedFromScaleIn: Swift.Bool? = nil
@@ -16577,7 +15894,7 @@ extension SetInstanceProtectionInputBody: Swift.Decodable {
         case protectedFromScaleIn = "ProtectedFromScaleIn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.instanceIds) {
             struct KeyVal0{struct member{}}
@@ -16605,37 +15922,25 @@ extension SetInstanceProtectionInputBody: Swift.Decodable {
     }
 }
 
-extension SetInstanceProtectionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SetInstanceProtectionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SetInstanceProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SetInstanceProtectionOutputError: Swift.Error, Swift.Equatable {
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SetInstanceProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SetInstanceProtectionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes {
@@ -16716,7 +16021,7 @@ public struct StartInstanceRefreshInput: Swift.Equatable {
     /// The strategy to use for the instance refresh. The only valid value is Rolling.
     public var strategy: AutoScalingClientTypes.RefreshStrategy?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration? = nil,
         preferences: AutoScalingClientTypes.RefreshPreferences? = nil,
@@ -16745,7 +16050,7 @@ extension StartInstanceRefreshInputBody: Swift.Decodable {
         case strategy = "Strategy"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -16758,34 +16063,21 @@ extension StartInstanceRefreshInputBody: Swift.Decodable {
     }
 }
 
-extension StartInstanceRefreshOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension StartInstanceRefreshOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InstanceRefreshInProgress" : self = .instanceRefreshInProgressFault(try InstanceRefreshInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum StartInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InstanceRefreshInProgress": return try await InstanceRefreshInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum StartInstanceRefreshOutputError: Swift.Error, Swift.Equatable {
-    case instanceRefreshInProgressFault(InstanceRefreshInProgressFault)
-    case limitExceededFault(LimitExceededFault)
-    case resourceContentionFault(ResourceContentionFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension StartInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: StartInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshId = output.instanceRefreshId
@@ -16799,7 +16091,7 @@ public struct StartInstanceRefreshOutputResponse: Swift.Equatable {
     /// A unique ID for tracking the progress of the instance refresh.
     public var instanceRefreshId: Swift.String?
 
-    public init (
+    public init(
         instanceRefreshId: Swift.String? = nil
     )
     {
@@ -16816,7 +16108,7 @@ extension StartInstanceRefreshOutputResponseBody: Swift.Decodable {
         case instanceRefreshId = "InstanceRefreshId"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartInstanceRefreshResult"))
         let instanceRefreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRefreshId)
@@ -16844,7 +16136,7 @@ extension AutoScalingClientTypes.StepAdjustment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricIntervalLowerBoundDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .metricIntervalLowerBound)
         metricIntervalLowerBound = metricIntervalLowerBoundDecoded
@@ -16884,7 +16176,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var scalingAdjustment: Swift.Int?
 
-        public init (
+        public init(
             metricIntervalLowerBound: Swift.Double? = nil,
             metricIntervalUpperBound: Swift.Double? = nil,
             scalingAdjustment: Swift.Int? = nil
@@ -16955,7 +16247,7 @@ public struct SuspendProcessesInput: Swift.Equatable {
     /// If you omit this property, all processes are specified.
     public var scalingProcesses: [Swift.String]?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         scalingProcesses: [Swift.String]? = nil
     )
@@ -16976,7 +16268,7 @@ extension SuspendProcessesInputBody: Swift.Decodable {
         case scalingProcesses = "ScalingProcesses"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -17002,37 +16294,25 @@ extension SuspendProcessesInputBody: Swift.Decodable {
     }
 }
 
-extension SuspendProcessesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SuspendProcessesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SuspendProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceInUse": return try await ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SuspendProcessesOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case resourceInUseFault(ResourceInUseFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SuspendProcessesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SuspendProcessesOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.SuspendedProcess: Swift.Codable {
@@ -17051,7 +16331,7 @@ extension AutoScalingClientTypes.SuspendedProcess: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let processNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .processName)
         processName = processNameDecoded
@@ -17068,7 +16348,7 @@ extension AutoScalingClientTypes {
         /// The reason that the process was suspended.
         public var suspensionReason: Swift.String?
 
-        public init (
+        public init(
             processName: Swift.String? = nil,
             suspensionReason: Swift.String? = nil
         )
@@ -17108,7 +16388,7 @@ extension AutoScalingClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -17138,7 +16418,7 @@ extension AutoScalingClientTypes {
         /// The tag value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             propagateAtLaunch: Swift.Bool? = nil,
             resourceId: Swift.String? = nil,
@@ -17184,7 +16464,7 @@ extension AutoScalingClientTypes.TagDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
@@ -17213,7 +16493,7 @@ extension AutoScalingClientTypes {
         /// The tag value.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             propagateAtLaunch: Swift.Bool? = nil,
             resourceId: Swift.String? = nil,
@@ -17255,7 +16535,7 @@ extension AutoScalingClientTypes.TargetTrackingConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let predefinedMetricSpecificationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.PredefinedMetricSpecification.self, forKey: .predefinedMetricSpecification)
         predefinedMetricSpecification = predefinedMetricSpecificationDecoded
@@ -17281,7 +16561,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var targetValue: Swift.Double?
 
-        public init (
+        public init(
             customizedMetricSpecification: AutoScalingClientTypes.CustomizedMetricSpecification? = nil,
             disableScaleIn: Swift.Bool? = nil,
             predefinedMetricSpecification: AutoScalingClientTypes.PredefinedMetricSpecification? = nil,
@@ -17325,7 +16605,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -17355,7 +16635,7 @@ extension AutoScalingClientTypes {
         /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public var returnData: Swift.Bool?
 
-        public init (
+        public init(
             expression: Swift.String? = nil,
             id: Swift.String? = nil,
             label: Swift.String? = nil,
@@ -17393,7 +16673,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let metricDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.Metric.self, forKey: .metric)
         metric = metricDecoded
@@ -17416,7 +16696,7 @@ extension AutoScalingClientTypes {
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
 
-        public init (
+        public init(
             metric: AutoScalingClientTypes.Metric? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
@@ -17458,7 +16738,7 @@ public struct TerminateInstanceInAutoScalingGroupInput: Swift.Equatable {
     /// This member is required.
     public var shouldDecrementDesiredCapacity: Swift.Bool?
 
-    public init (
+    public init(
         instanceId: Swift.String? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
     )
@@ -17479,7 +16759,7 @@ extension TerminateInstanceInAutoScalingGroupInputBody: Swift.Decodable {
         case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -17488,32 +16768,20 @@ extension TerminateInstanceInAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-extension TerminateInstanceInAutoScalingGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension TerminateInstanceInAutoScalingGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TerminateInstanceInAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum TerminateInstanceInAutoScalingGroupOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TerminateInstanceInAutoScalingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TerminateInstanceInAutoScalingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activity = output.activity
@@ -17527,7 +16795,7 @@ public struct TerminateInstanceInAutoScalingGroupOutputResponse: Swift.Equatable
     /// A scaling activity.
     public var activity: AutoScalingClientTypes.Activity?
 
-    public init (
+    public init(
         activity: AutoScalingClientTypes.Activity? = nil
     )
     {
@@ -17544,7 +16812,7 @@ extension TerminateInstanceInAutoScalingGroupOutputResponseBody: Swift.Decodable
         case activity = "Activity"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TerminateInstanceInAutoScalingGroupResult"))
         let activityDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.Activity.self, forKey: .activity)
@@ -17568,7 +16836,7 @@ extension AutoScalingClientTypes.TotalLocalStorageGBRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
         min = minDecoded
@@ -17585,7 +16853,7 @@ extension AutoScalingClientTypes {
         /// The storage minimum in GB.
         public var min: Swift.Double?
 
-        public init (
+        public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
         )
@@ -17613,7 +16881,7 @@ extension AutoScalingClientTypes.TrafficSourceIdentifier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
@@ -17649,7 +16917,7 @@ extension AutoScalingClientTypes {
         /// Required if the identifier is the name of a Classic Load Balancer.
         public var type: Swift.String?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -17685,7 +16953,7 @@ extension AutoScalingClientTypes.TrafficSourceState: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trafficSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trafficSource)
         trafficSource = trafficSourceDecoded
@@ -17730,7 +16998,7 @@ extension AutoScalingClientTypes {
         /// Required if the identifier is the name of a Classic Load Balancer.
         public var type: Swift.String?
 
-        public init (
+        public init(
             identifier: Swift.String? = nil,
             state: Swift.String? = nil,
             trafficSource: Swift.String? = nil,
@@ -17886,7 +17154,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
     public var vpcZoneIdentifier: Swift.String?
 
-    public init (
+    public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -17983,7 +17251,7 @@ extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
         case vpcZoneIdentifier = "VPCZoneIdentifier"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
         autoScalingGroupName = autoScalingGroupNameDecoded
@@ -18064,39 +17332,26 @@ extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateAutoScalingGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateAutoScalingGroupOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ScalingActivityInProgress": return try await ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleFailure": return try await ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateAutoScalingGroupOutputError: Swift.Error, Swift.Equatable {
-    case resourceContentionFault(ResourceContentionFault)
-    case scalingActivityInProgressFault(ScalingActivityInProgressFault)
-    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateAutoScalingGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateAutoScalingGroupOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension AutoScalingClientTypes.VCpuCountRequest: Swift.Codable {
@@ -18115,7 +17370,7 @@ extension AutoScalingClientTypes.VCpuCountRequest: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
         min = minDecoded
@@ -18133,7 +17388,7 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var min: Swift.Int?
 
-        public init (
+        public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
         )
@@ -18173,7 +17428,7 @@ extension AutoScalingClientTypes.WarmPoolConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxGroupPreparedCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxGroupPreparedCapacity)
         maxGroupPreparedCapacity = maxGroupPreparedCapacityDecoded
@@ -18202,7 +17457,7 @@ extension AutoScalingClientTypes {
         /// The status of a warm pool that is marked for deletion.
         public var status: AutoScalingClientTypes.WarmPoolStatus?
 
-        public init (
+        public init(
             instanceReusePolicy: AutoScalingClientTypes.InstanceReusePolicy? = nil,
             maxGroupPreparedCapacity: Swift.Int? = nil,
             minSize: Swift.Int? = nil,

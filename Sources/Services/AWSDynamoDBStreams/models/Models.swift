@@ -60,7 +60,7 @@ extension DynamoDBStreamsClientTypes.AttributeValue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let sDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .s)
         if let s = sDecoded {
@@ -226,7 +226,7 @@ public struct DescribeStreamInput: Swift.Equatable {
     /// This member is required.
     public var streamArn: Swift.String?
 
-    public init (
+    public init(
         exclusiveStartShardId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         streamArn: Swift.String? = nil
@@ -251,7 +251,7 @@ extension DescribeStreamInputBody: Swift.Decodable {
         case streamArn = "StreamArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -262,33 +262,21 @@ extension DescribeStreamInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeStreamOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension DescribeStreamOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum DescribeStreamOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.streamDescription = output.streamDescription
@@ -303,7 +291,7 @@ public struct DescribeStreamOutputResponse: Swift.Equatable {
     /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
     public var streamDescription: DynamoDBStreamsClientTypes.StreamDescription?
 
-    public init (
+    public init(
         streamDescription: DynamoDBStreamsClientTypes.StreamDescription? = nil
     )
     {
@@ -320,7 +308,7 @@ extension DescribeStreamOutputResponseBody: Swift.Decodable {
         case streamDescription = "StreamDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBStreamsClientTypes.StreamDescription.self, forKey: .streamDescription)
         streamDescription = streamDescriptionDecoded
@@ -328,38 +316,42 @@ extension DescribeStreamOutputResponseBody: Swift.Decodable {
 }
 
 extension ExpiredIteratorException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ExpiredIteratorExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The shard iterator has expired and can no longer be used to retrieve stream records. A shard iterator expires 15 minutes after it is retrieved using the GetShardIterator action.
-public struct ExpiredIteratorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The provided iterator exceeds the maximum age allowed.
-    public var message: Swift.String?
+public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The provided iterator exceeds the maximum age allowed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExpiredIteratorException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -372,7 +364,7 @@ extension ExpiredIteratorExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -410,7 +402,7 @@ public struct GetRecordsInput: Swift.Equatable {
     /// This member is required.
     public var shardIterator: Swift.String?
 
-    public init (
+    public init(
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil
     )
@@ -431,7 +423,7 @@ extension GetRecordsInputBody: Swift.Decodable {
         case shardIterator = "ShardIterator"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shardIteratorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shardIterator)
         shardIterator = shardIteratorDecoded
@@ -440,39 +432,24 @@ extension GetRecordsInputBody: Swift.Decodable {
     }
 }
 
-extension GetRecordsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetRecordsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ExpiredIteratorException" : self = .expiredIteratorException(try ExpiredIteratorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrimmedDataAccessException" : self = .trimmedDataAccessException(try TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExpiredIteratorException": return try await ExpiredIteratorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetRecordsOutputError: Swift.Error, Swift.Equatable {
-    case expiredIteratorException(ExpiredIteratorException)
-    case internalServerError(InternalServerError)
-    case limitExceededException(LimitExceededException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case trimmedDataAccessException(TrimmedDataAccessException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextShardIterator = output.nextShardIterator
@@ -491,7 +468,7 @@ public struct GetRecordsOutputResponse: Swift.Equatable {
     /// The stream records from the shard, which were retrieved using the shard iterator.
     public var records: [DynamoDBStreamsClientTypes.Record]?
 
-    public init (
+    public init(
         nextShardIterator: Swift.String? = nil,
         records: [DynamoDBStreamsClientTypes.Record]? = nil
     )
@@ -512,7 +489,7 @@ extension GetRecordsOutputResponseBody: Swift.Decodable {
         case records = "Records"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordsContainer = try containerValues.decodeIfPresent([DynamoDBStreamsClientTypes.Record?].self, forKey: .records)
         var recordsDecoded0:[DynamoDBStreamsClientTypes.Record]? = nil
@@ -583,7 +560,7 @@ public struct GetShardIteratorInput: Swift.Equatable {
     /// This member is required.
     public var streamArn: Swift.String?
 
-    public init (
+    public init(
         sequenceNumber: Swift.String? = nil,
         shardId: Swift.String? = nil,
         shardIteratorType: DynamoDBStreamsClientTypes.ShardIteratorType? = nil,
@@ -612,7 +589,7 @@ extension GetShardIteratorInputBody: Swift.Decodable {
         case streamArn = "StreamArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -625,35 +602,22 @@ extension GetShardIteratorInputBody: Swift.Decodable {
     }
 }
 
-extension GetShardIteratorOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension GetShardIteratorOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TrimmedDataAccessException" : self = .trimmedDataAccessException(try TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum GetShardIteratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum GetShardIteratorOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case trimmedDataAccessException(TrimmedDataAccessException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension GetShardIteratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetShardIteratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.shardIterator = output.shardIterator
@@ -668,7 +632,7 @@ public struct GetShardIteratorOutputResponse: Swift.Equatable {
     /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
     public var shardIterator: Swift.String?
 
-    public init (
+    public init(
         shardIterator: Swift.String? = nil
     )
     {
@@ -685,7 +649,7 @@ extension GetShardIteratorOutputResponseBody: Swift.Decodable {
         case shardIterator = "ShardIterator"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shardIteratorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shardIterator)
         shardIterator = shardIteratorDecoded
@@ -708,7 +672,7 @@ extension DynamoDBStreamsClientTypes.Identity: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
         principalId = principalIdDecoded
@@ -725,7 +689,7 @@ extension DynamoDBStreamsClientTypes {
         /// The type of the identity. For Time To Live, the type is "Service".
         public var type: Swift.String?
 
-        public init (
+        public init(
             principalId: Swift.String? = nil,
             type: Swift.String? = nil
         )
@@ -738,38 +702,42 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension InternalServerError {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// An error occurred on the server side.
-public struct InternalServerError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .server
-    /// The server encountered an internal error trying to fulfill the request.
-    public var message: Swift.String?
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The server encountered an internal error trying to fulfill the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -782,7 +750,7 @@ extension InternalServerErrorBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -805,7 +773,7 @@ extension DynamoDBStreamsClientTypes.KeySchemaElement: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
         attributeName = attributeNameDecoded
@@ -831,7 +799,7 @@ extension DynamoDBStreamsClientTypes {
         /// This member is required.
         public var keyType: DynamoDBStreamsClientTypes.KeyType?
 
-        public init (
+        public init(
             attributeName: Swift.String? = nil,
             keyType: DynamoDBStreamsClientTypes.KeyType? = nil
         )
@@ -876,38 +844,42 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension LimitExceededException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
-/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// Too many operations for a given subscriber.
-    public var message: Swift.String?
+/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// Too many operations for a given subscriber.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -920,7 +892,7 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -963,7 +935,7 @@ public struct ListStreamsInput: Swift.Equatable {
     /// If this parameter is provided, then only the streams associated with this table name are returned.
     public var tableName: Swift.String?
 
-    public init (
+    public init(
         exclusiveStartStreamArn: Swift.String? = nil,
         limit: Swift.Int? = nil,
         tableName: Swift.String? = nil
@@ -988,7 +960,7 @@ extension ListStreamsInputBody: Swift.Decodable {
         case tableName = "TableName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
@@ -999,33 +971,21 @@ extension ListStreamsInputBody: Swift.Decodable {
     }
 }
 
-extension ListStreamsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension ListStreamsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-public enum ListStreamsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerError(InternalServerError)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastEvaluatedStreamArn = output.lastEvaluatedStreamArn
@@ -1044,7 +1004,7 @@ public struct ListStreamsOutputResponse: Swift.Equatable {
     /// A list of stream descriptors associated with the current account and endpoint.
     public var streams: [DynamoDBStreamsClientTypes.Stream]?
 
-    public init (
+    public init(
         lastEvaluatedStreamArn: Swift.String? = nil,
         streams: [DynamoDBStreamsClientTypes.Stream]? = nil
     )
@@ -1065,7 +1025,7 @@ extension ListStreamsOutputResponseBody: Swift.Decodable {
         case streams = "Streams"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamsContainer = try containerValues.decodeIfPresent([DynamoDBStreamsClientTypes.Stream?].self, forKey: .streams)
         var streamsDecoded0:[DynamoDBStreamsClientTypes.Stream]? = nil
@@ -1154,7 +1114,7 @@ extension DynamoDBStreamsClientTypes.Record: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventID)
         eventID = eventIDDecoded
@@ -1190,7 +1150,7 @@ extension DynamoDBStreamsClientTypes {
         ///
         /// * REMOVE - the item was deleted from the table
         public var eventName: DynamoDBStreamsClientTypes.OperationType?
-        /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
+        /// The Amazon Web Services service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
         public var eventSource: Swift.String?
         /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
         public var eventVersion: Swift.String?
@@ -1201,7 +1161,7 @@ extension DynamoDBStreamsClientTypes {
         /// * Records[].userIdentity.principalId "dynamodb.amazonaws.com"
         public var userIdentity: DynamoDBStreamsClientTypes.Identity?
 
-        public init (
+        public init(
             awsRegion: Swift.String? = nil,
             dynamodb: DynamoDBStreamsClientTypes.StreamRecord? = nil,
             eventID: Swift.String? = nil,
@@ -1224,38 +1184,42 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The resource which is being requested does not exist.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The resource which is being requested does not exist.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1268,7 +1232,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1291,7 +1255,7 @@ extension DynamoDBStreamsClientTypes.SequenceNumberRange: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let startingSequenceNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startingSequenceNumber)
         startingSequenceNumber = startingSequenceNumberDecoded
@@ -1308,7 +1272,7 @@ extension DynamoDBStreamsClientTypes {
         /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
         public var startingSequenceNumber: Swift.String?
 
-        public init (
+        public init(
             endingSequenceNumber: Swift.String? = nil,
             startingSequenceNumber: Swift.String? = nil
         )
@@ -1340,7 +1304,7 @@ extension DynamoDBStreamsClientTypes.Shard: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shardId)
         shardId = shardIdDecoded
@@ -1361,7 +1325,7 @@ extension DynamoDBStreamsClientTypes {
         /// The system-generated identifier for this shard.
         public var shardId: Swift.String?
 
-        public init (
+        public init(
             parentShardId: Swift.String? = nil,
             sequenceNumberRange: DynamoDBStreamsClientTypes.SequenceNumberRange? = nil,
             shardId: Swift.String? = nil
@@ -1433,7 +1397,7 @@ extension DynamoDBStreamsClientTypes.Stream: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -1451,7 +1415,7 @@ extension DynamoDBStreamsClientTypes {
         public var streamArn: Swift.String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
         ///
-        /// * the AWS customer ID.
+        /// * the Amazon Web Services customer ID.
         ///
         /// * the table name
         ///
@@ -1460,7 +1424,7 @@ extension DynamoDBStreamsClientTypes {
         /// The DynamoDB table with which the stream is associated.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             streamArn: Swift.String? = nil,
             streamLabel: Swift.String? = nil,
             tableName: Swift.String? = nil
@@ -1524,7 +1488,7 @@ extension DynamoDBStreamsClientTypes.StreamDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
@@ -1580,7 +1544,7 @@ extension DynamoDBStreamsClientTypes {
         public var streamArn: Swift.String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
         ///
-        /// * the AWS customer ID.
+        /// * the Amazon Web Services customer ID.
         ///
         /// * the table name
         ///
@@ -1609,7 +1573,7 @@ extension DynamoDBStreamsClientTypes {
         /// The DynamoDB table with which the stream is associated.
         public var tableName: Swift.String?
 
-        public init (
+        public init(
             creationRequestDateTime: ClientRuntime.Date? = nil,
             keySchema: [DynamoDBStreamsClientTypes.KeySchemaElement]? = nil,
             lastEvaluatedShardId: Swift.String? = nil,
@@ -1680,7 +1644,7 @@ extension DynamoDBStreamsClientTypes.StreamRecord: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approximateCreationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .approximateCreationDateTime)
         approximateCreationDateTime = approximateCreationDateTimeDecoded
@@ -1729,7 +1693,7 @@ extension DynamoDBStreamsClientTypes.StreamRecord: Swift.Codable {
 extension DynamoDBStreamsClientTypes {
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
     public struct StreamRecord: Swift.Equatable {
-        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format.
+        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second.
         public var approximateCreationDateTime: ClientRuntime.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public var keys: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]?
@@ -1752,7 +1716,7 @@ extension DynamoDBStreamsClientTypes {
         /// * NEW_AND_OLD_IMAGES - both the new and the old item images of the item.
         public var streamViewType: DynamoDBStreamsClientTypes.StreamViewType?
 
-        public init (
+        public init(
             approximateCreationDateTime: ClientRuntime.Date? = nil,
             keys: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]? = nil,
             newImage: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]? = nil,
@@ -1851,18 +1815,17 @@ extension DynamoDBStreamsClientTypes {
 }
 
 extension TrimmedDataAccessException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TrimmedDataAccessExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.message = output.message
+            self.properties.message = output.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -1871,22 +1834,27 @@ extension TrimmedDataAccessException {
 /// * You request a shard iterator with a sequence number older than the trim point (24 hours).
 ///
 /// * You obtain a shard iterator, but before you use the iterator in a GetRecords request, a stream record in the shard exceeds the 24 hour period and is trimmed. This causes the iterator to access a record that no longer exists.
-public struct TrimmedDataAccessException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// "The data you are trying to access has been trimmed.
-    public var message: Swift.String?
+public struct TrimmedDataAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// "The data you are trying to access has been trimmed.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TrimmedDataAccessException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1899,7 +1867,7 @@ extension TrimmedDataAccessExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded

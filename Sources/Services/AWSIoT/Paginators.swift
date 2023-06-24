@@ -939,6 +939,68 @@ extension PaginatorSequence where Input == ListOutgoingCertificatesInput, Output
     }
 }
 extension IoTClient {
+    /// Paginate over `[ListPackagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPackagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutputResponse`
+    public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutputResponse.nextToken, paginationFunction: self.listPackages(input:))
+    }
+}
+
+extension ListPackagesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPackagesInput {
+        return ListPackagesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListPackagesInput, Output == ListPackagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPackagesPaginated`
+    /// to access the nested member `[IoTClientTypes.PackageSummary]`
+    /// - Returns: `[IoTClientTypes.PackageSummary]`
+    public func packageSummaries() async throws -> [IoTClientTypes.PackageSummary] {
+        return try await self.asyncCompactMap { item in item.packageSummaries }
+    }
+}
+extension IoTClient {
+    /// Paginate over `[ListPackageVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPackageVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionsOutputResponse`
+    public func listPackageVersionsPaginated(input: ListPackageVersionsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutputResponse>(input: input, inputKey: \ListPackageVersionsInput.nextToken, outputKey: \ListPackageVersionsOutputResponse.nextToken, paginationFunction: self.listPackageVersions(input:))
+    }
+}
+
+extension ListPackageVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPackageVersionsInput {
+        return ListPackageVersionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where Input == ListPackageVersionsInput, Output == ListPackageVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPackageVersionsPaginated`
+    /// to access the nested member `[IoTClientTypes.PackageVersionSummary]`
+    /// - Returns: `[IoTClientTypes.PackageVersionSummary]`
+    public func packageVersionSummaries() async throws -> [IoTClientTypes.PackageVersionSummary] {
+        return try await self.asyncCompactMap { item in item.packageVersionSummaries }
+    }
+}
+extension IoTClient {
     /// Paginate over `[ListPoliciesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

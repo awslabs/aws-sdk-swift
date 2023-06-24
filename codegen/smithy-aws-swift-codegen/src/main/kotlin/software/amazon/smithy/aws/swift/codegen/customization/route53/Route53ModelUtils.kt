@@ -4,4 +4,4 @@ import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.model.shapes.ServiceShape
 
 val ServiceShape.isRoute53: Boolean
-    get() = sdkId.lowercase() == "route53"
+    get() = sdkId.lowercase() == "route 53"

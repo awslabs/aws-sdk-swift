@@ -32,7 +32,7 @@ extension RedshiftClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ClusterNotFound"
+                return (error as? ServiceError)?.typeName == "ClusterNotFound"
             }),
         ]
         return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
@@ -58,7 +58,7 @@ extension RedshiftClientProtocol {
         let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "ClusterNotFound"
+                return (error as? ServiceError)?.typeName == "ClusterNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"

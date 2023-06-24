@@ -248,6 +248,18 @@
                 "smithy.api#documentation": "<p>Provides details about one of the following actions that affects or that was taken on a resource:</p>\n         <ul>\n            <li>\n               <p>A remote IP address issued an Amazon Web Services API call</p>\n            </li>\n            <li>\n               <p>A DNS request was received</p>\n            </li>\n            <li>\n               <p>A remote IP address attempted to connect to an EC2 instance</p>\n            </li>\n            <li>\n               <p>A remote IP address attempted a port probe on an EC2 instance</p>\n            </li>\n         </ul>"
             }
         },
+        "com.amazonaws.securityhub#ActionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AutomationRulesAction"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
         "com.amazonaws.securityhub#ActionLocalIpDetails": {
             "type": "structure",
             "members": {
@@ -587,6 +599,474 @@
                 }
             }
         },
+        "com.amazonaws.securityhub#AutomationRulesAction": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesActionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Specifies that the rule action should update the <code>Types</code> finding field. The <code>Types</code> \n         finding field provides one or more finding types in the format of \n         namespace/category/classifier that classify a finding. For more information, see\n         <a href=\"https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html\">Types taxonomy for ASFF</a> in \n         the <i>Security Hub User Guide</i>.\n      </p>"
+                    }
+                },
+                "FindingFieldsUpdate": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesFindingFieldsUpdate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Specifies that the automation rule action is an update to a finding field.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         One or more actions to update finding fields if a finding matches the defined criteria \n         of the rule.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesActionType": {
+            "type": "enum",
+            "members": {
+                "FINDING_FIELDS_UPDATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FINDING_FIELDS_UPDATE"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesArnsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#NonEmptyString"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                }
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesConfig": {
+            "type": "structure",
+            "members": {
+                "RuleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) of a rule.\n      </p>"
+                    }
+                },
+                "RuleStatus": {
+                    "target": "com.amazonaws.securityhub#RuleStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Whether the rule is active after it is created. If \n         this parameter is equal to <code>>ENABLED</code>, Security Hub will apply the rule to findings \n         and finding updates after the rule is created.\n      </p>"
+                    }
+                },
+                "RuleOrder": {
+                    "target": "com.amazonaws.securityhub#RuleOrderValue",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p> An integer ranging from 1 to 1000 that represents the order in which the rule action is\n         applied to findings. Security Hub applies rules with lower values for this parameter\n         first. </p>"
+                    }
+                },
+                "RuleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The name of the rule.\n      </p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A description of the rule.\n      </p>"
+                    }
+                },
+                "IsTerminal": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful \n            when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this \n            field is set to <code>true</code> for a rule, Security Hub applies the rule action to a finding that matches \n            the rule criteria and won't evaluate other rules for the finding.\u2028 The default value of this field is <code>false</code>.\n        </p>"
+                    }
+                },
+                "Criteria": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesFindingFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A set of <a href=\"https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html\">Amazon Web Services Security Finding Format</a> finding field attributes and corresponding expected values that \n         Security Hub uses to filter findings. If a finding matches the conditions specified in\n         this parameter, Security Hub applies the rule action to the finding.\n      </p>"
+                    }
+                },
+                "Actions": {
+                    "target": "com.amazonaws.securityhub#ActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         One or more actions to update finding fields if a finding matches the defined criteria \n         of the rule.\n      </p>"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.securityhub#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the rule was created.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "UpdatedAt": {
+                    "target": "com.amazonaws.securityhub#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the rule was most recently updated.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "CreatedBy": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The principal that created a rule.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Defines the configuration of an automation rule.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesConfigList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AutomationRulesConfig"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesFindingFieldsUpdate": {
+            "type": "structure",
+            "members": {
+                "Note": {
+                    "target": "com.amazonaws.securityhub#NoteUpdate"
+                },
+                "Severity": {
+                    "target": "com.amazonaws.securityhub#SeverityUpdate"
+                },
+                "VerificationState": {
+                    "target": "com.amazonaws.securityhub#VerificationState",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The rule action will update the <code>VerificationState</code> field of a finding.\n      </p>"
+                    }
+                },
+                "Confidence": {
+                    "target": "com.amazonaws.securityhub#RatioScale",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n         The rule action will update the <code>Confidence</code> field of a finding.\n      </p>"
+                    }
+                },
+                "Criticality": {
+                    "target": "com.amazonaws.securityhub#RatioScale",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n         The rule action will update the <code>Criticality</code> field of a finding.\n      </p>"
+                    }
+                },
+                "Types": {
+                    "target": "com.amazonaws.securityhub#TypeList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The rule action will update the <code>Types</code> field of a finding.\n      </p>"
+                    }
+                },
+                "UserDefinedFields": {
+                    "target": "com.amazonaws.securityhub#FieldMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The rule action will update the <code>UserDefinedFields</code> field of a finding.\n      </p>"
+                    }
+                },
+                "Workflow": {
+                    "target": "com.amazonaws.securityhub#WorkflowUpdate"
+                },
+                "RelatedFindings": {
+                    "target": "com.amazonaws.securityhub#RelatedFindingList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A list of findings that are related to a finding.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Identifies the finding fields that the automation rule action will update when a \n         finding matches the defined criteria.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesFindingFilters": {
+            "type": "structure",
+            "members": {
+                "ProductArn": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) for a third-party product that generated a finding in \n         Security Hub.\n      </p>"
+                    }
+                },
+                "AwsAccountId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The Amazon Web Services account ID in which a finding was generated. </p>"
+                    }
+                },
+                "Id": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The product-specific identifier for a finding.\n      </p>"
+                    }
+                },
+                "GeneratorId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The identifier for the solution-specific component that \n         generated a finding.\n      </p>"
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> One or more finding types in the format of namespace/category/classifier that classify\n         a finding. For a list of namespaces, classifiers, and categories, see <a href=\"https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html\">Types\n            taxonomy for ASFF</a> in the <i>Security Hub User Guide</i>. </p>"
+                    }
+                },
+                "FirstObservedAt": {
+                    "target": "com.amazonaws.securityhub#DateFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the potential security issue captured by a \n         finding was first observed by the security findings product.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "LastObservedAt": {
+                    "target": "com.amazonaws.securityhub#DateFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the potential security issue captured by a finding \n         was most recently observed by the security findings product.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.securityhub#DateFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when this finding record was created.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "UpdatedAt": {
+                    "target": "com.amazonaws.securityhub#DateFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the finding record was most recently updated. \n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "Confidence": {
+                    "target": "com.amazonaws.securityhub#NumberFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The likelihood that a finding accurately identifies the behavior or issue that it was\n         intended to identify. <code>Confidence</code> is scored on a 0–100 basis using a ratio\n         scale. A value of <code>0</code> means 0 percent confidence, and a value of\n            <code>100</code> means 100 percent confidence. For example, a data exfiltration\n         detection based on a statistical deviation of network traffic has low confidence because an\n         actual exfiltration hasn't been verified. For more information, see <a href=\"https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-confidence\">Confidence</a> in the <i>Security Hub User Guide</i>. </p>"
+                    }
+                },
+                "Criticality": {
+                    "target": "com.amazonaws.securityhub#NumberFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The level of importance that is assigned to the resources that are associated with a \n         finding. <code>Criticality</code> is scored on a 0–100 basis, using a ratio scale that supports \n         only full integers. A score of <code>0</code> means that the underlying resources have no \n         criticality, and a score of <code>100</code> is reserved for the most critical resources. For \n      more information, see <a href=\"https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-criticality\">Criticality</a> in the <i>Security Hub User Guide</i>.</p>"
+                    }
+                },
+                "Title": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A finding's title. \n      </p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A finding's description. \n      </p>"
+                    }
+                },
+                "SourceUrl": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Provides a URL that links to a page about the current finding in the finding product.\n      </p>"
+                    }
+                },
+                "ProductName": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Provides the name of the product that generated the finding. For \n         control-based findings, the product name is Security Hub.\n      </p>"
+                    }
+                },
+                "CompanyName": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The name of the company for the product that generated the finding. \n         For control-based findings, the company is Amazon Web Services.\n      </p>"
+                    }
+                },
+                "SeverityLabel": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The severity value of the finding.\n      </p>"
+                    }
+                },
+                "ResourceType": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The type of resource that the finding pertains to.\n      </p>"
+                    }
+                },
+                "ResourceId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The identifier for the given resource type. For Amazon Web Services resources that are identified by \n         Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, \n         this is the identifier as defined by the Amazon Web Service that created the resource. \n         For non-Amazon Web Services resources, this is a unique identifier that is associated with the \n         resource.\n      </p>"
+                    }
+                },
+                "ResourcePartition": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The partition in which the resource that the finding pertains to is located. \n         A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.\n      </p>"
+                    }
+                },
+                "ResourceRegion": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Web Services Region where the resource that a finding pertains to is located.\n      </p>"
+                    }
+                },
+                "ResourceTags": {
+                    "target": "com.amazonaws.securityhub#MapFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of Amazon Web Services tags associated with a resource at the time the finding was processed.\n      </p>"
+                    }
+                },
+                "ResourceDetailsOther": {
+                    "target": "com.amazonaws.securityhub#MapFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Custom fields and values about the resource that a finding pertains to.\n      </p>"
+                    }
+                },
+                "ComplianceStatus": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The result of a security check. This field is only used for findings generated \n         from controls.\n      </p>"
+                    }
+                },
+                "ComplianceSecurityControlId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The security control ID for which a finding was generated. Security control IDs are the same across standards.</p>"
+                    }
+                },
+                "ComplianceAssociatedStandardsId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of \n            the Amazon Resource Name (ARN) returned for a standard in the <a href=\"https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html\">DescribeStandards</a> API response.</p>"
+                    }
+                },
+                "VerificationState": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Provides the veracity of a finding.\n      </p>"
+                    }
+                },
+                "WorkflowStatus": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Provides information about the status of the investigation into a finding.\n      </p>"
+                    }
+                },
+                "RecordState": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Provides the current state of a finding.\n      </p>"
+                    }
+                },
+                "RelatedFindingsProductArn": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The ARN for the product that generated a related finding.\n      </p>"
+                    }
+                },
+                "RelatedFindingsId": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The product-generated identifier for a related finding.\n      </p>"
+                    }
+                },
+                "NoteText": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The text of a user-defined note that's added to a finding.\n      </p>"
+                    }
+                },
+                "NoteUpdatedAt": {
+                    "target": "com.amazonaws.securityhub#DateFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The timestamp of when the note was updated. Uses the date-time format specified in \n         <a href=\"https://www.rfc-editor.org/rfc/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet Date/Time Format</a>. The value cannot contain spaces. \n         For example, <code>2020-03-22T13:22:13.933Z</code>.\n      </p>"
+                    }
+                },
+                "NoteUpdatedBy": {
+                    "target": "com.amazonaws.securityhub#StringFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The principal that created a note.\n      </p>"
+                    }
+                },
+                "UserDefinedFields": {
+                    "target": "com.amazonaws.securityhub#MapFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A list of user-defined name and value string pairs added to a finding.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         The criteria that determine which findings a rule applies to.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesMetadata": {
+            "type": "structure",
+            "members": {
+                "RuleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) for the rule.\n      </p>"
+                    }
+                },
+                "RuleStatus": {
+                    "target": "com.amazonaws.securityhub#RuleStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Whether the rule is active after it is created. If \n         this parameter is equal to <code>ENABLED</code>, Security Hub will apply the rule to findings \n         and finding updates after the rule is created. To change the value of this\n         parameter after creating a rule, use <code>BatchUpdateAutomationRules</code>.\n      </p>"
+                    }
+                },
+                "RuleOrder": {
+                    "target": "com.amazonaws.securityhub#RuleOrderValue",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>An integer ranging from 1 to 1000 that represents the order in which the rule action is\n         applied to findings. Security Hub applies rules with lower values for this parameter\n         first. </p>"
+                    }
+                },
+                "RuleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The name of the rule.\n      </p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A description of the rule.\n      </p>"
+                    }
+                },
+                "IsTerminal": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful \n            when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this \n            field is set to <code>true</code> for a rule, Security Hub applies the rule action to a finding that matches \n            the rule criteria and won't evaluate other rules for the finding.\u2028 The default value of this field is <code>false</code>.\n        </p>"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.securityhub#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the rule was created.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "UpdatedAt": {
+                    "target": "com.amazonaws.securityhub#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A timestamp that indicates when the rule was most recently updated.\n      </p>\n         <p>Uses the <code>date-time</code> format specified in <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339 section 5.6, Internet\n         Date/Time Format</a>. The value cannot contain spaces. For example,\n         <code>2020-03-22T13:22:13.933Z</code>.</p>"
+                    }
+                },
+                "CreatedBy": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The principal that created a rule.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Metadata for automation rules in the calling account. The response includes rules \n         with a <code>RuleStatus</code> of <code>ENABLED</code> and <code>DISABLED</code>.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AutomationRulesMetadataList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AutomationRulesMetadata"
+            }
+        },
         "com.amazonaws.securityhub#AvailabilityZone": {
             "type": "structure",
             "members": {
@@ -611,6 +1091,329 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.securityhub#AvailabilityZone"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerDetails": {
+            "type": "structure",
+            "members": {
+                "AuthenticationStrategy": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The authentication strategy used to secure the broker. The default is <code>SIMPLE</code>.\n        </p>"
+                    }
+                },
+                "AutoMinorVersionUpgrade": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Whether automatically upgrade new minor versions for brokers, as new versions are released and supported by Amazon MQ. \n            Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.\n        </p>"
+                    }
+                },
+                "BrokerArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the broker.\n        </p>"
+                    }
+                },
+                "BrokerName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The broker's name.\n        </p>"
+                    }
+                },
+                "DeploymentMode": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The broker's deployment mode. \n        </p>"
+                    }
+                },
+                "EncryptionOptions": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerEncryptionOptionsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Encryption options for the broker. Doesn’t apply to RabbitMQ brokers.\n        </p>"
+                    }
+                },
+                "EngineType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The type of broker engine.\n        </p>"
+                    }
+                },
+                "EngineVersion": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The version of the broker engine.\n        </p>"
+                    }
+                },
+                "HostInstanceType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The broker's instance type.\n        </p>"
+                    }
+                },
+                "BrokerId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The unique ID that Amazon MQ generates for the broker.\n        </p>"
+                    }
+                },
+                "LdapServerMetadata": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerLdapServerMetadataDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The metadata of the Lightweight Directory Access Protocol (LDAP) server used to authenticate and authorize connections to the broker. This is an optional failover server.\n        </p>"
+                    }
+                },
+                "Logs": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerLogsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Turns on Amazon CloudWatch logging for brokers.\n        </p>"
+                    }
+                },
+                "MaintenanceWindowStartTime": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.\n        </p>"
+                    }
+                },
+                "PubliclyAccessible": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Permits connections from applications outside of the VPC that hosts the broker's subnets.\n        </p>"
+                    }
+                },
+                "SecurityGroups": {
+                    "target": "com.amazonaws.securityhub#StringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The list of rules (one minimum, 125 maximum) that authorize connections to brokers.\n        </p>"
+                    }
+                },
+                "StorageType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The broker's storage type.\n        </p>"
+                    }
+                },
+                "SubnetIds": {
+                    "target": "com.amazonaws.securityhub#StringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones.\n        </p>"
+                    }
+                },
+                "Users": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerUsersList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The list of all broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about an Amazon MQ message broker. A message broker allows software applications and \n            components to communicate using various programming languages, operating systems, and formal messaging protocols.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerEncryptionOptionsDetails": {
+            "type": "structure",
+            "members": {
+                "KmsKeyId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The KMS key that’s used to encrypt your data at rest. If not provided, Amazon MQ will use a \n            default KMS key to encrypt your data.\n        </p>"
+                    }
+                },
+                "UseAwsOwnedKey": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Specifies that an KMS key should be used for at-rest encryption. Set to <code>true</code> by default \n            if no value is provided (for example, for RabbitMQ brokers).\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about broker encryption options.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerLdapServerMetadataDetails": {
+            "type": "structure",
+            "members": {
+                "Hosts": {
+                    "target": "com.amazonaws.securityhub#StringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Specifies the location of the LDAP server, such as Amazon Web Services Directory Service for Microsoft Active Directory. \n        </p>"
+                    }
+                },
+                "RoleBase": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The distinguished name of the node in the directory information tree (DIT) to search for roles or groups.\n        </p>"
+                    }
+                },
+                "RoleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The group name attribute in a role entry whose value is the name of that role.\n        </p>"
+                    }
+                },
+                "RoleSearchMatching": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The LDAP search filter used to find roles within the <code>roleBase</code>.\n        </p>"
+                    }
+                },
+                "RoleSearchSubtree": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            The directory search scope for the role. If set to <code>true</code>, the scope is to search the entire subtree.\n        </p>"
+                    }
+                },
+                "ServiceAccountUsername": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A username for the service account, which is an account in your LDAP server that has access to initiate a connection.\n        </p>"
+                    }
+                },
+                "UserBase": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Selects a particular subtree of the directory information tree (DIT) to search for user entries.\n        </p>"
+                    }
+                },
+                "UserRoleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The name of the LDAP attribute in the user's directory entry for the user's group membership. </p>"
+                    }
+                },
+                "UserSearchMatching": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The LDAP search filter used to find users within the <code>userBase</code>. \n        </p>"
+                    }
+                },
+                "UserSearchSubtree": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            The directory search scope for the user. If set to true, the scope is to search the entire subtree.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            The metadata of the Lightweight Directory Access Protocol (LDAP) server used to authenticate and authorize \n            connections to the broker. This is an optional failover server.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerLogsDetails": {
+            "type": "structure",
+            "members": {
+                "Audit": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.\n        </p>"
+                    }
+                },
+                "General": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Activates general logging.\n        </p>"
+                    }
+                },
+                "AuditLogGroup": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The location of the CloudWatch Logs log group where audit logs are sent.\n        </p>"
+                    }
+                },
+                "GeneralLogGroup": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The location of the CloudWatch Logs log group where general logs are sent.\n        </p>"
+                    }
+                },
+                "Pending": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerLogsPendingDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The list of information about logs that are to be turned on for the specified broker.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides information about logs to be activated for the specified broker.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerLogsPendingDetails": {
+            "type": "structure",
+            "members": {
+                "Audit": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply \n            to RabbitMQ brokers.\n        </p>"
+                    }
+                },
+                "General": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Activates general logging.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides information about logs to be activated for the specified broker.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails": {
+            "type": "structure",
+            "members": {
+                "DayOfWeek": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The day of the week on which the maintenance window falls.\n        </p>"
+                    }
+                },
+                "TimeOfDay": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time, in 24-hour format, on which the maintenance window falls.\n        </p>"
+                    }
+                },
+                "TimeZone": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The time zone in either the Country/City format or the UTC offset format. UTC is the default format.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerUsersDetails": {
+            "type": "structure",
+            "members": {
+                "PendingChange": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The type of change pending for the broker user.\n        </p>"
+                    }
+                },
+                "Username": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The username of the broker user. \n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about the broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAmazonMqBrokerUsersList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerUsersDetails"
             }
         },
         "com.amazonaws.securityhub#AwsApiCallAction": {
@@ -1210,6 +2013,245 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains information about a version 2 stage for Amazon API Gateway.</p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails": {
+            "type": "structure",
+            "members": {
+                "AuthenticationType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The type of security configuration for your GraphQL API: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.\n        </p>"
+                    }
+                },
+                "LambdaAuthorizerConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The configuration for Lambda function authorization.\n        </p>"
+                    }
+                },
+                "OpenIdConnectConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiOpenIdConnectConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The OpenID Connect configuration.\n        </p>"
+                    }
+                },
+                "UserPoolConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiUserPoolConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Cognito user pools configuration.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            A list of additional authentication providers for the GraphqlApi API.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiDetails": {
+            "type": "structure",
+            "members": {
+                "ApiId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The unique identifier for the API.\n        </p>"
+                    }
+                },
+                "Id": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier for the API.</p>"
+                    }
+                },
+                "OpenIdConnectConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiOpenIdConnectConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nSpecifies the authorization configuration for using an OpenID Connect compliant service with an AppSync GraphQL API endpoint. \n</p>"
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nThe API name.\n</p>"
+                    }
+                },
+                "LambdaAuthorizerConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nSpecifies the configuration for Lambda function authorization.\n</p>"
+                    }
+                },
+                "XrayEnabled": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\nIndicates whether to use X-Ray tracing for the GraphQL API.\n</p>"
+                    }
+                },
+                "Arn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nThe Amazon Resource Name (ARN) of the API.\n</p>"
+                    }
+                },
+                "UserPoolConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiUserPoolConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nThe Amazon Cognito user pools configuration.\n</p>"
+                    }
+                },
+                "AuthenticationType": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\nThe type of security configuration for your GraphQL API: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.\n</p>"
+                    }
+                },
+                "LogConfig": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiLogConfigDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon CloudWatch Logs configuration.\n        </p>"
+                    }
+                },
+                "AdditionalAuthenticationProviders": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A list of additional authentication providers for the GraphQL API.\n        </p>"
+                    }
+                },
+                "WafWebAclArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the WAF web access control list (web ACL) associated with this \n            GraphQL API, if one exists.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, and APIs from a single GraphQL endpoint.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails": {
+            "type": "structure",
+            "members": {
+                "AuthorizerResultTtlInSeconds": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n            The number of seconds a response should be cached for. The default is 5 minutes (300 seconds).\n        </p>"
+                    }
+                },
+                "AuthorizerUri": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a \n            standard Lambda ARN, a version ARN (.../v3), or an alias ARN.\n        </p>"
+                    }
+                },
+                "IdentityValidationExpression": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A regular expression for validation of tokens before the Lambda function is called.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Specifies the authorization configuration for using an Lambda function with your AppSync \n            GraphQL API endpoint.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiLogConfigDetails": {
+            "type": "structure",
+            "members": {
+                "CloudWatchLogsRoleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the service role that AppSync assumes to publish to CloudWatch Logs \n            in your account.\n        </p>"
+                    }
+                },
+                "ExcludeVerboseContent": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Set to <code>TRUE</code> to exclude sections that contain information such as headers, context, and evaluated mapping templates, \n            regardless of logging level.\n        </p>"
+                    }
+                },
+                "FieldLogLevel": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The field logging level.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Specifies the logging configuration when writing GraphQL operations and tracing to Amazon CloudWatch for an \n            AppSync GraphQL API.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiOpenIdConnectConfigDetails": {
+            "type": "structure",
+            "members": {
+                "AuthTtL": {
+                    "target": "com.amazonaws.securityhub#Long",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n            The number of milliseconds that a token is valid after being authenticated.\n        </p>"
+                    }
+                },
+                "ClientId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained \n            when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that \n            AppSync can validate against multiple client identifiers at a time.\n        </p>"
+                    }
+                },
+                "IatTtL": {
+                    "target": "com.amazonaws.securityhub#Long",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n            The number of milliseconds that a token is valid after it's issued to a user.\n        </p>"
+                    }
+                },
+                "Issuer": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The issuer for the OIDC configuration. The issuer returned by discovery must exactly match the value of <code>iss</code> \n            in the ID token.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Specifies the authorization configuration for using an OpenID Connect compliant service with your AppSync GraphQL \n            API endpoint.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsAppSyncGraphQlApiUserPoolConfigDetails": {
+            "type": "structure",
+            "members": {
+                "AppIdClientRegex": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A regular expression for validating the incoming Amazon Cognito user pools app client ID. If this value isn't set, no \n            filtering is applied.\n        </p>"
+                    }
+                },
+                "AwsRegion": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Web Services Region in which the user pool was created.\n        </p>"
+                    }
+                },
+                "DefaultAction": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pools \n            authentication doesn't match the Amazon Cognito user pools configuration.\n        </p>"
+                    }
+                },
+                "UserPoolId": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The user pool ID.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Specifies the authorization configuration for using Amazon Cognito user pools with your AppSync GraphQL API \n            endpoint.\n        </p>"
             }
         },
         "com.amazonaws.securityhub#AwsAutoScalingAutoScalingGroupAvailabilityZonesList": {
@@ -10639,6 +11681,278 @@
                 "smithy.api#documentation": "<p>Information about a load balancer.</p>"
             }
         },
+        "com.amazonaws.securityhub#AwsEventSchemasRegistryDetails": {
+            "type": "structure",
+            "members": {
+                "Description": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A description of the registry to be created. \n        </p>"
+                    }
+                },
+                "RegistryArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the registry. \n        </p>"
+                    }
+                },
+                "RegistryName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The name of the schema registry. \n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            A schema defines the structure of events that are sent to Amazon EventBridge. Schema registries are containers for \n            schemas. They collect and organize schemas so that your schemas are in logical groups. \n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesCloudTrailDetails": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Specifies whether CloudTrail is activated as a data source for the detector. \n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of CloudTrail as a data source for the detector. \n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesDetails": {
+            "type": "structure",
+            "members": {
+                "CloudTrail": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesCloudTrailDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of CloudTrail as a data source for the detector. \n        </p>"
+                    }
+                },
+                "DnsLogs": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesDnsLogsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of DNS logs as a data source for the detector.\n        </p>"
+                    }
+                },
+                "FlowLogs": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesFlowLogsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of VPC Flow Logs as a data source for the detector.\n        </p>"
+                    }
+                },
+                "Kubernetes": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesKubernetesDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of Kubernetes data sources for the detector.\n        </p>"
+                    }
+                },
+                "MalwareProtection": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of Malware Protection as a data source for the detector.\n        </p>"
+                    }
+                },
+                "S3Logs": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesS3LogsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object that contains information on the status of S3 Data event logs as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Describes which data sources are activated for the detector. \n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesDnsLogsDetails": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes whether DNS logs is enabled as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of DNS logs as a data source for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesFlowLogsDetails": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes whether VPC Flow Logs are activated as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of VPC Flow Logs as a data source for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes whether Kubernetes audit logs are activated as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of Kubernetes audit logs as a data source for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesKubernetesDetails": {
+            "type": "structure",
+            "members": {
+                "AuditLogs": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes whether Kubernetes audit logs are activated as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of Kubernetes data sources for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails": {
+            "type": "structure",
+            "members": {
+                "ScanEc2InstanceWithFindings": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes the configuration of Malware Protection for EC2 instances with findings.\n        </p>"
+                    }
+                },
+                "ServiceRole": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The GuardDuty Malware Protection service role.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of Malware Protection as a data source for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails": {
+            "type": "structure",
+            "members": {
+                "EbsVolumes": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Describes the configuration of Malware Protection for EC2 instances with findings.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails": {
+            "type": "structure",
+            "members": {
+                "Reason": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Specifies the reason why scanning EBS volumes (Malware Protection) isn’t activated as a data source.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes whether scanning EBS volumes is activated as a data source for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesS3LogsDetails": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A value that describes whether S3 data event logs are automatically enabled for new members of an organization.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object that contains information on the status of S3 data event logs as a data source for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorDetails": {
+            "type": "structure",
+            "members": {
+                "DataSources": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDataSourcesDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes which data sources are activated for the detector.\n        </p>"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorFeaturesList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Describes which features are activated for the detector.\n        </p>"
+                    }
+                },
+                "FindingPublishingFrequency": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The publishing frequency of the finding.\n        </p>"
+                    }
+                },
+                "ServiceRole": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The GuardDuty service role.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The activation status of the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about an Amazon GuardDuty detector. A detector is an object that represents the GuardDuty service. A detector is required for GuardDuty to become operational.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorFeaturesDetails": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Indicates the name of the feature that is activated for the detector.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Indicates the status of the feature that is activated for the detector.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Describes which features are activated for the detector.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsGuardDutyDetectorFeaturesList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorFeaturesDetails"
+            }
+        },
         "com.amazonaws.securityhub#AwsIamAccessKeyDetails": {
             "type": "structure",
             "members": {
@@ -17069,6 +18383,138 @@
                 "smithy.api#documentation": "<p>Provides information about the state of a patch on an instance based on the patch\n         baseline that was used to patch the instance.</p>"
             }
         },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineDetails": {
+            "type": "structure",
+            "members": {
+                "Label": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A user-defined or an auto-generated string that identifies a <code>Map</code> state. This parameter is present only if \n            the <code>stateMachineArn</code> specified in input is a qualified state machine ARN.\n        </p>"
+                    }
+                },
+                "LoggingConfiguration": {
+                    "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Used to set CloudWatch Logs options.\n        </p>"
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The name of the state machine.\n        </p>"
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The Amazon Resource Name (ARN) of the IAM role used when creating this state machine.\n        </p>"
+                    }
+                },
+                "StateMachineArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The ARN that identifies the state machine.\n        </p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The current status of the state machine.\n        </p>"
+                    }
+                },
+                "TracingConfiguration": {
+                    "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineTracingConfigurationDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Specifies whether X-Ray tracing is enabled.\n        </p>"
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The type of the state machine (STANDARD or EXPRESS).\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Provides details about an Step Functions state machine, which is a workflow consisting of a series of event-\n            driven steps.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails": {
+            "type": "structure",
+            "members": {
+                "LogGroupArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN (ends with <code>:*</code>) of the CloudWatch Logs log group to which you want your logs emitted.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An object describing a CloudWatch log group. For more information, see \n            <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html\">\n                Amazon Web Services::Logs::LogGroup</a> in the <i>CloudFormation User Guide</i>.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails": {
+            "type": "structure",
+            "members": {
+                "CloudWatchLogsLogGroup": {
+                    "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An object describing a CloudWatch Logs log group. For more information, see \n            <a href=\"https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html\">\n                Amazon Web Services::Logs::LogGroup</a> in the <i>CloudFormation User Guide</i>.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            An array of objects that describes where your execution history events will be logged.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails"
+            }
+        },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDetails": {
+            "type": "structure",
+            "members": {
+                "Destinations": {
+                    "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineLoggingConfigurationDestinationsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            An array of objects that describes where your execution history events will be logged. \n        </p>"
+                    }
+                },
+                "IncludeExecutionData": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            Determines whether execution data is included in your log. When set to false, data is excluded.\n        </p>"
+                    }
+                },
+                "Level": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Defines which category of execution history events are logged.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            The <code>LoggingConfiguration</code> data type is used to set CloudWatch Logs options.\n        </p>"
+            }
+        },
+        "com.amazonaws.securityhub#AwsStepFunctionStateMachineTracingConfigurationDetails": {
+            "type": "structure",
+            "members": {
+                "Enabled": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>\n            When set to true, X-Ray tracing is enabled.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n            Specifies whether X-Ray tracing is enabled.\n        </p>"
+            }
+        },
         "com.amazonaws.securityhub#AwsWafRateBasedRuleDetails": {
             "type": "structure",
             "members": {
@@ -18149,6 +19595,75 @@
                 "smithy.api#documentation": "<p>Information about the encryption configuration for X-Ray.</p>"
             }
         },
+        "com.amazonaws.securityhub#BatchDeleteAutomationRules": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.securityhub#BatchDeleteAutomationRulesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.securityhub#BatchDeleteAutomationRulesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.securityhub#InternalException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidAccessException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Deletes one or more automation rules.\n      </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/automationrules/delete",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.securityhub#BatchDeleteAutomationRulesRequest": {
+            "type": "structure",
+            "members": {
+                "AutomationRulesArns": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesArnsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.securityhub#BatchDeleteAutomationRulesResponse": {
+            "type": "structure",
+            "members": {
+                "ProcessedAutomationRules": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesArnsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of properly processed rule ARNs.\n      </p>"
+                    }
+                },
+                "UnprocessedAutomationRules": {
+                    "target": "com.amazonaws.securityhub#UnprocessedAutomationRulesList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of objects containing <code>RuleArn</code>, <code>ErrorCode</code>, and <code>ErrorMessage</code>. This parameter \n         tells you which automation rules the request didn't delete and why.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.securityhub#BatchDisableStandards": {
             "type": "operation",
             "input": {
@@ -18262,6 +19777,78 @@
                     "target": "com.amazonaws.securityhub#StandardsSubscriptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The details of the standards subscriptions that were enabled.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.securityhub#BatchGetAutomationRules": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.securityhub#BatchGetAutomationRulesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.securityhub#BatchGetAutomationRulesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.securityhub#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InternalException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidAccessException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Retrieves a list of details for automation rules based on rule Amazon Resource Names \n         (ARNs).\n      </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/automationrules/get",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.securityhub#BatchGetAutomationRulesRequest": {
+            "type": "structure",
+            "members": {
+                "AutomationRulesArns": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesArnsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of rule ARNs to get details for.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.securityhub#BatchGetAutomationRulesResponse": {
+            "type": "structure",
+            "members": {
+                "Rules": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesConfigList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of rule details for the provided rule ARNs.\n      </p>"
+                    }
+                },
+                "UnprocessedAutomationRules": {
+                    "target": "com.amazonaws.securityhub#UnprocessedAutomationRulesList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of objects containing <code>RuleArn</code>, <code>ErrorCode</code>, and <code>ErrorMessage</code>. This parameter \n         tells you which automation rules the request didn't retrieve and why.\n      </p>"
                     }
                 }
             },
@@ -18484,6 +20071,75 @@
                     "target": "com.amazonaws.securityhub#ImportFindingsErrorList",
                     "traits": {
                         "smithy.api#documentation": "<p>The list of findings that failed to import.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.securityhub#BatchUpdateAutomationRules": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.securityhub#BatchUpdateAutomationRulesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.securityhub#BatchUpdateAutomationRulesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.securityhub#InternalException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidAccessException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Updates one or more automation rules based on rule Amazon Resource Names (ARNs) \n         and input parameters.\n      </p>",
+                "smithy.api#http": {
+                    "method": "PATCH",
+                    "uri": "/automationrules/update",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.securityhub#BatchUpdateAutomationRulesRequest": {
+            "type": "structure",
+            "members": {
+                "UpdateAutomationRulesRequestItems": {
+                    "target": "com.amazonaws.securityhub#UpdateAutomationRulesRequestItemsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         An array of ARNs for the rules that are to be updated. Optionally, you can also include \n         <code>RuleStatus</code> and <code>RuleOrder</code>.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.securityhub#BatchUpdateAutomationRulesResponse": {
+            "type": "structure",
+            "members": {
+                "ProcessedAutomationRules": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesArnsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of properly processed rule ARNs.\n      </p>"
+                    }
+                },
+                "UnprocessedAutomationRules": {
+                    "target": "com.amazonaws.securityhub#UnprocessedAutomationRulesList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A list of objects containing <code>RuleArn</code>, <code>ErrorCode</code>, and <code>ErrorMessage</code>. This parameter \n         tells you which automation rules the request didn't update and why.\n      </p>"
                     }
                 }
             },
@@ -19135,6 +20791,117 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the custom action target.</p>",
                         "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.securityhub#CreateAutomationRule": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.securityhub#CreateAutomationRuleRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.securityhub#CreateAutomationRuleResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.securityhub#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InternalException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidAccessException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#LimitExceededException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Creates an automation rule based on input parameters.\n      </p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/automationrules/create",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.securityhub#CreateAutomationRuleRequest": {
+            "type": "structure",
+            "members": {
+                "Tags": {
+                    "target": "com.amazonaws.securityhub#TagMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            User-defined tags that help you label the purpose of a rule. \n        </p>"
+                    }
+                },
+                "RuleStatus": {
+                    "target": "com.amazonaws.securityhub#RuleStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Whether the rule is active after it is created. If \n         this parameter is equal to <code>Enabled</code>, Security Hub will apply the rule to findings \n         and finding updates after the rule is created. To change the value of this\n         parameter after creating a rule, use <code>BatchUpdateAutomationRules</code>.\n      </p>"
+                    }
+                },
+                "RuleOrder": {
+                    "target": "com.amazonaws.securityhub#RuleOrderValue",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>An integer ranging from 1 to 1000 that represents the order in which the rule action is\n         applied to findings. Security Hub applies rules with lower values for this parameter\n         first. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RuleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The name of the rule.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A description of the rule.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "IsTerminal": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding \n            matches the criteria for multiple rules, and each rule has different actions. If the value of this field is \n            set to <code>true</code> for a rule, Security Hub applies the rule action to a finding that matches \n            the rule criteria and won't evaluate other rules for the finding. The default value of this field is <code>false</code>.\n        </p>"
+                    }
+                },
+                "Criteria": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesFindingFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A set of ASFF finding field attributes and corresponding expected values that \n         Security Hub uses to filter findings. If a finding matches the conditions specified in\n         this parameter, Security Hub applies the rule action to the finding.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Actions": {
+                    "target": "com.amazonaws.securityhub#ActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         One or more actions to update finding fields if a finding matches the conditions \n         specified in <code>Criteria</code>. \n      </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.securityhub#CreateAutomationRuleResponse": {
+            "type": "structure",
+            "members": {
+                "RuleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) of the automation rule that you created.\n      </p>"
                     }
                 }
             },
@@ -21031,7 +22798,7 @@
                 "UpdateTime": {
                     "target": "com.amazonaws.securityhub#Timestamp",
                     "traits": {
-                        "smithy.api#documentation": "<p> An ISO 8601-formatted timestamp that indicates when the security findings provider last\n            updated the finding record. A correctly formatted example is\n                <code>2020-05-21T20:16:34.724Z</code>. The value cannot contain spaces, and date and\n            time should be separated by <code>T</code>. For more information, see <a href=\"https://www.rfc-editor.org/rfc/rfc3339#section-5.6\">RFC 3339 section 5.6,\n                Internet Date/Time Format</a>. </p>"
+                        "smithy.api#documentation": "<p> An ISO 8601-formatted timestamp that indicates when Security Hub \n            processed the updated finding record.</p>\n         <p>A correctly formatted example is\n                <code>2020-05-21T20:16:34.724Z</code>. The value cannot contain spaces, and date and\n            time should be separated by <code>T</code>. For more information, see <a href=\"https://www.rfc-editor.org/rfc/rfc3339#section-5.6\">RFC 3339 section 5.6,\n                Internet Date/Time Format</a>. </p>"
                     }
                 },
                 "FindingCreated": {
@@ -22539,6 +24306,83 @@
                 "smithy.api#documentation": "<p>The request was rejected because it attempted to create resources beyond the current Amazon Web Services\n         account or throttling limits. The error code describes the limit exceeded.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
+            }
+        },
+        "com.amazonaws.securityhub#ListAutomationRules": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.securityhub#ListAutomationRulesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.securityhub#ListAutomationRulesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.securityhub#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InternalException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidAccessException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#LimitExceededException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>\n         A list of automation rules and their metadata for the calling account.\n      </p>",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/automationrules/list",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.securityhub#ListAutomationRulesRequest": {
+            "type": "structure",
+            "members": {
+                "NextToken": {
+                    "target": "com.amazonaws.securityhub#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A token to specify where to start paginating the response. This is the <code>NextToken</code> \n         from a previously truncated response. On your first call to the <code>ListAutomationRules</code> \n         API, set the value of this parameter to <code>NULL</code>.\n      </p>",
+                        "smithy.api#httpQuery": "NextToken"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.securityhub#MaxResults",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p> The maximum number of rules to return in the response. This currently ranges from 1 to\n         100. </p>",
+                        "smithy.api#httpQuery": "MaxResults"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.securityhub#ListAutomationRulesResponse": {
+            "type": "structure",
+            "members": {
+                "AutomationRulesMetadata": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesMetadataList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Metadata for rules in the calling account. The response includes rules with a \n         <code>RuleStatus</code> of <code>ENABLED</code> and <code>DISABLED</code>.\n      </p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.securityhub#NextToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A pagination token for the response.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.securityhub#ListEnabledProductsForImport": {
@@ -24981,6 +26825,36 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n         Provides details about a route table. A route table contains a set of rules, called routes, that \n         determine where to direct network traffic from your subnet or gateway. \n      </p>"
                     }
+                },
+                "AwsAmazonMqBroker": {
+                    "target": "com.amazonaws.securityhub#AwsAmazonMqBrokerDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Provides details about AppSync message broker. A message broker allows software applications and \n            components to communicate using various programming languages, operating systems, and formal messaging protocols. \n        </p>"
+                    }
+                },
+                "AwsAppSyncGraphQlApi": {
+                    "target": "com.amazonaws.securityhub#AwsAppSyncGraphQlApiDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, \n            and APIs from a single GraphQL endpoint.\n        </p>"
+                    }
+                },
+                "AwsEventSchemasRegistry": {
+                    "target": "com.amazonaws.securityhub#AwsEventSchemasRegistryDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            A schema defines the structure of events that are sent to Amazon EventBridge. Schema registries are containers for \n            schemas. They collect and organize schemas so that your schemas are in logical groups. \n        </p>"
+                    }
+                },
+                "AwsGuardDutyDetector": {
+                    "target": "com.amazonaws.securityhub#AwsGuardDutyDetectorDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Provides details about an Amazon GuardDuty detector. A detector is an object that represents the GuardDuty \n            service. A detector is required for GuardDuty to become operational.\n        </p>"
+                    }
+                },
+                "AwsStepFunctionStateMachine": {
+                    "target": "com.amazonaws.securityhub#AwsStepFunctionStateMachineDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            Provides details about an Step Functions state machine, which is a workflow consisting of a series of event-driven steps.\n        </p>"
+                    }
                 }
             },
             "traits": {
@@ -25644,6 +27518,33 @@
                 "smithy.api#documentation": "<p>A list of port ranges.</p>"
             }
         },
+        "com.amazonaws.securityhub#RuleOrderValue": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#default": 0,
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 1000
+                }
+            }
+        },
+        "com.amazonaws.securityhub#RuleStatus": {
+            "type": "enum",
+            "members": {
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                }
+            }
+        },
         "com.amazonaws.securityhub#SecurityControl": {
             "type": "structure",
             "members": {
@@ -25780,10 +27681,16 @@
                     "target": "com.amazonaws.securityhub#AcceptInvitation"
                 },
                 {
+                    "target": "com.amazonaws.securityhub#BatchDeleteAutomationRules"
+                },
+                {
                     "target": "com.amazonaws.securityhub#BatchDisableStandards"
                 },
                 {
                     "target": "com.amazonaws.securityhub#BatchEnableStandards"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#BatchGetAutomationRules"
                 },
                 {
                     "target": "com.amazonaws.securityhub#BatchGetSecurityControls"
@@ -25795,6 +27702,9 @@
                     "target": "com.amazonaws.securityhub#BatchImportFindings"
                 },
                 {
+                    "target": "com.amazonaws.securityhub#BatchUpdateAutomationRules"
+                },
+                {
                     "target": "com.amazonaws.securityhub#BatchUpdateFindings"
                 },
                 {
@@ -25802,6 +27712,9 @@
                 },
                 {
                     "target": "com.amazonaws.securityhub#CreateActionTarget"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#CreateAutomationRule"
                 },
                 {
                     "target": "com.amazonaws.securityhub#CreateFindingAggregator"
@@ -25907,6 +27820,9 @@
                 },
                 {
                     "target": "com.amazonaws.securityhub#InviteMembers"
+                },
+                {
+                    "target": "com.amazonaws.securityhub#ListAutomationRules"
                 },
                 {
                     "target": "com.amazonaws.securityhub#ListEnabledProductsForImport"
@@ -28298,6 +30214,39 @@
                 "target": "com.amazonaws.securityhub#NonEmptyString"
             }
         },
+        "com.amazonaws.securityhub#UnprocessedAutomationRule": {
+            "type": "structure",
+            "members": {
+                "RuleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) for the unprocessed automation rule.\n      </p>"
+                    }
+                },
+                "ErrorCode": {
+                    "target": "com.amazonaws.securityhub#Integer",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>\n         The error code associated with the unprocessed automation rule.\n      </p>"
+                    }
+                },
+                "ErrorMessage": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         An error message describing why a request didn't process a specific rule.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         A list of objects containing <code>RuleArn</code>, <code>ErrorCode</code>, and <code>ErrorMessage</code>. This parameter \n         tells you which automation rules the request didn't process and why.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#UnprocessedAutomationRulesList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#UnprocessedAutomationRule"
+            }
+        },
         "com.amazonaws.securityhub#UnprocessedErrorCode": {
             "type": "enum",
             "members": {
@@ -28552,6 +30501,77 @@
             "members": {},
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.securityhub#UpdateAutomationRulesRequestItem": {
+            "type": "structure",
+            "members": {
+                "RuleArn": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The Amazon Resource Name (ARN) for the rule.\n      </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RuleStatus": {
+                    "target": "com.amazonaws.securityhub#RuleStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Whether the rule is active after it is created. If \n         this parameter is equal to <code>ENABLED</code>, Security Hub will apply the rule to findings \n         and finding updates after the rule is created. To change the value of this\n         parameter after creating a rule, use <code>BatchUpdateAutomationRules</code>.\n      </p>"
+                    }
+                },
+                "RuleOrder": {
+                    "target": "com.amazonaws.securityhub#RuleOrderValue",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p> An integer ranging from 1 to 1000 that represents the order in which the rule action is\n         applied to findings. Security Hub applies rules with lower values for this parameter\n         first. </p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A description of the rule.\n      </p>"
+                    }
+                },
+                "RuleName": {
+                    "target": "com.amazonaws.securityhub#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The name of the rule.\n      </p>"
+                    }
+                },
+                "IsTerminal": {
+                    "target": "com.amazonaws.securityhub#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful \n            when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this \n            field is set to <code>true</code> for a rule, Security Hub applies the rule action to a finding that matches \n            the rule criteria and won't evaluate other rules for the finding.\u2028 The default value of this field is <code>false</code>.\n        </p>"
+                    }
+                },
+                "Criteria": {
+                    "target": "com.amazonaws.securityhub#AutomationRulesFindingFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         A set of ASFF finding field attributes and corresponding expected values that \n         Security Hub uses to filter findings. If a finding matches the conditions specified in\n         this parameter, Security Hub applies the rule action to the finding.\n      </p>"
+                    }
+                },
+                "Actions": {
+                    "target": "com.amazonaws.securityhub#ActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         One or more actions to update finding fields if a finding matches the conditions \n         specified in <code>Criteria</code>.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>\n         Specifies the parameters to update in an existing automation rule.\n      </p>"
+            }
+        },
+        "com.amazonaws.securityhub#UpdateAutomationRulesRequestItemsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.securityhub#UpdateAutomationRulesRequestItem"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 100
+                }
             }
         },
         "com.amazonaws.securityhub#UpdateFindingAggregator": {

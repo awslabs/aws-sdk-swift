@@ -14,7 +14,7 @@ extension S3ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFound"
+                return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
         return try WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -40,7 +40,7 @@ extension S3ClientProtocol {
         let acceptors: [WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: HeadBucketInput, result: Result<HeadBucketOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFound"
+                return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
         return try WaiterConfiguration<HeadBucketInput, HeadBucketOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -72,7 +72,7 @@ extension S3ClientProtocol {
             }),
             .init(state: .retry, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFound"
+                return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
         return try WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
@@ -98,7 +98,7 @@ extension S3ClientProtocol {
         let acceptors: [WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: HeadObjectInput, result: Result<HeadObjectOutputResponse, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? WaiterTypedError)?.waiterErrorType == "NotFound"
+                return (error as? ServiceError)?.typeName == "NotFound"
             }),
         ]
         return try WaiterConfiguration<HeadObjectInput, HeadObjectOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)

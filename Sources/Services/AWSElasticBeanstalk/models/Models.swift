@@ -29,7 +29,7 @@ public struct AbortEnvironmentUpdateInput: Swift.Equatable {
     /// This specifies the name of the environment with the in-progress update that you want to cancel.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
     )
@@ -50,7 +50,7 @@ extension AbortEnvironmentUpdateInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -59,35 +59,24 @@ extension AbortEnvironmentUpdateInputBody: Swift.Decodable {
     }
 }
 
-extension AbortEnvironmentUpdateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AbortEnvironmentUpdateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AbortEnvironmentUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AbortEnvironmentUpdateOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AbortEnvironmentUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AbortEnvironmentUpdateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ElasticBeanstalkClientTypes {
@@ -256,7 +245,7 @@ extension ElasticBeanstalkClientTypes.ApplicationDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
         applicationArn = applicationArnDecoded
@@ -331,7 +320,7 @@ extension ElasticBeanstalkClientTypes {
         /// The names of the versions for this application.
         public var versions: [Swift.String]?
 
-        public init (
+        public init(
             applicationArn: Swift.String? = nil,
             applicationName: Swift.String? = nil,
             configurationTemplates: [Swift.String]? = nil,
@@ -379,7 +368,7 @@ extension ElasticBeanstalkClientTypes.ApplicationMetrics: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
@@ -404,7 +393,7 @@ extension ElasticBeanstalkClientTypes {
         /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response.
         public var statusCodes: ElasticBeanstalkClientTypes.StatusCodes?
 
-        public init (
+        public init(
             duration: Swift.Int? = nil,
             latency: ElasticBeanstalkClientTypes.Latency? = nil,
             requestCount: Swift.Int = 0,
@@ -436,7 +425,7 @@ extension ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig: Swift.
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceRole)
         serviceRole = serviceRoleDecoded
@@ -453,7 +442,7 @@ extension ElasticBeanstalkClientTypes {
         /// Defines lifecycle settings for application versions.
         public var versionLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig?
 
-        public init (
+        public init(
             serviceRole: Swift.String? = nil,
             versionLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig? = nil
         )
@@ -513,7 +502,7 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionDescription: Swift.Codab
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationVersionArn)
         applicationVersionArn = applicationVersionArnDecoded
@@ -572,7 +561,7 @@ extension ElasticBeanstalkClientTypes {
         /// A unique identifier for the application version.
         public var versionLabel: Swift.String?
 
-        public init (
+        public init(
             applicationName: Swift.String? = nil,
             applicationVersionArn: Swift.String? = nil,
             buildArn: Swift.String? = nil,
@@ -616,7 +605,7 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig: Swift.C
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maxCountRuleDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.MaxCountRule.self, forKey: .maxCountRule)
         maxCountRule = maxCountRuleDecoded
@@ -633,7 +622,7 @@ extension ElasticBeanstalkClientTypes {
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
         public var maxCountRule: ElasticBeanstalkClientTypes.MaxCountRule?
 
-        public init (
+        public init(
             maxAgeRule: ElasticBeanstalkClientTypes.MaxAgeRule? = nil,
             maxCountRule: ElasticBeanstalkClientTypes.MaxCountRule? = nil
         )
@@ -719,7 +708,7 @@ public struct ApplyEnvironmentManagedActionInput: Swift.Equatable {
     /// The name of the target environment.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         actionId: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
@@ -744,7 +733,7 @@ extension ApplyEnvironmentManagedActionInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -755,32 +744,20 @@ extension ApplyEnvironmentManagedActionInputBody: Swift.Decodable {
     }
 }
 
-extension ApplyEnvironmentManagedActionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ApplyEnvironmentManagedActionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ManagedActionInvalidStateException" : self = .managedActionInvalidStateException(try ManagedActionInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ApplyEnvironmentManagedActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ManagedActionInvalidStateException": return try await ManagedActionInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ApplyEnvironmentManagedActionOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case managedActionInvalidStateException(ManagedActionInvalidStateException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ApplyEnvironmentManagedActionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ApplyEnvironmentManagedActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.actionDescription = output.actionDescription
@@ -807,7 +784,7 @@ public struct ApplyEnvironmentManagedActionOutputResponse: Swift.Equatable {
     /// The status of the managed action.
     public var status: Swift.String?
 
-    public init (
+    public init(
         actionDescription: Swift.String? = nil,
         actionId: Swift.String? = nil,
         actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
@@ -836,7 +813,7 @@ extension ApplyEnvironmentManagedActionOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ApplyEnvironmentManagedActionResult"))
         let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
@@ -879,7 +856,7 @@ public struct AssociateEnvironmentOperationsRoleInput: Swift.Equatable {
     /// This member is required.
     public var operationsRole: Swift.String?
 
-    public init (
+    public init(
         environmentName: Swift.String? = nil,
         operationsRole: Swift.String? = nil
     )
@@ -900,7 +877,7 @@ extension AssociateEnvironmentOperationsRoleInputBody: Swift.Decodable {
         case operationsRole = "OperationsRole"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -909,35 +886,24 @@ extension AssociateEnvironmentOperationsRoleInputBody: Swift.Decodable {
     }
 }
 
-extension AssociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension AssociateEnvironmentOperationsRoleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum AssociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum AssociateEnvironmentOperationsRoleOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension AssociateEnvironmentOperationsRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct AssociateEnvironmentOperationsRoleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ElasticBeanstalkClientTypes.AutoScalingGroup: Swift.Codable {
@@ -952,7 +918,7 @@ extension ElasticBeanstalkClientTypes.AutoScalingGroup: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -965,7 +931,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the AutoScalingGroup .
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -1003,7 +969,7 @@ extension ElasticBeanstalkClientTypes.BuildConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let artifactNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .artifactName)
         artifactName = artifactNameDecoded
@@ -1040,7 +1006,7 @@ extension ElasticBeanstalkClientTypes {
         /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
         public var timeoutInMinutes: Swift.Int?
 
-        public init (
+        public init(
             artifactName: Swift.String? = nil,
             codeBuildServiceRole: Swift.String? = nil,
             computeType: ElasticBeanstalkClientTypes.ComputeType? = nil,
@@ -1070,7 +1036,7 @@ extension ElasticBeanstalkClientTypes.Builder: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -1083,7 +1049,7 @@ extension ElasticBeanstalkClientTypes {
         /// The ARN of the builder.
         public var arn: Swift.String?
 
-        public init (
+        public init(
             arn: Swift.String? = nil
         )
         {
@@ -1133,7 +1099,7 @@ extension ElasticBeanstalkClientTypes.CPUUtilization: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .user)
         user = userDecoded
@@ -1174,7 +1140,7 @@ extension ElasticBeanstalkClientTypes {
         /// Percentage of time that the CPU has spent in the User state over the last 10 seconds.
         public var user: Swift.Double?
 
-        public init (
+        public init(
             idle: Swift.Double? = nil,
             ioWait: Swift.Double? = nil,
             irq: Swift.Double? = nil,
@@ -1221,7 +1187,7 @@ public struct CheckDNSAvailabilityInput: Swift.Equatable {
     /// This member is required.
     public var cnamePrefix: Swift.String?
 
-    public init (
+    public init(
         cnamePrefix: Swift.String? = nil
     )
     {
@@ -1238,35 +1204,25 @@ extension CheckDNSAvailabilityInputBody: Swift.Decodable {
         case cnamePrefix = "CNAMEPrefix"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cnamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cnamePrefix)
         cnamePrefix = cnamePrefixDecoded
     }
 }
 
-extension CheckDNSAvailabilityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CheckDNSAvailabilityOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CheckDNSAvailabilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CheckDNSAvailabilityOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CheckDNSAvailabilityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckDNSAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.available = output.available
@@ -1289,7 +1245,7 @@ public struct CheckDNSAvailabilityOutputResponse: Swift.Equatable {
     /// The fully qualified CNAME to reserve when [CreateEnvironment] is called with the provided prefix.
     public var fullyQualifiedCNAME: Swift.String?
 
-    public init (
+    public init(
         available: Swift.Bool? = nil,
         fullyQualifiedCNAME: Swift.String? = nil
     )
@@ -1310,7 +1266,7 @@ extension CheckDNSAvailabilityOutputResponseBody: Swift.Decodable {
         case fullyQualifiedCNAME = "FullyQualifiedCNAME"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CheckDNSAvailabilityResult"))
         let availableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .available)
@@ -1321,38 +1277,41 @@ extension CheckDNSAvailabilityOutputResponseBody: Swift.Decodable {
 }
 
 extension CodeBuildNotInServiceRegionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<CodeBuildNotInServiceRegionExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// AWS CodeBuild is not available in the specified region.
-public struct CodeBuildNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CodeBuildNotInServiceRegionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -1365,7 +1324,7 @@ extension CodeBuildNotInServiceRegionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -1413,7 +1372,7 @@ public struct ComposeEnvironmentsInput: Swift.Equatable {
     /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
     public var versionLabels: [Swift.String]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         groupName: Swift.String? = nil,
         versionLabels: [Swift.String]? = nil
@@ -1438,7 +1397,7 @@ extension ComposeEnvironmentsInputBody: Swift.Decodable {
         case versionLabels = "VersionLabels"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -1466,32 +1425,20 @@ extension ComposeEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-extension ComposeEnvironmentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ComposeEnvironmentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyEnvironmentsException" : self = .tooManyEnvironmentsException(try TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ComposeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyEnvironmentsException": return try await TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ComposeEnvironmentsOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyEnvironmentsException(TooManyEnvironmentsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ComposeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ComposeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
@@ -1510,7 +1457,7 @@ public struct ComposeEnvironmentsOutputResponse: Swift.Equatable {
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1531,7 +1478,7 @@ extension ComposeEnvironmentsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ComposeEnvironmentsResult"))
         if containerValues.contains(.environments) {
@@ -1689,7 +1636,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationOptionDescription: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
@@ -1780,7 +1727,7 @@ extension ElasticBeanstalkClientTypes {
         /// * Json : Values for this option are a JSON representation of a ConfigDocument.
         public var valueType: ElasticBeanstalkClientTypes.ConfigurationOptionValueType?
 
-        public init (
+        public init(
             changeSeverity: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             maxLength: Swift.Int? = nil,
@@ -1834,7 +1781,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationOptionSetting: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -1859,7 +1806,7 @@ extension ElasticBeanstalkClientTypes {
         /// The current value for the configuration option.
         public var value: Swift.String?
 
-        public init (
+        public init(
             namespace: Swift.String? = nil,
             optionName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
@@ -1964,7 +1911,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription: Swift.Co
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let solutionStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionStackName)
         solutionStackName = solutionStackNameDecoded
@@ -2038,7 +1985,7 @@ extension ElasticBeanstalkClientTypes {
         /// If not null, the name of the configuration template for this configuration set.
         public var templateName: Swift.String?
 
-        public init (
+        public init(
             applicationName: Swift.String? = nil,
             dateCreated: ClientRuntime.Date? = nil,
             dateUpdated: ClientRuntime.Date? = nil,
@@ -2113,7 +2060,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags.
     public var tags: [ElasticBeanstalkClientTypes.Tag]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil,
@@ -2142,7 +2089,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -2172,30 +2119,19 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TooManyApplicationsException" : self = .tooManyApplicationsException(try TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TooManyApplicationsException": return try await TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case tooManyApplicationsException(TooManyApplicationsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
@@ -2210,7 +2146,7 @@ public struct CreateApplicationOutputResponse: Swift.Equatable {
     /// The [ApplicationDescription] of the application.
     public var application: ElasticBeanstalkClientTypes.ApplicationDescription?
 
-    public init (
+    public init(
         application: ElasticBeanstalkClientTypes.ApplicationDescription? = nil
     )
     {
@@ -2227,7 +2163,7 @@ extension CreateApplicationOutputResponseBody: Swift.Decodable {
         case application = "Application"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateApplicationResult"))
         let applicationDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ApplicationDescription.self, forKey: .application)
@@ -2308,7 +2244,7 @@ public struct CreateApplicationVersionInput: Swift.Equatable {
     /// This member is required.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         autoCreateApplication: Swift.Bool? = nil,
         buildConfiguration: ElasticBeanstalkClientTypes.BuildConfiguration? = nil,
@@ -2357,7 +2293,7 @@ extension CreateApplicationVersionInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -2397,38 +2333,23 @@ extension CreateApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-extension CreateApplicationVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateApplicationVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "CodeBuildNotInServiceRegionException" : self = .codeBuildNotInServiceRegionException(try CodeBuildNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3LocationNotInServiceRegionException" : self = .s3LocationNotInServiceRegionException(try S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyApplicationsException" : self = .tooManyApplicationsException(try TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyApplicationVersionsException" : self = .tooManyApplicationVersionsException(try TooManyApplicationVersionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CodeBuildNotInServiceRegionException": return try await CodeBuildNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "S3LocationNotInServiceRegionException": return try await S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyApplicationsException": return try await TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyApplicationVersionsException": return try await TooManyApplicationVersionsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateApplicationVersionOutputError: Swift.Error, Swift.Equatable {
-    case codeBuildNotInServiceRegionException(CodeBuildNotInServiceRegionException)
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case s3LocationNotInServiceRegionException(S3LocationNotInServiceRegionException)
-    case tooManyApplicationsException(TooManyApplicationsException)
-    case tooManyApplicationVersionsException(TooManyApplicationVersionsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersion = output.applicationVersion
@@ -2443,7 +2364,7 @@ public struct CreateApplicationVersionOutputResponse: Swift.Equatable {
     /// The [ApplicationVersionDescription] of the application version.
     public var applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription?
 
-    public init (
+    public init(
         applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription? = nil
     )
     {
@@ -2460,7 +2381,7 @@ extension CreateApplicationVersionOutputResponseBody: Swift.Decodable {
         case applicationVersion = "ApplicationVersion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateApplicationVersionResult"))
         let applicationVersionDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ApplicationVersionDescription.self, forKey: .applicationVersion)
@@ -2550,7 +2471,7 @@ public struct CreateConfigurationTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
@@ -2599,7 +2520,7 @@ extension CreateConfigurationTemplateInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -2656,34 +2577,21 @@ extension CreateConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension CreateConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateConfigurationTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyConfigurationTemplatesException" : self = .tooManyConfigurationTemplatesException(try TooManyConfigurationTemplatesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyConfigurationTemplatesException": return try await TooManyConfigurationTemplatesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyBucketsException(TooManyBucketsException)
-    case tooManyConfigurationTemplatesException(TooManyConfigurationTemplatesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -2742,7 +2650,7 @@ public struct CreateConfigurationTemplateOutputResponse: Swift.Equatable {
     /// If not null, the name of the configuration template for this configuration set.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         dateCreated: ClientRuntime.Date? = nil,
         dateUpdated: ClientRuntime.Date? = nil,
@@ -2795,7 +2703,7 @@ extension CreateConfigurationTemplateOutputResponseBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateConfigurationTemplateResult"))
         let solutionStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionStackName)
@@ -2953,7 +2861,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         cnamePrefix: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -3022,7 +2930,7 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3106,32 +3014,20 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension CreateEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyEnvironmentsException" : self = .tooManyEnvironmentsException(try TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyEnvironmentsException": return try await TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyEnvironmentsException(TooManyEnvironmentsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
@@ -3247,7 +3143,7 @@ public struct CreateEnvironmentOutputResponse: Swift.Equatable {
     /// The application version deployed in this environment.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
@@ -3344,7 +3240,7 @@ extension CreateEnvironmentOutputResponseBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateEnvironmentResult"))
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
@@ -3477,7 +3373,7 @@ public struct CreatePlatformVersionInput: Swift.Equatable {
     /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't inherit the tags.
     public var tags: [ElasticBeanstalkClientTypes.Tag]?
 
-    public init (
+    public init(
         environmentName: Swift.String? = nil,
         optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]? = nil,
         platformDefinitionBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
@@ -3514,7 +3410,7 @@ extension CreatePlatformVersionInputBody: Swift.Decodable {
         case tags = "Tags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformName)
         platformName = platformNameDecoded
@@ -3565,34 +3461,21 @@ extension CreatePlatformVersionInputBody: Swift.Decodable {
     }
 }
 
-extension CreatePlatformVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreatePlatformVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyPlatformsException" : self = .tooManyPlatformsException(try TooManyPlatformsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreatePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyPlatformsException": return try await TooManyPlatformsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreatePlatformVersionOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyPlatformsException(TooManyPlatformsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreatePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builder = output.builder
@@ -3610,7 +3493,7 @@ public struct CreatePlatformVersionOutputResponse: Swift.Equatable {
     /// Detailed information about the new version of the custom platform.
     public var platformSummary: ElasticBeanstalkClientTypes.PlatformSummary?
 
-    public init (
+    public init(
         builder: ElasticBeanstalkClientTypes.Builder? = nil,
         platformSummary: ElasticBeanstalkClientTypes.PlatformSummary? = nil
     )
@@ -3631,7 +3514,7 @@ extension CreatePlatformVersionOutputResponseBody: Swift.Decodable {
         case platformSummary = "PlatformSummary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreatePlatformVersionResult"))
         let platformSummaryDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.PlatformSummary.self, forKey: .platformSummary)
@@ -3657,37 +3540,24 @@ extension CreateStorageLocationInput: ClientRuntime.URLPathProvider {
 
 public struct CreateStorageLocationInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension CreateStorageLocationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension CreateStorageLocationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3SubscriptionRequiredException" : self = .s3SubscriptionRequiredException(try S3SubscriptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum CreateStorageLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "S3SubscriptionRequiredException": return try await S3SubscriptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum CreateStorageLocationOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case s3SubscriptionRequiredException(S3SubscriptionRequiredException)
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension CreateStorageLocationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateStorageLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.s3Bucket = output.s3Bucket
@@ -3702,7 +3572,7 @@ public struct CreateStorageLocationOutputResponse: Swift.Equatable {
     /// The name of the Amazon S3 bucket created.
     public var s3Bucket: Swift.String?
 
-    public init (
+    public init(
         s3Bucket: Swift.String? = nil
     )
     {
@@ -3719,7 +3589,7 @@ extension CreateStorageLocationOutputResponseBody: Swift.Decodable {
         case s3Bucket = "S3Bucket"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateStorageLocationResult"))
         let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
@@ -3743,7 +3613,7 @@ extension ElasticBeanstalkClientTypes.CustomAmi: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let virtualizationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualizationType)
         virtualizationType = virtualizationTypeDecoded
@@ -3760,7 +3630,7 @@ extension ElasticBeanstalkClientTypes {
         /// The type of virtualization used to create the custom AMI.
         public var virtualizationType: Swift.String?
 
-        public init (
+        public init(
             imageId: Swift.String? = nil,
             virtualizationType: Swift.String? = nil
         )
@@ -3800,7 +3670,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     /// When set to true, running environments will be terminated before deleting the application.
     public var terminateEnvByForce: Swift.Bool?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         terminateEnvByForce: Swift.Bool? = nil
     )
@@ -3821,7 +3691,7 @@ extension DeleteApplicationInputBody: Swift.Decodable {
         case terminateEnvByForce = "TerminateEnvByForce"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3830,35 +3700,24 @@ extension DeleteApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteApplicationOutputError: Swift.Error, Swift.Equatable {
-    case operationInProgressException(OperationInProgressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteApplicationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteApplicationVersionInput: Swift.Encodable {
@@ -3895,7 +3754,7 @@ public struct DeleteApplicationVersionInput: Swift.Equatable {
     /// This member is required.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         deleteSourceBundle: Swift.Bool? = nil,
         versionLabel: Swift.String? = nil
@@ -3920,7 +3779,7 @@ extension DeleteApplicationVersionInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -3931,41 +3790,27 @@ extension DeleteApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteApplicationVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteApplicationVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "S3LocationNotInServiceRegionException" : self = .s3LocationNotInServiceRegionException(try S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "SourceBundleDeletionFailure" : self = .sourceBundleDeletionException(try SourceBundleDeletionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "S3LocationNotInServiceRegionException": return try await S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SourceBundleDeletionFailure": return try await SourceBundleDeletionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteApplicationVersionOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case operationInProgressException(OperationInProgressException)
-    case s3LocationNotInServiceRegionException(S3LocationNotInServiceRegionException)
-    case sourceBundleDeletionException(SourceBundleDeletionException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteApplicationVersionOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteConfigurationTemplateInput: Swift.Encodable {
@@ -3997,7 +3842,7 @@ public struct DeleteConfigurationTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         templateName: Swift.String? = nil
     )
@@ -4018,7 +3863,7 @@ extension DeleteConfigurationTemplateInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4027,35 +3872,24 @@ extension DeleteConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteConfigurationTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
-    case operationInProgressException(OperationInProgressException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteConfigurationTemplateOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeleteEnvironmentConfigurationInput: Swift.Encodable {
@@ -4087,7 +3921,7 @@ public struct DeleteEnvironmentConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil
     )
@@ -4108,7 +3942,7 @@ extension DeleteEnvironmentConfigurationInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4117,33 +3951,23 @@ extension DeleteEnvironmentConfigurationInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteEnvironmentConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeleteEnvironmentConfigurationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeleteEnvironmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeleteEnvironmentConfigurationOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeleteEnvironmentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DeleteEnvironmentConfigurationOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension DeletePlatformVersionInput: Swift.Encodable {
@@ -4167,7 +3991,7 @@ public struct DeletePlatformVersionInput: Swift.Equatable {
     /// The ARN of the version of the custom platform.
     public var platformArn: Swift.String?
 
-    public init (
+    public init(
         platformArn: Swift.String? = nil
     )
     {
@@ -4184,43 +4008,29 @@ extension DeletePlatformVersionInputBody: Swift.Decodable {
         case platformArn = "PlatformArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformArn)
         platformArn = platformArnDecoded
     }
 }
 
-extension DeletePlatformVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DeletePlatformVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "PlatformVersionStillReferencedException" : self = .platformVersionStillReferencedException(try PlatformVersionStillReferencedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DeletePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PlatformVersionStillReferencedException": return try await PlatformVersionStillReferencedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DeletePlatformVersionOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case operationInProgressException(OperationInProgressException)
-    case platformVersionStillReferencedException(PlatformVersionStillReferencedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DeletePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeletePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.platformSummary = output.platformSummary
@@ -4234,7 +4044,7 @@ public struct DeletePlatformVersionOutputResponse: Swift.Equatable {
     /// Detailed information about the version of the custom platform.
     public var platformSummary: ElasticBeanstalkClientTypes.PlatformSummary?
 
-    public init (
+    public init(
         platformSummary: ElasticBeanstalkClientTypes.PlatformSummary? = nil
     )
     {
@@ -4251,7 +4061,7 @@ extension DeletePlatformVersionOutputResponseBody: Swift.Decodable {
         case platformSummary = "PlatformSummary"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeletePlatformVersionResult"))
         let platformSummaryDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.PlatformSummary.self, forKey: .platformSummary)
@@ -4283,7 +4093,7 @@ extension ElasticBeanstalkClientTypes.Deployment: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
         versionLabel = versionLabelDecoded
@@ -4314,7 +4124,7 @@ extension ElasticBeanstalkClientTypes {
         /// The version label of the application version in the deployment.
         public var versionLabel: Swift.String?
 
-        public init (
+        public init(
             deploymentId: Swift.Int? = nil,
             deploymentTime: ClientRuntime.Date? = nil,
             status: Swift.String? = nil,
@@ -4346,33 +4156,22 @@ extension DescribeAccountAttributesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeAccountAttributesInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeAccountAttributesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceQuotas = output.resourceQuotas
@@ -4386,7 +4185,7 @@ public struct DescribeAccountAttributesOutputResponse: Swift.Equatable {
     /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
     public var resourceQuotas: ElasticBeanstalkClientTypes.ResourceQuotas?
 
-    public init (
+    public init(
         resourceQuotas: ElasticBeanstalkClientTypes.ResourceQuotas? = nil
     )
     {
@@ -4403,7 +4202,7 @@ extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
         case resourceQuotas = "ResourceQuotas"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeAccountAttributesResult"))
         let resourceQuotasDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ResourceQuotas.self, forKey: .resourceQuotas)
@@ -4457,7 +4256,7 @@ public struct DescribeApplicationVersionsInput: Swift.Equatable {
     /// Specify a version label to show a specific application version.
     public var versionLabels: [Swift.String]?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -4486,7 +4285,7 @@ extension DescribeApplicationVersionsInputBody: Swift.Decodable {
         case versionLabels = "VersionLabels"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4516,28 +4315,18 @@ extension DescribeApplicationVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeApplicationVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeApplicationVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeApplicationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeApplicationVersionsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeApplicationVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeApplicationVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersions = output.applicationVersions
@@ -4556,7 +4345,7 @@ public struct DescribeApplicationVersionsOutputResponse: Swift.Equatable {
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         applicationVersions: [ElasticBeanstalkClientTypes.ApplicationVersionDescription]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4577,7 +4366,7 @@ extension DescribeApplicationVersionsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeApplicationVersionsResult"))
         if containerValues.contains(.applicationVersions) {
@@ -4635,7 +4424,7 @@ public struct DescribeApplicationsInput: Swift.Equatable {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
     public var applicationNames: [Swift.String]?
 
-    public init (
+    public init(
         applicationNames: [Swift.String]? = nil
     )
     {
@@ -4652,7 +4441,7 @@ extension DescribeApplicationsInputBody: Swift.Decodable {
         case applicationNames = "ApplicationNames"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.applicationNames) {
             struct KeyVal0{struct member{}}
@@ -4676,28 +4465,18 @@ extension DescribeApplicationsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeApplicationsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeApplicationsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
@@ -4712,7 +4491,7 @@ public struct DescribeApplicationsOutputResponse: Swift.Equatable {
     /// This parameter contains a list of [ApplicationDescription].
     public var applications: [ElasticBeanstalkClientTypes.ApplicationDescription]?
 
-    public init (
+    public init(
         applications: [ElasticBeanstalkClientTypes.ApplicationDescription]? = nil
     )
     {
@@ -4729,7 +4508,7 @@ extension DescribeApplicationsOutputResponseBody: Swift.Decodable {
         case applications = "Applications"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeApplicationsResult"))
         if containerValues.contains(.applications) {
@@ -4810,7 +4589,7 @@ public struct DescribeConfigurationOptionsInput: Swift.Equatable {
     /// The name of the configuration template whose configuration options you want to describe.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         options: [ElasticBeanstalkClientTypes.OptionSpecification]? = nil,
@@ -4847,7 +4626,7 @@ extension DescribeConfigurationOptionsInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -4881,30 +4660,19 @@ extension DescribeConfigurationOptionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigurationOptionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeConfigurationOptionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeConfigurationOptionsOutputError: Swift.Error, Swift.Equatable {
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.options = output.options
@@ -4927,7 +4695,7 @@ public struct DescribeConfigurationOptionsOutputResponse: Swift.Equatable {
     /// The name of the solution stack these configuration options belong to.
     public var solutionStackName: Swift.String?
 
-    public init (
+    public init(
         options: [ElasticBeanstalkClientTypes.ConfigurationOptionDescription]? = nil,
         platformArn: Swift.String? = nil,
         solutionStackName: Swift.String? = nil
@@ -4952,7 +4720,7 @@ extension DescribeConfigurationOptionsOutputResponseBody: Swift.Decodable {
         case solutionStackName = "SolutionStackName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeConfigurationOptionsResult"))
         let solutionStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionStackName)
@@ -5014,7 +4782,7 @@ public struct DescribeConfigurationSettingsInput: Swift.Equatable {
     /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         templateName: Swift.String? = nil
@@ -5039,7 +4807,7 @@ extension DescribeConfigurationSettingsInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -5050,30 +4818,19 @@ extension DescribeConfigurationSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeConfigurationSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeConfigurationSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeConfigurationSettingsOutputError: Swift.Error, Swift.Equatable {
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeConfigurationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeConfigurationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSettings = output.configurationSettings
@@ -5088,7 +4845,7 @@ public struct DescribeConfigurationSettingsOutputResponse: Swift.Equatable {
     /// A list of [ConfigurationSettingsDescription].
     public var configurationSettings: [ElasticBeanstalkClientTypes.ConfigurationSettingsDescription]?
 
-    public init (
+    public init(
         configurationSettings: [ElasticBeanstalkClientTypes.ConfigurationSettingsDescription]? = nil
     )
     {
@@ -5105,7 +4862,7 @@ extension DescribeConfigurationSettingsOutputResponseBody: Swift.Decodable {
         case configurationSettings = "ConfigurationSettings"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeConfigurationSettingsResult"))
         if containerValues.contains(.configurationSettings) {
@@ -5171,7 +4928,7 @@ public struct DescribeEnvironmentHealthInput: Swift.Equatable {
     /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         attributeNames: [ElasticBeanstalkClientTypes.EnvironmentHealthAttribute]? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
@@ -5196,7 +4953,7 @@ extension DescribeEnvironmentHealthInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -5224,32 +4981,20 @@ extension DescribeEnvironmentHealthInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEnvironmentHealthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEnvironmentHealthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEnvironmentHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEnvironmentHealthOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEnvironmentHealthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEnvironmentHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationMetrics = output.applicationMetrics
@@ -5292,7 +5037,7 @@ public struct DescribeEnvironmentHealthOutputResponse: Swift.Equatable {
     /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
     public var status: ElasticBeanstalkClientTypes.EnvironmentHealth?
 
-    public init (
+    public init(
         applicationMetrics: ElasticBeanstalkClientTypes.ApplicationMetrics? = nil,
         causes: [Swift.String]? = nil,
         color: Swift.String? = nil,
@@ -5337,7 +5082,7 @@ extension DescribeEnvironmentHealthOutputResponseBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEnvironmentHealthResult"))
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
@@ -5413,7 +5158,7 @@ public struct DescribeEnvironmentManagedActionHistoryInput: Swift.Equatable {
     /// The pagination token returned by a previous request.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
@@ -5442,7 +5187,7 @@ extension DescribeEnvironmentManagedActionHistoryInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -5455,30 +5200,19 @@ extension DescribeEnvironmentManagedActionHistoryInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEnvironmentManagedActionHistoryOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEnvironmentManagedActionHistoryOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEnvironmentManagedActionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEnvironmentManagedActionHistoryOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEnvironmentManagedActionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEnvironmentManagedActionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedActionHistoryItems = output.managedActionHistoryItems
@@ -5497,7 +5231,7 @@ public struct DescribeEnvironmentManagedActionHistoryOutputResponse: Swift.Equat
     /// A pagination token that you pass to [DescribeEnvironmentManagedActionHistory] to get the next page of results.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         managedActionHistoryItems: [ElasticBeanstalkClientTypes.ManagedActionHistoryItem]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5518,7 +5252,7 @@ extension DescribeEnvironmentManagedActionHistoryOutputResponseBody: Swift.Decod
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEnvironmentManagedActionHistoryResult"))
         if containerValues.contains(.managedActionHistoryItems) {
@@ -5577,7 +5311,7 @@ public struct DescribeEnvironmentManagedActionsInput: Swift.Equatable {
     /// To show only actions with a particular status, specify a status.
     public var status: ElasticBeanstalkClientTypes.ActionStatus?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         status: ElasticBeanstalkClientTypes.ActionStatus? = nil
@@ -5602,7 +5336,7 @@ extension DescribeEnvironmentManagedActionsInputBody: Swift.Decodable {
         case status = "Status"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -5613,30 +5347,19 @@ extension DescribeEnvironmentManagedActionsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEnvironmentManagedActionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEnvironmentManagedActionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEnvironmentManagedActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEnvironmentManagedActionsOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEnvironmentManagedActionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEnvironmentManagedActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedActions = output.managedActions
@@ -5651,7 +5374,7 @@ public struct DescribeEnvironmentManagedActionsOutputResponse: Swift.Equatable {
     /// A list of upcoming and in-progress managed actions.
     public var managedActions: [ElasticBeanstalkClientTypes.ManagedAction]?
 
-    public init (
+    public init(
         managedActions: [ElasticBeanstalkClientTypes.ManagedAction]? = nil
     )
     {
@@ -5668,7 +5391,7 @@ extension DescribeEnvironmentManagedActionsOutputResponseBody: Swift.Decodable {
         case managedActions = "ManagedActions"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEnvironmentManagedActionsResult"))
         if containerValues.contains(.managedActions) {
@@ -5720,7 +5443,7 @@ public struct DescribeEnvironmentResourcesInput: Swift.Equatable {
     /// The name of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
     )
@@ -5741,7 +5464,7 @@ extension DescribeEnvironmentResourcesInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -5750,30 +5473,19 @@ extension DescribeEnvironmentResourcesInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEnvironmentResourcesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEnvironmentResourcesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEnvironmentResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEnvironmentResourcesOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEnvironmentResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEnvironmentResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environmentResources = output.environmentResources
@@ -5788,7 +5500,7 @@ public struct DescribeEnvironmentResourcesOutputResponse: Swift.Equatable {
     /// A list of [EnvironmentResourceDescription].
     public var environmentResources: ElasticBeanstalkClientTypes.EnvironmentResourceDescription?
 
-    public init (
+    public init(
         environmentResources: ElasticBeanstalkClientTypes.EnvironmentResourceDescription? = nil
     )
     {
@@ -5805,7 +5517,7 @@ extension DescribeEnvironmentResourcesOutputResponseBody: Swift.Decodable {
         case environmentResources = "EnvironmentResources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEnvironmentResourcesResult"))
         let environmentResourcesDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.EnvironmentResourceDescription.self, forKey: .environmentResources)
@@ -5888,7 +5600,7 @@ public struct DescribeEnvironmentsInput: Swift.Equatable {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         environmentIds: [Swift.String]? = nil,
         environmentNames: [Swift.String]? = nil,
@@ -5933,7 +5645,7 @@ extension DescribeEnvironmentsInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -5988,28 +5700,18 @@ extension DescribeEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEnvironmentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEnvironmentsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEnvironmentsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environments = output.environments
@@ -6028,7 +5730,7 @@ public struct DescribeEnvironmentsOutputResponse: Swift.Equatable {
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6049,7 +5751,7 @@ extension DescribeEnvironmentsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEnvironmentsResult"))
         if containerValues.contains(.environments) {
@@ -6153,7 +5855,7 @@ public struct DescribeEventsInput: Swift.Equatable {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         environmentId: Swift.String? = nil,
@@ -6214,7 +5916,7 @@ extension DescribeEventsInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -6243,28 +5945,18 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeEventsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
@@ -6283,7 +5975,7 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     /// If returned, this indicates that there are more results to obtain. Use this token in the next [DescribeEvents] call to get the next batch of events.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         events: [ElasticBeanstalkClientTypes.EventDescription]? = nil,
         nextToken: Swift.String? = nil
     )
@@ -6304,7 +5996,7 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEventsResult"))
         if containerValues.contains(.events) {
@@ -6377,7 +6069,7 @@ public struct DescribeInstancesHealthInput: Swift.Equatable {
     /// Specify the pagination token returned by a previous call.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         attributeNames: [ElasticBeanstalkClientTypes.InstancesHealthAttribute]? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
@@ -6406,7 +6098,7 @@ extension DescribeInstancesHealthInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -6436,32 +6128,20 @@ extension DescribeInstancesHealthInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeInstancesHealthOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribeInstancesHealthOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribeInstancesHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribeInstancesHealthOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case invalidRequestException(InvalidRequestException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribeInstancesHealthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeInstancesHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceHealthList = output.instanceHealthList
@@ -6484,7 +6164,7 @@ public struct DescribeInstancesHealthOutputResponse: Swift.Equatable {
     /// The date and time that the health information was retrieved.
     public var refreshedAt: ClientRuntime.Date?
 
-    public init (
+    public init(
         instanceHealthList: [ElasticBeanstalkClientTypes.SingleInstanceHealth]? = nil,
         nextToken: Swift.String? = nil,
         refreshedAt: ClientRuntime.Date? = nil
@@ -6509,7 +6189,7 @@ extension DescribeInstancesHealthOutputResponseBody: Swift.Decodable {
         case refreshedAt = "RefreshedAt"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeInstancesHealthResult"))
         if containerValues.contains(.instanceHealthList) {
@@ -6559,7 +6239,7 @@ public struct DescribePlatformVersionInput: Swift.Equatable {
     /// The ARN of the platform version.
     public var platformArn: Swift.String?
 
-    public init (
+    public init(
         platformArn: Swift.String? = nil
     )
     {
@@ -6576,39 +6256,27 @@ extension DescribePlatformVersionInputBody: Swift.Decodable {
         case platformArn = "PlatformArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformArn)
         platformArn = platformArnDecoded
     }
 }
 
-extension DescribePlatformVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DescribePlatformVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DescribePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DescribePlatformVersionOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DescribePlatformVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribePlatformVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.platformDescription = output.platformDescription
@@ -6622,7 +6290,7 @@ public struct DescribePlatformVersionOutputResponse: Swift.Equatable {
     /// Detailed information about the platform version.
     public var platformDescription: ElasticBeanstalkClientTypes.PlatformDescription?
 
-    public init (
+    public init(
         platformDescription: ElasticBeanstalkClientTypes.PlatformDescription? = nil
     )
     {
@@ -6639,7 +6307,7 @@ extension DescribePlatformVersionOutputResponseBody: Swift.Decodable {
         case platformDescription = "PlatformDescription"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribePlatformVersionResult"))
         let platformDescriptionDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.PlatformDescription.self, forKey: .platformDescription)
@@ -6670,7 +6338,7 @@ public struct DisassociateEnvironmentOperationsRoleInput: Swift.Equatable {
     /// This member is required.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         environmentName: Swift.String? = nil
     )
     {
@@ -6687,77 +6355,69 @@ extension DisassociateEnvironmentOperationsRoleInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
     }
 }
 
-extension DisassociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension DisassociateEnvironmentOperationsRoleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum DisassociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum DisassociateEnvironmentOperationsRoleOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension DisassociateEnvironmentOperationsRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct DisassociateEnvironmentOperationsRoleOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ElasticBeanstalkServiceException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ElasticBeanstalkServiceExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A generic service exception has occurred.
-public struct ElasticBeanstalkServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ElasticBeanstalkServiceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -6770,7 +6430,7 @@ extension ElasticBeanstalkServiceExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -6878,7 +6538,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -7009,7 +6669,7 @@ extension ElasticBeanstalkClientTypes {
         /// The application version deployed in this environment.
         public var versionLabel: Swift.String?
 
-        public init (
+        public init(
             abortableOperationInProgress: Swift.Bool? = nil,
             applicationName: Swift.String? = nil,
             cname: Swift.String? = nil,
@@ -7224,7 +6884,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription: Swift.Codable 
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let infoTypeDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.EnvironmentInfoType.self, forKey: .infoType)
         infoType = infoTypeDecoded
@@ -7249,7 +6909,7 @@ extension ElasticBeanstalkClientTypes {
         /// The time stamp when this information was retrieved.
         public var sampleTimestamp: ClientRuntime.Date?
 
-        public init (
+        public init(
             ec2InstanceId: Swift.String? = nil,
             infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil,
             message: Swift.String? = nil,
@@ -7313,7 +6973,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentLink: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let linkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkName)
         linkName = linkNameDecoded
@@ -7330,7 +6990,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the link.
         public var linkName: Swift.String?
 
-        public init (
+        public init(
             environmentName: Swift.String? = nil,
             linkName: Swift.String? = nil
         )
@@ -7445,7 +7105,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription: Swift.Coda
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
         environmentName = environmentNameDecoded
@@ -7605,7 +7265,7 @@ extension ElasticBeanstalkClientTypes {
         /// The AutoScaling triggers in use by this environment.
         public var triggers: [ElasticBeanstalkClientTypes.Trigger]?
 
-        public init (
+        public init(
             autoScalingGroups: [ElasticBeanstalkClientTypes.AutoScalingGroup]? = nil,
             environmentName: Swift.String? = nil,
             instances: [ElasticBeanstalkClientTypes.Instance]? = nil,
@@ -7641,7 +7301,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentResourcesDescription: Swift.Cod
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.LoadBalancerDescription.self, forKey: .loadBalancer)
         loadBalancer = loadBalancerDecoded
@@ -7654,7 +7314,7 @@ extension ElasticBeanstalkClientTypes {
         /// Describes the LoadBalancer.
         public var loadBalancer: ElasticBeanstalkClientTypes.LoadBalancerDescription?
 
-        public init (
+        public init(
             loadBalancer: ElasticBeanstalkClientTypes.LoadBalancerDescription? = nil
         )
         {
@@ -7734,7 +7394,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentTier: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -7763,7 +7423,7 @@ extension ElasticBeanstalkClientTypes {
         /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             version: Swift.String? = nil
@@ -7821,7 +7481,7 @@ extension ElasticBeanstalkClientTypes.EventDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let eventDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .eventDate)
         eventDate = eventDateDecoded
@@ -7866,7 +7526,7 @@ extension ElasticBeanstalkClientTypes {
         /// The release label for the application version associated with this event.
         public var versionLabel: Swift.String?
 
-        public init (
+        public init(
             applicationName: Swift.String? = nil,
             environmentName: Swift.String? = nil,
             eventDate: ClientRuntime.Date? = nil,
@@ -7995,7 +7655,7 @@ extension ElasticBeanstalkClientTypes.Instance: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8008,7 +7668,7 @@ extension ElasticBeanstalkClientTypes {
         /// The ID of the Amazon EC2 instance.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -8058,7 +7718,7 @@ extension ElasticBeanstalkClientTypes.InstanceHealthSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let noDataDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noData)
         noData = noDataDecoded
@@ -8099,7 +7759,7 @@ extension ElasticBeanstalkClientTypes {
         /// Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
         public var warning: Swift.Int?
 
-        public init (
+        public init(
             degraded: Swift.Int? = nil,
             info: Swift.Int? = nil,
             noData: Swift.Int? = nil,
@@ -8183,38 +7843,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension InsufficientPrivilegesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InsufficientPrivilegesExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account does not have sufficient privileges for one or more AWS services.
-public struct InsufficientPrivilegesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientPrivilegesException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8227,7 +7890,7 @@ extension InsufficientPrivilegesExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8235,38 +7898,41 @@ extension InsufficientPrivilegesExceptionBody: Swift.Decodable {
 }
 
 extension InvalidRequestException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -8279,7 +7945,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -8326,7 +7992,7 @@ extension ElasticBeanstalkClientTypes.Latency: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let p999Decoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .p999)
         p999 = p999Decoded
@@ -8367,7 +8033,7 @@ extension ElasticBeanstalkClientTypes {
         /// The average latency for the slowest 0.1 percent of requests over the last 10 seconds.
         public var p999: Swift.Double?
 
-        public init (
+        public init(
             p10: Swift.Double? = nil,
             p50: Swift.Double? = nil,
             p75: Swift.Double? = nil,
@@ -8403,7 +8069,7 @@ extension ElasticBeanstalkClientTypes.LaunchConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -8416,7 +8082,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the launch configuration.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -8438,7 +8104,7 @@ extension ElasticBeanstalkClientTypes.LaunchTemplate: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
@@ -8451,7 +8117,7 @@ extension ElasticBeanstalkClientTypes {
         /// The ID of the launch template.
         public var id: Swift.String?
 
-        public init (
+        public init(
             id: Swift.String? = nil
         )
         {
@@ -8477,31 +8143,21 @@ extension ListAvailableSolutionStacksInput: ClientRuntime.URLPathProvider {
 
 public struct ListAvailableSolutionStacksInput: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
-extension ListAvailableSolutionStacksOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListAvailableSolutionStacksOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListAvailableSolutionStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListAvailableSolutionStacksOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListAvailableSolutionStacksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListAvailableSolutionStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.solutionStackDetails = output.solutionStackDetails
@@ -8520,7 +8176,7 @@ public struct ListAvailableSolutionStacksOutputResponse: Swift.Equatable {
     /// A list of available solution stacks.
     public var solutionStacks: [Swift.String]?
 
-    public init (
+    public init(
         solutionStackDetails: [ElasticBeanstalkClientTypes.SolutionStackDescription]? = nil,
         solutionStacks: [Swift.String]? = nil
     )
@@ -8541,7 +8197,7 @@ extension ListAvailableSolutionStacksOutputResponseBody: Swift.Decodable {
         case solutionStacks = "SolutionStacks"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListAvailableSolutionStacksResult"))
         if containerValues.contains(.solutionStacks) {
@@ -8660,7 +8316,7 @@ public struct ListPlatformBranchesInput: Swift.Equatable {
     /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ElasticBeanstalkClientTypes.SearchFilter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8685,7 +8341,7 @@ extension ListPlatformBranchesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.filters) {
             struct KeyVal0{struct member{}}
@@ -8713,28 +8369,18 @@ extension ListPlatformBranchesInputBody: Swift.Decodable {
     }
 }
 
-extension ListPlatformBranchesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListPlatformBranchesOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPlatformBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListPlatformBranchesOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPlatformBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPlatformBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8752,7 +8398,7 @@ public struct ListPlatformBranchesOutputResponse: Swift.Equatable {
     /// Summary information about the platform branches.
     public var platformBranchSummaryList: [ElasticBeanstalkClientTypes.PlatformBranchSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         platformBranchSummaryList: [ElasticBeanstalkClientTypes.PlatformBranchSummary]? = nil
     )
@@ -8773,7 +8419,7 @@ extension ListPlatformBranchesOutputResponseBody: Swift.Decodable {
         case platformBranchSummaryList = "PlatformBranchSummaryList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListPlatformBranchesResult"))
         if containerValues.contains(.platformBranchSummaryList) {
@@ -8840,7 +8486,7 @@ public struct ListPlatformVersionsInput: Swift.Equatable {
     /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
     public var nextToken: Swift.String?
 
-    public init (
+    public init(
         filters: [ElasticBeanstalkClientTypes.PlatformFilter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -8865,7 +8511,7 @@ extension ListPlatformVersionsInputBody: Swift.Decodable {
         case nextToken = "NextToken"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         if containerValues.contains(.filters) {
             struct KeyVal0{struct member{}}
@@ -8893,32 +8539,20 @@ extension ListPlatformVersionsInputBody: Swift.Decodable {
     }
 }
 
-extension ListPlatformVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListPlatformVersionsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListPlatformVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListPlatformVersionsOutputError: Swift.Error, Swift.Equatable {
-    case elasticBeanstalkServiceException(ElasticBeanstalkServiceException)
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListPlatformVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListPlatformVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
@@ -8936,7 +8570,7 @@ public struct ListPlatformVersionsOutputResponse: Swift.Equatable {
     /// Summary information about the platform versions.
     public var platformSummaryList: [ElasticBeanstalkClientTypes.PlatformSummary]?
 
-    public init (
+    public init(
         nextToken: Swift.String? = nil,
         platformSummaryList: [ElasticBeanstalkClientTypes.PlatformSummary]? = nil
     )
@@ -8957,7 +8591,7 @@ extension ListPlatformVersionsOutputResponseBody: Swift.Decodable {
         case platformSummaryList = "PlatformSummaryList"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListPlatformVersionsResult"))
         if containerValues.contains(.platformSummaryList) {
@@ -9006,7 +8640,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     /// This member is required.
     public var resourceArn: Swift.String?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil
     )
     {
@@ -9023,41 +8657,28 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
     }
 }
 
-extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ListTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupportedException" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceTypeNotSupportedException": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
@@ -9075,7 +8696,7 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     /// A list of tag key-value pairs.
     public var resourceTags: [ElasticBeanstalkClientTypes.Tag]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [ElasticBeanstalkClientTypes.Tag]? = nil
     )
@@ -9096,7 +8717,7 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         case resourceTags = "ResourceTags"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListTagsForResourceResult"))
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
@@ -9139,7 +8760,7 @@ extension ElasticBeanstalkClientTypes.Listener: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -9156,7 +8777,7 @@ extension ElasticBeanstalkClientTypes {
         /// The protocol that is used by the Listener.
         public var `protocol`: Swift.String?
 
-        public init (
+        public init(
             port: Swift.Int = 0,
             `protocol`: Swift.String? = nil
         )
@@ -9180,7 +8801,7 @@ extension ElasticBeanstalkClientTypes.LoadBalancer: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -9193,7 +8814,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the LoadBalancer.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -9232,7 +8853,7 @@ extension ElasticBeanstalkClientTypes.LoadBalancerDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
@@ -9270,7 +8891,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the LoadBalancer.
         public var loadBalancerName: Swift.String?
 
-        public init (
+        public init(
             domain: Swift.String? = nil,
             listeners: [ElasticBeanstalkClientTypes.Listener]? = nil,
             loadBalancerName: Swift.String? = nil
@@ -9312,7 +8933,7 @@ extension ElasticBeanstalkClientTypes.ManagedAction: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
         actionId = actionIdDecoded
@@ -9341,7 +8962,7 @@ extension ElasticBeanstalkClientTypes {
         /// The start time of the maintenance window in which the managed action will execute.
         public var windowStartTime: ClientRuntime.Date?
 
-        public init (
+        public init(
             actionDescription: Swift.String? = nil,
             actionId: Swift.String? = nil,
             actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
@@ -9399,7 +9020,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
         actionId = actionIdDecoded
@@ -9440,7 +9061,7 @@ extension ElasticBeanstalkClientTypes {
         /// The status of the action.
         public var status: ElasticBeanstalkClientTypes.ActionHistoryStatus?
 
-        public init (
+        public init(
             actionDescription: Swift.String? = nil,
             actionId: Swift.String? = nil,
             actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
@@ -9465,38 +9086,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ManagedActionInvalidStateException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ManagedActionInvalidStateExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Cannot modify the managed action in its current state.
-public struct ManagedActionInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ManagedActionInvalidStateException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9509,7 +9133,7 @@ extension ManagedActionInvalidStateExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9536,7 +9160,7 @@ extension ElasticBeanstalkClientTypes.MaxAgeRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -9558,7 +9182,7 @@ extension ElasticBeanstalkClientTypes {
         /// Specify the number of days to retain an application versions.
         public var maxAgeInDays: Swift.Int?
 
-        public init (
+        public init(
             deleteSourceFromS3: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             maxAgeInDays: Swift.Int? = nil
@@ -9592,7 +9216,7 @@ extension ElasticBeanstalkClientTypes.MaxCountRule: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -9614,7 +9238,7 @@ extension ElasticBeanstalkClientTypes {
         /// Specify the maximum number of application versions to retain.
         public var maxCount: Swift.Int?
 
-        public init (
+        public init(
             deleteSourceFromS3: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             maxCount: Swift.Int? = nil
@@ -9629,38 +9253,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension OperationInProgressException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<OperationInProgressExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-public struct OperationInProgressException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationInProgressFailure" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -9673,7 +9300,7 @@ extension OperationInProgressExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9696,7 +9323,7 @@ extension ElasticBeanstalkClientTypes.OptionRestrictionRegex: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
         pattern = patternDecoded
@@ -9713,7 +9340,7 @@ extension ElasticBeanstalkClientTypes {
         /// The regular expression pattern that a string configuration option value with this restriction must match.
         public var pattern: Swift.String?
 
-        public init (
+        public init(
             label: Swift.String? = nil,
             pattern: Swift.String? = nil
         )
@@ -9745,7 +9372,7 @@ extension ElasticBeanstalkClientTypes.OptionSpecification: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
@@ -9766,7 +9393,7 @@ extension ElasticBeanstalkClientTypes {
         /// A unique resource name for a time-based scaling configuration option.
         public var resourceName: Swift.String?
 
-        public init (
+        public init(
             namespace: Swift.String? = nil,
             optionName: Swift.String? = nil,
             resourceName: Swift.String? = nil
@@ -9817,7 +9444,7 @@ extension ElasticBeanstalkClientTypes.PlatformBranchSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformName)
         platformName = platformNameDecoded
@@ -9863,7 +9490,7 @@ extension ElasticBeanstalkClientTypes {
         /// The environment tiers that platform versions in this branch support. Possible values: WebServer/Standard | Worker/SQS/HTTP
         public var supportedTierList: [Swift.String]?
 
-        public init (
+        public init(
             branchName: Swift.String? = nil,
             branchOrder: Swift.Int = 0,
             lifecycleState: Swift.String? = nil,
@@ -10018,7 +9645,7 @@ extension ElasticBeanstalkClientTypes.PlatformDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformArn)
         platformArn = platformArnDecoded
@@ -10196,7 +9823,7 @@ extension ElasticBeanstalkClientTypes {
         /// The tiers supported by the platform version.
         public var supportedTierList: [Swift.String]?
 
-        public init (
+        public init(
             customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]? = nil,
             dateCreated: ClientRuntime.Date? = nil,
             dateUpdated: ClientRuntime.Date? = nil,
@@ -10275,7 +9902,7 @@ extension ElasticBeanstalkClientTypes.PlatformFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
@@ -10321,7 +9948,7 @@ extension ElasticBeanstalkClientTypes {
         /// * SupportedAddon: Log/S3 | Monitoring/Healthd | WorkerDaemon/SQSD
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             `operator`: Swift.String? = nil,
             type: Swift.String? = nil,
             values: [Swift.String]? = nil
@@ -10351,7 +9978,7 @@ extension ElasticBeanstalkClientTypes.PlatformFramework: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10368,7 +9995,7 @@ extension ElasticBeanstalkClientTypes {
         /// The version of the framework.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -10396,7 +10023,7 @@ extension ElasticBeanstalkClientTypes.PlatformProgrammingLanguage: Swift.Codable
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10413,7 +10040,7 @@ extension ElasticBeanstalkClientTypes {
         /// The version of the programming language.
         public var version: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -10540,7 +10167,7 @@ extension ElasticBeanstalkClientTypes.PlatformSummary: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let platformArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformArn)
         platformArn = platformArnDecoded
@@ -10631,7 +10258,7 @@ extension ElasticBeanstalkClientTypes {
         /// The tiers in which the platform version runs.
         public var supportedTierList: [Swift.String]?
 
-        public init (
+        public init(
             operatingSystemName: Swift.String? = nil,
             operatingSystemVersion: Swift.String? = nil,
             platformArn: Swift.String? = nil,
@@ -10664,38 +10291,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension PlatformVersionStillReferencedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<PlatformVersionStillReferencedExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You cannot delete the platform version because there are still environments running on it.
-public struct PlatformVersionStillReferencedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PlatformVersionStillReferencedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10708,7 +10338,7 @@ extension PlatformVersionStillReferencedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -10731,7 +10361,7 @@ extension ElasticBeanstalkClientTypes.Queue: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -10748,7 +10378,7 @@ extension ElasticBeanstalkClientTypes {
         /// The URL of the queue.
         public var url: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
         )
@@ -10787,7 +10417,7 @@ public struct RebuildEnvironmentInput: Swift.Equatable {
     /// The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
     )
@@ -10808,7 +10438,7 @@ extension RebuildEnvironmentInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -10817,35 +10447,24 @@ extension RebuildEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension RebuildEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RebuildEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RebuildEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RebuildEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RebuildEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RebuildEnvironmentOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RequestEnvironmentInfoInput: Swift.Encodable {
@@ -10881,7 +10500,7 @@ public struct RequestEnvironmentInfoInput: Swift.Equatable {
     /// This member is required.
     public var infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil
@@ -10906,7 +10525,7 @@ extension RequestEnvironmentInfoInputBody: Swift.Decodable {
         case infoType = "InfoType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -10917,68 +10536,61 @@ extension RequestEnvironmentInfoInputBody: Swift.Decodable {
     }
 }
 
-extension RequestEnvironmentInfoOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RequestEnvironmentInfoOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RequestEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RequestEnvironmentInfoOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RequestEnvironmentInfoOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RequestEnvironmentInfoOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ResourceNotFoundException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -10991,7 +10603,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11010,7 +10622,7 @@ extension ElasticBeanstalkClientTypes.ResourceQuota: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let maximumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximum)
         maximum = maximumDecoded
@@ -11023,7 +10635,7 @@ extension ElasticBeanstalkClientTypes {
         /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
         public var maximum: Swift.Int?
 
-        public init (
+        public init(
             maximum: Swift.Int? = nil
         )
         {
@@ -11061,7 +10673,7 @@ extension ElasticBeanstalkClientTypes.ResourceQuotas: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationQuotaDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ResourceQuota.self, forKey: .applicationQuota)
         applicationQuota = applicationQuotaDecoded
@@ -11090,7 +10702,7 @@ extension ElasticBeanstalkClientTypes {
         /// The quota for environments in the AWS account.
         public var environmentQuota: ElasticBeanstalkClientTypes.ResourceQuota?
 
-        public init (
+        public init(
             applicationQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil,
             applicationVersionQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil,
             configurationTemplateQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil,
@@ -11109,38 +10721,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension ResourceTypeNotSupportedException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceTypeNotSupportedExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-public struct ResourceTypeNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceTypeNotSupportedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11153,7 +10768,7 @@ extension ResourceTypeNotSupportedExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11187,7 +10802,7 @@ public struct RestartAppServerInput: Swift.Equatable {
     /// The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
     )
@@ -11208,7 +10823,7 @@ extension RestartAppServerInputBody: Swift.Decodable {
         case environmentName = "EnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -11217,33 +10832,23 @@ extension RestartAppServerInputBody: Swift.Decodable {
     }
 }
 
-extension RestartAppServerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RestartAppServerOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RestartAppServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RestartAppServerOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RestartAppServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct RestartAppServerOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension RetrieveEnvironmentInfoInput: Swift.Encodable {
@@ -11279,7 +10884,7 @@ public struct RetrieveEnvironmentInfoInput: Swift.Equatable {
     /// This member is required.
     public var infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil
@@ -11304,7 +10909,7 @@ extension RetrieveEnvironmentInfoInputBody: Swift.Decodable {
         case infoType = "InfoType"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -11315,28 +10920,18 @@ extension RetrieveEnvironmentInfoInputBody: Swift.Decodable {
     }
 }
 
-extension RetrieveEnvironmentInfoOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension RetrieveEnvironmentInfoOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum RetrieveEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum RetrieveEnvironmentInfoOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension RetrieveEnvironmentInfoOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetrieveEnvironmentInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.environmentInfo = output.environmentInfo
@@ -11351,7 +10946,7 @@ public struct RetrieveEnvironmentInfoOutputResponse: Swift.Equatable {
     /// The [EnvironmentInfoDescription] of the environment.
     public var environmentInfo: [ElasticBeanstalkClientTypes.EnvironmentInfoDescription]?
 
-    public init (
+    public init(
         environmentInfo: [ElasticBeanstalkClientTypes.EnvironmentInfoDescription]? = nil
     )
     {
@@ -11368,7 +10963,7 @@ extension RetrieveEnvironmentInfoOutputResponseBody: Swift.Decodable {
         case environmentInfo = "EnvironmentInfo"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RetrieveEnvironmentInfoResult"))
         if containerValues.contains(.environmentInfo) {
@@ -11409,7 +11004,7 @@ extension ElasticBeanstalkClientTypes.S3Location: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
         s3Bucket = s3BucketDecoded
@@ -11426,7 +11021,7 @@ extension ElasticBeanstalkClientTypes {
         /// The Amazon S3 key where the data is located.
         public var s3Key: Swift.String?
 
-        public init (
+        public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
         )
@@ -11439,18 +11034,16 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension S3LocationNotInServiceRegionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<S3LocationNotInServiceRegionExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
@@ -11461,22 +11054,27 @@ extension S3LocationNotInServiceRegionException {
 /// * PDX/us-west-2
 ///
 /// * DUB/eu-west-1
-public struct S3LocationNotInServiceRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3LocationNotInServiceRegionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11489,7 +11087,7 @@ extension S3LocationNotInServiceRegionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11497,38 +11095,41 @@ extension S3LocationNotInServiceRegionExceptionBody: Swift.Decodable {
 }
 
 extension S3SubscriptionRequiredException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<S3SubscriptionRequiredExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account does not have a subscription to Amazon S3.
-public struct S3SubscriptionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3SubscriptionRequiredException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11541,7 +11142,7 @@ extension S3SubscriptionRequiredExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11577,7 +11178,7 @@ extension ElasticBeanstalkClientTypes.SearchFilter: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let attributeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attribute)
         attribute = attributeDecoded
@@ -11615,7 +11216,7 @@ extension ElasticBeanstalkClientTypes {
         /// The list of values applied to the Attribute and Operator attributes. Number of values and valid values vary by Attribute.
         public var values: [Swift.String]?
 
-        public init (
+        public init(
             attribute: Swift.String? = nil,
             `operator`: Swift.String? = nil,
             values: [Swift.String]? = nil
@@ -11686,7 +11287,7 @@ extension ElasticBeanstalkClientTypes.SingleInstanceHealth: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
@@ -11752,7 +11353,7 @@ extension ElasticBeanstalkClientTypes {
         /// Operating system metrics from the instance.
         public var system: ElasticBeanstalkClientTypes.SystemStatus?
 
-        public init (
+        public init(
             applicationMetrics: ElasticBeanstalkClientTypes.ApplicationMetrics? = nil,
             availabilityZone: Swift.String? = nil,
             causes: [Swift.String]? = nil,
@@ -11805,7 +11406,7 @@ extension ElasticBeanstalkClientTypes.SolutionStackDescription: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let solutionStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionStackName)
         solutionStackName = solutionStackNameDecoded
@@ -11839,7 +11440,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the solution stack.
         public var solutionStackName: Swift.String?
 
-        public init (
+        public init(
             permittedFileTypes: [Swift.String]? = nil,
             solutionStackName: Swift.String? = nil
         )
@@ -11871,7 +11472,7 @@ extension ElasticBeanstalkClientTypes.SourceBuildInformation: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceTypeDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.SourceType.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
@@ -11907,7 +11508,7 @@ extension ElasticBeanstalkClientTypes {
         /// This member is required.
         public var sourceType: ElasticBeanstalkClientTypes.SourceType?
 
-        public init (
+        public init(
             sourceLocation: Swift.String? = nil,
             sourceRepository: ElasticBeanstalkClientTypes.SourceRepository? = nil,
             sourceType: ElasticBeanstalkClientTypes.SourceType? = nil
@@ -11922,38 +11523,41 @@ extension ElasticBeanstalkClientTypes {
 }
 
 extension SourceBundleDeletionException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<SourceBundleDeletionExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-public struct SourceBundleDeletionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SourceBundleDeletionFailure" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -11966,7 +11570,7 @@ extension SourceBundleDeletionExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -11989,7 +11593,7 @@ extension ElasticBeanstalkClientTypes.SourceConfiguration: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -12006,7 +11610,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the configuration template.
         public var templateName: Swift.String?
 
-        public init (
+        public init(
             applicationName: Swift.String? = nil,
             templateName: Swift.String? = nil
         )
@@ -12106,7 +11710,7 @@ extension ElasticBeanstalkClientTypes.StatusCodes: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let status2xxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status2xx)
         status2xx = status2xxDecoded
@@ -12131,7 +11735,7 @@ extension ElasticBeanstalkClientTypes {
         /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
         public var status5xx: Swift.Int?
 
-        public init (
+        public init(
             status2xx: Swift.Int? = nil,
             status3xx: Swift.Int? = nil,
             status4xx: Swift.Int? = nil,
@@ -12184,7 +11788,7 @@ public struct SwapEnvironmentCNAMEsInput: Swift.Equatable {
     /// The name of the source environment. Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName.
     public var sourceEnvironmentName: Swift.String?
 
-    public init (
+    public init(
         destinationEnvironmentId: Swift.String? = nil,
         destinationEnvironmentName: Swift.String? = nil,
         sourceEnvironmentId: Swift.String? = nil,
@@ -12213,7 +11817,7 @@ extension SwapEnvironmentCNAMEsInputBody: Swift.Decodable {
         case sourceEnvironmentName = "SourceEnvironmentName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceEnvironmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceEnvironmentId)
         sourceEnvironmentId = sourceEnvironmentIdDecoded
@@ -12226,33 +11830,23 @@ extension SwapEnvironmentCNAMEsInputBody: Swift.Decodable {
     }
 }
 
-extension SwapEnvironmentCNAMEsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension SwapEnvironmentCNAMEsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum SwapEnvironmentCNAMEsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum SwapEnvironmentCNAMEsOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension SwapEnvironmentCNAMEsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct SwapEnvironmentCNAMEsOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ElasticBeanstalkClientTypes.SystemStatus: Swift.Codable {
@@ -12280,7 +11874,7 @@ extension ElasticBeanstalkClientTypes.SystemStatus: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cpuUtilizationDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.CPUUtilization.self, forKey: .cpuUtilization)
         cpuUtilization = cpuUtilizationDecoded
@@ -12314,7 +11908,7 @@ extension ElasticBeanstalkClientTypes {
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see [Operating System Metrics](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-metrics.html#health-enhanced-metrics-os).
         public var loadAverage: [Swift.Double]?
 
-        public init (
+        public init(
             cpuUtilization: ElasticBeanstalkClientTypes.CPUUtilization? = nil,
             loadAverage: [Swift.Double]? = nil
         )
@@ -12342,7 +11936,7 @@ extension ElasticBeanstalkClientTypes.Tag: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
         key = keyDecoded
@@ -12359,7 +11953,7 @@ extension ElasticBeanstalkClientTypes {
         /// The value of the tag.
         public var value: Swift.String?
 
-        public init (
+        public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -12415,7 +12009,7 @@ public struct TerminateEnvironmentInput: Swift.Equatable {
     /// For more information, see the [ AWS Elastic Beanstalk User Guide. ](https://docs.aws.amazon.com/elasticbeanstalk/latest/ug/) Default: true Valid Values: true | false
     public var terminateResources: Swift.Bool?
 
-    public init (
+    public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         forceTerminate: Swift.Bool? = nil,
@@ -12444,7 +12038,7 @@ extension TerminateEnvironmentInputBody: Swift.Decodable {
         case terminateResources = "TerminateResources"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
@@ -12457,30 +12051,19 @@ extension TerminateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension TerminateEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension TerminateEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum TerminateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum TerminateEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension TerminateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: TerminateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
@@ -12596,7 +12179,7 @@ public struct TerminateEnvironmentOutputResponse: Swift.Equatable {
     /// The application version deployed in this environment.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
@@ -12693,7 +12276,7 @@ extension TerminateEnvironmentOutputResponseBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TerminateEnvironmentResult"))
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
@@ -12759,38 +12342,41 @@ extension TerminateEnvironmentOutputResponseBody: Swift.Decodable {
 }
 
 extension TooManyApplicationVersionsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyApplicationVersionsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account has reached its limit of application versions.
-public struct TooManyApplicationVersionsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyApplicationVersionsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12803,7 +12389,7 @@ extension TooManyApplicationVersionsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12811,38 +12397,41 @@ extension TooManyApplicationVersionsExceptionBody: Swift.Decodable {
 }
 
 extension TooManyApplicationsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyApplicationsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account has reached its limit of applications.
-public struct TooManyApplicationsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyApplicationsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12855,7 +12444,7 @@ extension TooManyApplicationsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12863,38 +12452,41 @@ extension TooManyApplicationsExceptionBody: Swift.Decodable {
 }
 
 extension TooManyBucketsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyBucketsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account has reached its limit of Amazon S3 buckets.
-public struct TooManyBucketsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyBucketsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12907,7 +12499,7 @@ extension TooManyBucketsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12915,38 +12507,41 @@ extension TooManyBucketsExceptionBody: Swift.Decodable {
 }
 
 extension TooManyConfigurationTemplatesException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyConfigurationTemplatesExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account has reached its limit of configuration templates.
-public struct TooManyConfigurationTemplatesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyConfigurationTemplatesException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -12959,7 +12554,7 @@ extension TooManyConfigurationTemplatesExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -12967,38 +12562,41 @@ extension TooManyConfigurationTemplatesExceptionBody: Swift.Decodable {
 }
 
 extension TooManyEnvironmentsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyEnvironmentsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The specified account has reached its limit of environments.
-public struct TooManyEnvironmentsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyEnvironmentsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13011,7 +12609,7 @@ extension TooManyEnvironmentsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13019,38 +12617,41 @@ extension TooManyEnvironmentsExceptionBody: Swift.Decodable {
 }
 
 extension TooManyPlatformsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyPlatformsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// You have exceeded the maximum number of allowed platforms associated with the account.
-public struct TooManyPlatformsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyPlatformsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13063,7 +12664,7 @@ extension TooManyPlatformsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13071,38 +12672,41 @@ extension TooManyPlatformsExceptionBody: Swift.Decodable {
 }
 
 extension TooManyTagsException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = try httpResponse.body.toData(),
-            let responseDecoder = decoder {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTagsExceptionBody> = try responseDecoder.decode(responseBody: data)
-            self.message = output.error.message
+            self.properties.message = output.error.message
         } else {
-            self.message = nil
+            self.properties.message = nil
         }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
     }
 }
 
 /// The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
-    public var _headers: ClientRuntime.Headers?
-    public var _statusCode: ClientRuntime.HttpStatusCode?
-    public var _message: Swift.String?
-    public var _requestID: Swift.String?
-    public var _retryable: Swift.Bool = false
-    public var _isThrottling: Swift.Bool = false
-    public var _type: ClientRuntime.ErrorType = .client
-    /// The exception error message.
-    public var message: Swift.String?
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
-    public init (
+    public struct Properties {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
         message: Swift.String? = nil
     )
     {
-        self.message = message
+        self.properties.message = message
     }
 }
 
@@ -13115,7 +12719,7 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
         case message
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -13134,7 +12738,7 @@ extension ElasticBeanstalkClientTypes.Trigger: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -13147,7 +12751,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the trigger.
         public var name: Swift.String?
 
-        public init (
+        public init(
             name: Swift.String? = nil
         )
         {
@@ -13185,7 +12789,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
     public var description: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil
     )
@@ -13206,7 +12810,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case description = "Description"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13215,28 +12819,18 @@ extension UpdateApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateApplicationOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.application = output.application
@@ -13251,7 +12845,7 @@ public struct UpdateApplicationOutputResponse: Swift.Equatable {
     /// The [ApplicationDescription] of the application.
     public var application: ElasticBeanstalkClientTypes.ApplicationDescription?
 
-    public init (
+    public init(
         application: ElasticBeanstalkClientTypes.ApplicationDescription? = nil
     )
     {
@@ -13268,7 +12862,7 @@ extension UpdateApplicationOutputResponseBody: Swift.Decodable {
         case application = "Application"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateApplicationResult"))
         let applicationDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ApplicationDescription.self, forKey: .application)
@@ -13304,7 +12898,7 @@ public struct UpdateApplicationResourceLifecycleInput: Swift.Equatable {
     /// This member is required.
     public var resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil
     )
@@ -13325,7 +12919,7 @@ extension UpdateApplicationResourceLifecycleInputBody: Swift.Decodable {
         case resourceLifecycleConfig = "ResourceLifecycleConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13334,30 +12928,19 @@ extension UpdateApplicationResourceLifecycleInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateApplicationResourceLifecycleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateApplicationResourceLifecycleOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationResourceLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateApplicationResourceLifecycleOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationResourceLifecycleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateApplicationResourceLifecycleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -13375,7 +12958,7 @@ public struct UpdateApplicationResourceLifecycleOutputResponse: Swift.Equatable 
     /// The lifecycle configuration.
     public var resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil
     )
@@ -13396,7 +12979,7 @@ extension UpdateApplicationResourceLifecycleOutputResponseBody: Swift.Decodable 
         case resourceLifecycleConfig = "ResourceLifecycleConfig"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateApplicationResourceLifecycleResult"))
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
@@ -13440,7 +13023,7 @@ public struct UpdateApplicationVersionInput: Swift.Equatable {
     /// This member is required.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         versionLabel: Swift.String? = nil
@@ -13465,7 +13048,7 @@ extension UpdateApplicationVersionInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13476,28 +13059,18 @@ extension UpdateApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateApplicationVersionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateApplicationVersionOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateApplicationVersionOutputError: Swift.Error, Swift.Equatable {
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationVersion = output.applicationVersion
@@ -13512,7 +13085,7 @@ public struct UpdateApplicationVersionOutputResponse: Swift.Equatable {
     /// The [ApplicationVersionDescription] of the application version.
     public var applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription?
 
-    public init (
+    public init(
         applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription? = nil
     )
     {
@@ -13529,7 +13102,7 @@ extension UpdateApplicationVersionOutputResponseBody: Swift.Decodable {
         case applicationVersion = "ApplicationVersion"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateApplicationVersionResult"))
         let applicationVersionDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.ApplicationVersionDescription.self, forKey: .applicationVersion)
@@ -13599,7 +13172,7 @@ public struct UpdateConfigurationTemplateInput: Swift.Equatable {
     /// This member is required.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]? = nil,
@@ -13632,7 +13205,7 @@ extension UpdateConfigurationTemplateInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -13681,32 +13254,20 @@ extension UpdateConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateConfigurationTemplateOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationName = output.applicationName
@@ -13765,7 +13326,7 @@ public struct UpdateConfigurationTemplateOutputResponse: Swift.Equatable {
     /// If not null, the name of the configuration template for this configuration set.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         dateCreated: ClientRuntime.Date? = nil,
         dateUpdated: ClientRuntime.Date? = nil,
@@ -13818,7 +13379,7 @@ extension UpdateConfigurationTemplateOutputResponseBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateConfigurationTemplateResult"))
         let solutionStackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionStackName)
@@ -13956,7 +13517,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
@@ -14017,7 +13578,7 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -14080,32 +13641,20 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateEnvironmentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateEnvironmentOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateEnvironmentOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: UpdateEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abortableOperationInProgress = output.abortableOperationInProgress
@@ -14221,7 +13770,7 @@ public struct UpdateEnvironmentOutputResponse: Swift.Equatable {
     /// The application version deployed in this environment.
     public var versionLabel: Swift.String?
 
-    public init (
+    public init(
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
@@ -14318,7 +13867,7 @@ extension UpdateEnvironmentOutputResponseBody: Swift.Decodable {
         case versionLabel = "VersionLabel"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateEnvironmentResult"))
         let environmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentName)
@@ -14433,7 +13982,7 @@ public struct UpdateTagsForResourceInput: Swift.Equatable {
     /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
     public var tagsToRemove: [Swift.String]?
 
-    public init (
+    public init(
         resourceArn: Swift.String? = nil,
         tagsToAdd: [ElasticBeanstalkClientTypes.Tag]? = nil,
         tagsToRemove: [Swift.String]? = nil
@@ -14458,7 +14007,7 @@ extension UpdateTagsForResourceInputBody: Swift.Decodable {
         case tagsToRemove = "TagsToRemove"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
@@ -14503,43 +14052,28 @@ extension UpdateTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension UpdateTagsForResourceOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceTypeNotSupportedException" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum UpdateTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceTypeNotSupportedException": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum UpdateTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case operationInProgressException(OperationInProgressException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
-    case tooManyTagsException(TooManyTagsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension UpdateTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
 public struct UpdateTagsForResourceOutputResponse: Swift.Equatable {
 
-    public init () { }
+    public init() { }
 }
 
 extension ValidateConfigurationSettingsInput: Swift.Encodable {
@@ -14590,7 +14124,7 @@ public struct ValidateConfigurationSettingsInput: Swift.Equatable {
     /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
     public var templateName: Swift.String?
 
-    public init (
+    public init(
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]? = nil,
@@ -14619,7 +14153,7 @@ extension ValidateConfigurationSettingsInputBody: Swift.Decodable {
         case templateName = "TemplateName"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
         applicationName = applicationNameDecoded
@@ -14649,32 +14183,20 @@ extension ValidateConfigurationSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension ValidateConfigurationSettingsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
-    }
-}
-
-extension ValidateConfigurationSettingsOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+public enum ValidateConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-public enum ValidateConfigurationSettingsOutputError: Swift.Error, Swift.Equatable {
-    case insufficientPrivilegesException(InsufficientPrivilegesException)
-    case tooManyBucketsException(TooManyBucketsException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
 extension ValidateConfigurationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(),
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ValidateConfigurationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
@@ -14689,7 +14211,7 @@ public struct ValidateConfigurationSettingsOutputResponse: Swift.Equatable {
     /// A list of [ValidationMessage].
     public var messages: [ElasticBeanstalkClientTypes.ValidationMessage]?
 
-    public init (
+    public init(
         messages: [ElasticBeanstalkClientTypes.ValidationMessage]? = nil
     )
     {
@@ -14706,7 +14228,7 @@ extension ValidateConfigurationSettingsOutputResponseBody: Swift.Decodable {
         case messages = "Messages"
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ValidateConfigurationSettingsResult"))
         if containerValues.contains(.messages) {
@@ -14755,7 +14277,7 @@ extension ElasticBeanstalkClientTypes.ValidationMessage: Swift.Codable {
         }
     }
 
-    public init (from decoder: Swift.Decoder) throws {
+    public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -14784,7 +14306,7 @@ extension ElasticBeanstalkClientTypes {
         /// * warning: This message is providing information you should take into account.
         public var severity: ElasticBeanstalkClientTypes.ValidationSeverity?
 
-        public init (
+        public init(
             message: Swift.String? = nil,
             namespace: Swift.String? = nil,
             optionName: Swift.String? = nil,
