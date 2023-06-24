@@ -74,11 +74,11 @@ jobs:
           unset AWS_SDK_SWIFT_CI_DIR
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
           set -o pipefail && \
-          xcodebuild \
+          NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
             -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' \
-            test | \
-            .bin/xcbeautify
+            test 2>&1 \
+            | .bin/xcbeautify
   macos-compat:
     runs-on: macos-11
     env:
