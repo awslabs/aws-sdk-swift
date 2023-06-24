@@ -14,7 +14,7 @@ class AWSClientConfigurationTests: XCTestCase {
     func test_region_regionPropertyGetsSet() throws {
         let region = "us-east-1"
         let subject = try AWSClientConfiguration<TestAWSServiceSpecificConfiguration>(region: region)
-        XCTAssertEqual(subject.region, region)
+        XCTAssertEqual(subject.region, region + "x")
     }
 
     func test_endpoint_endpointPropertyGetsSet() throws {
