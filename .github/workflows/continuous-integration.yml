@@ -66,6 +66,8 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
+      - name: Setup xcbeautify
+        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install xcbeautify
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Build and Test ${{ env.PACKAGE_NAME }}
@@ -78,7 +80,7 @@ jobs:
             -scheme aws-sdk-swift \
             -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' \
             test 2>&1 \
-            | .bin/xcbeautify
+            | xcbeautify
   macos-compat:
     runs-on: macos-11
     env:
