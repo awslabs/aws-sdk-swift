@@ -24,7 +24,7 @@ jobs:
   ios-compat:
     runs-on: macos-13
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -57,10 +57,10 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             ~/.cache/org.swift.swiftpm
-          key: 2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          key: 1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            2-${{ runner.os }}-swift5.8-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            2-${{ runner.os }}-swift5.8-spm-
+            1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift5.8.1-spm-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
