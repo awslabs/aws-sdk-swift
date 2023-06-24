@@ -70,11 +70,13 @@ jobs:
         run: HOMEBREW_NO_AUTO_UPDATE=1 brew install xcbeautify
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
+      - name: Prepare Protocol & Unit Tests
+        run: |
+          ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
+      - name: Build and Run Protocol & Unit Tests on iOS Simulator
         run: |
           unset SMITHY_SWIFT_CI_DIR
           unset AWS_SDK_SWIFT_CI_DIR
-          ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
