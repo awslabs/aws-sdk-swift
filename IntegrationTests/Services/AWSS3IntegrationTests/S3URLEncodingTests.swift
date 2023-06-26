@@ -12,7 +12,7 @@ final class S3URLEncodingTests: S3XCTestCase {
 
     // These are keys with special characters or other edge cases that should be tested against S3 to
     // ensure they work.
-    let keys: Set<String> = ["x.txt", "x+x.txt", "x%x.txt", "x x.txt", "abc/x.txt", "abc/x+x.txt"]
+    let keys: Set<String> = ["x.txt", "x+x.txt", "x%x.txt", "x x.txt", "abc/x.txt", "abc/x+x.txt", "abc//def//x.txt"]
 
     func test_putObject_putsAllKeysWithMetadata() async throws {
         for key in keys {
