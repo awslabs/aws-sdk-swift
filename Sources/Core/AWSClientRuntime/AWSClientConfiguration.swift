@@ -117,7 +117,8 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         self.useFIPS = useFIPS
         self.clientLogMode = RuntimeConfigType.defaultClientLogMode
         self.httpClientConfiguration = RuntimeConfigType.defaultHttpClientConfiguration
-        self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
+//        self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
+        self.httpClientEngine = URLSessionHTTPClient()
         self.idempotencyTokenGenerator = RuntimeConfigType.defaultIdempotencyTokenGenerator
         self.logger = RuntimeConfigType.defaultLogger(clientName: self.serviceSpecific.clientName)
         self.retryStrategyOptions = retryStrategyOptions ?? RuntimeConfigType.defaultRetryStrategyOptions
