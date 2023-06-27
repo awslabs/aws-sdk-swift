@@ -168,7 +168,12 @@ jobs:
           distribution: corretto
           java-version: 17
       - name: Install OpenSSL
-        run: apt-get -q update && apt-get -q install -y libssl-dev
+        run: |
+          if [ -x "$(command -v apt)" ]; then
+            apt-get update && apt-get install -y libssl-dev
+          else
+            yum install -y openssl-devel
+          fi
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Prepare Protocol & Unit Tests
