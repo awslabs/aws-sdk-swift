@@ -125,8 +125,6 @@ jobs:
         version:
           - 5.5.3
           - 5.8.1
-    env:
-      AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
