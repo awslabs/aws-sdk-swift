@@ -26,7 +26,7 @@ final class TranscribeStreamingTests: XCTestCase {
                 var currentEnd = min(chunkSize, audioDataSize - currentStart)
 
                 while currentStart < audioDataSize {
-                    try await Task.sleep(nanoseconds: 3_000_000_000)
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
                     let dataChunk = audioData[currentStart ..< currentEnd]
 
                     let audioEvent =  TranscribeStreamingClientTypes.AudioStream.audioevent(.init(audioChunk: dataChunk))
