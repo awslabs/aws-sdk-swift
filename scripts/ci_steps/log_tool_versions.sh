@@ -2,7 +2,7 @@
 
 set -e
 
-# Log location & version for swiftc, xcodebuild, java
+# Log location & version for swiftc, xcodebuild, java, xcbeautify
 
 if command -v swiftc &> /dev/null
 then
@@ -29,4 +29,13 @@ then
   echo
 else
   echo "java not installed"
+fi
+
+if command -v xcbeautify &> /dev/null
+then
+  which xcbeautify
+  xcbeautify --version
+  echo
+else
+  echo "xcbeautify not installed"
 fi
