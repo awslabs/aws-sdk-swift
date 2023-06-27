@@ -117,13 +117,16 @@ jobs:
           ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
   linux-compat:
     runs-on: ubuntu-latest
-    container: swift:5.8.1-${{ matrix.os }}
+    container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os:
-          - jammy
+          - focal
           - amazonlinux2
+        version:
+          - 5.5.3
+          - 5.8.1
     env:
       AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
     steps:
