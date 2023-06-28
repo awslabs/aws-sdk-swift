@@ -11,7 +11,8 @@ jobs:
   xcode-oldest:
     runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
+      # Xcode 13.2 is used as oldest because it is the first version which backports concurrency
+      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
     strategy:
       fail-fast: false
       matrix:
