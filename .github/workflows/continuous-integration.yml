@@ -25,10 +25,12 @@ jobs:
     runs-on: macos-latest
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
-    matrix:
-      destination:
-        - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
-        - 'platform=OS X'
+    strategy:
+      fail-fast: false
+      matrix:
+        destination:
+          - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
+          - 'platform=OS X'
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
