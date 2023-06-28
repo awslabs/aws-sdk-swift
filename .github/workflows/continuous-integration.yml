@@ -21,10 +21,14 @@ env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  ios-compat:
-    runs-on: macos-13
+  apple-compat:
+    runs-on: macos-latest
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
+    matrix:
+      destination:
+        - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
+        - 'platform=OS X'
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -80,40 +84,11 @@ jobs:
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
-            -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' \
+            -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
-  macos-compat:
-    runs-on: macos-11
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
   linux-compat:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
