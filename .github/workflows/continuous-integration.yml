@@ -22,7 +22,7 @@ env:
 
 jobs:
   apple-compat:
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
     strategy:
