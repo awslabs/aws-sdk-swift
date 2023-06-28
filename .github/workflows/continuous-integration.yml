@@ -113,32 +113,68 @@ jobs:
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
           ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
-  linux-compat:
+  linux:
     runs-on: ubuntu-latest
+    container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - ubuntu-x64
-          - al2-x64
+        os:
+          - focal
+          - amazonlinux2
+        version:
+          - 5.5.3
+          - 5.8.1
     steps:
-      - name: Checkout Sources
-        uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
+      - name: Select smithy-swift branch
         run: |
-          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
-          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker pull $DOCKER_IMAGE
-          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
-          --env GITHUB_REF \
-          --env GITHUB_HEAD_REF \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
-          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
-          --env AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
-          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-main}}" \
+          DEPENDENCY_REPO_URL="https://github.com/awslabs/smithy-swift.git" \
+          ./scripts/ci_steps/select_dependency_branch.sh
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: awslabs/smithy-swift
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/.cache/org.swift.swiftpm
+          key: 1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          restore-keys: |
+            1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift5.8.1-spm-
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Install OpenSSL (all OS) and which (AL2 only)
+        run: ./scripts/ci_steps/install_native_linux_dependencies.sh
+      - name: Tools Versions
+        run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Prepare Protocol & Unit Tests
+        run: |
+          ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
+      - name: Build and Run Protocol & Unit Tests on Linux
+        run: |
+          unset SMITHY_SWIFT_CI_DIR
+          unset AWS_SDK_SWIFT_CI_DIR
+          swift test
