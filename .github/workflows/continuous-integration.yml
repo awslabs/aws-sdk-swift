@@ -17,7 +17,7 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-12
+          - macos-11
           - macos-13
         xcode:
           # Xcode 13.2.1 is used as oldest because 13.2 is the first version which backports concurrency
@@ -29,7 +29,7 @@ jobs:
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-12
+          - runner: macos-11
             xcode: Xcode_14.3.1
           # Don't run new macOS with old Xcode
           - runner: macos-13
@@ -98,7 +98,6 @@ jobs:
             | xcbeautify
 
   linux:
-    if: false
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
