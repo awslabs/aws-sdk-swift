@@ -5,23 +5,10 @@ on:
   workflow_dispatch:
 
 env:
-  BUILDER_VERSION: v0.9.18
-  BUILDER_SOURCE: releases
-  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
-  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
-  PACKAGE_NAME: aws-sdk-swift
-  LINUX_BASE_IMAGE: ubuntu-16-x64
-  RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: us-east-1
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  apple-compat:
+  apple:
     runs-on: macos-13
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
@@ -81,8 +68,6 @@ jobs:
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
       - name: Build and Run Protocol & Unit Tests on iOS Simulator
         run: |
-          unset SMITHY_SWIFT_CI_DIR
-          unset AWS_SDK_SWIFT_CI_DIR
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
@@ -151,7 +136,4 @@ jobs:
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
       - name: Build and Run Protocol & Unit Tests on Linux
-        run: |
-          unset SMITHY_SWIFT_CI_DIR
-          unset AWS_SDK_SWIFT_CI_DIR
-          swift test
+        run: swift test
