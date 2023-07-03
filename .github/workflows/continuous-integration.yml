@@ -5,26 +5,41 @@ on:
   workflow_dispatch:
 
 env:
-  BUILDER_VERSION: v0.9.18
-  BUILDER_SOURCE: releases
-  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
-  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
-  PACKAGE_NAME: aws-sdk-swift
-  LINUX_BASE_IMAGE: ubuntu-16-x64
-  RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: us-east-1
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  ios-compat:
-    runs-on: macos-13
+  apple:
+    runs-on: ${{ matrix.runner }}
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
+    strategy:
+      fail-fast: false
+      matrix:
+        # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
+        runner:
+          - macos-11
+          - macos-13
+        xcode:
+          # Xcode 13.2.1 is used as oldest because 13.2 is the first version which backports concurrency
+          - Xcode_13.2.1
+          - Xcode_14.3.1
+        destination:
+          - 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
+          - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
+          - 'platform=OS X'
+        exclude:
+          # Don't run old macOS with new Xcode
+          - runner: macos-11
+            xcode: Xcode_14.3.1
+          # Don't run new macOS with old Xcode
+          - runner: macos-13
+            xcode: Xcode_13.2.1
+          # Don't run old iOS simulator with new Xcode
+          - destination: 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
+            xcode: Xcode_14.3.1
+          # Don't run new iOS simulator with old Xcode
+          - destination: 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
+            xcode: Xcode_13.2.1
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -57,10 +72,10 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          key: 1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            1-${{ runner.os }}-swift5.8.1-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift5.8.1-spm-
+            1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -73,46 +88,15 @@ jobs:
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-      - name: Build and Run Protocol & Unit Tests on iOS Simulator
+      - name: Build and Run Protocol & Unit Tests
         run: |
-          unset SMITHY_SWIFT_CI_DIR
-          unset AWS_SDK_SWIFT_CI_DIR
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift \
-            -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14' \
+            -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
-  macos-compat:
-    runs-on: macos-11
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.app/Contents/Developer
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Tools Versions
-        run: |
-          which swiftc
-          swiftc --version
-          echo
-          which xcodebuild
-          xcodebuild -version
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
+
   linux:
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
@@ -174,7 +158,4 @@ jobs:
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
       - name: Build and Run Protocol & Unit Tests on Linux
-        run: |
-          unset SMITHY_SWIFT_CI_DIR
-          unset AWS_SDK_SWIFT_CI_DIR
-          swift test
+        run: swift test
