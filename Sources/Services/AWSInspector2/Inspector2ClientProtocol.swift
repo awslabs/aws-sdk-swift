@@ -8,6 +8,8 @@ public protocol Inspector2ClientProtocol {
     func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutputResponse
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
     func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutputResponse
+    /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
+    func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutputResponse
     /// Gets free trial status for multiple Amazon Web Services accounts.
     func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutputResponse
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
@@ -16,10 +18,14 @@ public protocol Inspector2ClientProtocol {
     func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutputResponse
     /// Cancels the given findings report.
     func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutputResponse
+    /// Cancels a software bill of materials (SBOM) report.
+    func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutputResponse
     /// Creates a filter resource using specified filter criteria.
     func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutputResponse
+    /// Creates a software bill of materials (SBOM) report.
+    func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutputResponse
     /// Deletes a filter resource.
     func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
@@ -40,10 +46,14 @@ public protocol Inspector2ClientProtocol {
     func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutputResponse
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
     func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutputResponse
+    /// Gets an encryption key.
+    func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutputResponse
     /// Gets the status of a findings report.
     func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutputResponse
     /// Gets member information for your organization.
     func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
+    /// Gets details of a software bill of materials (SBOM) report.
+    func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutputResponse
     /// Lists the permissions an account has to configure Amazon Inspector.
     func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutputResponse
     /// Lists coverage details for you environment.
@@ -64,6 +74,8 @@ public protocol Inspector2ClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the Amazon Inspector usage totals over the last 30 days.
     func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutputResponse
+    /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
+    func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutputResponse
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutputResponse
     /// Adds tags to a resource.
@@ -74,6 +86,8 @@ public protocol Inspector2ClientProtocol {
     func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
     func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutputResponse
+    /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
+    func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutputResponse
     /// Specifies the action that is to be applied to the findings that match the filter.
     func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutputResponse
     /// Updates the configurations for your Amazon Inspector organization.

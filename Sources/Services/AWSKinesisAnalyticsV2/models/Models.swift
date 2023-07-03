@@ -9435,6 +9435,7 @@ extension KinesisAnalyticsV2ClientTypes {
         case sql10
         case zeppelinFlink10
         case zeppelinFlink20
+        case zeppelinFlink30
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuntimeEnvironment] {
@@ -9447,6 +9448,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .sql10,
                 .zeppelinFlink10,
                 .zeppelinFlink20,
+                .zeppelinFlink30,
                 .sdkUnknown("")
             ]
         }
@@ -9464,6 +9466,7 @@ extension KinesisAnalyticsV2ClientTypes {
             case .sql10: return "SQL-1_0"
             case .zeppelinFlink10: return "ZEPPELIN-FLINK-1_0"
             case .zeppelinFlink20: return "ZEPPELIN-FLINK-2_0"
+            case .zeppelinFlink30: return "ZEPPELIN-FLINK-3_0"
             case let .sdkUnknown(s): return s
             }
         }

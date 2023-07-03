@@ -62,7 +62,7 @@ extension DeleteObjectInput: ClientRuntime.URLPathProvider {
         guard let path = path else {
             return nil
         }
-        return "/\(path)"
+        return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -116,7 +116,7 @@ extension DescribeObjectInput: ClientRuntime.URLPathProvider {
         guard let path = path else {
             return nil
         }
-        return "/\(path)"
+        return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -228,7 +228,7 @@ extension GetObjectInput: ClientRuntime.URLPathProvider {
         guard let path = path else {
             return nil
         }
-        return "/\(path)"
+        return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -793,7 +793,7 @@ extension PutObjectInput: ClientRuntime.URLPathProvider {
         guard let path = path else {
             return nil
         }
-        return "/\(path)"
+        return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

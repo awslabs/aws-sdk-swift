@@ -45079,7 +45079,7 @@ extension DeleteActionTargetInput: ClientRuntime.URLPathProvider {
         guard let actionTargetArn = actionTargetArn else {
             return nil
         }
-        return "/actionTargets/\(actionTargetArn)"
+        return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -45165,7 +45165,7 @@ extension DeleteFindingAggregatorInput: ClientRuntime.URLPathProvider {
         guard let findingAggregatorArn = findingAggregatorArn else {
             return nil
         }
-        return "/findingAggregator/delete/\(findingAggregatorArn)"
+        return "/findingAggregator/delete/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -45222,7 +45222,7 @@ extension DeleteInsightInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/\(insightArn)"
+        return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -46080,7 +46080,7 @@ extension DescribeStandardsControlsInput: ClientRuntime.URLPathProvider {
         guard let standardsSubscriptionArn = standardsSubscriptionArn else {
             return nil
         }
-        return "/standards/controls/\(standardsSubscriptionArn)"
+        return "/standards/controls/\(standardsSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -46312,7 +46312,7 @@ extension DisableImportFindingsForProductInput: ClientRuntime.URLPathProvider {
         guard let productSubscriptionArn = productSubscriptionArn else {
             return nil
         }
-        return "/productSubscriptions/\(productSubscriptionArn)"
+        return "/productSubscriptions/\(productSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -48006,7 +48006,7 @@ extension GetFindingAggregatorInput: ClientRuntime.URLPathProvider {
         guard let findingAggregatorArn = findingAggregatorArn else {
             return nil
         }
-        return "/findingAggregator/get/\(findingAggregatorArn)"
+        return "/findingAggregator/get/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -48470,7 +48470,7 @@ extension GetInsightResultsInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/results/\(insightArn)"
+        return "/insights/results/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -58489,7 +58489,7 @@ extension UpdateActionTargetInput: ClientRuntime.URLPathProvider {
         guard let actionTargetArn = actionTargetArn else {
             return nil
         }
-        return "/actionTargets/\(actionTargetArn)"
+        return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -58985,7 +58985,7 @@ extension UpdateInsightInput: ClientRuntime.URLPathProvider {
         guard let insightArn = insightArn else {
             return nil
         }
-        return "/insights/\(insightArn)"
+        return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -59253,7 +59253,7 @@ extension UpdateStandardsControlInput: ClientRuntime.URLPathProvider {
         guard let standardsControlArn = standardsControlArn else {
             return nil
         }
-        return "/standards/control/\(standardsControlArn)"
+        return "/standards/control/\(standardsControlArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

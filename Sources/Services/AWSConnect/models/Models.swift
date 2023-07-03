@@ -24074,6 +24074,61 @@ extension ListUsersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MaximumResultReturnedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MaximumResultReturnedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
+public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaximumResultReturnedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct MaximumResultReturnedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension MaximumResultReturnedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConnectClientTypes.MediaConcurrency: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channel = "Channel"
@@ -28592,6 +28647,41 @@ extension ResourceNotReadyExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectClientTypes.ResourceTagsSearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagSearchCondition = "TagSearchCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagSearchCondition = self.tagSearchCondition {
+            try encodeContainer.encode(tagSearchCondition, forKey: .tagSearchCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagSearchConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.TagSearchCondition.self, forKey: .tagSearchCondition)
+        tagSearchCondition = tagSearchConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to search tags.
+    public struct ResourceTagsSearchCriteria: Swift.Equatable {
+        /// The search criteria to be used to return tags.
+        public var tagSearchCondition: ConnectClientTypes.TagSearchCondition?
+
+        public init(
+            tagSearchCondition: ConnectClientTypes.TagSearchCondition? = nil
+        )
+        {
+            self.tagSearchCondition = tagSearchCondition
+        }
+    }
+
+}
+
 extension ConnectClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case contact
@@ -30704,6 +30794,189 @@ extension SearchQuickConnectsOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
         approximateTotalCount = approximateTotalCountDecoded
+    }
+}
+
+extension SearchResourceTagsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceTypes = "ResourceTypes"
+        case searchCriteria = "SearchCriteria"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceTypes = resourceTypes {
+            var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
+            for string0 in resourceTypes {
+                try resourceTypesContainer.encode(string0)
+            }
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+    }
+}
+
+extension SearchResourceTagsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-resource-tags"
+    }
+}
+
+public struct SearchResourceTagsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types.
+    public var resourceTypes: [Swift.String]?
+    /// The search criteria to be used to return tags.
+    public var searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceTypes: [Swift.String]? = nil,
+        searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceTypes = resourceTypes
+        self.searchCriteria = searchCriteria
+    }
+}
+
+struct SearchResourceTagsInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let resourceTypes: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria?
+}
+
+extension SearchResourceTagsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceTypes = "ResourceTypes"
+        case searchCriteria = "SearchCriteria"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let resourceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceTypes)
+        var resourceTypesDecoded0:[Swift.String]? = nil
+        if let resourceTypesContainer = resourceTypesContainer {
+            resourceTypesDecoded0 = [Swift.String]()
+            for string0 in resourceTypesContainer {
+                if let string0 = string0 {
+                    resourceTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceTypes = resourceTypesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ResourceTagsSearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+    }
+}
+
+public enum SearchResourceTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumResultReturnedException": return try await MaximumResultReturnedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchResourceTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.tags = output.tags
+        } else {
+            self.nextToken = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct SearchResourceTagsOutputResponse: Swift.Equatable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of tags used in the Amazon Connect instance.
+    public var tags: [ConnectClientTypes.TagSet]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tags: [ConnectClientTypes.TagSet]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.tags = tags
+    }
+}
+
+struct SearchResourceTagsOutputResponseBody: Swift.Equatable {
+    let tags: [ConnectClientTypes.TagSet]?
+    let nextToken: Swift.String?
+}
+
+extension SearchResourceTagsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.TagSet?].self, forKey: .tags)
+        var tagsDecoded0:[ConnectClientTypes.TagSet]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ConnectClientTypes.TagSet]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -34251,6 +34524,116 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct TagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension ConnectClientTypes.TagSearchCondition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagKey
+        case tagKeyComparisonType
+        case tagValue
+        case tagValueComparisonType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tagKey = self.tagKey {
+            try encodeContainer.encode(tagKey, forKey: .tagKey)
+        }
+        if let tagKeyComparisonType = self.tagKeyComparisonType {
+            try encodeContainer.encode(tagKeyComparisonType.rawValue, forKey: .tagKeyComparisonType)
+        }
+        if let tagValue = self.tagValue {
+            try encodeContainer.encode(tagValue, forKey: .tagValue)
+        }
+        if let tagValueComparisonType = self.tagValueComparisonType {
+            try encodeContainer.encode(tagValueComparisonType.rawValue, forKey: .tagValueComparisonType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagKey)
+        tagKey = tagKeyDecoded
+        let tagValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tagValue)
+        tagValue = tagValueDecoded
+        let tagKeyComparisonTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringComparisonType.self, forKey: .tagKeyComparisonType)
+        tagKeyComparisonType = tagKeyComparisonTypeDecoded
+        let tagValueComparisonTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringComparisonType.self, forKey: .tagValueComparisonType)
+        tagValueComparisonType = tagValueComparisonTypeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to return tags.
+    public struct TagSearchCondition: Swift.Equatable {
+        /// The tag key used in the tag search condition.
+        public var tagKey: Swift.String?
+        /// The type of comparison to be made when evaluating the tag key in tag search condition.
+        public var tagKeyComparisonType: ConnectClientTypes.StringComparisonType?
+        /// The tag value used in the tag search condition.
+        public var tagValue: Swift.String?
+        /// The type of comparison to be made when evaluating the tag value in tag search condition.
+        public var tagValueComparisonType: ConnectClientTypes.StringComparisonType?
+
+        public init(
+            tagKey: Swift.String? = nil,
+            tagKeyComparisonType: ConnectClientTypes.StringComparisonType? = nil,
+            tagValue: Swift.String? = nil,
+            tagValueComparisonType: ConnectClientTypes.StringComparisonType? = nil
+        )
+        {
+            self.tagKey = tagKey
+            self.tagKeyComparisonType = tagKeyComparisonType
+            self.tagValue = tagValue
+            self.tagValueComparisonType = tagValueComparisonType
+        }
+    }
+
+}
+
+extension ConnectClientTypes.TagSet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A tag set contains tag key and tag value.
+    public struct TagSet: Swift.Equatable {
+        /// The tag key in the tagSet.
+        public var key: Swift.String?
+        /// The tag value in the tagSet.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
 }
 
 extension ConnectClientTypes.TaskActionDefinition: Swift.Codable {

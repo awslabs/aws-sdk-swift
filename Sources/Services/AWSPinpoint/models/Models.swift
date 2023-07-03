@@ -21053,6 +21053,7 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         case startActivity = "StartActivity"
         case startCondition = "StartCondition"
         case state = "State"
+        case timezoneEstimationMethods = "TimezoneEstimationMethods"
         case waitForQuietTime = "WaitForQuietTime"
         case tags = "tags"
     }
@@ -21118,6 +21119,12 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let timezoneEstimationMethods = timezoneEstimationMethods {
+            var timezoneEstimationMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timezoneEstimationMethods)
+            for __timezoneestimationmethodselement0 in timezoneEstimationMethods {
+                try timezoneEstimationMethodsContainer.encode(__timezoneestimationmethodselement0.rawValue)
+            }
         }
         if let waitForQuietTime = self.waitForQuietTime {
             try encodeContainer.encode(waitForQuietTime, forKey: .waitForQuietTime)
@@ -21192,6 +21199,17 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         openHours = openHoursDecoded
         let closedDaysDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ClosedDays.self, forKey: .closedDays)
         closedDays = closedDaysDecoded
+        let timezoneEstimationMethodsContainer = try containerValues.decodeIfPresent([PinpointClientTypes.__TimezoneEstimationMethodsElement?].self, forKey: .timezoneEstimationMethods)
+        var timezoneEstimationMethodsDecoded0:[PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil
+        if let timezoneEstimationMethodsContainer = timezoneEstimationMethodsContainer {
+            timezoneEstimationMethodsDecoded0 = [PinpointClientTypes.__TimezoneEstimationMethodsElement]()
+            for enum0 in timezoneEstimationMethodsContainer {
+                if let enum0 = enum0 {
+                    timezoneEstimationMethodsDecoded0?.append(enum0)
+                }
+            }
+        }
+        timezoneEstimationMethods = timezoneEstimationMethodsDecoded0
     }
 }
 
@@ -21260,6 +21278,12 @@ extension PinpointClientTypes {
         public var state: PinpointClientTypes.State?
         /// This object is not used or supported.
         public var tags: [Swift.String:Swift.String]?
+        /// An array of time zone estimation methods, if any, to use for determining an [Endpoints](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html) time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.
+        ///
+        /// * PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country.
+        ///
+        /// * POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public var timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]?
         /// Indicates whether endpoints in quiet hours should enter a wait activity until quiet hours have elapsed.
         public var waitForQuietTime: Swift.Bool?
 
@@ -21284,6 +21308,7 @@ extension PinpointClientTypes {
             startCondition: PinpointClientTypes.StartCondition? = nil,
             state: PinpointClientTypes.State? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
         )
         {
@@ -21307,6 +21332,7 @@ extension PinpointClientTypes {
             self.startCondition = startCondition
             self.state = state
             self.tags = tags
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
     }
@@ -34835,6 +34861,7 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         case startActivity = "StartActivity"
         case startCondition = "StartCondition"
         case state = "State"
+        case timezoneEstimationMethods = "TimezoneEstimationMethods"
         case waitForQuietTime = "WaitForQuietTime"
     }
 
@@ -34894,6 +34921,12 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
+        if let timezoneEstimationMethods = timezoneEstimationMethods {
+            var timezoneEstimationMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timezoneEstimationMethods)
+            for __timezoneestimationmethodselement0 in timezoneEstimationMethods {
+                try timezoneEstimationMethodsContainer.encode(__timezoneestimationmethodselement0.rawValue)
+            }
+        }
         if let waitForQuietTime = self.waitForQuietTime {
             try encodeContainer.encode(waitForQuietTime, forKey: .waitForQuietTime)
         }
@@ -34946,6 +34979,17 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         openHours = openHoursDecoded
         let closedDaysDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ClosedDays.self, forKey: .closedDays)
         closedDays = closedDaysDecoded
+        let timezoneEstimationMethodsContainer = try containerValues.decodeIfPresent([PinpointClientTypes.__TimezoneEstimationMethodsElement?].self, forKey: .timezoneEstimationMethods)
+        var timezoneEstimationMethodsDecoded0:[PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil
+        if let timezoneEstimationMethodsContainer = timezoneEstimationMethodsContainer {
+            timezoneEstimationMethodsDecoded0 = [PinpointClientTypes.__TimezoneEstimationMethodsElement]()
+            for enum0 in timezoneEstimationMethodsContainer {
+                if let enum0 = enum0 {
+                    timezoneEstimationMethodsDecoded0?.append(enum0)
+                }
+            }
+        }
+        timezoneEstimationMethods = timezoneEstimationMethodsDecoded0
     }
 }
 
@@ -35003,6 +35047,12 @@ extension PinpointClientTypes {
         ///
         /// PAUSED, CANCELLED, COMPLETED, and CLOSED states are not supported in requests to create or update a journey. To cancel, pause, or resume a journey, use the Journey State resource.
         public var state: PinpointClientTypes.State?
+        /// An array of time zone estimation methods, if any, to use for determining an [Endpoints](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html) time zone if the Endpoint does not have a value for the Demographic.Timezone attribute.
+        ///
+        /// * PHONE_NUMBER - A time zone is determined based on the Endpoint.Address and Endpoint.Location.Country.
+        ///
+        /// * POSTAL_CODE - A time zone is determined based on the Endpoint.Location.PostalCode and Endpoint.Location.Country. POSTAL_CODE detection is only supported in the United States, United Kingdom, Australia, New Zealand, Canada, France, Italy, Spain, Germany and in regions where Amazon Pinpoint is available.
+        public var timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]?
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public var waitForQuietTime: Swift.Bool?
 
@@ -35024,6 +35074,7 @@ extension PinpointClientTypes {
             startActivity: Swift.String? = nil,
             startCondition: PinpointClientTypes.StartCondition? = nil,
             state: PinpointClientTypes.State? = nil,
+            timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
         )
         {
@@ -35044,6 +35095,7 @@ extension PinpointClientTypes {
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
+            self.timezoneEstimationMethods = timezoneEstimationMethods
             self.waitForQuietTime = waitForQuietTime
         }
     }
@@ -35284,6 +35336,38 @@ extension PinpointClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = __EndpointTypesElement(rawValue: rawValue) ?? __EndpointTypesElement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PinpointClientTypes {
+    public enum __TimezoneEstimationMethodsElement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case phoneNumber
+        case postalCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [__TimezoneEstimationMethodsElement] {
+            return [
+                .phoneNumber,
+                .postalCode,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .phoneNumber: return "PHONE_NUMBER"
+            case .postalCode: return "POSTAL_CODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = __TimezoneEstimationMethodsElement(rawValue: rawValue) ?? __TimezoneEstimationMethodsElement.sdkUnknown(rawValue)
         }
     }
 }

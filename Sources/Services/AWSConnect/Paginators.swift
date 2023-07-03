@@ -1349,6 +1349,39 @@ extension PaginatorSequence where Input == SearchQuickConnectsInput, Output == S
     }
 }
 extension ConnectClient {
+    /// Paginate over `[SearchResourceTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchResourceTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchResourceTagsOutputResponse`
+    public func searchResourceTagsPaginated(input: SearchResourceTagsInput) -> ClientRuntime.PaginatorSequence<SearchResourceTagsInput, SearchResourceTagsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchResourceTagsInput, SearchResourceTagsOutputResponse>(input: input, inputKey: \SearchResourceTagsInput.nextToken, outputKey: \SearchResourceTagsOutputResponse.nextToken, paginationFunction: self.searchResourceTags(input:))
+    }
+}
+
+extension SearchResourceTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchResourceTagsInput {
+        return SearchResourceTagsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceTypes: self.resourceTypes,
+            searchCriteria: self.searchCriteria
+        )}
+}
+
+extension PaginatorSequence where Input == SearchResourceTagsInput, Output == SearchResourceTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchResourceTagsPaginated`
+    /// to access the nested member `[ConnectClientTypes.TagSet]`
+    /// - Returns: `[ConnectClientTypes.TagSet]`
+    public func tags() async throws -> [ConnectClientTypes.TagSet] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[SearchRoutingProfilesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

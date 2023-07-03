@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.22.0",
+    clientRuntimeVersion: "0.23.0",
     crtVersion: "0.12.0"
 )
 
@@ -189,6 +189,7 @@ let serviceTargets: [String] = [
     "AWSApiGatewayV2",
     "AWSAppConfig",
     "AWSAppConfigData",
+    "AWSAppFabric",
     "AWSAppIntegrations",
     "AWSAppMesh",
     "AWSAppRunner",
@@ -508,6 +509,7 @@ let serviceTargets: [String] = [
     "AWSTransfer",
     "AWSTranslate",
     "AWSVPCLattice",
+    "AWSVerifiedPermissions",
     "AWSVoiceID",
     "AWSWAF",
     "AWSWAFRegional",

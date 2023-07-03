@@ -160,7 +160,7 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
 }
 
 extension EMRServerlessClientTypes {
-    /// Information about an application. EMR Serverless uses applications to run jobs.
+    /// Information about an application. Amazon EMR Serverless uses applications to run jobs.
     public struct Application: Swift.Equatable {
         /// The ID of the application.
         /// This member is required.
@@ -187,7 +187,7 @@ extension EMRServerlessClientTypes {
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity for the application.
         public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-        /// The EMR release associated with the application.
+        /// The Amazon EMR release associated with the application.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the application.
@@ -386,7 +386,7 @@ extension EMRServerlessClientTypes {
         public var id: Swift.String?
         /// The name of the application.
         public var name: Swift.String?
-        /// The EMR release associated with the application.
+        /// The Amazon EMR release associated with the application.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the application.
@@ -939,7 +939,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var name: Swift.String?
     /// The network configuration for customer VPC connectivity.
     public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-    /// The EMR release associated with the application.
+    /// The Amazon EMR release associated with the application.
     /// This member is required.
     public var releaseLabel: Swift.String?
     /// The tags assigned to the application.
@@ -1904,7 +1904,7 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
 }
 
 extension EMRServerlessClientTypes {
-    /// Information about a job run. A job run is a unit of work, such as a Spark JAR, Hive query, or SparkSQL query, that you submit to an EMR Serverless application.
+    /// Information about a job run. A job run is a unit of work, such as a Spark JAR, Hive query, or SparkSQL query, that you submit to an Amazon EMR Serverless application.
     public struct JobRun: Swift.Equatable {
         /// The ID of the application the job is running on.
         /// This member is required.
@@ -1912,7 +1912,7 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var arn: Swift.String?
-        /// The aggregate vCPU, memory, and storage that AWS has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
         public var billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization?
         /// The configuration settings that are used to override default configuration.
         public var configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides?
@@ -1937,7 +1937,7 @@ extension EMRServerlessClientTypes {
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity.
         public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-        /// The EMR release associated with the application your job is running on.
+        /// The Amazon EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the job run.
@@ -2160,7 +2160,7 @@ extension EMRServerlessClientTypes {
         public var id: Swift.String?
         /// The optional job run name. This doesn't have to be unique.
         public var name: Swift.String?
-        /// The EMR release associated with the application your job is running on.
+        /// The Amazon EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the job run.
@@ -3644,6 +3644,7 @@ extension UpdateApplicationInput: Swift.Encodable {
         case initialCapacity
         case maximumCapacity
         case networkConfiguration
+        case releaseLabel
         case workerTypeSpecifications
     }
 
@@ -3675,6 +3676,9 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let networkConfiguration = self.networkConfiguration {
             try encodeContainer.encode(networkConfiguration, forKey: .networkConfiguration)
+        }
+        if let releaseLabel = self.releaseLabel {
+            try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
         }
         if let workerTypeSpecifications = workerTypeSpecifications {
             var workerTypeSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workerTypeSpecifications)
@@ -3715,6 +3719,8 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The network configuration for customer VPC connectivity.
     public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+    /// The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
+    public var releaseLabel: Swift.String?
     /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
     public var workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 
@@ -3728,6 +3734,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
+        releaseLabel: Swift.String? = nil,
         workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
     )
     {
@@ -3740,6 +3747,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         self.initialCapacity = initialCapacity
         self.maximumCapacity = maximumCapacity
         self.networkConfiguration = networkConfiguration
+        self.releaseLabel = releaseLabel
         self.workerTypeSpecifications = workerTypeSpecifications
     }
 }
@@ -3754,6 +3762,7 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let architecture: EMRServerlessClientTypes.Architecture?
     let imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     let workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
+    let releaseLabel: Swift.String?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
@@ -3766,6 +3775,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case initialCapacity
         case maximumCapacity
         case networkConfiguration
+        case releaseLabel
         case workerTypeSpecifications
     }
 
@@ -3807,6 +3817,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
             }
         }
         workerTypeSpecifications = workerTypeSpecificationsDecoded0
+        let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
+        releaseLabel = releaseLabelDecoded
     }
 }
 

@@ -9372,6 +9372,7 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
         case catalogTargets = "CatalogTargets"
         case deltaTargets = "DeltaTargets"
         case dynamoDBTargets = "DynamoDBTargets"
+        case icebergTargets = "IcebergTargets"
         case jdbcTargets = "JdbcTargets"
         case mongoDBTargets = "MongoDBTargets"
         case s3Targets = "S3Targets"
@@ -9395,6 +9396,12 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
             var dynamoDBTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dynamoDBTargets)
             for dynamodbtarget0 in dynamoDBTargets {
                 try dynamoDBTargetsContainer.encode(dynamodbtarget0)
+            }
+        }
+        if let icebergTargets = icebergTargets {
+            var icebergTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .icebergTargets)
+            for icebergtarget0 in icebergTargets {
+                try icebergTargetsContainer.encode(icebergtarget0)
             }
         }
         if let jdbcTargets = jdbcTargets {
@@ -9485,6 +9492,17 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
             }
         }
         deltaTargets = deltaTargetsDecoded0
+        let icebergTargetsContainer = try containerValues.decodeIfPresent([GlueClientTypes.IcebergTarget?].self, forKey: .icebergTargets)
+        var icebergTargetsDecoded0:[GlueClientTypes.IcebergTarget]? = nil
+        if let icebergTargetsContainer = icebergTargetsContainer {
+            icebergTargetsDecoded0 = [GlueClientTypes.IcebergTarget]()
+            for structure0 in icebergTargetsContainer {
+                if let structure0 = structure0 {
+                    icebergTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        icebergTargets = icebergTargetsDecoded0
     }
 }
 
@@ -9497,6 +9515,8 @@ extension GlueClientTypes {
         public var deltaTargets: [GlueClientTypes.DeltaTarget]?
         /// Specifies Amazon DynamoDB targets.
         public var dynamoDBTargets: [GlueClientTypes.DynamoDBTarget]?
+        /// Specifies Apache Iceberg data store targets.
+        public var icebergTargets: [GlueClientTypes.IcebergTarget]?
         /// Specifies JDBC targets.
         public var jdbcTargets: [GlueClientTypes.JdbcTarget]?
         /// Specifies Amazon DocumentDB or MongoDB targets.
@@ -9508,6 +9528,7 @@ extension GlueClientTypes {
             catalogTargets: [GlueClientTypes.CatalogTarget]? = nil,
             deltaTargets: [GlueClientTypes.DeltaTarget]? = nil,
             dynamoDBTargets: [GlueClientTypes.DynamoDBTarget]? = nil,
+            icebergTargets: [GlueClientTypes.IcebergTarget]? = nil,
             jdbcTargets: [GlueClientTypes.JdbcTarget]? = nil,
             mongoDBTargets: [GlueClientTypes.MongoDBTarget]? = nil,
             s3Targets: [GlueClientTypes.S3Target]? = nil
@@ -9516,6 +9537,7 @@ extension GlueClientTypes {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
+            self.icebergTargets = icebergTargets
             self.jdbcTargets = jdbcTargets
             self.mongoDBTargets = mongoDBTargets
             self.s3Targets = s3Targets
@@ -33041,6 +33063,95 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes.IcebergTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case exclusions = "Exclusions"
+        case maximumTraversalDepth = "MaximumTraversalDepth"
+        case paths = "Paths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let exclusions = exclusions {
+            var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
+            for path0 in exclusions {
+                try exclusionsContainer.encode(path0)
+            }
+        }
+        if let maximumTraversalDepth = self.maximumTraversalDepth {
+            try encodeContainer.encode(maximumTraversalDepth, forKey: .maximumTraversalDepth)
+        }
+        if let paths = paths {
+            var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
+            for path0 in paths {
+                try pathsContainer.encode(path0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .paths)
+        var pathsDecoded0:[Swift.String]? = nil
+        if let pathsContainer = pathsContainer {
+            pathsDecoded0 = [Swift.String]()
+            for string0 in pathsContainer {
+                if let string0 = string0 {
+                    pathsDecoded0?.append(string0)
+                }
+            }
+        }
+        paths = pathsDecoded0
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+        let exclusionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .exclusions)
+        var exclusionsDecoded0:[Swift.String]? = nil
+        if let exclusionsContainer = exclusionsContainer {
+            exclusionsDecoded0 = [Swift.String]()
+            for string0 in exclusionsContainer {
+                if let string0 = string0 {
+                    exclusionsDecoded0?.append(string0)
+                }
+            }
+        }
+        exclusions = exclusionsDecoded0
+        let maximumTraversalDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumTraversalDepth)
+        maximumTraversalDepth = maximumTraversalDepthDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3.
+    public struct IcebergTarget: Swift.Equatable {
+        /// The name of the connection to use to connect to the Iceberg target.
+        public var connectionName: Swift.String?
+        /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
+        public var exclusions: [Swift.String]?
+        /// The maximum depth of Amazon S3 paths that the crawler can traverse to discover the Iceberg metadata folder in your Amazon S3 path. Used to limit the crawler run time.
+        public var maximumTraversalDepth: Swift.Int?
+        /// One or more Amazon S3 paths that contains Iceberg metadata folders as s3://bucket/prefix.
+        public var paths: [Swift.String]?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            exclusions: [Swift.String]? = nil,
+            maximumTraversalDepth: Swift.Int? = nil,
+            paths: [Swift.String]? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.exclusions = exclusions
+            self.maximumTraversalDepth = maximumTraversalDepth
+            self.paths = paths
+        }
+    }
+
+}
+
 extension IdempotentParameterMismatchException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -35799,6 +35910,7 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         case retryIntervalMs = "RetryIntervalMs"
         case securityProtocol = "SecurityProtocol"
         case startingOffsets = "StartingOffsets"
+        case startingTimestamp = "StartingTimestamp"
         case subscribePattern = "SubscribePattern"
         case topicName = "TopicName"
     }
@@ -35853,6 +35965,9 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         if let startingOffsets = self.startingOffsets {
             try encodeContainer.encode(startingOffsets, forKey: .startingOffsets)
         }
+        if let startingTimestamp = self.startingTimestamp {
+            try encodeContainer.encodeTimestamp(startingTimestamp, format: .dateTime, forKey: .startingTimestamp)
+        }
         if let subscribePattern = self.subscribePattern {
             try encodeContainer.encode(subscribePattern, forKey: .subscribePattern)
         }
@@ -35899,6 +36014,8 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         addRecordTimestamp = addRecordTimestampDecoded
         let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
         emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
+        let startingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startingTimestamp)
+        startingTimestamp = startingTimestampDecoded
     }
 }
 
@@ -35937,6 +36054,8 @@ extension GlueClientTypes {
         public var securityProtocol: Swift.String?
         /// The starting position in the Kafka topic to read data from. The possible values are "earliest" or "latest". The default value is "latest".
         public var startingOffsets: Swift.String?
+        /// The timestamp of the record in the Kafka topic to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00"). Only one of StartingTimestamp or StartingOffsets must be set.
+        public var startingTimestamp: ClientRuntime.Date?
         /// A Java regex string that identifies the topic list to subscribe to. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public var subscribePattern: Swift.String?
         /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
@@ -35959,6 +36078,7 @@ extension GlueClientTypes {
             retryIntervalMs: Swift.Int? = nil,
             securityProtocol: Swift.String? = nil,
             startingOffsets: Swift.String? = nil,
+            startingTimestamp: ClientRuntime.Date? = nil,
             subscribePattern: Swift.String? = nil,
             topicName: Swift.String? = nil
         )
@@ -35979,6 +36099,7 @@ extension GlueClientTypes {
             self.retryIntervalMs = retryIntervalMs
             self.securityProtocol = securityProtocol
             self.startingOffsets = startingOffsets
+            self.startingTimestamp = startingTimestamp
             self.subscribePattern = subscribePattern
             self.topicName = topicName
         }
@@ -36053,6 +36174,7 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         case roleArn = "RoleArn"
         case roleSessionName = "RoleSessionName"
         case startingPosition = "StartingPosition"
+        case startingTimestamp = "StartingTimestamp"
         case streamArn = "StreamArn"
         case streamName = "StreamName"
     }
@@ -36113,6 +36235,9 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         if let startingPosition = self.startingPosition {
             try encodeContainer.encode(startingPosition.rawValue, forKey: .startingPosition)
         }
+        if let startingTimestamp = self.startingTimestamp {
+            try encodeContainer.encodeTimestamp(startingTimestamp, format: .dateTime, forKey: .startingTimestamp)
+        }
         if let streamArn = self.streamArn {
             try encodeContainer.encode(streamArn, forKey: .streamArn)
         }
@@ -36163,6 +36288,8 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         addRecordTimestamp = addRecordTimestampDecoded
         let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
         emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
+        let startingTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startingTimestamp)
+        startingTimestamp = startingTimestampDecoded
     }
 }
 
@@ -36203,8 +36330,10 @@ extension GlueClientTypes {
         public var roleArn: Swift.String?
         /// An identifier for the session assuming the role using AWS STS. You must use this parameter when accessing a data stream in a different account. Used in conjunction with "awsSTSRoleARN".
         public var roleSessionName: Swift.String?
-        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", or "earliest". The default value is "latest".
+        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", "earliest", or a timestamp string in UTC format in the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00-04:00"). The default value is "latest". Note: Using a value that is a timestamp string in UTC format for "startingPosition" is supported only for Glue version 4.0 or later.
         public var startingPosition: GlueClientTypes.StartingPosition?
+        /// The timestamp of the record in the Kinesis data stream to start reading data from. The possible values are a timestamp string in UTC format of the pattern yyyy-mm-ddTHH:MM:SSZ (where Z represents a UTC timezone offset with a +/-. For example: "2023-04-04T08:00:00+08:00").
+        public var startingTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public var streamArn: Swift.String?
         /// The name of the Kinesis data stream.
@@ -36229,6 +36358,7 @@ extension GlueClientTypes {
             roleArn: Swift.String? = nil,
             roleSessionName: Swift.String? = nil,
             startingPosition: GlueClientTypes.StartingPosition? = nil,
+            startingTimestamp: ClientRuntime.Date? = nil,
             streamArn: Swift.String? = nil,
             streamName: Swift.String? = nil
         )
@@ -36251,6 +36381,7 @@ extension GlueClientTypes {
             self.roleArn = roleArn
             self.roleSessionName = roleSessionName
             self.startingPosition = startingPosition
+            self.startingTimestamp = startingTimestamp
             self.streamArn = streamArn
             self.streamName = streamName
         }
@@ -51851,6 +51982,7 @@ extension GlueClientTypes {
     public enum StartingPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case earliest
         case latest
+        case timestamp
         case trimHorizon
         case sdkUnknown(Swift.String)
 
@@ -51858,6 +51990,7 @@ extension GlueClientTypes {
             return [
                 .earliest,
                 .latest,
+                .timestamp,
                 .trimHorizon,
                 .sdkUnknown("")
             ]
@@ -51870,6 +52003,7 @@ extension GlueClientTypes {
             switch self {
             case .earliest: return "earliest"
             case .latest: return "latest"
+            case .timestamp: return "timestamp"
             case .trimHorizon: return "trim_horizon"
             case let .sdkUnknown(s): return s
             }

@@ -406,6 +406,7 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregateColumns
+        case allowedJoinOperators
         case dimensionColumns
         case joinColumns
         case joinRequired
@@ -419,6 +420,12 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
             var aggregateColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregateColumns)
             for aggregatecolumn0 in aggregateColumns {
                 try aggregateColumnsContainer.encode(aggregatecolumn0)
+            }
+        }
+        if let allowedJoinOperators = allowedJoinOperators {
+            var allowedJoinOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedJoinOperators)
+            for joinoperator0 in allowedJoinOperators {
+                try allowedJoinOperatorsContainer.encode(joinoperator0.rawValue)
             }
         }
         if let dimensionColumns = dimensionColumns {
@@ -476,6 +483,17 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
         joinColumns = joinColumnsDecoded0
         let joinRequiredDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.JoinRequiredOption.self, forKey: .joinRequired)
         joinRequired = joinRequiredDecoded
+        let allowedJoinOperatorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.JoinOperator?].self, forKey: .allowedJoinOperators)
+        var allowedJoinOperatorsDecoded0:[CleanRoomsClientTypes.JoinOperator]? = nil
+        if let allowedJoinOperatorsContainer = allowedJoinOperatorsContainer {
+            allowedJoinOperatorsDecoded0 = [CleanRoomsClientTypes.JoinOperator]()
+            for string0 in allowedJoinOperatorsContainer {
+                if let string0 = string0 {
+                    allowedJoinOperatorsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedJoinOperators = allowedJoinOperatorsDecoded0
         let dimensionColumnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dimensionColumns)
         var dimensionColumnsDecoded0:[Swift.String]? = nil
         if let dimensionColumnsContainer = dimensionColumnsContainer {
@@ -513,18 +531,20 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// Enables query structure and specified queries that product aggregate statistics.
+    /// Enables query structure and specified queries that produce aggregate statistics.
     public struct AnalysisRuleAggregation: Swift.Equatable {
         /// The columns that query runners are allowed to use in aggregation queries.
         /// This member is required.
         public var aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]?
+        /// Which logical operators (if any) are to be used in an INNER JOIN match condition. Default is AND.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
         /// The columns that query runners are allowed to select, group by, or filter by.
         /// This member is required.
         public var dimensionColumns: [Swift.String]?
         /// Columns in configured table that can be used in join statements and/or as aggregate columns. They can never be outputted directly.
         /// This member is required.
         public var joinColumns: [Swift.String]?
-        /// Control that requires member who runs query to do a join with their configured table and/or other configured table in query
+        /// Control that requires member who runs query to do a join with their configured table and/or other configured table in query.
         public var joinRequired: CleanRoomsClientTypes.JoinRequiredOption?
         /// Columns that must meet a specific threshold value (after an aggregation function is applied to it) for each output row to be returned.
         /// This member is required.
@@ -535,6 +555,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]? = nil,
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
             dimensionColumns: [Swift.String]? = nil,
             joinColumns: [Swift.String]? = nil,
             joinRequired: CleanRoomsClientTypes.JoinRequiredOption? = nil,
@@ -543,6 +564,7 @@ extension CleanRoomsClientTypes {
         )
         {
             self.aggregateColumns = aggregateColumns
+            self.allowedJoinOperators = allowedJoinOperators
             self.dimensionColumns = dimensionColumns
             self.joinColumns = joinColumns
             self.joinRequired = joinRequired
@@ -555,12 +577,19 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedJoinOperators
         case joinColumns
         case listColumns
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedJoinOperators = allowedJoinOperators {
+            var allowedJoinOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedJoinOperators)
+            for joinoperator0 in allowedJoinOperators {
+                try allowedJoinOperatorsContainer.encode(joinoperator0.rawValue)
+            }
+        }
         if let joinColumns = joinColumns {
             var joinColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .joinColumns)
             for analysisrulecolumnname0 in joinColumns {
@@ -588,6 +617,17 @@ extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
             }
         }
         joinColumns = joinColumnsDecoded0
+        let allowedJoinOperatorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.JoinOperator?].self, forKey: .allowedJoinOperators)
+        var allowedJoinOperatorsDecoded0:[CleanRoomsClientTypes.JoinOperator]? = nil
+        if let allowedJoinOperatorsContainer = allowedJoinOperatorsContainer {
+            allowedJoinOperatorsDecoded0 = [CleanRoomsClientTypes.JoinOperator]()
+            for string0 in allowedJoinOperatorsContainer {
+                if let string0 = string0 {
+                    allowedJoinOperatorsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedJoinOperators = allowedJoinOperatorsDecoded0
         let listColumnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .listColumns)
         var listColumnsDecoded0:[Swift.String]? = nil
         if let listColumnsContainer = listColumnsContainer {
@@ -605,7 +645,9 @@ extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables row-level analysis.
     public struct AnalysisRuleList: Swift.Equatable {
-        /// Columns that can be used to join a configured table with the table of the member who can query and another members' configured tables.
+        /// Which logical operators (if any) are to be used in an INNER JOIN match condition. Default is AND.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
+        /// Columns that can be used to join a configured table with the table of the member who can query and other members' configured tables.
         /// This member is required.
         public var joinColumns: [Swift.String]?
         /// Columns that can be listed in the output.
@@ -613,10 +655,12 @@ extension CleanRoomsClientTypes {
         public var listColumns: [Swift.String]?
 
         public init(
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
             joinColumns: [Swift.String]? = nil,
             listColumns: [Swift.String]? = nil
         )
         {
+            self.allowedJoinOperators = allowedJoinOperators
             self.joinColumns = joinColumns
             self.listColumns = listColumns
         }
@@ -1051,7 +1095,7 @@ extension CleanRoomsClientTypes {
         /// The time when the collaboration was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// A display name of the collaboration creator.
@@ -1229,7 +1273,7 @@ extension CleanRoomsClientTypes {
         /// The time when the collaboration was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -1306,7 +1350,7 @@ extension CleanRoomsClientTypes.Column: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A column within a schema relation, derived from the underlying AWS Glue table.
+    /// A column within a schema relation, derived from the underlying Glue table.
     public struct Column: Swift.Equatable {
         /// The name of the column.
         /// This member is required.
@@ -1427,7 +1471,7 @@ extension CleanRoomsClientTypes.ConfiguredTable: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// A table that has been configured for use in a collaboration.
     public struct ConfiguredTable: Swift.Equatable {
-        /// The columns within the underlying AWS Glue table that can be utilized within collaborations.
+        /// The columns within the underlying Glue table that can be utilized within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
         /// The analysis method for the configured table. The only valid value is currently `DIRECT_QUERY`.
@@ -1450,7 +1494,7 @@ extension CleanRoomsClientTypes {
         /// A name for the configured table.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS Glue table that this configured table represents.
+        /// The Glue table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
         /// The time the configured table was last updated
@@ -2772,7 +2816,7 @@ public struct CreateConfiguredTableInput: Swift.Equatable {
     /// The name of the configured table.
     /// This member is required.
     public var name: Swift.String?
-    /// A reference to the AWS Glue table being configured.
+    /// A reference to the Glue table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -4287,12 +4331,12 @@ extension CleanRoomsClientTypes.GlueTableReference: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A reference to a table within an AWS Glue data catalog.
+    /// A reference to a table within an Glue data catalog.
     public struct GlueTableReference: Swift.Equatable {
-        /// The name of the database the AWS Glue table belongs to.
+        /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
-        /// The name of the AWS Glue table.
+        /// The name of the Glue table.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -4360,6 +4404,38 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    public enum JoinOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JoinOperator] {
+            return [
+                .and,
+                .or,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JoinOperator(rawValue: rawValue) ?? JoinOperator.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5485,7 +5561,7 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// Basic metadata used to construct a new member.
     public struct MemberSpecification: Swift.Equatable {
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
         /// The member's display name.
@@ -5626,7 +5702,7 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var abilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
         /// The time when the member was created.
@@ -5776,7 +5852,7 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the membership's associated collaboration.
         /// This member is required.
         public var collaborationArn: Swift.String?
-        /// The identifier used to reference members of the collaboration. Currently only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var collaborationCreatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -6006,7 +6082,7 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the membership's associated collaboration.
         /// This member is required.
         public var collaborationArn: Swift.String?
-        /// The identifier of the AWS principal that created the collaboration. Currently only supports AWS account ID.
+        /// The identifier of the Amazon Web Services principal that created the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var collaborationCreatorAccountId: Swift.String?
         /// The display name of the collaboration creator.
@@ -6143,7 +6219,7 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertib
 }
 
 extension CleanRoomsClientTypes {
-    /// The parameters for an AWS Clean Rooms protected query.
+    /// The parameters for an Clean Rooms protected query.
     public struct ProtectedQuery: Swift.Equatable {
         /// The time at which the protected query was created.
         /// This member is required.
@@ -6516,7 +6592,6 @@ extension CleanRoomsClientTypes {
     /// The parameters for the SQL type Protected Query.
     public struct ProtectedQuerySQLParameters: Swift.Equatable {
         /// The query string to be submitted.
-        /// This member is required.
         public var queryString: Swift.String?
 
         public init(
@@ -7074,7 +7149,7 @@ extension CleanRoomsClientTypes {
         /// The time the schema was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The unique account ID for the AWS account that owns the schema.
+        /// The unique account ID for the Amazon Web Services account that owns the schema.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// A description for the schema.
@@ -7221,7 +7296,7 @@ extension CleanRoomsClientTypes {
         /// The time the schema object was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
-        /// The unique account ID for the AWS account that owns the schema.
+        /// The unique account ID for the Amazon Web Services account that owns the schema.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The name for the schema object.
@@ -7539,9 +7614,9 @@ extension CleanRoomsClientTypes.TableReference: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A pointer to the dataset that underlies this table. Currently, this can only be an AWS Glue table.
+    /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
     public enum TableReference: Swift.Equatable {
-        /// If present, a reference to the AWS Glue table referred to by this table reference.
+        /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
         case sdkUnknown(Swift.String)
     }

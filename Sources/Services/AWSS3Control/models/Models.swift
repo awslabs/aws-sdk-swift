@@ -3608,7 +3608,7 @@ extension DescribeMultiRegionAccessPointOperationInput: ClientRuntime.URLPathPro
         guard let requestTokenARN = requestTokenARN else {
             return nil
         }
-        return "/v20180820/async-requests/mrap/\(requestTokenARN)"
+        return "/v20180820/async-requests/mrap/\(requestTokenARN.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -5866,7 +5866,7 @@ extension GetMultiRegionAccessPointInput: ClientRuntime.URLPathProvider {
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name)"
+        return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -5961,7 +5961,7 @@ extension GetMultiRegionAccessPointPolicyInput: ClientRuntime.URLPathProvider {
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name)/policy"
+        return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))/policy"
     }
 }
 
@@ -6056,7 +6056,7 @@ extension GetMultiRegionAccessPointPolicyStatusInput: ClientRuntime.URLPathProvi
         guard let name = name else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(name)/policystatus"
+        return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))/policystatus"
     }
 }
 
@@ -6151,7 +6151,7 @@ extension GetMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider {
         guard let mrap = mrap else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(mrap)/routes"
+        return "/v20180820/mrap/instances/\(mrap.urlPercentEncoding(encodeForwardSlash: false))/routes"
     }
 }
 
@@ -17139,7 +17139,7 @@ extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider
         guard let mrap = mrap else {
             return nil
         }
-        return "/v20180820/mrap/instances/\(mrap)/routes"
+        return "/v20180820/mrap/instances/\(mrap.urlPercentEncoding(encodeForwardSlash: false))/routes"
     }
 }
 
