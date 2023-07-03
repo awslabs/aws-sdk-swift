@@ -17,10 +17,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint ${{ env.PACKAGE_NAME }}
         run: ./gradlew ktlint
+
   swiftlint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/realm/swiftlint:0.50.3
+      image: ghcr.io/realm/swiftlint:0.52.3
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
@@ -29,4 +30,3 @@ jobs:
         uses: actions/checkout@v2
       - name: Run swiftlint on AWSClientRuntime
         run: swiftlint --reporter github-actions-logging
-        
