@@ -1882,7 +1882,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
+    /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

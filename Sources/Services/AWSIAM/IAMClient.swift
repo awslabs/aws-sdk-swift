@@ -171,7 +171,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use [PutGroupPolicy]. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use [PutGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public func attachGroupPolicy(input: AttachGroupPolicyInput) async throws -> AttachGroupPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -207,7 +207,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using [CreateRole]. You can update a role's trust policy using [UpdateAssumeRolePolicy]. Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use [PutRolePolicy]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumerolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use [PutRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide.
     public func attachRolePolicy(input: AttachRolePolicyInput) async throws -> AttachRolePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -243,7 +243,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use [PutUserPolicy]. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use [PutUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public func attachUserPolicy(input: AttachUserPolicyInput) async throws -> AttachUserPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2409,6 +2409,42 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
+    /// Retrieves information about an MFA device for a specified user.
+    public func getMFADevice(input: GetMFADeviceInput) async throws -> GetMFADeviceOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMFADevice")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetMFADeviceInput, GetMFADeviceOutputResponse, GetMFADeviceOutputError>(id: "getMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMFADeviceInput, GetMFADeviceOutputResponse, GetMFADeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMFADeviceInput, GetMFADeviceOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMFADeviceOutputResponse, GetMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMFADeviceInput, GetMFADeviceOutputResponse>(xmlName: "GetMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMFADeviceInput, GetMFADeviceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMFADeviceOutputResponse, GetMFADeviceOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMFADeviceOutputResponse, GetMFADeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMFADeviceOutputResponse, GetMFADeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMFADeviceOutputResponse, GetMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
     public func getOpenIDConnectProvider(input: GetOpenIDConnectProviderInput) async throws -> GetOpenIDConnectProviderOutputResponse
     {
@@ -4180,7 +4216,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use [AttachGroupPolicy]. To create a new managed policy, use [CreatePolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use [AttachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     public func putGroupPolicy(input: PutGroupPolicyInput) async throws -> PutGroupPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4252,7 +4288,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using [CreateRole]. You can update a role's trust policy using [UpdateAssumeRolePolicy]. For more information about IAM roles, see [Using roles to delegate permissions and federate identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html). A role can also have a managed policy attached to it. To attach a managed policy to a role, use [AttachRolePolicy]. To create a new managed policy, use [CreatePolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumerolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). For more information about IAM roles, see [Using roles to delegate permissions and federate identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html). A role can also have a managed policy attached to it. To attach a managed policy to a role, use [AttachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     public func putRolePolicy(input: PutRolePolicyInput) async throws -> PutRolePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4324,7 +4360,7 @@ extension IAMClient: IAMClientProtocol {
         return result
     }
 
-    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use [AttachUserPolicy]. To create a new managed policy, use [CreatePolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
+    /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use [AttachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     public func putUserPolicy(input: PutUserPolicyInput) async throws -> PutUserPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -67,6 +67,43 @@ public struct AppStreamClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 }
 
 extension AppStreamClient: AppStreamClientProtocol {
+    /// Associates the specified app block builder with the specified app block.
+    public func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateAppBlockBuilderAppBlock")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>(id: "associateAppBlockBuilderAppBlock")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse>(xAmzTarget: "PhotonAdminProxyService.AssociateAppBlockBuilderAppBlock"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse>(xmlName: "AssociateAppBlockBuilderAppBlockRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAppBlockBuilderAppBlockOutputResponse, AssociateAppBlockBuilderAppBlockOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     public func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutputResponse
     {
@@ -322,6 +359,80 @@ extension AppStreamClient: AppStreamClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppBlockOutputResponse, CreateAppBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppBlockOutputResponse, CreateAppBlockOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppBlockOutputResponse, CreateAppBlockOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates an app block builder.
+    public func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAppBlockBuilder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>(id: "createAppBlockBuilder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse>(xAmzTarget: "PhotonAdminProxyService.CreateAppBlockBuilder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse>(xmlName: "CreateAppBlockBuilderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderOutputResponse, CreateAppBlockBuilderOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates a URL to start a create app block builder streaming session.
+    public func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAppBlockBuilderStreamingURL")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>(id: "createAppBlockBuilderStreamingURL")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse>(xAmzTarget: "PhotonAdminProxyService.CreateAppBlockBuilderStreamingURL"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse>(xmlName: "CreateAppBlockBuilderStreamingURLRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderStreamingURLOutputResponse, CreateAppBlockBuilderStreamingURLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -770,6 +881,43 @@ extension AppStreamClient: AppStreamClientProtocol {
         return result
     }
 
+    /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
+    public func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAppBlockBuilder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>(id: "deleteAppBlockBuilder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse>(xAmzTarget: "PhotonAdminProxyService.DeleteAppBlockBuilder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse>(xmlName: "DeleteAppBlockBuilderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppBlockBuilderOutputResponse, DeleteAppBlockBuilderOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes an application.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
@@ -1136,6 +1284,80 @@ extension AppStreamClient: AppStreamClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves a list that describes one or more app block builder associations.
+    public func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAppBlockBuilderAppBlockAssociations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>(id: "describeAppBlockBuilderAppBlockAssociations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>(xAmzTarget: "PhotonAdminProxyService.DescribeAppBlockBuilderAppBlockAssociations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>(xmlName: "DescribeAppBlockBuilderAppBlockAssociationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutputResponse, DescribeAppBlockBuilderAppBlockAssociationsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves a list that describes one or more app block builders.
+    public func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAppBlockBuilders")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>(id: "describeAppBlockBuilders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>(xAmzTarget: "PhotonAdminProxyService.DescribeAppBlockBuilders"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>(xmlName: "DescribeAppBlockBuildersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppBlockBuildersOutputResponse, DescribeAppBlockBuildersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1699,6 +1921,43 @@ extension AppStreamClient: AppStreamClientProtocol {
         return result
     }
 
+    /// Disassociates a specified app block builder from a specified app block.
+    public func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateAppBlockBuilderAppBlock")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>(id: "disassociateAppBlockBuilderAppBlock")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse>(xAmzTarget: "PhotonAdminProxyService.DisassociateAppBlockBuilderAppBlock"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse>(xmlName: "DisassociateAppBlockBuilderAppBlockRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAppBlockBuilderAppBlockOutputResponse, DisassociateAppBlockBuilderAppBlockOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Disassociates the specified application from the fleet.
     public func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutputResponse
     {
@@ -2032,6 +2291,43 @@ extension AppStreamClient: AppStreamClientProtocol {
         return result
     }
 
+    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
+    public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAppBlockBuilder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>(id: "startAppBlockBuilder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse>(xAmzTarget: "PhotonAdminProxyService.StartAppBlockBuilder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse>(xmlName: "StartAppBlockBuilderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAppBlockBuilderOutputResponse, StartAppBlockBuilderOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Starts the specified fleet.
     public func startFleet(input: StartFleetInput) async throws -> StartFleetOutputResponse
     {
@@ -2102,6 +2398,43 @@ extension AppStreamClient: AppStreamClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImageBuilderOutputResponse, StartImageBuilderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImageBuilderOutputResponse, StartImageBuilderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImageBuilderOutputResponse, StartImageBuilderOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
+    public func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopAppBlockBuilder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>(id: "stopAppBlockBuilder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse>(xAmzTarget: "PhotonAdminProxyService.StopAppBlockBuilder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse>(xmlName: "StopAppBlockBuilderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopAppBlockBuilderOutputResponse, StopAppBlockBuilderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2250,6 +2583,43 @@ extension AppStreamClient: AppStreamClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
+    public func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAppBlockBuilder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>(id: "updateAppBlockBuilder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse>(xAmzTarget: "PhotonAdminProxyService.UpdateAppBlockBuilder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse>(xmlName: "UpdateAppBlockBuilderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppBlockBuilderOutputResponse, UpdateAppBlockBuilderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

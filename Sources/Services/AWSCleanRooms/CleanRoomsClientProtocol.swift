@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Welcome to the AWS Clean Rooms API Reference. AWS Clean Rooms is an AWS service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about AWS Clean Rooms concepts, procedures, and best practices, see the [AWS Clean Rooms User Guide](https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html).
+/// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the [Clean Rooms User Guide](https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html).
 public protocol CleanRoomsClientProtocol {
     /// Retrieves multiple schemas by their identifiers.
     func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutputResponse
@@ -60,7 +60,7 @@ public protocol CleanRoomsClientProtocol {
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     /// Lists all of the tags that have been added to a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
-    /// Creates a protected query that is started by AWS Clean Rooms.
+    /// Creates a protected query that is started by Clean Rooms .
     func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutputResponse
     /// Tags a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse

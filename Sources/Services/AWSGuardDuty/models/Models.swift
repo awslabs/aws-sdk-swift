@@ -10677,6 +10677,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groups = "groups"
+        case sessionName = "sessionName"
         case uid = "uid"
         case username = "username"
     }
@@ -10687,6 +10688,12 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
             for string0 in groups {
                 try groupsContainer.encode(string0)
+            }
+        }
+        if let sessionName = sessionName {
+            var sessionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sessionName)
+            for string0 in sessionName {
+                try sessionNameContainer.encode(string0)
             }
         }
         if let uid = self.uid {
@@ -10714,6 +10721,17 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             }
         }
         groups = groupsDecoded0
+        let sessionNameContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sessionName)
+        var sessionNameDecoded0:[Swift.String]? = nil
+        if let sessionNameContainer = sessionNameContainer {
+            sessionNameDecoded0 = [Swift.String]()
+            for string0 in sessionNameContainer {
+                if let string0 = string0 {
+                    sessionNameDecoded0?.append(string0)
+                }
+            }
+        }
+        sessionName = sessionNameDecoded0
     }
 }
 
@@ -10722,6 +10740,8 @@ extension GuardDutyClientTypes {
     public struct KubernetesUserDetails: Swift.Equatable {
         /// The groups that include the user who called the Kubernetes API.
         public var groups: [Swift.String]?
+        /// Entity that assumes the IAM role when Kubernetes RBAC permissions are assigned to that role.
+        public var sessionName: [Swift.String]?
         /// The user ID of the user who called the Kubernetes API.
         public var uid: Swift.String?
         /// The username of the user who called the Kubernetes API.
@@ -10729,11 +10749,13 @@ extension GuardDutyClientTypes {
 
         public init(
             groups: [Swift.String]? = nil,
+            sessionName: [Swift.String]? = nil,
             uid: Swift.String? = nil,
             username: Swift.String? = nil
         )
         {
             self.groups = groups
+            self.sessionName = sessionName
             self.uid = uid
             self.username = username
         }

@@ -6087,7 +6087,7 @@ extension ConfirmTopicRuleDestinationInput: ClientRuntime.URLPathProvider {
         guard let confirmationToken = confirmationToken else {
             return nil
         }
-        return "/confirmdestination/\(confirmationToken)"
+        return "/confirmdestination/\(confirmationToken.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -14210,7 +14210,7 @@ extension DeleteTopicRuleDestinationInput: ClientRuntime.URLPathProvider {
         guard let arn = arn else {
             return nil
         }
-        return "/destinations/\(arn)"
+        return "/destinations/\(arn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -23298,7 +23298,7 @@ extension GetTopicRuleDestinationInput: ClientRuntime.URLPathProvider {
         guard let arn = arn else {
             return nil
         }
-        return "/destinations/\(arn)"
+        return "/destinations/\(arn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 

@@ -89,12 +89,12 @@ extension AbortMultipartUploadInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct AbortMultipartUploadInput: Swift.Equatable {
-    /// The bucket name to which the upload was taking place. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name to which the upload was taking place. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -2064,12 +2064,12 @@ extension CompleteMultipartUploadInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct CompleteMultipartUploadInput: Swift.Equatable {
-    /// Name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// Name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32 checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
@@ -2218,7 +2218,7 @@ extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct CompleteMultipartUploadOutputResponse: Swift.Equatable {
-    /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
@@ -2764,14 +2764,14 @@ extension CopyObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct CopyObjectInput: Swift.Equatable {
     /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
     public var acl: S3ClientTypes.ObjectCannedACL?
-    /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
@@ -3677,14 +3677,14 @@ extension CreateMultipartUploadInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct CreateMultipartUploadInput: Swift.Equatable {
     /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
     public var acl: S3ClientTypes.ObjectCannedACL?
-    /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
@@ -3905,7 +3905,7 @@ public struct CreateMultipartUploadOutputResponse: Swift.Equatable {
     public var abortDate: ClientRuntime.Date?
     /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
     public var abortRuleId: Swift.String?
-    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool
@@ -5304,12 +5304,12 @@ extension DeleteObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct DeleteObjectInput: Swift.Equatable {
-    /// The bucket name of the bucket containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name of the bucket containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission.
@@ -5433,12 +5433,12 @@ extension DeleteObjectTaggingInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct DeleteObjectTaggingInput: Swift.Equatable {
-    /// The bucket name containing the objects from which to remove the tags. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the objects from which to remove the tags. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -5612,7 +5612,7 @@ extension DeleteObjectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteObjectsInput: Swift.Equatable {
-    /// The bucket name containing the objects to delete. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the objects to delete. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.
@@ -6032,7 +6032,7 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
     public enum EncodingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case url
         case sdkUnknown(Swift.String)
@@ -10103,7 +10103,7 @@ extension GetObjectAclInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -10289,12 +10289,12 @@ extension GetObjectAttributesInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct GetObjectAttributesInput: Swift.Equatable {
-    /// The name of the bucket that contains the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket that contains the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -10304,7 +10304,7 @@ public struct GetObjectAttributesInput: Swift.Equatable {
     public var key: Swift.String?
     /// Sets the maximum number of parts to return.
     public var maxParts: Swift.Int?
-    /// An XML header that specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
+    /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
     /// This member is required.
     public var objectAttributes: [S3ClientTypes.ObjectAttributes]?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
@@ -10883,12 +10883,12 @@ extension GetObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct GetObjectInput: Swift.Equatable {
-    /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When using an Object Lambda access point the hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When using an Object Lambda access point the hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// To retrieve the checksum, this mode must be enabled.
@@ -11022,7 +11022,7 @@ extension GetObjectLegalHoldInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11632,7 +11632,7 @@ extension GetObjectRetentionInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11755,12 +11755,12 @@ extension GetObjectTaggingInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct GetObjectTaggingInput: Swift.Equatable {
-    /// The bucket name containing the object for which to get the tagging information. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the object for which to get the tagging information. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -11902,7 +11902,7 @@ extension GetObjectTorrentInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -12363,7 +12363,7 @@ extension HeadBucketInput: ClientRuntime.URLPathProvider {
 }
 
 public struct HeadBucketInput: Swift.Equatable {
-    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -12475,12 +12475,12 @@ extension HeadObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct HeadObjectInput: Swift.Equatable {
-    /// The name of the bucket containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must have permission to use the kms:Decrypt action for the request to succeed.
@@ -15552,12 +15552,12 @@ extension ListMultipartUploadsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListMultipartUploadsInput: Swift.Equatable {
-    /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
@@ -15565,7 +15565,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     public var keyMarker: Swift.String?
     /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
     public var maxUploads: Swift.Int?
-    /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
+    /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way that you'd use a folder in a file system.)
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
@@ -15660,7 +15660,7 @@ public struct ListMultipartUploadsOutputResponse: Swift.Equatable {
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
     /// Contains the delimiter you specified in the request. If you don't specify a delimiter in your request, this element is absent from the response.
     public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
+    /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
     public var encodingType: S3ClientTypes.EncodingType?
     /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
     public var isTruncated: Swift.Bool
@@ -15811,6 +15811,11 @@ extension ListObjectVersionsInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let optionalObjectAttributes = optionalObjectAttributes {
+            optionalObjectAttributes.forEach { headerValue in
+                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
+            }
+        }
         if let requestPayer = requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
@@ -15864,15 +15869,17 @@ public struct ListObjectVersionsInput: Swift.Equatable {
     public var bucket: Swift.String?
     /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// Specifies the key to start with when listing objects in a bucket.
     public var keyMarker: Swift.String?
-    /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains true. To return the additional keys, see key-marker and version-id-marker.
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains true. To return the additional keys, see key-marker and version-id-marker.
     public var maxKeys: Swift.Int?
-    /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
+    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
+    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
+    /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way that you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
@@ -15886,6 +15893,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
         expectedBucketOwner: Swift.String? = nil,
         keyMarker: Swift.String? = nil,
         maxKeys: Swift.Int? = nil,
+        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionIdMarker: Swift.String? = nil
@@ -15897,6 +15905,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
         self.expectedBucketOwner = expectedBucketOwner
         self.keyMarker = keyMarker
         self.maxKeys = maxKeys
+        self.optionalObjectAttributes = optionalObjectAttributes
         self.`prefix` = `prefix`
         self.requestPayer = requestPayer
         self.versionIdMarker = versionIdMarker
@@ -15969,9 +15978,9 @@ public struct ListObjectVersionsOutputResponse: Swift.Equatable {
     public var deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]?
     /// The delimiter grouping the included keys. A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
     public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
+    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
     public var encodingType: S3ClientTypes.EncodingType?
-    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
+    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request by using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
     public var isTruncated: Swift.Bool
     /// Marks the last key returned in a truncated response.
     public var keyMarker: Swift.String?
@@ -16144,6 +16153,11 @@ extension ListObjectsInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let optionalObjectAttributes = optionalObjectAttributes {
+            optionalObjectAttributes.forEach { headerValue in
+                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
+            }
+        }
         if let requestPayer = requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
@@ -16187,19 +16201,21 @@ extension ListObjectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListObjectsInput: Swift.Equatable {
-    /// The name of the bucket containing the objects. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket containing the objects. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// A delimiter is a character you use to group keys.
+    /// A delimiter is a character that you use to group keys.
     public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. Marker can be any key in the bucket.
     public var marker: Swift.String?
-    /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
     public var maxKeys: Swift.Int?
+    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
+    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
     /// Limits the response to keys that begin with the specified prefix.
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
@@ -16212,6 +16228,7 @@ public struct ListObjectsInput: Swift.Equatable {
         expectedBucketOwner: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxKeys: Swift.Int? = nil,
+        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
     )
@@ -16222,6 +16239,7 @@ public struct ListObjectsInput: Swift.Equatable {
         self.expectedBucketOwner = expectedBucketOwner
         self.marker = marker
         self.maxKeys = maxKeys
+        self.optionalObjectAttributes = optionalObjectAttributes
         self.`prefix` = `prefix`
         self.requestPayer = requestPayer
     }
@@ -16282,7 +16300,7 @@ extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListObjectsOutputResponse: Swift.Equatable {
-    /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+    /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/), as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
     /// Metadata about each object returned.
     public var contents: [S3ClientTypes.Object]?
@@ -16298,7 +16316,7 @@ public struct ListObjectsOutputResponse: Swift.Equatable {
     public var maxKeys: Swift.Int
     /// The bucket name.
     public var name: Swift.String?
-    /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMarker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
+    /// When the response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as the marker parameter in the subsequent request to get the next set of objects. Amazon S3 lists objects in alphabetical order. This element is returned only if you have the delimiter request parameter specified. If the response does not include the NextMarker element and it is truncated, you can use the value of the last Key element in the response as the marker parameter in the subsequent request to get the next set of object keys.
     public var nextMarker: Swift.String?
     /// Keys that begin with the indicated prefix.
     public var `prefix`: Swift.String?
@@ -16423,6 +16441,11 @@ extension ListObjectsV2Input: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
+        if let optionalObjectAttributes = optionalObjectAttributes {
+            optionalObjectAttributes.forEach { headerValue in
+                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
+            }
+        }
         if let requestPayer = requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
@@ -16475,21 +16498,23 @@ extension ListObjectsV2Input: ClientRuntime.URLPathProvider {
 }
 
 public struct ListObjectsV2Input: Swift.Equatable {
-    /// Bucket name to list. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// Bucket name to list. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
+    /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
     public var continuationToken: Swift.String?
-    /// A delimiter is a character you use to group keys.
+    /// A delimiter is a character that you use to group keys.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode object keys in the response.
     public var encodingType: S3ClientTypes.EncodingType?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
-    /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
+    /// The owner field is not present in ListObjectsV2 by default. If you want to return the owner field with each key in the result, then set the FetchOwner field to true.
     public var fetchOwner: Swift.Bool?
-    /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
     public var maxKeys: Swift.Int?
+    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
+    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
     /// Limits the response to keys that begin with the specified prefix.
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
@@ -16505,6 +16530,7 @@ public struct ListObjectsV2Input: Swift.Equatable {
         expectedBucketOwner: Swift.String? = nil,
         fetchOwner: Swift.Bool? = nil,
         maxKeys: Swift.Int? = nil,
+        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         startAfter: Swift.String? = nil
@@ -16517,6 +16543,7 @@ public struct ListObjectsV2Input: Swift.Equatable {
         self.expectedBucketOwner = expectedBucketOwner
         self.fetchOwner = fetchOwner
         self.maxKeys = maxKeys
+        self.optionalObjectAttributes = optionalObjectAttributes
         self.`prefix` = `prefix`
         self.requestPayer = requestPayer
         self.startAfter = startAfter
@@ -16594,11 +16621,11 @@ public struct ListObjectsV2OutputResponse: Swift.Equatable {
     public var encodingType: S3ClientTypes.EncodingType?
     /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
     public var isTruncated: Swift.Bool
-    /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equal to the MaxKeys field. Say you ask for 50 keys, your result will include 50 keys or fewer.
+    /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equal to the MaxKeys field. For example, if you ask for 50 keys, your result will include 50 keys or fewer.
     public var keyCount: Swift.Int
-    /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
     public var maxKeys: Swift.Int
-    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     public var name: Swift.String?
     /// NextContinuationToken is sent when isTruncated is true, which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
     public var nextContinuationToken: Swift.String?
@@ -16789,12 +16816,12 @@ extension ListPartsInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct ListPartsInput: Swift.Equatable {
-    /// The name of the bucket to which the parts are being uploaded. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket to which the parts are being uploaded. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -17290,9 +17317,9 @@ extension S3ClientTypes.MetadataEntry: ClientRuntime.DynamicNodeEncoding {
 extension S3ClientTypes {
     /// A metadata key-value pair to store with an object.
     public struct MetadataEntry: Swift.Equatable {
-        /// Name of the Object.
+        /// Name of the object.
         public var name: Swift.String?
-        /// Value of the Object.
+        /// Value of the object.
         public var value: Swift.String?
 
         public init(
@@ -18175,6 +18202,7 @@ extension S3ClientTypes.Object: Swift.Codable {
         case key = "Key"
         case lastModified = "LastModified"
         case owner = "Owner"
+        case restoreStatus = "RestoreStatus"
         case size = "Size"
         case storageClass = "StorageClass"
     }
@@ -18206,6 +18234,9 @@ extension S3ClientTypes.Object: Swift.Codable {
         }
         if let owner = owner {
             try container.encode(owner, forKey: ClientRuntime.Key("Owner"))
+        }
+        if let restoreStatus = restoreStatus {
+            try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
         }
         if size != 0 {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
@@ -18247,6 +18278,8 @@ extension S3ClientTypes.Object: Swift.Codable {
         storageClass = storageClassDecoded
         let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
         owner = ownerDecoded
+        let restoreStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreStatus.self, forKey: .restoreStatus)
+        restoreStatus = restoreStatusDecoded
     }
 }
 
@@ -18283,6 +18316,8 @@ extension S3ClientTypes {
         public var lastModified: ClientRuntime.Date?
         /// The owner of the object
         public var owner: S3ClientTypes.Owner?
+        /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
+        public var restoreStatus: S3ClientTypes.RestoreStatus?
         /// Size in bytes of the object
         public var size: Swift.Int
         /// The class of storage used to store the object.
@@ -18294,6 +18329,7 @@ extension S3ClientTypes {
             key: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
+            restoreStatus: S3ClientTypes.RestoreStatus? = nil,
             size: Swift.Int = 0,
             storageClass: S3ClientTypes.ObjectStorageClass? = nil
         )
@@ -18303,6 +18339,7 @@ extension S3ClientTypes {
             self.key = key
             self.lastModified = lastModified
             self.owner = owner
+            self.restoreStatus = restoreStatus
             self.size = size
             self.storageClass = storageClass
         }
@@ -19062,6 +19099,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         case key = "Key"
         case lastModified = "LastModified"
         case owner = "Owner"
+        case restoreStatus = "RestoreStatus"
         case size = "Size"
         case storageClass = "StorageClass"
         case versionId = "VersionId"
@@ -19097,6 +19135,9 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         }
         if let owner = owner {
             try container.encode(owner, forKey: ClientRuntime.Key("Owner"))
+        }
+        if let restoreStatus = restoreStatus {
+            try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
         }
         if size != 0 {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
@@ -19145,6 +19186,8 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         lastModified = lastModifiedDecoded
         let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
         owner = ownerDecoded
+        let restoreStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreStatus.self, forKey: .restoreStatus)
+        restoreStatus = restoreStatusDecoded
     }
 }
 
@@ -19177,6 +19220,8 @@ extension S3ClientTypes {
         public var lastModified: ClientRuntime.Date?
         /// Specifies the owner of the object.
         public var owner: S3ClientTypes.Owner?
+        /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
+        public var restoreStatus: S3ClientTypes.RestoreStatus?
         /// Size in bytes of the object.
         public var size: Swift.Int
         /// The class of storage used to store the object.
@@ -19191,6 +19236,7 @@ extension S3ClientTypes {
             key: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
+            restoreStatus: S3ClientTypes.RestoreStatus? = nil,
             size: Swift.Int = 0,
             storageClass: S3ClientTypes.ObjectVersionStorageClass? = nil,
             versionId: Swift.String? = nil
@@ -19202,6 +19248,7 @@ extension S3ClientTypes {
             self.key = key
             self.lastModified = lastModified
             self.owner = owner
+            self.restoreStatus = restoreStatus
             self.size = size
             self.storageClass = storageClass
             self.versionId = versionId
@@ -19235,6 +19282,35 @@ extension S3ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ObjectVersionStorageClass(rawValue: rawValue) ?? ObjectVersionStorageClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
+    public enum OptionalObjectAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case restoreStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OptionalObjectAttributes] {
+            return [
+                .restoreStatus,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .restoreStatus: return "RestoreStatus"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OptionalObjectAttributes(rawValue: rawValue) ?? OptionalObjectAttributes.sdkUnknown(rawValue)
         }
     }
 }
@@ -23209,7 +23285,7 @@ extension PutObjectAclInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -23237,7 +23313,7 @@ public struct PutObjectAclInput: Swift.Equatable {
     public var grantWrite: Swift.String?
     /// Allows grantee to write the ACL for the applicable bucket. This action is not supported by Amazon S3 on Outposts.
     public var grantWriteACP: Swift.String?
-    /// Key for which the PUT action was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// Key for which the PUT action was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var key: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
@@ -23609,7 +23685,7 @@ extension PutObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -23618,7 +23694,7 @@ public struct PutObjectInput: Swift.Equatable {
     public var acl: S3ClientTypes.ObjectCannedACL?
     /// Object data.
     public var body: ClientRuntime.ByteStream?
-    /// The bucket name to which the PUT action was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name to which the PUT action was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
@@ -23902,7 +23978,7 @@ extension PutObjectLegalHoldInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -24449,7 +24525,7 @@ extension PutObjectRetentionInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -24653,12 +24729,12 @@ extension PutObjectTaggingInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct PutObjectTaggingInput: Swift.Equatable {
-    /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -26213,12 +26289,12 @@ extension RestoreObjectInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct RestoreObjectInput: Swift.Equatable {
-    /// The bucket name containing the object to restore. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name containing the object to restore. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -26451,6 +26527,68 @@ extension S3ClientTypes {
             self = RestoreRequestType(rawValue: rawValue) ?? RestoreRequestType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes.RestoreStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isRestoreInProgress = "IsRestoreInProgress"
+        case restoreExpiryDate = "RestoreExpiryDate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if isRestoreInProgress != false {
+            try container.encode(isRestoreInProgress, forKey: ClientRuntime.Key("IsRestoreInProgress"))
+        }
+        if let restoreExpiryDate = restoreExpiryDate {
+            try container.encodeTimestamp(restoreExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("RestoreExpiryDate"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isRestoreInProgressDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isRestoreInProgress)
+        isRestoreInProgress = isRestoreInProgressDecoded
+        let restoreExpiryDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreExpiryDate)
+        restoreExpiryDate = restoreExpiryDateDecoded
+    }
+}
+
+extension S3ClientTypes.RestoreStatus: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
+    public struct RestoreStatus: Swift.Equatable {
+        /// Specifies whether the object is currently being restored. If the object restoration is in progress, the header returns the value TRUE. For example: x-amz-optional-object-attributes: IsRestoreInProgress="true" If the object restoration has completed, the header returns the value FALSE. For example: x-amz-optional-object-attributes: IsRestoreInProgress="false", RestoreExpiryDate="2012-12-21T00:00:00.000Z" If the object hasn't been restored, there is no header response.
+        public var isRestoreInProgress: Swift.Bool
+        /// Indicates when the restored copy will expire. This value is populated only if the object has already been restored. For example: x-amz-optional-object-attributes: IsRestoreInProgress="false", RestoreExpiryDate="2012-12-21T00:00:00.000Z"
+        public var restoreExpiryDate: ClientRuntime.Date?
+
+        public init(
+            isRestoreInProgress: Swift.Bool = false,
+            restoreExpiryDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.isRestoreInProgress = isRestoreInProgress
+            self.restoreExpiryDate = restoreExpiryDate
+        }
+    }
+
 }
 
 extension S3ClientTypes.RoutingRule: Swift.Codable {
@@ -27009,7 +27147,7 @@ extension SelectObjectContentInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -28634,12 +28772,12 @@ extension UploadPartCopyInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct UploadPartCopyInput: Swift.Equatable {
-    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an [access point](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html):
@@ -29040,14 +29178,14 @@ extension UploadPartInput: ClientRuntime.URLPathProvider {
         guard let key = key else {
             return nil
         }
-        return "/\(key)"
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 public struct UploadPartInput: Swift.Equatable {
     /// Object data.
     public var body: ClientRuntime.ByteStream?
-    /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.

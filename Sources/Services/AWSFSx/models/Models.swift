@@ -3655,7 +3655,7 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.CustomDebugSt
 extension FSxClientTypes {
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
     public struct CreateFileSystemOntapConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -3783,7 +3783,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The Amazon FSx for OpenZFS configuration properties for the file system that you are creating.
     public struct CreateFileSystemOpenZFSConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
@@ -3793,9 +3793,9 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:
         ///
-        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available, except US West (Oregon).
+        /// * SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx for OpenZFS is available.
         ///
-        /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MBps using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
+        /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
         ///
         ///
         /// For more information, see: [Deployment type availability](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions) and [File system performance](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance) in the Amazon FSx for OpenZFS User Guide.
@@ -4016,7 +4016,7 @@ extension FSxClientTypes {
         public var aliases: [Swift.String]?
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
         public var auditLogConfiguration: FSxClientTypes.WindowsAuditLogCreateConfiguration?
-        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
@@ -12555,7 +12555,7 @@ extension FSxClientTypes.LustreFileSystemConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The configuration for the Amazon FSx for Lustre file system.
     public struct LustreFileSystemConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A boolean flag indicating whether tags on the file system are copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false)
         public var copyTagsToBackups: Swift.Bool?
@@ -13277,7 +13277,7 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringCo
 extension FSxClientTypes {
     /// Configuration for the FSx for NetApp ONTAP file system.
     public struct OntapFileSystemConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -13885,7 +13885,7 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The configuration for the Amazon FSx for OpenZFS file system.
     public struct OpenZFSFileSystemConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags on the file system should be copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
@@ -17492,7 +17492,7 @@ extension FSxClientTypes {
     public struct UpdateFileSystemOntapConfiguration: Swift.Equatable {
         /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for NetApp ONTAP file system.
         public var addRouteTableIds: [Swift.String]?
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -17589,7 +17589,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration: Swift.Codable {
 extension FSxClientTypes {
     /// The configuration updates for an Amazon FSx for OpenZFS file system.
     public struct UpdateFileSystemOpenZFSConfiguration: Swift.Equatable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
@@ -17743,7 +17743,7 @@ extension FSxClientTypes {
     public struct UpdateFileSystemWindowsConfiguration: Swift.Equatable {
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system..
         public var auditLogConfiguration: FSxClientTypes.WindowsAuditLogCreateConfiguration?
-        /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see [Working with Automatic Daily Backups](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups).
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30. For more information, see [Working with Automatic Daily Backups](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups).
         public var automaticBackupRetentionDays: Swift.Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
         public var dailyAutomaticBackupStartTime: Swift.String?

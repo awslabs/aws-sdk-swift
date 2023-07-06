@@ -400,7 +400,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. Find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html). CreateAutoMLJob only accepts tabular input data. We recommend using [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) for all problem types. CreateAutoMLJobV2 can process the same tabular data as its previous version CreateAutoMLJob, as well as non-tabular data for problem types such as image or text classification. Find guidelines about how to migrate CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2).
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
     public func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,7 +437,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. We recommend using [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) for all problem types. CreateAutoMLJobV2 can process the same tabular data as its previous version CreateAutoMLJob, as well as non-tabular data for problem types such as image or text classification. Find guidelines about how to migrate CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). Find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html). Calling [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) on a AutoML job V2 results in an error.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
     public func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4212,7 +4212,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
+    /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html). AutoML jobs created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) cannot be described by DescribeAutoMLJob.
     public func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4249,7 +4249,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Returns information about an AutoML job V2 created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html).
+    /// Returns information about an AutoML job created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) or [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
     public func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

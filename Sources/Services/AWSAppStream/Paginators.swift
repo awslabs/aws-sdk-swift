@@ -3,6 +3,51 @@
 import ClientRuntime
 
 extension AppStreamClient {
+    /// Paginate over `[DescribeAppBlockBuilderAppBlockAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAppBlockBuilderAppBlockAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuilderAppBlockAssociationsOutputResponse`
+    public func describeAppBlockBuilderAppBlockAssociationsPaginated(input: DescribeAppBlockBuilderAppBlockAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>(input: input, inputKey: \DescribeAppBlockBuilderAppBlockAssociationsInput.nextToken, outputKey: \DescribeAppBlockBuilderAppBlockAssociationsOutputResponse.nextToken, paginationFunction: self.describeAppBlockBuilderAppBlockAssociations(input:))
+    }
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeAppBlockBuilderAppBlockAssociationsInput {
+        return DescribeAppBlockBuilderAppBlockAssociationsInput(
+            appBlockArn: self.appBlockArn,
+            appBlockBuilderName: self.appBlockBuilderName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension AppStreamClient {
+    /// Paginate over `[DescribeAppBlockBuildersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAppBlockBuildersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuildersOutputResponse`
+    public func describeAppBlockBuildersPaginated(input: DescribeAppBlockBuildersInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>(input: input, inputKey: \DescribeAppBlockBuildersInput.nextToken, outputKey: \DescribeAppBlockBuildersOutputResponse.nextToken, paginationFunction: self.describeAppBlockBuilders(input:))
+    }
+}
+
+extension DescribeAppBlockBuildersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeAppBlockBuildersInput {
+        return DescribeAppBlockBuildersInput(
+            maxResults: self.maxResults,
+            names: self.names,
+            nextToken: token
+        )}
+}
+extension AppStreamClient {
     /// Paginate over `[DescribeImagePermissionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

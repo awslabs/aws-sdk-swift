@@ -31,13 +31,13 @@ public protocol MqClientProtocol {
     /// * ec2:DescribeVpcs
     ///
     ///
-    /// For more information, see [Create an IAM User and Get Your AWS Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
+    /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
     func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutputResponse
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutputResponse
     /// Add a tag to a resource.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
-    /// Creates an ActiveMQ user.
+    /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     /// Deletes a broker. Note: This API is asynchronous.
     func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutputResponse
@@ -67,6 +67,8 @@ public protocol MqClientProtocol {
     func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     /// Returns a list of all ActiveMQ users.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    /// Promotes a data replication replica broker to the primary broker role.
+    func promote(input: PromoteInput) async throws -> PromoteOutputResponse
     /// Reboots a broker. Note: This API is asynchronous.
     func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutputResponse
     /// Adds a pending configuration change to a broker.

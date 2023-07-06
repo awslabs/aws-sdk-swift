@@ -94,7 +94,7 @@ extension MqClient: MqClientProtocol {
     /// * ec2:DescribeVpcs
     ///
     ///
-    /// For more information, see [Create an IAM User and Get Your AWS Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
+    /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
     public func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -210,7 +210,7 @@ extension MqClient: MqClientProtocol {
         return result
     }
 
-    /// Creates an ActiveMQ user.
+    /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -711,6 +711,42 @@ extension MqClient: MqClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutputResponse, ListUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutputResponse, ListUsersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutputResponse, ListUsersOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Promotes a data replication replica broker to the primary broker role.
+    public func promote(input: PromoteInput) async throws -> PromoteOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "promote")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mq")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PromoteInput, PromoteOutputResponse, PromoteOutputError>(id: "promote")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PromoteInput, PromoteOutputResponse, PromoteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PromoteInput, PromoteOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PromoteOutputResponse, PromoteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PromoteInput, PromoteOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PromoteInput, PromoteOutputResponse>(xmlName: "PromoteRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PromoteOutputResponse, PromoteOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PromoteOutputResponse, PromoteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PromoteOutputResponse, PromoteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PromoteOutputResponse, PromoteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

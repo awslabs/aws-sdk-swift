@@ -80,6 +80,8 @@ public protocol EMRClientProtocol {
     func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutputResponse
     /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
     func listStudioSessionMappings(input: ListStudioSessionMappingsInput) async throws -> ListStudioSessionMappingsOutputResponse
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    func listSupportedInstanceTypes(input: ListSupportedInstanceTypesInput) async throws -> ListSupportedInstanceTypesOutputResponse
     /// Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
     func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutputResponse
     /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.

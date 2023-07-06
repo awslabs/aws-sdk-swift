@@ -26,6 +26,7 @@ extension ListObjectsV2Input: ClientRuntime.PaginateToken {
             expectedBucketOwner: self.expectedBucketOwner,
             fetchOwner: self.fetchOwner,
             maxKeys: self.maxKeys,
+            optionalObjectAttributes: self.optionalObjectAttributes,
             prefix: self.prefix,
             requestPayer: self.requestPayer,
             startAfter: self.startAfter

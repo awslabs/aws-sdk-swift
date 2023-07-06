@@ -336,3 +336,24 @@ extension PaginatorSequence where Input == ListStudioSessionMappingsInput, Outpu
         return try await self.asyncCompactMap { item in item.sessionMappings }
     }
 }
+extension EMRClient {
+    /// Paginate over `[ListSupportedInstanceTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSupportedInstanceTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedInstanceTypesOutputResponse`
+    public func listSupportedInstanceTypesPaginated(input: ListSupportedInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutputResponse>(input: input, inputKey: \ListSupportedInstanceTypesInput.marker, outputKey: \ListSupportedInstanceTypesOutputResponse.marker, paginationFunction: self.listSupportedInstanceTypes(input:))
+    }
+}
+
+extension ListSupportedInstanceTypesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSupportedInstanceTypesInput {
+        return ListSupportedInstanceTypesInput(
+            marker: token,
+            releaseLabel: self.releaseLabel
+        )}
+}

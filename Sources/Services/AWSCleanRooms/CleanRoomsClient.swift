@@ -1016,7 +1016,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         return result
     }
 
-    /// Creates a protected query that is started by AWS Clean Rooms.
+    /// Creates a protected query that is started by Clean Rooms .
     public func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

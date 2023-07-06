@@ -126,17 +126,27 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.AppBlock: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockErrors = "AppBlockErrors"
         case arn = "Arn"
         case createdTime = "CreatedTime"
         case description = "Description"
         case displayName = "DisplayName"
         case name = "Name"
+        case packagingType = "PackagingType"
+        case postSetupScriptDetails = "PostSetupScriptDetails"
         case setupScriptDetails = "SetupScriptDetails"
         case sourceS3Location = "SourceS3Location"
+        case state = "State"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockErrors = appBlockErrors {
+            var appBlockErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appBlockErrors)
+            for errordetails0 in appBlockErrors {
+                try appBlockErrorsContainer.encode(errordetails0)
+            }
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -152,11 +162,20 @@ extension AppStreamClientTypes.AppBlock: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let packagingType = self.packagingType {
+            try encodeContainer.encode(packagingType.rawValue, forKey: .packagingType)
+        }
+        if let postSetupScriptDetails = self.postSetupScriptDetails {
+            try encodeContainer.encode(postSetupScriptDetails, forKey: .postSetupScriptDetails)
+        }
         if let setupScriptDetails = self.setupScriptDetails {
             try encodeContainer.encode(setupScriptDetails, forKey: .setupScriptDetails)
         }
         if let sourceS3Location = self.sourceS3Location {
             try encodeContainer.encode(sourceS3Location, forKey: .sourceS3Location)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
         }
     }
 
@@ -176,12 +195,31 @@ extension AppStreamClientTypes.AppBlock: Swift.Codable {
         setupScriptDetails = setupScriptDetailsDecoded
         let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
         createdTime = createdTimeDecoded
+        let postSetupScriptDetailsDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.ScriptDetails.self, forKey: .postSetupScriptDetails)
+        postSetupScriptDetails = postSetupScriptDetailsDecoded
+        let packagingTypeDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.PackagingType.self, forKey: .packagingType)
+        packagingType = packagingTypeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockState.self, forKey: .state)
+        state = stateDecoded
+        let appBlockErrorsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.ErrorDetails?].self, forKey: .appBlockErrors)
+        var appBlockErrorsDecoded0:[AppStreamClientTypes.ErrorDetails]? = nil
+        if let appBlockErrorsContainer = appBlockErrorsContainer {
+            appBlockErrorsDecoded0 = [AppStreamClientTypes.ErrorDetails]()
+            for structure0 in appBlockErrorsContainer {
+                if let structure0 = structure0 {
+                    appBlockErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        appBlockErrors = appBlockErrorsDecoded0
     }
 }
 
 extension AppStreamClientTypes {
     /// Describes an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     public struct AppBlock: Swift.Equatable {
+        /// The errors of the app block.
+        public var appBlockErrors: [AppStreamClientTypes.ErrorDetails]?
         /// The ARN of the app block.
         /// This member is required.
         public var arn: Swift.String?
@@ -194,32 +232,495 @@ extension AppStreamClientTypes {
         /// The name of the app block.
         /// This member is required.
         public var name: Swift.String?
-        /// The setup script details of the app block.
-        /// This member is required.
+        /// The packaging type of the app block.
+        public var packagingType: AppStreamClientTypes.PackagingType?
+        /// The post setup script details of the app block. This only applies to app blocks with PackagingType APPSTREAM2.
+        public var postSetupScriptDetails: AppStreamClientTypes.ScriptDetails?
+        /// The setup script details of the app block. This only applies to app blocks with PackagingType CUSTOM.
         public var setupScriptDetails: AppStreamClientTypes.ScriptDetails?
         /// The source S3 location of the app block.
         public var sourceS3Location: AppStreamClientTypes.S3Location?
+        /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE. Custom app blocks are always in the ACTIVE state and no action is required to use them.
+        public var state: AppStreamClientTypes.AppBlockState?
 
         public init(
+            appBlockErrors: [AppStreamClientTypes.ErrorDetails]? = nil,
             arn: Swift.String? = nil,
             createdTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil,
+            packagingType: AppStreamClientTypes.PackagingType? = nil,
+            postSetupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
             setupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
-            sourceS3Location: AppStreamClientTypes.S3Location? = nil
+            sourceS3Location: AppStreamClientTypes.S3Location? = nil,
+            state: AppStreamClientTypes.AppBlockState? = nil
         )
         {
+            self.appBlockErrors = appBlockErrors
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.packagingType = packagingType
+            self.postSetupScriptDetails = postSetupScriptDetails
             self.setupScriptDetails = setupScriptDetails
             self.sourceS3Location = sourceS3Location
+            self.state = state
         }
     }
 
+}
+
+extension AppStreamClientTypes.AppBlockBuilder: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessEndpoints = "AccessEndpoints"
+        case appBlockBuilderErrors = "AppBlockBuilderErrors"
+        case arn = "Arn"
+        case createdTime = "CreatedTime"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+        case iamRoleArn = "IamRoleArn"
+        case instanceType = "InstanceType"
+        case name = "Name"
+        case platform = "Platform"
+        case state = "State"
+        case stateChangeReason = "StateChangeReason"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessEndpoints = accessEndpoints {
+            var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
+            }
+        }
+        if let appBlockBuilderErrors = appBlockBuilderErrors {
+            var appBlockBuilderErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appBlockBuilderErrors)
+            for resourceerror0 in appBlockBuilderErrors {
+                try appBlockBuilderErrorsContainer.encode(resourceerror0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let enableDefaultInternetAccess = self.enableDefaultInternetAccess {
+            try encodeContainer.encode(enableDefaultInternetAccess, forKey: .enableDefaultInternetAccess)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let stateChangeReason = self.stateChangeReason {
+            try encodeContainer.encode(stateChangeReason, forKey: .stateChangeReason)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderPlatformType.self, forKey: .platform)
+        platform = platformDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let enableDefaultInternetAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultInternetAccess)
+        enableDefaultInternetAccess = enableDefaultInternetAccessDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderState.self, forKey: .state)
+        state = stateDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let appBlockBuilderErrorsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.ResourceError?].self, forKey: .appBlockBuilderErrors)
+        var appBlockBuilderErrorsDecoded0:[AppStreamClientTypes.ResourceError]? = nil
+        if let appBlockBuilderErrorsContainer = appBlockBuilderErrorsContainer {
+            appBlockBuilderErrorsDecoded0 = [AppStreamClientTypes.ResourceError]()
+            for structure0 in appBlockBuilderErrorsContainer {
+                if let structure0 = structure0 {
+                    appBlockBuilderErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        appBlockBuilderErrors = appBlockBuilderErrorsDecoded0
+        let stateChangeReasonDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderStateChangeReason.self, forKey: .stateChangeReason)
+        stateChangeReason = stateChangeReasonDecoded
+        let accessEndpointsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AccessEndpoint?].self, forKey: .accessEndpoints)
+        var accessEndpointsDecoded0:[AppStreamClientTypes.AccessEndpoint]? = nil
+        if let accessEndpointsContainer = accessEndpointsContainer {
+            accessEndpointsDecoded0 = [AppStreamClientTypes.AccessEndpoint]()
+            for structure0 in accessEndpointsContainer {
+                if let structure0 = structure0 {
+                    accessEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accessEndpoints = accessEndpointsDecoded0
+    }
+}
+
+extension AppStreamClientTypes {
+    /// Describes an app block builder.
+    public struct AppBlockBuilder: Swift.Equatable {
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+        public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+        /// The app block builder errors.
+        public var appBlockBuilderErrors: [AppStreamClientTypes.ResourceError]?
+        /// The ARN of the app block builder.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The creation time of the app block builder.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the app block builder.
+        public var description: Swift.String?
+        /// The display name of the app block builder.
+        public var displayName: Swift.String?
+        /// Indicates whether default internet access is enabled for the app block builder.
+        public var enableDefaultInternetAccess: Swift.Bool?
+        /// The ARN of the IAM role that is applied to the app block builder.
+        public var iamRoleArn: Swift.String?
+        /// The instance type of the app block builder.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The name of the app block builder.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value.
+        /// This member is required.
+        public var platform: AppStreamClientTypes.AppBlockBuilderPlatformType?
+        /// The state of the app block builder.
+        /// This member is required.
+        public var state: AppStreamClientTypes.AppBlockBuilderState?
+        /// The state change reason.
+        public var stateChangeReason: AppStreamClientTypes.AppBlockBuilderStateChangeReason?
+        /// The VPC configuration for the app block builder.
+        /// This member is required.
+        public var vpcConfig: AppStreamClientTypes.VpcConfig?
+
+        public init(
+            accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+            appBlockBuilderErrors: [AppStreamClientTypes.ResourceError]? = nil,
+            arn: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            enableDefaultInternetAccess: Swift.Bool? = nil,
+            iamRoleArn: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            name: Swift.String? = nil,
+            platform: AppStreamClientTypes.AppBlockBuilderPlatformType? = nil,
+            state: AppStreamClientTypes.AppBlockBuilderState? = nil,
+            stateChangeReason: AppStreamClientTypes.AppBlockBuilderStateChangeReason? = nil,
+            vpcConfig: AppStreamClientTypes.VpcConfig? = nil
+        )
+        {
+            self.accessEndpoints = accessEndpoints
+            self.appBlockBuilderErrors = appBlockBuilderErrors
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.displayName = displayName
+            self.enableDefaultInternetAccess = enableDefaultInternetAccess
+            self.iamRoleArn = iamRoleArn
+            self.instanceType = instanceType
+            self.name = name
+            self.platform = platform
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
+extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockArn = self.appBlockArn {
+            try encodeContainer.encode(appBlockArn, forKey: .appBlockArn)
+        }
+        if let appBlockBuilderName = self.appBlockBuilderName {
+            try encodeContainer.encode(appBlockBuilderName, forKey: .appBlockBuilderName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockArn)
+        appBlockArn = appBlockArnDecoded
+        let appBlockBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockBuilderName)
+        appBlockBuilderName = appBlockBuilderNameDecoded
+    }
+}
+
+extension AppStreamClientTypes {
+    /// Describes an association between an app block builder and app block.
+    public struct AppBlockBuilderAppBlockAssociation: Swift.Equatable {
+        /// The ARN of the app block.
+        /// This member is required.
+        public var appBlockArn: Swift.String?
+        /// The name of the app block builder.
+        /// This member is required.
+        public var appBlockBuilderName: Swift.String?
+
+        public init(
+            appBlockArn: Swift.String? = nil,
+            appBlockBuilderName: Swift.String? = nil
+        )
+        {
+            self.appBlockArn = appBlockArn
+            self.appBlockBuilderName = appBlockBuilderName
+        }
+    }
+
+}
+
+extension AppStreamClientTypes {
+    public enum AppBlockBuilderAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accessEndpoints
+        case iamRoleArn
+        case vpcConfigurationSecurityGroupIds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppBlockBuilderAttribute] {
+            return [
+                .accessEndpoints,
+                .iamRoleArn,
+                .vpcConfigurationSecurityGroupIds,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessEndpoints: return "ACCESS_ENDPOINTS"
+            case .iamRoleArn: return "IAM_ROLE_ARN"
+            case .vpcConfigurationSecurityGroupIds: return "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppBlockBuilderAttribute(rawValue: rawValue) ?? AppBlockBuilderAttribute.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+    public enum AppBlockBuilderPlatformType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case windowsServer2019
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppBlockBuilderPlatformType] {
+            return [
+                .windowsServer2019,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .windowsServer2019: return "WINDOWS_SERVER_2019"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppBlockBuilderPlatformType(rawValue: rawValue) ?? AppBlockBuilderPlatformType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+    public enum AppBlockBuilderState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case running
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppBlockBuilderState] {
+            return [
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppBlockBuilderState(rawValue: rawValue) ?? AppBlockBuilderState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppStreamClientTypes.AppBlockBuilderStateChangeReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code.rawValue, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderStateChangeReasonCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension AppStreamClientTypes {
+    /// Describes the reason why the last app block builder state change occurred.
+    public struct AppBlockBuilderStateChangeReason: Swift.Equatable {
+        /// The state change reason code.
+        public var code: AppStreamClientTypes.AppBlockBuilderStateChangeReasonCode?
+        /// The state change reason message.
+        public var message: Swift.String?
+
+        public init(
+            code: AppStreamClientTypes.AppBlockBuilderStateChangeReasonCode? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension AppStreamClientTypes {
+    public enum AppBlockBuilderStateChangeReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppBlockBuilderStateChangeReasonCode] {
+            return [
+                .internalError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppBlockBuilderStateChangeReasonCode(rawValue: rawValue) ?? AppBlockBuilderStateChangeReasonCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+    public enum AppBlockState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppBlockState] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppBlockState(rawValue: rawValue) ?? AppBlockState.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AppStreamClientTypes {
@@ -643,6 +1144,122 @@ extension AppStreamClientTypes {
         }
     }
 
+}
+
+extension AssociateAppBlockBuilderAppBlockInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockArn = self.appBlockArn {
+            try encodeContainer.encode(appBlockArn, forKey: .appBlockArn)
+        }
+        if let appBlockBuilderName = self.appBlockBuilderName {
+            try encodeContainer.encode(appBlockBuilderName, forKey: .appBlockBuilderName)
+        }
+    }
+}
+
+extension AssociateAppBlockBuilderAppBlockInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AssociateAppBlockBuilderAppBlockInput: Swift.Equatable {
+    /// The ARN of the app block.
+    /// This member is required.
+    public var appBlockArn: Swift.String?
+    /// The name of the app block builder.
+    /// This member is required.
+    public var appBlockBuilderName: Swift.String?
+
+    public init(
+        appBlockArn: Swift.String? = nil,
+        appBlockBuilderName: Swift.String? = nil
+    )
+    {
+        self.appBlockArn = appBlockArn
+        self.appBlockBuilderName = appBlockBuilderName
+    }
+}
+
+struct AssociateAppBlockBuilderAppBlockInputBody: Swift.Equatable {
+    let appBlockArn: Swift.String?
+    let appBlockBuilderName: Swift.String?
+}
+
+extension AssociateAppBlockBuilderAppBlockInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockArn)
+        appBlockArn = appBlockArnDecoded
+        let appBlockBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockBuilderName)
+        appBlockBuilderName = appBlockBuilderNameDecoded
+    }
+}
+
+public enum AssociateAppBlockBuilderAppBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateAppBlockBuilderAppBlockOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateAppBlockBuilderAppBlockOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilderAppBlockAssociation = output.appBlockBuilderAppBlockAssociation
+        } else {
+            self.appBlockBuilderAppBlockAssociation = nil
+        }
+    }
+}
+
+public struct AssociateAppBlockBuilderAppBlockOutputResponse: Swift.Equatable {
+    /// The list of app block builders associated with app blocks.
+    public var appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?
+
+    public init(
+        appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation? = nil
+    )
+    {
+        self.appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociation
+    }
+}
+
+struct AssociateAppBlockBuilderAppBlockOutputResponseBody: Swift.Equatable {
+    let appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?
+}
+
+extension AssociateAppBlockBuilderAppBlockOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilderAppBlockAssociation = "AppBlockBuilderAppBlockAssociation"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderAppBlockAssociationDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderAppBlockAssociation.self, forKey: .appBlockBuilderAppBlockAssociation)
+        appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociationDecoded
+    }
 }
 
 extension AssociateApplicationFleetInput: Swift.Encodable {
@@ -1606,11 +2223,388 @@ extension CopyImageOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateAppBlockBuilderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessEndpoints = "AccessEndpoints"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+        case iamRoleArn = "IamRoleArn"
+        case instanceType = "InstanceType"
+        case name = "Name"
+        case platform = "Platform"
+        case tags = "Tags"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessEndpoints = accessEndpoints {
+            var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let enableDefaultInternetAccess = self.enableDefaultInternetAccess {
+            try encodeContainer.encode(enableDefaultInternetAccess, forKey: .enableDefaultInternetAccess)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+}
+
+extension CreateAppBlockBuilderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateAppBlockBuilderInput: Swift.Equatable {
+    /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+    public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    /// The description of the app block builder.
+    public var description: Swift.String?
+    /// The display name of the app block builder.
+    public var displayName: Swift.String?
+    /// Enables or disables default internet access for the app block builder.
+    public var enableDefaultInternetAccess: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    public var iamRoleArn: Swift.String?
+    /// The instance type to use when launching the app block builder. The following instance types are available:
+    ///
+    /// * stream.standard.small
+    ///
+    /// * stream.standard.medium
+    ///
+    /// * stream.standard.large
+    ///
+    /// * stream.standard.xlarge
+    ///
+    /// * stream.standard.2xlarge
+    /// This member is required.
+    public var instanceType: Swift.String?
+    /// The unique name for the app block builder.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value.
+    /// This member is required.
+    public var platform: AppStreamClientTypes.AppBlockBuilderPlatformType?
+    /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    public var tags: [Swift.String:Swift.String]?
+    /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+    /// This member is required.
+    public var vpcConfig: AppStreamClientTypes.VpcConfig?
+
+    public init(
+        accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        enableDefaultInternetAccess: Swift.Bool? = nil,
+        iamRoleArn: Swift.String? = nil,
+        instanceType: Swift.String? = nil,
+        name: Swift.String? = nil,
+        platform: AppStreamClientTypes.AppBlockBuilderPlatformType? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        vpcConfig: AppStreamClientTypes.VpcConfig? = nil
+    )
+    {
+        self.accessEndpoints = accessEndpoints
+        self.description = description
+        self.displayName = displayName
+        self.enableDefaultInternetAccess = enableDefaultInternetAccess
+        self.iamRoleArn = iamRoleArn
+        self.instanceType = instanceType
+        self.name = name
+        self.platform = platform
+        self.tags = tags
+        self.vpcConfig = vpcConfig
+    }
+}
+
+struct CreateAppBlockBuilderInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let displayName: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let platform: AppStreamClientTypes.AppBlockBuilderPlatformType?
+    let instanceType: Swift.String?
+    let vpcConfig: AppStreamClientTypes.VpcConfig?
+    let enableDefaultInternetAccess: Swift.Bool?
+    let iamRoleArn: Swift.String?
+    let accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+}
+
+extension CreateAppBlockBuilderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessEndpoints = "AccessEndpoints"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+        case iamRoleArn = "IamRoleArn"
+        case instanceType = "InstanceType"
+        case name = "Name"
+        case platform = "Platform"
+        case tags = "Tags"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let platformDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilderPlatformType.self, forKey: .platform)
+        platform = platformDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+        let enableDefaultInternetAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultInternetAccess)
+        enableDefaultInternetAccess = enableDefaultInternetAccessDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let accessEndpointsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AccessEndpoint?].self, forKey: .accessEndpoints)
+        var accessEndpointsDecoded0:[AppStreamClientTypes.AccessEndpoint]? = nil
+        if let accessEndpointsContainer = accessEndpointsContainer {
+            accessEndpointsDecoded0 = [AppStreamClientTypes.AccessEndpoint]()
+            for structure0 in accessEndpointsContainer {
+                if let structure0 = structure0 {
+                    accessEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accessEndpoints = accessEndpointsDecoded0
+    }
+}
+
+public enum CreateAppBlockBuilderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccountStatusException": return try await InvalidAccountStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceededException": return try await RequestLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotAvailableException": return try await ResourceNotAvailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAppBlockBuilderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAppBlockBuilderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilder = output.appBlockBuilder
+        } else {
+            self.appBlockBuilder = nil
+        }
+    }
+}
+
+public struct CreateAppBlockBuilderOutputResponse: Swift.Equatable {
+    /// Describes an app block builder.
+    public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+
+    public init(
+        appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
+    )
+    {
+        self.appBlockBuilder = appBlockBuilder
+    }
+}
+
+struct CreateAppBlockBuilderOutputResponseBody: Swift.Equatable {
+    let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+}
+
+extension CreateAppBlockBuilderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilder = "AppBlockBuilder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilder.self, forKey: .appBlockBuilder)
+        appBlockBuilder = appBlockBuilderDecoded
+    }
+}
+
+extension CreateAppBlockBuilderStreamingURLInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilderName = "AppBlockBuilderName"
+        case validity = "Validity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockBuilderName = self.appBlockBuilderName {
+            try encodeContainer.encode(appBlockBuilderName, forKey: .appBlockBuilderName)
+        }
+        if let validity = self.validity {
+            try encodeContainer.encode(validity, forKey: .validity)
+        }
+    }
+}
+
+extension CreateAppBlockBuilderStreamingURLInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateAppBlockBuilderStreamingURLInput: Swift.Equatable {
+    /// The name of the app block builder.
+    /// This member is required.
+    public var appBlockBuilderName: Swift.String?
+    /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
+    public var validity: Swift.Int?
+
+    public init(
+        appBlockBuilderName: Swift.String? = nil,
+        validity: Swift.Int? = nil
+    )
+    {
+        self.appBlockBuilderName = appBlockBuilderName
+        self.validity = validity
+    }
+}
+
+struct CreateAppBlockBuilderStreamingURLInputBody: Swift.Equatable {
+    let appBlockBuilderName: Swift.String?
+    let validity: Swift.Int?
+}
+
+extension CreateAppBlockBuilderStreamingURLInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilderName = "AppBlockBuilderName"
+        case validity = "Validity"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockBuilderName)
+        appBlockBuilderName = appBlockBuilderNameDecoded
+        let validityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .validity)
+        validity = validityDecoded
+    }
+}
+
+public enum CreateAppBlockBuilderStreamingURLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAppBlockBuilderStreamingURLOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAppBlockBuilderStreamingURLOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.expires = output.expires
+            self.streamingURL = output.streamingURL
+        } else {
+            self.expires = nil
+            self.streamingURL = nil
+        }
+    }
+}
+
+public struct CreateAppBlockBuilderStreamingURLOutputResponse: Swift.Equatable {
+    /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
+    public var expires: ClientRuntime.Date?
+    /// The URL to start the streaming session.
+    public var streamingURL: Swift.String?
+
+    public init(
+        expires: ClientRuntime.Date? = nil,
+        streamingURL: Swift.String? = nil
+    )
+    {
+        self.expires = expires
+        self.streamingURL = streamingURL
+    }
+}
+
+struct CreateAppBlockBuilderStreamingURLOutputResponseBody: Swift.Equatable {
+    let streamingURL: Swift.String?
+    let expires: ClientRuntime.Date?
+}
+
+extension CreateAppBlockBuilderStreamingURLOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expires = "Expires"
+        case streamingURL = "StreamingURL"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamingURL)
+        streamingURL = streamingURLDecoded
+        let expiresDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expires)
+        expires = expiresDecoded
+    }
+}
+
 extension CreateAppBlockInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case displayName = "DisplayName"
         case name = "Name"
+        case packagingType = "PackagingType"
+        case postSetupScriptDetails = "PostSetupScriptDetails"
         case setupScriptDetails = "SetupScriptDetails"
         case sourceS3Location = "SourceS3Location"
         case tags = "Tags"
@@ -1626,6 +2620,12 @@ extension CreateAppBlockInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let packagingType = self.packagingType {
+            try encodeContainer.encode(packagingType.rawValue, forKey: .packagingType)
+        }
+        if let postSetupScriptDetails = self.postSetupScriptDetails {
+            try encodeContainer.encode(postSetupScriptDetails, forKey: .postSetupScriptDetails)
         }
         if let setupScriptDetails = self.setupScriptDetails {
             try encodeContainer.encode(setupScriptDetails, forKey: .setupScriptDetails)
@@ -1656,8 +2656,11 @@ public struct CreateAppBlockInput: Swift.Equatable {
     /// The name of the app block.
     /// This member is required.
     public var name: Swift.String?
-    /// The setup script details of the app block.
-    /// This member is required.
+    /// The packaging type of the app block.
+    public var packagingType: AppStreamClientTypes.PackagingType?
+    /// The post setup script details of the app block. This can only be provided for the APPSTREAM2 PackagingType.
+    public var postSetupScriptDetails: AppStreamClientTypes.ScriptDetails?
+    /// The setup script details of the app block. This must be provided for the CUSTOM PackagingType.
     public var setupScriptDetails: AppStreamClientTypes.ScriptDetails?
     /// The source S3 location of the app block.
     /// This member is required.
@@ -1669,6 +2672,8 @@ public struct CreateAppBlockInput: Swift.Equatable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
+        packagingType: AppStreamClientTypes.PackagingType? = nil,
+        postSetupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
         setupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
         sourceS3Location: AppStreamClientTypes.S3Location? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1677,6 +2682,8 @@ public struct CreateAppBlockInput: Swift.Equatable {
         self.description = description
         self.displayName = displayName
         self.name = name
+        self.packagingType = packagingType
+        self.postSetupScriptDetails = postSetupScriptDetails
         self.setupScriptDetails = setupScriptDetails
         self.sourceS3Location = sourceS3Location
         self.tags = tags
@@ -1690,6 +2697,8 @@ struct CreateAppBlockInputBody: Swift.Equatable {
     let sourceS3Location: AppStreamClientTypes.S3Location?
     let setupScriptDetails: AppStreamClientTypes.ScriptDetails?
     let tags: [Swift.String:Swift.String]?
+    let postSetupScriptDetails: AppStreamClientTypes.ScriptDetails?
+    let packagingType: AppStreamClientTypes.PackagingType?
 }
 
 extension CreateAppBlockInputBody: Swift.Decodable {
@@ -1697,6 +2706,8 @@ extension CreateAppBlockInputBody: Swift.Decodable {
         case description = "Description"
         case displayName = "DisplayName"
         case name = "Name"
+        case packagingType = "PackagingType"
+        case postSetupScriptDetails = "PostSetupScriptDetails"
         case setupScriptDetails = "SetupScriptDetails"
         case sourceS3Location = "SourceS3Location"
         case tags = "Tags"
@@ -1725,6 +2736,10 @@ extension CreateAppBlockInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let postSetupScriptDetailsDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.ScriptDetails.self, forKey: .postSetupScriptDetails)
+        postSetupScriptDetails = postSetupScriptDetailsDecoded
+        let packagingTypeDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.PackagingType.self, forKey: .packagingType)
+        packagingType = packagingTypeDecoded
     }
 }
 
@@ -4164,6 +5179,78 @@ public struct CreateUserOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteAppBlockBuilderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteAppBlockBuilderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteAppBlockBuilderInput: Swift.Equatable {
+    /// The name of the app block builder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteAppBlockBuilderInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteAppBlockBuilderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+public enum DeleteAppBlockBuilderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteAppBlockBuilderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAppBlockBuilderOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DeleteAppBlockInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -5026,6 +6113,314 @@ extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteUserOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockArn = self.appBlockArn {
+            try encodeContainer.encode(appBlockArn, forKey: .appBlockArn)
+        }
+        if let appBlockBuilderName = self.appBlockBuilderName {
+            try encodeContainer.encode(appBlockBuilderName, forKey: .appBlockBuilderName)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAppBlockBuilderAppBlockAssociationsInput: Swift.Equatable {
+    /// The ARN of the app block.
+    public var appBlockArn: Swift.String?
+    /// The name of the app block builder.
+    public var appBlockBuilderName: Swift.String?
+    /// The maximum size of each page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        appBlockArn: Swift.String? = nil,
+        appBlockBuilderName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appBlockArn = appBlockArn
+        self.appBlockBuilderName = appBlockBuilderName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeAppBlockBuilderAppBlockAssociationsInputBody: Swift.Equatable {
+    let appBlockArn: Swift.String?
+    let appBlockBuilderName: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockArn)
+        appBlockArn = appBlockArnDecoded
+        let appBlockBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockBuilderName)
+        appBlockBuilderName = appBlockBuilderNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum DescribeAppBlockBuilderAppBlockAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAppBlockBuilderAppBlockAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilderAppBlockAssociations = output.appBlockBuilderAppBlockAssociations
+            self.nextToken = output.nextToken
+        } else {
+            self.appBlockBuilderAppBlockAssociations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeAppBlockBuilderAppBlockAssociationsOutputResponse: Swift.Equatable {
+    /// This list of app block builders associated with app blocks.
+    public var appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociations
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeAppBlockBuilderAppBlockAssociationsOutputResponseBody: Swift.Equatable {
+    let appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeAppBlockBuilderAppBlockAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilderAppBlockAssociations = "AppBlockBuilderAppBlockAssociations"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderAppBlockAssociationsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?].self, forKey: .appBlockBuilderAppBlockAssociations)
+        var appBlockBuilderAppBlockAssociationsDecoded0:[AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]? = nil
+        if let appBlockBuilderAppBlockAssociationsContainer = appBlockBuilderAppBlockAssociationsContainer {
+            appBlockBuilderAppBlockAssociationsDecoded0 = [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]()
+            for structure0 in appBlockBuilderAppBlockAssociationsContainer {
+                if let structure0 = structure0 {
+                    appBlockBuilderAppBlockAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeAppBlockBuildersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case names = "Names"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let names = names {
+            var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
+            for string0 in names {
+                try namesContainer.encode(string0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeAppBlockBuildersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAppBlockBuildersInput: Swift.Equatable {
+    /// The maximum size of each page of results. The maximum value is 25.
+    public var maxResults: Swift.Int?
+    /// The names of the app block builders.
+    public var names: [Swift.String]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        names: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.names = names
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeAppBlockBuildersInputBody: Swift.Equatable {
+    let names: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension DescribeAppBlockBuildersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case names = "Names"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .names)
+        var namesDecoded0:[Swift.String]? = nil
+        if let namesContainer = namesContainer {
+            namesDecoded0 = [Swift.String]()
+            for string0 in namesContainer {
+                if let string0 = string0 {
+                    namesDecoded0?.append(string0)
+                }
+            }
+        }
+        names = namesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum DescribeAppBlockBuildersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeAppBlockBuildersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAppBlockBuildersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilders = output.appBlockBuilders
+            self.nextToken = output.nextToken
+        } else {
+            self.appBlockBuilders = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeAppBlockBuildersOutputResponse: Swift.Equatable {
+    /// The list that describes one or more app block builders.
+    public var appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appBlockBuilders = appBlockBuilders
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeAppBlockBuildersOutputResponseBody: Swift.Equatable {
+    let appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeAppBlockBuildersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilders = "AppBlockBuilders"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuildersContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AppBlockBuilder?].self, forKey: .appBlockBuilders)
+        var appBlockBuildersDecoded0:[AppStreamClientTypes.AppBlockBuilder]? = nil
+        if let appBlockBuildersContainer = appBlockBuildersContainer {
+            appBlockBuildersDecoded0 = [AppStreamClientTypes.AppBlockBuilder]()
+            for structure0 in appBlockBuildersContainer {
+                if let structure0 = structure0 {
+                    appBlockBuildersDecoded0?.append(structure0)
+                }
+            }
+        }
+        appBlockBuilders = appBlockBuildersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
 }
 
 extension DescribeAppBlocksInput: Swift.Encodable {
@@ -7399,6 +8794,91 @@ public struct DisableUserOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DisassociateAppBlockBuilderAppBlockInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appBlockArn = self.appBlockArn {
+            try encodeContainer.encode(appBlockArn, forKey: .appBlockArn)
+        }
+        if let appBlockBuilderName = self.appBlockBuilderName {
+            try encodeContainer.encode(appBlockBuilderName, forKey: .appBlockBuilderName)
+        }
+    }
+}
+
+extension DisassociateAppBlockBuilderAppBlockInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisassociateAppBlockBuilderAppBlockInput: Swift.Equatable {
+    /// The ARN of the app block.
+    /// This member is required.
+    public var appBlockArn: Swift.String?
+    /// The name of the app block builder.
+    /// This member is required.
+    public var appBlockBuilderName: Swift.String?
+
+    public init(
+        appBlockArn: Swift.String? = nil,
+        appBlockBuilderName: Swift.String? = nil
+    )
+    {
+        self.appBlockArn = appBlockArn
+        self.appBlockBuilderName = appBlockBuilderName
+    }
+}
+
+struct DisassociateAppBlockBuilderAppBlockInputBody: Swift.Equatable {
+    let appBlockArn: Swift.String?
+    let appBlockBuilderName: Swift.String?
+}
+
+extension DisassociateAppBlockBuilderAppBlockInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockArn = "AppBlockArn"
+        case appBlockBuilderName = "AppBlockBuilderName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockArn)
+        appBlockArn = appBlockArnDecoded
+        let appBlockBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appBlockBuilderName)
+        appBlockBuilderName = appBlockBuilderNameDecoded
+    }
+}
+
+public enum DisassociateAppBlockBuilderAppBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateAppBlockBuilderAppBlockOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateAppBlockBuilderAppBlockOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DisassociateApplicationFleetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -8116,6 +9596,51 @@ extension EntitlementNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension AppStreamClientTypes.ErrorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension AppStreamClientTypes {
+    /// The error details.
+    public struct ErrorDetails: Swift.Equatable {
+        /// The error code.
+        public var errorCode: Swift.String?
+        /// The error message.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
 }
 
 extension ExpireSessionInput: Swift.Encodable {
@@ -10631,6 +12156,38 @@ extension OperationNotPermittedExceptionBody: Swift.Decodable {
 }
 
 extension AppStreamClientTypes {
+    public enum PackagingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case appstream2
+        case custom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackagingType] {
+            return [
+                .appstream2,
+                .custom,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .appstream2: return "APPSTREAM2"
+            case .custom: return "CUSTOM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackagingType(rawValue: rawValue) ?? PackagingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppStreamClientTypes {
     public enum Permission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -11098,8 +12655,17 @@ extension AppStreamClientTypes {
         /// The S3 bucket of the S3 object.
         /// This member is required.
         public var s3Bucket: Swift.String?
-        /// The S3 key of the S3 object.
-        /// This member is required.
+        /// The S3 key of the S3 object. This is required when used for the following:
+        ///
+        /// * IconS3Location (Actions: CreateApplication and UpdateApplication)
+        ///
+        /// * SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)
+        ///
+        /// * ScriptDetails (Actions: CreateAppBlock)
+        ///
+        /// * SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock)
+        ///
+        /// * SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock)
         public var s3Key: Swift.String?
 
         public init(
@@ -11844,6 +13410,111 @@ extension AppStreamClientTypes {
     }
 }
 
+extension StartAppBlockBuilderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension StartAppBlockBuilderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartAppBlockBuilderInput: Swift.Equatable {
+    /// The name of the app block builder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct StartAppBlockBuilderInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension StartAppBlockBuilderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+public enum StartAppBlockBuilderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccountStatusException": return try await InvalidAccountStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceededException": return try await RequestLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotAvailableException": return try await ResourceNotAvailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartAppBlockBuilderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartAppBlockBuilderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilder = output.appBlockBuilder
+        } else {
+            self.appBlockBuilder = nil
+        }
+    }
+}
+
+public struct StartAppBlockBuilderOutputResponse: Swift.Equatable {
+    /// Describes an app block builder.
+    public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+
+    public init(
+        appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
+    )
+    {
+        self.appBlockBuilder = appBlockBuilder
+    }
+}
+
+struct StartAppBlockBuilderOutputResponseBody: Swift.Equatable {
+    let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+}
+
+extension StartAppBlockBuilderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilder = "AppBlockBuilder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilder.self, forKey: .appBlockBuilder)
+        appBlockBuilder = appBlockBuilderDecoded
+    }
+}
+
 extension StartFleetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -12032,6 +13703,107 @@ extension StartImageBuilderOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageBuilderDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.ImageBuilder.self, forKey: .imageBuilder)
         imageBuilder = imageBuilderDecoded
+    }
+}
+
+extension StopAppBlockBuilderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension StopAppBlockBuilderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopAppBlockBuilderInput: Swift.Equatable {
+    /// The name of the app block builder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct StopAppBlockBuilderInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension StopAppBlockBuilderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+public enum StopAppBlockBuilderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopAppBlockBuilderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopAppBlockBuilderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilder = output.appBlockBuilder
+        } else {
+            self.appBlockBuilder = nil
+        }
+    }
+}
+
+public struct StopAppBlockBuilderOutputResponse: Swift.Equatable {
+    /// Describes an app block builder.
+    public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+
+    public init(
+        appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
+    )
+    {
+        self.appBlockBuilder = appBlockBuilder
+    }
+}
+
+struct StopAppBlockBuilderOutputResponseBody: Swift.Equatable {
+    let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+}
+
+extension StopAppBlockBuilderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilder = "AppBlockBuilder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilder.self, forKey: .appBlockBuilder)
+        appBlockBuilder = appBlockBuilderDecoded
     }
 }
 
@@ -12565,6 +14337,256 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension UpdateAppBlockBuilderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessEndpoints = "AccessEndpoints"
+        case attributesToDelete = "AttributesToDelete"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+        case iamRoleArn = "IamRoleArn"
+        case instanceType = "InstanceType"
+        case name = "Name"
+        case platform = "Platform"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessEndpoints = accessEndpoints {
+            var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
+            }
+        }
+        if let attributesToDelete = attributesToDelete {
+            var attributesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToDelete)
+            for appblockbuilderattribute0 in attributesToDelete {
+                try attributesToDeleteContainer.encode(appblockbuilderattribute0.rawValue)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let enableDefaultInternetAccess = self.enableDefaultInternetAccess {
+            try encodeContainer.encode(enableDefaultInternetAccess, forKey: .enableDefaultInternetAccess)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+}
+
+extension UpdateAppBlockBuilderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateAppBlockBuilderInput: Swift.Equatable {
+    /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
+    public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    /// The attributes to delete from the app block builder.
+    public var attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]?
+    /// The description of the app block builder.
+    public var description: Swift.String?
+    /// The display name of the app block builder.
+    public var displayName: Swift.String?
+    /// Enables or disables default internet access for the app block builder.
+    public var enableDefaultInternetAccess: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    public var iamRoleArn: Swift.String?
+    /// The instance type to use when launching the app block builder. The following instance types are available:
+    ///
+    /// * stream.standard.small
+    ///
+    /// * stream.standard.medium
+    ///
+    /// * stream.standard.large
+    ///
+    /// * stream.standard.xlarge
+    ///
+    /// * stream.standard.2xlarge
+    public var instanceType: Swift.String?
+    /// The unique name for the app block builder.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value.
+    public var platform: AppStreamClientTypes.PlatformType?
+    /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
+    public var vpcConfig: AppStreamClientTypes.VpcConfig?
+
+    public init(
+        accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+        attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        enableDefaultInternetAccess: Swift.Bool? = nil,
+        iamRoleArn: Swift.String? = nil,
+        instanceType: Swift.String? = nil,
+        name: Swift.String? = nil,
+        platform: AppStreamClientTypes.PlatformType? = nil,
+        vpcConfig: AppStreamClientTypes.VpcConfig? = nil
+    )
+    {
+        self.accessEndpoints = accessEndpoints
+        self.attributesToDelete = attributesToDelete
+        self.description = description
+        self.displayName = displayName
+        self.enableDefaultInternetAccess = enableDefaultInternetAccess
+        self.iamRoleArn = iamRoleArn
+        self.instanceType = instanceType
+        self.name = name
+        self.platform = platform
+        self.vpcConfig = vpcConfig
+    }
+}
+
+struct UpdateAppBlockBuilderInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let displayName: Swift.String?
+    let platform: AppStreamClientTypes.PlatformType?
+    let instanceType: Swift.String?
+    let vpcConfig: AppStreamClientTypes.VpcConfig?
+    let enableDefaultInternetAccess: Swift.Bool?
+    let iamRoleArn: Swift.String?
+    let accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    let attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]?
+}
+
+extension UpdateAppBlockBuilderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessEndpoints = "AccessEndpoints"
+        case attributesToDelete = "AttributesToDelete"
+        case description = "Description"
+        case displayName = "DisplayName"
+        case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+        case iamRoleArn = "IamRoleArn"
+        case instanceType = "InstanceType"
+        case name = "Name"
+        case platform = "Platform"
+        case vpcConfig = "VpcConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.PlatformType.self, forKey: .platform)
+        platform = platformDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.VpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+        let enableDefaultInternetAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultInternetAccess)
+        enableDefaultInternetAccess = enableDefaultInternetAccessDecoded
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+        let accessEndpointsContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AccessEndpoint?].self, forKey: .accessEndpoints)
+        var accessEndpointsDecoded0:[AppStreamClientTypes.AccessEndpoint]? = nil
+        if let accessEndpointsContainer = accessEndpointsContainer {
+            accessEndpointsDecoded0 = [AppStreamClientTypes.AccessEndpoint]()
+            for structure0 in accessEndpointsContainer {
+                if let structure0 = structure0 {
+                    accessEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accessEndpoints = accessEndpointsDecoded0
+        let attributesToDeleteContainer = try containerValues.decodeIfPresent([AppStreamClientTypes.AppBlockBuilderAttribute?].self, forKey: .attributesToDelete)
+        var attributesToDeleteDecoded0:[AppStreamClientTypes.AppBlockBuilderAttribute]? = nil
+        if let attributesToDeleteContainer = attributesToDeleteContainer {
+            attributesToDeleteDecoded0 = [AppStreamClientTypes.AppBlockBuilderAttribute]()
+            for enum0 in attributesToDeleteContainer {
+                if let enum0 = enum0 {
+                    attributesToDeleteDecoded0?.append(enum0)
+                }
+            }
+        }
+        attributesToDelete = attributesToDeleteDecoded0
+    }
+}
+
+public enum UpdateAppBlockBuilderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccountStatusException": return try await InvalidAccountStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceededException": return try await RequestLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotAvailableException": return try await ResourceNotAvailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateAppBlockBuilderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAppBlockBuilderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appBlockBuilder = output.appBlockBuilder
+        } else {
+            self.appBlockBuilder = nil
+        }
+    }
+}
+
+public struct UpdateAppBlockBuilderOutputResponse: Swift.Equatable {
+    /// Describes an app block builder.
+    public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+
+    public init(
+        appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
+    )
+    {
+        self.appBlockBuilder = appBlockBuilder
+    }
+}
+
+struct UpdateAppBlockBuilderOutputResponseBody: Swift.Equatable {
+    let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
+}
+
+extension UpdateAppBlockBuilderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appBlockBuilder = "AppBlockBuilder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appBlockBuilderDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AppBlockBuilder.self, forKey: .appBlockBuilder)
+        appBlockBuilder = appBlockBuilderDecoded
+    }
 }
 
 extension UpdateApplicationInput: Swift.Encodable {
@@ -13308,7 +15330,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     public var instanceType: Swift.String?
     /// The maximum number of concurrent sessions for a fleet.
     public var maxConcurrentSessions: Swift.Int?
-    /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
+    /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
     public var name: Swift.String?
