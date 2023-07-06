@@ -8,6 +8,8 @@ import ClientRuntime
 ///
 /// * [Amazon AppStream 2.0 documentation](http://aws.amazon.com/documentation/appstream2)
 public protocol AppStreamClientProtocol {
+    /// Associates the specified app block builder with the specified app block.
+    func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutputResponse
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutputResponse
     /// Associates an application to entitle.
@@ -22,6 +24,10 @@ public protocol AppStreamClientProtocol {
     func copyImage(input: CopyImageInput) async throws -> CopyImageOutputResponse
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutputResponse
+    /// Creates an app block builder.
+    func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutputResponse
+    /// Creates a URL to start a create app block builder streaming session.
+    func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutputResponse
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
@@ -46,6 +52,8 @@ public protocol AppStreamClientProtocol {
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     /// Deletes an app block.
     func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutputResponse
+    /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
+    func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutputResponse
     /// Deletes an application.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
@@ -66,6 +74,10 @@ public protocol AppStreamClientProtocol {
     func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutputResponse
     /// Deletes a user from the user pool.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    /// Retrieves a list that describes one or more app block builder associations.
+    func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutputResponse
+    /// Retrieves a list that describes one or more app block builders.
+    func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutputResponse
     /// Retrieves a list that describes one or more app blocks.
     func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutputResponse
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
@@ -100,6 +112,8 @@ public protocol AppStreamClientProtocol {
     func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutputResponse
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     func disableUser(input: DisableUserInput) async throws -> DisableUserOutputResponse
+    /// Disassociates a specified app block builder from a specified app block.
+    func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutputResponse
     /// Disassociates the specified application from the fleet.
     func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutputResponse
     /// Deletes the specified application from the specified entitlement.
@@ -118,10 +132,14 @@ public protocol AppStreamClientProtocol {
     func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutputResponse
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
+    func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutputResponse
     /// Starts the specified fleet.
     func startFleet(input: StartFleetInput) async throws -> StartFleetOutputResponse
     /// Starts the specified image builder.
     func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutputResponse
+    /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
+    func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutputResponse
     /// Stops the specified fleet.
     func stopFleet(input: StopFleetInput) async throws -> StopFleetOutputResponse
     /// Stops the specified image builder.
@@ -130,6 +148,8 @@ public protocol AppStreamClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
+    func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutputResponse
     /// Updates the specified application.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.

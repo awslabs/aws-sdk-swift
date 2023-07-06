@@ -4825,11 +4825,11 @@ extension MediaConvertClientTypes.CaptionSelector: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
-    /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
+    /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
     public struct CaptionSelector: Swift.Equatable {
-        /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
+        /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public var customLanguageCode: Swift.String?
-        /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
+        /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// If your input captions are SCC, TTML, STL, SMI, SRT, or IMSC in an xml file, specify the URI of the input captions source file. If your input captions are IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public var sourceSettings: MediaConvertClientTypes.CaptionSourceSettings?
@@ -10634,7 +10634,7 @@ extension MediaConvertClientTypes.DvbSubSourceSettings: Swift.Codable {
 extension MediaConvertClientTypes {
     /// DVB Sub Source Settings
     public struct DvbSubSourceSettings: Swift.Equatable {
-        /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
+        /// When using DVB-Sub with Burn-in, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public var pid: Swift.Int?
 
         public init(
@@ -15836,6 +15836,7 @@ extension MediaConvertClientTypes.H265Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adaptiveQuantization = "adaptiveQuantization"
         case alternateTransferFunctionSei = "alternateTransferFunctionSei"
+        case bandwidthReductionFilter = "bandwidthReductionFilter"
         case bitrate = "bitrate"
         case codecLevel = "codecLevel"
         case codecProfile = "codecProfile"
@@ -15884,6 +15885,9 @@ extension MediaConvertClientTypes.H265Settings: Swift.Codable {
         }
         if let alternateTransferFunctionSei = self.alternateTransferFunctionSei {
             try encodeContainer.encode(alternateTransferFunctionSei.rawValue, forKey: .alternateTransferFunctionSei)
+        }
+        if let bandwidthReductionFilter = self.bandwidthReductionFilter {
+            try encodeContainer.encode(bandwidthReductionFilter, forKey: .bandwidthReductionFilter)
         }
         if let bitrate = self.bitrate {
             try encodeContainer.encode(bitrate, forKey: .bitrate)
@@ -16010,6 +16014,8 @@ extension MediaConvertClientTypes.H265Settings: Swift.Codable {
         adaptiveQuantization = adaptiveQuantizationDecoded
         let alternateTransferFunctionSeiDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.H265AlternateTransferFunctionSei.self, forKey: .alternateTransferFunctionSei)
         alternateTransferFunctionSei = alternateTransferFunctionSeiDecoded
+        let bandwidthReductionFilterDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BandwidthReductionFilter.self, forKey: .bandwidthReductionFilter)
+        bandwidthReductionFilter = bandwidthReductionFilterDecoded
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bitrate)
         bitrate = bitrateDecoded
         let codecLevelDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.H265CodecLevel.self, forKey: .codecLevel)
@@ -16098,6 +16104,8 @@ extension MediaConvertClientTypes {
         public var adaptiveQuantization: MediaConvertClientTypes.H265AdaptiveQuantization?
         /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
         public var alternateTransferFunctionSei: MediaConvertClientTypes.H265AlternateTransferFunctionSei?
+        /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+        public var bandwidthReductionFilter: MediaConvertClientTypes.BandwidthReductionFilter?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public var bitrate: Swift.Int?
         /// H.265 Level.
@@ -16180,6 +16188,7 @@ extension MediaConvertClientTypes {
         public init(
             adaptiveQuantization: MediaConvertClientTypes.H265AdaptiveQuantization? = nil,
             alternateTransferFunctionSei: MediaConvertClientTypes.H265AlternateTransferFunctionSei? = nil,
+            bandwidthReductionFilter: MediaConvertClientTypes.BandwidthReductionFilter? = nil,
             bitrate: Swift.Int? = nil,
             codecLevel: MediaConvertClientTypes.H265CodecLevel? = nil,
             codecProfile: MediaConvertClientTypes.H265CodecProfile? = nil,
@@ -16223,6 +16232,7 @@ extension MediaConvertClientTypes {
         {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
+            self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
@@ -17370,6 +17380,7 @@ extension MediaConvertClientTypes.HlsGroupSettings: Swift.Codable {
         case outputSelection = "outputSelection"
         case programDateTime = "programDateTime"
         case programDateTimePeriod = "programDateTimePeriod"
+        case progressiveWriteHlsManifest = "progressiveWriteHlsManifest"
         case segmentControl = "segmentControl"
         case segmentLength = "segmentLength"
         case segmentLengthControl = "segmentLengthControl"
@@ -17457,6 +17468,9 @@ extension MediaConvertClientTypes.HlsGroupSettings: Swift.Codable {
         }
         if let programDateTimePeriod = self.programDateTimePeriod {
             try encodeContainer.encode(programDateTimePeriod, forKey: .programDateTimePeriod)
+        }
+        if let progressiveWriteHlsManifest = self.progressiveWriteHlsManifest {
+            try encodeContainer.encode(progressiveWriteHlsManifest.rawValue, forKey: .progressiveWriteHlsManifest)
         }
         if let segmentControl = self.segmentControl {
             try encodeContainer.encode(segmentControl.rawValue, forKey: .segmentControl)
@@ -17560,6 +17574,8 @@ extension MediaConvertClientTypes.HlsGroupSettings: Swift.Codable {
         programDateTime = programDateTimeDecoded
         let programDateTimePeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programDateTimePeriod)
         programDateTimePeriod = programDateTimePeriodDecoded
+        let progressiveWriteHlsManifestDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.HlsProgressiveWriteHlsManifest.self, forKey: .progressiveWriteHlsManifest)
+        progressiveWriteHlsManifest = progressiveWriteHlsManifestDecoded
         let segmentControlDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.HlsSegmentControl.self, forKey: .segmentControl)
         segmentControl = segmentControlDecoded
         let segmentLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .segmentLength)
@@ -17628,6 +17644,8 @@ extension MediaConvertClientTypes {
         public var programDateTime: MediaConvertClientTypes.HlsProgramDateTime?
         /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
         public var programDateTimePeriod: Swift.Int?
+        /// Specify whether MediaConvert generates HLS manifests while your job is running or when your job is complete. To generate HLS manifests while your job is running: Choose Enabled. Use if you want to play back your content as soon as it's available. MediaConvert writes the parent and child manifests after the first three media segments are written to your destination S3 bucket. It then writes new updated manifests after each additional segment is written. The parent manifest includes the latest BANDWIDTH and AVERAGE-BANDWIDTH attributes, and child manifests include the latest available media segment. When your job completes, the final child playlists include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job completes: Choose Disabled.
+        public var progressiveWriteHlsManifest: MediaConvertClientTypes.HlsProgressiveWriteHlsManifest?
         /// When set to SINGLE_FILE, emits program as a single media resource (.ts) file, uses #EXT-X-BYTERANGE tags to index segment for playback.
         public var segmentControl: MediaConvertClientTypes.HlsSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control (SegmentLengthControl) to specify whether the encoder enforces this value strictly. Use Segment control (HlsSegmentControl) to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
@@ -17670,6 +17688,7 @@ extension MediaConvertClientTypes {
             outputSelection: MediaConvertClientTypes.HlsOutputSelection? = nil,
             programDateTime: MediaConvertClientTypes.HlsProgramDateTime? = nil,
             programDateTimePeriod: Swift.Int? = nil,
+            progressiveWriteHlsManifest: MediaConvertClientTypes.HlsProgressiveWriteHlsManifest? = nil,
             segmentControl: MediaConvertClientTypes.HlsSegmentControl? = nil,
             segmentLength: Swift.Int? = nil,
             segmentLengthControl: MediaConvertClientTypes.HlsSegmentLengthControl? = nil,
@@ -17703,6 +17722,7 @@ extension MediaConvertClientTypes {
             self.outputSelection = outputSelection
             self.programDateTime = programDateTime
             self.programDateTimePeriod = programDateTimePeriod
+            self.progressiveWriteHlsManifest = progressiveWriteHlsManifest
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.segmentLengthControl = segmentLengthControl
@@ -18134,6 +18154,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = HlsProgramDateTime(rawValue: rawValue) ?? HlsProgramDateTime.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify whether MediaConvert generates HLS manifests while your job is running or when your job is complete. To generate HLS manifests while your job is running: Choose Enabled. Use if you want to play back your content as soon as it's available. MediaConvert writes the parent and child manifests after the first three media segments are written to your destination S3 bucket. It then writes new updated manifests after each additional segment is written. The parent manifest includes the latest BANDWIDTH and AVERAGE-BANDWIDTH attributes, and child manifests include the latest available media segment. When your job completes, the final child playlists include an EXT-X-ENDLIST tag. To generate HLS manifests only when your job completes: Choose Disabled.
+    public enum HlsProgressiveWriteHlsManifest: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsProgressiveWriteHlsManifest] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HlsProgressiveWriteHlsManifest(rawValue: rawValue) ?? HlsProgressiveWriteHlsManifest.sdkUnknown(rawValue)
         }
     }
 }
@@ -18952,7 +19005,7 @@ extension MediaConvertClientTypes {
         public var audioSelectorGroups: [Swift.String:MediaConvertClientTypes.AudioSelectorGroup]?
         /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public var audioSelectors: [Swift.String:MediaConvertClientTypes.AudioSelector]?
-        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
         public var captionSelectors: [Swift.String:MediaConvertClientTypes.CaptionSelector]?
         /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
         public var crop: MediaConvertClientTypes.Rectangle?
@@ -19630,7 +19683,7 @@ extension MediaConvertClientTypes {
         public var audioSelectorGroups: [Swift.String:MediaConvertClientTypes.AudioSelectorGroup]?
         /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
         public var audioSelectors: [Swift.String:MediaConvertClientTypes.AudioSelector]?
-        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 20 captions selectors per input.
+        /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
         public var captionSelectors: [Swift.String:MediaConvertClientTypes.CaptionSelector]?
         /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
         public var crop: MediaConvertClientTypes.Rectangle?
@@ -26530,7 +26583,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the MXF profile, also called shim, for this output. When you choose Auto, MediaConvert chooses a profile based on the video codec and resolution. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+    /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
     public enum MxfProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case d10
         case op1a
@@ -26607,7 +26660,7 @@ extension MediaConvertClientTypes {
     public struct MxfSettings: Swift.Equatable {
         /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
         public var afdSignaling: MediaConvertClientTypes.MxfAfdSignaling?
-        /// Specify the MXF profile, also called shim, for this output. When you choose Auto, MediaConvert chooses a profile based on the video codec and resolution. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+        /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
         public var profile: MediaConvertClientTypes.MxfProfile?
         /// Specify the XAVC profile settings for MXF outputs when you set your MXF profile to XAVC.
         public var xavcProfileSettings: MediaConvertClientTypes.MxfXavcProfileSettings?
@@ -32832,7 +32885,7 @@ extension MediaConvertClientTypes {
         public var deinterlacer: MediaConvertClientTypes.Deinterlacer?
         /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
         public var dolbyVision: MediaConvertClientTypes.DolbyVision?
-        /// Enable HDR10+ analyis and metadata injection. Compatible with HEVC only.
+        /// Enable HDR10+ analysis and metadata injection. Compatible with HEVC only.
         public var hdr10Plus: MediaConvertClientTypes.Hdr10Plus?
         /// Enable the Image inserter (ImageInserter) feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
         public var imageInserter: MediaConvertClientTypes.ImageInserter?

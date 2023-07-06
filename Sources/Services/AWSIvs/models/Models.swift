@@ -454,6 +454,250 @@ extension BatchGetStreamKeyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IvsClientTypes.BatchStartViewerSessionRevocationError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn
+        case code
+        case message
+        case viewerId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelArn = self.channelArn {
+            try encodeContainer.encode(channelArn, forKey: .channelArn)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let viewerId = self.viewerId {
+            try encodeContainer.encode(viewerId, forKey: .viewerId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let viewerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewerId)
+        viewerId = viewerIdDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IvsClientTypes {
+    /// Error for a request in the batch for BatchStartViewerSessionRevocation. Each error is related to a specific channel-ARN and viewer-ID pair.
+    public struct BatchStartViewerSessionRevocationError: Swift.Equatable {
+        /// Channel ARN.
+        /// This member is required.
+        public var channelArn: Swift.String?
+        /// Error code.
+        public var code: Swift.String?
+        /// Error message, determined by the application.
+        public var message: Swift.String?
+        /// The ID of the viewer session to revoke.
+        /// This member is required.
+        public var viewerId: Swift.String?
+
+        public init(
+            channelArn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            viewerId: Swift.String? = nil
+        )
+        {
+            self.channelArn = channelArn
+            self.code = code
+            self.message = message
+            self.viewerId = viewerId
+        }
+    }
+
+}
+
+extension BatchStartViewerSessionRevocationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case viewerSessions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let viewerSessions = viewerSessions {
+            var viewerSessionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .viewerSessions)
+            for batchstartviewersessionrevocationviewersession0 in viewerSessions {
+                try viewerSessionsContainer.encode(batchstartviewersessionrevocationviewersession0)
+            }
+        }
+    }
+}
+
+extension BatchStartViewerSessionRevocationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/BatchStartViewerSessionRevocation"
+    }
+}
+
+public struct BatchStartViewerSessionRevocationInput: Swift.Equatable {
+    /// Array of viewer sessions, one per channel-ARN and viewer-ID pair.
+    /// This member is required.
+    public var viewerSessions: [IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]?
+
+    public init(
+        viewerSessions: [IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]? = nil
+    )
+    {
+        self.viewerSessions = viewerSessions
+    }
+}
+
+struct BatchStartViewerSessionRevocationInputBody: Swift.Equatable {
+    let viewerSessions: [IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]?
+}
+
+extension BatchStartViewerSessionRevocationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case viewerSessions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewerSessionsContainer = try containerValues.decodeIfPresent([IvsClientTypes.BatchStartViewerSessionRevocationViewerSession?].self, forKey: .viewerSessions)
+        var viewerSessionsDecoded0:[IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]? = nil
+        if let viewerSessionsContainer = viewerSessionsContainer {
+            viewerSessionsDecoded0 = [IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]()
+            for structure0 in viewerSessionsContainer {
+                if let structure0 = structure0 {
+                    viewerSessionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        viewerSessions = viewerSessionsDecoded0
+    }
+}
+
+public enum BatchStartViewerSessionRevocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchStartViewerSessionRevocationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchStartViewerSessionRevocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+        } else {
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchStartViewerSessionRevocationOutputResponse: Swift.Equatable {
+    /// Each error object is related to a specific channelArn and viewerId pair in the request.
+    public var errors: [IvsClientTypes.BatchStartViewerSessionRevocationError]?
+
+    public init(
+        errors: [IvsClientTypes.BatchStartViewerSessionRevocationError]? = nil
+    )
+    {
+        self.errors = errors
+    }
+}
+
+struct BatchStartViewerSessionRevocationOutputResponseBody: Swift.Equatable {
+    let errors: [IvsClientTypes.BatchStartViewerSessionRevocationError]?
+}
+
+extension BatchStartViewerSessionRevocationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorsContainer = try containerValues.decodeIfPresent([IvsClientTypes.BatchStartViewerSessionRevocationError?].self, forKey: .errors)
+        var errorsDecoded0:[IvsClientTypes.BatchStartViewerSessionRevocationError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [IvsClientTypes.BatchStartViewerSessionRevocationError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+extension IvsClientTypes.BatchStartViewerSessionRevocationViewerSession: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn
+        case viewerId
+        case viewerSessionVersionsLessThanOrEqualTo
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelArn = self.channelArn {
+            try encodeContainer.encode(channelArn, forKey: .channelArn)
+        }
+        if let viewerId = self.viewerId {
+            try encodeContainer.encode(viewerId, forKey: .viewerId)
+        }
+        if viewerSessionVersionsLessThanOrEqualTo != 0 {
+            try encodeContainer.encode(viewerSessionVersionsLessThanOrEqualTo, forKey: .viewerSessionVersionsLessThanOrEqualTo)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let viewerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewerId)
+        viewerId = viewerIdDecoded
+        let viewerSessionVersionsLessThanOrEqualToDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .viewerSessionVersionsLessThanOrEqualTo) ?? 0
+        viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualToDecoded
+    }
+}
+
+extension IvsClientTypes {
+    /// A viewer session to revoke in the call to [BatchStartViewerSessionRevocation].
+    public struct BatchStartViewerSessionRevocationViewerSession: Swift.Equatable {
+        /// The ARN of the channel associated with the viewer session to revoke.
+        /// This member is required.
+        public var channelArn: Swift.String?
+        /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information.
+        /// This member is required.
+        public var viewerId: Swift.String?
+        /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
+        public var viewerSessionVersionsLessThanOrEqualTo: Swift.Int
+
+        public init(
+            channelArn: Swift.String? = nil,
+            viewerId: Swift.String? = nil,
+            viewerSessionVersionsLessThanOrEqualTo: Swift.Int = 0
+        )
+        {
+            self.channelArn = channelArn
+            self.viewerId = viewerId
+            self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
+        }
+    }
+
+}
+
 extension IvsClientTypes.Channel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -4289,6 +4533,103 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let exceptionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exceptionMessage)
         exceptionMessage = exceptionMessageDecoded
     }
+}
+
+extension StartViewerSessionRevocationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn
+        case viewerId
+        case viewerSessionVersionsLessThanOrEqualTo
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelArn = self.channelArn {
+            try encodeContainer.encode(channelArn, forKey: .channelArn)
+        }
+        if let viewerId = self.viewerId {
+            try encodeContainer.encode(viewerId, forKey: .viewerId)
+        }
+        if viewerSessionVersionsLessThanOrEqualTo != 0 {
+            try encodeContainer.encode(viewerSessionVersionsLessThanOrEqualTo, forKey: .viewerSessionVersionsLessThanOrEqualTo)
+        }
+    }
+}
+
+extension StartViewerSessionRevocationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartViewerSessionRevocation"
+    }
+}
+
+public struct StartViewerSessionRevocationInput: Swift.Equatable {
+    /// The ARN of the channel associated with the viewer session to revoke.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information.
+    /// This member is required.
+    public var viewerId: Swift.String?
+    /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
+    public var viewerSessionVersionsLessThanOrEqualTo: Swift.Int
+
+    public init(
+        channelArn: Swift.String? = nil,
+        viewerId: Swift.String? = nil,
+        viewerSessionVersionsLessThanOrEqualTo: Swift.Int = 0
+    )
+    {
+        self.channelArn = channelArn
+        self.viewerId = viewerId
+        self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
+    }
+}
+
+struct StartViewerSessionRevocationInputBody: Swift.Equatable {
+    let channelArn: Swift.String?
+    let viewerId: Swift.String?
+    let viewerSessionVersionsLessThanOrEqualTo: Swift.Int
+}
+
+extension StartViewerSessionRevocationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn
+        case viewerId
+        case viewerSessionVersionsLessThanOrEqualTo
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let viewerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewerId)
+        viewerId = viewerIdDecoded
+        let viewerSessionVersionsLessThanOrEqualToDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .viewerSessionVersionsLessThanOrEqualTo) ?? 0
+        viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualToDecoded
+    }
+}
+
+public enum StartViewerSessionRevocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartViewerSessionRevocationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartViewerSessionRevocationOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension StopStreamInput: Swift.Encodable {

@@ -1702,6 +1702,7 @@ extension BatchGetItemOutputResponseBody: Swift.Decodable {
 extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
+        case item = "Item"
         case message = "Message"
     }
 
@@ -1709,6 +1710,12 @@ extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let code = self.code {
             try encodeContainer.encode(code.rawValue, forKey: .code)
+        }
+        if let item = item {
+            var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
+            for (dictKey0, attributeMap0) in item {
+                try itemContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let message = self.message {
             try encodeContainer.encode(message, forKey: .message)
@@ -1721,6 +1728,17 @@ extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
         code = codeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
+        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let itemContainer = itemContainer {
+            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in itemContainer {
+                if let attributevalue0 = attributevalue0 {
+                    itemDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        item = itemDecoded0
     }
 }
 
@@ -1729,15 +1747,19 @@ extension DynamoDBClientTypes {
     public struct BatchStatementError: Swift.Equatable {
         /// The error code associated with the failed PartiQL batch statement.
         public var code: DynamoDBClientTypes.BatchStatementErrorCodeEnum?
+        /// The item which caused the condition check to fail. This will be set if ReturnValuesOnConditionCheckFailure is specified as ALL_OLD.
+        public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// The error message associated with the PartiQL batch response.
         public var message: Swift.String?
 
         public init(
             code: DynamoDBClientTypes.BatchStatementErrorCodeEnum? = nil,
+            item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
             message: Swift.String? = nil
         )
         {
             self.code = code
+            self.item = item
             self.message = message
         }
     }
@@ -1807,6 +1829,7 @@ extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case consistentRead = "ConsistentRead"
         case parameters = "Parameters"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case statement = "Statement"
     }
 
@@ -1820,6 +1843,9 @@ extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
             for attributevalue0 in parameters {
                 try parametersContainer.encode(attributevalue0)
             }
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let statement = self.statement {
             try encodeContainer.encode(statement, forKey: .statement)
@@ -1843,6 +1869,8 @@ extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
         parameters = parametersDecoded0
         let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
         consistentRead = consistentReadDecoded
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -1853,6 +1881,8 @@ extension DynamoDBClientTypes {
         public var consistentRead: Swift.Bool?
         /// The parameters associated with a PartiQL statement in the batch request.
         public var parameters: [DynamoDBClientTypes.AttributeValue]?
+        /// An optional parameter that returns the item attributes for a PartiQL batch request operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
         /// A valid PartiQL statement.
         /// This member is required.
         public var statement: Swift.String?
@@ -1860,11 +1890,13 @@ extension DynamoDBClientTypes {
         public init(
             consistentRead: Swift.Bool? = nil,
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
+            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             statement: Swift.String? = nil
         )
         {
             self.consistentRead = consistentRead
             self.parameters = parameters
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
         }
     }
@@ -2681,8 +2713,10 @@ extension ConditionalCheckFailedException {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.item = output.item
             self.properties.message = output.message
         } else {
+            self.properties.item = nil
             self.properties.message = nil
         }
         self.httpResponse = httpResponse
@@ -2695,6 +2729,8 @@ extension ConditionalCheckFailedException {
 public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Item which caused the ConditionalCheckFailedException.
+        public internal(set) var item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
         /// The conditional request failed.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2709,19 +2745,23 @@ public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSCl
     public internal(set) var requestID: Swift.String?
 
     public init(
+        item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
         message: Swift.String? = nil
     )
     {
+        self.properties.item = item
         self.properties.message = message
     }
 }
 
 struct ConditionalCheckFailedExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
 }
 
 extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case item = "Item"
         case message
     }
 
@@ -2729,6 +2769,17 @@ extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
+        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let itemContainer = itemContainer {
+            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in itemContainer {
+                if let attributevalue0 = attributevalue0 {
+                    itemDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        item = itemDecoded0
     }
 }
 
@@ -4295,6 +4346,7 @@ extension DeleteItemInput: Swift.Encodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
     }
 
@@ -4338,6 +4390,9 @@ extension DeleteItemInput: Swift.Encodable {
         }
         if let returnValues = self.returnValues {
             try encodeContainer.encode(returnValues.rawValue, forKey: .returnValues)
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -4418,6 +4473,8 @@ public struct DeleteItemInput: Swift.Equatable {
     ///
     /// There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
     public var returnValues: DynamoDBClientTypes.ReturnValue?
+    /// An optional parameter that returns the item attributes for a DeleteItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
     /// The name of the table from which to delete the item.
     /// This member is required.
     public var tableName: Swift.String?
@@ -4432,6 +4489,7 @@ public struct DeleteItemInput: Swift.Equatable {
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
         returnValues: DynamoDBClientTypes.ReturnValue? = nil,
+        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil
     )
     {
@@ -4444,6 +4502,7 @@ public struct DeleteItemInput: Swift.Equatable {
         self.returnConsumedCapacity = returnConsumedCapacity
         self.returnItemCollectionMetrics = returnItemCollectionMetrics
         self.returnValues = returnValues
+        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
         self.tableName = tableName
     }
 }
@@ -4459,6 +4518,7 @@ struct DeleteItemInputBody: Swift.Equatable {
     let conditionExpression: Swift.String?
     let expressionAttributeNames: [Swift.String:Swift.String]?
     let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
 }
 
 extension DeleteItemInputBody: Swift.Decodable {
@@ -4472,6 +4532,7 @@ extension DeleteItemInputBody: Swift.Decodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
     }
 
@@ -4533,6 +4594,8 @@ extension DeleteItemInputBody: Swift.Decodable {
             }
         }
         expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -6702,6 +6765,7 @@ extension ExecuteStatementInput: Swift.Encodable {
         case nextToken = "NextToken"
         case parameters = "Parameters"
         case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case statement = "Statement"
     }
 
@@ -6724,6 +6788,9 @@ extension ExecuteStatementInput: Swift.Encodable {
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
             try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let statement = self.statement {
             try encodeContainer.encode(statement, forKey: .statement)
@@ -6754,6 +6821,8 @@ public struct ExecuteStatementInput: Swift.Equatable {
     ///
     /// * NONE - No ConsumedCapacity details are included in the response.
     public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// An optional parameter that returns the item attributes for an ExecuteStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
     /// The PartiQL statement representing the operation to run.
     /// This member is required.
     public var statement: Swift.String?
@@ -6764,6 +6833,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
         nextToken: Swift.String? = nil,
         parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         statement: Swift.String? = nil
     )
     {
@@ -6772,6 +6842,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
         self.nextToken = nextToken
         self.parameters = parameters
         self.returnConsumedCapacity = returnConsumedCapacity
+        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
         self.statement = statement
     }
 }
@@ -6783,6 +6854,7 @@ struct ExecuteStatementInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
     let limit: Swift.Int?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
 }
 
 extension ExecuteStatementInputBody: Swift.Decodable {
@@ -6792,6 +6864,7 @@ extension ExecuteStatementInputBody: Swift.Decodable {
         case nextToken = "NextToken"
         case parameters = "Parameters"
         case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case statement = "Statement"
     }
 
@@ -6818,6 +6891,8 @@ extension ExecuteStatementInputBody: Swift.Decodable {
         returnConsumedCapacity = returnConsumedCapacityDecoded
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -11954,6 +12029,7 @@ extension DynamoDBClientTypes {
 extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case parameters = "Parameters"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case statement = "Statement"
     }
 
@@ -11964,6 +12040,9 @@ extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
             for attributevalue0 in parameters {
                 try parametersContainer.encode(attributevalue0)
             }
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let statement = self.statement {
             try encodeContainer.encode(statement, forKey: .statement)
@@ -11985,6 +12064,8 @@ extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
             }
         }
         parameters = parametersDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -11993,16 +12074,20 @@ extension DynamoDBClientTypes {
     public struct ParameterizedStatement: Swift.Equatable {
         /// The parameter values.
         public var parameters: [DynamoDBClientTypes.AttributeValue]?
+        /// An optional parameter that returns the item attributes for a PartiQL ParameterizedStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
         /// A PartiQL statment that uses parameters.
         /// This member is required.
         public var statement: Swift.String?
 
         public init(
             parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
+            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
             statement: Swift.String? = nil
         )
         {
             self.parameters = parameters
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.statement = statement
         }
     }
@@ -12636,6 +12721,7 @@ extension PutItemInput: Swift.Encodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
     }
 
@@ -12679,6 +12765,9 @@ extension PutItemInput: Swift.Encodable {
         }
         if let returnValues = self.returnValues {
             try encodeContainer.encode(returnValues.rawValue, forKey: .returnValues)
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -12759,6 +12848,8 @@ public struct PutItemInput: Swift.Equatable {
     ///
     /// The values returned are strongly consistent. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
     public var returnValues: DynamoDBClientTypes.ReturnValue?
+    /// An optional parameter that returns the item attributes for a PutItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
     /// The name of the table to contain the item.
     /// This member is required.
     public var tableName: Swift.String?
@@ -12773,6 +12864,7 @@ public struct PutItemInput: Swift.Equatable {
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
         returnValues: DynamoDBClientTypes.ReturnValue? = nil,
+        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil
     )
     {
@@ -12785,6 +12877,7 @@ public struct PutItemInput: Swift.Equatable {
         self.returnConsumedCapacity = returnConsumedCapacity
         self.returnItemCollectionMetrics = returnItemCollectionMetrics
         self.returnValues = returnValues
+        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
         self.tableName = tableName
     }
 }
@@ -12800,6 +12893,7 @@ struct PutItemInputBody: Swift.Equatable {
     let conditionExpression: Swift.String?
     let expressionAttributeNames: [Swift.String:Swift.String]?
     let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
 }
 
 extension PutItemInputBody: Swift.Decodable {
@@ -12813,6 +12907,7 @@ extension PutItemInputBody: Swift.Decodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
     }
 
@@ -12874,6 +12969,8 @@ extension PutItemInputBody: Swift.Decodable {
             }
         }
         expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -19572,6 +19669,7 @@ extension UpdateItemInput: Swift.Encodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
         case updateExpression = "UpdateExpression"
     }
@@ -19622,6 +19720,9 @@ extension UpdateItemInput: Swift.Encodable {
         }
         if let returnValues = self.returnValues {
             try encodeContainer.encode(returnValues.rawValue, forKey: .returnValues)
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
@@ -19713,6 +19814,8 @@ public struct UpdateItemInput: Swift.Equatable {
     ///
     /// There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.
     public var returnValues: DynamoDBClientTypes.ReturnValue?
+    /// An optional parameter that returns the item attributes for an UpdateItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
     /// The name of the table containing the item to update.
     /// This member is required.
     public var tableName: Swift.String?
@@ -19755,6 +19858,7 @@ public struct UpdateItemInput: Swift.Equatable {
         returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
         returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
         returnValues: DynamoDBClientTypes.ReturnValue? = nil,
+        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
         tableName: Swift.String? = nil,
         updateExpression: Swift.String? = nil
     )
@@ -19769,6 +19873,7 @@ public struct UpdateItemInput: Swift.Equatable {
         self.returnConsumedCapacity = returnConsumedCapacity
         self.returnItemCollectionMetrics = returnItemCollectionMetrics
         self.returnValues = returnValues
+        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
         self.tableName = tableName
         self.updateExpression = updateExpression
     }
@@ -19787,6 +19892,7 @@ struct UpdateItemInputBody: Swift.Equatable {
     let conditionExpression: Swift.String?
     let expressionAttributeNames: [Swift.String:Swift.String]?
     let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
 }
 
 extension UpdateItemInputBody: Swift.Decodable {
@@ -19801,6 +19907,7 @@ extension UpdateItemInputBody: Swift.Decodable {
         case returnConsumedCapacity = "ReturnConsumedCapacity"
         case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
         case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
         case tableName = "TableName"
         case updateExpression = "UpdateExpression"
     }
@@ -19876,6 +19983,8 @@ extension UpdateItemInputBody: Swift.Decodable {
             }
         }
         expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 

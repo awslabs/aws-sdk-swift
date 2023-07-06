@@ -28,11 +28,11 @@ extension MqClientTypes.ActionRequired: Swift.Codable {
 }
 
 extension MqClientTypes {
-    /// The action required to resolve a broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state.
+    /// Action required for a broker.
     public struct ActionRequired: Swift.Equatable {
-        /// The code you can use to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state. You can find instructions by choosing the link for your code from the list of action required codes in [Amazon MQ action required codes](https://docs.aws.amazon.com//latest/developer-guide/troubleshooting-action-required-codes.html). Each code references a topic with detailed information, instructions, and recommendations for how to resolve the issue and prevent future occurrences.
+        /// The code you can use to find instructions on the action required to resolve your broker issue.
         public var actionRequiredCode: Swift.String?
-        /// Information about the action required to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state.
+        /// Information about the action required to resolve your broker issue.
         public var actionRequiredInfo: Swift.String?
 
         public init(
@@ -434,6 +434,7 @@ extension MqClientTypes {
         case criticalActionRequired
         case deletionInProgress
         case rebootInProgress
+        case replica
         case running
         case sdkUnknown(Swift.String)
 
@@ -444,6 +445,7 @@ extension MqClientTypes {
                 .criticalActionRequired,
                 .deletionInProgress,
                 .rebootInProgress,
+                .replica,
                 .running,
                 .sdkUnknown("")
             ]
@@ -459,6 +461,7 @@ extension MqClientTypes {
             case .criticalActionRequired: return "CRITICAL_ACTION_REQUIRED"
             case .deletionInProgress: return "DELETION_IN_PROGRESS"
             case .rebootInProgress: return "REBOOT_IN_PROGRESS"
+            case .replica: return "REPLICA"
             case .running: return "RUNNING"
             case let .sdkUnknown(s): return s
             }
@@ -572,7 +575,7 @@ extension MqClientTypes {
         public var brokerArn: Swift.String?
         /// The unique ID that Amazon MQ generates for the broker.
         public var brokerId: Swift.String?
-        /// The broker's name. This value is unique in your AWS account, 1-50 characters long, and containing only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
+        /// The broker's name. This value is unique in your Amazon Web Services account, 1-50 characters long, and containing only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
         public var brokerName: Swift.String?
         /// The broker's status.
         public var brokerState: MqClientTypes.BrokerState?
@@ -819,7 +822,7 @@ extension MqClientTypes.ConfigurationId: Swift.Codable {
 }
 
 extension MqClientTypes {
-    /// A list of information about the configuration. Does not apply to RabbitMQ brokers.
+    /// A list of information about the configuration.
     public struct ConfigurationId: Swift.Equatable {
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         /// This member is required.
@@ -1036,6 +1039,8 @@ extension CreateBrokerInput: Swift.Encodable {
         case brokerName = "brokerName"
         case configuration = "configuration"
         case creatorRequestId = "creatorRequestId"
+        case dataReplicationMode = "dataReplicationMode"
+        case dataReplicationPrimaryBrokerArn = "dataReplicationPrimaryBrokerArn"
         case deploymentMode = "deploymentMode"
         case encryptionOptions = "encryptionOptions"
         case engineType = "engineType"
@@ -1068,6 +1073,12 @@ extension CreateBrokerInput: Swift.Encodable {
         }
         if let creatorRequestId = self.creatorRequestId {
             try encodeContainer.encode(creatorRequestId, forKey: .creatorRequestId)
+        }
+        if let dataReplicationMode = self.dataReplicationMode {
+            try encodeContainer.encode(dataReplicationMode.rawValue, forKey: .dataReplicationMode)
+        }
+        if let dataReplicationPrimaryBrokerArn = self.dataReplicationPrimaryBrokerArn {
+            try encodeContainer.encode(dataReplicationPrimaryBrokerArn, forKey: .dataReplicationPrimaryBrokerArn)
         }
         if let deploymentMode = self.deploymentMode {
             try encodeContainer.encode(deploymentMode.rawValue, forKey: .deploymentMode)
@@ -1139,17 +1150,21 @@ public struct CreateBrokerInput: Swift.Equatable {
     /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot. Set to true by default, if no value is specified.
     /// This member is required.
     public var autoMinorVersionUpgrade: Swift.Bool?
-    /// Required. The broker's name. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
+    /// Required. The broker's name. This value must be unique in your Amazon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.
     /// This member is required.
     public var brokerName: Swift.String?
     /// A list of information about the configuration.
     public var configuration: MqClientTypes.ConfigurationId?
-    /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
+    /// The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
     public var creatorRequestId: Swift.String?
+    /// Defines whether this broker is a part of a data replication pair.
+    public var dataReplicationMode: MqClientTypes.DataReplicationMode?
+    /// The Amazon Resource Name (ARN) of the primary broker that is used to replicate data from in a data replication pair, and is applied to the replica broker. Must be set when dataReplicationMode is set to CRDR.
+    public var dataReplicationPrimaryBrokerArn: Swift.String?
     /// Required. The broker's deployment mode.
     /// This member is required.
     public var deploymentMode: MqClientTypes.DeploymentMode?
-    /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+    /// Encryption options for the broker.
     public var encryptionOptions: MqClientTypes.EncryptionOptions?
     /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     /// This member is required.
@@ -1173,11 +1188,11 @@ public struct CreateBrokerInput: Swift.Equatable {
     public var securityGroups: [Swift.String]?
     /// The broker's storage type.
     public var storageType: MqClientTypes.BrokerStorageType?
-    /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a [shared VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html) for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your AWS account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your AWS account.
+    /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a [shared VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html) for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account.
     public var subnetIds: [Swift.String]?
     /// Create tags when creating the broker.
     public var tags: [Swift.String:Swift.String]?
-    /// Required. The list of broker users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. Amazon MQ for RabbitMQ When you create an Amazon MQ for RabbitMQ broker, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
+    /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
     /// This member is required.
     public var users: [MqClientTypes.User]?
 
@@ -1187,6 +1202,8 @@ public struct CreateBrokerInput: Swift.Equatable {
         brokerName: Swift.String? = nil,
         configuration: MqClientTypes.ConfigurationId? = nil,
         creatorRequestId: Swift.String? = nil,
+        dataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
+        dataReplicationPrimaryBrokerArn: Swift.String? = nil,
         deploymentMode: MqClientTypes.DeploymentMode? = nil,
         encryptionOptions: MqClientTypes.EncryptionOptions? = nil,
         engineType: MqClientTypes.EngineType? = nil,
@@ -1208,6 +1225,8 @@ public struct CreateBrokerInput: Swift.Equatable {
         self.brokerName = brokerName
         self.configuration = configuration
         self.creatorRequestId = creatorRequestId
+        self.dataReplicationMode = dataReplicationMode
+        self.dataReplicationPrimaryBrokerArn = dataReplicationPrimaryBrokerArn
         self.deploymentMode = deploymentMode
         self.encryptionOptions = encryptionOptions
         self.engineType = engineType
@@ -1245,6 +1264,8 @@ struct CreateBrokerInputBody: Swift.Equatable {
     let subnetIds: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let users: [MqClientTypes.User]?
+    let dataReplicationMode: MqClientTypes.DataReplicationMode?
+    let dataReplicationPrimaryBrokerArn: Swift.String?
 }
 
 extension CreateBrokerInputBody: Swift.Decodable {
@@ -1254,6 +1275,8 @@ extension CreateBrokerInputBody: Swift.Decodable {
         case brokerName = "brokerName"
         case configuration = "configuration"
         case creatorRequestId = "creatorRequestId"
+        case dataReplicationMode = "dataReplicationMode"
+        case dataReplicationPrimaryBrokerArn = "dataReplicationPrimaryBrokerArn"
         case deploymentMode = "deploymentMode"
         case encryptionOptions = "encryptionOptions"
         case engineType = "engineType"
@@ -1346,6 +1369,10 @@ extension CreateBrokerInputBody: Swift.Decodable {
             }
         }
         users = usersDecoded0
+        let dataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .dataReplicationMode)
+        dataReplicationMode = dataReplicationModeDecoded
+        let dataReplicationPrimaryBrokerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataReplicationPrimaryBrokerArn)
+        dataReplicationPrimaryBrokerArn = dataReplicationPrimaryBrokerArnDecoded
     }
 }
 
@@ -1726,6 +1753,7 @@ extension CreateUserInput: Swift.Encodable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case password = "password"
+        case replicationUser = "replicationUser"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1741,6 +1769,9 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
+        }
+        if let replicationUser = self.replicationUser {
+            try encodeContainer.encode(replicationUser, forKey: .replicationUser)
         }
     }
 }
@@ -1769,6 +1800,8 @@ public struct CreateUserInput: Swift.Equatable {
     /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
     /// This member is required.
     public var password: Swift.String?
+    /// Defines if this user is intended for CRDR replication purposes.
+    public var replicationUser: Swift.Bool?
     /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     /// This member is required.
     public var username: Swift.String?
@@ -1778,6 +1811,7 @@ public struct CreateUserInput: Swift.Equatable {
         consoleAccess: Swift.Bool? = nil,
         groups: [Swift.String]? = nil,
         password: Swift.String? = nil,
+        replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
     )
     {
@@ -1785,6 +1819,7 @@ public struct CreateUserInput: Swift.Equatable {
         self.consoleAccess = consoleAccess
         self.groups = groups
         self.password = password
+        self.replicationUser = replicationUser
         self.username = username
     }
 }
@@ -1793,6 +1828,7 @@ struct CreateUserInputBody: Swift.Equatable {
     let consoleAccess: Swift.Bool?
     let groups: [Swift.String]?
     let password: Swift.String?
+    let replicationUser: Swift.Bool?
 }
 
 extension CreateUserInputBody: Swift.Decodable {
@@ -1800,6 +1836,7 @@ extension CreateUserInputBody: Swift.Decodable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case password = "password"
+        case replicationUser = "replicationUser"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1819,6 +1856,8 @@ extension CreateUserInputBody: Swift.Decodable {
         groups = groupsDecoded0
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
+        let replicationUserDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationUser)
+        replicationUser = replicationUserDecoded
     }
 }
 
@@ -1845,6 +1884,132 @@ extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateUserOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension MqClientTypes.DataReplicationCounterpart: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case brokerId = "brokerId"
+        case region = "region"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let brokerId = self.brokerId {
+            try encodeContainer.encode(brokerId, forKey: .brokerId)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let brokerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerId)
+        brokerId = brokerIdDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+    }
+}
+
+extension MqClientTypes {
+    /// Specifies a broker in a data replication pair.
+    public struct DataReplicationCounterpart: Swift.Equatable {
+        /// Required. The unique broker id generated by Amazon MQ.
+        /// This member is required.
+        public var brokerId: Swift.String?
+        /// Required. The region of the broker.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            brokerId: Swift.String? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.brokerId = brokerId
+            self.region = region
+        }
+    }
+
+}
+
+extension MqClientTypes.DataReplicationMetadataOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataReplicationCounterpart = "dataReplicationCounterpart"
+        case dataReplicationRole = "dataReplicationRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataReplicationCounterpart = self.dataReplicationCounterpart {
+            try encodeContainer.encode(dataReplicationCounterpart, forKey: .dataReplicationCounterpart)
+        }
+        if let dataReplicationRole = self.dataReplicationRole {
+            try encodeContainer.encode(dataReplicationRole, forKey: .dataReplicationRole)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataReplicationCounterpartDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationCounterpart.self, forKey: .dataReplicationCounterpart)
+        dataReplicationCounterpart = dataReplicationCounterpartDecoded
+        let dataReplicationRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataReplicationRole)
+        dataReplicationRole = dataReplicationRoleDecoded
+    }
+}
+
+extension MqClientTypes {
+    /// The replication details of the data replication-enabled broker. Only returned if dataReplicationMode or pendingDataReplicationMode is set to CRDR.
+    public struct DataReplicationMetadataOutput: Swift.Equatable {
+        /// Describes the replica/primary broker. Only returned if this broker is currently set as a primary or replica in the broker's dataReplicationRole property.
+        public var dataReplicationCounterpart: MqClientTypes.DataReplicationCounterpart?
+        /// Defines the role of this broker in a data replication pair. When a replica broker is promoted to primary, this role is interchanged.
+        /// This member is required.
+        public var dataReplicationRole: Swift.String?
+
+        public init(
+            dataReplicationCounterpart: MqClientTypes.DataReplicationCounterpart? = nil,
+            dataReplicationRole: Swift.String? = nil
+        )
+        {
+            self.dataReplicationCounterpart = dataReplicationCounterpart
+            self.dataReplicationRole = dataReplicationRole
+        }
+    }
+
+}
+
+extension MqClientTypes {
+    /// Specifies whether a broker is a part of a data replication pair.
+    public enum DataReplicationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case crdr
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataReplicationMode] {
+            return [
+                .crdr,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .crdr: return "CRDR"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataReplicationMode(rawValue: rawValue) ?? DataReplicationMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MqClientTypes {
@@ -2507,6 +2672,8 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
             self.brokerState = output.brokerState
             self.configurations = output.configurations
             self.created = output.created
+            self.dataReplicationMetadata = output.dataReplicationMetadata
+            self.dataReplicationMode = output.dataReplicationMode
             self.deploymentMode = output.deploymentMode
             self.encryptionOptions = output.encryptionOptions
             self.engineType = output.engineType
@@ -2516,6 +2683,8 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
             self.logs = output.logs
             self.maintenanceWindowStartTime = output.maintenanceWindowStartTime
             self.pendingAuthenticationStrategy = output.pendingAuthenticationStrategy
+            self.pendingDataReplicationMetadata = output.pendingDataReplicationMetadata
+            self.pendingDataReplicationMode = output.pendingDataReplicationMode
             self.pendingEngineVersion = output.pendingEngineVersion
             self.pendingHostInstanceType = output.pendingHostInstanceType
             self.pendingLdapServerMetadata = output.pendingLdapServerMetadata
@@ -2537,6 +2706,8 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
             self.brokerState = nil
             self.configurations = nil
             self.created = nil
+            self.dataReplicationMetadata = nil
+            self.dataReplicationMode = nil
             self.deploymentMode = nil
             self.encryptionOptions = nil
             self.engineType = nil
@@ -2546,6 +2717,8 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
             self.logs = nil
             self.maintenanceWindowStartTime = nil
             self.pendingAuthenticationStrategy = nil
+            self.pendingDataReplicationMetadata = nil
+            self.pendingDataReplicationMode = nil
             self.pendingEngineVersion = nil
             self.pendingHostInstanceType = nil
             self.pendingLdapServerMetadata = nil
@@ -2561,7 +2734,7 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeBrokerOutputResponse: Swift.Equatable {
-    /// A list of actions required for a broker.
+    /// Actions required for a broker.
     public var actionsRequired: [MqClientTypes.ActionRequired]?
     /// The authentication strategy used to secure the broker. The default is SIMPLE.
     public var authenticationStrategy: MqClientTypes.AuthenticationStrategy?
@@ -2573,7 +2746,7 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
     public var brokerId: Swift.String?
     /// A list of information about allocated brokers.
     public var brokerInstances: [MqClientTypes.BrokerInstance]?
-    /// The broker's name. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
+    /// The broker's name. This value must be unique in your Amazon Web Services account account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters.
     public var brokerName: Swift.String?
     /// The broker's status.
     public var brokerState: MqClientTypes.BrokerState?
@@ -2581,9 +2754,13 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
     public var configurations: MqClientTypes.Configurations?
     /// The time when the broker was created.
     public var created: ClientRuntime.Date?
+    /// The replication details of the data replication-enabled broker. Only returned if dataReplicationMode is set to CRDR.
+    public var dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    /// Describes whether this broker is a part of a data replication pair.
+    public var dataReplicationMode: MqClientTypes.DataReplicationMode?
     /// The broker's deployment mode.
     public var deploymentMode: MqClientTypes.DeploymentMode?
-    /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+    /// Encryption options for the broker.
     public var encryptionOptions: MqClientTypes.EncryptionOptions?
     /// The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     public var engineType: MqClientTypes.EngineType?
@@ -2599,6 +2776,10 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
     public var maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime?
     /// The authentication strategy that will be applied when the broker is rebooted. The default is SIMPLE.
     public var pendingAuthenticationStrategy: MqClientTypes.AuthenticationStrategy?
+    /// The pending replication details of the data replication-enabled broker. Only returned if pendingDataReplicationMode is set to CRDR.
+    public var pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    /// Describes whether this broker will be a part of a data replication pair after reboot.
+    public var pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
     /// The broker engine version to upgrade to. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
     public var pendingEngineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
@@ -2631,6 +2812,8 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
         brokerState: MqClientTypes.BrokerState? = nil,
         configurations: MqClientTypes.Configurations? = nil,
         created: ClientRuntime.Date? = nil,
+        dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
+        dataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         deploymentMode: MqClientTypes.DeploymentMode? = nil,
         encryptionOptions: MqClientTypes.EncryptionOptions? = nil,
         engineType: MqClientTypes.EngineType? = nil,
@@ -2640,6 +2823,8 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
         logs: MqClientTypes.LogsSummary? = nil,
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
         pendingAuthenticationStrategy: MqClientTypes.AuthenticationStrategy? = nil,
+        pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
+        pendingDataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         pendingEngineVersion: Swift.String? = nil,
         pendingHostInstanceType: Swift.String? = nil,
         pendingLdapServerMetadata: MqClientTypes.LdapServerMetadataOutput? = nil,
@@ -2662,6 +2847,8 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
         self.brokerState = brokerState
         self.configurations = configurations
         self.created = created
+        self.dataReplicationMetadata = dataReplicationMetadata
+        self.dataReplicationMode = dataReplicationMode
         self.deploymentMode = deploymentMode
         self.encryptionOptions = encryptionOptions
         self.engineType = engineType
@@ -2671,6 +2858,8 @@ public struct DescribeBrokerOutputResponse: Swift.Equatable {
         self.logs = logs
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
         self.pendingAuthenticationStrategy = pendingAuthenticationStrategy
+        self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
+        self.pendingDataReplicationMode = pendingDataReplicationMode
         self.pendingEngineVersion = pendingEngineVersion
         self.pendingHostInstanceType = pendingHostInstanceType
         self.pendingLdapServerMetadata = pendingLdapServerMetadata
@@ -2714,6 +2903,10 @@ struct DescribeBrokerOutputResponseBody: Swift.Equatable {
     let subnetIds: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let users: [MqClientTypes.UserSummary]?
+    let dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    let dataReplicationMode: MqClientTypes.DataReplicationMode?
+    let pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    let pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
 }
 
 extension DescribeBrokerOutputResponseBody: Swift.Decodable {
@@ -2728,6 +2921,8 @@ extension DescribeBrokerOutputResponseBody: Swift.Decodable {
         case brokerState = "brokerState"
         case configurations = "configurations"
         case created = "created"
+        case dataReplicationMetadata = "dataReplicationMetadata"
+        case dataReplicationMode = "dataReplicationMode"
         case deploymentMode = "deploymentMode"
         case encryptionOptions = "encryptionOptions"
         case engineType = "engineType"
@@ -2737,6 +2932,8 @@ extension DescribeBrokerOutputResponseBody: Swift.Decodable {
         case logs = "logs"
         case maintenanceWindowStartTime = "maintenanceWindowStartTime"
         case pendingAuthenticationStrategy = "pendingAuthenticationStrategy"
+        case pendingDataReplicationMetadata = "pendingDataReplicationMetadata"
+        case pendingDataReplicationMode = "pendingDataReplicationMode"
         case pendingEngineVersion = "pendingEngineVersion"
         case pendingHostInstanceType = "pendingHostInstanceType"
         case pendingLdapServerMetadata = "pendingLdapServerMetadata"
@@ -2872,6 +3069,14 @@ extension DescribeBrokerOutputResponseBody: Swift.Decodable {
             }
         }
         users = usersDecoded0
+        let dataReplicationMetadataDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMetadataOutput.self, forKey: .dataReplicationMetadata)
+        dataReplicationMetadata = dataReplicationMetadataDecoded
+        let dataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .dataReplicationMode)
+        dataReplicationMode = dataReplicationModeDecoded
+        let pendingDataReplicationMetadataDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMetadataOutput.self, forKey: .pendingDataReplicationMetadata)
+        pendingDataReplicationMetadata = pendingDataReplicationMetadataDecoded
+        let pendingDataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .pendingDataReplicationMode)
+        pendingDataReplicationMode = pendingDataReplicationModeDecoded
     }
 }
 
@@ -3135,7 +3340,7 @@ public struct DescribeConfigurationRevisionOutputResponse: Swift.Equatable {
     public var configurationId: Swift.String?
     /// Required. The date and time of the configuration.
     public var created: ClientRuntime.Date?
-    /// Required. The base64-encoded XML configuration.
+    /// Amazon MQ for ActiveMQ: the base64-encoded XML configuration. Amazon MQ for RabbitMQ: base64-encoded Cuttlefish.
     public var data: Swift.String?
     /// The description of the configuration.
     public var description: Swift.String?
@@ -3244,12 +3449,14 @@ extension DescribeUserOutputResponse: ClientRuntime.HttpResponseBinding {
             self.consoleAccess = output.consoleAccess
             self.groups = output.groups
             self.pending = output.pending
+            self.replicationUser = output.replicationUser
             self.username = output.username
         } else {
             self.brokerId = nil
             self.consoleAccess = nil
             self.groups = nil
             self.pending = nil
+            self.replicationUser = nil
             self.username = nil
         }
     }
@@ -3264,6 +3471,8 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
     public var groups: [Swift.String]?
     /// The status of the changes pending for the ActiveMQ user.
     public var pending: MqClientTypes.UserPendingChanges?
+    /// Describes whether the user is intended for data replication
+    public var replicationUser: Swift.Bool?
     /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     public var username: Swift.String?
 
@@ -3272,6 +3481,7 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
         consoleAccess: Swift.Bool? = nil,
         groups: [Swift.String]? = nil,
         pending: MqClientTypes.UserPendingChanges? = nil,
+        replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
     )
     {
@@ -3279,6 +3489,7 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
         self.consoleAccess = consoleAccess
         self.groups = groups
         self.pending = pending
+        self.replicationUser = replicationUser
         self.username = username
     }
 }
@@ -3289,6 +3500,7 @@ struct DescribeUserOutputResponseBody: Swift.Equatable {
     let groups: [Swift.String]?
     let pending: MqClientTypes.UserPendingChanges?
     let username: Swift.String?
+    let replicationUser: Swift.Bool?
 }
 
 extension DescribeUserOutputResponseBody: Swift.Decodable {
@@ -3297,6 +3509,7 @@ extension DescribeUserOutputResponseBody: Swift.Decodable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case pending = "pending"
+        case replicationUser = "replicationUser"
         case username = "username"
     }
 
@@ -3321,6 +3534,8 @@ extension DescribeUserOutputResponseBody: Swift.Decodable {
         pending = pendingDecoded
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
+        let replicationUserDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationUser)
+        replicationUser = replicationUserDecoded
     }
 }
 
@@ -3350,11 +3565,11 @@ extension MqClientTypes.EncryptionOptions: Swift.Codable {
 }
 
 extension MqClientTypes {
-    /// Does not apply to RabbitMQ brokers. Encryption options for the broker.
+    /// Encryption options for the broker.
     public struct EncryptionOptions: Swift.Equatable {
-        /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
+        /// The customer master key (CMK) to use for the A KMS (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
         public var kmsKeyId: Swift.String?
-        /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers.
+        /// Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers.
         /// This member is required.
         public var useAwsOwnedKey: Swift.Bool?
 
@@ -3664,7 +3879,7 @@ extension MqClientTypes.LdapServerMetadataInput: Swift.Codable {
 extension MqClientTypes {
     /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ brokers.
     public struct LdapServerMetadataInput: Swift.Equatable {
-        /// Specifies the location of the LDAP server such as AWS Directory Service for Microsoft Active Directory . Optional failover server.
+        /// Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server.
         /// This member is required.
         public var hosts: [Swift.String]?
         /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com.
@@ -3812,7 +4027,7 @@ extension MqClientTypes.LdapServerMetadataOutput: Swift.Codable {
 extension MqClientTypes {
     /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker.
     public struct LdapServerMetadataOutput: Swift.Equatable {
-        /// Specifies the location of the LDAP server such as AWS Directory Service for Microsoft Active Directory . Optional failover server.
+        /// Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server.
         /// This member is required.
         public var hosts: [Swift.String]?
         /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com.
@@ -4742,6 +4957,150 @@ extension MqClientTypes {
 
 }
 
+extension PromoteInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mode = "mode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+    }
+}
+
+extension PromoteInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let brokerId = brokerId else {
+            return nil
+        }
+        return "/v1/brokers/\(brokerId.urlPercentEncoding())/promote"
+    }
+}
+
+/// Promotes a data replication replica broker to the primary broker role.
+public struct PromoteInput: Swift.Equatable {
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// This member is required.
+    public var brokerId: Swift.String?
+    /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER.
+    /// This member is required.
+    public var mode: MqClientTypes.PromoteMode?
+
+    public init(
+        brokerId: Swift.String? = nil,
+        mode: MqClientTypes.PromoteMode? = nil
+    )
+    {
+        self.brokerId = brokerId
+        self.mode = mode
+    }
+}
+
+struct PromoteInputBody: Swift.Equatable {
+    let mode: MqClientTypes.PromoteMode?
+}
+
+extension PromoteInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mode = "mode"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(MqClientTypes.PromoteMode.self, forKey: .mode)
+        mode = modeDecoded
+    }
+}
+
+extension MqClientTypes {
+    /// The Promote mode requested.
+    public enum PromoteMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failover
+        case switchover
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PromoteMode] {
+            return [
+                .failover,
+                .switchover,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failover: return "FAILOVER"
+            case .switchover: return "SWITCHOVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PromoteMode(rawValue: rawValue) ?? PromoteMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+public enum PromoteOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PromoteOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PromoteOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.brokerId = output.brokerId
+        } else {
+            self.brokerId = nil
+        }
+    }
+}
+
+public struct PromoteOutputResponse: Swift.Equatable {
+    /// The unique ID that Amazon MQ generates for the broker.
+    public var brokerId: Swift.String?
+
+    public init(
+        brokerId: Swift.String? = nil
+    )
+    {
+        self.brokerId = brokerId
+    }
+}
+
+struct PromoteOutputResponseBody: Swift.Equatable {
+    let brokerId: Swift.String?
+}
+
+extension PromoteOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case brokerId = "brokerId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let brokerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .brokerId)
+        brokerId = brokerIdDecoded
+    }
+}
+
 extension RebootBrokerInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let brokerId = brokerId else {
@@ -4829,13 +5188,13 @@ extension MqClientTypes.SanitizationWarning: Swift.Codable {
 }
 
 extension MqClientTypes {
-    /// Returns information about the XML element or attribute that was sanitized in the configuration.
+    /// Returns information about the configuration element or attribute that was sanitized in the configuration.
     public struct SanitizationWarning: Swift.Equatable {
-        /// The name of the XML attribute that has been sanitized.
+        /// The name of the configuration attribute that has been sanitized.
         public var attributeName: Swift.String?
-        /// The name of the XML element that has been sanitized.
+        /// The name of the configuration element that has been sanitized.
         public var elementName: Swift.String?
-        /// Required. The reason for which the XML elements or attributes were sanitized.
+        /// The reason for which the configuration elements or attributes were sanitized.
         /// This member is required.
         public var reason: MqClientTypes.SanitizationWarningReason?
 
@@ -4854,7 +5213,7 @@ extension MqClientTypes {
 }
 
 extension MqClientTypes {
-    /// The reason for which the XML elements or attributes were sanitized.
+    /// The reason for which the configuration elements or attributes were sanitized.
     public enum SanitizationWarningReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disallowedAttributeRemoved
         case disallowedElementRemoved
@@ -4960,6 +5319,7 @@ extension UpdateBrokerInput: Swift.Encodable {
         case authenticationStrategy = "authenticationStrategy"
         case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
         case configuration = "configuration"
+        case dataReplicationMode = "dataReplicationMode"
         case engineVersion = "engineVersion"
         case hostInstanceType = "hostInstanceType"
         case ldapServerMetadata = "ldapServerMetadata"
@@ -4978,6 +5338,9 @@ extension UpdateBrokerInput: Swift.Encodable {
         }
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let dataReplicationMode = self.dataReplicationMode {
+            try encodeContainer.encode(dataReplicationMode.rawValue, forKey: .dataReplicationMode)
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
@@ -5023,6 +5386,8 @@ public struct UpdateBrokerInput: Swift.Equatable {
     public var brokerId: Swift.String?
     /// A list of information about the configuration.
     public var configuration: MqClientTypes.ConfigurationId?
+    /// Defines whether this broker is a part of a data replication pair.
+    public var dataReplicationMode: MqClientTypes.DataReplicationMode?
     /// The broker engine version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
     public var engineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
@@ -5041,6 +5406,7 @@ public struct UpdateBrokerInput: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         brokerId: Swift.String? = nil,
         configuration: MqClientTypes.ConfigurationId? = nil,
+        dataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         engineVersion: Swift.String? = nil,
         hostInstanceType: Swift.String? = nil,
         ldapServerMetadata: MqClientTypes.LdapServerMetadataInput? = nil,
@@ -5053,6 +5419,7 @@ public struct UpdateBrokerInput: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.brokerId = brokerId
         self.configuration = configuration
+        self.dataReplicationMode = dataReplicationMode
         self.engineVersion = engineVersion
         self.hostInstanceType = hostInstanceType
         self.ldapServerMetadata = ldapServerMetadata
@@ -5072,6 +5439,7 @@ struct UpdateBrokerInputBody: Swift.Equatable {
     let logs: MqClientTypes.Logs?
     let maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime?
     let securityGroups: [Swift.String]?
+    let dataReplicationMode: MqClientTypes.DataReplicationMode?
 }
 
 extension UpdateBrokerInputBody: Swift.Decodable {
@@ -5079,6 +5447,7 @@ extension UpdateBrokerInputBody: Swift.Decodable {
         case authenticationStrategy = "authenticationStrategy"
         case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
         case configuration = "configuration"
+        case dataReplicationMode = "dataReplicationMode"
         case engineVersion = "engineVersion"
         case hostInstanceType = "hostInstanceType"
         case ldapServerMetadata = "ldapServerMetadata"
@@ -5116,6 +5485,8 @@ extension UpdateBrokerInputBody: Swift.Decodable {
             }
         }
         securityGroups = securityGroupsDecoded0
+        let dataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .dataReplicationMode)
+        dataReplicationMode = dataReplicationModeDecoded
     }
 }
 
@@ -5143,22 +5514,30 @@ extension UpdateBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
             self.autoMinorVersionUpgrade = output.autoMinorVersionUpgrade
             self.brokerId = output.brokerId
             self.configuration = output.configuration
+            self.dataReplicationMetadata = output.dataReplicationMetadata
+            self.dataReplicationMode = output.dataReplicationMode
             self.engineVersion = output.engineVersion
             self.hostInstanceType = output.hostInstanceType
             self.ldapServerMetadata = output.ldapServerMetadata
             self.logs = output.logs
             self.maintenanceWindowStartTime = output.maintenanceWindowStartTime
+            self.pendingDataReplicationMetadata = output.pendingDataReplicationMetadata
+            self.pendingDataReplicationMode = output.pendingDataReplicationMode
             self.securityGroups = output.securityGroups
         } else {
             self.authenticationStrategy = nil
             self.autoMinorVersionUpgrade = nil
             self.brokerId = nil
             self.configuration = nil
+            self.dataReplicationMetadata = nil
+            self.dataReplicationMode = nil
             self.engineVersion = nil
             self.hostInstanceType = nil
             self.ldapServerMetadata = nil
             self.logs = nil
             self.maintenanceWindowStartTime = nil
+            self.pendingDataReplicationMetadata = nil
+            self.pendingDataReplicationMode = nil
             self.securityGroups = nil
         }
     }
@@ -5173,6 +5552,10 @@ public struct UpdateBrokerOutputResponse: Swift.Equatable {
     public var brokerId: Swift.String?
     /// The ID of the updated configuration.
     public var configuration: MqClientTypes.ConfigurationId?
+    /// The replication details of the data replication-enabled broker. Only returned if dataReplicationMode is set to CRDR.
+    public var dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    /// Describes whether this broker is a part of a data replication pair.
+    public var dataReplicationMode: MqClientTypes.DataReplicationMode?
     /// The broker engine version to upgrade to. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
     public var engineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
@@ -5183,6 +5566,10 @@ public struct UpdateBrokerOutputResponse: Swift.Equatable {
     public var logs: MqClientTypes.Logs?
     /// The parameters that determine the WeeklyStartTime.
     public var maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime?
+    /// The pending replication details of the data replication-enabled broker. Only returned if pendingDataReplicationMode is set to CRDR.
+    public var pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    /// Describes whether this broker will be a part of a data replication pair after reboot.
+    public var pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
     /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
     public var securityGroups: [Swift.String]?
 
@@ -5191,11 +5578,15 @@ public struct UpdateBrokerOutputResponse: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         brokerId: Swift.String? = nil,
         configuration: MqClientTypes.ConfigurationId? = nil,
+        dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
+        dataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         engineVersion: Swift.String? = nil,
         hostInstanceType: Swift.String? = nil,
         ldapServerMetadata: MqClientTypes.LdapServerMetadataOutput? = nil,
         logs: MqClientTypes.Logs? = nil,
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
+        pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
+        pendingDataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         securityGroups: [Swift.String]? = nil
     )
     {
@@ -5203,11 +5594,15 @@ public struct UpdateBrokerOutputResponse: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.brokerId = brokerId
         self.configuration = configuration
+        self.dataReplicationMetadata = dataReplicationMetadata
+        self.dataReplicationMode = dataReplicationMode
         self.engineVersion = engineVersion
         self.hostInstanceType = hostInstanceType
         self.ldapServerMetadata = ldapServerMetadata
         self.logs = logs
         self.maintenanceWindowStartTime = maintenanceWindowStartTime
+        self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
+        self.pendingDataReplicationMode = pendingDataReplicationMode
         self.securityGroups = securityGroups
     }
 }
@@ -5223,6 +5618,10 @@ struct UpdateBrokerOutputResponseBody: Swift.Equatable {
     let logs: MqClientTypes.Logs?
     let maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime?
     let securityGroups: [Swift.String]?
+    let dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    let dataReplicationMode: MqClientTypes.DataReplicationMode?
+    let pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
+    let pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
 }
 
 extension UpdateBrokerOutputResponseBody: Swift.Decodable {
@@ -5231,11 +5630,15 @@ extension UpdateBrokerOutputResponseBody: Swift.Decodable {
         case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
         case brokerId = "brokerId"
         case configuration = "configuration"
+        case dataReplicationMetadata = "dataReplicationMetadata"
+        case dataReplicationMode = "dataReplicationMode"
         case engineVersion = "engineVersion"
         case hostInstanceType = "hostInstanceType"
         case ldapServerMetadata = "ldapServerMetadata"
         case logs = "logs"
         case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+        case pendingDataReplicationMetadata = "pendingDataReplicationMetadata"
+        case pendingDataReplicationMode = "pendingDataReplicationMode"
         case securityGroups = "securityGroups"
     }
 
@@ -5270,6 +5673,14 @@ extension UpdateBrokerOutputResponseBody: Swift.Decodable {
             }
         }
         securityGroups = securityGroupsDecoded0
+        let dataReplicationMetadataDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMetadataOutput.self, forKey: .dataReplicationMetadata)
+        dataReplicationMetadata = dataReplicationMetadataDecoded
+        let dataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .dataReplicationMode)
+        dataReplicationMode = dataReplicationModeDecoded
+        let pendingDataReplicationMetadataDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMetadataOutput.self, forKey: .pendingDataReplicationMetadata)
+        pendingDataReplicationMetadata = pendingDataReplicationMetadataDecoded
+        let pendingDataReplicationModeDecoded = try containerValues.decodeIfPresent(MqClientTypes.DataReplicationMode.self, forKey: .pendingDataReplicationMode)
+        pendingDataReplicationMode = pendingDataReplicationModeDecoded
     }
 }
 
@@ -5304,7 +5715,7 @@ public struct UpdateConfigurationInput: Swift.Equatable {
     /// The unique ID that Amazon MQ generates for the configuration.
     /// This member is required.
     public var configurationId: Swift.String?
-    /// Required. The base64-encoded XML configuration.
+    /// Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.
     /// This member is required.
     public var data: Swift.String?
     /// The description of the configuration.
@@ -5380,17 +5791,17 @@ extension UpdateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateConfigurationOutputResponse: Swift.Equatable {
-    /// Required. The Amazon Resource Name (ARN) of the configuration.
+    /// The Amazon Resource Name (ARN) of the configuration.
     public var arn: Swift.String?
     /// Required. The date and time of the configuration.
     public var created: ClientRuntime.Date?
-    /// Required. The unique ID that Amazon MQ generates for the configuration.
+    /// The unique ID that Amazon MQ generates for the configuration.
     public var id: Swift.String?
     /// The latest revision of the configuration.
     public var latestRevision: MqClientTypes.ConfigurationRevision?
-    /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+    /// The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
     public var name: Swift.String?
-    /// The list of the first 20 warnings about the configuration XML elements or attributes that were sanitized.
+    /// The list of the first 20 warnings about the configuration elements or attributes that were sanitized.
     public var warnings: [MqClientTypes.SanitizationWarning]?
 
     public init(
@@ -5461,6 +5872,7 @@ extension UpdateUserInput: Swift.Encodable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case password = "password"
+        case replicationUser = "replicationUser"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5476,6 +5888,9 @@ extension UpdateUserInput: Swift.Encodable {
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
+        }
+        if let replicationUser = self.replicationUser {
+            try encodeContainer.encode(replicationUser, forKey: .replicationUser)
         }
     }
 }
@@ -5503,6 +5918,8 @@ public struct UpdateUserInput: Swift.Equatable {
     public var groups: [Swift.String]?
     /// The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
     public var password: Swift.String?
+    /// Defines whether the user is intended for data replication.
+    public var replicationUser: Swift.Bool?
     /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     /// This member is required.
     public var username: Swift.String?
@@ -5512,6 +5929,7 @@ public struct UpdateUserInput: Swift.Equatable {
         consoleAccess: Swift.Bool? = nil,
         groups: [Swift.String]? = nil,
         password: Swift.String? = nil,
+        replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
     )
     {
@@ -5519,6 +5937,7 @@ public struct UpdateUserInput: Swift.Equatable {
         self.consoleAccess = consoleAccess
         self.groups = groups
         self.password = password
+        self.replicationUser = replicationUser
         self.username = username
     }
 }
@@ -5527,6 +5946,7 @@ struct UpdateUserInputBody: Swift.Equatable {
     let consoleAccess: Swift.Bool?
     let groups: [Swift.String]?
     let password: Swift.String?
+    let replicationUser: Swift.Bool?
 }
 
 extension UpdateUserInputBody: Swift.Decodable {
@@ -5534,6 +5954,7 @@ extension UpdateUserInputBody: Swift.Decodable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case password = "password"
+        case replicationUser = "replicationUser"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5553,6 +5974,8 @@ extension UpdateUserInputBody: Swift.Decodable {
         groups = groupsDecoded0
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
+        let replicationUserDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationUser)
+        replicationUser = replicationUserDecoded
     }
 }
 
@@ -5586,6 +6009,7 @@ extension MqClientTypes.User: Swift.Codable {
         case consoleAccess = "consoleAccess"
         case groups = "groups"
         case password = "password"
+        case replicationUser = "replicationUser"
         case username = "username"
     }
 
@@ -5602,6 +6026,9 @@ extension MqClientTypes.User: Swift.Codable {
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
+        }
+        if let replicationUser = self.replicationUser {
+            try encodeContainer.encode(replicationUser, forKey: .replicationUser)
         }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
@@ -5627,11 +6054,13 @@ extension MqClientTypes.User: Swift.Codable {
         password = passwordDecoded
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
+        let replicationUserDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationUser)
+        replicationUser = replicationUserDecoded
     }
 }
 
 extension MqClientTypes {
-    /// A user associated with the broker. For RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
+    /// A user associated with the broker. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
     public struct User: Swift.Equatable {
         /// Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not apply to RabbitMQ brokers.
         public var consoleAccess: Swift.Bool?
@@ -5640,7 +6069,16 @@ extension MqClientTypes {
         /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
         /// This member is required.
         public var password: Swift.String?
-        /// important>Amazon MQ for ActiveMQ For ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long./important> Amazon MQ for RabbitMQ For RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long.
+        /// Defines if this user is intended for CRDR replication purposes.
+        public var replicationUser: Swift.Bool?
+        /// The username of the broker user. The following restrictions apply to broker usernames:
+        ///
+        /// * For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        ///
+        /// * para>For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long.
+        ///
+        ///
+        /// Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
         /// This member is required.
         public var username: Swift.String?
 
@@ -5648,12 +6086,14 @@ extension MqClientTypes {
             consoleAccess: Swift.Bool? = nil,
             groups: [Swift.String]? = nil,
             password: Swift.String? = nil,
+            replicationUser: Swift.Bool? = nil,
             username: Swift.String? = nil
         )
         {
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.password = password
+            self.replicationUser = replicationUser
             self.username = username
         }
     }

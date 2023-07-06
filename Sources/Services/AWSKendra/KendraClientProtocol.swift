@@ -106,17 +106,28 @@ public protocol KendraClientProtocol {
     func listThesauri(input: ListThesauriInput) async throws -> ListThesauriOutputResponse
     /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. For more information, see [Filtering on user context](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html). If more than five PUT actions for a group are currently processing, a validation exception is thrown.
     func putPrincipalMapping(input: PutPrincipalMappingInput) async throws -> PutPrincipalMappingOutputResponse
-    /// Searches an active index. Use this API to search your documents using query. The Query API enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results. Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.
+    /// Searches an index given an input query. You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.
     ///
-    /// * Relevant passages
+    /// * Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.
     ///
-    /// * Matching FAQs
+    /// * Matching FAQs or questions-answer from your FAQ file.
     ///
-    /// * Relevant documents
+    /// * Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.
     ///
     ///
-    /// You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results.
+    /// You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.
     func query(input: QueryInput) async throws -> QueryOutputResponse
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the [Query](https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html) API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce no relevant passages using the Retrieve API, you can alternatively use the Query API. You can also do the following:
+    ///
+    /// * Override boosting at the index level
+    ///
+    /// * Filter based on document fields or attributes
+    ///
+    /// * Filter based on the user or their group access to documents
+    ///
+    ///
+    /// You can also include certain fields in the response that might provide useful additional information.
+    func retrieve(input: RetrieveInput) async throws -> RetrieveOutputResponse
     /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
     func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutputResponse
     /// Stops a synchronization job that is currently running. You can't stop a scheduled synchronization job.

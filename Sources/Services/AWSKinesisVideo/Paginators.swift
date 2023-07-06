@@ -35,6 +35,37 @@ extension PaginatorSequence where Input == DescribeMappedResourceConfigurationIn
     }
 }
 extension KinesisVideoClient {
+    /// Paginate over `[ListEdgeAgentConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEdgeAgentConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEdgeAgentConfigurationsOutputResponse`
+    public func listEdgeAgentConfigurationsPaginated(input: ListEdgeAgentConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutputResponse>(input: input, inputKey: \ListEdgeAgentConfigurationsInput.nextToken, outputKey: \ListEdgeAgentConfigurationsOutputResponse.nextToken, paginationFunction: self.listEdgeAgentConfigurations(input:))
+    }
+}
+
+extension ListEdgeAgentConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEdgeAgentConfigurationsInput {
+        return ListEdgeAgentConfigurationsInput(
+            hubDeviceArn: self.hubDeviceArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListEdgeAgentConfigurationsInput, Output == ListEdgeAgentConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEdgeAgentConfigurationsPaginated`
+    /// to access the nested member `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
+    /// - Returns: `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
+    public func edgeConfigs() async throws -> [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig] {
+        return try await self.asyncCompactMap { item in item.edgeConfigs }
+    }
+}
+extension KinesisVideoClient {
     /// Paginate over `[ListSignalingChannelsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

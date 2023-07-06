@@ -2532,7 +2532,7 @@ extension Macie2ClientTypes.ClassificationResult: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides the details of a sensitive data finding, including the types, number of occurrences, and locations of the sensitive data that was detected.
     public struct ClassificationResult: Swift.Equatable {
-        /// Specifies whether Amazon Macie detected additional occurrences of sensitive data in the S3 object. A finding includes location data for a maximum of 15 occurrences of sensitive data. This value can help you determine whether to investigate additional occurrences of sensitive data in an object. You can do this by referring to the corresponding sensitive data discovery result for the finding (ClassificationDetails.detailedResultsLocation).
+        /// Specifies whether Amazon Macie detected additional occurrences of sensitive data in the S3 object. A finding includes location data for a maximum of 15 occurrences of sensitive data. This value can help you determine whether to investigate additional occurrences of sensitive data in an object. You can do this by referring to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation).
         public var additionalOccurrences: Swift.Bool?
         /// The custom data identifiers that detected the sensitive data and the number of occurrences of the data that they detected.
         public var customDataIdentifiers: Macie2ClientTypes.CustomDataIdentifiers?
@@ -2603,7 +2603,7 @@ extension Macie2ClientTypes {
         public var code: Swift.String?
         /// A brief description of the status of the finding. This value is null if the status (code) of the finding is COMPLETE. Amazon Macie uses this value to notify you of any errors, warnings, or considerations that might impact your analysis of the finding and the affected S3 object. Possible values are:
         ///
-        /// * ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie extracted and analyzed only some or none of the files in the archive. To determine which files Macie analyzed, if any, refer to the corresponding sensitive data discovery result for the finding (ClassificationDetails.detailedResultsLocation).
+        /// * ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie extracted and analyzed only some or none of the files in the archive. To determine which files Macie analyzed, if any, refer to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation).
         ///
         /// * ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total storage size exceeds the size quota for this type of archive.
         ///
@@ -3077,16 +3077,18 @@ public struct CreateClassificationJobInput: Swift.Equatable {
     public var managedDataIdentifierIds: [Swift.String]?
     /// The selection type to apply when determining which managed data identifiers the job uses to analyze data. Valid values are:
     ///
-    /// * ALL - Use all the managed data identifiers that Amazon Macie provides. If you specify this value, don't specify any values for the managedDataIdentifierIds property.
+    /// * ALL (default) - Use all managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property.
     ///
-    /// * EXCLUDE - Use all the managed data identifiers that Macie provides except the managed data identifiers specified by the managedDataIdentifierIds property.
+    /// * EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property.
     ///
     /// * INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property.
     ///
     /// * NONE - Don't use any managed data identifiers. If you specify this value, specify at least one custom data identifier for the job (customDataIdentifierIds) and don't specify any values for the managedDataIdentifierIds property.
     ///
+    /// * RECOMMENDED - Use only the set of managed data identifiers that Amazon Web Services recommends for jobs. If you specify this value, don't specify any values for the managedDataIdentifierIds property.
     ///
-    /// If you don't specify a value for this property, the job uses all managed data identifiers. If you don't specify a value for this property or you specify ALL or EXCLUDE for a recurring job, the job also uses new managed data identifiers as they are released.
+    ///
+    /// If you don't specify a value for this property, the job uses all managed data identifiers. If the job is a recurring job and you don't specify a value for this property or you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the job starts to run. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
     public var managedDataIdentifierSelector: Macie2ClientTypes.ManagedDataIdentifierSelector?
     /// A custom name for the job. The name can contain as many as 500 characters.
     /// This member is required.
@@ -3380,7 +3382,7 @@ public struct CreateCustomDataIdentifierInput: Swift.Equatable {
     /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
     /// This member is required.
     public var regex: Swift.String?
-    /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that matches the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
+    /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
     public var severityLevels: [Macie2ClientTypes.SeverityLevel]?
     /// A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
     public var tags: [Swift.String:Swift.String]?
@@ -5568,20 +5570,22 @@ public struct DescribeClassificationJobOutputResponse: Swift.Equatable {
     public var lastRunErrorStatus: Macie2ClientTypes.LastRunErrorStatus?
     /// The date and time, in UTC and extended ISO 8601 format, when the job started. If the job is a recurring job, this value indicates when the most recent run started or, if the job hasn't run yet, when the job was created.
     public var lastRunTime: ClientRuntime.Date?
-    /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector). This value is null if the job's managed data identifier selection type is ALL or the job uses only custom data identifiers (customDataIdentifierIds) to analyze data.
+    /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector).This value is null if the job's managed data identifier selection type is ALL, NONE, or RECOMMENDED.
     public var managedDataIdentifierIds: [Swift.String]?
-    /// The selection type that determines which managed data identifiers the job uses to analyze data. Possible values are:
+    /// The selection type that determines which managed data identifiers the job uses when it analyzes data. Possible values are:
     ///
-    /// * ALL - Use all the managed data identifiers that Amazon Macie provides.
+    /// * ALL (default) - Use all managed data identifiers.
     ///
-    /// * EXCLUDE - Use all the managed data identifiers that Macie provides except the managed data identifiers specified by the managedDataIdentifierIds property.
+    /// * EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property.
     ///
     /// * INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property.
     ///
-    /// * NONE - Don't use any managed data identifiers.
+    /// * NONE - Don't use any managed data identifiers. Use only custom data identifiers (customDataIdentifierIds).
+    ///
+    /// * RECOMMENDED - Use only the set of managed data identifiers that Amazon Web Services recommends for jobs.
     ///
     ///
-    /// If this value is null, the job uses all managed data identifiers. If this value is null, ALL, or EXCLUDE for a recurring job, the job also uses new managed data identifiers as they are released.
+    /// If this value is null, the job uses all managed data identifiers. If the job is a recurring job and this value is null, ALL, or EXCLUDE, each job run automatically uses new managed data identifiers that are released after the job was created or the preceding run ended. If this value is RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
     public var managedDataIdentifierSelector: Macie2ClientTypes.ManagedDataIdentifierSelector?
     /// The custom name of the job.
     public var name: Swift.String?
@@ -8262,7 +8266,7 @@ public struct GetCustomDataIdentifierOutputResponse: Swift.Equatable {
     public var name: Swift.String?
     /// The regular expression (regex) that defines the pattern to match.
     public var regex: Swift.String?
-    /// Specifies the severity that's assigned to findings that the custom data identifier produces, based on the number of occurrences of text that matches the custom data identifier's detection criteria. By default, Amazon Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
+    /// Specifies the severity that's assigned to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. By default, Amazon Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
     public var severityLevels: [Macie2ClientTypes.SeverityLevel]?
     /// A map of key-value pairs that identifies the tags (keys and values) that are associated with the custom data identifier.
     public var tags: [Swift.String:Swift.String]?
@@ -9648,7 +9652,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutputResponse: Swift.Equat
     public var code: Macie2ClientTypes.AvailabilityCode?
     /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are:
     ///
-    /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the ClassificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
+    /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the classificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
     ///
     /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data.
     ///
@@ -13567,6 +13571,7 @@ extension Macie2ClientTypes {
         case exclude
         case include
         case `none`
+        case recommended
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManagedDataIdentifierSelector] {
@@ -13575,6 +13580,7 @@ extension Macie2ClientTypes {
                 .exclude,
                 .include,
                 .none,
+                .recommended,
                 .sdkUnknown("")
             ]
         }
@@ -13588,6 +13594,7 @@ extension Macie2ClientTypes {
             case .exclude: return "EXCLUDE"
             case .include: return "INCLUDE"
             case .none: return "NONE"
+            case .recommended: return "RECOMMENDED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15060,13 +15067,13 @@ extension Macie2ClientTypes {
         public var totalItemsClassified: Swift.Int?
         /// The total number of the bucket's objects that Amazon Macie has found sensitive data in.
         public var totalItemsSensitive: Swift.Int?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket due to an error or issue. For example, the object is a malformed file. This value includes objects that Macie hasn't analyzed for reasons reported by other statistics in the ResourceStatistics object.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to an object-level issue or error. For example, the object is a malformed file. This value includes objects that Macie wasn't able to analyze for reasons reported by other statistics in the ResourceStatistics object.
         public var totalItemsSkipped: Swift.Int?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with a key that Macie isn't allowed to use.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket because the objects are encrypted with a key that Macie can't access. The objects use server-side encryption with customer-provided keys (SSE-C).
         public var totalItemsSkippedInvalidEncryption: Swift.Int?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because the objects are encrypted with an KMS key that was disabled or deleted.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket because the objects are encrypted with KMS keys that were disabled, are scheduled for deletion, or were deleted.
         public var totalItemsSkippedInvalidKms: Swift.Int?
-        /// The total number of objects that Amazon Macie hasn't analyzed in the bucket because Macie isn't allowed to access the objects.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to the permissions settings for the objects or the permissions settings for the keys that were used to encrypt the objects.
         public var totalItemsSkippedPermissionDenied: Swift.Int?
 
         public init(
@@ -15945,11 +15952,11 @@ extension Macie2ClientTypes {
         public var eTag: Swift.String?
         /// The file name extension of the object. If the object doesn't have a file name extension, this value is "".
         public var `extension`: Swift.String?
-        /// The full key (name) that's assigned to the object.
+        /// The full name (key) of the object, including the object's prefix if applicable.
         public var key: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the object was last modified.
         public var lastModified: ClientRuntime.Date?
-        /// The path to the object, including the full key (name).
+        /// The full path to the affected object, including the name of the affected bucket and the object's name (key).
         public var path: Swift.String?
         /// Specifies whether the object is publicly accessible due to the combination of permissions settings that apply to the object.
         public var publicAccess: Swift.Bool?
@@ -17588,7 +17595,7 @@ extension Macie2ClientTypes.SeverityLevel: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies a severity level for findings that a custom data identifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that matches the custom data identifier's detection criteria.
+    /// Specifies a severity level for findings that a custom data identifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that match the custom data identifier's detection criteria.
     public struct SeverityLevel: Swift.Equatable {
         /// The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to produce a finding with the specified severity (severity).
         /// This member is required.
@@ -17878,7 +17885,7 @@ extension Macie2ClientTypes.SortCriteria: Swift.Codable {
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a request for findings.
     public struct SortCriteria: Swift.Equatable {
-        /// The name of the property to sort the results by. This value can be the name of any property that Amazon Macie defines for a finding.
+        /// The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDetails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt.
         public var attributeName: Swift.String?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public var orderBy: Macie2ClientTypes.OrderBy?
@@ -18775,7 +18782,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public struct Properties {
         /// The type of error that occurred and prevented Amazon Macie from retrieving occurrences of sensitive data reported by the finding. Possible values are:
         ///
-        /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the ClassificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
+        /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the classificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
         ///
         /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data.
         ///

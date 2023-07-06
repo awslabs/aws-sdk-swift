@@ -1501,6 +1501,7 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         case sender = "Sender"
         case status = "Status"
         case subChannelId = "SubChannelId"
+        case target = "Target"
         case type = "Type"
     }
 
@@ -1551,6 +1552,12 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         if let subChannelId = self.subChannelId {
             try encodeContainer.encode(subChannelId, forKey: .subChannelId)
         }
+        if let target = target {
+            var targetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .target)
+            for target0 in target {
+                try targetContainer.encode(target0)
+            }
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -1597,12 +1604,23 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         subChannelId = subChannelIdDecoded
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
+        let targetContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.Target?].self, forKey: .target)
+        var targetDecoded0:[ChimeSDKMessagingClientTypes.Target]? = nil
+        if let targetContainer = targetContainer {
+            targetDecoded0 = [ChimeSDKMessagingClientTypes.Target]()
+            for structure0 in targetContainer {
+                if let structure0 = structure0 {
+                    targetDecoded0?.append(structure0)
+                }
+            }
+        }
+        target = targetDecoded0
     }
 }
 
 extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChannelMessage(channelArn: \(Swift.String(describing: channelArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), persistence: \(Swift.String(describing: persistence)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "ChannelMessage(channelArn: \(Swift.String(describing: channelArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), persistence: \(Swift.String(describing: persistence)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), subChannelId: \(Swift.String(describing: subChannelId)), target: \(Swift.String(describing: target)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -1610,9 +1628,9 @@ extension ChimeSDKMessagingClientTypes {
     public struct ChannelMessage: Swift.Equatable {
         /// The ARN of the channel.
         public var channelArn: Swift.String?
-        /// The message content.
+        /// The content of the channel message. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var content: Swift.String?
-        /// The content type of the channel message.
+        /// The content type of the channel message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var contentType: Swift.String?
         /// The time at which the message was created.
         public var createdTimestamp: ClientRuntime.Date?
@@ -1620,7 +1638,7 @@ extension ChimeSDKMessagingClientTypes {
         public var lastEditedTimestamp: ClientRuntime.Date?
         /// The time at which a message was updated.
         public var lastUpdatedTimestamp: ClientRuntime.Date?
-        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The ID of a message.
         public var messageId: Swift.String?
@@ -1636,6 +1654,8 @@ extension ChimeSDKMessagingClientTypes {
         public var status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure?
         /// The ID of the SubChannel.
         public var subChannelId: Swift.String?
+        /// The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+        public var target: [ChimeSDKMessagingClientTypes.Target]?
         /// The message type.
         public var type: ChimeSDKMessagingClientTypes.ChannelMessageType?
 
@@ -1654,6 +1674,7 @@ extension ChimeSDKMessagingClientTypes {
             sender: ChimeSDKMessagingClientTypes.Identity? = nil,
             status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil,
             subChannelId: Swift.String? = nil,
+            target: [ChimeSDKMessagingClientTypes.Target]? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
         )
         {
@@ -1671,6 +1692,7 @@ extension ChimeSDKMessagingClientTypes {
             self.sender = sender
             self.status = status
             self.subChannelId = subChannelId
+            self.target = target
             self.type = type
         }
     }
@@ -1752,11 +1774,11 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.CustomDebug
 extension ChimeSDKMessagingClientTypes {
     /// Stores information about a callback.
     public struct ChannelMessageCallback: Swift.Equatable {
-        /// The message content.
+        /// The message content. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var content: Swift.String?
-        /// The content type of the call-back message.
+        /// The content type of the call-back message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var contentType: Swift.String?
-        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The message ID.
         /// This member is required.
@@ -1888,7 +1910,7 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure: Swift.Coda
 extension ChimeSDKMessagingClientTypes {
     /// Stores information about a message status.
     public struct ChannelMessageStatusStructure: Swift.Equatable {
-        /// Contains more details about the messasge status.
+        /// Contains more details about the message status.
         public var detail: Swift.String?
         /// The message status value.
         public var value: ChimeSDKMessagingClientTypes.ChannelMessageStatus?
@@ -1918,6 +1940,7 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
         case redacted = "Redacted"
         case sender = "Sender"
         case status = "Status"
+        case target = "Target"
         case type = "Type"
     }
 
@@ -1959,6 +1982,12 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
+        if let target = target {
+            var targetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .target)
+            for target0 in target {
+                try targetContainer.encode(target0)
+            }
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -1999,20 +2028,31 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
         messageAttributes = messageAttributesDecoded0
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
+        let targetContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.Target?].self, forKey: .target)
+        var targetDecoded0:[ChimeSDKMessagingClientTypes.Target]? = nil
+        if let targetContainer = targetContainer {
+            targetDecoded0 = [ChimeSDKMessagingClientTypes.Target]()
+            for structure0 in targetContainer {
+                if let structure0 = structure0 {
+                    targetDecoded0?.append(structure0)
+                }
+            }
+        }
+        target = targetDecoded0
     }
 }
 
 extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChannelMessageSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "ChannelMessageSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), target: \(Swift.String(describing: target)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
     /// Summary of the messages in a Channel.
     public struct ChannelMessageSummary: Swift.Equatable {
-        /// The content of the message.
+        /// The content of the channel message. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var content: Swift.String?
-        /// The content type of the channel messsage listed in the summary.
+        /// The content type of the channel message listed in the summary. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var contentType: Swift.String?
         /// The time at which the message summary was created.
         public var createdTimestamp: ClientRuntime.Date?
@@ -2020,7 +2060,7 @@ extension ChimeSDKMessagingClientTypes {
         public var lastEditedTimestamp: ClientRuntime.Date?
         /// The time at which a message was last updated.
         public var lastUpdatedTimestamp: ClientRuntime.Date?
-        /// The message attribues listed in a the summary of a channel message.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The ID of the message.
         public var messageId: Swift.String?
@@ -2032,6 +2072,8 @@ extension ChimeSDKMessagingClientTypes {
         public var sender: ChimeSDKMessagingClientTypes.Identity?
         /// The message status. The status value is SENT for messages sent to a channel without a channel flow. For channels associated with channel flow, the value determines the processing stage.
         public var status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure?
+        /// The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+        public var target: [ChimeSDKMessagingClientTypes.Target]?
         /// The type of message.
         public var type: ChimeSDKMessagingClientTypes.ChannelMessageType?
 
@@ -2047,6 +2089,7 @@ extension ChimeSDKMessagingClientTypes {
             redacted: Swift.Bool = false,
             sender: ChimeSDKMessagingClientTypes.Identity? = nil,
             status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil,
+            target: [ChimeSDKMessagingClientTypes.Target]? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
         )
         {
@@ -2061,6 +2104,7 @@ extension ChimeSDKMessagingClientTypes {
             self.redacted = redacted
             self.sender = sender
             self.status = status
+            self.target = target
             self.type = type
         }
     }
@@ -2357,7 +2401,7 @@ extension ChimeSDKMessagingClientTypes {
     public struct ChannelSummary: Swift.Equatable {
         /// The ARN of the channel.
         public var channelArn: Swift.String?
-        /// The time at which the last persistent message in a channel was sent.
+        /// The time at which the last persistent message visible to the caller in a channel was sent.
         public var lastMessageTimestamp: ClientRuntime.Date?
         /// The metadata of the channel.
         public var metadata: Swift.String?
@@ -8956,7 +9000,7 @@ extension ChimeSDKMessagingClientTypes {
 
 extension SendChannelMessageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SendChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageAttributes: \(Swift.String(describing: messageAttributes)), persistence: \(Swift.String(describing: persistence)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), clientRequestToken: \"CONTENT_REDACTED\", content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "SendChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageAttributes: \(Swift.String(describing: messageAttributes)), persistence: \(Swift.String(describing: persistence)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), target: \(Swift.String(describing: target)), type: \(Swift.String(describing: type)), clientRequestToken: \"CONTENT_REDACTED\", content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension SendChannelMessageInput: Swift.Encodable {
@@ -8969,6 +9013,7 @@ extension SendChannelMessageInput: Swift.Encodable {
         case persistence = "Persistence"
         case pushNotification = "PushNotification"
         case subChannelId = "SubChannelId"
+        case target = "Target"
         case type = "Type"
     }
 
@@ -9000,6 +9045,12 @@ extension SendChannelMessageInput: Swift.Encodable {
         }
         if let subChannelId = self.subChannelId {
             try encodeContainer.encode(subChannelId, forKey: .subChannelId)
+        }
+        if let target = target {
+            var targetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .target)
+            for target0 in target {
+                try targetContainer.encode(target0)
+            }
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -9036,7 +9087,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
     /// The Idempotency token for each client request.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The content of the message.
+    /// The content of the channel message.
     /// This member is required.
     public var content: Swift.String?
     /// The content type of the channel message.
@@ -9052,7 +9103,9 @@ public struct SendChannelMessageInput: Swift.Equatable {
     public var pushNotification: ChimeSDKMessagingClientTypes.PushNotificationConfiguration?
     /// The ID of the SubChannel in the request.
     public var subChannelId: Swift.String?
-    /// The type of message, STANDARD or CONTROL.
+    /// The target of a message. Must be a member of the channel, such as another user, a bot, or the sender. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+    public var target: [ChimeSDKMessagingClientTypes.Target]?
+    /// The type of message, STANDARD or CONTROL. STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata.
     /// This member is required.
     public var type: ChimeSDKMessagingClientTypes.ChannelMessageType?
 
@@ -9067,6 +9120,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
         persistence: ChimeSDKMessagingClientTypes.ChannelMessagePersistenceType? = nil,
         pushNotification: ChimeSDKMessagingClientTypes.PushNotificationConfiguration? = nil,
         subChannelId: Swift.String? = nil,
+        target: [ChimeSDKMessagingClientTypes.Target]? = nil,
         type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
     )
     {
@@ -9080,6 +9134,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
         self.persistence = persistence
         self.pushNotification = pushNotification
         self.subChannelId = subChannelId
+        self.target = target
         self.type = type
     }
 }
@@ -9094,6 +9149,7 @@ struct SendChannelMessageInputBody: Swift.Equatable {
     let messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
     let subChannelId: Swift.String?
     let contentType: Swift.String?
+    let target: [ChimeSDKMessagingClientTypes.Target]?
 }
 
 extension SendChannelMessageInputBody: Swift.Decodable {
@@ -9106,6 +9162,7 @@ extension SendChannelMessageInputBody: Swift.Decodable {
         case persistence = "Persistence"
         case pushNotification = "PushNotification"
         case subChannelId = "SubChannelId"
+        case target = "Target"
         case type = "Type"
     }
 
@@ -9138,6 +9195,17 @@ extension SendChannelMessageInputBody: Swift.Decodable {
         subChannelId = subChannelIdDecoded
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
+        let targetContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.Target?].self, forKey: .target)
+        var targetDecoded0:[ChimeSDKMessagingClientTypes.Target]? = nil
+        if let targetContainer = targetContainer {
+            targetDecoded0 = [ChimeSDKMessagingClientTypes.Target]()
+            for structure0 in targetContainer {
+                if let structure0 = structure0 {
+                    targetDecoded0?.append(structure0)
+                }
+            }
+        }
+        target = targetDecoded0
     }
 }
 
@@ -9640,6 +9708,41 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct TagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension ChimeSDKMessagingClientTypes.Target: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case memberArn = "MemberArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let memberArn = self.memberArn {
+            try encodeContainer.encode(memberArn, forKey: .memberArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .memberArn)
+        memberArn = memberArnDecoded
+    }
+}
+
+extension ChimeSDKMessagingClientTypes {
+    /// The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+    public struct Target: Swift.Equatable {
+        /// The ARN of the target channel member.
+        public var memberArn: Swift.String?
+
+        public init(
+            memberArn: Swift.String? = nil
+        )
+        {
+            self.memberArn = memberArn
+        }
+    }
+
 }
 
 extension ThrottledClientException {
@@ -10180,7 +10283,7 @@ public struct UpdateChannelMessageInput: Swift.Equatable {
     /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
-    /// The content of the message being updated.
+    /// The content of the channel message.
     /// This member is required.
     public var content: Swift.String?
     /// The content type of the channel message.

@@ -335,6 +335,7 @@ extension ActivateDeviceIdentifierOutputResponseBody: Swift.Decodable {
 extension ActivateNetworkSiteInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case commitmentConfiguration
         case networkSiteArn
         case shippingAddress
     }
@@ -343,6 +344,9 @@ extension ActivateNetworkSiteInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let commitmentConfiguration = self.commitmentConfiguration {
+            try encodeContainer.encode(commitmentConfiguration, forKey: .commitmentConfiguration)
         }
         if let networkSiteArn = self.networkSiteArn {
             try encodeContainer.encode(networkSiteArn, forKey: .networkSiteArn)
@@ -362,6 +366,15 @@ extension ActivateNetworkSiteInput: ClientRuntime.URLPathProvider {
 public struct ActivateNetworkSiteInput: Swift.Equatable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// Determines the duration and renewal status of the commitment period for all pending radio units. If you include commitmentConfiguration in the ActivateNetworkSiteRequest action, you must specify the following:
+    ///
+    /// * The commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year period.
+    ///
+    /// * Whether you want your commitment period to automatically renew for one more year after your current commitment period expires.
+    ///
+    ///
+    /// For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing). If you do not include commitmentConfiguration in the ActivateNetworkSiteRequest action, the commitment period is set to 60-days.
+    public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
     /// The Amazon Resource Name (ARN) of the network site.
     /// This member is required.
     public var networkSiteArn: Swift.String?
@@ -371,11 +384,13 @@ public struct ActivateNetworkSiteInput: Swift.Equatable {
 
     public init(
         clientToken: Swift.String? = nil,
+        commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
         networkSiteArn: Swift.String? = nil,
         shippingAddress: PrivateNetworksClientTypes.Address? = nil
     )
     {
         self.clientToken = clientToken
+        self.commitmentConfiguration = commitmentConfiguration
         self.networkSiteArn = networkSiteArn
         self.shippingAddress = shippingAddress
     }
@@ -385,11 +400,13 @@ struct ActivateNetworkSiteInputBody: Swift.Equatable {
     let networkSiteArn: Swift.String?
     let shippingAddress: PrivateNetworksClientTypes.Address?
     let clientToken: Swift.String?
+    let commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
 }
 
 extension ActivateNetworkSiteInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case commitmentConfiguration
         case networkSiteArn
         case shippingAddress
     }
@@ -402,6 +419,8 @@ extension ActivateNetworkSiteInputBody: Swift.Decodable {
         shippingAddress = shippingAddressDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let commitmentConfigurationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentConfiguration.self, forKey: .commitmentConfiguration)
+        commitmentConfiguration = commitmentConfigurationDecoded
     }
 }
 
@@ -463,6 +482,7 @@ extension PrivateNetworksClientTypes.Address: Swift.Codable {
         case city
         case company
         case country
+        case emailAddress
         case name
         case phoneNumber
         case postalCode
@@ -482,6 +502,9 @@ extension PrivateNetworksClientTypes.Address: Swift.Codable {
         }
         if let country = self.country {
             try encodeContainer.encode(country, forKey: .country)
+        }
+        if let emailAddress = self.emailAddress {
+            try encodeContainer.encode(emailAddress, forKey: .emailAddress)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -528,12 +551,14 @@ extension PrivateNetworksClientTypes.Address: Swift.Codable {
         street2 = street2Decoded
         let street3Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .street3)
         street3 = street3Decoded
+        let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
+        emailAddress = emailAddressDecoded
     }
 }
 
 extension PrivateNetworksClientTypes.Address: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Address(city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", stateOrProvince: \"CONTENT_REDACTED\", street1: \"CONTENT_REDACTED\", street2: \"CONTENT_REDACTED\", street3: \"CONTENT_REDACTED\")"}
+        "Address(city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", stateOrProvince: \"CONTENT_REDACTED\", street1: \"CONTENT_REDACTED\", street2: \"CONTENT_REDACTED\", street3: \"CONTENT_REDACTED\")"}
 }
 
 extension PrivateNetworksClientTypes {
@@ -547,10 +572,12 @@ extension PrivateNetworksClientTypes {
         /// The country for this address.
         /// This member is required.
         public var country: Swift.String?
+        /// The recipient's email address.
+        public var emailAddress: Swift.String?
         /// The recipient's name for this address.
         /// This member is required.
         public var name: Swift.String?
-        /// The phone number for this address.
+        /// The recipient's phone number.
         public var phoneNumber: Swift.String?
         /// The postal code for this address.
         /// This member is required.
@@ -570,6 +597,7 @@ extension PrivateNetworksClientTypes {
             city: Swift.String? = nil,
             company: Swift.String? = nil,
             country: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
             name: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             postalCode: Swift.String? = nil,
@@ -582,6 +610,7 @@ extension PrivateNetworksClientTypes {
             self.city = city
             self.company = company
             self.country = country
+            self.emailAddress = emailAddress
             self.name = name
             self.phoneNumber = phoneNumber
             self.postalCode = postalCode
@@ -592,6 +621,153 @@ extension PrivateNetworksClientTypes {
         }
     }
 
+}
+
+extension PrivateNetworksClientTypes.CommitmentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticRenewal
+        case commitmentLength
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automaticRenewal = self.automaticRenewal {
+            try encodeContainer.encode(automaticRenewal, forKey: .automaticRenewal)
+        }
+        if let commitmentLength = self.commitmentLength {
+            try encodeContainer.encode(commitmentLength.rawValue, forKey: .commitmentLength)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitmentLengthDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentLength.self, forKey: .commitmentLength)
+        commitmentLength = commitmentLengthDecoded
+        let automaticRenewalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .automaticRenewal)
+        automaticRenewal = automaticRenewalDecoded
+    }
+}
+
+extension PrivateNetworksClientTypes {
+    /// Determines the duration and renewal status of the commitment period for a radio unit. For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
+    public struct CommitmentConfiguration: Swift.Equatable {
+        /// Determines whether the commitment period for a radio unit is set to automatically renew for an additional 1 year after your current commitment period expires. Set to True, if you want your commitment period to automatically renew. Set to False if you do not want your commitment to automatically renew. You can do the following:
+        ///
+        /// * Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 1-year rate.
+        ///
+        /// * Set a 3-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 3-year rate.
+        ///
+        /// * Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment.
+        ///
+        ///
+        /// You cannot use the automatic-renewal option for a 60-day commitment.
+        /// This member is required.
+        public var automaticRenewal: Swift.Bool?
+        /// The duration of the commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year period.
+        /// This member is required.
+        public var commitmentLength: PrivateNetworksClientTypes.CommitmentLength?
+
+        public init(
+            automaticRenewal: Swift.Bool? = nil,
+            commitmentLength: PrivateNetworksClientTypes.CommitmentLength? = nil
+        )
+        {
+            self.automaticRenewal = automaticRenewal
+            self.commitmentLength = commitmentLength
+        }
+    }
+
+}
+
+extension PrivateNetworksClientTypes.CommitmentInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitmentConfiguration
+        case expiresOn
+        case startAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let commitmentConfiguration = self.commitmentConfiguration {
+            try encodeContainer.encode(commitmentConfiguration, forKey: .commitmentConfiguration)
+        }
+        if let expiresOn = self.expiresOn {
+            try encodeContainer.encodeTimestamp(expiresOn, format: .dateTime, forKey: .expiresOn)
+        }
+        if let startAt = self.startAt {
+            try encodeContainer.encodeTimestamp(startAt, format: .dateTime, forKey: .startAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitmentConfigurationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentConfiguration.self, forKey: .commitmentConfiguration)
+        commitmentConfiguration = commitmentConfigurationDecoded
+        let startAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startAt)
+        startAt = startAtDecoded
+        let expiresOnDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expiresOn)
+        expiresOn = expiresOnDecoded
+    }
+}
+
+extension PrivateNetworksClientTypes {
+    /// Shows the duration, the date and time that the contract started and ends, and the renewal status of the commitment period for the radio unit.
+    public struct CommitmentInformation: Swift.Equatable {
+        /// The duration and renewal status of the commitment period for the radio unit.
+        /// This member is required.
+        public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
+        /// The date and time that the commitment period ends. If you do not cancel or renew the commitment before the expiration date, you will be billed at the 60-day-commitment rate.
+        public var expiresOn: ClientRuntime.Date?
+        /// The date and time that the commitment period started.
+        public var startAt: ClientRuntime.Date?
+
+        public init(
+            commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
+            expiresOn: ClientRuntime.Date? = nil,
+            startAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.commitmentConfiguration = commitmentConfiguration
+            self.expiresOn = expiresOn
+            self.startAt = startAt
+        }
+    }
+
+}
+
+extension PrivateNetworksClientTypes {
+    public enum CommitmentLength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oneYear
+        case sixtyDays
+        case threeYears
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommitmentLength] {
+            return [
+                .oneYear,
+                .sixtyDays,
+                .threeYears,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneYear: return "ONE_YEAR"
+            case .sixtyDays: return "SIXTY_DAYS"
+            case .threeYears: return "THREE_YEARS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CommitmentLength(rawValue: rawValue) ?? CommitmentLength.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConfigureAccessPointInput: Swift.CustomDebugStringConvertible {
@@ -3611,6 +3787,7 @@ extension PrivateNetworksClientTypes {
 extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes
+        case commitmentInformation
         case createdAt
         case description
         case health
@@ -3635,6 +3812,9 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
             for namevaluepair0 in attributes {
                 try attributesContainer.encode(namevaluepair0)
             }
+        }
+        if let commitmentInformation = self.commitmentInformation {
+            try encodeContainer.encode(commitmentInformation, forKey: .commitmentInformation)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
@@ -3726,6 +3906,8 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
         createdAt = createdAtDecoded
         let returnInformationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.ReturnInformation.self, forKey: .returnInformation)
         returnInformation = returnInformationDecoded
+        let commitmentInformationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentInformation.self, forKey: .commitmentInformation)
+        commitmentInformation = commitmentInformationDecoded
     }
 }
 
@@ -3734,6 +3916,8 @@ extension PrivateNetworksClientTypes {
     public struct NetworkResource: Swift.Equatable {
         /// The attributes of the network resource.
         public var attributes: [PrivateNetworksClientTypes.NameValuePair]?
+        /// Information about the commitment period for the radio unit. Shows the duration, the date and time that the contract started and ends, and the renewal status of the commitment period.
+        public var commitmentInformation: PrivateNetworksClientTypes.CommitmentInformation?
         /// The creation time of the network resource.
         public var createdAt: ClientRuntime.Date?
         /// The description of the network resource.
@@ -3767,6 +3951,7 @@ extension PrivateNetworksClientTypes {
 
         public init(
             attributes: [PrivateNetworksClientTypes.NameValuePair]? = nil,
+            commitmentInformation: PrivateNetworksClientTypes.CommitmentInformation? = nil,
             createdAt: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             health: PrivateNetworksClientTypes.HealthStatus? = nil,
@@ -3785,6 +3970,7 @@ extension PrivateNetworksClientTypes {
         )
         {
             self.attributes = attributes
+            self.commitmentInformation = commitmentInformation
             self.createdAt = createdAt
             self.description = description
             self.health = health
@@ -4277,6 +4463,7 @@ extension PrivateNetworksClientTypes.Order: Swift.Codable {
         case networkArn
         case networkSiteArn
         case orderArn
+        case orderedResources
         case shippingAddress
         case trackingInformation
     }
@@ -4297,6 +4484,12 @@ extension PrivateNetworksClientTypes.Order: Swift.Codable {
         }
         if let orderArn = self.orderArn {
             try encodeContainer.encode(orderArn, forKey: .orderArn)
+        }
+        if let orderedResources = orderedResources {
+            var orderedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderedResources)
+            for orderedresourcedefinition0 in orderedResources {
+                try orderedResourcesContainer.encode(orderedresourcedefinition0)
+            }
         }
         if let shippingAddress = self.shippingAddress {
             try encodeContainer.encode(shippingAddress, forKey: .shippingAddress)
@@ -4334,6 +4527,17 @@ extension PrivateNetworksClientTypes.Order: Swift.Codable {
         acknowledgmentStatus = acknowledgmentStatusDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let orderedResourcesContainer = try containerValues.decodeIfPresent([PrivateNetworksClientTypes.OrderedResourceDefinition?].self, forKey: .orderedResources)
+        var orderedResourcesDecoded0:[PrivateNetworksClientTypes.OrderedResourceDefinition]? = nil
+        if let orderedResourcesContainer = orderedResourcesContainer {
+            orderedResourcesDecoded0 = [PrivateNetworksClientTypes.OrderedResourceDefinition]()
+            for structure0 in orderedResourcesContainer {
+                if let structure0 = structure0 {
+                    orderedResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        orderedResources = orderedResourcesDecoded0
     }
 }
 
@@ -4350,6 +4554,8 @@ extension PrivateNetworksClientTypes {
         public var networkSiteArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the order.
         public var orderArn: Swift.String?
+        /// A list of the network resources placed in the order.
+        public var orderedResources: [PrivateNetworksClientTypes.OrderedResourceDefinition]?
         /// The shipping address of the order.
         public var shippingAddress: PrivateNetworksClientTypes.Address?
         /// The tracking information of the order.
@@ -4361,6 +4567,7 @@ extension PrivateNetworksClientTypes {
             networkArn: Swift.String? = nil,
             networkSiteArn: Swift.String? = nil,
             orderArn: Swift.String? = nil,
+            orderedResources: [PrivateNetworksClientTypes.OrderedResourceDefinition]? = nil,
             shippingAddress: PrivateNetworksClientTypes.Address? = nil,
             trackingInformation: [PrivateNetworksClientTypes.TrackingInformation]? = nil
         )
@@ -4370,6 +4577,7 @@ extension PrivateNetworksClientTypes {
             self.networkArn = networkArn
             self.networkSiteArn = networkSiteArn
             self.orderArn = orderArn
+            self.orderedResources = orderedResources
             self.shippingAddress = shippingAddress
             self.trackingInformation = trackingInformation
         }
@@ -4407,6 +4615,63 @@ extension PrivateNetworksClientTypes {
             self = OrderFilterKeys(rawValue: rawValue) ?? OrderFilterKeys.sdkUnknown(rawValue)
         }
     }
+}
+
+extension PrivateNetworksClientTypes.OrderedResourceDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitmentConfiguration
+        case count
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let commitmentConfiguration = self.commitmentConfiguration {
+            try encodeContainer.encode(commitmentConfiguration, forKey: .commitmentConfiguration)
+        }
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.NetworkResourceDefinitionType.self, forKey: .type)
+        type = typeDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+        let commitmentConfigurationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentConfiguration.self, forKey: .commitmentConfiguration)
+        commitmentConfiguration = commitmentConfigurationDecoded
+    }
+}
+
+extension PrivateNetworksClientTypes {
+    /// Details of the network resources in the order.
+    public struct OrderedResourceDefinition: Swift.Equatable {
+        /// The duration and renewal status of the commitment period for each radio unit in the order. Does not show details if the resource type is DEVICE_IDENTIFIER.
+        public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
+        /// The number of network resources in the order.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The type of network resource in the order.
+        /// This member is required.
+        public var type: PrivateNetworksClientTypes.NetworkResourceDefinitionType?
+
+        public init(
+            commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
+            count: Swift.Int? = nil,
+            type: PrivateNetworksClientTypes.NetworkResourceDefinitionType? = nil
+        )
+        {
+            self.commitmentConfiguration = commitmentConfiguration
+            self.count = count
+            self.type = type
+        }
+    }
+
 }
 
 extension PingInput: ClientRuntime.URLPathProvider {
@@ -4770,6 +5035,7 @@ extension PrivateNetworksClientTypes {
 
 extension StartNetworkResourceUpdateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitmentConfiguration
         case networkResourceArn
         case returnReason
         case shippingAddress
@@ -4778,6 +5044,9 @@ extension StartNetworkResourceUpdateInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let commitmentConfiguration = self.commitmentConfiguration {
+            try encodeContainer.encode(commitmentConfiguration, forKey: .commitmentConfiguration)
+        }
         if let networkResourceArn = self.networkResourceArn {
             try encodeContainer.encode(networkResourceArn, forKey: .networkResourceArn)
         }
@@ -4800,6 +5069,21 @@ extension StartNetworkResourceUpdateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartNetworkResourceUpdateInput: Swift.Equatable {
+    /// Use this action to extend and automatically renew the commitment period for the radio unit. You can do the following:
+    ///
+    /// * Change a 60-day commitment to a 1-year or 3-year commitment. The change is immediate and the hourly rate decreases to the rate for the new commitment period.
+    ///
+    /// * Change a 1-year commitment to a 3-year commitment. The change is immediate and the hourly rate decreases to the rate for the 3-year commitment period.
+    ///
+    /// * Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 1-year rate.
+    ///
+    /// * Set a 3-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 3-year rate.
+    ///
+    /// * Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment. You cannot use the automatic-renewal option for a 60-day commitment.
+    ///
+    ///
+    /// For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
+    public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
     /// The Amazon Resource Name (ARN) of the network resource.
     /// This member is required.
     public var networkResourceArn: Swift.String?
@@ -4811,17 +5095,21 @@ public struct StartNetworkResourceUpdateInput: Swift.Equatable {
     ///
     /// * REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the return process and we ship a replacement radio unit to you.
     ///
-    /// * RETURN - Submits a request to replace a radio unit that you no longer need. We provide a shipping label that you can use for the return process.
+    /// * RETURN - Submits a request to return a radio unit that you no longer need. We provide a shipping label that you can use for the return process.
+    ///
+    /// * COMMITMENT - Submits a request to change or renew the commitment period. If you choose this value, then you must set [commitmentConfiguration](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_StartNetworkResourceUpdate.html#privatenetworks-StartNetworkResourceUpdate-request-commitmentConfiguration).
     /// This member is required.
     public var updateType: PrivateNetworksClientTypes.UpdateType?
 
     public init(
+        commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
         networkResourceArn: Swift.String? = nil,
         returnReason: Swift.String? = nil,
         shippingAddress: PrivateNetworksClientTypes.Address? = nil,
         updateType: PrivateNetworksClientTypes.UpdateType? = nil
     )
     {
+        self.commitmentConfiguration = commitmentConfiguration
         self.networkResourceArn = networkResourceArn
         self.returnReason = returnReason
         self.shippingAddress = shippingAddress
@@ -4834,10 +5122,12 @@ struct StartNetworkResourceUpdateInputBody: Swift.Equatable {
     let updateType: PrivateNetworksClientTypes.UpdateType?
     let shippingAddress: PrivateNetworksClientTypes.Address?
     let returnReason: Swift.String?
+    let commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
 }
 
 extension StartNetworkResourceUpdateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitmentConfiguration
         case networkResourceArn
         case returnReason
         case shippingAddress
@@ -4854,6 +5144,8 @@ extension StartNetworkResourceUpdateInputBody: Swift.Decodable {
         shippingAddress = shippingAddressDecoded
         let returnReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnReason)
         returnReason = returnReasonDecoded
+        let commitmentConfigurationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.CommitmentConfiguration.self, forKey: .commitmentConfiguration)
+        commitmentConfiguration = commitmentConfigurationDecoded
     }
 }
 
@@ -5482,12 +5774,14 @@ extension UpdateNetworkSitePlanOutputResponseBody: Swift.Decodable {
 
 extension PrivateNetworksClientTypes {
     public enum UpdateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case commitment
         case replace
         case `return`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UpdateType] {
             return [
+                .commitment,
                 .replace,
                 .return,
                 .sdkUnknown("")
@@ -5499,6 +5793,7 @@ extension PrivateNetworksClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .commitment: return "COMMITMENT"
             case .replace: return "REPLACE"
             case .return: return "RETURN"
             case let .sdkUnknown(s): return s

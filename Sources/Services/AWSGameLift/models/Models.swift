@@ -3118,7 +3118,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Equatable {
     public var acceptanceRequired: Swift.Bool?
     /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
     public var acceptanceTimeoutSeconds: Swift.Int?
-    /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var additionalPlayerCount: Swift.Int?
     /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have Amazon GameLift create a backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [ Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
     public var backfillMode: GameLiftClientTypes.BackfillMode?
@@ -16336,7 +16336,7 @@ extension GameLiftClientTypes {
         public var acceptanceRequired: Swift.Bool?
         /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public var acceptanceTimeoutSeconds: Swift.Int?
-        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var additionalPlayerCount: Swift.Int?
         /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates backfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [Backfill existing games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public var backfillMode: GameLiftClientTypes.BackfillMode?
@@ -16824,6 +16824,7 @@ extension GameLiftClientTypes {
     public enum OperatingSystem: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonLinux
         case amazonLinux2
+        case amazonLinux2023
         case windows2012
         case windows2016
         case sdkUnknown(Swift.String)
@@ -16832,6 +16833,7 @@ extension GameLiftClientTypes {
             return [
                 .amazonLinux,
                 .amazonLinux2,
+                .amazonLinux2023,
                 .windows2012,
                 .windows2016,
                 .sdkUnknown("")
@@ -16845,6 +16847,7 @@ extension GameLiftClientTypes {
             switch self {
             case .amazonLinux: return "AMAZON_LINUX"
             case .amazonLinux2: return "AMAZON_LINUX_2"
+            case .amazonLinux2023: return "AMAZON_LINUX_2023"
             case .windows2012: return "WINDOWS_2012"
             case .windows2016: return "WINDOWS_2016"
             case let .sdkUnknown(s): return s
@@ -22667,7 +22670,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Equatable {
     public var acceptanceRequired: Swift.Bool?
     /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
     public var acceptanceTimeoutSeconds: Swift.Int?
-    /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var additionalPlayerCount: Swift.Int?
     /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a match backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in [Backfill Existing Games with FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html). Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
     public var backfillMode: GameLiftClientTypes.BackfillMode?

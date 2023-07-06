@@ -17693,12 +17693,14 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
     public enum WorkflowEngine: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cwl
         case nextflow
         case wdl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowEngine] {
             return [
+                .cwl,
                 .nextflow,
                 .wdl,
                 .sdkUnknown("")
@@ -17710,6 +17712,7 @@ extension OmicsClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cwl: return "CWL"
             case .nextflow: return "NEXTFLOW"
             case .wdl: return "WDL"
             case let .sdkUnknown(s): return s

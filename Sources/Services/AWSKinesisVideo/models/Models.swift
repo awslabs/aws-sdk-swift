@@ -771,7 +771,7 @@ public struct CreateStreamInput: Swift.Equatable {
     public var dataRetentionInHours: Swift.Int?
     /// The name of the device that is writing to the stream. In the current implementation, Kinesis Video Streams does not use this name.
     public var deviceName: Swift.String?
-    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used. For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
+    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (Amazon Web Services/kinesisvideo) is used. For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
     public var kmsKeyId: Swift.String?
     /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml). If you choose to specify the MediaType, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2) for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
     public var mediaType: Swift.String?
@@ -899,6 +899,90 @@ extension CreateStreamOutputResponseBody: Swift.Decodable {
         let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
         streamARN = streamARNDecoded
     }
+}
+
+extension DeleteEdgeConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+    }
+}
+
+extension DeleteEdgeConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/deleteEdgeConfiguration"
+    }
+}
+
+public struct DeleteEdgeConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamName or the StreamARN.
+    public var streamARN: Swift.String?
+    /// The name of the stream from which to delete the edge configuration. Specify either the StreamName or the StreamARN.
+    public var streamName: Swift.String?
+
+    public init(
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil
+    )
+    {
+        self.streamARN = streamARN
+        self.streamName = streamName
+    }
+}
+
+struct DeleteEdgeConfigurationInputBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+}
+
+extension DeleteEdgeConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+    }
+}
+
+public enum DeleteEdgeConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StreamEdgeConfigurationNotFoundException": return try await StreamEdgeConfigurationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteEdgeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEdgeConfigurationOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension DeleteSignalingChannelInput: Swift.Encodable {
@@ -1107,7 +1191,7 @@ extension KinesisVideoClientTypes.DeletionConfig: Swift.Codable {
 extension KinesisVideoClientTypes {
     /// The configuration details required to delete the connection of the stream from the Edge Agent.
     public struct DeletionConfig: Swift.Equatable {
-        /// The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are set to true, such as when the limit for the EdgeRetentionInHours, or the MaxLocalMediaSizeInMB, has been reached. Since the default value is set to true, configure the uploader schedule such that the media files are not being deleted before they are initially uploaded to AWS cloud.
+        /// The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are set to true, such as when the limit for the EdgeRetentionInHours, or the MaxLocalMediaSizeInMB, has been reached. Since the default value is set to true, configure the uploader schedule such that the media files are not being deleted before they are initially uploaded to the Amazon Web Services cloud.
         public var deleteAfterUpload: Swift.Bool?
         /// The number of hours that you want to retain the data in the stream on the Edge Agent. The default value of the retention time is 720 hours, which translates to 30 days.
         public var edgeRetentionInHours: Swift.Int?
@@ -1208,6 +1292,7 @@ extension DescribeEdgeConfigurationOutputResponse: ClientRuntime.HttpResponseBin
             let responseDecoder = decoder {
             let output: DescribeEdgeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
+            self.edgeAgentStatus = output.edgeAgentStatus
             self.edgeConfig = output.edgeConfig
             self.failedStatusDetails = output.failedStatusDetails
             self.lastUpdatedTime = output.lastUpdatedTime
@@ -1216,6 +1301,7 @@ extension DescribeEdgeConfigurationOutputResponse: ClientRuntime.HttpResponseBin
             self.syncStatus = output.syncStatus
         } else {
             self.creationTime = nil
+            self.edgeAgentStatus = nil
             self.edgeConfig = nil
             self.failedStatusDetails = nil
             self.lastUpdatedTime = nil
@@ -1229,6 +1315,8 @@ extension DescribeEdgeConfigurationOutputResponse: ClientRuntime.HttpResponseBin
 public struct DescribeEdgeConfigurationOutputResponse: Swift.Equatable {
     /// The timestamp at which a stream’s edge configuration was first created.
     public var creationTime: ClientRuntime.Date?
+    /// An object that contains the latest status details for an edge agent's recorder and uploader jobs. Use this information to determine the current health of an edge agent.
+    public var edgeAgentStatus: KinesisVideoClientTypes.EdgeAgentStatus?
     /// A description of the stream's edge configuration that will be used to sync with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
     public var edgeConfig: KinesisVideoClientTypes.EdgeConfig?
     /// A description of the generated failure status.
@@ -1244,6 +1332,7 @@ public struct DescribeEdgeConfigurationOutputResponse: Swift.Equatable {
 
     public init(
         creationTime: ClientRuntime.Date? = nil,
+        edgeAgentStatus: KinesisVideoClientTypes.EdgeAgentStatus? = nil,
         edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
         failedStatusDetails: Swift.String? = nil,
         lastUpdatedTime: ClientRuntime.Date? = nil,
@@ -1253,6 +1342,7 @@ public struct DescribeEdgeConfigurationOutputResponse: Swift.Equatable {
     )
     {
         self.creationTime = creationTime
+        self.edgeAgentStatus = edgeAgentStatus
         self.edgeConfig = edgeConfig
         self.failedStatusDetails = failedStatusDetails
         self.lastUpdatedTime = lastUpdatedTime
@@ -1270,11 +1360,13 @@ struct DescribeEdgeConfigurationOutputResponseBody: Swift.Equatable {
     let syncStatus: KinesisVideoClientTypes.SyncStatus?
     let failedStatusDetails: Swift.String?
     let edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+    let edgeAgentStatus: KinesisVideoClientTypes.EdgeAgentStatus?
 }
 
 extension DescribeEdgeConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
+        case edgeAgentStatus = "EdgeAgentStatus"
         case edgeConfig = "EdgeConfig"
         case failedStatusDetails = "FailedStatusDetails"
         case lastUpdatedTime = "LastUpdatedTime"
@@ -1299,6 +1391,8 @@ extension DescribeEdgeConfigurationOutputResponseBody: Swift.Decodable {
         failedStatusDetails = failedStatusDetailsDecoded
         let edgeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeConfig.self, forKey: .edgeConfig)
         edgeConfig = edgeConfigDecoded
+        let edgeAgentStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeAgentStatus.self, forKey: .edgeAgentStatus)
+        edgeAgentStatus = edgeAgentStatusDecoded
     }
 }
 
@@ -2078,6 +2172,51 @@ extension DeviceStreamLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension KinesisVideoClientTypes.EdgeAgentStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastRecorderStatus = "LastRecorderStatus"
+        case lastUploaderStatus = "LastUploaderStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastRecorderStatus = self.lastRecorderStatus {
+            try encodeContainer.encode(lastRecorderStatus, forKey: .lastRecorderStatus)
+        }
+        if let lastUploaderStatus = self.lastUploaderStatus {
+            try encodeContainer.encode(lastUploaderStatus, forKey: .lastUploaderStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastRecorderStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.LastRecorderStatus.self, forKey: .lastRecorderStatus)
+        lastRecorderStatus = lastRecorderStatusDecoded
+        let lastUploaderStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.LastUploaderStatus.self, forKey: .lastUploaderStatus)
+        lastUploaderStatus = lastUploaderStatusDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// An object that contains the latest status details for an edge agent's recorder and uploader jobs. Use this information to determine the current health of an edge agent.
+    public struct EdgeAgentStatus: Swift.Equatable {
+        /// The latest status of a stream’s edge recording job.
+        public var lastRecorderStatus: KinesisVideoClientTypes.LastRecorderStatus?
+        /// The latest status of a stream’s edge to cloud uploader job.
+        public var lastUploaderStatus: KinesisVideoClientTypes.LastUploaderStatus?
+
+        public init(
+            lastRecorderStatus: KinesisVideoClientTypes.LastRecorderStatus? = nil,
+            lastUploaderStatus: KinesisVideoClientTypes.LastUploaderStatus? = nil
+        )
+        {
+            self.lastRecorderStatus = lastRecorderStatus
+            self.lastUploaderStatus = lastUploaderStatus
+        }
+    }
+
+}
+
 extension KinesisVideoClientTypes.EdgeConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionConfig = "DeletionConfig"
@@ -2606,7 +2745,7 @@ extension KinesisVideoClientTypes.ImageGenerationDestinationConfig: Swift.Codabl
 extension KinesisVideoClientTypes {
     /// The structure that contains the information required to deliver images to a customer.
     public struct ImageGenerationDestinationConfig: Swift.Equatable {
-        /// The AWS Region of the S3 bucket where images will be delivered. This DestinationRegion must match the Region where the stream is located.
+        /// The Amazon Web Services Region of the S3 bucket where images will be delivered. This DestinationRegion must match the Region where the stream is located.
         /// This member is required.
         public var destinationRegion: Swift.String?
         /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
@@ -2819,6 +2958,375 @@ extension InvalidResourceFormatExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension KinesisVideoClientTypes.LastRecorderStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobStatusDetails = "JobStatusDetails"
+        case lastCollectedTime = "LastCollectedTime"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case recorderStatus = "RecorderStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobStatusDetails = self.jobStatusDetails {
+            try encodeContainer.encode(jobStatusDetails, forKey: .jobStatusDetails)
+        }
+        if let lastCollectedTime = self.lastCollectedTime {
+            try encodeContainer.encodeTimestamp(lastCollectedTime, format: .epochSeconds, forKey: .lastCollectedTime)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let recorderStatus = self.recorderStatus {
+            try encodeContainer.encode(recorderStatus.rawValue, forKey: .recorderStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobStatusDetails)
+        jobStatusDetails = jobStatusDetailsDecoded
+        let lastCollectedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastCollectedTime)
+        lastCollectedTime = lastCollectedTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let recorderStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.RecorderStatus.self, forKey: .recorderStatus)
+        recorderStatus = recorderStatusDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The latest status of a stream's edge recording job.
+    public struct LastRecorderStatus: Swift.Equatable {
+        /// A description of a recorder job’s latest status.
+        public var jobStatusDetails: Swift.String?
+        /// The timestamp at which the recorder job was last executed and media stored to local disk.
+        public var lastCollectedTime: ClientRuntime.Date?
+        /// The timestamp at which the recorder status was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The status of the latest recorder job.
+        public var recorderStatus: KinesisVideoClientTypes.RecorderStatus?
+
+        public init(
+            jobStatusDetails: Swift.String? = nil,
+            lastCollectedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            recorderStatus: KinesisVideoClientTypes.RecorderStatus? = nil
+        )
+        {
+            self.jobStatusDetails = jobStatusDetails
+            self.lastCollectedTime = lastCollectedTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.recorderStatus = recorderStatus
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.LastUploaderStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobStatusDetails = "JobStatusDetails"
+        case lastCollectedTime = "LastCollectedTime"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case uploaderStatus = "UploaderStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobStatusDetails = self.jobStatusDetails {
+            try encodeContainer.encode(jobStatusDetails, forKey: .jobStatusDetails)
+        }
+        if let lastCollectedTime = self.lastCollectedTime {
+            try encodeContainer.encodeTimestamp(lastCollectedTime, format: .epochSeconds, forKey: .lastCollectedTime)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let uploaderStatus = self.uploaderStatus {
+            try encodeContainer.encode(uploaderStatus.rawValue, forKey: .uploaderStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobStatusDetails)
+        jobStatusDetails = jobStatusDetailsDecoded
+        let lastCollectedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastCollectedTime)
+        lastCollectedTime = lastCollectedTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let uploaderStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.UploaderStatus.self, forKey: .uploaderStatus)
+        uploaderStatus = uploaderStatusDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The latest status of a stream’s edge to cloud uploader job.
+    public struct LastUploaderStatus: Swift.Equatable {
+        /// A description of an uploader job’s latest status.
+        public var jobStatusDetails: Swift.String?
+        /// The timestamp at which the uploader job was last executed and media collected to the cloud.
+        public var lastCollectedTime: ClientRuntime.Date?
+        /// The timestamp at which the uploader status was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The status of the latest uploader job.
+        public var uploaderStatus: KinesisVideoClientTypes.UploaderStatus?
+
+        public init(
+            jobStatusDetails: Swift.String? = nil,
+            lastCollectedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            uploaderStatus: KinesisVideoClientTypes.UploaderStatus? = nil
+        )
+        {
+            self.jobStatusDetails = jobStatusDetails
+            self.lastCollectedTime = lastCollectedTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.uploaderStatus = uploaderStatus
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case edgeConfig = "EdgeConfig"
+        case failedStatusDetails = "FailedStatusDetails"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+        case syncStatus = "SyncStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let edgeConfig = self.edgeConfig {
+            try encodeContainer.encode(edgeConfig, forKey: .edgeConfig)
+        }
+        if let failedStatusDetails = self.failedStatusDetails {
+            try encodeContainer.encode(failedStatusDetails, forKey: .failedStatusDetails)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+        if let syncStatus = self.syncStatus {
+            try encodeContainer.encode(syncStatus.rawValue, forKey: .syncStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let syncStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.SyncStatus.self, forKey: .syncStatus)
+        syncStatus = syncStatusDecoded
+        let failedStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedStatusDetails)
+        failedStatusDetails = failedStatusDetailsDecoded
+        let edgeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeConfig.self, forKey: .edgeConfig)
+        edgeConfig = edgeConfigDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// A description of a single stream's edge configuration.
+    public struct ListEdgeAgentConfigurationsEdgeConfig: Swift.Equatable {
+        /// The timestamp when the stream first created the edge config.
+        public var creationTime: ClientRuntime.Date?
+        /// A description of the stream's edge configuration that will be used to sync with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+        public var edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+        /// A description of the generated failure status.
+        public var failedStatusDetails: Swift.String?
+        /// The timestamp when the stream last updated the edge config.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public var streamARN: Swift.String?
+        /// The name of the stream.
+        public var streamName: Swift.String?
+        /// The current sync status of the stream's edge configuration.
+        public var syncStatus: KinesisVideoClientTypes.SyncStatus?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
+            failedStatusDetails: Swift.String? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            streamARN: Swift.String? = nil,
+            streamName: Swift.String? = nil,
+            syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.edgeConfig = edgeConfig
+            self.failedStatusDetails = failedStatusDetails
+            self.lastUpdatedTime = lastUpdatedTime
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.syncStatus = syncStatus
+        }
+    }
+
+}
+
+extension ListEdgeAgentConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hubDeviceArn = "HubDeviceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hubDeviceArn = self.hubDeviceArn {
+            try encodeContainer.encode(hubDeviceArn, forKey: .hubDeviceArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListEdgeAgentConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/listEdgeAgentConfigurations"
+    }
+}
+
+public struct ListEdgeAgentConfigurationsInput: Swift.Equatable {
+    /// The "Internet of Things (IoT) Thing" Arn of the edge agent.
+    /// This member is required.
+    public var hubDeviceArn: Swift.String?
+    /// The maximum number of edge configurations to return in the response. The default is 5.
+    public var maxResults: Swift.Int?
+    /// If you specify this parameter, when the result of a ListEdgeAgentConfigurations operation is truncated, the call returns the NextToken in the response. To get another batch of edge configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        hubDeviceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.hubDeviceArn = hubDeviceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEdgeAgentConfigurationsInputBody: Swift.Equatable {
+    let hubDeviceArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListEdgeAgentConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hubDeviceArn = "HubDeviceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hubDeviceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hubDeviceArn)
+        hubDeviceArn = hubDeviceArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListEdgeAgentConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEdgeAgentConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEdgeAgentConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.edgeConfigs = output.edgeConfigs
+            self.nextToken = output.nextToken
+        } else {
+            self.edgeConfigs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEdgeAgentConfigurationsOutputResponse: Swift.Equatable {
+    /// A description of a single stream's edge configuration.
+    public var edgeConfigs: [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]?
+    /// If the response is truncated, the call returns this element with a given token. To get the next batch of edge configurations, use this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        edgeConfigs: [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.edgeConfigs = edgeConfigs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEdgeAgentConfigurationsOutputResponseBody: Swift.Equatable {
+    let edgeConfigs: [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]?
+    let nextToken: Swift.String?
+}
+
+extension ListEdgeAgentConfigurationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case edgeConfigs = "EdgeConfigs"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let edgeConfigsContainer = try containerValues.decodeIfPresent([KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig?].self, forKey: .edgeConfigs)
+        var edgeConfigsDecoded0:[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]? = nil
+        if let edgeConfigsContainer = edgeConfigsContainer {
+            edgeConfigsDecoded0 = [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]()
+            for structure0 in edgeConfigsContainer {
+                if let structure0 = structure0 {
+                    edgeConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        edgeConfigs = edgeConfigsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -3508,7 +4016,7 @@ extension KinesisVideoClientTypes.MediaSourceConfig: Swift.CustomDebugStringConv
 extension KinesisVideoClientTypes {
     /// The configuration details that consist of the credentials required (MediaUriSecretArn and MediaUriType) to access the media files that are streamed to the camera.
     public struct MediaSourceConfig: Swift.Equatable {
-        /// The AWS Secrets Manager ARN for the username and password of the camera, or a local media file location.
+        /// The Amazon Web Services Secrets Manager ARN for the username and password of the camera, or a local media file location.
         /// This member is required.
         public var mediaUriSecretArn: Swift.String?
         /// The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream local media files. Preview only supports the RTSP_URI media source URI format .
@@ -3876,6 +4384,41 @@ extension KinesisVideoClientTypes {
 
 }
 
+extension KinesisVideoClientTypes {
+    public enum RecorderStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case success
+        case systemError
+        case userError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecorderStatus] {
+            return [
+                .success,
+                .systemError,
+                .userError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .success: return "SUCCESS"
+            case .systemError: return "SYSTEM_ERROR"
+            case .userError: return "USER_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecorderStatus(rawValue: rawValue) ?? RecorderStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KinesisVideoClientTypes.ResourceEndpointListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case `protocol` = "Protocol"
@@ -3902,7 +4445,7 @@ extension KinesisVideoClientTypes.ResourceEndpointListItem: Swift.Codable {
 }
 
 extension KinesisVideoClientTypes {
-    /// An object that describes the endpoint of the signaling channel returned by the GetSignalingChannelEndpoint API.
+    /// An object that describes the endpoint of the signaling channel returned by the GetSignalingChannelEndpoint API. The media server endpoint will correspond to the WEBRTC Protocol.
     public struct ResourceEndpointListItem: Swift.Equatable {
         /// The protocol of the signaling channel returned by the GetSignalingChannelEndpoint API.
         public var `protocol`: KinesisVideoClientTypes.ChannelProtocol?
@@ -4063,7 +4606,7 @@ extension KinesisVideoClientTypes.ScheduleConfig: Swift.Codable {
 }
 
 extension KinesisVideoClientTypes {
-    /// This API enables you to specify the duration that the camera, or local media file, should record onto the Edge Agent. The ScheduleConfig consists of the ScheduleExpression and the DurationInMinutes attributes. If the ScheduleExpression is not provided, then the Edge Agent will always be set to recording mode.
+    /// This API enables you to specify the duration that the camera, or local media file, should record onto the Edge Agent. The ScheduleConfig consists of the ScheduleExpression and the DurationInMinutes attributes. If the ScheduleConfig is not provided in the RecorderConfig, then the Edge Agent will always be set to recording mode. If the ScheduleConfig is not provided in the UploaderConfig, then the Edge Agent will upload at regular intervals (every 1 hour).
     public struct ScheduleConfig: Swift.Equatable {
         /// The total duration to record the media. If the ScheduleExpression attribute is provided, then the DurationInSeconds attribute should also be specified.
         /// This member is required.
@@ -4654,6 +5197,7 @@ extension KinesisVideoClientTypes {
         case acknowledged
         case deleteFailed
         case deleting
+        case deletingAcknowledged
         case inSync
         case syncing
         case syncFailed
@@ -4664,6 +5208,7 @@ extension KinesisVideoClientTypes {
                 .acknowledged,
                 .deleteFailed,
                 .deleting,
+                .deletingAcknowledged,
                 .inSync,
                 .syncing,
                 .syncFailed,
@@ -4679,6 +5224,7 @@ extension KinesisVideoClientTypes {
             case .acknowledged: return "ACKNOWLEDGED"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .deletingAcknowledged: return "DELETING_ACKNOWLEDGED"
             case .inSync: return "IN_SYNC"
             case .syncing: return "SYNCING"
             case .syncFailed: return "SYNC_FAILED"
@@ -5887,9 +6433,9 @@ extension KinesisVideoClientTypes.UploaderConfig: Swift.Codable {
 }
 
 extension KinesisVideoClientTypes {
-    /// The configuration that consists of the ScheduleExpression and the DurationInMinutesdetails, that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided, then the Edge Agent will always be in upload mode.
+    /// The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleConfig is not provided in the UploaderConfig, then the Edge Agent will upload at regular intervals (every 1 hour).
     public struct UploaderConfig: Swift.Equatable {
-        /// The configuration that consists of the ScheduleExpression and the DurationInMinutesdetails that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided, then the Edge Agent will always be in recording mode.
+        /// The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleConfig is not provided in this UploaderConfig, then the Edge Agent will upload at regular intervals (every 1 hour).
         /// This member is required.
         public var scheduleConfig: KinesisVideoClientTypes.ScheduleConfig?
 
@@ -5901,6 +6447,41 @@ extension KinesisVideoClientTypes {
         }
     }
 
+}
+
+extension KinesisVideoClientTypes {
+    public enum UploaderStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case success
+        case systemError
+        case userError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UploaderStatus] {
+            return [
+                .success,
+                .systemError,
+                .userError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .success: return "SUCCESS"
+            case .systemError: return "SYSTEM_ERROR"
+            case .userError: return "USER_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UploaderStatus(rawValue: rawValue) ?? UploaderStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension VersionMismatchException {

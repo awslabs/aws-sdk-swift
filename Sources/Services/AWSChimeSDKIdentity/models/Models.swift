@@ -614,7 +614,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppInstanceUserEndpoint(allowMessages: \(Swift.String(describing: allowMessages)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), endpointState: \(Swift.String(describing: endpointState)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), resourceArn: \(Swift.String(describing: resourceArn)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AppInstanceUserEndpoint(allowMessages: \(Swift.String(describing: allowMessages)), appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), endpointId: \(Swift.String(describing: endpointId)), endpointState: \(Swift.String(describing: endpointState)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), resourceArn: \(Swift.String(describing: resourceArn)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKIdentityClientTypes {
@@ -728,7 +728,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary: Swift.Coda
 
 extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppInstanceUserEndpointSummary(allowMessages: \(Swift.String(describing: allowMessages)), endpointState: \(Swift.String(describing: endpointState)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AppInstanceUserEndpointSummary(allowMessages: \(Swift.String(describing: allowMessages)), appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), endpointId: \(Swift.String(describing: endpointId)), endpointState: \(Swift.String(describing: endpointState)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKIdentityClientTypes {
@@ -1971,11 +1971,6 @@ public struct DeleteAppInstanceUserOutputResponse: Swift.Equatable {
     public init() { }
 }
 
-extension DeregisterAppInstanceUserEndpointInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "DeregisterAppInstanceUserEndpointInput(appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\")"}
-}
-
 extension DeregisterAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let appInstanceUserArn = appInstanceUserArn else {
@@ -2309,11 +2304,6 @@ extension DescribeAppInstanceOutputResponseBody: Swift.Decodable {
         let appInstanceDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstance.self, forKey: .appInstance)
         appInstance = appInstanceDecoded
     }
-}
-
-extension DescribeAppInstanceUserEndpointInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "DescribeAppInstanceUserEndpointInput(appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
@@ -3025,8 +3015,68 @@ extension ChimeSDKIdentityClientTypes {
 
 }
 
+extension ChimeSDKIdentityClientTypes.InvokedBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardMessages = "StandardMessages"
+        case targetedMessages = "TargetedMessages"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let standardMessages = self.standardMessages {
+            try encodeContainer.encode(standardMessages.rawValue, forKey: .standardMessages)
+        }
+        if let targetedMessages = self.targetedMessages {
+            try encodeContainer.encode(targetedMessages.rawValue, forKey: .targetedMessages)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardMessagesDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.StandardMessages.self, forKey: .standardMessages)
+        standardMessages = standardMessagesDecoded
+        let targetedMessagesDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.TargetedMessages.self, forKey: .targetedMessages)
+        targetedMessages = targetedMessagesDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// Specifies the type of message that triggers a bot.
+    public struct InvokedBy: Swift.Equatable {
+        /// Sets standard messages as the bot trigger. For standard messages:
+        ///
+        /// * ALL: The bot processes all standard messages.
+        ///
+        /// * AUTO: The bot responds to ALL messages when the channel has one other non-hidden member, and responds to MENTIONS when the channel has more than one other non-hidden member.
+        ///
+        /// * MENTIONS: The bot processes all standard messages that have a message attribute with CHIME.mentions and a value of the bot ARN.
+        ///
+        /// * NONE: The bot processes no standard messages.
+        /// This member is required.
+        public var standardMessages: ChimeSDKIdentityClientTypes.StandardMessages?
+        /// Sets targeted messages as the bot trigger. For targeted messages:
+        ///
+        /// * ALL: The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender.
+        ///
+        /// * NONE: The bot processes no targeted messages.
+        /// This member is required.
+        public var targetedMessages: ChimeSDKIdentityClientTypes.TargetedMessages?
+
+        public init(
+            standardMessages: ChimeSDKIdentityClientTypes.StandardMessages? = nil,
+            targetedMessages: ChimeSDKIdentityClientTypes.TargetedMessages? = nil
+        )
+        {
+            self.standardMessages = standardMessages
+            self.targetedMessages = targetedMessages
+        }
+    }
+
+}
+
 extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invokedBy = "InvokedBy"
         case lexBotAliasArn = "LexBotAliasArn"
         case localeId = "LocaleId"
         case respondsTo = "RespondsTo"
@@ -3035,6 +3085,9 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let invokedBy = self.invokedBy {
+            try encodeContainer.encode(invokedBy, forKey: .invokedBy)
+        }
         if let lexBotAliasArn = self.lexBotAliasArn {
             try encodeContainer.encode(lexBotAliasArn, forKey: .lexBotAliasArn)
         }
@@ -3053,6 +3106,8 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let respondsToDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.RespondsTo.self, forKey: .respondsTo)
         respondsTo = respondsToDecoded
+        let invokedByDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.InvokedBy.self, forKey: .invokedBy)
+        invokedBy = invokedByDecoded
         let lexBotAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lexBotAliasArn)
         lexBotAliasArn = lexBotAliasArnDecoded
         let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
@@ -3065,25 +3120,28 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
 extension ChimeSDKIdentityClientTypes {
     /// The configuration for an Amazon Lex V2 bot.
     public struct LexConfiguration: Swift.Equatable {
+        /// Specifies the type of message that triggers a bot.
+        public var invokedBy: ChimeSDKIdentityClientTypes.InvokedBy?
         /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS
         /// This member is required.
         public var lexBotAliasArn: Swift.String?
         /// Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html) in the Amazon Lex V2 Developer Guide.
         /// This member is required.
         public var localeId: Swift.String?
-        /// Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
-        /// This member is required.
+        /// Deprecated. Use InvokedBy instead. Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
         public var respondsTo: ChimeSDKIdentityClientTypes.RespondsTo?
         /// The name of the welcome intent configured in the Amazon Lex V2 bot.
         public var welcomeIntent: Swift.String?
 
         public init(
+            invokedBy: ChimeSDKIdentityClientTypes.InvokedBy? = nil,
             lexBotAliasArn: Swift.String? = nil,
             localeId: Swift.String? = nil,
             respondsTo: ChimeSDKIdentityClientTypes.RespondsTo? = nil,
             welcomeIntent: Swift.String? = nil
         )
         {
+            self.invokedBy = invokedBy
             self.lexBotAliasArn = lexBotAliasArn
             self.localeId = localeId
             self.respondsTo = respondsTo
@@ -4395,11 +4453,6 @@ public enum RegisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension RegisterAppInstanceUserEndpointOutputResponse: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RegisterAppInstanceUserEndpointOutputResponse(appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\")"}
-}
-
 extension RegisterAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4671,6 +4724,44 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+extension ChimeSDKIdentityClientTypes {
+    public enum StandardMessages: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case auto
+        case mentions
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandardMessages] {
+            return [
+                .all,
+                .auto,
+                .mentions,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .auto: return "AUTO"
+            case .mentions: return "MENTIONS"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StandardMessages(rawValue: rawValue) ?? StandardMessages.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKIdentityClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -4831,6 +4922,38 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct TagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    public enum TargetedMessages: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetedMessages] {
+            return [
+                .all,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetedMessages(rawValue: rawValue) ?? TargetedMessages.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ThrottledClientException {
@@ -5072,17 +5195,21 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateAppInstanceBotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAppInstanceBotInput(appInstanceBotArn: \(Swift.String(describing: appInstanceBotArn)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateAppInstanceBotInput(appInstanceBotArn: \(Swift.String(describing: appInstanceBotArn)), configuration: \(Swift.String(describing: configuration)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAppInstanceBotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration = "Configuration"
         case metadata = "Metadata"
         case name = "Name"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
         if let metadata = self.metadata {
             try encodeContainer.encode(metadata, forKey: .metadata)
         }
@@ -5105,6 +5232,8 @@ public struct UpdateAppInstanceBotInput: Swift.Equatable {
     /// The ARN of the AppInstanceBot.
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
+    /// The configuration for the bot update.
+    public var configuration: ChimeSDKIdentityClientTypes.Configuration?
     /// The metadata of the AppInstanceBot.
     /// This member is required.
     public var metadata: Swift.String?
@@ -5114,11 +5243,13 @@ public struct UpdateAppInstanceBotInput: Swift.Equatable {
 
     public init(
         appInstanceBotArn: Swift.String? = nil,
+        configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
     )
     {
         self.appInstanceBotArn = appInstanceBotArn
+        self.configuration = configuration
         self.metadata = metadata
         self.name = name
     }
@@ -5127,10 +5258,12 @@ public struct UpdateAppInstanceBotInput: Swift.Equatable {
 struct UpdateAppInstanceBotInputBody: Swift.Equatable {
     let name: Swift.String?
     let metadata: Swift.String?
+    let configuration: ChimeSDKIdentityClientTypes.Configuration?
 }
 
 extension UpdateAppInstanceBotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration = "Configuration"
         case metadata = "Metadata"
         case name = "Name"
     }
@@ -5141,6 +5274,8 @@ extension UpdateAppInstanceBotInputBody: Swift.Decodable {
         name = nameDecoded
         let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
         metadata = metadataDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Configuration.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -5335,7 +5470,7 @@ extension UpdateAppInstanceOutputResponseBody: Swift.Decodable {
 
 extension UpdateAppInstanceUserEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAppInstanceUserEndpointInput(allowMessages: \(Swift.String(describing: allowMessages)), appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateAppInstanceUserEndpointInput(allowMessages: \(Swift.String(describing: allowMessages)), appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), endpointId: \(Swift.String(describing: endpointId)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAppInstanceUserEndpointInput: Swift.Encodable {
@@ -5428,11 +5563,6 @@ public enum UpdateAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateAppInstanceUserEndpointOutputResponse: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateAppInstanceUserEndpointOutputResponse(appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAppInstanceUserEndpointOutputResponse: ClientRuntime.HttpResponseBinding {

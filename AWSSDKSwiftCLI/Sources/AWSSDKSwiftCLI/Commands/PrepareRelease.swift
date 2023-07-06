@@ -73,8 +73,7 @@ struct PrepareRelease {
         try tagVersion(newVersion)
         try generateReleaseManifest(
             newVersion: newVersion,
-            previousVersion: previousVersion,
-            sourceCodeArtifactId: sourceCodeArtifactId
+            previousVersion: previousVersion
         )
         try gitStatus()
     }
@@ -168,8 +167,7 @@ struct PrepareRelease {
     ///   - sourceCodeArtifactId: The artifactId for the source code
     func generateReleaseManifest(
         newVersion: Version,
-        previousVersion: Version,
-        sourceCodeArtifactId: String
+        previousVersion: Version
     ) throws {
         let commits = try Process.git.listOfCommitsBetween("HEAD", "\(previousVersion)")
         
@@ -184,9 +182,7 @@ struct PrepareRelease {
             name: "\(newVersion)",
             tagName: "\(newVersion)",
             body: releaseNotes,
-            assets: [
-                .init(artifactId: sourceCodeArtifactId, name: "Source code")
-            ]
+            assets: []
         )
         
         let jsonData = try JSONEncoder().encode(manifest)
