@@ -14,10 +14,6 @@ typealias CRTCredentialsProvider = AwsCommonRuntimeKit.CredentialsProvider
 struct CredentialsProvidingCRTAdapter: CRTCredentialsProviding {
     let credentialsProvider: CredentialsProviding
 
-    init(credentialsProvider: CredentialsProviding) {
-        self.credentialsProvider = credentialsProvider
-    }
-
     func getCredentials() async throws -> CRTCredentials {
         let credentials = try await credentialsProvider.getCredentials()
         return try .init(credentials: credentials)
