@@ -16,8 +16,12 @@ public enum RetryConfig {
     ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
     ///   - fileBasedConfig: The file-based config from which to load configuration, if needed.
     /// - Returns: The retry mode that was resolved.
-    static func retryMode(configValue: AWSRetryMode?, profileName: String?, fileBasedConfig: FileBasedConfiguration) -> AWSRetryMode {
-        FieldConfigurer(
+    static func retryMode(
+        configValue: AWSRetryMode?,
+        profileName: String?,
+        fileBasedConfig: FileBasedConfiguration
+    ) -> AWSRetryMode {
+        return FieldConfigurer(
             configValue: configValue,
             envVarName: "AWS_RETRY_MODE",
             configFieldName: "retry_mode",
@@ -35,8 +39,12 @@ public enum RetryConfig {
     ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
     ///   - fileBasedConfig: The file-based config from which to load configuration, if needed.
     /// - Returns: The max attempts that was resolved.
-    static func maxAttempts(configValue: Int?, profileName: String?, fileBasedConfig: FileBasedConfiguration) -> Int {
-        FieldConfigurer(
+    static func maxAttempts(
+        configValue: Int?,
+        profileName: String?,
+        fileBasedConfig: FileBasedConfiguration
+    ) -> Int {
+        return FieldConfigurer(
             configValue: configValue,
             envVarName: "AWS_MAX_ATTEMPTS",
             configFieldName: "max_attempts",

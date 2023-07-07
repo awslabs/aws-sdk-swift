@@ -164,7 +164,12 @@ extension AWSClientConfiguration {
         } else {
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
-        let retryStrategyOptions = Self.retryStrategyOptions(retryMode: retryMode, maxAttempts: maxAttempts, profileName: nil, fileBasedConfig: fileBasedConfig)
+        let retryStrategyOptions = Self.retryStrategyOptions(
+            retryMode: retryMode,
+            maxAttempts: maxAttempts,
+            profileName: nil,
+            fileBasedConfig: fileBasedConfig
+        )
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -197,7 +202,12 @@ extension AWSClientConfiguration {
         } else {
             resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
         }
-        let retryStrategyOptions = Self.retryStrategyOptions(retryMode: retryMode, maxAttempts: maxAttempts, profileName: nil, fileBasedConfig: fileBasedConfig)
+        let retryStrategyOptions = Self.retryStrategyOptions(
+            retryMode: retryMode,
+            maxAttempts: maxAttempts,
+            profileName: nil,
+            fileBasedConfig: fileBasedConfig
+        )
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -215,9 +225,22 @@ extension AWSClientConfiguration {
         return "\(serviceSpecific.clientName) - \(region ?? "")"
     }
 
-    private static func retryStrategyOptions(retryMode: AWSRetryMode?, maxAttempts: Int?, profileName: String?, fileBasedConfig: FileBasedConfiguration) -> RetryStrategyOptions {
-        let resolvedRetryMode = RetryConfig.retryMode(configValue: retryMode, profileName: profileName, fileBasedConfig: fileBasedConfig)
-        let resolvedMaxAttempts = RetryConfig.maxAttempts(configValue: maxAttempts, profileName: profileName, fileBasedConfig: fileBasedConfig)
+    private static func retryStrategyOptions(
+        retryMode: AWSRetryMode?,
+        maxAttempts: Int?,
+        profileName: String?,
+        fileBasedConfig: FileBasedConfiguration
+    ) -> RetryStrategyOptions {
+        let resolvedRetryMode = RetryConfig.retryMode(
+            configValue: retryMode,
+            profileName: profileName,
+            fileBasedConfig: fileBasedConfig
+        )
+        let resolvedMaxAttempts = RetryConfig.maxAttempts(
+            configValue: maxAttempts,
+            profileName: profileName,
+            fileBasedConfig: fileBasedConfig
+        )
         let resolvedRateLimitingMode: RetryStrategyOptions.RateLimitingMode
         switch resolvedRetryMode {
         case .legacy, .standard:
