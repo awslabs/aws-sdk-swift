@@ -24,7 +24,7 @@ struct PrepareReleaseCommand: ParsableCommand {
     @Argument(help: "The path to the git repository.")
     var repoPath: String
     
-    @Argument(help: "The artifactId for the source code")
+    @Argument(help: "The artifactId for the source code.  Ignored, will be removed in a future release.")
     var sourceCodeArtifactId: String
     
     func run() throws {
