@@ -7,10 +7,9 @@
 
 import struct ClientRuntime.RetryStrategyOptions
 
-@_spi(FileBasedConfig)
-public enum RetryConfig {
+enum AWSRetryConfig {
 
-    /// Determines the retry mode to be used from the given config.  If none can be determined, `standard` will be used as a default.
+    /// Determines the retry mode to be used from the given config.  If none can be determined, `legacy` will be used as a default.
     /// - Parameters:
     ///   - configValue: The retry mode passed at client construction, or `nil` if none was passed.
     ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
@@ -21,14 +20,14 @@ public enum RetryConfig {
         profileName: String?,
         fileBasedConfig: FileBasedConfiguration
     ) -> AWSRetryMode {
-        return FieldConfigurer(
+        return FieldResolver(
             configValue: configValue,
             envVarName: "AWS_RETRY_MODE",
             configFieldName: "retry_mode",
             fileBasedConfig: fileBasedConfig,
             profileName: profileName,
             converter: { AWSRetryMode(rawValue: $0) }
-        ).value ?? .standard
+        ).value ?? .legacy
     }
 
     /// Determines the max attempts (for retry purposes) to be used from the given config.  If none can be determined, `3` will be used as a default.
@@ -44,7 +43,7 @@ public enum RetryConfig {
         profileName: String?,
         fileBasedConfig: FileBasedConfiguration
     ) -> Int {
-        return FieldConfigurer(
+        return FieldResolver(
             configValue: configValue,
             envVarName: "AWS_MAX_ATTEMPTS",
             configFieldName: "max_attempts",

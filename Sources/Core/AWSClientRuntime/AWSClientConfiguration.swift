@@ -92,7 +92,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 
     /// Internal designated init
     /// All convenience inits should call this.
-    init(
+    private init(
         // these params have no labels to distinguish this init from the similar convenience inits below
         _ credentialsProvider: AWSClientRuntime.CredentialsProviding,
         _ endpoint: Swift.String?,
@@ -231,12 +231,12 @@ extension AWSClientConfiguration {
         profileName: String?,
         fileBasedConfig: FileBasedConfiguration
     ) -> RetryStrategyOptions {
-        let resolvedRetryMode = RetryConfig.retryMode(
+        let resolvedRetryMode = AWSRetryConfig.retryMode(
             configValue: retryMode,
             profileName: profileName,
             fileBasedConfig: fileBasedConfig
         )
-        let resolvedMaxAttempts = RetryConfig.maxAttempts(
+        let resolvedMaxAttempts = AWSRetryConfig.maxAttempts(
             configValue: maxAttempts,
             profileName: profileName,
             fileBasedConfig: fileBasedConfig

@@ -8,7 +8,7 @@
 import class Foundation.ProcessInfo
 
 /// Resolves a configuration field for an AWS SDK feature.
-struct FieldConfigurer<T> {
+struct FieldResolver<T> {
     let configValue: T?
     let envVarName: String?
     let configFieldName: String?
