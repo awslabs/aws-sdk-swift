@@ -37,7 +37,7 @@ struct FieldResolver<T> {
     /// - If `configValue` is provided, it is used.
     /// - If an environment var named `envVarName` is set, its value is used to create a value.
     /// - If a config field is set in the config file for the current profile, its value is used to create a value.
-    /// - Finally, if none of the above yield a value, the default value is used.
+    /// - Finally, if none of the above yield a value, `nil` is returned.
     var value: T? {
         let env = ProcessInfo.processInfo.environment
         if let value = configValue {
