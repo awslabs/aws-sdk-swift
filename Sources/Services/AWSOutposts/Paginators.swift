@@ -24,6 +24,15 @@ extension GetOutpostInstanceTypesInput: ClientRuntime.PaginateToken {
             outpostId: self.outpostId
         )}
 }
+
+extension PaginatorSequence where Input == GetOutpostInstanceTypesInput, Output == GetOutpostInstanceTypesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getOutpostInstanceTypesPaginated`
+    /// to access the nested member `[OutpostsClientTypes.InstanceTypeItem]`
+    /// - Returns: `[OutpostsClientTypes.InstanceTypeItem]`
+    public func instanceTypes() async throws -> [OutpostsClientTypes.InstanceTypeItem] {
+        return try await self.asyncCompactMap { item in item.instanceTypes }
+    }
+}
 extension OutpostsClient {
     /// Paginate over `[ListAssetsOutputResponse]` results.
     ///
@@ -47,6 +56,15 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
             outpostIdentifier: self.outpostIdentifier,
             statusFilter: self.statusFilter
         )}
+}
+
+extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
+    /// to access the nested member `[OutpostsClientTypes.AssetInfo]`
+    /// - Returns: `[OutpostsClientTypes.AssetInfo]`
+    public func assets() async throws -> [OutpostsClientTypes.AssetInfo] {
+        return try await self.asyncCompactMap { item in item.assets }
+    }
 }
 extension OutpostsClient {
     /// Paginate over `[ListCatalogItemsOutputResponse]` results.
@@ -72,6 +90,15 @@ extension ListCatalogItemsInput: ClientRuntime.PaginateToken {
             supportedStorageFilter: self.supportedStorageFilter
         )}
 }
+
+extension PaginatorSequence where Input == ListCatalogItemsInput, Output == ListCatalogItemsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCatalogItemsPaginated`
+    /// to access the nested member `[OutpostsClientTypes.CatalogItem]`
+    /// - Returns: `[OutpostsClientTypes.CatalogItem]`
+    public func catalogItems() async throws -> [OutpostsClientTypes.CatalogItem] {
+        return try await self.asyncCompactMap { item in item.catalogItems }
+    }
+}
 extension OutpostsClient {
     /// Paginate over `[ListOrdersOutputResponse]` results.
     ///
@@ -93,6 +120,15 @@ extension ListOrdersInput: ClientRuntime.PaginateToken {
             nextToken: token,
             outpostIdentifierFilter: self.outpostIdentifierFilter
         )}
+}
+
+extension PaginatorSequence where Input == ListOrdersInput, Output == ListOrdersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOrdersPaginated`
+    /// to access the nested member `[OutpostsClientTypes.OrderSummary]`
+    /// - Returns: `[OutpostsClientTypes.OrderSummary]`
+    public func orders() async throws -> [OutpostsClientTypes.OrderSummary] {
+        return try await self.asyncCompactMap { item in item.orders }
+    }
 }
 extension OutpostsClient {
     /// Paginate over `[ListOutpostsOutputResponse]` results.
@@ -118,6 +154,15 @@ extension ListOutpostsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListOutpostsInput, Output == ListOutpostsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOutpostsPaginated`
+    /// to access the nested member `[OutpostsClientTypes.Outpost]`
+    /// - Returns: `[OutpostsClientTypes.Outpost]`
+    public func outposts() async throws -> [OutpostsClientTypes.Outpost] {
+        return try await self.asyncCompactMap { item in item.outposts }
+    }
+}
 extension OutpostsClient {
     /// Paginate over `[ListSitesOutputResponse]` results.
     ///
@@ -141,4 +186,13 @@ extension ListSitesInput: ClientRuntime.PaginateToken {
             operatingAddressCountryCodeFilter: self.operatingAddressCountryCodeFilter,
             operatingAddressStateOrRegionFilter: self.operatingAddressStateOrRegionFilter
         )}
+}
+
+extension PaginatorSequence where Input == ListSitesInput, Output == ListSitesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSitesPaginated`
+    /// to access the nested member `[OutpostsClientTypes.Site]`
+    /// - Returns: `[OutpostsClientTypes.Site]`
+    public func sites() async throws -> [OutpostsClientTypes.Site] {
+        return try await self.asyncCompactMap { item in item.sites }
+    }
 }

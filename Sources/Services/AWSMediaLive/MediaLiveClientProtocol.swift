@@ -48,6 +48,8 @@ public protocol MediaLiveClientProtocol {
     func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutputResponse
     /// Removes tags for a resource
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
+    /// Get account configuration
+    func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutputResponse
     /// Gets details about a channel
     func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
     /// Produces details about an input
@@ -68,6 +70,8 @@ public protocol MediaLiveClientProtocol {
     func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutputResponse
     /// Get a channel schedule
     func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutputResponse
+    /// Describe the latest thumbnails data.
+    func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutputResponse
     /// Produces list of channels that have been created
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     /// List input devices
@@ -106,6 +110,8 @@ public protocol MediaLiveClientProtocol {
     func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutputResponse
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutputResponse
+    /// Update account configuration
+    func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutputResponse
     /// Updates a channel.
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     /// Changes the class of the channel.

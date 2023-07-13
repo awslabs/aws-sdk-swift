@@ -6644,14 +6644,14 @@ extension CreateDBInstanceInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct CreateDBInstanceInput: Swift.Equatable {
-    /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume. Amazon RDS Custom RDS for MariaDB RDS for MySQL RDS for Oracle RDS for PostgreSQL RDS for SQL Server Constraints to the amount of storage for each storage type are the following:
+    /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume. Amazon RDS Custom Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
     ///
     /// * Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
     ///
     ///
-    /// Constraints to the amount of storage for each storage type are the following:
+    /// RDS for MariaDB Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
@@ -6660,7 +6660,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
     ///
-    /// Constraints to the amount of storage for each storage type are the following:
+    /// RDS for MySQL Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
@@ -6669,7 +6669,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
     ///
-    /// Constraints to the amount of storage for each storage type are the following:
+    /// RDS for Oracle Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
@@ -6678,7 +6678,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Magnetic storage (standard): Must be an integer from 10 to 3072.
     ///
     ///
-    /// Constraints to the amount of storage for each storage type are the following:
+    /// RDS for PostgreSQL Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
@@ -6687,7 +6687,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
     ///
-    /// Constraints to the amount of storage for each storage type are the following:
+    /// RDS for SQL Server Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3):
     ///
@@ -6749,7 +6749,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * RDS Custom - However, if you need to change the character set, you can change it on the database itself.
     public var characterSetName: Swift.String?
-    /// Spcifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
+    /// Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. This setting is required for RDS Custom. Constraints:
     ///
@@ -6779,14 +6779,14 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// Example: mydbinstance
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The meaning of this parameter differs depending on the database engine. Amazon Aurora MySQL Amazon Aurora PostgreSQL Amazon RDS Custom for Oracle Amazon RDS Custom for SQL Server RDS for MariaDB RDS for MySQL RDS for Oracle RDS for PostgreSQL RDS for SQL Server The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB cluster. Constraints:
+    /// The meaning of this parameter differs depending on the database engine. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB cluster. Constraints:
     ///
     /// * Must contain 1 to 64 alphanumeric characters.
     ///
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. Default: postgres Constraints:
+    /// Amazon Aurora PostgreSQL The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. Default: postgres Constraints:
     ///
     /// * Must contain 1 to 63 alphanumeric characters.
     ///
@@ -6795,7 +6795,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// The Oracle System ID (SID) of the created RDS Custom DB instance. Default: ORCL Constraints:
+    /// Amazon RDS Custom for Oracle The Oracle System ID (SID) of the created RDS Custom DB instance. Default: ORCL Constraints:
     ///
     /// * Must contain 1 to 8 alphanumeric characters.
     ///
@@ -6804,7 +6804,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// Not applicable. Must be null. The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:
+    /// Amazon RDS Custom for SQL Server Not applicable. Must be null. RDS for MariaDB The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:
     ///
     /// * Must contain 1 to 64 letters or numbers.
     ///
@@ -6813,7 +6813,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:
+    /// RDS for MySQL The name of the database to create when the DB instance is created. If you don't specify a value, Amazon RDS doesn't create a database in the DB instance. Constraints:
     ///
     /// * Must contain 1 to 64 letters or numbers.
     ///
@@ -6822,14 +6822,14 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// The Oracle System ID (SID) of the created DB instance. Default: ORCL Constraints:
+    /// RDS for Oracle The Oracle System ID (SID) of the created DB instance. Default: ORCL Constraints:
     ///
     /// * Can't be longer than 8 characters.
     ///
     /// * Can't be a word reserved by the database engine, such as the string NULL.
     ///
     ///
-    /// The name of the database to create when the DB instance is created. Default: postgres Constraints:
+    /// RDS for PostgreSQL The name of the database to create when the DB instance is created. Default: postgres Constraints:
     ///
     /// * Must contain 1 to 63 letters, numbers, or underscores.
     ///
@@ -6838,7 +6838,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// Not applicable. Must be null.
+    /// RDS for SQL Server Not applicable. Must be null.
     public var dbName: Swift.String?
     /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value, then Amazon RDS uses the default DB parameter group for the specified DB engine and version. This setting doesn't apply to RDS Custom DB instances. Constraints:
     ///
@@ -6867,7 +6867,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * RDS Custom
     public var domain: Swift.String?
-    /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+    /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
     public var domainAuthSecretArn: Swift.String?
     /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:
     ///
@@ -6876,9 +6876,9 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// Example: 123.124.125.126,234.235.236.237
     public var domainDnsIps: [Swift.String]?
-    /// Specifies the fully qualified domain name of an Active Directory domain. Constraints:
+    /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: mymanagedADtest.mymanagedAD.mydomain
@@ -6893,7 +6893,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
@@ -6966,7 +6966,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle Amazon RDS Custom for SQL Server RDS for MariaDB RDS for Microsoft SQL Server RDS for MySQL RDS for Oracle RDS for PostgreSQL A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
+    /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints:
     ///
@@ -7914,7 +7914,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var domain: Swift.String?
-    /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+    /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
     public var domainAuthSecretArn: Swift.String?
     /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:
     ///
@@ -7923,9 +7923,9 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     ///
     /// Example: 123.124.125.126,234.235.236.237
     public var domainDnsIps: [Swift.String]?
-    /// Specifies the fully qualified domain name of an Active Directory domain. Constraints:
+    /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: mymanagedADtest.mymanagedAD.mydomain
@@ -7936,7 +7936,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
@@ -10038,19 +10038,35 @@ extension CreateGlobalClusterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateGlobalClusterInput: Swift.Equatable {
-    /// The name for your database of up to 64 alphanumeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating.
+    /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints:
+    ///
+    /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the database name from the source DB cluster.
     public var databaseName: Swift.String?
-    /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
+    /// Specifies whether to enable deletion protection for the new global database cluster. The global database can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
-    /// The name of the database engine to be used for this DB cluster.
+    /// The database engine to use for this global database cluster. Valid Values: aurora-mysql | aurora-postgresql Constraints:
+    ///
+    /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
     public var engine: Swift.String?
-    /// The engine version of the Aurora global database.
+    /// The engine version to use for this global database cluster. Constraints:
+    ///
+    /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
     public var engineVersion: Swift.String?
-    /// The cluster identifier of the new global database cluster. This parameter is stored as a lowercase string.
+    /// The cluster identifier for this global database cluster. This parameter is stored as a lowercase string.
     public var globalClusterIdentifier: Swift.String?
-    /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional.
+    /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. If you provide a value for this parameter, don't specify values for the following settings because Amazon Aurora uses the values from the specified source DB cluster:
+    ///
+    /// * DatabaseName
+    ///
+    /// * Engine
+    ///
+    /// * EngineVersion
+    ///
+    /// * StorageEncrypted
     public var sourceDBClusterIdentifier: Swift.String?
-    /// The storage encryption setting for the new global database cluster.
+    /// Specifies whether to enable storage encryption for the new global database cluster. Constraints:
+    ///
+    /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
     public var storageEncrypted: Swift.Bool?
 
     public init(
@@ -29525,17 +29541,17 @@ extension RDSClientTypes.DomainMembership: Swift.Codable {
 extension RDSClientTypes {
     /// An Active Directory Domain membership record associated with the DB instance or cluster.
     public struct DomainMembership: Swift.Equatable {
-        /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join.
+        /// The ARN for the Secrets Manager secret with the credentials for the user that's a member of the domain.
         public var authSecretArn: Swift.String?
-        /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers.
+        /// The IPv4 DNS IP addresses of the primary and secondary Active Directory domain controllers.
         public var dnsIps: [Swift.String]?
         /// The identifier of the Active Directory Domain.
         public var domain: Swift.String?
         /// The fully qualified domain name (FQDN) of the Active Directory Domain.
         public var fqdn: Swift.String?
-        /// The name of the IAM role to be used when making API calls to the Directory Service.
+        /// The name of the IAM role used when making API calls to the Directory Service.
         public var iamRoleName: Swift.String?
-        /// The Active Directory organizational unit for your DB instance to join.
+        /// The Active Directory organizational unit for the DB instance or cluster.
         public var ou: Swift.String?
         /// The status of the Active Directory Domain membership for the DB instance or cluster. Values include joined, pending-join, failed, and so on.
         public var status: Swift.String?
@@ -36580,11 +36596,11 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var dbSubnetGroupName: Swift.String?
     /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
-    /// Boolean. If present, removes the instance from the Active Directory domain.
+    /// Specifies whether to remove the DB instance from the Active Directory domain.
     public var disableDomain: Swift.Bool?
     /// The Active Directory directory ID to move the DB instance to. Specify none to remove the instance from its current domain. You must create the domain before this operation. Currently, you can create only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
     public var domain: Swift.String?
-    /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+    /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
     public var domainAuthSecretArn: Swift.String?
     /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:
     ///
@@ -36593,9 +36609,9 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// Example: 123.124.125.126,234.235.236.237
     public var domainDnsIps: [Swift.String]?
-    /// Specifies the fully qualified domain name of an Active Directory domain. Constraints:
+    /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: mymanagedADtest.mymanagedAD.mydomain
@@ -36606,7 +36622,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
@@ -46128,7 +46144,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// Specify the Active Directory directory ID to restore the DB instance in. The domain/ must be created prior to this operation. Currently, you can create only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var domain: Swift.String?
-    /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join. Constraints: Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
+    /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints: Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
     public var domainAuthSecretArn: Swift.String?
     /// The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:
     ///
@@ -46137,20 +46153,20 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// Example: 123.124.125.126,234.235.236.237
     public var domainDnsIps: [Swift.String]?
-    /// Specifies the fully qualified domain name of an Active Directory domain. Constraints:
+    /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: mymanagedADtest.mymanagedAD.mydomain
     public var domainFqdn: Swift.String?
-    /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
+    /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
     public var domainIAMRoleName: Swift.String?
     /// The Active Directory organizational unit for your DB instance to join. Constraints:
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
@@ -47692,9 +47708,9 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// Specify the Active Directory directory ID to restore the DB instance in. Create the domain before running this command. Currently, you can create only the MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. This setting doesn't apply to RDS Custom. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide.
     public var domain: Swift.String?
-    /// The ARN for the Secrets Manager secret that contains the credentials for the user performing the domain join. Constraints:
+    /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
@@ -47706,20 +47722,20 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     ///
     /// Example: 123.124.125.126,234.235.236.237
     public var domainDnsIps: [Swift.String]?
-    /// Specifies the fully qualified domain name of an Active Directory domain. Constraints:
+    /// The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: mymanagedADtest.mymanagedAD.mydomain
     public var domainFqdn: Swift.String?
-    /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
+    /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
     public var domainIAMRoleName: Swift.String?
     /// The Active Directory organizational unit for your DB instance to join. Constraints:
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Cannot be greater than 64 characters.
+    /// * Can't be longer than 64 characters.
     ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain

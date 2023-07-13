@@ -1014,7 +1014,7 @@ extension SecurityHubClientTypes {
     public struct AutomationRulesAction: Swift.Equatable {
         /// Specifies that the automation rule action is an update to a finding field.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
-        /// Specifies that the rule action should update the Types finding field. The Types finding field provides one or more finding types in the format of namespace/category/classifier that classify a finding. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
+        /// Specifies that the rule action should update the Types finding field. The Types finding field classifies findings in the format of namespace/category/classifier. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
         public var type: SecurityHubClientTypes.AutomationRulesActionType?
 
         public init(
@@ -1158,11 +1158,11 @@ extension SecurityHubClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
-        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding.  The default value of this field is false.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) of a rule.
         public var ruleArn: Swift.String?
@@ -1170,7 +1170,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to >ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created.
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public var updatedAt: ClientRuntime.Date?
@@ -1309,23 +1309,23 @@ extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codab
 }
 
 extension SecurityHubClientTypes {
-    /// Identifies the finding fields that the automation rule action will update when a finding matches the defined criteria.
+    /// Identifies the finding fields that the automation rule action updates when a finding matches the defined criteria.
     public struct AutomationRulesFindingFieldsUpdate: Swift.Equatable {
-        /// The rule action will update the Confidence field of a finding.
+        /// The rule action updates the Confidence field of a finding.
         public var confidence: Swift.Int
-        /// The rule action will update the Criticality field of a finding.
+        /// The rule action updates the Criticality field of a finding.
         public var criticality: Swift.Int
         /// The updated note.
         public var note: SecurityHubClientTypes.NoteUpdate?
-        /// A list of findings that are related to a finding.
+        /// The rule action updates the RelatedFindings field of a finding.
         public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
         /// Updates to the severity information for a finding.
         public var severity: SecurityHubClientTypes.SeverityUpdate?
-        /// The rule action will update the Types field of a finding.
+        /// The rule action updates the Types field of a finding.
         public var types: [Swift.String]?
-        /// The rule action will update the UserDefinedFields field of a finding.
+        /// The rule action updates the UserDefinedFields field of a finding.
         public var userDefinedFields: [Swift.String:Swift.String]?
-        /// The rule action will update the VerificationState field of a finding.
+        /// The rule action updates the VerificationState field of a finding.
         public var verificationState: SecurityHubClientTypes.VerificationState?
         /// Used to update information about the investigation into the finding.
         public var workflow: SecurityHubClientTypes.WorkflowUpdate?
@@ -2227,7 +2227,7 @@ extension SecurityHubClientTypes {
         public var createdBy: Swift.String?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding.  The default value of this field is false.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) for the rule.
         public var ruleArn: Swift.String?
@@ -2235,7 +2235,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
         /// A timestamp that indicates when the rule was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public var updatedAt: ClientRuntime.Date?
@@ -43984,13 +43984,13 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
     /// This member is required.
     public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
     /// This member is required.
     public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
     /// A description of the rule.
     /// This member is required.
     public var description: Swift.String?
-    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding. The default value of this field is false.
+    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. The default value of this field is false.
     public var isTerminal: Swift.Bool?
     /// The name of the rule.
     /// This member is required.
@@ -43998,7 +43998,7 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
     /// This member is required.
     public var ruleOrder: Swift.Int?
-    /// Whether the rule is active after it is created. If this parameter is equal to Enabled, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+    /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
     public var ruleStatus: SecurityHubClientTypes.RuleStatus?
     /// User-defined tags that help you label the purpose of a rule.
     public var tags: [Swift.String:Swift.String]?
@@ -55870,7 +55870,7 @@ extension SecurityHubClientTypes {
         /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
-        /// The status of a security control based on the compliance status of its findings. For more information about how control status is determined, see [Determining the overall status of a control from its findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-overall-status.html) in the Security Hub User Guide.
+        /// The enablement status of a security control in a specific standard.
         /// This member is required.
         public var securityControlStatus: SecurityHubClientTypes.ControlStatus?
         /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
@@ -58636,11 +58636,11 @@ extension SecurityHubClientTypes {
     public struct UpdateAutomationRulesRequestItem: Swift.Equatable {
         /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this field is set to true for a rule, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding.  The default value of this field is false.
         public var isTerminal: Swift.Bool
         /// The Amazon Resource Name (ARN) for the rule.
         /// This member is required.
@@ -58649,7 +58649,7 @@ extension SecurityHubClientTypes {
         public var ruleName: Swift.String?
         /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub will apply the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
 
         public init(

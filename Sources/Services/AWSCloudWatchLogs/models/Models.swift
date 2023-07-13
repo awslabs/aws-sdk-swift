@@ -91,6 +91,7 @@ extension AssociateKmsKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
         case logGroupName
+        case resourceIdentifier
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -100,6 +101,9 @@ extension AssociateKmsKeyInput: Swift.Encodable {
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
+        }
+        if let resourceIdentifier = self.resourceIdentifier {
+            try encodeContainer.encode(resourceIdentifier, forKey: .resourceIdentifier)
         }
     }
 }
@@ -114,29 +118,41 @@ public struct AssociateKmsKeyInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms) and [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
     /// This member is required.
     public var kmsKeyId: Swift.String?
-    /// The name of the log group.
-    /// This member is required.
+    /// The name of the log group. In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both.
     public var logGroupName: Swift.String?
+    /// Specifies the target for this operation. You must specify one of the following:
+    ///
+    /// * Specify the following ARN to have future [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) operations in this account encrypt the results with the specified KMS key. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:REGION:ACCOUNT_ID:query-result:*
+    ///
+    /// * Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME
+    ///
+    ///
+    /// In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both.
+    public var resourceIdentifier: Swift.String?
 
     public init(
         kmsKeyId: Swift.String? = nil,
-        logGroupName: Swift.String? = nil
+        logGroupName: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil
     )
     {
         self.kmsKeyId = kmsKeyId
         self.logGroupName = logGroupName
+        self.resourceIdentifier = resourceIdentifier
     }
 }
 
 struct AssociateKmsKeyInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
     let kmsKeyId: Swift.String?
+    let resourceIdentifier: Swift.String?
 }
 
 extension AssociateKmsKeyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
         case logGroupName
+        case resourceIdentifier
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -145,6 +161,8 @@ extension AssociateKmsKeyInputBody: Swift.Decodable {
         logGroupName = logGroupNameDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
+        resourceIdentifier = resourceIdentifierDecoded
     }
 }
 
@@ -3192,12 +3210,16 @@ extension CloudWatchLogsClientTypes {
 extension DisassociateKmsKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logGroupName
+        case resourceIdentifier
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
+        }
+        if let resourceIdentifier = self.resourceIdentifier {
+            try encodeContainer.encode(resourceIdentifier, forKey: .resourceIdentifier)
         }
     }
 }
@@ -3209,31 +3231,45 @@ extension DisassociateKmsKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateKmsKeyInput: Swift.Equatable {
-    /// The name of the log group.
-    /// This member is required.
+    /// The name of the log group. In your DisassociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both.
     public var logGroupName: Swift.String?
+    /// Specifies the target for this operation. You must specify one of the following:
+    ///
+    /// * Specify the ARN of a log group to stop having CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. After you run this operation, CloudWatch Logs encrypts ingested log events with the default CloudWatch Logs method. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME
+    ///
+    /// * Specify the following ARN to stop using this key to encrypt the results of future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) operations in this account. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:REGION:ACCOUNT_ID:query-result:*
+    ///
+    ///
+    /// In your DisssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both.
+    public var resourceIdentifier: Swift.String?
 
     public init(
-        logGroupName: Swift.String? = nil
+        logGroupName: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil
     )
     {
         self.logGroupName = logGroupName
+        self.resourceIdentifier = resourceIdentifier
     }
 }
 
 struct DisassociateKmsKeyInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
+    let resourceIdentifier: Swift.String?
 }
 
 extension DisassociateKmsKeyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logGroupName
+        case resourceIdentifier
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
         logGroupName = logGroupNameDecoded
+        let resourceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceIdentifier)
+        resourceIdentifier = resourceIdentifierDecoded
     }
 }
 
@@ -4269,7 +4305,7 @@ public struct GetLogGroupFieldsInput: Swift.Equatable {
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group to search. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
-    /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the most recent 15 minutes up to the current time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
     public var time: Swift.Int?
 
     public init(
@@ -4560,10 +4596,12 @@ extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQueryResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.encryptionKey = output.encryptionKey
             self.results = output.results
             self.statistics = output.statistics
             self.status = output.status
         } else {
+            self.encryptionKey = nil
             self.results = nil
             self.statistics = nil
             self.status = nil
@@ -4572,19 +4610,23 @@ extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetQueryResultsOutputResponse: Swift.Equatable {
+    /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) stores them.
+    public var encryptionKey: Swift.String?
     /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
     public var results: [[CloudWatchLogsClientTypes.ResultField]]?
-    /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
+    /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the scanned log events. These values reflect the full raw results of the query.
     public var statistics: CloudWatchLogsClientTypes.QueryStatistics?
     /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, Timeout, and Unknown. Queries time out after 60 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
     public var status: CloudWatchLogsClientTypes.QueryStatus?
 
     public init(
+        encryptionKey: Swift.String? = nil,
         results: [[CloudWatchLogsClientTypes.ResultField]]? = nil,
         statistics: CloudWatchLogsClientTypes.QueryStatistics? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
     )
     {
+        self.encryptionKey = encryptionKey
         self.results = results
         self.statistics = statistics
         self.status = status
@@ -4595,10 +4637,12 @@ struct GetQueryResultsOutputResponseBody: Swift.Equatable {
     let results: [[CloudWatchLogsClientTypes.ResultField]]?
     let statistics: CloudWatchLogsClientTypes.QueryStatistics?
     let status: CloudWatchLogsClientTypes.QueryStatus?
+    let encryptionKey: Swift.String?
 }
 
 extension GetQueryResultsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionKey
         case results
         case statistics
         case status
@@ -4630,6 +4674,8 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
         statistics = statisticsDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.QueryStatus.self, forKey: .status)
         status = statusDecoded
+        let encryptionKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKey)
+        encryptionKey = encryptionKeyDecoded
     }
 }
 
@@ -5975,7 +6021,7 @@ public struct PutAccountPolicyInput: Swift.Equatable {
     /// Currently the only valid value for this parameter is DATA_PROTECTION_POLICY.
     /// This member is required.
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
-    /// Currently the only valid value for this parameter is GLOBAL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of GLOBAL is used.
+    /// Currently the only valid value for this parameter is ALL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
     public var scope: CloudWatchLogsClientTypes.Scope?
 
     public init(
@@ -8154,11 +8200,11 @@ public struct StartQueryInput: Swift.Equatable {
     public var endTime: Swift.Int?
     /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
     public var limit: Swift.Int?
-    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
+    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     public var logGroupIdentifiers: [Swift.String]?
-    /// The log group on which to perform the query. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
+    /// The log group on which to perform the query. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     public var logGroupName: Swift.String?
-    /// The list of log groups to be queried. You can include up to 50 log groups. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames or logGroupIdentifiers.
+    /// The list of log groups to be queried. You can include up to 50 log groups. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     public var logGroupNames: [Swift.String]?
     /// The query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// This member is required.
