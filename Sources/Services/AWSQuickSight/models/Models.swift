@@ -464,7 +464,6 @@ extension QuickSightClientTypes {
     /// The configuration options to sort aggregated values.
     public struct AggregationSortConfiguration: Swift.Equatable {
         /// The function that aggregates the values in Column.
-        /// This member is required.
         public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
         /// The column that determines the sort order of aggregated values.
         /// This member is required.
@@ -3939,7 +3938,7 @@ extension QuickSightClientTypes.AssetBundleImportSource: Swift.CustomDebugString
 }
 
 extension QuickSightClientTypes {
-    /// The source of the asset bundle zip file that contains the data that you want to import.
+    /// The source of the asset bundle zip file that contains the data that you want to import. The file must be in QUICKSIGHT_JSON format.
     public struct AssetBundleImportSource: Swift.Equatable {
         /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public var body: ClientRuntime.Data?
@@ -7664,8 +7663,56 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.ColorsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customColors = "CustomColors"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customColors = customColors {
+            var customColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customColors)
+            for customcolor0 in customColors {
+                try customColorsContainer.encode(customcolor0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customColorsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.CustomColor?].self, forKey: .customColors)
+        var customColorsDecoded0:[QuickSightClientTypes.CustomColor]? = nil
+        if let customColorsContainer = customColorsContainer {
+            customColorsDecoded0 = [QuickSightClientTypes.CustomColor]()
+            for structure0 in customColorsContainer {
+                if let structure0 = structure0 {
+                    customColorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        customColors = customColorsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color configurations for a column.
+    public struct ColorsConfiguration: Swift.Equatable {
+        /// A list of up to 50 custom colors.
+        public var customColors: [QuickSightClientTypes.CustomColor]?
+
+        public init(
+            customColors: [QuickSightClientTypes.CustomColor]? = nil
+        )
+        {
+            self.customColors = customColors
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.ColumnConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case colorsConfiguration = "ColorsConfiguration"
         case column = "Column"
         case formatConfiguration = "FormatConfiguration"
         case role = "Role"
@@ -7673,6 +7720,9 @@ extension QuickSightClientTypes.ColumnConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let colorsConfiguration = self.colorsConfiguration {
+            try encodeContainer.encode(colorsConfiguration, forKey: .colorsConfiguration)
+        }
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
         }
@@ -7692,12 +7742,16 @@ extension QuickSightClientTypes.ColumnConfiguration: Swift.Codable {
         formatConfiguration = formatConfigurationDecoded
         let roleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnRole.self, forKey: .role)
         role = roleDecoded
+        let colorsConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColorsConfiguration.self, forKey: .colorsConfiguration)
+        colorsConfiguration = colorsConfigurationDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The general configuration of a column.
     public struct ColumnConfiguration: Swift.Equatable {
+        /// The color configurations of the column.
+        public var colorsConfiguration: QuickSightClientTypes.ColorsConfiguration?
         /// The column.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -7707,11 +7761,13 @@ extension QuickSightClientTypes {
         public var role: QuickSightClientTypes.ColumnRole?
 
         public init(
+            colorsConfiguration: QuickSightClientTypes.ColorsConfiguration? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil,
             role: QuickSightClientTypes.ColumnRole? = nil
         )
         {
+            self.colorsConfiguration = colorsConfiguration
             self.column = column
             self.formatConfiguration = formatConfiguration
             self.role = role
@@ -15168,6 +15224,67 @@ extension QuickSightClientTypes {
         {
             self.urlTarget = urlTarget
             self.urlTemplate = urlTemplate
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.CustomColor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case color = "Color"
+        case fieldValue = "FieldValue"
+        case specialValue = "SpecialValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let color = self.color {
+            try encodeContainer.encode(color, forKey: .color)
+        }
+        if let fieldValue = self.fieldValue {
+            try encodeContainer.encode(fieldValue, forKey: .fieldValue)
+        }
+        if let specialValue = self.specialValue {
+            try encodeContainer.encode(specialValue.rawValue, forKey: .specialValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldValue)
+        fieldValue = fieldValueDecoded
+        let colorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .color)
+        color = colorDecoded
+        let specialValueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SpecialValue.self, forKey: .specialValue)
+        specialValue = specialValueDecoded
+    }
+}
+
+extension QuickSightClientTypes.CustomColor: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomColor(color: \(Swift.String(describing: color)), specialValue: \(Swift.String(describing: specialValue)), fieldValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// Determines the color that's applied to a particular data value in a column.
+    public struct CustomColor: Swift.Equatable {
+        /// The color that is applied to the data value.
+        /// This member is required.
+        public var color: Swift.String?
+        /// The data value that the color is applied to.
+        public var fieldValue: Swift.String?
+        /// The value of a special data value.
+        public var specialValue: QuickSightClientTypes.SpecialValue?
+
+        public init(
+            color: Swift.String? = nil,
+            fieldValue: Swift.String? = nil,
+            specialValue: QuickSightClientTypes.SpecialValue? = nil
+        )
+        {
+            self.color = color
+            self.fieldValue = fieldValue
+            self.specialValue = specialValue
         }
     }
 
@@ -25461,7 +25578,7 @@ public struct DescribeAssetBundleExportJobOutputResponse: Swift.Equatable {
     public var downloadUrl: Swift.String?
     /// An array of error records that describes any failures that occurred during the export job processing. Error records accumulate while the job runs. The complete set of error records is available after the job has completed and failed.
     public var errors: [QuickSightClientTypes.AssetBundleExportJobError]?
-    /// The format of the export.
+    /// The format of the exported asset bundle. A QUICKSIGHT_JSON formatted file can be used to make a StartAssetBundleImportJob API call. A CLOUDFORMATION_JSON formatted file can be used in the CloudFormation console and with the CloudFormation APIs.
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// The include dependencies flag.
     public var includeAllDependencies: Swift.Bool
@@ -63004,11 +63121,122 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum SmallMultiplesAxisPlacement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case inside
+        case outside
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SmallMultiplesAxisPlacement] {
+            return [
+                .inside,
+                .outside,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .inside: return "INSIDE"
+            case .outside: return "OUTSIDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SmallMultiplesAxisPlacement(rawValue: rawValue) ?? SmallMultiplesAxisPlacement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.SmallMultiplesAxisProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case placement = "Placement"
+        case scale = "Scale"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let placement = self.placement {
+            try encodeContainer.encode(placement.rawValue, forKey: .placement)
+        }
+        if let scale = self.scale {
+            try encodeContainer.encode(scale.rawValue, forKey: .scale)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scaleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SmallMultiplesAxisScale.self, forKey: .scale)
+        scale = scaleDecoded
+        let placementDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SmallMultiplesAxisPlacement.self, forKey: .placement)
+        placement = placementDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Configures the properties of a chart's axes that are used by small multiples panels.
+    public struct SmallMultiplesAxisProperties: Swift.Equatable {
+        /// Defines the placement of the axis. By default, axes are rendered OUTSIDE of the panels. Axes with INDEPENDENT scale are rendered INSIDE the panels.
+        public var placement: QuickSightClientTypes.SmallMultiplesAxisPlacement?
+        /// Determines whether scale of the axes are shared or independent. The default value is SHARED.
+        public var scale: QuickSightClientTypes.SmallMultiplesAxisScale?
+
+        public init(
+            placement: QuickSightClientTypes.SmallMultiplesAxisPlacement? = nil,
+            scale: QuickSightClientTypes.SmallMultiplesAxisScale? = nil
+        )
+        {
+            self.placement = placement
+            self.scale = scale
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum SmallMultiplesAxisScale: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case independent
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SmallMultiplesAxisScale] {
+            return [
+                .independent,
+                .shared,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .independent: return "INDEPENDENT"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SmallMultiplesAxisScale(rawValue: rawValue) ?? SmallMultiplesAxisScale.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.SmallMultiplesOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxVisibleColumns = "MaxVisibleColumns"
         case maxVisibleRows = "MaxVisibleRows"
         case panelConfiguration = "PanelConfiguration"
+        case xAxis = "XAxis"
+        case yAxis = "YAxis"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -63022,6 +63250,12 @@ extension QuickSightClientTypes.SmallMultiplesOptions: Swift.Codable {
         if let panelConfiguration = self.panelConfiguration {
             try encodeContainer.encode(panelConfiguration, forKey: .panelConfiguration)
         }
+        if let xAxis = self.xAxis {
+            try encodeContainer.encode(xAxis, forKey: .xAxis)
+        }
+        if let yAxis = self.yAxis {
+            try encodeContainer.encode(yAxis, forKey: .yAxis)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -63032,6 +63266,10 @@ extension QuickSightClientTypes.SmallMultiplesOptions: Swift.Codable {
         maxVisibleColumns = maxVisibleColumnsDecoded
         let panelConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PanelConfiguration.self, forKey: .panelConfiguration)
         panelConfiguration = panelConfigurationDecoded
+        let xAxisDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SmallMultiplesAxisProperties.self, forKey: .xAxis)
+        xAxis = xAxisDecoded
+        let yAxisDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SmallMultiplesAxisProperties.self, forKey: .yAxis)
+        yAxis = yAxisDecoded
     }
 }
 
@@ -63044,16 +63282,24 @@ extension QuickSightClientTypes {
         public var maxVisibleRows: Swift.Int?
         /// Configures the display options for each small multiples panel.
         public var panelConfiguration: QuickSightClientTypes.PanelConfiguration?
+        /// The properties of a small multiples X axis.
+        public var xAxis: QuickSightClientTypes.SmallMultiplesAxisProperties?
+        /// The properties of a small multiples Y axis.
+        public var yAxis: QuickSightClientTypes.SmallMultiplesAxisProperties?
 
         public init(
             maxVisibleColumns: Swift.Int? = nil,
             maxVisibleRows: Swift.Int? = nil,
-            panelConfiguration: QuickSightClientTypes.PanelConfiguration? = nil
+            panelConfiguration: QuickSightClientTypes.PanelConfiguration? = nil,
+            xAxis: QuickSightClientTypes.SmallMultiplesAxisProperties? = nil,
+            yAxis: QuickSightClientTypes.SmallMultiplesAxisProperties? = nil
         )
         {
             self.maxVisibleColumns = maxVisibleColumns
             self.maxVisibleRows = maxVisibleRows
             self.panelConfiguration = panelConfiguration
+            self.xAxis = xAxis
+            self.yAxis = yAxis
         }
     }
 
@@ -63259,6 +63505,41 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum SpecialValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case empty
+        case null
+        case other
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpecialValue] {
+            return [
+                .empty,
+                .null,
+                .other,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .empty: return "EMPTY"
+            case .null: return "NULL"
+            case .other: return "OTHER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SpecialValue(rawValue: rawValue) ?? SpecialValue.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes.SqlServerParameters: Swift.Codable {
@@ -63613,7 +63894,7 @@ public struct StartAssetBundleImportJobInput: Swift.Equatable {
     /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
     /// This member is required.
     public var assetBundleImportJobId: Swift.String?
-    /// The source of the asset bundle zip file that contains the data that you want to import.
+    /// The source of the asset bundle zip file that contains the data that you want to import. The file must be in QUICKSIGHT_JSON format.
     /// This member is required.
     public var assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource?
     /// The ID of the Amazon Web Services account to import assets into.

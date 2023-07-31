@@ -163,7 +163,39 @@ extension LocationClientTypes.ApiKeyRestrictions: Swift.Codable {
 extension LocationClientTypes {
     /// API Restrictions on the allowed actions, resources, and referers for an API key resource.
     public struct ApiKeyRestrictions: Swift.Equatable {
-        /// A list of allowed actions that an API key resource grants permissions to perform Currently, the only valid action is geo:GetMap* as an input to the list. For example, ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not.
+        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.
+        ///
+        /// * Map actions
+        ///
+        /// * geo:GetMap* - Allows all actions needed for map rendering.
+        ///
+        ///
+        ///
+        ///
+        /// * Place actions
+        ///
+        /// * geo:SearchPlaceIndexForText - Allows geocoding.
+        ///
+        /// * geo:SearchPlaceIndexForPosition - Allows reverse geocoding.
+        ///
+        /// * geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.
+        ///
+        /// * GetPlace - Allows finding a place by place ID.
+        ///
+        ///
+        ///
+        ///
+        /// * Route actions
+        ///
+        /// * geo:CalculateRoute - Allows point to point routing.
+        ///
+        /// * geo:CalculateRouteMatrix - Allows calculating a matrix of routes.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// You must use these strings exactly. For example, to provide access to map rendering, the only valid action is geo:GetMap* as an input to the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
         /// This member is required.
         public var allowActions: [Swift.String]?
         /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:
@@ -176,19 +208,18 @@ extension LocationClientTypes {
         ///
         /// * No spaces allowed. For example, https://example.com.
         public var allowReferers: [Swift.String]?
-        /// A list of allowed resource ARNs that a API key bearer can perform actions on For more information about ARN format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). In this preview, you can allow only map resources. Requirements:
+        /// A list of allowed resource ARNs that a API key bearer can perform actions on.
         ///
-        /// * Must be prefixed with arn.
+        /// * The ARN must be the correct ARN for a map, place, or route ARN. You may include wildcards in the resource-id to match multiple resources of the same type.
         ///
-        /// * partition and service must not be empty and should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).
+        /// * The resources must be in the same partition, region, and account-id as the key that is being created.
         ///
-        /// * region and account-id can be empty or should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).
+        /// * Other than wildcards, you must include the full ARN, including the arn, partition, service, region, account-id and resource-id, delimited by colons (:).
         ///
-        /// * resource-id can begin with any character except for forward slash (/) and contain any characters after, including forward slashes to form a path. resource-id can also include wildcard characters, denoted by an asterisk (*).
+        /// * No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
         ///
-        /// * arn, partition, service, region, account-id and resource-id must be delimited by a colon (:).
         ///
-        /// * No spaces allowed. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
+        /// For more information about ARN format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var allowResources: [Swift.String]?
 
@@ -1395,7 +1426,7 @@ extension LocationClientTypes {
         /// The identifier for the geofence to be stored in a given geofence collection.
         /// This member is required.
         public var geofenceId: Swift.String?
-        /// Specifies additional user-defined properties to store with the Geofence. An array of key-value pairs.
+        /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public var geofenceProperties: [Swift.String:Swift.String]?
         /// Contains the details of the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
         /// This member is required.
@@ -1711,7 +1742,7 @@ extension LocationClientTypes {
 
 extension CalculateRouteInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), waypointPositions: \(Swift.String(describing: waypointPositions)), departurePosition: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\")"}
+        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), waypointPositions: \(Swift.String(describing: waypointPositions)), departurePosition: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 extension CalculateRouteInput: Swift.Encodable {
@@ -1775,6 +1806,19 @@ extension CalculateRouteInput: Swift.Encodable {
     }
 }
 
+extension CalculateRouteInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension CalculateRouteInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let calculatorName = calculatorName else {
@@ -1816,6 +1860,8 @@ public struct CalculateRouteInput: Swift.Equatable {
     public var distanceUnit: LocationClientTypes.DistanceUnit?
     /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false Valid Values: false | true
     public var includeLegGeometry: Swift.Bool?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode. Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. The TravelMode you specify also determines how you specify route preferences:
     ///
     /// * If traveling by Car use the CarModeOptions parameter.
@@ -1844,6 +1890,7 @@ public struct CalculateRouteInput: Swift.Equatable {
         destinationPosition: [Swift.Double]? = nil,
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
         includeLegGeometry: Swift.Bool? = nil,
+        key: Swift.String? = nil,
         travelMode: LocationClientTypes.TravelMode? = nil,
         truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions? = nil,
         waypointPositions: [[Swift.Double]]? = nil
@@ -1857,6 +1904,7 @@ public struct CalculateRouteInput: Swift.Equatable {
         self.destinationPosition = destinationPosition
         self.distanceUnit = distanceUnit
         self.includeLegGeometry = includeLegGeometry
+        self.key = key
         self.travelMode = travelMode
         self.truckModeOptions = truckModeOptions
         self.waypointPositions = waypointPositions
@@ -1951,6 +1999,11 @@ extension CalculateRouteInputBody: Swift.Decodable {
     }
 }
 
+extension CalculateRouteMatrixInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CalculateRouteMatrixInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departurePositions: \(Swift.String(describing: departurePositions)), departureTime: \(Swift.String(describing: departureTime)), destinationPositions: \(Swift.String(describing: destinationPositions)), distanceUnit: \(Swift.String(describing: distanceUnit)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), key: \"CONTENT_REDACTED\")"}
+}
+
 extension CalculateRouteMatrixInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case carModeOptions = "CarModeOptions"
@@ -2004,6 +2057,19 @@ extension CalculateRouteMatrixInput: Swift.Encodable {
     }
 }
 
+extension CalculateRouteMatrixInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension CalculateRouteMatrixInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let calculatorName = calculatorName else {
@@ -2033,6 +2099,8 @@ public struct CalculateRouteMatrixInput: Swift.Equatable {
     public var destinationPositions: [[Swift.Double]]?
     /// Set the unit system to specify the distance. Default Value: Kilometers
     public var distanceUnit: LocationClientTypes.DistanceUnit?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:
     ///
     /// * If traveling by Car use the CarModeOptions parameter.
@@ -2053,6 +2121,7 @@ public struct CalculateRouteMatrixInput: Swift.Equatable {
         departureTime: ClientRuntime.Date? = nil,
         destinationPositions: [[Swift.Double]]? = nil,
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
+        key: Swift.String? = nil,
         travelMode: LocationClientTypes.TravelMode? = nil,
         truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions? = nil
     )
@@ -2064,6 +2133,7 @@ public struct CalculateRouteMatrixInput: Swift.Equatable {
         self.departureTime = departureTime
         self.destinationPositions = destinationPositions
         self.distanceUnit = distanceUnit
+        self.key = key
         self.travelMode = travelMode
         self.truckModeOptions = truckModeOptions
     }
@@ -3886,6 +3956,7 @@ extension CreateRouteCalculatorOutputResponseBody: Swift.Decodable {
 extension CreateTrackerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case eventBridgeEnabled = "EventBridgeEnabled"
         case kmsKeyId = "KmsKeyId"
         case positionFiltering = "PositionFiltering"
         case pricingPlan = "PricingPlan"
@@ -3898,6 +3969,9 @@ extension CreateTrackerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eventBridgeEnabled = self.eventBridgeEnabled {
+            try encodeContainer.encode(eventBridgeEnabled, forKey: .eventBridgeEnabled)
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
@@ -3932,6 +4006,8 @@ extension CreateTrackerInput: ClientRuntime.URLPathProvider {
 public struct CreateTrackerInput: Swift.Equatable {
     /// An optional description for the tracker resource.
     public var description: Swift.String?
+    /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge. You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+    public var eventBridgeEnabled: Swift.Bool?
     /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
     public var kmsKeyId: Swift.String?
     /// Specifies the position filtering for the tracker resource. Valid values:
@@ -3977,6 +4053,7 @@ public struct CreateTrackerInput: Swift.Equatable {
 
     public init(
         description: Swift.String? = nil,
+        eventBridgeEnabled: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
         pricingPlan: LocationClientTypes.PricingPlan? = nil,
@@ -3986,6 +4063,7 @@ public struct CreateTrackerInput: Swift.Equatable {
     )
     {
         self.description = description
+        self.eventBridgeEnabled = eventBridgeEnabled
         self.kmsKeyId = kmsKeyId
         self.positionFiltering = positionFiltering
         self.pricingPlan = pricingPlan
@@ -4003,11 +4081,13 @@ struct CreateTrackerInputBody: Swift.Equatable {
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let positionFiltering: LocationClientTypes.PositionFiltering?
+    let eventBridgeEnabled: Swift.Bool?
 }
 
 extension CreateTrackerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case eventBridgeEnabled = "EventBridgeEnabled"
         case kmsKeyId = "KmsKeyId"
         case positionFiltering = "PositionFiltering"
         case pricingPlan = "PricingPlan"
@@ -4041,6 +4121,8 @@ extension CreateTrackerInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let positionFilteringDecoded = try containerValues.decodeIfPresent(LocationClientTypes.PositionFiltering.self, forKey: .positionFiltering)
         positionFiltering = positionFilteringDecoded
+        let eventBridgeEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .eventBridgeEnabled)
+        eventBridgeEnabled = eventBridgeEnabledDecoded
     }
 }
 
@@ -5502,6 +5584,7 @@ extension DescribeTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: DescribeTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.description = output.description
+            self.eventBridgeEnabled = output.eventBridgeEnabled
             self.kmsKeyId = output.kmsKeyId
             self.positionFiltering = output.positionFiltering
             self.pricingPlan = output.pricingPlan
@@ -5513,6 +5596,7 @@ extension DescribeTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.createTime = nil
             self.description = nil
+            self.eventBridgeEnabled = nil
             self.kmsKeyId = nil
             self.positionFiltering = nil
             self.pricingPlan = nil
@@ -5532,6 +5616,8 @@ public struct DescribeTrackerOutputResponse: Swift.Equatable {
     /// The optional description for the tracker resource.
     /// This member is required.
     public var description: Swift.String?
+    /// Whether UPDATE events from this tracker in EventBridge are enabled. If set to true these events will be sent to EventBridge.
+    public var eventBridgeEnabled: Swift.Bool?
     /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource.
     public var kmsKeyId: Swift.String?
     /// The position filtering method of the tracker resource.
@@ -5559,6 +5645,7 @@ public struct DescribeTrackerOutputResponse: Swift.Equatable {
     public init(
         createTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eventBridgeEnabled: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
         pricingPlan: LocationClientTypes.PricingPlan? = nil,
@@ -5571,6 +5658,7 @@ public struct DescribeTrackerOutputResponse: Swift.Equatable {
     {
         self.createTime = createTime
         self.description = description
+        self.eventBridgeEnabled = eventBridgeEnabled
         self.kmsKeyId = kmsKeyId
         self.positionFiltering = positionFiltering
         self.pricingPlan = pricingPlan
@@ -5593,12 +5681,14 @@ struct DescribeTrackerOutputResponseBody: Swift.Equatable {
     let updateTime: ClientRuntime.Date?
     let kmsKeyId: Swift.String?
     let positionFiltering: LocationClientTypes.PositionFiltering?
+    let eventBridgeEnabled: Swift.Bool?
 }
 
 extension DescribeTrackerOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
         case description = "Description"
+        case eventBridgeEnabled = "EventBridgeEnabled"
         case kmsKeyId = "KmsKeyId"
         case positionFiltering = "PositionFiltering"
         case pricingPlan = "PricingPlan"
@@ -5640,6 +5730,8 @@ extension DescribeTrackerOutputResponseBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let positionFilteringDecoded = try containerValues.decodeIfPresent(LocationClientTypes.PositionFiltering.self, forKey: .positionFiltering)
         positionFiltering = positionFilteringDecoded
+        let eventBridgeEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .eventBridgeEnabled)
+        eventBridgeEnabled = eventBridgeEnabledDecoded
     }
 }
 
@@ -6519,7 +6611,7 @@ public struct GetGeofenceOutputResponse: Swift.Equatable {
     /// The geofence identifier.
     /// This member is required.
     public var geofenceId: Swift.String?
-    /// Contains additional user-defined properties stored with the geofence. An array of key-value pairs.
+    /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
     public var geofenceProperties: [Swift.String:Swift.String]?
     /// Contains the geofence geometry details describing a polygon or a circle.
     /// This member is required.
@@ -7201,6 +7293,11 @@ extension GetMapTileOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetPlaceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPlaceInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), placeId: \(Swift.String(describing: placeId)), key: \"CONTENT_REDACTED\")"}
+}
+
 extension GetPlaceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -7208,6 +7305,10 @@ extension GetPlaceInput: ClientRuntime.QueryItemProvider {
             if let language = language {
                 let languageQueryItem = ClientRuntime.URLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
                 items.append(languageQueryItem)
+            }
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
             }
             return items
         }
@@ -7230,6 +7331,8 @@ public struct GetPlaceInput: Swift.Equatable {
     /// The name of the place index resource that you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// The identifier of the place to find.
@@ -7238,11 +7341,13 @@ public struct GetPlaceInput: Swift.Equatable {
 
     public init(
         indexName: Swift.String? = nil,
+        key: Swift.String? = nil,
         language: Swift.String? = nil,
         placeId: Swift.String? = nil
     )
     {
         self.indexName = indexName
+        self.key = key
         self.language = language
         self.placeId = placeId
     }
@@ -8155,7 +8260,7 @@ extension LocationClientTypes {
         /// The geofence identifier.
         /// This member is required.
         public var geofenceId: Swift.String?
-        /// Contains additional user-defined properties stored with the geofence. An array of key-value pairs.
+        /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public var geofenceProperties: [Swift.String:Swift.String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         /// This member is required.
@@ -10279,7 +10384,7 @@ public struct PutGeofenceInput: Swift.Equatable {
     /// An identifier for the geofence. For example, ExampleGeofence-1.
     /// This member is required.
     public var geofenceId: Swift.String?
-    /// Specifies additional user-defined properties to store with the Geofence. An array of key-value pairs.
+    /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
     public var geofenceProperties: [Swift.String:Swift.String]?
     /// Contains the details to specify the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
     /// This member is required.
@@ -10850,7 +10955,7 @@ extension LocationClientTypes {
 
 extension SearchPlaceIndexForPositionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForPositionInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), position: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForPositionInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), key: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
 }
 
 extension SearchPlaceIndexForPositionInput: Swift.Encodable {
@@ -10877,6 +10982,19 @@ extension SearchPlaceIndexForPositionInput: Swift.Encodable {
     }
 }
 
+extension SearchPlaceIndexForPositionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension SearchPlaceIndexForPositionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let indexName = indexName else {
@@ -10890,6 +11008,8 @@ public struct SearchPlaceIndexForPositionInput: Swift.Equatable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// An optional parameter. The maximum number of results returned per request. Default value: 50
@@ -10900,12 +11020,14 @@ public struct SearchPlaceIndexForPositionInput: Swift.Equatable {
 
     public init(
         indexName: Swift.String? = nil,
+        key: Swift.String? = nil,
         language: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         position: [Swift.Double]? = nil
     )
     {
         self.indexName = indexName
+        self.key = key
         self.language = language
         self.maxResults = maxResults
         self.position = position
@@ -11116,7 +11238,7 @@ extension LocationClientTypes {
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
@@ -11168,6 +11290,19 @@ extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
     }
 }
 
+extension SearchPlaceIndexForSuggestionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension SearchPlaceIndexForSuggestionsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let indexName = indexName else {
@@ -11191,6 +11326,8 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en. The results found will most likely be returned as Athens, Greece. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα, Ελλάδα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// An optional parameter. The maximum number of results returned per request. The default: 5
@@ -11205,6 +11342,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
         filterCategories: [Swift.String]? = nil,
         filterCountries: [Swift.String]? = nil,
         indexName: Swift.String? = nil,
+        key: Swift.String? = nil,
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         text: Swift.String? = nil
@@ -11215,6 +11353,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Equatable {
         self.filterCategories = filterCategories
         self.filterCountries = filterCountries
         self.indexName = indexName
+        self.key = key
         self.language = language
         self.maxResults = maxResults
         self.text = text
@@ -11544,7 +11683,7 @@ extension LocationClientTypes {
 
 extension SearchPlaceIndexForTextInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension SearchPlaceIndexForTextInput: Swift.Encodable {
@@ -11596,6 +11735,19 @@ extension SearchPlaceIndexForTextInput: Swift.Encodable {
     }
 }
 
+extension SearchPlaceIndexForTextInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension SearchPlaceIndexForTextInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let indexName = indexName else {
@@ -11619,6 +11771,8 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
     /// An optional parameter. The maximum number of results returned per request. The default: 50
@@ -11633,6 +11787,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
         filterCategories: [Swift.String]? = nil,
         filterCountries: [Swift.String]? = nil,
         indexName: Swift.String? = nil,
+        key: Swift.String? = nil,
         language: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         text: Swift.String? = nil
@@ -11643,6 +11798,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Equatable {
         self.filterCategories = filterCategories
         self.filterCountries = filterCountries
         self.indexName = indexName
+        self.key = key
         self.language = language
         self.maxResults = maxResults
         self.text = text
@@ -13463,6 +13619,7 @@ extension UpdateRouteCalculatorOutputResponseBody: Swift.Decodable {
 extension UpdateTrackerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case eventBridgeEnabled = "EventBridgeEnabled"
         case positionFiltering = "PositionFiltering"
         case pricingPlan = "PricingPlan"
         case pricingPlanDataSource = "PricingPlanDataSource"
@@ -13472,6 +13629,9 @@ extension UpdateTrackerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eventBridgeEnabled = self.eventBridgeEnabled {
+            try encodeContainer.encode(eventBridgeEnabled, forKey: .eventBridgeEnabled)
         }
         if let positionFiltering = self.positionFiltering {
             try encodeContainer.encode(positionFiltering.rawValue, forKey: .positionFiltering)
@@ -13497,6 +13657,8 @@ extension UpdateTrackerInput: ClientRuntime.URLPathProvider {
 public struct UpdateTrackerInput: Swift.Equatable {
     /// Updates the description for the tracker resource.
     public var description: Swift.String?
+    /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge. You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+    public var eventBridgeEnabled: Swift.Bool?
     /// Updates the position filtering for the tracker resource. Valid values:
     ///
     /// * TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.
@@ -13517,6 +13679,7 @@ public struct UpdateTrackerInput: Swift.Equatable {
 
     public init(
         description: Swift.String? = nil,
+        eventBridgeEnabled: Swift.Bool? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
         pricingPlan: LocationClientTypes.PricingPlan? = nil,
         pricingPlanDataSource: Swift.String? = nil,
@@ -13524,6 +13687,7 @@ public struct UpdateTrackerInput: Swift.Equatable {
     )
     {
         self.description = description
+        self.eventBridgeEnabled = eventBridgeEnabled
         self.positionFiltering = positionFiltering
         self.pricingPlan = pricingPlan
         self.pricingPlanDataSource = pricingPlanDataSource
@@ -13536,11 +13700,13 @@ struct UpdateTrackerInputBody: Swift.Equatable {
     let pricingPlanDataSource: Swift.String?
     let description: Swift.String?
     let positionFiltering: LocationClientTypes.PositionFiltering?
+    let eventBridgeEnabled: Swift.Bool?
 }
 
 extension UpdateTrackerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case eventBridgeEnabled = "EventBridgeEnabled"
         case positionFiltering = "PositionFiltering"
         case pricingPlan = "PricingPlan"
         case pricingPlanDataSource = "PricingPlanDataSource"
@@ -13556,6 +13722,8 @@ extension UpdateTrackerInputBody: Swift.Decodable {
         description = descriptionDecoded
         let positionFilteringDecoded = try containerValues.decodeIfPresent(LocationClientTypes.PositionFiltering.self, forKey: .positionFiltering)
         positionFiltering = positionFilteringDecoded
+        let eventBridgeEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .eventBridgeEnabled)
+        eventBridgeEnabled = eventBridgeEnabledDecoded
     }
 }
 

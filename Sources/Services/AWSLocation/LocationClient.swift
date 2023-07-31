@@ -354,6 +354,7 @@ extension LocationClient: LocationClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CalculateRouteOutputResponse, CalculateRouteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CalculateRouteInput, CalculateRouteOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CalculateRouteInput, CalculateRouteOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CalculateRouteInput, CalculateRouteOutputResponse>(xmlName: "CalculateRouteRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -394,6 +395,7 @@ extension LocationClient: LocationClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse>(xmlName: "CalculateRouteMatrixRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -442,7 +444,7 @@ extension LocationClient: LocationClientProtocol {
         return result
     }
 
-    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
     public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -853,7 +855,7 @@ extension LocationClient: LocationClientProtocol {
         return result
     }
 
-    /// Retrieves the API key resource details. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Retrieves the API key resource details.
     public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1437,7 +1439,7 @@ extension LocationClient: LocationClientProtocol {
         return result
     }
 
-    /// Lists API key resources in your Amazon Web Services account. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Lists API key resources in your Amazon Web Services account.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1746,6 +1748,7 @@ extension LocationClient: LocationClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse>(xmlName: "SearchPlaceIndexForPositionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -1782,6 +1785,7 @@ extension LocationClient: LocationClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse>(xmlName: "SearchPlaceIndexForSuggestionsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -1818,6 +1822,7 @@ extension LocationClient: LocationClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse>(xmlName: "SearchPlaceIndexForTextRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -1936,7 +1941,7 @@ extension LocationClient: LocationClientProtocol {
         return result
     }
 
-    /// Updates the specified properties of a given API key resource. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    /// Updates the specified properties of a given API key resource.
     public func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

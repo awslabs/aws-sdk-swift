@@ -665,7 +665,7 @@ extension AdminCreateUserInput: Swift.Encodable {
                 try desiredDeliveryMediumsContainer.encode(deliverymediumtype0.rawValue)
             }
         }
-        if forceAliasCreation != false {
+        if let forceAliasCreation = self.forceAliasCreation {
             try encodeContainer.encode(forceAliasCreation, forKey: .forceAliasCreation)
         }
         if let messageAction = self.messageAction {
@@ -714,7 +714,7 @@ public struct AdminCreateUserInput: Swift.Equatable {
     /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". You can specify more than one value.
     public var desiredDeliveryMediums: [CognitoIdentityProviderClientTypes.DeliveryMediumType]?
     /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-    public var forceAliasCreation: Swift.Bool
+    public var forceAliasCreation: Swift.Bool?
     /// Set to RESEND to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to SUPPRESS to suppress sending the message. You can specify only one value.
     public var messageAction: CognitoIdentityProviderClientTypes.MessageActionType?
     /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page, along with a new password to be used in all future sign-ins. This parameter isn't required. If you don't specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
@@ -737,7 +737,7 @@ public struct AdminCreateUserInput: Swift.Equatable {
     public init(
         clientMetadata: [Swift.String:Swift.String]? = nil,
         desiredDeliveryMediums: [CognitoIdentityProviderClientTypes.DeliveryMediumType]? = nil,
-        forceAliasCreation: Swift.Bool = false,
+        forceAliasCreation: Swift.Bool? = nil,
         messageAction: CognitoIdentityProviderClientTypes.MessageActionType? = nil,
         temporaryPassword: Swift.String? = nil,
         userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]? = nil,
@@ -764,7 +764,7 @@ struct AdminCreateUserInputBody: Swift.Equatable {
     let userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
     let validationData: [CognitoIdentityProviderClientTypes.AttributeType]?
     let temporaryPassword: Swift.String?
-    let forceAliasCreation: Swift.Bool
+    let forceAliasCreation: Swift.Bool?
     let messageAction: CognitoIdentityProviderClientTypes.MessageActionType?
     let desiredDeliveryMediums: [CognitoIdentityProviderClientTypes.DeliveryMediumType]?
     let clientMetadata: [Swift.String:Swift.String]?
@@ -813,7 +813,7 @@ extension AdminCreateUserInputBody: Swift.Decodable {
         validationData = validationDataDecoded0
         let temporaryPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .temporaryPassword)
         temporaryPassword = temporaryPasswordDecoded
-        let forceAliasCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceAliasCreation) ?? false
+        let forceAliasCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceAliasCreation)
         forceAliasCreation = forceAliasCreationDecoded
         let messageActionDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.MessageActionType.self, forKey: .messageAction)
         messageAction = messageActionDecoded
@@ -2125,6 +2125,11 @@ public enum AdminInitiateAuthOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension AdminInitiateAuthOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdminInitiateAuthOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
+}
+
 extension AdminInitiateAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3063,7 +3068,7 @@ public struct AdminResetUserPasswordOutputResponse: Swift.Equatable {
 
 extension AdminRespondToAuthChallengeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AdminRespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), challengeResponses: \(Swift.String(describing: challengeResponses)), clientMetadata: \(Swift.String(describing: clientMetadata)), contextData: \(Swift.String(describing: contextData)), session: \(Swift.String(describing: session)), userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\")"}
+        "AdminRespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), clientMetadata: \(Swift.String(describing: clientMetadata)), contextData: \(Swift.String(describing: contextData)), userPoolId: \(Swift.String(describing: userPoolId)), challengeResponses: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AdminRespondToAuthChallengeInput: Swift.Encodable {
@@ -3293,6 +3298,11 @@ public enum AdminRespondToAuthChallengeOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
+extension AdminRespondToAuthChallengeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdminRespondToAuthChallengeOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
+}
+
 extension AdminRespondToAuthChallengeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3508,7 +3518,7 @@ extension AdminSetUserPasswordInput: Swift.Encodable {
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
         }
-        if permanent != false {
+        if let permanent = self.permanent {
             try encodeContainer.encode(permanent, forKey: .permanent)
         }
         if let userPoolId = self.userPoolId {
@@ -3531,7 +3541,7 @@ public struct AdminSetUserPasswordInput: Swift.Equatable {
     /// This member is required.
     public var password: Swift.String?
     /// True if the password is permanent, False if it is temporary.
-    public var permanent: Swift.Bool
+    public var permanent: Swift.Bool?
     /// The user pool ID for the user pool where you want to set the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
@@ -3541,7 +3551,7 @@ public struct AdminSetUserPasswordInput: Swift.Equatable {
 
     public init(
         password: Swift.String? = nil,
-        permanent: Swift.Bool = false,
+        permanent: Swift.Bool? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
     )
@@ -3557,7 +3567,7 @@ struct AdminSetUserPasswordInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
     let username: Swift.String?
     let password: Swift.String?
-    let permanent: Swift.Bool
+    let permanent: Swift.Bool?
 }
 
 extension AdminSetUserPasswordInputBody: Swift.Decodable {
@@ -3576,7 +3586,7 @@ extension AdminSetUserPasswordInputBody: Swift.Decodable {
         username = usernameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
-        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent) ?? false
+        let permanentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .permanent)
         permanent = permanentDecoded
     }
 }
@@ -4453,7 +4463,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension AssociateSoftwareTokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociateSoftwareTokenInput(session: \(Swift.String(describing: session)), accessToken: \"CONTENT_REDACTED\")"}
+        "AssociateSoftwareTokenInput(accessToken: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateSoftwareTokenInput: Swift.Encodable {
@@ -4534,7 +4544,7 @@ public enum AssociateSoftwareTokenOutputError: ClientRuntime.HttpResponseErrorBi
 
 extension AssociateSoftwareTokenOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociateSoftwareTokenOutputResponse(session: \(Swift.String(describing: session)), secretCode: \"CONTENT_REDACTED\")"}
+        "AssociateSoftwareTokenOutputResponse(secretCode: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateSoftwareTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5941,7 +5951,7 @@ extension ConfirmSignUpInput: Swift.Encodable {
         if let confirmationCode = self.confirmationCode {
             try encodeContainer.encode(confirmationCode, forKey: .confirmationCode)
         }
-        if forceAliasCreation != false {
+        if let forceAliasCreation = self.forceAliasCreation {
             try encodeContainer.encode(forceAliasCreation, forKey: .forceAliasCreation)
         }
         if let secretHash = self.secretHash {
@@ -5981,7 +5991,7 @@ public struct ConfirmSignUpInput: Swift.Equatable {
     /// This member is required.
     public var confirmationCode: Swift.String?
     /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-    public var forceAliasCreation: Swift.Bool
+    public var forceAliasCreation: Swift.Bool?
     /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
@@ -5995,7 +6005,7 @@ public struct ConfirmSignUpInput: Swift.Equatable {
         clientId: Swift.String? = nil,
         clientMetadata: [Swift.String:Swift.String]? = nil,
         confirmationCode: Swift.String? = nil,
-        forceAliasCreation: Swift.Bool = false,
+        forceAliasCreation: Swift.Bool? = nil,
         secretHash: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
@@ -6017,7 +6027,7 @@ struct ConfirmSignUpInputBody: Swift.Equatable {
     let secretHash: Swift.String?
     let username: Swift.String?
     let confirmationCode: Swift.String?
-    let forceAliasCreation: Swift.Bool
+    let forceAliasCreation: Swift.Bool?
     let analyticsMetadata: CognitoIdentityProviderClientTypes.AnalyticsMetadataType?
     let userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     let clientMetadata: [Swift.String:Swift.String]?
@@ -6045,7 +6055,7 @@ extension ConfirmSignUpInputBody: Swift.Decodable {
         username = usernameDecoded
         let confirmationCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .confirmationCode)
         confirmationCode = confirmationCodeDecoded
-        let forceAliasCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceAliasCreation) ?? false
+        let forceAliasCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceAliasCreation)
         forceAliasCreation = forceAliasCreationDecoded
         let analyticsMetadataDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.AnalyticsMetadataType.self, forKey: .analyticsMetadata)
         analyticsMetadata = analyticsMetadataDecoded
@@ -6956,7 +6966,7 @@ extension CreateUserPoolClientInput: Swift.Encodable {
                 try allowedOAuthFlowsContainer.encode(oauthflowtype0.rawValue)
             }
         }
-        if allowedOAuthFlowsUserPoolClient != false {
+        if let allowedOAuthFlowsUserPoolClient = self.allowedOAuthFlowsUserPoolClient {
             try encodeContainer.encode(allowedOAuthFlowsUserPoolClient, forKey: .allowedOAuthFlowsUserPoolClient)
         }
         if let allowedOAuthScopes = allowedOAuthScopes {
@@ -6995,7 +7005,7 @@ extension CreateUserPoolClientInput: Swift.Encodable {
                 try explicitAuthFlowsContainer.encode(explicitauthflowstype0.rawValue)
             }
         }
-        if generateSecret != false {
+        if let generateSecret = self.generateSecret {
             try encodeContainer.encode(generateSecret, forKey: .generateSecret)
         }
         if let idTokenValidity = self.idTokenValidity {
@@ -7016,7 +7026,7 @@ extension CreateUserPoolClientInput: Swift.Encodable {
                 try readAttributesContainer.encode(clientpermissiontype0)
             }
         }
-        if refreshTokenValidity != 0 {
+        if let refreshTokenValidity = self.refreshTokenValidity {
             try encodeContainer.encode(refreshTokenValidity, forKey: .refreshTokenValidity)
         }
         if let supportedIdentityProviders = supportedIdentityProviders {
@@ -7053,7 +7063,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     /// The allowed OAuth flows. code Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint. implicit Issue the access token (and, optionally, ID token, based on scopes) directly to your user. client_credentials Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
     public var allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
     /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Amazon Cognito user pools.
-    public var allowedOAuthFlowsUserPoolClient: Swift.Bool
+    public var allowedOAuthFlowsUserPoolClient: Swift.Bool?
     /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
     public var allowedOAuthScopes: [Swift.String]?
     /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign. In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in Amazon Web Services Region us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
@@ -7105,7 +7115,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     /// In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
     public var explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]?
     /// Boolean to specify whether you want to generate a secret for the user pool client being created.
-    public var generateSecret: Swift.Bool
+    public var generateSecret: Swift.Bool?
     /// The ID token time limit. After this limit expires, your user can't use their ID token. To specify the time unit for IdTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their session with their ID token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
     public var idTokenValidity: Swift.Int?
     /// A list of allowed logout URLs for the IdPs.
@@ -7119,7 +7129,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     /// The read attributes.
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
-    public var refreshTokenValidity: Swift.Int
+    public var refreshTokenValidity: Swift.Int?
     /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP.
     public var supportedIdentityProviders: [Swift.String]?
     /// The units in which the validity times are represented. The default unit for RefreshToken is days, and default for ID and access tokens are hours.
@@ -7133,7 +7143,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     public init(
         accessTokenValidity: Swift.Int? = nil,
         allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-        allowedOAuthFlowsUserPoolClient: Swift.Bool = false,
+        allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
         allowedOAuthScopes: [Swift.String]? = nil,
         analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
         authSessionValidity: Swift.Int? = nil,
@@ -7143,12 +7153,12 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
         enablePropagateAdditionalUserContextData: Swift.Bool? = nil,
         enableTokenRevocation: Swift.Bool? = nil,
         explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]? = nil,
-        generateSecret: Swift.Bool = false,
+        generateSecret: Swift.Bool? = nil,
         idTokenValidity: Swift.Int? = nil,
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
-        refreshTokenValidity: Swift.Int = 0,
+        refreshTokenValidity: Swift.Int? = nil,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
@@ -7183,8 +7193,8 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
 struct CreateUserPoolClientInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
     let clientName: Swift.String?
-    let generateSecret: Swift.Bool
-    let refreshTokenValidity: Swift.Int
+    let generateSecret: Swift.Bool?
+    let refreshTokenValidity: Swift.Int?
     let accessTokenValidity: Swift.Int?
     let idTokenValidity: Swift.Int?
     let tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
@@ -7197,7 +7207,7 @@ struct CreateUserPoolClientInputBody: Swift.Equatable {
     let defaultRedirectURI: Swift.String?
     let allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
     let allowedOAuthScopes: [Swift.String]?
-    let allowedOAuthFlowsUserPoolClient: Swift.Bool
+    let allowedOAuthFlowsUserPoolClient: Swift.Bool?
     let analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType?
     let preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     let enableTokenRevocation: Swift.Bool?
@@ -7237,9 +7247,9 @@ extension CreateUserPoolClientInputBody: Swift.Decodable {
         userPoolId = userPoolIdDecoded
         let clientNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientName)
         clientName = clientNameDecoded
-        let generateSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .generateSecret) ?? false
+        let generateSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .generateSecret)
         generateSecret = generateSecretDecoded
-        let refreshTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .refreshTokenValidity) ?? 0
+        let refreshTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .refreshTokenValidity)
         refreshTokenValidity = refreshTokenValidityDecoded
         let accessTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accessTokenValidity)
         accessTokenValidity = accessTokenValidityDecoded
@@ -7337,7 +7347,7 @@ extension CreateUserPoolClientInputBody: Swift.Decodable {
             }
         }
         allowedOAuthScopes = allowedOAuthScopesDecoded0
-        let allowedOAuthFlowsUserPoolClientDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedOAuthFlowsUserPoolClient) ?? false
+        let allowedOAuthFlowsUserPoolClientDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedOAuthFlowsUserPoolClient)
         allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClientDecoded
         let analyticsConfigurationDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.AnalyticsConfigurationType.self, forKey: .analyticsConfiguration)
         analyticsConfiguration = analyticsConfigurationDecoded
@@ -13086,6 +13096,11 @@ public enum InitiateAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension InitiateAuthOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InitiateAuthOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
+}
+
 extension InitiateAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14354,7 +14369,7 @@ extension ListResourceServersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -14374,7 +14389,7 @@ extension ListResourceServersInput: ClientRuntime.URLPathProvider {
 
 public struct ListResourceServersInput: Swift.Equatable {
     /// The maximum number of resource servers to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token.
     public var nextToken: Swift.String?
     /// The user pool ID for the user pool.
@@ -14382,7 +14397,7 @@ public struct ListResourceServersInput: Swift.Equatable {
     public var userPoolId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
     )
@@ -14395,7 +14410,7 @@ public struct ListResourceServersInput: Swift.Equatable {
 
 struct ListResourceServersInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -14410,7 +14425,7 @@ extension ListResourceServersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolId)
         userPoolId = userPoolIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -14613,7 +14628,7 @@ extension ListUserImportJobsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let paginationToken = self.paginationToken {
@@ -14635,7 +14650,7 @@ extension ListUserImportJobsInput: ClientRuntime.URLPathProvider {
 public struct ListUserImportJobsInput: Swift.Equatable {
     /// The maximum number of import jobs you want the request to return.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
     public var paginationToken: Swift.String?
     /// The user pool ID for the user pool that the users are being imported into.
@@ -14643,7 +14658,7 @@ public struct ListUserImportJobsInput: Swift.Equatable {
     public var userPoolId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         paginationToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
     )
@@ -14656,7 +14671,7 @@ public struct ListUserImportJobsInput: Swift.Equatable {
 
 struct ListUserImportJobsInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let paginationToken: Swift.String?
 }
 
@@ -14671,7 +14686,7 @@ extension ListUserImportJobsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolId)
         userPoolId = userPoolIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let paginationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .paginationToken)
         paginationToken = paginationTokenDecoded
@@ -14762,7 +14777,7 @@ extension ListUserPoolClientsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -14783,7 +14798,7 @@ extension ListUserPoolClientsInput: ClientRuntime.URLPathProvider {
 /// Represents the request to list the user pool clients.
 public struct ListUserPoolClientsInput: Swift.Equatable {
     /// The maximum number of results you want the request to return when listing the user pool clients.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The user pool ID for the user pool where you want to list user pool clients.
@@ -14791,7 +14806,7 @@ public struct ListUserPoolClientsInput: Swift.Equatable {
     public var userPoolId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
     )
@@ -14804,7 +14819,7 @@ public struct ListUserPoolClientsInput: Swift.Equatable {
 
 struct ListUserPoolClientsInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -14819,7 +14834,7 @@ extension ListUserPoolClientsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolId)
         userPoolId = userPoolIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -14909,7 +14924,7 @@ extension ListUserPoolsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -14928,12 +14943,12 @@ extension ListUserPoolsInput: ClientRuntime.URLPathProvider {
 public struct ListUserPoolsInput: Swift.Equatable {
     /// The maximum number of results you want the request to return when listing the user pools.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -14944,7 +14959,7 @@ public struct ListUserPoolsInput: Swift.Equatable {
 
 struct ListUserPoolsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListUserPoolsInputBody: Swift.Decodable {
@@ -14957,7 +14972,7 @@ extension ListUserPoolsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -16734,7 +16749,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension RespondToAuthChallengeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), challengeResponses: \(Swift.String(describing: challengeResponses)), clientMetadata: \(Swift.String(describing: clientMetadata)), session: \(Swift.String(describing: session)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\")"}
+        "RespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), clientMetadata: \(Swift.String(describing: clientMetadata)), userContextData: \(Swift.String(describing: userContextData)), challengeResponses: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension RespondToAuthChallengeInput: Swift.Encodable {
@@ -16932,6 +16947,11 @@ public enum RespondToAuthChallengeOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension RespondToAuthChallengeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RespondToAuthChallengeOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension RespondToAuthChallengeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -20869,7 +20889,7 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
                 try allowedOAuthFlowsContainer.encode(oauthflowtype0.rawValue)
             }
         }
-        if allowedOAuthFlowsUserPoolClient != false {
+        if let allowedOAuthFlowsUserPoolClient = self.allowedOAuthFlowsUserPoolClient {
             try encodeContainer.encode(allowedOAuthFlowsUserPoolClient, forKey: .allowedOAuthFlowsUserPoolClient)
         }
         if let allowedOAuthScopes = allowedOAuthScopes {
@@ -20929,7 +20949,7 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
                 try readAttributesContainer.encode(clientpermissiontype0)
             }
         }
-        if refreshTokenValidity != 0 {
+        if let refreshTokenValidity = self.refreshTokenValidity {
             try encodeContainer.encode(refreshTokenValidity, forKey: .refreshTokenValidity)
         }
         if let supportedIdentityProviders = supportedIdentityProviders {
@@ -20966,7 +20986,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
     /// The allowed OAuth flows. code Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint. implicit Issue the access token (and, optionally, ID token, based on scopes) directly to your user. client_credentials Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
     public var allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
     /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Amazon Cognito user pools.
-    public var allowedOAuthFlowsUserPoolClient: Swift.Bool
+    public var allowedOAuthFlowsUserPoolClient: Swift.Bool?
     /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
     public var allowedOAuthScopes: [Swift.String]?
     /// The Amazon Pinpoint analytics configuration necessary to collect metrics for this user pool. In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
@@ -21032,7 +21052,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
     /// The read-only attributes of the user pool.
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
-    public var refreshTokenValidity: Swift.Int
+    public var refreshTokenValidity: Swift.Int?
     /// A list of provider names for the IdPs that this client supports. The following are supported: COGNITO, Facebook, Google, SignInWithApple, LoginWithAmazon, and the names of your own SAML and OIDC providers.
     public var supportedIdentityProviders: [Swift.String]?
     /// The units in which the validity times are represented. The default unit for RefreshToken is days, and the default for ID and access tokens is hours.
@@ -21046,7 +21066,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
     public init(
         accessTokenValidity: Swift.Int? = nil,
         allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-        allowedOAuthFlowsUserPoolClient: Swift.Bool = false,
+        allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
         allowedOAuthScopes: [Swift.String]? = nil,
         analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
         authSessionValidity: Swift.Int? = nil,
@@ -21061,7 +21081,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
-        refreshTokenValidity: Swift.Int = 0,
+        refreshTokenValidity: Swift.Int? = nil,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
@@ -21097,7 +21117,7 @@ struct UpdateUserPoolClientInputBody: Swift.Equatable {
     let userPoolId: Swift.String?
     let clientId: Swift.String?
     let clientName: Swift.String?
-    let refreshTokenValidity: Swift.Int
+    let refreshTokenValidity: Swift.Int?
     let accessTokenValidity: Swift.Int?
     let idTokenValidity: Swift.Int?
     let tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
@@ -21110,7 +21130,7 @@ struct UpdateUserPoolClientInputBody: Swift.Equatable {
     let defaultRedirectURI: Swift.String?
     let allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
     let allowedOAuthScopes: [Swift.String]?
-    let allowedOAuthFlowsUserPoolClient: Swift.Bool
+    let allowedOAuthFlowsUserPoolClient: Swift.Bool?
     let analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType?
     let preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     let enableTokenRevocation: Swift.Bool?
@@ -21152,7 +21172,7 @@ extension UpdateUserPoolClientInputBody: Swift.Decodable {
         clientId = clientIdDecoded
         let clientNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientName)
         clientName = clientNameDecoded
-        let refreshTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .refreshTokenValidity) ?? 0
+        let refreshTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .refreshTokenValidity)
         refreshTokenValidity = refreshTokenValidityDecoded
         let accessTokenValidityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accessTokenValidity)
         accessTokenValidity = accessTokenValidityDecoded
@@ -21250,7 +21270,7 @@ extension UpdateUserPoolClientInputBody: Swift.Decodable {
             }
         }
         allowedOAuthScopes = allowedOAuthScopesDecoded0
-        let allowedOAuthFlowsUserPoolClientDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedOAuthFlowsUserPoolClient) ?? false
+        let allowedOAuthFlowsUserPoolClientDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedOAuthFlowsUserPoolClient)
         allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClientDecoded
         let analyticsConfigurationDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.AnalyticsConfigurationType.self, forKey: .analyticsConfiguration)
         analyticsConfiguration = analyticsConfigurationDecoded
@@ -23940,7 +23960,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension VerifySoftwareTokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VerifySoftwareTokenInput(friendlyDeviceName: \(Swift.String(describing: friendlyDeviceName)), session: \(Swift.String(describing: session)), userCode: \(Swift.String(describing: userCode)), accessToken: \"CONTENT_REDACTED\")"}
+        "VerifySoftwareTokenInput(friendlyDeviceName: \(Swift.String(describing: friendlyDeviceName)), userCode: \(Swift.String(describing: userCode)), accessToken: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifySoftwareTokenInput: Swift.Encodable {
@@ -24048,6 +24068,11 @@ public enum VerifySoftwareTokenOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension VerifySoftwareTokenOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifySoftwareTokenOutputResponse(status: \(Swift.String(describing: status)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifySoftwareTokenOutputResponse: ClientRuntime.HttpResponseBinding {

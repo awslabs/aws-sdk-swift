@@ -252,7 +252,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         return result
     }
 
-    /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
+    /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutputResponse
     {
@@ -549,7 +549,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         return result
     }
 
-    /// Gets a list of protected health information (PHI) detection jobs that you have submitted.
+    /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     public func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

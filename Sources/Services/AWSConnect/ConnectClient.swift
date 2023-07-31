@@ -855,7 +855,7 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4773,7 +4773,7 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Amazon Connect instance, with optional filtering.
     public func searchQueues(input: SearchQueuesInput) async throws -> SearchQueuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4881,7 +4881,7 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     public func searchRoutingProfiles(input: SearchRoutingProfilesInput) async throws -> SearchRoutingProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4917,7 +4917,7 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
     public func searchSecurityProfiles(input: SearchSecurityProfilesInput) async throws -> SearchSecurityProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6353,7 +6353,7 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
     public func updateQueueOutboundCallerConfig(input: UpdateQueueOutboundCallerConfigInput) async throws -> UpdateQueueOutboundCallerConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

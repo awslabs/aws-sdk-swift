@@ -13580,6 +13580,7 @@ extension CreateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
+        case openTableFormatInput = "OpenTableFormatInput"
         case partitionIndexes = "PartitionIndexes"
         case tableInput = "TableInput"
         case transactionId = "TransactionId"
@@ -13592,6 +13593,9 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let openTableFormatInput = self.openTableFormatInput {
+            try encodeContainer.encode(openTableFormatInput, forKey: .openTableFormatInput)
         }
         if let partitionIndexes = partitionIndexes {
             var partitionIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionIndexes)
@@ -13620,6 +13624,8 @@ public struct CreateTableInput: Swift.Equatable {
     /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// Specifies an OpenTableFormatInput structure when creating an open format table.
+    public var openTableFormatInput: GlueClientTypes.OpenTableFormatInput?
     /// A list of partition indexes, PartitionIndex structures, to create in the table.
     public var partitionIndexes: [GlueClientTypes.PartitionIndex]?
     /// The TableInput object that defines the metadata table to create in the catalog.
@@ -13631,6 +13637,7 @@ public struct CreateTableInput: Swift.Equatable {
     public init(
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
+        openTableFormatInput: GlueClientTypes.OpenTableFormatInput? = nil,
         partitionIndexes: [GlueClientTypes.PartitionIndex]? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil
@@ -13638,6 +13645,7 @@ public struct CreateTableInput: Swift.Equatable {
     {
         self.catalogId = catalogId
         self.databaseName = databaseName
+        self.openTableFormatInput = openTableFormatInput
         self.partitionIndexes = partitionIndexes
         self.tableInput = tableInput
         self.transactionId = transactionId
@@ -13650,12 +13658,14 @@ struct CreateTableInputBody: Swift.Equatable {
     let tableInput: GlueClientTypes.TableInput?
     let partitionIndexes: [GlueClientTypes.PartitionIndex]?
     let transactionId: Swift.String?
+    let openTableFormatInput: GlueClientTypes.OpenTableFormatInput?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
+        case openTableFormatInput = "OpenTableFormatInput"
         case partitionIndexes = "PartitionIndexes"
         case tableInput = "TableInput"
         case transactionId = "TransactionId"
@@ -13682,6 +13692,8 @@ extension CreateTableInputBody: Swift.Decodable {
         partitionIndexes = partitionIndexesDecoded0
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
+        let openTableFormatInputDecoded = try containerValues.decodeIfPresent(GlueClientTypes.OpenTableFormatInput.self, forKey: .openTableFormatInput)
+        openTableFormatInput = openTableFormatInputDecoded
     }
 }
 
@@ -33063,6 +33075,52 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes.IcebergInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadataOperation = "MetadataOperation"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metadataOperation = self.metadataOperation {
+            try encodeContainer.encode(metadataOperation.rawValue, forKey: .metadataOperation)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metadataOperationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.MetadataOperation.self, forKey: .metadataOperation)
+        metadataOperation = metadataOperationDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure that defines an Apache Iceberg metadata table to create in the catalog.
+    public struct IcebergInput: Swift.Equatable {
+        /// A required metadata operation. Can only be set to CREATE.
+        /// This member is required.
+        public var metadataOperation: GlueClientTypes.MetadataOperation?
+        /// The table version for the Iceberg table. Defaults to 2.
+        public var version: Swift.String?
+
+        public init(
+            metadataOperation: GlueClientTypes.MetadataOperation? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.metadataOperation = metadataOperation
+            self.version = version
+        }
+    }
+
+}
+
 extension GlueClientTypes.IcebergTarget: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionName = "ConnectionName"
@@ -40553,6 +40611,35 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+    public enum MetadataOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case create
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataOperation] {
+            return [
+                .create,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetadataOperation(rawValue: rawValue) ?? MetadataOperation.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GlueClientTypes.MicrosoftSQLServerCatalogSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case database = "Database"
@@ -41194,6 +41281,41 @@ extension GlueClientTypes {
         {
             self.datatype = datatype
             self.value = value
+        }
+    }
+
+}
+
+extension GlueClientTypes.OpenTableFormatInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case icebergInput = "IcebergInput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let icebergInput = self.icebergInput {
+            try encodeContainer.encode(icebergInput, forKey: .icebergInput)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let icebergInputDecoded = try containerValues.decodeIfPresent(GlueClientTypes.IcebergInput.self, forKey: .icebergInput)
+        icebergInput = icebergInputDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure representing an open format table.
+    public struct OpenTableFormatInput: Swift.Equatable {
+        /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
+        public var icebergInput: GlueClientTypes.IcebergInput?
+
+        public init(
+            icebergInput: GlueClientTypes.IcebergInput? = nil
+        )
+        {
+            self.icebergInput = icebergInput
         }
     }
 
